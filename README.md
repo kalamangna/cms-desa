@@ -99,14 +99,48 @@ git clone git@github.com:kalamangna/cms-desa.git project-desa
    php artisan storage:link
    ```
 
-### 5. Cara Update Website di Masa Depan
-Kapanpun Anda melakukan push dari komputer lokal ke GitHub, cukup jalankan ini di server:
-```bash
-cd ~/project-desa
-git pull origin main
-php artisan migrate --force
-php artisan config:cache
-```
+### 5. Alur Update Website (Workflow)
+Setiap kali Anda melakukan perubahan kode di lokal, ikuti langkah ini agar perubahan tampil di server:
+
+**Langkah A: Di Komputer Lokal (Laptop)**
+1. Lakukan perubahan kode (Blade, CSS, JS, dsb).
+2. Jalankan build aset:
+   ```bash
+   npm run build
+   ```
+3. Commit dan Push ke GitHub:
+   ```bash
+   git add .
+   git commit -m "Deskripsi perubahan"
+   git push origin main
+   ```
+
+**Langkah B: Di Server (SSH Hostinger)**
+1. Tarik perubahan terbaru:
+   ```bash
+   cd ~/project-desa
+   git pull origin main
+   ```
+2. Jalankan migrasi jika ada perubahan database:
+   ```bash
+   php artisan migrate --force
+   ```
+3. Bersihkan cache agar perubahan sistem terbaca:
+   ```bash
+   php artisan optimize
+   ```
+
+## 🛠️ Troubleshooting & Tips
+
+- **Gagal Membuat Symlink Storage**: Jika `php artisan storage:link` gagal karena pembatasan hosting, gunakan perintah PHP murni:
+  ```bash
+  php -r "symlink(getcwd().'/storage/app/public', getcwd().'/public/storage') ? print 'Success' : print 'Failed';"
+  ```
+- **Error Vite Manifest**: Pastikan folder `public/build` sudah ter-upload ke server (sudah otomatis jika mengikuti Alur Update di atas).
+- **Izin Folder**: Jika menemui error "permission denied", pastikan folder storage dapat ditulis:
+  ```bash
+  chmod -R 775 storage bootstrap/cache
+  ```
 
 ## 📝 Catatan Tambahan
 
