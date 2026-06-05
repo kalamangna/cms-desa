@@ -25,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useTailwind();
 
+        // Force Locale to ID
+        config(['app.locale' => 'id']);
+        config(['app.fallback_locale' => 'id']);
+        \Carbon\Carbon::setLocale('id');
+        setlocale(LC_TIME, 'id_ID', 'id', 'indonesian');
+
         if (Schema::hasTable('settings')) {
             $settings = Setting::pluck('value', 'key')->all();
             View::share('site_settings', $settings);
