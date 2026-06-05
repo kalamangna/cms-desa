@@ -24,11 +24,11 @@
                 </li>
             </ol>
         </nav>
-        <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+        <div class="max-w-3xl text-center md:text-left">
+            <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
                 Struktur <span class="text-emerald-500 italic">Organisasi</span>
             </h1>
-            <p class="text-xl text-slate-400 leading-relaxed font-medium">
+            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
                 Mengenal jajaran pelayan masyarakat yang berdedikasi tinggi untuk kemajuan Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>

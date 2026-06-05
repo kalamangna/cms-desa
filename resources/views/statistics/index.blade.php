@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Standardized Dark Hero -->
-<div class="relative bg-slate-900 py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -24,41 +24,41 @@
                 </li>
             </ol>
         </nav>
-        <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+        <div class="max-w-3xl text-center md:text-left">
+            <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
                 Pusat <span class="text-emerald-500 italic">Statistik</span>
             </h1>
-            <p class="text-xl text-slate-400 leading-relaxed font-medium">
-                Visualisasi data kependudukan, sosial, dan ekonomi Desa {{ $site_settings['village_name'] ?? '' }} untuk transparansi berbasis bukti.
+            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
+                Visualisasi data kependudukan, sosial, and ekonomi Desa {{ $site_settings['village_name'] ?? '' }} untuk transparansi berbasis bukti.
             </p>
         </div>
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
         @foreach($categories as $category)
-            <div class="bg-white rounded-[48px] shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden group hover:border-emerald-200 transition duration-500">
-                <div class="p-10 md:p-12">
-                    <div class="flex justify-between items-start mb-12">
+            <div class="bg-white rounded-[40px] md:rounded-[48px] shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden group hover:border-emerald-200 transition duration-500">
+                <div class="p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-10 md:mb-12 gap-6">
                         <div>
                             <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-2 block">Kategori Data</span>
-                            <h2 class="text-3xl font-heading font-bold text-slate-900 mb-3">{{ $category->name }}</h2>
+                            <h2 class="text-2xl md:text-3xl font-heading font-bold text-slate-900 mb-3">{{ $category->name }}</h2>
                             @if($category->description)
                                 <p class="text-slate-500 text-sm italic font-medium">{{ $category->description }}</p>
                             @endif
                         </div>
-                        <span class="bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest px-5 py-2 rounded-full border border-emerald-100 shadow-sm">
+                        <span class="bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest px-5 py-2 rounded-full border border-emerald-100 shadow-sm w-fit">
                             Live Data
                         </span>
                     </div>
                     
-                    <div class="h-96 relative">
+                    <div class="h-80 md:h-96 relative">
                         <canvas id="chart-{{ $category->slug }}"></canvas>
                     </div>
                     
-                    <div class="mt-12 pt-8 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6">
-                        <div class="flex items-center gap-3">
+                    <div class="mt-10 md:mt-12 pt-8 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6">
+...                        <div class="flex items-center gap-3">
                             <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                             <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Pembaruan: {{ date('d M Y') }}</span>
                         </div>

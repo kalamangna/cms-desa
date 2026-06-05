@@ -10,23 +10,23 @@
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-transparent opacity-50"></div>
     </div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div class="max-w-4xl">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+        <div class="max-w-4xl text-center md:text-left">
             <span class="inline-block px-5 py-2 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-emerald-500/30 backdrop-blur-md">
                 Program Desa Cantik (Cinta Statistik)
             </span>
-            <h1 class="text-6xl md:text-8xl font-heading font-extrabold text-white leading-[1.1] mb-8">
+            <h1 class="text-5xl md:text-8xl font-heading font-extrabold text-white leading-[1.1] mb-8">
                 Desa <span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? 'Tompobulu' }}</span>
             </h1>
-            <p class="text-2xl text-slate-300 mb-12 font-medium max-w-2xl leading-relaxed">
+            <p class="text-xl md:text-2xl text-slate-300 mb-12 font-medium max-w-2xl mx-auto md:mx-0 leading-relaxed">
                 Kec. {{ $site_settings['district_name'] ?? 'Kecamatan' }}, {{ $site_settings['regency_name'] ?? 'Kabupaten' }}
             </p>
-            <div class="flex flex-wrap gap-6">
-                <a href="/statistik" class="bg-emerald-600 text-white px-10 py-5 rounded-full font-bold text-lg shadow-2xl shadow-emerald-900/40 hover:bg-emerald-700 transition flex items-center gap-3 group">
+            <div class="flex flex-col sm:flex-row flex-wrap justify-center md:justify-start gap-4 md:gap-6">
+                <a href="/statistik" class="bg-emerald-600 text-white px-10 py-5 rounded-full font-bold text-lg shadow-2xl shadow-emerald-900/40 hover:bg-emerald-700 transition flex items-center justify-center gap-3 group w-full sm:w-auto">
                     <i class="fa-solid fa-chart-pie group-hover:rotate-12 transition"></i>
                     Dashboard Statistik
                 </a>
-                <a href="/dataset" class="bg-white/10 backdrop-blur-xl text-white border border-white/20 px-10 py-5 rounded-full font-bold text-lg hover:bg-white/20 transition flex items-center gap-3">
+                <a href="/dataset" class="bg-white/10 backdrop-blur-xl text-white border border-white/20 px-10 py-5 rounded-full font-bold text-lg hover:bg-white/20 transition flex items-center justify-center gap-3 w-full sm:w-auto">
                     <i class="fa-solid fa-database text-sm"></i>
                     Akses Open Data
                 </a>
@@ -82,29 +82,29 @@
 </div>
 
 <!-- Sambutan Kepala Desa -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
     <div class="bg-white rounded-[40px] shadow-2xl shadow-slate-200/60 overflow-hidden border border-slate-100">
         <div class="flex flex-col lg:flex-row items-center">
-            <div class="lg:w-2/5 p-4">
+            <div class="lg:w-2/5 p-4 w-full">
                 @if($villageHead && $villageHead->photo)
-                    <img src="{{ asset('storage/' . $villageHead->photo) }}" class="rounded-[32px] w-full h-[500px] object-cover" alt="Kepala Desa">
+                    <img src="{{ asset('storage/' . $villageHead->photo) }}" class="rounded-[32px] w-full h-[300px] md:h-[500px] object-cover" alt="Kepala Desa">
                 @else
-                    <div class="bg-slate-100 rounded-[32px] w-full h-[500px] flex items-center justify-center text-slate-300">
+                    <div class="bg-slate-100 rounded-[32px] w-full h-[300px] md:h-[500px] flex items-center justify-center text-slate-300">
                         <i class="fa-solid fa-user text-6xl opacity-20"></i>
                     </div>
                 @endif
             </div>
-            <div class="lg:w-3/5 p-12 lg:p-20">
+            <div class="lg:w-3/5 p-8 md:p-12 lg:p-20 text-center lg:text-left">
                 <span class="text-emerald-600 font-bold tracking-widest uppercase text-xs mb-4 block">Sambutan Kepala Desa</span>
-                <h2 class="text-4xl font-heading font-extrabold text-slate-900 mb-8 leading-tight">
+                <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-8 leading-tight">
                     {{ $site_settings['village_head_greeting_title'] ?? 'Mewujudkan Desa Mandiri Berbasis Data Presisi' }}
                 </h2>
-                <div class="text-lg text-slate-600 leading-relaxed italic mb-10">
+                <div class="text-base md:text-lg text-slate-600 leading-relaxed italic mb-10">
                     "{{ $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '. Kami berkomitmen untuk menghadirkan pemerintahan yang transparan dan akuntabel. Melalui Program Desa Cantik (Cinta Statistik), kami berupaya mengelola data desa secara profesional sebagai dasar pembangunan yang tepat sasaran.' }}"
                 </div>
-                <div class="flex items-center gap-6">
-                    <div class="h-16 w-1 bg-emerald-500"></div>
-                    <div>
+                <div class="flex flex-col lg:flex-row items-center lg:items-center gap-6">
+                    <div class="h-1 lg:h-16 w-16 lg:w-1 bg-emerald-500"></div>
+                    <div class="text-center lg:text-left">
                         <p class="font-heading font-bold text-xl text-slate-900">{{ $villageHead->name ?? 'Kepala Desa' }}</p>
                         <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Kepala Desa {{ $site_settings['village_name'] ?? '' }}</p>
                     </div>

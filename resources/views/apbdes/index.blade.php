@@ -24,11 +24,11 @@
                 </li>
             </ol>
         </nav>
-        <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+        <div class="max-w-3xl text-center md:text-left">
+            <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
                 Transparansi <span class="text-emerald-500 italic">Anggaran</span>
             </h1>
-            <p class="text-xl text-slate-400 leading-relaxed font-medium">
+            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
                 Laporan realisasi anggaran pendapatan dan belanja Desa {{ $site_settings['village_name'] ?? '' }} untuk tata kelola keuangan yang akuntabel.
             </p>
         </div>
@@ -36,8 +36,8 @@
 </div>
 
 <!-- Summary Dashboard Cards -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 mb-24 relative z-10">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 md:-mt-16 mb-20 md:mb-24 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         @foreach($categories as $category)
         @php
             $totalBudget = $category->realizations->sum('budget_amount');
@@ -68,27 +68,27 @@
                 ],
             };
         @endphp
-        <div class="bg-white p-10 rounded-[40px] shadow-2xl {{ $theme['shadow'] }} border border-slate-100 group hover:-translate-y-2 transition duration-500">
-            <div class="flex justify-between items-center mb-10">
-                <div class="w-16 h-16 rounded-[24px] {{ $theme['light-bg'] }} flex items-center justify-center text-3xl">
+        <div class="bg-white p-8 md:p-10 rounded-[40px] shadow-2xl {{ $theme['shadow'] }} border border-slate-100 group hover:-translate-y-2 transition duration-500">
+            <div class="flex justify-between items-center mb-8 md:mb-10">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-[20px] md:rounded-[24px] {{ $theme['light-bg'] }} flex items-center justify-center text-2xl md:text-3xl">
                     {{ $theme['icon'] }}
                 </div>
                 <div class="text-right">
                     <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 block mb-1">Status</span>
-                    <span class="px-4 py-1.5 rounded-full {{ $theme['light-bg'] }} {{ $theme['text'] }} text-[10px] font-black uppercase tracking-widest border border-current opacity-70">Terverifikasi</span>
+                    <span class="px-3 md:px-4 py-1.5 rounded-full {{ $theme['light-bg'] }} {{ $theme['text'] }} text-[10px] font-black uppercase tracking-widest border border-current opacity-70">Terverifikasi</span>
                 </div>
             </div>
             
-            <h3 class="text-2xl font-heading font-bold text-slate-900 mb-8">{{ $category->name }}</h3>
+            <h3 class="text-xl md:text-2xl font-heading font-bold text-slate-900 mb-6 md:mb-8">{{ $category->name }}</h3>
 
-            <div class="space-y-8">
+            <div class="space-y-6 md:space-y-8">
                 <div>
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">Anggaran (Budget)</p>
-                    <p class="text-2xl font-heading font-extrabold text-slate-900">Rp {{ number_format($totalBudget, 0, ',', '.') }}</p>
+                    <p class="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">Anggaran (Budget)</p>
+                    <p class="text-xl md:text-2xl font-heading font-extrabold text-slate-900">Rp {{ number_format($totalBudget, 0, ',', '.') }}</p>
                 </div>
                 <div>
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">Realisasi (Actual)</p>
-                    <p class="text-3xl font-heading font-extrabold {{ $theme['text'] }}">Rp {{ number_format($totalRealization, 0, ',', '.') }}</p>
+                    <p class="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">Realisasi (Actual)</p>
+                    <p class="text-2xl md:text-3xl font-heading font-extrabold {{ $theme['text'] }}">Rp {{ number_format($totalRealization, 0, ',', '.') }}</p>
                 </div>
                 
                 <div class="pt-6 border-t border-slate-50">
@@ -107,8 +107,8 @@
 </div>
 
 <!-- Detailed Data Section -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="space-y-32">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+    <div class="space-y-20 md:space-y-32">
         @foreach($categories as $category)
         @php
             $theme = match($category->name) {
@@ -118,20 +118,20 @@
             };
         @endphp
         <div class="relative">
-            <div class="flex flex-col lg:flex-row gap-20 items-start">
+            <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
                 <!-- Sidebar Info & Chart -->
-                <div class="lg:w-1/3 sticky top-32">
-                    <div class="mb-12">
+                <div class="lg:w-1/3 w-full lg:sticky lg:top-32">
+                    <div class="mb-10 md:mb-12 text-center lg:text-left">
                         <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-4 block">Detail Transparansi</span>
-                        <h2 class="text-4xl font-heading font-extrabold text-slate-900 mb-6 leading-tight">
-                            Rincian <br>{{ $category->name }}
+                        <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-6 leading-tight">
+                            Rincian <br class="hidden lg:block">{{ $category->name }}
                         </h2>
                         <p class="text-slate-500 leading-relaxed font-medium">
                             Alokasi dana dan sumber {{ strtolower($category->name) }} yang dikelola secara profesional untuk kemajuan Desa {{ $site_settings['village_name'] ?? '' }}.
                         </p>
                     </div>
 
-                    <div class="bg-white p-12 rounded-[60px] border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group">
+                    <div class="bg-white p-8 md:p-12 rounded-[40px] md:rounded-[60px] border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-150 transition duration-1000"></div>
                         <h4 class="text-center font-heading font-bold text-slate-900 mb-8 relative z-10">Distribusi Dana</h4>
                         <div class="h-64 relative z-10">

@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Standardized Dark Hero -->
-<div class="relative bg-slate-900 py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -24,19 +24,19 @@
                 </li>
             </ol>
         </nav>
-        <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+        <div class="max-w-3xl text-center md:text-left">
+            <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
                 Perpustakaan <span class="text-emerald-500 italic">Digital</span>
             </h1>
-            <p class="text-xl text-slate-400 leading-relaxed font-medium">
+            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
                 Koleksi dokumen resmi, profil statistik, dan hasil analisis data Desa {{ $site_settings['village_name'] ?? '' }} dalam format digital.
             </p>
         </div>
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
         @forelse($publications as $pub)
         <div class="group">
             <div class="relative aspect-[3/4] bg-slate-200 rounded-[40px] overflow-hidden shadow-2xl shadow-slate-200/50 group-hover:-translate-y-4 transition-transform duration-700 mb-10">

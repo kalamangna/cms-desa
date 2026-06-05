@@ -7,7 +7,7 @@
 
 @section('content')
 <!-- Standardized Dark Hero -->
-<div class="relative bg-slate-900 py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         @if($post->featured_image)
@@ -29,14 +29,14 @@
                 </li>
             </ol>
         </nav>
-        <div class="max-w-4xl">
+        <div class="max-w-4xl text-center md:text-left">
             <span class="inline-block px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-6 border border-emerald-500/30">
                 {{ $post->category->name ?? 'Update Desa' }}
             </span>
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-8">
+            <h1 class="text-3xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-8">
                 {{ $post->title }}
             </h1>
-            <div class="flex items-center gap-6 text-slate-400 text-sm font-bold uppercase tracking-widest">
+            <div class="flex flex-col md:flex-row items-center md:items-center gap-4 md:gap-6 text-slate-400 text-xs md:text-sm font-bold uppercase tracking-widest">
                 <span class="flex items-center gap-2">
                     <x-heroicon-o-calendar class="w-4 h-4 text-emerald-500" />
                     {{ $post->published_at->translatedFormat('d F Y') }}
@@ -50,21 +50,21 @@
     </div>
 </div>
 
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 mb-32 relative z-20">
-    <article class="bg-white rounded-[60px] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 md:-mt-16 mb-20 md:mb-32 relative z-20">
+    <article class="bg-white rounded-[40px] md:rounded-[60px] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100">
         @if($post->featured_image)
-            <div class="aspect-[21/9] w-full">
+            <div class="aspect-[16/9] md:aspect-[21/9] w-full">
                 <img src="{{ asset('storage/' . $post->featured_image) }}" class="w-full h-full object-cover" alt="{{ $post->title }}">
             </div>
         @endif
         
-        <div class="p-8 md:p-20">
-            <div class="prose prose-emerald max-w-none prose-lg text-slate-600 leading-relaxed font-medium mb-16">
+        <div class="p-6 md:p-12 lg:p-20">
+            <div class="prose prose-emerald max-w-none prose-base md:prose-lg text-slate-600 leading-relaxed font-medium mb-16">
                 {!! $post->content !!}
             </div>
 
-            <div class="pt-12 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="flex items-center gap-6">
+            <div class="pt-12 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+                <div class="flex flex-col md:flex-row items-center gap-6">
                     <span class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Bagikan:</span>
                     <div class="flex gap-4">
                         <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-emerald-600 hover:text-white transition cursor-pointer">FB</div>
@@ -72,7 +72,7 @@
                         <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-emerald-600 hover:text-white transition cursor-pointer">IG</div>
                     </div>
                 </div>
-                <a href="/berita" class="bg-slate-900 text-white px-10 py-4 rounded-full font-bold text-sm hover:bg-slate-800 transition shadow-xl">
+                <a href="/berita" class="bg-slate-900 text-white px-8 md:px-10 py-4 rounded-full font-bold text-sm hover:bg-slate-800 transition shadow-xl w-full md:w-auto text-center">
                     &larr; Kembali ke Berita
                 </a>
             </div>
