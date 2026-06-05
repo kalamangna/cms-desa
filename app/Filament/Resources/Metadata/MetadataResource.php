@@ -20,7 +20,7 @@ class MetadataResource extends Resource
 {
     protected static ?string $model = Metadata::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Data Master';
+    protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
     public static function getModelLabel(): string
     {

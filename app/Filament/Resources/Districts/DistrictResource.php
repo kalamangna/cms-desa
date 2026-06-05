@@ -18,7 +18,7 @@ class DistrictResource extends Resource
 {
     protected static ?string $model = District::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Data Master';
+    protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
     public static function getModelLabel(): string
     {

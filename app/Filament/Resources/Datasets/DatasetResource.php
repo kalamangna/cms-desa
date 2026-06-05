@@ -20,16 +20,16 @@ class DatasetResource extends Resource
 {
     protected static ?string $model = Dataset::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Statistik & Anggaran';
+    protected static string|\UnitEnum|null $navigationGroup = 'Data';
 
     public static function getModelLabel(): string
     {
-        return 'Dataset';
+        return 'Open Data';
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'Dataset';
+        return 'Open Data';
     }
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

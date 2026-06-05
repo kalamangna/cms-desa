@@ -18,16 +18,16 @@ class StatisticIndicatorResource extends Resource
 {
     protected static ?string $model = StatisticIndicator::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Statistik & Anggaran';
+    protected static string|\UnitEnum|null $navigationGroup = 'Data';
 
     public static function getModelLabel(): string
     {
-        return 'Indikator Statistik';
+        return 'Statistik';
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'Indikator Statistik';
+        return 'Statistik';
     }
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

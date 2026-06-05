@@ -18,7 +18,7 @@ class StatisticCategoryResource extends Resource
 {
     protected static ?string $model = StatisticCategory::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Data Master';
+    protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
     public static function getModelLabel(): string
     {

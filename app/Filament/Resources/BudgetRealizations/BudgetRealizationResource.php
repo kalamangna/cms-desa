@@ -20,16 +20,16 @@ class BudgetRealizationResource extends Resource
 {
     protected static ?string $model = BudgetRealization::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Statistik & Anggaran';
+    protected static string|\UnitEnum|null $navigationGroup = 'Data';
 
     public static function getModelLabel(): string
     {
-        return 'Realisasi APBDes';
+        return 'APBDes';
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'Realisasi APBDes';
+        return 'APBDes';
     }
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

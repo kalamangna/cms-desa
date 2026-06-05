@@ -20,7 +20,7 @@ class AnnouncementResource extends Resource
 {
     protected static ?string $model = Announcement::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Konten Web';
+    protected static string|\UnitEnum|null $navigationGroup = 'Informasi';
 
     public static function getModelLabel(): string
     {
