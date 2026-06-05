@@ -22,6 +22,8 @@ class DocumentResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Informasi';
 
+    protected static ?int $navigationSort = 5;
+
     public static function getModelLabel(): string
     {
         return 'Dokumen';

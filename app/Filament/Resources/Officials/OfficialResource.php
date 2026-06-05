@@ -22,6 +22,8 @@ class OfficialResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Profil';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getModelLabel(): string
     {
         return 'Perangkat';

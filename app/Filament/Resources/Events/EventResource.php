@@ -22,6 +22,8 @@ class EventResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Informasi';
 
+    protected static ?int $navigationSort = 4;
+
     public static function getModelLabel(): string
     {
         return 'Kegiatan';

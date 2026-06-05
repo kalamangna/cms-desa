@@ -20,6 +20,8 @@ class SettingResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getModelLabel(): string
     {
         return 'Pengaturan';

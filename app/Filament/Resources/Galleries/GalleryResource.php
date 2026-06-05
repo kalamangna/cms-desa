@@ -22,6 +22,8 @@ class GalleryResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Informasi';
 
+    protected static ?int $navigationSort = 3;
+
     public static function getModelLabel(): string
     {
         return 'Galeri';

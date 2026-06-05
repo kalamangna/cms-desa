@@ -22,6 +22,8 @@ class BudgetRealizationResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Data';
 
+    protected static ?int $navigationSort = 5;
+
     public static function getModelLabel(): string
     {
         return 'APBDes';

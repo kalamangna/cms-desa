@@ -20,6 +20,8 @@ class StatisticCategoryResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
+    protected static ?int $navigationSort = 3;
+
     public static function getModelLabel(): string
     {
         return 'Kategori Statistik';

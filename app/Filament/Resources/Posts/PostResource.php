@@ -22,6 +22,8 @@ class PostResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Informasi';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getModelLabel(): string
     {
         return 'Berita';

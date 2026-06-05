@@ -22,6 +22,8 @@ class MetadataResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
+    protected static ?int $navigationSort = 6;
+
     public static function getModelLabel(): string
     {
         return 'Metadata';

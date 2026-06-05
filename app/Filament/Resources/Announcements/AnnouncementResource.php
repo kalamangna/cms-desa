@@ -22,6 +22,8 @@ class AnnouncementResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Informasi';
 
+    protected static ?int $navigationSort = 2;
+
     public static function getModelLabel(): string
     {
         return 'Pengumuman';

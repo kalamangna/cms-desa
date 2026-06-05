@@ -20,6 +20,8 @@ class VillageResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
+    protected static ?int $navigationSort = 5;
+
     public static function getModelLabel(): string
     {
         return 'Desa/Kelurahan';

@@ -22,6 +22,8 @@ class CategoryResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getModelLabel(): string
     {
         return 'Kategori Berita';

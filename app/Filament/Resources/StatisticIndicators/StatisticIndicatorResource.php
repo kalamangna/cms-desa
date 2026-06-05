@@ -20,6 +20,8 @@ class StatisticIndicatorResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Data';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getModelLabel(): string
     {
         return 'Statistik';
