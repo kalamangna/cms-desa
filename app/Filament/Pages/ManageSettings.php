@@ -22,7 +22,6 @@ class ManageSettings extends Page implements HasForms
     protected static ?string $title = 'Pengaturan Desa';
     protected static ?string $navigationLabel = 'Pengaturan';
     protected static ?int $navigationSort = 1;
-    protected string $view = 'filament.pages.manage-settings';
 
     public ?array $data = [];
 
@@ -40,28 +39,46 @@ class ManageSettings extends Page implements HasForms
                     ->tabs([
                         Tabs\Tab::make('Identitas Desa')
                             ->icon('heroicon-o-building-library')
+                            ->columns(2)
                             ->components([
                                 TextInput::make('village_name')->label('Nama Desa')->required(),
-                                FileUpload::make('village_logo')->label('Logo Desa')->directory('settings')->image(),
                                 TextInput::make('village_head')->label('Kepala Desa')->required(),
+                                FileUpload::make('village_logo')->label('Logo Desa')->directory('settings')->image()->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Kontak & Lokasi')
                             ->icon('heroicon-o-map-pin')
+                            ->columns(2)
                             ->components([
                                 TextInput::make('village_email')->label('Email Desa')->email(),
                                 TextInput::make('village_phone')->label('Nomor Telepon'),
-                                TextInput::make('village_address')->label('Alamat Kantor'),
+                                TextInput::make('village_address')->label('Alamat Kantor')->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Wilayah Administratif')
                             ->icon('heroicon-o-globe-asia-australia')
+                            ->columns(3)
                             ->components([
                                 TextInput::make('district_name')->label('Kecamatan')->required(),
                                 TextInput::make('regency_name')->label('Kabupaten')->required(),
                                 TextInput::make('province_name')->label('Provinsi')->required(),
                             ]),
-                    ])
+                    ])->columnSpanFull()
             ])
             ->statePath('data');
+    }
+
+    public function content(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
+    {
+        return $schema
+            ->components([
+                \Filament\Schemas\Components\Form::make([
+                    \Filament\Schemas\Components\EmbeddedSchema::make('form'),
+                ])
+                ->id('form')
+                ->livewireSubmitHandler('save')
+                ->footer([
+                    \Filament\Schemas\Components\Actions::make($this->getFormActions()),
+                ]),
+            ]);
     }
 
     protected function getFormActions(): array

@@ -33,13 +33,20 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(Login::class)
             ->brandLogo(asset('img/sinjai.png'))
-            ->brandLogoHeight('3rem')
+            ->brandLogoHeight('2.5rem')
             ->favicon(asset('img/sinjai.png'))
-            ->font('Inter')
+            ->font('Poppins') // Menyelaraskan dengan font-heading Frontend
             ->colors([
                 'primary' => Color::Emerald,
+                'danger' => Color::Rose,
+                'info' => Color::Blue,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
+                'gray' => Color::Slate,
             ])
-            ->darkMode(false)
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth('full')
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->navigationGroups([
                 NavigationGroup::make()
                      ->label('Informasi'),

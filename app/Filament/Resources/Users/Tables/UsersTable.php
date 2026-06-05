@@ -22,12 +22,9 @@ class UsersTable
                     ->searchable(),
                 TextColumn::make('username')->label('Username')
                     ->searchable(),
-                TextColumn::make('email')->label('Email')
-                    ->label('Email address')
+                TextColumn::make('roles.name')->label('Peran (Role)')
+                    ->badge()
                     ->searchable(),
-                TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()

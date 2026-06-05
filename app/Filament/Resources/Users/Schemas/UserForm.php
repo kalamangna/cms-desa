@@ -16,14 +16,15 @@ class UserForm
                     ->required(),
                 TextInput::make('username')->label('Username')
                     ->required(),
-                TextInput::make('email')->label('Email')
-                    ->label('Email address')
-                    ->email()
+                \Filament\Forms\Components\Select::make('roles')->label('Peran (Role)')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
                     ->required(),
-                DateTimePicker::make('email_verified_at'),
                 TextInput::make('password')->label('Kata Sandi')
                     ->password()
-                    ->required(),
+                    ->dehydrated(fn (?string $state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create'),
             ]);
     }
 }

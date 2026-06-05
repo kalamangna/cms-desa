@@ -20,19 +20,6 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             SettingSeeder::class,
             StatisticDataSeeder::class,
-            TompobuluDataSeeder::class,
-            TompobuluSeeder::class,
         ]);
-
-        $admin = User::firstOrCreate(
-            ['username' => 'admin'],
-            [
-                'name' => 'Admin Sinjai',
-                'email' => 'admin@sinjaikab.go.id',
-                'password' => Hash::make('admin123'),
-            ]
-        );
-
-        $admin->assignRole('super_admin');
     }
 }

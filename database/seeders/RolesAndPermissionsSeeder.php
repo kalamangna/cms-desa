@@ -25,7 +25,6 @@ class RolesAndPermissionsSeeder extends Seeder
             ['username' => 'kalamangna'],
             [
                 'name' => 'Super Admin',
-                'email' => 'admin@desa.id',
                 'password' => Hash::make('Syazani'),
             ]
         );
