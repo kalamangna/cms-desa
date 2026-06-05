@@ -18,7 +18,7 @@ class VillageResource extends Resource
 {
     protected static ?string $model = Village::class;
 
-    protected static $navigationGroup = 'Data Master';
+    protected static string|\UnitEnum|null $navigationGroup = 'Data Master';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

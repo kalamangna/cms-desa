@@ -20,7 +20,7 @@ class DatasetResource extends Resource
 {
     protected static ?string $model = Dataset::class;
 
-    protected static $navigationGroup = 'Statistik & Anggaran';
+    protected static string|\UnitEnum|null $navigationGroup = 'Statistik & Anggaran';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

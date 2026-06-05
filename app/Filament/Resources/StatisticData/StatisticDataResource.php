@@ -18,7 +18,7 @@ class StatisticDataResource extends Resource
 {
     protected static ?string $model = StatisticData::class;
 
-    protected static $navigationGroup = 'Statistik & Anggaran';
+    protected static string|\UnitEnum|null $navigationGroup = 'Statistik & Anggaran';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
