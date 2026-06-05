@@ -20,6 +20,8 @@ class DatasetResource extends Resource
 {
     protected static ?string $model = Dataset::class;
 
+    protected static ?string $navigationGroup = 'Statistik & Anggaran';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

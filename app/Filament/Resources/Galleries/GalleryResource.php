@@ -20,6 +20,8 @@ class GalleryResource extends Resource
 {
     protected static ?string $model = Gallery::class;
 
+    protected static ?string $navigationGroup = 'Konten Web';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

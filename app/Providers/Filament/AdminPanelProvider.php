@@ -33,8 +33,9 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('img/sinjai.png'))
             ->brandLogoHeight('3rem')
             ->favicon(asset('img/sinjai.png'))
+            ->font('Inter')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Emerald,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')

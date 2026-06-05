@@ -20,6 +20,8 @@ class MetadataResource extends Resource
 {
     protected static ?string $model = Metadata::class;
 
+    protected static ?string $navigationGroup = 'Data Master';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

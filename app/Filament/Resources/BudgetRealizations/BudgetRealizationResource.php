@@ -20,6 +20,8 @@ class BudgetRealizationResource extends Resource
 {
     protected static ?string $model = BudgetRealization::class;
 
+    protected static ?string $navigationGroup = 'Statistik & Anggaran';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

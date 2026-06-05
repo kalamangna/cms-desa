@@ -20,6 +20,8 @@ class OfficialResource extends Resource
 {
     protected static ?string $model = Official::class;
 
+    protected static ?string $navigationGroup = 'Pemerintahan';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema
