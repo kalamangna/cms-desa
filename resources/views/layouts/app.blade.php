@@ -112,14 +112,48 @@
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden lg:flex lg:items-center lg:space-x-1">
+                <div class="hidden lg:flex lg:items-center lg:space-x-1" x-data="{ openMenu: null }">
                     <a href="/" class="{{ request()->is('/') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Beranda</a>
-                    <a href="/pemerintahan" class="{{ request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Pemerintahan</a>
-                    <a href="/berita" class="{{ request()->is('berita*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Berita</a>
-                    <a href="/statistik" class="{{ request()->is('statistik*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Statistik</a>
-                    <a href="/dataset" class="{{ request()->is('dataset*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Open Data</a>
-                    <a href="/publikasi" class="{{ request()->is('publikasi*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Publikasi</a>
-                    <a href="/apbdes" class="{{ request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">APBDes</a>
+                    
+                    <!-- Profil Dropdown -->
+                    <div class="relative" @mouseenter="openMenu = 'profil'" @mouseleave="openMenu = null">
+                        <button class="{{ request()->is('profil*') || request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600' }} px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-1">
+                            Profil <i class="fa-solid fa-chevron-down text-[10px] opacity-50"></i>
+                        </button>
+                        <div x-show="openMenu === 'profil'" x-transition class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50">
+                            <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Profil Desa</a>
+                            <a href="/pemerintahan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Pemerintahan</a>
+                        </div>
+                    </div>
+
+                    <a href="/layanan" class="{{ request()->is('layanan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Layanan</a>
+
+                    <!-- Informasi Dropdown -->
+                    <div class="relative" @mouseenter="openMenu = 'info'" @mouseleave="openMenu = null">
+                        <button class="{{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600' }} px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-1">
+                            Informasi <i class="fa-solid fa-chevron-down text-[10px] opacity-50"></i>
+                        </button>
+                        <div x-show="openMenu === 'info'" x-transition class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50">
+                            <a href="/berita" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Berita Desa</a>
+                            <a href="/pengumuman" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Pengumuman</a>
+                            <a href="/galeri" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Galeri Foto</a>
+                        </div>
+                    </div>
+
+                    <!-- Transparansi Dropdown -->
+                    <div class="relative" @mouseenter="openMenu = 'data'" @mouseleave="openMenu = null">
+                        <button class="{{ request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') || request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600' }} px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-1">
+                            Data <i class="fa-solid fa-chevron-down text-[10px] opacity-50"></i>
+                        </button>
+                        <div x-show="openMenu === 'data'" x-transition class="absolute top-full left-0 w-56 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50">
+                            <a href="/statistik" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Dashboard Statistik</a>
+                            <a href="/dataset" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Open Data</a>
+                            <a href="/publikasi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Publikasi Statistik</a>
+                            <a href="/apbdes" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Transparansi APBDes</a>
+                        </div>
+                    </div>
+
+                    <a href="/kontak" class="{{ request()->is('kontak*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Kontak</a>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -140,15 +174,39 @@
             x-transition:leave="transition ease-in duration-150"
             x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-4"
-            class="lg:hidden bg-white border-b border-slate-200" x-cloak>
-            <div class="px-4 pt-2 pb-8 space-y-1">
-                <a href="/" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('/') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Beranda</a>
-                <a href="/pemerintahan" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Pemerintahan</a>
-                <a href="/berita" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('berita*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Berita</a>
-                <a href="/statistik" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('statistik*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Statistik</a>
-                <a href="/dataset" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('dataset*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Open Data</a>
-                <a href="/publikasi" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('publikasi*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Publikasi</a>
-                <a href="/apbdes" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">APBDes</a>
+            class="lg:hidden bg-white border-b border-slate-200 overflow-y-auto max-h-[80vh]" x-cloak>
+            <div class="px-4 pt-2 pb-8 space-y-6">
+                <!-- Profil Section -->
+                <div>
+                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Profil & Lembaga</span>
+                    <a href="/" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('/') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Beranda</a>
+                    <a href="/profil" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('profil*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Profil Desa</a>
+                    <a href="/pemerintahan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Pemerintahan</a>
+                </div>
+
+                <!-- Informasi Section -->
+                <div>
+                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Pusat Informasi</span>
+                    <a href="/berita" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('berita*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Berita Desa</a>
+                    <a href="/pengumuman" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pengumuman*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Pengumuman</a>
+                    <a href="/galeri" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('galeri*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Galeri Foto</a>
+                </div>
+
+                <!-- Data Section -->
+                <div>
+                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Transparansi Data</span>
+                    <a href="/statistik" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('statistik*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Dashboard Statistik</a>
+                    <a href="/dataset" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('dataset*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Open Data</a>
+                    <a href="/publikasi" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('publikasi*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Publikasi</a>
+                    <a href="/apbdes" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">APBDes</a>
+                </div>
+
+                <!-- Lainnya Section -->
+                <div>
+                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Layanan & Kontak</span>
+                    <a href="/layanan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('layanan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Layanan Masyarakat</a>
+                    <a href="/kontak" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('kontak*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Hubungi Kami</a>
+                </div>
 
                 <div class="pt-6 border-t border-slate-100 mt-4">
                     @auth
@@ -223,10 +281,10 @@
             <div>
                 <h3 class="text-sm font-black uppercase tracking-[0.2em] mb-10 text-emerald-400">Link Cepat</h3>
                 <ul class="space-y-4 text-sm text-slate-400 font-bold">
+                    <li><a href="/profil" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Profil Desa</a></li>
+                    <li><a href="/layanan" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Layanan</a></li>
                     <li><a href="/berita" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Berita Terbaru</a></li>
                     <li><a href="/statistik" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Statistik Desa</a></li>
-                    <li><a href="/dataset" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Open Data</a></li>
-                    <li><a href="/apbdes" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> APBDes</a></li>
                 </ul>
             </div>
             <div>
