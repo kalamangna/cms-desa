@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             StatisticDataSeeder::class,
             SampleDataSeeder::class,
+            TompobuluDataSeeder::class,
         ]);
 
         $admin = User::firstOrCreate(
