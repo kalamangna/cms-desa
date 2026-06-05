@@ -87,11 +87,11 @@
         <div class="flex flex-col lg:flex-row items-center">
             <div class="lg:w-2/5 p-4 w-full">
                 @if($villageHead && $villageHead->photo)
-                    <img src="{{ asset('storage/' . $villageHead->photo) }}" class="rounded-[32px] w-full h-[300px] md:h-[500px] object-cover" alt="Kepala Desa">
+                <img src="{{ asset('storage/' . $villageHead->photo) }}" class="rounded-[32px] w-full h-[300px] md:h-[500px] object-cover" alt="Kepala Desa">
                 @else
-                    <div class="bg-slate-100 rounded-[32px] w-full h-[300px] md:h-[500px] flex items-center justify-center text-slate-300">
-                        <i class="fa-solid fa-user text-6xl opacity-20"></i>
-                    </div>
+                <div class="bg-slate-100 rounded-[32px] w-full h-[300px] md:h-[500px] flex items-center justify-center text-slate-300">
+                    <i class="fa-solid fa-user text-6xl opacity-20"></i>
+                </div>
                 @endif
             </div>
             <div class="lg:w-3/5 p-8 md:p-12 lg:p-20 text-center lg:text-left">
@@ -127,7 +127,7 @@
         <div class="rounded-[40px] overflow-hidden shadow-2xl border border-slate-100 h-[600px] relative z-10" id="villageMap">
             <!-- Map Container -->
         </div>
-        
+
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
             <div class="bg-emerald-50 p-6 rounded-3xl border border-emerald-100 flex flex-col items-center text-center group hover:bg-emerald-600 transition duration-500">
                 <i class="fa-solid fa-school text-2xl mb-3 text-emerald-600 group-hover:text-white transition"></i>
@@ -165,12 +165,12 @@
             <div class="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl transition group">
                 <div class="aspect-[3/4] rounded-2xl bg-slate-100 mb-6 overflow-hidden relative">
                     @if($pub->cover_image)
-                        <img src="{{ asset('storage/' . $pub->cover_image) }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ $pub->title }}">
+                    <img src="{{ asset('storage/' . $pub->cover_image) }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ $pub->title }}">
                     @else
-                        <div class="w-full h-full flex flex-col items-center justify-center text-slate-300 p-8 text-center">
-                            <i class="fa-solid fa-book-open text-4xl mb-4 opacity-20"></i>
-                            <span class="text-xs font-bold uppercase tracking-widest">Digital Archive</span>
-                        </div>
+                    <div class="w-full h-full flex flex-col items-center justify-center text-slate-300 p-8 text-center">
+                        <i class="fa-solid fa-book-open text-4xl mb-4 opacity-20"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest">Digital Archive</span>
+                    </div>
                     @endif
                     <div class="absolute inset-0 bg-emerald-600/10 opacity-0 group-hover:opacity-100 transition"></div>
                 </div>
@@ -240,9 +240,9 @@
             <div class="lg:col-span-7 group">
                 <div class="relative rounded-[40px] overflow-hidden aspect-[16/10] mb-8 shadow-2xl shadow-slate-200">
                     @if($featuredPost->featured_image)
-                        <img src="{{ asset('storage/' . $featuredPost->featured_image) }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="{{ $featuredPost->title }}">
+                    <img src="{{ asset('storage/' . $featuredPost->featured_image) }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="{{ $featuredPost->title }}">
                     @else
-                        <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">No Image</div>
+                    <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">No Image</div>
                     @endif
                     <div class="absolute top-8 left-8">
                         <span class="bg-emerald-500 text-white text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-full shadow-lg">
@@ -271,9 +271,9 @@
                 <div class="flex gap-6 group">
                     <div class="w-32 h-32 flex-shrink-0 rounded-3xl overflow-hidden shadow-md">
                         @if($post->featured_image)
-                            <img src="{{ asset('storage/' . $post->featured_image) }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ $post->title }}">
+                        <img src="{{ asset('storage/' . $post->featured_image) }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ $post->title }}">
                         @else
-                            <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300 text-[10px]">No Image</div>
+                        <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300 text-[10px]">No Image</div>
                         @endif
                     </div>
                     <div class="flex flex-col justify-center">
@@ -284,9 +284,9 @@
                     </div>
                 </div>
                 @empty
-                    @if(!$featuredPost)
-                        <p class="text-center text-slate-400 italic py-10">Belum ada berita terbaru.</p>
-                    @endif
+                @if(!$featuredPost)
+                <p class="text-center text-slate-400 italic py-10">Belum ada berita terbaru.</p>
+                @endif
                 @endforelse
             </div>
         </div>
@@ -300,11 +300,11 @@
             <div>
                 <h2 class="text-4xl font-heading font-extrabold mb-6 leading-tight">Transparansi <br>Anggaran Desa (APBDes)</h2>
                 <p class="text-slate-400 text-lg mb-12">Wujud keterbukaan informasi publik dalam pengelolaan dana desa yang akuntabel.</p>
-                
+
                 <div class="space-y-8">
                     @php
-                        $pendapatanPct = $budgetSummary['pendapatan']['budget'] > 0 ? ($budgetSummary['pendapatan']['realization'] / $budgetSummary['pendapatan']['budget']) * 100 : 0;
-                        $belanjaPct = $budgetSummary['belanja']['budget'] > 0 ? ($budgetSummary['belanja']['realization'] / $budgetSummary['belanja']['budget']) * 100 : 0;
+                    $pendapatanPct = $budgetSummary['pendapatan']['budget'] > 0 ? ($budgetSummary['pendapatan']['realization'] / $budgetSummary['pendapatan']['budget']) * 100 : 0;
+                    $belanjaPct = $budgetSummary['belanja']['budget'] > 0 ? ($budgetSummary['belanja']['realization'] / $budgetSummary['belanja']['budget']) * 100 : 0;
                     @endphp
                     <div>
                         <div class="flex justify-between items-center mb-3">
@@ -327,7 +327,7 @@
                         <p class="text-[10px] text-slate-500 mt-2">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
                     </div>
                 </div>
-                
+
                 <a href="/apbdes" class="inline-block mt-12 bg-white text-slate-900 px-10 py-4 rounded-full font-bold hover:bg-slate-100 transition shadow-xl">
                     Detail Anggaran
                 </a>
@@ -381,7 +381,7 @@
                     <h2 class="text-4xl font-heading font-extrabold text-slate-900 mb-10 leading-tight">
                         Layanan Informasi Publik Desa
                     </h2>
-                    
+
                     <div class="space-y-8">
                         <div class="flex items-start gap-6">
                             <div class="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 text-xl flex-shrink-0">
@@ -430,11 +430,11 @@
 @endsection
 
 @push('scripts')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Village Map
         const map = L.map('villageMap').setView([{{ $site_settings['village_latitude'] ?? '-5.23' }}, {{ $site_settings['village_longitude'] ?? '120.21' }}], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -477,8 +477,24 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } }
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
             }
         });
 
@@ -521,7 +537,10 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, grid: { borderDash: [5, 5] } }, x: { grid: { display: false } } }
+                scales: {
+                    y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
+                    x: { grid: { display: false } }
+                }
             }
         });
 
@@ -553,7 +572,14 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: '#fff', font: { family: 'Poppins', size: 12 }, padding: 20 }
+                        labels: {
+                            color: '#fff',
+                            font: {
+                                family: 'Poppins',
+                                size: 12
+                            },
+                            padding: 20
+                        }
                     }
                 }
             }
