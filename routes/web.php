@@ -12,6 +12,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\DocumentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
@@ -31,6 +32,7 @@ Route::get('/berita/{slug}', [PostController::class, 'show'])->name('posts.show'
 Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/galeri', [GalleryController::class, 'index'])->name('galleries.index');
 Route::get('/kegiatan', [EventController::class, 'index'])->name('events.index');
+Route::get('/dokumen', [DocumentController::class, 'index'])->name('documents.index');
 
 Route::get('/statistik', [StatisticController::class, 'index'])->name('statistics.index');
 
