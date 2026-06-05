@@ -9,7 +9,7 @@ class SitemapController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->whereNotNull('published_at')->get();
+        $posts = Post::latest()->where('published_at', '<=', now())->get();
 
         $content = view('sitemap', compact('posts'))->render();
 

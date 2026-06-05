@@ -23,13 +23,13 @@ class HomeController extends Controller
         $ttl = 3600;
 
         $allPosts = Cache::remember('home_posts', $ttl, function () {
-            return Post::with('category')->latest()->whereNotNull('published_at')->take(7)->get();
+            return Post::with('category')->latest()->where('published_at', '<=', now())->take(7)->get();
         });
         $featuredPost = $allPosts->first();
         $recentPosts = $allPosts->skip(1);
 
         $announcements = Cache::remember('home_announcements', $ttl, function () {
-            return Announcement::latest()->whereNotNull('published_at')->take(5)->get();
+            return Announcement::latest()->where('published_at', '<=', now())->take(5)->get();
         });
 
         $events = Cache::remember('home_events', $ttl, function () {

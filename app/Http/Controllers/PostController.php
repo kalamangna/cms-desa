@@ -10,14 +10,14 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->whereNotNull('published_at')->paginate(9);
+        $posts = Post::with('category')->latest()->where('published_at', '<=', now())->paginate(9);
         $categories = Category::all();
         return view('posts.index', compact('posts', 'categories'));
     }
 
     public function show($slug)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        $post = Post::where('slug', $slug)->where('published_at', '<=', now())->firstOrFail();
         return view('posts.show', compact('post'));
     }
 }
