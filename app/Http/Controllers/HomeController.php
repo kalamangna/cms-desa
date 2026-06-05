@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Announcement;
-use App\Models\Event;
 use App\Models\Official;
 use App\Models\StatisticData;
 use App\Models\StatisticCategory;
@@ -30,10 +29,6 @@ class HomeController extends Controller
 
         $announcements = Cache::remember('home_announcements', $ttl, function () {
             return Announcement::latest()->where('published_at', '<=', now())->take(5)->get();
-        });
-
-        $events = Cache::remember('home_events', $ttl, function () {
-            return Event::where('start_at', '>=', now())->orderBy('start_at')->take(3)->get();
         });
 
         $villageHead = Cache::remember('home_village_head', $ttl * 24, function () {
@@ -104,7 +99,6 @@ class HomeController extends Controller
             'featuredPost', 
             'recentPosts', 
             'announcements', 
-            'events', 
             'villageHead',
             'totalPenduduk',
             'totalUMKM',

@@ -29,7 +29,6 @@ class AppServiceProvider extends ServiceProvider
         $clearHomeCache = function () {
             Cache::forget('home_posts');
             Cache::forget('home_announcements');
-            Cache::forget('home_events');
             Cache::forget('home_village_head');
             Cache::forget('home_job_data');
             Cache::forget('home_edu_data');
@@ -43,8 +42,6 @@ class AppServiceProvider extends ServiceProvider
         \App\Models\Post::deleted($clearHomeCache);
         \App\Models\Announcement::saved($clearHomeCache);
         \App\Models\Announcement::deleted($clearHomeCache);
-        \App\Models\Event::saved($clearHomeCache);
-        \App\Models\Event::deleted($clearHomeCache);
         \App\Models\Official::saved($clearHomeCache);
         \App\Models\Official::deleted($clearHomeCache);
         \App\Models\StatisticData::saved($clearHomeCache);
