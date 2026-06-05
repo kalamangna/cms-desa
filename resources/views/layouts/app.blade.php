@@ -175,11 +175,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16">
             <div class="lg:col-span-1">
                 <div class="flex items-center gap-3 mb-8">
-                    @if(isset($site_settings['village_logo']) && $site_settings['village_logo'])
-                        <img class="h-10 w-auto brightness-0 invert" src="{{ asset('storage/' . $site_settings['village_logo']) }}" alt="Logo">
-                    @else
-                        <img class="h-10 w-auto brightness-0 invert" src="{{ asset('img/sinjai.png') }}" alt="Logo">
-                    @endif
+                    <div class="bg-white p-1.5 rounded-xl shadow-sm">
+                        <img class="h-10 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
+                    </div>
                     <h3 class="text-xl font-heading font-bold tracking-tight">{{ $site_settings['village_name'] ?? 'Website Desa' }}</h3>
                 </div>
                 <p class="text-slate-400 text-sm leading-relaxed mb-8 font-medium">
