@@ -13,13 +13,13 @@
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
         <div class="max-w-4xl text-center md:text-left">
             <span class="inline-block px-5 py-2 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-emerald-500/30 backdrop-blur-md">
-                Program Desa Cantik (Cinta Statistik)
+                Selamat Datang di Portal Resmi
             </span>
             <h1 class="text-5xl md:text-8xl font-heading font-extrabold text-white leading-[1.1] mb-8">
                 Desa <span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? 'Tompobulu' }}</span>
             </h1>
             <p class="text-xl md:text-2xl text-slate-300 mb-12 font-medium max-w-2xl mx-auto md:mx-0 leading-relaxed">
-                Kec. {{ $site_settings['district_name'] ?? 'Kecamatan' }}, {{ $site_settings['regency_name'] ?? 'Kabupaten' }}
+                Kecamatan {{ $site_settings['district_name'] ?? 'Kecamatan' }}, {{ $site_settings['regency_name'] ?? 'Kabupaten' }}
             </p>
             <div class="flex flex-col sm:flex-row flex-wrap justify-center md:justify-start gap-4 md:gap-6">
                 <a href="/statistik" class="bg-emerald-600 text-white px-10 py-5 rounded-full font-bold text-lg shadow-2xl shadow-emerald-900/40 hover:bg-emerald-700 transition flex items-center justify-center gap-3 group w-full sm:w-auto">

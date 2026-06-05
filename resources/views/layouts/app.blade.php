@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- SEO Meta Tags -->
     <title>@yield('title', ($site_settings['village_name'] ?? 'Website Desa') . ' - ' . ($site_settings['district_name'] ?? ''))</title>
     <meta name="description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan informasi berita, statistik, dan transparansi anggaran desa.')">
@@ -36,13 +37,25 @@
     <!-- Scripts & Styles -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        [x-cloak] { display: none !important; }
-        html { scroll-behavior: smooth; }
-        .font-heading { font-family: 'Poppins', sans-serif; }
-        body { font-family: 'Inter', sans-serif; }
+        [x-cloak] {
+            display: none !important;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .font-heading {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
     </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="bg-slate-50 flex flex-col min-h-screen font-sans text-slate-900">
     <!-- Top Bar -->
     <div class="bg-emerald-900 text-white py-2 hidden md:block">
@@ -76,9 +89,9 @@
                 <div class="flex items-center">
                     <a href="/" class="flex-shrink-0 flex items-center gap-3">
                         @if(isset($site_settings['village_logo']) && $site_settings['village_logo'])
-                            <img class="h-12 w-auto" src="{{ asset('storage/' . $site_settings['village_logo']) }}" alt="Logo">
+                        <img class="h-12 w-auto" src="{{ asset('storage/' . $site_settings['village_logo']) }}" alt="Logo">
                         @else
-                            <img class="h-12 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
+                        <img class="h-12 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
                         @endif
                         <div class="flex flex-col">
                             <span class="font-heading font-bold text-xl leading-tight text-emerald-600">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
@@ -86,7 +99,7 @@
                         </div>
                     </a>
                 </div>
-                
+
                 <!-- Desktop Menu -->
                 <div class="hidden lg:flex lg:items-center lg:space-x-1">
                     <a href="/" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">Beranda</a>
@@ -96,28 +109,28 @@
                     <a href="/dataset" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">Open Data</a>
                     <a href="/publikasi" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">Publikasi</a>
                     <a href="/apbdes" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">APBDes</a>
-                    
+
                     <div class="h-6 w-px bg-slate-200 mx-4"></div>
-                    
+
                     @auth
-                        <div class="flex items-center space-x-4">
-                            <a href="/admin" class="bg-emerald-600 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-emerald-700 transition shadow-sm shadow-emerald-200 flex items-center gap-2">
-                                <i class="fa-solid fa-table-cells-large text-xs"></i>
-                                Panel Admin
-                            </a>
-                            <form method="POST" action="/admin/logout">
-                                @csrf
-                                <button type="submit" class="text-slate-500 hover:text-rose-600 text-sm font-semibold transition flex items-center gap-1">
-                                    <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                                    Keluar
-                                </button>
-                            </form>
-                        </div>
-                    @else
-                        <a href="/admin/login" class="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 transition shadow-sm flex items-center gap-2">
-                            <i class="fa-solid fa-user text-xs"></i>
-                            Login
+                    <div class="flex items-center space-x-4">
+                        <a href="/admin" class="bg-emerald-600 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-emerald-700 transition shadow-sm shadow-emerald-200 flex items-center gap-2">
+                            <i class="fa-solid fa-table-cells-large text-xs"></i>
+                            Panel Admin
                         </a>
+                        <form method="POST" action="/admin/logout">
+                            @csrf
+                            <button type="submit" class="text-slate-500 hover:text-rose-600 text-sm font-semibold transition flex items-center gap-1">
+                                <i class="fa-solid fa-right-from-bracket text-xs"></i>
+                                Keluar
+                            </button>
+                        </form>
+                    </div>
+                    @else
+                    <a href="/admin/login" class="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 transition shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-user text-xs"></i>
+                        Login
+                    </a>
                     @endauth
                 </div>
 
@@ -132,14 +145,14 @@
         </div>
 
         <!-- Mobile Menu Drawer -->
-        <div x-show="mobileMenuOpen" 
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 -translate-y-4"
-             x-transition:enter-end="opacity-100 translate-y-0"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 translate-y-0"
-             x-transition:leave-end="opacity-0 -translate-y-4"
-             class="lg:hidden bg-white border-b border-slate-200" x-cloak>
+        <div x-show="mobileMenuOpen"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-4"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 -translate-y-4"
+            class="lg:hidden bg-white border-b border-slate-200" x-cloak>
             <div class="px-4 pt-2 pb-8 space-y-1">
                 <a href="/" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Beranda</a>
                 <a href="/pemerintahan" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Pemerintahan</a>
@@ -148,18 +161,18 @@
                 <a href="/dataset" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Open Data</a>
                 <a href="/publikasi" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Publikasi</a>
                 <a href="/apbdes" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">APBDes</a>
-                
+
                 <div class="pt-6 border-t border-slate-100 mt-4">
                     @auth
-                        <a href="/admin" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
-                            <i class="fa-solid fa-table-cells-large"></i>
-                            Panel Admin
-                        </a>
+                    <a href="/admin" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                        Panel Admin
+                    </a>
                     @else
-                        <a href="/admin/login" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
-                            <i class="fa-solid fa-user"></i>
-                            Login Sistem
-                        </a>
+                    <a href="/admin/login" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
+                        <i class="fa-solid fa-user"></i>
+                        Login Sistem
+                    </a>
                     @endauth
                 </div>
             </div>
@@ -251,12 +264,11 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">
-            &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}. Dikembangkan untuk Program Desa Cantik.
+            &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}. Dikembangkan oleh kalamangna.
         </div>
     </footer>
 
     @stack('scripts')
 </body>
-</html>
-dy>
+
 </html>
