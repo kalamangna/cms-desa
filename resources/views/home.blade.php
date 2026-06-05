@@ -251,7 +251,7 @@
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
                 </div>
-                <p class="text-emerald-600 font-bold text-sm mb-4 uppercase tracking-wider">{{ $featuredPost->published_at->format('d M Y') }} — {{ $featuredPost->category->name ?? 'Update' }}</p>
+                <p class="text-emerald-600 font-bold text-sm mb-4 uppercase tracking-wider">{{ $featuredPost->published_at->translatedFormat('d M Y') }} — {{ $featuredPost->category->name ?? 'Update' }}</p>
                 <h3 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 leading-tight group-hover:text-emerald-600 transition mb-6">
                     {{ $featuredPost->title }}
                 </h3>
@@ -277,7 +277,7 @@
                         @endif
                     </div>
                     <div class="flex flex-col justify-center">
-                        <p class="text-emerald-600 font-bold text-[10px] mb-2 uppercase tracking-wider">{{ $post->published_at->format('d M Y') }}</p>
+                        <p class="text-emerald-600 font-bold text-[10px] mb-2 uppercase tracking-wider">{{ $post->published_at->translatedFormat('d M Y') }}</p>
                         <h4 class="text-lg font-heading font-bold text-slate-900 leading-snug group-hover:text-emerald-600 transition line-clamp-2">
                             <a href="/berita/{{ $post->slug }}">{{ $post->title }}</a>
                         </h4>

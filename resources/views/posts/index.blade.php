@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="px-2">
-                        <time class="text-emerald-600 font-bold text-xs uppercase tracking-widest mb-4 block">{{ $post->published_at->format('d M Y') }}</time>
+                        <time class="text-emerald-600 font-bold text-xs uppercase tracking-widest mb-4 block">{{ $post->published_at->translatedFormat('d M Y') }}</time>
                         <h2 class="text-2xl font-heading font-bold text-slate-900 leading-tight mb-4 group-hover:text-emerald-600 transition">
                             <a href="/berita/{{ $post->slug }}">{{ $post->title }}</a>
                         </h2>

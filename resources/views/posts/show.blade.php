@@ -3,7 +3,7 @@
 @section('title', $post->title . ' - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('meta_description', Str::limit(strip_tags($post->content), 160))
-@section('meta_image', $post->featured_image ? asset('storage/' . $post->featured_image) : asset('logo.png'))
+@section('meta_image', $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/sinjai.png'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
@@ -39,7 +39,7 @@
             <div class="flex items-center gap-6 text-slate-400 text-sm font-bold uppercase tracking-widest">
                 <span class="flex items-center gap-2">
                     <x-heroicon-o-calendar class="w-4 h-4 text-emerald-500" />
-                    {{ $post->published_at->format('d F Y') }}
+                    {{ $post->published_at->translatedFormat('d F Y') }}
                 </span>
                 <span class="flex items-center gap-2">
                     <x-heroicon-o-user class="w-4 h-4 text-emerald-500" />
