@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <x-heroicon-s-chevron-right class="w-4 h-4 mx-1" />
+                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
                         <span class="text-white">Pengumuman</span>
                     </div>
                 </li>

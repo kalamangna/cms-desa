@@ -88,7 +88,7 @@
                 <h3 class="text-xl font-heading font-bold text-slate-900 mb-6">Cari Berita</h3>
                 <form action="/berita" method="GET" class="relative">
                     <input type="text" name="search" placeholder="Kata kunci..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-emerald-500 font-medium">
-                    <x-heroicon-o-magnifying-glass class="w-5 h-5 text-slate-400 absolute left-4 top-4.5" />
+                    <i class="fa-solid fa-magnifying-glass w-5 h-5 text-slate-400 absolute left-4 top-4.5"></i>
                 </form>
             </div>
 

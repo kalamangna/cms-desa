@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <svg class="w-4 h-4 mx-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
                         <span class="text-white">Perangkat</span>
                     </div>
                 </li>
@@ -44,16 +44,11 @@
                     <img src="{{ asset('storage/' . $official->photo) }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="{{ $official->name }}">
                 @else
                     <div class="w-full h-full bg-slate-100 flex flex-col items-center justify-center text-slate-300">
-                        <x-heroicon-o-user class="w-20 h-20 mb-4 opacity-20" />
+                        <i class="fa-solid fa-user w-20 h-20 mb-4 opacity-20"></i>
                         <span class="text-xs font-bold uppercase tracking-widest">Foto Tidak Tersedia</span>
                     </div>
                 @endif
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500 flex items-end p-10">
-                    <div class="text-white">
-                        <p class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400 mb-2">Kontak Publik</p>
-                        <p class="text-sm font-medium opacity-80 italic">"Melayani dengan Hati, Membangun dengan Data"</p>
-                    </div>
-                </div>
+
             </div>
             <div class="text-center px-4">
                 <h3 class="text-2xl font-heading font-bold text-slate-900 mb-2">{{ $official->name }}</h3>

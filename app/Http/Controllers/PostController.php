@@ -8,10 +8,29 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('category')->latest()->where('published_at', '<=', now())->paginate(9);
-        $categories = Category::all();
+        $query = Post::with('category')->where('published_at', '<=', now())->latest();
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('content', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('category')) {
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('slug', $request->category);
+            });
+        }
+
+        $posts = $query->paginate(9)->withQueryString();
+        
+        $categories = Category::withCount(['posts' => function ($query) {
+            $query->where('published_at', '<=', now());
+        }])->get();
+
         return view('posts.index', compact('posts', 'categories'));
     }
 

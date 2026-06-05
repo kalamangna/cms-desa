@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <x-heroicon-s-chevron-right class="w-4 h-4 mx-1" />
+                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
                         <span class="text-white">Publikasi</span>
                     </div>
                 </li>
@@ -44,7 +44,7 @@
                     <img src="{{ asset('storage/' . $pub->cover) }}" class="w-full h-full object-cover" alt="{{ $pub->title }}">
                 @else
                     <div class="w-full h-full flex flex-col items-center justify-center p-12 text-center bg-gradient-to-br from-slate-100 to-slate-200">
-                        <x-heroicon-o-book-open class="w-20 h-20 text-slate-300 mb-8" />
+                        <i class="fa-solid fa-book-open w-20 h-20 text-slate-300 mb-8"></i>
                         <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Arsip Digital</span>
                     </div>
                 @endif
@@ -65,7 +65,7 @@
                 <div class="flex items-center justify-between pt-6 border-t border-slate-100">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">PDF Document</span>
                     <a href="{{ asset('storage/' . $pub->file_path) }}" class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition shadow-sm" download>
-                        <x-heroicon-o-arrow-down-tray class="w-5 h-5" />
+                        <i class="fa-solid fa-download w-5 h-5"></i>
                     </a>
                 </div>
             </div>

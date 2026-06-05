@@ -23,7 +23,7 @@
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <x-heroicon-s-chevron-right class="w-4 h-4 mx-1" />
+                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
                         <a href="/berita" class="hover:text-emerald-400 transition">Berita</a>
                     </div>
                 </li>
@@ -38,11 +38,11 @@
             </h1>
             <div class="flex flex-col md:flex-row items-center md:items-center gap-4 md:gap-6 text-slate-400 text-xs md:text-sm font-bold uppercase tracking-widest">
                 <span class="flex items-center gap-2">
-                    <x-heroicon-o-calendar class="w-4 h-4 text-emerald-500" />
+                    <i class="fa-solid fa-calendar-days w-4 h-4 text-emerald-500"></i>
                     {{ $post->published_at->translatedFormat('d F Y') }}
                 </span>
                 <span class="flex items-center gap-2">
-                    <x-heroicon-o-user class="w-4 h-4 text-emerald-500" />
+                    <i class="fa-solid fa-user w-4 h-4 text-emerald-500"></i>
                     Admin Desa
                 </span>
             </div>
@@ -67,9 +67,15 @@
                 <div class="flex flex-col md:flex-row items-center gap-6">
                     <span class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Bagikan:</span>
                     <div class="flex gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-emerald-600 hover:text-white transition cursor-pointer">FB</div>
-                        <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-emerald-600 hover:text-white transition cursor-pointer">WA</div>
-                        <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-emerald-600 hover:text-white transition cursor-pointer">IG</div>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition cursor-pointer" title="Bagikan ke Facebook">
+                            <i class="fa-brands fa-facebook-f text-lg"></i>
+                        </a>
+                        <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' - ' . request()->fullUrl()) }}" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-green-500 hover:text-white transition cursor-pointer" title="Bagikan ke WhatsApp">
+                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($post->title) }}" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-slate-900 hover:text-white transition cursor-pointer" title="Bagikan ke X (Twitter)">
+                            <i class="fa-brands fa-x-twitter text-lg"></i>
+                        </a>
                     </div>
                 </div>
                 <a href="/berita" class="bg-slate-900 text-white px-8 md:px-10 py-4 rounded-full font-bold text-sm hover:bg-slate-800 transition shadow-xl w-full md:w-auto text-center">

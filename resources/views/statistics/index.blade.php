@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <x-heroicon-s-chevron-right class="w-4 h-4 mx-1" />
+                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
                         <span class="text-white">Statistik</span>
                     </div>
                 </li>
@@ -64,7 +64,7 @@
                         </div>
                         <button class="bg-slate-900 text-white px-8 py-3 rounded-full font-bold text-sm hover:bg-emerald-600 transition shadow-lg shadow-slate-900/10 flex items-center gap-3">
                             Unduh Data CSV
-                            <x-heroicon-o-arrow-down-tray class="w-4 h-4" />
+                            <i class="fa-solid fa-download w-4 h-4"></i>
                         </button>
                     </div>
                 </div>

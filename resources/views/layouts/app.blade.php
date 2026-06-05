@@ -250,14 +250,14 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-white pt-32 pb-12 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16">
-            <div class="lg:col-span-1">
+    <footer class="bg-slate-900 text-white pt-24 pb-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12 lg:gap-16">
+            <div class="lg:col-span-2">
                 <div class="flex items-center gap-3 mb-8">
                     <img class="h-10 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
                     <h3 class="text-xl font-heading font-bold tracking-tight">{{ $site_settings['village_name'] ?? 'Website Desa' }}</h3>
                 </div>
-                <p class="text-slate-400 text-sm leading-relaxed mb-8 font-medium">
+                <p class="text-slate-400 text-sm leading-relaxed mb-8 font-medium max-w-md">
                     Website resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} untuk memberikan layanan informasi publik yang profesional dan transparan.
                 </p>
                 <div class="flex gap-4">
@@ -297,36 +297,6 @@
                     <li><a href="/berita" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Berita</a></li>
                     <li><a href="/statistik" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Statistik</a></li>
                 </ul>
-            </div>
-            <div>
-                <h3 class="text-sm font-black uppercase tracking-[0.2em] mb-10 text-emerald-400">Statistik</h3>
-                <div class="space-y-4">
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-[10px] text-slate-500 font-black uppercase tracking-widest">Hari Ini</span>
-                            <span class="text-emerald-400 font-bold">142</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-[10px] text-slate-500 font-black uppercase tracking-widest">Total</span>
-                            <span class="text-white font-bold">12.842</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3 text-[10px] text-slate-500 font-black uppercase tracking-[0.2em]">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        8 Online
-                    </div>
-                </div>
-            </div>
-            <div>
-                <h3 class="text-sm font-black uppercase tracking-[0.2em] mb-10 text-emerald-400">Lokasi</h3>
-                <div class="rounded-3xl overflow-hidden bg-white/5 h-36 relative group cursor-pointer border border-white/5 shadow-2xl">
-                    <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-20 group-hover:scale-110 transition duration-700" alt="Map">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="bg-emerald-600 text-white p-3 rounded-2xl shadow-xl opacity-0 group-hover:opacity-100 transition scale-90 group-hover:scale-100 duration-500">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">

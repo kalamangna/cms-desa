@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <x-heroicon-s-chevron-right class="w-4 h-4 mx-1" />
+                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
                         <span class="text-white">Galeri</span>
                     </div>
                 </li>
@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32" x-data="{ lightboxOpen: false, lightboxImage: '', lightboxTitle: '' }">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
         @forelse($galleries as $item)
         <div class="group relative bg-white rounded-[40px] overflow-hidden shadow-2xl shadow-slate-200/50 border border-slate-100 transition-all duration-500 hover:-translate-y-4">
@@ -55,7 +55,7 @@
                 @endif
                 <div class="mt-8 pt-6 border-t border-slate-50 flex justify-between items-center">
                     <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">{{ $item->created_at->translatedFormat('d M Y') }}</span>
-                    <button class="text-emerald-600 font-bold text-xs uppercase tracking-widest hover:text-emerald-700 transition">Perbesar</button>
+                    <button @click="lightboxOpen = true; lightboxImage = '{{ asset('storage/' . $item->image) }}'; lightboxTitle = '{{ $item->title }}'" class="text-emerald-600 font-bold text-xs uppercase tracking-widest hover:text-emerald-700 transition">Perbesar</button>
                 </div>
             </div>
             <div class="absolute inset-0 bg-emerald-600/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
@@ -69,6 +69,24 @@
 
     <div class="mt-20">
         {{ $galleries->links() }}
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div x-show="lightboxOpen" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/95 backdrop-blur-sm" x-cloak>
+        <button @click="lightboxOpen = false" class="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-white focus:outline-none transition z-50">
+            <i class="fa-solid fa-xmark text-4xl"></i>
+        </button>
+        <div @click.away="lightboxOpen = false" class="relative max-w-5xl w-full mx-4 flex flex-col items-center justify-center"
+             x-show="lightboxOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95">
+            <img :src="lightboxImage" :alt="lightboxTitle" class="w-full h-auto max-h-[85vh] object-contain rounded-xl shadow-2xl">
+            <h3 x-text="lightboxTitle" class="text-white text-center mt-6 font-heading font-bold text-xl md:text-2xl"></h3>
+        </div>
     </div>
 </div>
 @endsection

@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <x-heroicon-s-chevron-right class="w-4 h-4 mx-1" />
+                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
                         <span class="text-white">Dokumen</span>
                     </div>
                 </li>
@@ -44,7 +44,7 @@
             </div>
             <div class="relative w-full md:w-96">
                 <input type="text" placeholder="Cari dokumen..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-emerald-500 shadow-sm font-medium">
-                <x-heroicon-o-magnifying-glass class="h-5 w-5 text-slate-400 absolute left-4 top-4.5" />
+                <i class="fa-solid fa-magnifying-glass h-5 w-5 text-slate-400 absolute left-4 top-4.5"></i>
             </div>
         </div>
         
@@ -78,7 +78,7 @@
                         </td>
                         <td class="px-8 md:px-12 py-8 md:py-10 text-right">
                             <a href="{{ asset('storage/' . $doc->file) }}" class="inline-flex items-center gap-3 bg-slate-900 text-white px-6 md:px-8 py-3 md:py-4 rounded-2xl text-sm font-bold hover:bg-emerald-600 transition shadow-xl shadow-slate-900/10" target="_blank">
-                                <x-heroicon-o-arrow-down-tray class="w-4 h-4" />
+                                <i class="fa-solid fa-download w-4 h-4"></i>
                                 <span class="hidden sm:inline">Unduh Dokumen</span>
                                 <span class="sm:hidden">Unduh</span>
                             </a>
