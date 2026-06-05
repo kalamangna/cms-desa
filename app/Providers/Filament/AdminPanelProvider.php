@@ -30,6 +30,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(Login::class)
+            ->brandLogo(asset('img/sinjai.png'))
+            ->brandLogoHeight('3rem')
+            ->favicon(asset('img/sinjai.png'))
             ->colors([
                 'primary' => Color::Amber,
             ])

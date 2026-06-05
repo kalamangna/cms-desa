@@ -74,6 +74,8 @@
                     <a href="/" class="flex-shrink-0 flex items-center gap-3">
                         @if(isset($site_settings['village_logo']) && $site_settings['village_logo'])
                             <img class="h-12 w-auto" src="{{ asset('storage/' . $site_settings['village_logo']) }}" alt="Logo">
+                        @else
+                            <img class="h-12 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
                         @endif
                         <div class="flex flex-col">
                             <span class="font-heading font-bold text-xl leading-tight text-emerald-600">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
@@ -254,4 +256,6 @@
 
     @stack('scripts')
 </body>
+</html>
+dy>
 </html>
