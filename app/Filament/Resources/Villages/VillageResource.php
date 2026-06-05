@@ -20,6 +20,16 @@ class VillageResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Data Master';
 
+    public static function getModelLabel(): string
+    {
+        return 'Desa/Kelurahan';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Desa/Kelurahan';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

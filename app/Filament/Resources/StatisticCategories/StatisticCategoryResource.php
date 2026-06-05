@@ -20,6 +20,16 @@ class StatisticCategoryResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Data Master';
 
+    public static function getModelLabel(): string
+    {
+        return 'Kategori Statistik';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Kategori Statistik';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

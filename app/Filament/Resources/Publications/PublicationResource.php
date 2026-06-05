@@ -22,6 +22,16 @@ class PublicationResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Konten Web';
 
+    public static function getModelLabel(): string
+    {
+        return 'Publikasi';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Publikasi';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

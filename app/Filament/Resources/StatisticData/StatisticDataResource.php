@@ -20,6 +20,16 @@ class StatisticDataResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Statistik & Anggaran';
 
+    public static function getModelLabel(): string
+    {
+        return 'Data Statistik';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Data Statistik';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

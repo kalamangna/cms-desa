@@ -22,6 +22,16 @@ class EventResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Konten Web';
 
+    public static function getModelLabel(): string
+    {
+        return 'Kegiatan';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Kegiatan';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

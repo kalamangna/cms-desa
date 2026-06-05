@@ -22,6 +22,16 @@ class DocumentResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Konten Web';
 
+    public static function getModelLabel(): string
+    {
+        return 'Dokumen';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Dokumen';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

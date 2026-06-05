@@ -22,6 +22,16 @@ class BudgetRealizationResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Statistik & Anggaran';
 
+    public static function getModelLabel(): string
+    {
+        return 'Realisasi APBDes';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Realisasi APBDes';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

@@ -20,6 +20,16 @@ class DistrictResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Data Master';
 
+    public static function getModelLabel(): string
+    {
+        return 'Kecamatan';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Kecamatan';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

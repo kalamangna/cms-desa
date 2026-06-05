@@ -20,6 +20,16 @@ class SettingResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
 
+    public static function getModelLabel(): string
+    {
+        return 'Pengaturan';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Pengaturan';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

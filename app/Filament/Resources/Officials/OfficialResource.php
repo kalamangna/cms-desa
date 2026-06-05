@@ -22,6 +22,16 @@ class OfficialResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Pemerintahan';
 
+    public static function getModelLabel(): string
+    {
+        return 'Perangkat Desa';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Perangkat Desa';
+    }
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema
