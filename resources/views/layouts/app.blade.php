@@ -264,7 +264,7 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">
-            &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}. Dikembangkan oleh kalamangna.
+            &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}. Dikembangkan oleh <a href="https://github.com/kalamangna" class="hover:text-emerald-400 transition">kalamangna</a>.
         </div>
     </footer>
 
