@@ -10,6 +10,9 @@
     <meta name="keywords" content="desa, {{ $site_settings['village_name'] ?? '' }}, {{ $site_settings['district_name'] ?? '' }}, statistik desa, apbdes">
     <meta name="author" content="Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('img/sinjai.png') }}">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
@@ -174,6 +177,8 @@
                 <div class="flex items-center gap-3 mb-8">
                     @if(isset($site_settings['village_logo']) && $site_settings['village_logo'])
                         <img class="h-10 w-auto brightness-0 invert" src="{{ asset('storage/' . $site_settings['village_logo']) }}" alt="Logo">
+                    @else
+                        <img class="h-10 w-auto brightness-0 invert" src="{{ asset('img/sinjai.png') }}" alt="Logo">
                     @endif
                     <h3 class="text-xl font-heading font-bold tracking-tight">{{ $site_settings['village_name'] ?? 'Website Desa' }}</h3>
                 </div>
