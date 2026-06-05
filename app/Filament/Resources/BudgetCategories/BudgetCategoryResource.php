@@ -20,7 +20,7 @@ class BudgetCategoryResource extends Resource
 {
     protected static ?string $model = BudgetCategory::class;
 
-    protected static ?string $navigationGroup = 'Data Master';
+    protected static $navigationGroup = 'Data Master';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
