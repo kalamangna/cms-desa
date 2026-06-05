@@ -57,17 +57,53 @@
 </head>
 
 <body class="bg-slate-50 flex flex-col min-h-screen font-sans text-slate-900">
+    <!-- Top Bar -->
+    <div class="bg-emerald-900 text-white py-2 hidden md:block">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em]">
+            <div class="flex gap-8">
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-location-dot text-emerald-400"></i> {{ $site_settings['village_address'] ?? 'Desa Tompobulu, Sinjai' }}
+                </span>
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-phone text-emerald-400"></i> {{ $site_settings['village_phone'] ?? '-' }}
+                </span>
+                <span class="flex items-center gap-2">
+                    <i class="fa-regular fa-calendar text-emerald-400"></i>
+                    {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
+                </span>
+            </div>
+            <div class="flex gap-6 items-center">
+                @auth
+                    <div class="flex items-center gap-6">
+                        <a href="/admin" class="hover:text-emerald-400 transition flex items-center gap-2">
+                            <i class="fa-solid fa-table-cells-large text-[10px]"></i>
+                            Panel Admin
+                        </a>
+                        <form method="POST" action="/admin/logout">
+                            @csrf
+                            <button type="submit" class="hover:text-rose-400 transition flex items-center gap-2">
+                                <i class="fa-solid fa-right-from-bracket text-[10px]"></i>
+                                Keluar
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <a href="/admin/login" class="hover:text-emerald-400 transition flex items-center gap-2">
+                        <i class="fa-solid fa-user text-[10px]"></i>
+                        Login Sistem &rarr;
+                    </a>
+                @endauth
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm" x-data="{ mobileMenuOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
                 <div class="flex items-center">
                     <a href="/" class="flex-shrink-0 flex items-center gap-3">
-                        @if(isset($site_settings['village_logo']) && $site_settings['village_logo'])
-                        <img class="h-12 w-auto" src="{{ asset('storage/' . $site_settings['village_logo']) }}" alt="Logo">
-                        @else
                         <img class="h-12 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
-                        @endif
                         <div class="flex flex-col">
                             <span class="font-heading font-bold text-xl leading-tight text-emerald-600">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
                             <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Portal Resmi Desa</span>
@@ -77,36 +113,13 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden lg:flex lg:items-center lg:space-x-1">
-                    <a href="/" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">Beranda</a>
-                    <a href="/pemerintahan" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">Pemerintahan</a>
-                    <a href="/berita" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">Berita</a>
-                    <a href="/statistik" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">Statistik</a>
-                    <a href="/dataset" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">Open Data</a>
-                    <a href="/publikasi" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">Publikasi</a>
-                    <a href="/apbdes" class="text-slate-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-semibold transition">APBDes</a>
-
-                    <div class="h-6 w-px bg-slate-200 mx-4"></div>
-
-                    @auth
-                    <div class="flex items-center space-x-4">
-                        <a href="/admin" class="bg-emerald-600 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-emerald-700 transition shadow-sm shadow-emerald-200 flex items-center gap-2">
-                            <i class="fa-solid fa-table-cells-large text-xs"></i>
-                            Panel Admin
-                        </a>
-                        <form method="POST" action="/admin/logout">
-                            @csrf
-                            <button type="submit" class="text-slate-500 hover:text-rose-600 text-sm font-semibold transition flex items-center gap-1">
-                                <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                                Keluar
-                            </button>
-                        </form>
-                    </div>
-                    @else
-                    <a href="/admin/login" class="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 transition shadow-sm flex items-center gap-2">
-                        <i class="fa-solid fa-user text-xs"></i>
-                        Login
-                    </a>
-                    @endauth
+                    <a href="/" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Beranda</a>
+                    <a href="/pemerintahan" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Pemerintahan</a>
+                    <a href="/berita" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Berita</a>
+                    <a href="/statistik" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Statistik</a>
+                    <a href="/dataset" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Open Data</a>
+                    <a href="/publikasi" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Publikasi</a>
+                    <a href="/apbdes" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">APBDes</a>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -139,15 +152,24 @@
 
                 <div class="pt-6 border-t border-slate-100 mt-4">
                     @auth
-                    <a href="/admin" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
-                        <i class="fa-solid fa-table-cells-large"></i>
-                        Panel Admin
-                    </a>
+                        <div class="flex flex-col gap-3">
+                            <a href="/admin" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
+                                <i class="fa-solid fa-table-cells-large"></i>
+                                Panel Admin
+                            </a>
+                            <form method="POST" action="/admin/logout" class="w-full">
+                                @csrf
+                                <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-100 text-slate-600 text-center">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    Keluar
+                                </button>
+                            </form>
+                        </div>
                     @else
-                    <a href="/admin/login" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
-                        <i class="fa-solid fa-user"></i>
-                        Login Sistem
-                    </a>
+                        <a href="/admin/login" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
+                            <i class="fa-solid fa-user"></i>
+                            Login Sistem
+                        </a>
                     @endauth
                 </div>
             </div>
