@@ -23,12 +23,14 @@ class DatabaseSeeder extends Seeder
             SampleDataSeeder::class,
         ]);
 
-        $admin = User::factory()->create([
-            'name' => 'Admin Sinjai',
-            'username' => 'admin',
-            'email' => 'admin@sinjaikab.go.id',
-            'password' => Hash::make('admin123'),
-        ]);
+        $admin = User::firstOrCreate(
+            ['username' => 'admin'],
+            [
+                'name' => 'Admin Sinjai',
+                'email' => 'admin@sinjaikab.go.id',
+                'password' => Hash::make('admin123'),
+            ]
+        );
 
         $admin->assignRole('super_admin');
     }
