@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pengumuman Resmi - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Pengumuman - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
@@ -29,7 +29,7 @@
                 Warta <span class="text-emerald-500 italic">Pengumuman</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Pusat informasi resmi mengenai kebijakan, edaran, and pemberitahuan penting bagi seluruh warga Desa {{ $site_settings['village_name'] ?? '' }}.
+                Pusat informasi resmi dan edaran penting Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Statistik - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Statistik - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
@@ -19,7 +19,7 @@
                 <li>
                     <div class="flex items-center">
                         <x-heroicon-s-chevron-right class="w-4 h-4 mx-1" />
-                        <span class="text-white">Statistik Desa</span>
+                        <span class="text-white">Statistik</span>
                     </div>
                 </li>
             </ol>
@@ -29,7 +29,7 @@
                 Pusat <span class="text-emerald-500 italic">Statistik</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Visualisasi data kependudukan, sosial, and ekonomi Desa {{ $site_settings['village_name'] ?? '' }} untuk transparansi berbasis bukti.
+                Data kependudukan, sosial, dan ekonomi Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

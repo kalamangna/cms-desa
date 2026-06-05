@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Hubungi Kami - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Kontak - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
@@ -29,7 +29,7 @@
                 Hubungi <span class="text-emerald-500 italic">Kami</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Kami siap melayani pertanyaan, masukan, dan pengaduan Anda demi kemajuan Desa {{ $site_settings['village_name'] ?? '' }}.
+                Saluran masukan and pengaduan warga Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

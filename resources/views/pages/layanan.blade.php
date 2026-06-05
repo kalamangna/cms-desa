@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Layanan Masyarakat - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Layanan - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
@@ -29,7 +29,7 @@
                 Layanan <span class="text-emerald-500 italic">Masyarakat</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Informasi prosedur, persyaratan, dan panduan administrasi kependudukan di Desa {{ $site_settings['village_name'] ?? '' }}.
+                Prosedur dan panduan administrasi Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

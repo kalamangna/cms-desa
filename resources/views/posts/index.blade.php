@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kabar Desa - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Berita - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
@@ -19,17 +19,17 @@
                 <li>
                     <div class="flex items-center">
                         <svg class="w-4 h-4 mx-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                        <span class="text-white">Kabar Desa</span>
+                        <span class="text-white">Berita</span>
                     </div>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl text-center md:text-left">
             <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
-                Warta <span class="text-emerald-500 italic">Terkini</span>
+                Berita <span class="text-emerald-500 italic">Terbaru</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Informasi mengenai program kerja, pembangunan, dan kegiatan kemasyarakatan Desa {{ $site_settings['village_name'] ?? '' }}.
+                Kabar terkini seputar kegiatan dan perkembangan Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Transparansi APBDes - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'APBDes - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
-<div class="relative bg-slate-900 py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -19,17 +19,17 @@
                 <li>
                     <div class="flex items-center">
                         <x-heroicon-s-chevron-right class="w-4 h-4 mx-1" />
-                        <span class="text-white">APBDes {{ date('Y') }}</span>
+                        <span class="text-white">APBDes</span>
                     </div>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl text-center md:text-left">
             <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
-                Transparansi <span class="text-emerald-500 italic">Anggaran</span>
+                APBDes <span class="text-emerald-500 italic">{{ date('Y') }}</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Laporan realisasi anggaran pendapatan dan belanja Desa {{ $site_settings['village_name'] ?? '' }} untuk tata kelola keuangan yang akuntabel.
+                Transparansi realisasi anggaran Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

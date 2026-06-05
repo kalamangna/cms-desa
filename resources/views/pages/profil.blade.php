@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Profil Desa - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Profil - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
@@ -19,17 +19,17 @@
                 <li>
                     <div class="flex items-center">
                         <x-heroicon-s-chevron-right class="w-4 h-4 mx-1" />
-                        <span class="text-white">Profil Desa</span>
+                        <span class="text-white">Profil</span>
                     </div>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl text-center md:text-left">
             <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
-                Tentang <span class="text-emerald-500 italic">Desa Kami</span>
+                Profil <span class="text-emerald-500 italic">Desa</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Mengenal lebih dekat sejarah, visi, misi, dan karakteristik wilayah Desa {{ $site_settings['village_name'] ?? '' }}.
+                Sejarah, visi, misi, dan karakteristik wilayah Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

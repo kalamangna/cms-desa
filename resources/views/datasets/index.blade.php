@@ -26,10 +26,10 @@
         </nav>
         <div class="max-w-3xl text-center md:text-left">
             <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
-                Portal <span class="text-emerald-500 italic">Data Terbuka</span>
+                Open <span class="text-emerald-500 italic">Data</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Akses dataset publik Desa {{ $site_settings['village_name'] ?? '' }} untuk mendorong inovasi dan akuntabilitas pemerintahan.
+                Katalog data publik Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

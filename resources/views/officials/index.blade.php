@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Pemerintah Desa - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Perangkat - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
-<div class="relative bg-slate-900 py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -19,17 +19,17 @@
                 <li>
                     <div class="flex items-center">
                         <svg class="w-4 h-4 mx-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                        <span class="text-white">Pemerintahan</span>
+                        <span class="text-white">Perangkat</span>
                     </div>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl text-center md:text-left">
             <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
-                Struktur <span class="text-emerald-500 italic">Organisasi</span>
+                Perangkat <span class="text-emerald-500 italic">Desa</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Mengenal jajaran pelayan masyarakat yang berdedikasi tinggi untuk kemajuan Desa {{ $site_settings['village_name'] ?? '' }}.
+                Jajaran pelayan masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
