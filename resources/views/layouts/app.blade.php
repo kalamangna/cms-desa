@@ -57,31 +57,6 @@
 </head>
 
 <body class="bg-slate-50 flex flex-col min-h-screen font-sans text-slate-900">
-    <!-- Top Bar -->
-    <div class="bg-emerald-900 text-white py-2 hidden md:block">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em]">
-            <div class="flex gap-8">
-                <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-location-dot text-emerald-400"></i> {{ $site_settings['village_address'] ?? 'Desa Tompobulu, Sinjai' }}
-                </span>
-                <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-phone text-emerald-400"></i> {{ $site_settings['village_phone'] ?? '-' }}
-                </span>
-            </div>
-            <div class="flex gap-6 items-center">
-                <span class="flex items-center gap-2">
-                    <i class="fa-regular fa-calendar text-emerald-400"></i>
-                    {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
-                </span>
-                <div class="h-3 w-px bg-white/20"></div>
-                <a href="/admin/login" class="hover:text-emerald-400 transition flex items-center gap-2">
-                    <i class="fa-solid fa-microchip text-[10px]"></i>
-                    Sistem Informasi Desa &rarr;
-                </a>
-            </div>
-        </div>
-    </div>
-
     <!-- Navigation -->
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm" x-data="{ mobileMenuOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
