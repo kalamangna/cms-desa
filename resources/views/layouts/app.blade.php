@@ -113,13 +113,13 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden lg:flex lg:items-center lg:space-x-1">
-                    <a href="/" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Beranda</a>
-                    <a href="/pemerintahan" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Pemerintahan</a>
-                    <a href="/berita" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Berita</a>
-                    <a href="/statistik" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Statistik</a>
-                    <a href="/dataset" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Open Data</a>
-                    <a href="/publikasi" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">Publikasi</a>
-                    <a href="/apbdes" class="text-slate-600 hover:text-emerald-600 px-4 py-2 rounded-md text-sm font-semibold transition">APBDes</a>
+                    <a href="/" class="{{ request()->is('/') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Beranda</a>
+                    <a href="/pemerintahan" class="{{ request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Pemerintahan</a>
+                    <a href="/berita" class="{{ request()->is('berita*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Berita</a>
+                    <a href="/statistik" class="{{ request()->is('statistik*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Statistik</a>
+                    <a href="/dataset" class="{{ request()->is('dataset*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Open Data</a>
+                    <a href="/publikasi" class="{{ request()->is('publikasi*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Publikasi</a>
+                    <a href="/apbdes" class="{{ request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">APBDes</a>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -142,13 +142,13 @@
             x-transition:leave-end="opacity-0 -translate-y-4"
             class="lg:hidden bg-white border-b border-slate-200" x-cloak>
             <div class="px-4 pt-2 pb-8 space-y-1">
-                <a href="/" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Beranda</a>
-                <a href="/pemerintahan" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Pemerintahan</a>
-                <a href="/berita" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Berita</a>
-                <a href="/statistik" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Statistik</a>
-                <a href="/dataset" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Open Data</a>
-                <a href="/publikasi" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">Publikasi</a>
-                <a href="/apbdes" class="block px-4 py-4 rounded-2xl text-base font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition">APBDes</a>
+                <a href="/" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('/') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Beranda</a>
+                <a href="/pemerintahan" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Pemerintahan</a>
+                <a href="/berita" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('berita*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Berita</a>
+                <a href="/statistik" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('statistik*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Statistik</a>
+                <a href="/dataset" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('dataset*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Open Data</a>
+                <a href="/publikasi" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('publikasi*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">Publikasi</a>
+                <a href="/apbdes" class="block px-4 py-4 rounded-2xl text-base font-bold {{ request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-600' }} transition">APBDes</a>
 
                 <div class="pt-6 border-t border-slate-100 mt-4">
                     @auth
