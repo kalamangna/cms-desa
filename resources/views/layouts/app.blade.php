@@ -18,14 +18,14 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('title', ($site_settings['village_name'] ?? 'Website Desa'))">
     <meta property="og:description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '.')">
-    <meta property="og:image" content="@yield('meta_image', isset($site_settings['village_logo']) ? asset('storage/' . $site_settings['village_logo']) : asset('img/meta.png'))">
+    <meta property="og:image" content="@yield('meta_image', asset('img/meta.png'))">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url()->current() }}">
     <meta property="twitter:title" content="@yield('title', ($site_settings['village_name'] ?? 'Website Desa'))">
     <meta property="twitter:description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '.')">
-    <meta property="twitter:image" content="@yield('meta_image', isset($site_settings['village_logo']) ? asset('storage/' . $site_settings['village_logo']) : asset('img/meta.png'))">
+    <meta property="twitter:image" content="@yield('meta_image', asset('img/meta.png'))">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
