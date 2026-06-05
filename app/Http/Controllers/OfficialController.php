@@ -9,7 +9,7 @@ class OfficialController extends Controller
 {
     public function index()
     {
-        $officials = Official::orderBy('period_start', 'desc')->get();
+        $officials = Official::orderBy('id', 'asc')->get();
         return view('officials.index', compact('officials'));
     }
 }

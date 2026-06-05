@@ -12,12 +12,12 @@ class StatisticIndicatorForm
     {
         return $schema
             ->components([
-                Select::make('statistic_category_id')
+                Select::make('statistic_category_id')->label('Kategori')
                     ->relationship('category', 'name')
                     ->required()
                     ->searchable()
                     ->preload(),
-                TextInput::make('name')
+                TextInput::make('name')->label('Nama')
                     ->required(),
                 TextInput::make('unit')
                     ->placeholder('e.g., Orang, Jiwa, Persen'),

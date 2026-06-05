@@ -58,9 +58,7 @@
             <div class="text-center px-4">
                 <h3 class="text-2xl font-heading font-bold text-slate-900 mb-2">{{ $official->name }}</h3>
                 <p class="text-emerald-600 font-black text-xs uppercase tracking-widest mb-4">{{ $official->position }}</p>
-                <div class="inline-block px-4 py-1.5 rounded-full bg-slate-50 text-slate-400 text-[10px] font-bold border border-slate-100 uppercase tracking-wider">
-                    NIP: {{ $official->nip ?? '-' }}
-                </div>
+
             </div>
         </div>
         @endforeach

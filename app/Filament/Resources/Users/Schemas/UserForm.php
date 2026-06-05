@@ -12,16 +12,16 @@ class UserForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
+                TextInput::make('name')->label('Nama')
                     ->required(),
-                TextInput::make('username')
+                TextInput::make('username')->label('Username')
                     ->required(),
-                TextInput::make('email')
+                TextInput::make('email')->label('Email')
                     ->label('Email address')
                     ->email()
                     ->required(),
                 DateTimePicker::make('email_verified_at'),
-                TextInput::make('password')
+                TextInput::make('password')->label('Kata Sandi')
                     ->password()
                     ->required(),
             ]);

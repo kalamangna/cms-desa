@@ -13,16 +13,13 @@ class OfficialForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
+                TextInput::make('name')->label('Nama')
                     ->required(),
-                TextInput::make('position')
+                TextInput::make('position')->label('Jabatan')
                     ->required(),
-                FileUpload::make('photo')
+                FileUpload::make('photo')->label('Foto')
                     ->image()
                     ->directory('officials'),
-                DatePicker::make('period_start')
-                    ->required(),
-                DatePicker::make('period_end'),
             ]);
     }
 }

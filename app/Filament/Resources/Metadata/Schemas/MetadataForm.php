@@ -13,16 +13,16 @@ class MetadataForm
     {
         return $schema
             ->components([
-                Select::make('dataset_id')
+                Select::make('dataset_id')->label('Dataset')
                     ->relationship('dataset', 'title')
                     ->required()
                     ->searchable()
                     ->preload(),
-                TextInput::make('source'),
-                Textarea::make('definition')
+                TextInput::make('source')->label('Sumber'),
+                Textarea::make('definition')->label('Definisi')
                     ->columnSpanFull(),
-                TextInput::make('update_frequency'),
-                TextInput::make('responsible_person'),
+                TextInput::make('update_frequency')->label('Frekuensi Pembaruan'),
+                TextInput::make('responsible_person')->label('Penanggung Jawab'),
             ]);
     }
 }

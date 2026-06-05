@@ -15,29 +15,26 @@ class DatasetForm
     {
         return $schema
             ->components([
-                TextInput::make('title')
+                TextInput::make('title')->label('Judul')
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')
+                TextInput::make('slug')->label('Slug')
                     ->required()
                     ->unique(ignoreRecord: true),
-                Textarea::make('description')
+                Textarea::make('description')->label('Deskripsi')
                     ->columnSpanFull(),
-                TextInput::make('year')
+                TextInput::make('year')->label('Tahun')
                     ->numeric()
                     ->required(),
-                TextInput::make('source'),
-                FileUpload::make('file_csv')
-                    ->label('CSV File')
+                TextInput::make('source')->label('Sumber'),
+                FileUpload::make('file_csv')->label('File CSV')
                     ->directory('datasets/csv')
                     ->acceptedFileTypes(['text/csv', 'text/plain']),
-                FileUpload::make('file_xlsx')
-                    ->label('XLSX File')
+                FileUpload::make('file_xlsx')->label('File XLSX')
                     ->directory('datasets/xlsx')
                     ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']),
-                FileUpload::make('file_pdf')
-                    ->label('PDF File')
+                FileUpload::make('file_pdf')->label('File PDF')
                     ->directory('datasets/pdf')
                     ->acceptedFileTypes(['application/pdf']),
             ]);

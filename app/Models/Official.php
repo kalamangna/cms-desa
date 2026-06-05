@@ -13,14 +13,7 @@ class Official extends Model
         'name',
         'position',
         'photo',
-        'nip',
-        'nik',
-        'period_start',
-        'period_end',
     ];
 
-    protected $casts = [
-        'period_start' => 'date',
-        'period_end' => 'date',
-    ];
+    protected $casts = [];
 }

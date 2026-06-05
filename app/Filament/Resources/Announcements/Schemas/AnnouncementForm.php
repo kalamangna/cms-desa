@@ -15,17 +15,17 @@ class AnnouncementForm
     {
         return $schema
             ->components([
-                TextInput::make('title')
+                TextInput::make('title')->label('Judul')
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')
+                TextInput::make('slug')->label('Slug')
                     ->required()
                     ->unique(ignoreRecord: true),
-                RichEditor::make('content')
+                RichEditor::make('content')->label('Konten')
                     ->required()
                     ->columnSpanFull(),
-                DateTimePicker::make('published_at'),
+                DateTimePicker::make('published_at')->label('Tanggal Publikasi'),
             ]);
     }
 }

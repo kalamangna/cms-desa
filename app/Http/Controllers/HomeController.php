@@ -39,10 +39,12 @@ class HomeController extends Controller
             return StatisticData::max('year') ?? date('Y');
         });
         
-        $totalPenduduk = Cache::remember('home_total_penduduk', $ttl, function () use ($latestYear) {
+        $totalPenduduk = Cache::remember('home_total_penduduk_real', $ttl, function () {
+            $count = \App\Models\Citizen::where('status', 'Aktif')->count();
+            if ($count > 0) return $count;
             return StatisticData::whereHas('indicator', function($q) {
                 $q->whereIn('name', ['Jumlah Laki-laki', 'Jumlah Perempuan']);
-            })->where('year', $latestYear)->sum('value');
+            })->where('year', date('Y'))->sum('value');
         });
 
         $totalUMKM = Cache::remember('home_total_umkm', $ttl, function () use ($latestYear) {
@@ -51,17 +53,23 @@ class HomeController extends Controller
             })->where('year', $latestYear)->value('value') ?? 0;
         });
 
-        $jobData = Cache::remember('home_job_data', $ttl, function () use ($latestYear) {
-            return StatisticCategory::where('slug', 'pekerjaan')->with(['indicators.data' => function($q) use ($latestYear) {
-                $q->where('year', $latestYear);
-            }])->first();
+        $jobData = Cache::remember('home_job_stats', $ttl, function () {
+            return \App\Models\Citizen::select('job as name', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+                   ->where('status', 'Aktif')
+                   ->whereNotNull('job')
+                   ->groupBy('job')
+                   ->get();
         });
 
-        $eduData = Cache::remember('home_edu_data', $ttl, function () use ($latestYear) {
-            return StatisticCategory::where('slug', 'pendidikan')->with(['indicators.data' => function($q) use ($latestYear) {
-                $q->where('year', $latestYear);
-            }])->first();
+        $eduData = Cache::remember('home_edu_stats', $ttl, function () {
+            return \App\Models\Citizen::select('education as name', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+                   ->where('status', 'Aktif')
+                   ->whereNotNull('education')
+                   ->groupBy('education')
+                   ->get();
         });
+
+        $useCitizenData = true; // flag to tell view which format to use
 
         $currentYear = date('Y');
         $budgetSummary = Cache::remember('home_budget_summary', $ttl, function () use ($currentYear) {
@@ -105,6 +113,7 @@ class HomeController extends Controller
             'latestYear',
             'jobData',
             'eduData',
+            'useCitizenData',
             'budgetSummary',
             'belanjaDetails',
             'publications',

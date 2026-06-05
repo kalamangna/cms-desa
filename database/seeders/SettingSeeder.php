@@ -12,7 +12,7 @@ class SettingSeeder extends Seeder
         $settings = [
             ['key' => 'village_name', 'value' => 'Tompobulu'],
             ['key' => 'village_logo', 'value' => null],
-            ['key' => 'village_head', 'value' => 'Andi Muhammad Arif'],
+            ['key' => 'village_head', 'value' => 'Asri S.'],
             ['key' => 'village_email', 'value' => 'desa.tompobulu@sinjaikab.go.id'],
             ['key' => 'village_phone', 'value' => '081244556677'],
             ['key' => 'village_address', 'value' => 'Jl. Poros Bulupoddo, Desa Tompobulu'],

@@ -18,20 +18,20 @@ class GalleriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('title')
+                TextColumn::make('title')->label('Judul')
                     ->searchable(),
-                TextColumn::make('slug')
+                TextColumn::make('slug')->label('Slug')
                     ->searchable(),
-                ImageColumn::make('image'),
-                TextColumn::make('created_at')
+                ImageColumn::make('image')->label('Gambar'),
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')->label('Dihapus')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

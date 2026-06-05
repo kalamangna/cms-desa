@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\Districts\Pages;
+namespace App\Filament\Resources\Citizens\Pages;
 
-use App\Filament\Resources\Districts\DistrictResource;
+use App\Filament\Resources\Citizens\CitizenResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
-class ListDistricts extends ListRecords
+class ListCitizens extends ListRecords
 {
-    protected static string $resource = DistrictResource::class;
+    protected static string $resource = CitizenResource::class;
 
     protected function getHeaderActions(): array
     {

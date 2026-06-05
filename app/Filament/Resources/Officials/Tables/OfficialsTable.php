@@ -15,21 +15,15 @@ class OfficialsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('photo')
+                ImageColumn::make('photo')->label('Foto')
                     ->circular(),
-                TextColumn::make('name')
+                TextColumn::make('name')->label('Nama')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('position')
+                TextColumn::make('position')->label('Jabatan')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('period_start')
-                    ->date()
-                    ->sortable(),
-                TextColumn::make('period_end')
-                    ->date()
-                    ->sortable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -14,18 +14,18 @@ class StatisticIndicatorsTable
     {
         return $table
             ->columns([
-                TextColumn::make('statistic_category_id')
+                TextColumn::make('statistic_category_id')->label('Kategori')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('name')
+                TextColumn::make('name')->label('Nama')
                     ->searchable(),
                 TextColumn::make('unit')
                     ->searchable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

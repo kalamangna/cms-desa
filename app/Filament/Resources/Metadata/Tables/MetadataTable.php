@@ -17,24 +17,23 @@ class MetadataTable
     {
         return $table
             ->columns([
-                TextColumn::make('dataset_id')
-                    ->numeric()
+                TextColumn::make('dataset.title')->label('Dataset')
                     ->sortable(),
-                TextColumn::make('source')
+                TextColumn::make('source')->label('Sumber')
                     ->searchable(),
-                TextColumn::make('update_frequency')
+                TextColumn::make('update_frequency')->label('Frekuensi Pembaruan')
                     ->searchable(),
-                TextColumn::make('responsible_person')
+                TextColumn::make('responsible_person')->label('Penanggung Jawab')
                     ->searchable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')->label('Dihapus')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

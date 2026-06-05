@@ -18,21 +18,21 @@ class UsersTable
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('name')->label('Nama')
                     ->searchable(),
-                TextColumn::make('username')
+                TextColumn::make('username')->label('Username')
                     ->searchable(),
-                TextColumn::make('email')
+                TextColumn::make('email')->label('Email')
                     ->label('Email address')
                     ->searchable(),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

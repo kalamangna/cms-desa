@@ -19,7 +19,7 @@
                 Desa <span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? 'Tompobulu' }}</span>
             </h1>
             <p class="text-xl md:text-2xl text-slate-300 mb-12 font-medium max-w-2xl mx-auto md:mx-0 leading-relaxed">
-                Kecamatan {{ $site_settings['district_name'] ?? 'Kecamatan' }}, {{ $site_settings['regency_name'] ?? 'Kabupaten' }}
+                Kecamatan {{ $site_settings['district_name'] ?? '...' }}, Kabupaten {{ preg_replace('/^Kabupaten\s+/i', '', $site_settings['regency_name'] ?? '...') }}
             </p>
             <div class="flex flex-col sm:flex-row flex-wrap justify-center md:justify-start gap-4 md:gap-6">
                 <a href="/statistik" class="bg-emerald-600 text-white px-10 py-5 rounded-full font-bold text-lg shadow-2xl shadow-emerald-900/40 hover:bg-emerald-700 transition flex items-center justify-center gap-3 group w-full sm:w-auto">
@@ -451,7 +451,11 @@
             type: 'bar',
             data: {
                 labels: [
-                    @if($jobData)
+                    @if(isset($useCitizenData) && $useCitizenData && $jobData->count() > 0)
+                        @foreach($jobData as $item)
+                            '{{ $item->name }}',
+                        @endforeach
+                    @elseif(isset($jobData) && !isset($useCitizenData))
                         @foreach($jobData->indicators as $indicator)
                             '{{ $indicator->name }}',
                         @endforeach
@@ -462,7 +466,11 @@
                 datasets: [{
                     label: 'Jiwa',
                     data: [
-                        @if($jobData)
+                        @if(isset($useCitizenData) && $useCitizenData && $jobData->count() > 0)
+                            @foreach($jobData as $item)
+                                {{ $item->total }},
+                            @endforeach
+                        @elseif(isset($jobData) && !isset($useCitizenData))
                             @foreach($jobData->indicators as $indicator)
                                 {{ $indicator->data->first()?->value ?? 0 }},
                             @endforeach
@@ -504,7 +512,11 @@
             type: 'line',
             data: {
                 labels: [
-                    @if($eduData)
+                    @if(isset($useCitizenData) && $useCitizenData && $eduData->count() > 0)
+                        @foreach($eduData as $item)
+                            '{{ $item->name }}',
+                        @endforeach
+                    @elseif(isset($eduData) && !isset($useCitizenData))
                         @foreach($eduData->indicators as $indicator)
                             '{{ $indicator->name }}',
                         @endforeach
@@ -515,12 +527,16 @@
                 datasets: [{
                     label: 'Jiwa',
                     data: [
-                        @if($eduData)
+                        @if(isset($useCitizenData) && $useCitizenData && $eduData->count() > 0)
+                            @foreach($eduData as $item)
+                                {{ $item->total }},
+                            @endforeach
+                        @elseif(isset($eduData) && !isset($useCitizenData))
                             @foreach($eduData->indicators as $indicator)
                                 {{ $indicator->data->first()?->value ?? 0 }},
                             @endforeach
                         @else
-                            1200, 950, 780, 120, 180
+                            1200, 950, 600, 150, 80
                         @endif
                     ],
                     borderColor: '#0ea5e9',

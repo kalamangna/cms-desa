@@ -17,30 +17,30 @@ class DatasetsTable
     {
         return $table
             ->columns([
-                TextColumn::make('title')
+                TextColumn::make('title')->label('Judul')
                     ->searchable(),
-                TextColumn::make('slug')
+                TextColumn::make('slug')->label('Slug')
                     ->searchable(),
-                TextColumn::make('year')
+                TextColumn::make('year')->label('Tahun')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('source')
+                TextColumn::make('source')->label('Sumber')
                     ->searchable(),
-                TextColumn::make('file_csv')
+                TextColumn::make('file_csv')->label('File CSV')
                     ->searchable(),
-                TextColumn::make('file_xlsx')
+                TextColumn::make('file_xlsx')->label('File XLSX')
                     ->searchable(),
-                TextColumn::make('file_pdf')
+                TextColumn::make('file_pdf')->label('File PDF')
                     ->searchable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')->label('Dihapus')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Categories\Tables;
+namespace App\Filament\Resources\Citizens\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -11,15 +11,40 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class CategoriesTable
+class CitizensTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
+                TextColumn::make('nik')->label('NIK')
+                    ->searchable(),
+                TextColumn::make('kk_number')->label('No. KK')
+                    ->searchable(),
                 TextColumn::make('name')->label('Nama')
                     ->searchable(),
-                TextColumn::make('slug')->label('Slug')
+                TextColumn::make('place_of_birth')->label('Tempat Lahir')
+                    ->searchable(),
+                TextColumn::make('date_of_birth')->label('Tanggal Lahir')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('gender')->label('Jenis Kelamin')
+                    ->searchable(),
+                TextColumn::make('religion')->label('Agama')
+                    ->searchable(),
+                TextColumn::make('education')->label('Pendidikan')
+                    ->searchable(),
+                TextColumn::make('job')->label('Pekerjaan')
+                    ->searchable(),
+                TextColumn::make('blood_type')->label('Gol. Darah')
+                    ->searchable(),
+                TextColumn::make('marital_status')->label('Status Kawin')
+                    ->searchable(),
+                TextColumn::make('rt')->label('RT')
+                    ->searchable(),
+                TextColumn::make('rw')->label('RW')
+                    ->searchable(),
+                TextColumn::make('status')->label('Status')
                     ->searchable(),
                 TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()

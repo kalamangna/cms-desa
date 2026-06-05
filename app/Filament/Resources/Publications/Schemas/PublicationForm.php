@@ -15,27 +15,27 @@ class PublicationForm
     {
         return $schema
             ->components([
-                TextInput::make('title')
+                TextInput::make('title')->label('Judul')
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')
+                TextInput::make('slug')->label('Slug')
                     ->required()
                     ->unique(ignoreRecord: true),
-                Select::make('type')
+                Select::make('type')->label('Tipe')
                     ->options([
                         'Desa Dalam Angka' => 'Desa Dalam Angka',
                         'Profil Statistik Desa' => 'Profil Statistik Desa',
                         'Infografis' => 'Infografis',
                     ])
                     ->required(),
-                TextInput::make('year')
+                TextInput::make('year')->label('Tahun')
                     ->numeric()
                     ->required(),
                 FileUpload::make('cover')
                     ->image()
                     ->directory('publications/covers'),
-                FileUpload::make('pdf_file')
+                FileUpload::make('pdf_file')->label('File PDF')
                     ->label('PDF File')
                     ->directory('publications/pdfs')
                     ->acceptedFileTypes(['application/pdf'])

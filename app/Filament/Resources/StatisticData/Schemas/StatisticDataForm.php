@@ -12,17 +12,17 @@ class StatisticDataForm
     {
         return $schema
             ->components([
-                Select::make('statistic_indicator_id')
+                Select::make('statistic_indicator_id')->label('Indikator')
                     ->relationship('indicator', 'name')
                     ->required()
                     ->searchable()
                     ->preload(),
-                TextInput::make('year')
+                TextInput::make('year')->label('Tahun')
                     ->numeric()
                     ->minValue(2000)
                     ->maxValue(2100)
                     ->required(),
-                TextInput::make('value')
+                TextInput::make('value')->label('Nilai')
                     ->numeric()
                     ->required(),
             ]);

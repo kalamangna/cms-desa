@@ -16,14 +16,14 @@ class PublicationsTable
         return $table
             ->columns([
                 ImageColumn::make('cover'),
-                TextColumn::make('title')
+                TextColumn::make('title')->label('Judul')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('type')
+                TextColumn::make('type')->label('Tipe')
                     ->sortable(),
-                TextColumn::make('year')
+                TextColumn::make('year')->label('Tahun')
                     ->sortable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

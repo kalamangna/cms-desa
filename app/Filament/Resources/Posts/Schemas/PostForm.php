@@ -17,25 +17,25 @@ class PostForm
     {
         return $schema
             ->components([
-                Select::make('category_id')
+                Select::make('category_id')->label('Kategori')
                     ->relationship('category', 'name')
                     ->required()
                     ->searchable()
                     ->preload(),
-                TextInput::make('title')
+                TextInput::make('title')->label('Judul')
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')
+                TextInput::make('slug')->label('Slug')
                     ->required()
                     ->unique(ignoreRecord: true),
-                RichEditor::make('content')
+                RichEditor::make('content')->label('Konten')
                     ->required()
                     ->columnSpanFull(),
-                FileUpload::make('featured_image')
+                FileUpload::make('featured_image')->label('Gambar')
                     ->image()
                     ->directory('posts'),
-                DateTimePicker::make('published_at'),
+                DateTimePicker::make('published_at')->label('Tanggal Publikasi'),
             ]);
     }
 }

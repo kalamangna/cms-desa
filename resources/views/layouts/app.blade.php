@@ -337,7 +337,4 @@
     @stack('scripts')
 </body>
 
-</html>ts')
-</body>
-
 </html>

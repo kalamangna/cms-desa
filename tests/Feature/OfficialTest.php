@@ -15,7 +15,6 @@ class OfficialTest extends TestCase
         $official = Official::create([
             'name' => 'Budi Santoso',
             'position' => 'Kepala Desa',
-            'period_start' => '2024-01-01',
         ]);
 
         $this->assertDatabaseHas('officials', [
@@ -29,7 +28,6 @@ class OfficialTest extends TestCase
         $official = Official::create([
             'name' => 'Budi Santoso',
             'position' => 'Kepala Desa',
-            'period_start' => '2024-01-01',
         ]);
 
         $official->delete();

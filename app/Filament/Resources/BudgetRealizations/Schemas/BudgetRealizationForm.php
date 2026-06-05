@@ -12,21 +12,21 @@ class BudgetRealizationForm
     {
         return $schema
             ->components([
-                Select::make('budget_category_id')
+                Select::make('budget_category_id')->label('Kategori')
                     ->relationship('category', 'name')
                     ->required()
                     ->searchable()
                     ->preload(),
-                TextInput::make('title')
+                TextInput::make('title')->label('Judul')
                     ->required(),
-                TextInput::make('year')
+                TextInput::make('year')->label('Tahun')
                     ->numeric()
                     ->required(),
-                TextInput::make('budget_amount')
+                TextInput::make('budget_amount')->label('Anggaran')
                     ->numeric()
                     ->prefix('Rp')
                     ->required(),
-                TextInput::make('realization_amount')
+                TextInput::make('realization_amount')->label('Realisasi')
                     ->numeric()
                     ->prefix('Rp')
                     ->required(),

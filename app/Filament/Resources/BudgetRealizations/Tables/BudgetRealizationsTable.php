@@ -14,24 +14,24 @@ class BudgetRealizationsTable
     {
         return $table
             ->columns([
-                TextColumn::make('category.name')
+                TextColumn::make('category.name')->label('Kategori')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('title')
+                TextColumn::make('title')->label('Judul')
                     ->searchable(),
-                TextColumn::make('year')
+                TextColumn::make('year')->label('Tahun')
                     ->sortable(),
-                TextColumn::make('budget_amount')
+                TextColumn::make('budget_amount')->label('Anggaran')
                     ->money('IDR')
                     ->sortable(),
-                TextColumn::make('realization_amount')
+                TextColumn::make('realization_amount')->label('Realisasi')
                     ->money('IDR')
                     ->sortable(),
                 TextColumn::make('percentage')
                     ->label('%')
                     ->suffix('%')
                     ->getStateUsing(fn ($record) => number_format($record->percentage, 2)),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

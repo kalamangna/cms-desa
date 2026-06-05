@@ -14,20 +14,20 @@ class StatisticDataTable
     {
         return $table
             ->columns([
-                TextColumn::make('statistic_indicator_id')
+                TextColumn::make('statistic_indicator_id')->label('Indikator')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('year')
+                TextColumn::make('year')->label('Tahun')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('value')
+                TextColumn::make('value')->label('Nilai')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

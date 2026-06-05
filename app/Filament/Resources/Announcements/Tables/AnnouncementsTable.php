@@ -17,22 +17,22 @@ class AnnouncementsTable
     {
         return $table
             ->columns([
-                TextColumn::make('title')
+                TextColumn::make('title')->label('Judul')
                     ->searchable(),
-                TextColumn::make('slug')
+                TextColumn::make('slug')->label('Slug')
                     ->searchable(),
-                TextColumn::make('published_at')
+                TextColumn::make('published_at')->label('Tanggal Publikasi')
                     ->dateTime()
                     ->sortable(),
-                TextColumn::make('created_at')
+                TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('updated_at')->label('Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')->label('Dihapus')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
