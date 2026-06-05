@@ -56,22 +56,57 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data. Dibangun khusus unt
    npm run dev # atau npm run build untuk produksi
    ```
 
-## 🌐 Panduan Deployment (hPanel Hostinger)
+## 🌐 Panduan Deployment (Git-Based di hPanel Hostinger)
 
-1. **Upload File**: Unggah seluruh file (kecuali `vendor` dan `node_modules`) ke root direktori hosting Anda.
-2. **Database**: Buat database MySQL di hPanel dan update file `.env` di server.
-3. **Instalasi via SSH**:
+Menggunakan Git di server memudahkan Anda untuk melakukan pembaruan kode hanya dengan perintah `git pull`.
+
+### 1. Persiapan SSH di hPanel
+1. Masuk ke hPanel Hostinger > **Advanced** > **SSH Access**.
+2. Aktifkan (Enable) SSH Access.
+3. Catat **SSH IP**, **Port**, **Username**, dan **Password**.
+
+### 2. Konfigurasi SSH Key (Untuk Akses Aman)
+Agar server hPanel dapat mengakses repositori GitHub Anda secara otomatis:
+1. Login ke SSH via Terminal: `ssh -p <port> <username>@<ip>`
+2. Generate SSH Key:
    ```bash
-   composer install --optimize-autoloader --no-dev
+   ssh-keygen -t ed25519 -C "email@anda.com"
+   ```
+3. Tekan Enter terus (kosongkan passphrase).
+4. Ambil isi public key: `cat ~/.ssh/id_ed25519.pub`
+5. Salin teks tersebut dan masukkan ke akun GitHub Anda (**Settings** > **SSH and GPG keys** > **New SSH Key**).
+
+### 3. Cloning Repositori
+Masuk ke root direktori hPanel (satu tingkat di atas `public_html`) dan jalankan:
+```bash
+git clone git@github.com:kalamangna/cms-desa.git project-desa
+```
+
+### 4. Setup Laravel & Symlink
+1. Pindah ke folder proyek: `cd project-desa`
+2. Install dependensi: `composer install --optimize-autoloader --no-dev`
+3. Konfigurasi `.env`: `cp .env.example .env` (sesuaikan data database hPanel).
+4. Setup Public HTML:
+   - Hapus folder `public_html` bawaan: `rm -rf ~/public_html`
+   - Buat link dari `public` ke `public_html`:
+     ```bash
+     ln -s ~/project-desa/public ~/public_html
+     ```
+5. Jalankan perintah final:
+   ```bash
+   php artisan key:generate
    php artisan migrate --force --seed
    php artisan storage:link
    ```
-4. **Optimasi Produksi**:
-   ```bash
-   php artisan config:cache
-   php artisan route:cache
-   php artisan view:cache
-   ```
+
+### 5. Cara Update Website di Masa Depan
+Kapanpun Anda melakukan push dari komputer lokal ke GitHub, cukup jalankan ini di server:
+```bash
+cd ~/project-desa
+git pull origin main
+php artisan migrate --force
+php artisan config:cache
+```
 
 ## 📝 Catatan Tambahan
 
