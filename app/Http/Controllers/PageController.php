@@ -13,7 +13,8 @@ class PageController extends Controller
 
     public function layanan()
     {
-        return view('pages.layanan');
+        $services = \App\Models\Service::orderBy('id', 'asc')->get();
+        return view('pages.layanan', compact('services'));
     }
 
     public function kontak()

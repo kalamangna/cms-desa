@@ -105,7 +105,7 @@
                 <div class="flex flex-col lg:flex-row items-center lg:items-center gap-6">
                     <div class="h-1 lg:h-16 w-16 lg:w-1 bg-emerald-500"></div>
                     <div class="text-center lg:text-left">
-                        <p class="font-heading font-bold text-xl text-slate-900">{{ $villageHead->name ?? 'Kepala Desa' }}</p>
+                        <p class="font-heading font-bold text-xl text-slate-900">{{ $villageHead->name ?? ($site_settings['village_head'] ?? 'Nama Kepala Desa') }}</p>
                         <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Kepala Desa {{ $site_settings['village_name'] ?? '' }}</p>
                     </div>
                 </div>

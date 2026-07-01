@@ -261,13 +261,13 @@
                     Website resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} untuk memberikan layanan informasi publik yang profesional dan transparan.
                 </p>
                 <div class="flex gap-4">
-                    <a href="#" class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition cursor-pointer text-slate-300 hover:text-white" title="Facebook">
+                    <a href="{{ $site_settings['social_facebook'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition cursor-pointer text-slate-300 hover:text-white" title="Facebook">
                         <i class="fa-brands fa-facebook-f text-lg"></i>
                     </a>
-                    <a href="#" class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition cursor-pointer text-slate-300 hover:text-white" title="Instagram">
+                    <a href="{{ $site_settings['social_instagram'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition cursor-pointer text-slate-300 hover:text-white" title="Instagram">
                         <i class="fa-brands fa-instagram text-lg"></i>
                     </a>
-                    <a href="#" class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition cursor-pointer text-slate-300 hover:text-white" title="YouTube">
+                    <a href="{{ $site_settings['social_youtube'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition cursor-pointer text-slate-300 hover:text-white" title="YouTube">
                         <i class="fa-brands fa-youtube text-lg"></i>
                     </a>
                 </div>

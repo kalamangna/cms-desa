@@ -88,13 +88,13 @@
             <div class="mt-16 pt-10 border-t border-slate-100">
                 <h4 class="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Ikuti Media Sosial</h4>
                 <div class="flex gap-4">
-                    <a href="#" class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-emerald-600 hover:text-white transition">
+                    <a href="{{ $site_settings['social_facebook'] ?? '#' }}" target="_blank" class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-emerald-600 hover:text-white transition">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
-                    <a href="#" class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-emerald-600 hover:text-white transition">
+                    <a href="{{ $site_settings['social_instagram'] ?? '#' }}" target="_blank" class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-emerald-600 hover:text-white transition">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
-                    <a href="#" class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-emerald-600 hover:text-white transition">
+                    <a href="{{ $site_settings['social_youtube'] ?? '#' }}" target="_blank" class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-emerald-600 hover:text-white transition">
                         <i class="fa-brands fa-youtube"></i>
                     </a>
                 </div>

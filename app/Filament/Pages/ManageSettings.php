@@ -9,6 +9,8 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Textarea;
 use Filament\Actions\Action;
 use App\Models\Setting;
 use Filament\Notifications\Notification;
@@ -45,6 +47,28 @@ class ManageSettings extends Page implements HasForms
                                 TextInput::make('village_head')->label('Kepala Desa')->required(),
                                 FileUpload::make('village_logo')->label('Logo Desa')->directory('settings')->image()->columnSpanFull(),
                             ]),
+                        Tabs\Tab::make('Profil & Sejarah')
+                            ->icon('heroicon-o-document-text')
+                            ->columns(2)
+                            ->components([
+                                RichEditor::make('village_history')->label('Sejarah Desa')->columnSpanFull(),
+                                TextInput::make('village_vision')->label('Visi Desa')->columnSpanFull(),
+                                RichEditor::make('village_mission')->label('Misi Desa')->columnSpanFull(),
+                                TextInput::make('village_head_greeting_title')->label('Judul Sambutan Kades')->columnSpanFull(),
+                                RichEditor::make('village_head_greeting')->label('Isi Sambutan Kades')->columnSpanFull(),
+                            ]),
+                        Tabs\Tab::make('Karakteristik & Wilayah')
+                            ->icon('heroicon-o-globe-asia-australia')
+                            ->columns(2)
+                            ->components([
+                                TextInput::make('district_name')->label('Kecamatan')->required(),
+                                TextInput::make('regency_name')->label('Kabupaten')->required(),
+                                TextInput::make('province_name')->label('Provinsi')->required(),
+                                TextInput::make('village_area')->label('Luas Wilayah (km²)')->numeric(),
+                                TextInput::make('village_population')->label('Jumlah Populasi (Jiwa)'),
+                                TextInput::make('village_topography')->label('Topografi Wilayah (misal: Dataran Tinggi)'),
+                                TextInput::make('village_dusun_count')->label('Jumlah Dusun')->numeric(),
+                            ]),
                         Tabs\Tab::make('Kontak & Lokasi')
                             ->icon('heroicon-o-map-pin')
                             ->columns(2)
@@ -52,14 +76,16 @@ class ManageSettings extends Page implements HasForms
                                 TextInput::make('village_email')->label('Email Desa')->email(),
                                 TextInput::make('village_phone')->label('Nomor Telepon'),
                                 TextInput::make('village_address')->label('Alamat Kantor')->columnSpanFull(),
+                                TextInput::make('village_latitude')->label('Latitude Peta (misal: -5.230000)'),
+                                TextInput::make('village_longitude')->label('Longitude Peta (misal: 120.210000)'),
                             ]),
-                        Tabs\Tab::make('Wilayah Administratif')
-                            ->icon('heroicon-o-globe-asia-australia')
+                        Tabs\Tab::make('Media Sosial')
+                            ->icon('heroicon-o-share')
                             ->columns(3)
                             ->components([
-                                TextInput::make('district_name')->label('Kecamatan')->required(),
-                                TextInput::make('regency_name')->label('Kabupaten')->required(),
-                                TextInput::make('province_name')->label('Provinsi')->required(),
+                                TextInput::make('social_facebook')->label('Facebook URL')->url(),
+                                TextInput::make('social_instagram')->label('Instagram URL')->url(),
+                                TextInput::make('social_youtube')->label('YouTube URL')->url(),
                             ]),
                     ])->columnSpanFull()
             ])
