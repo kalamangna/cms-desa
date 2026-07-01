@@ -16,12 +16,7 @@ class DatasetForm
         return $schema
             ->components([
                 TextInput::make('title')->label('Judul')
-                    ->required()
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')->label('Slug')
-                    ->required()
-                    ->unique(ignoreRecord: true),
+                    ->required(),
                 Textarea::make('description')->label('Deskripsi')
                     ->columnSpanFull(),
                 TextInput::make('year')->label('Tahun')

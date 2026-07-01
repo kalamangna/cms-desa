@@ -5,9 +5,8 @@ namespace App\Filament\Resources\Galleries\Schemas;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Str;
-use Filament\Forms\Set;
 
 class GalleryForm
 {
@@ -16,19 +15,25 @@ class GalleryForm
         return $schema
             ->components([
                 TextInput::make('title')->label('Judul')
+                    ->required(),
+                Select::make('type')->label('Tipe Galeri')
+                    ->options([
+                        'foto' => 'Foto',
+                        'video' => 'Video',
+                    ])
+                    ->default('foto')
                     ->required()
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')->label('Slug')
-                    ->required()
-                    ->unique(ignoreRecord: true),
-                FileUpload::make('image')->label('Gambar / Cover Thumbnail')
+                    ->live(),
+                FileUpload::make('image')->label('Foto')
                     ->image()
                     ->directory('galleries')
-                    ->required(),
-                TextInput::make('youtube_url')->label('Link Video YouTube (Opsional)')
+                    ->visible(fn ($get) => $get('type') === 'foto')
+                    ->required(fn ($get) => $get('type') === 'foto'),
+                TextInput::make('youtube_url')->label('Tautan Video YouTube')
                     ->helperText('Contoh: https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-                    ->url(),
+                    ->url()
+                    ->visible(fn ($get) => $get('type') === 'video')
+                    ->required(fn ($get) => $get('type') === 'video'),
                 Textarea::make('description')->label('Deskripsi')
                     ->columnSpanFull(),
             ]);

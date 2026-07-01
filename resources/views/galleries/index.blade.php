@@ -50,15 +50,15 @@
         @forelse($galleries as $item)
         <div class="group relative bg-white rounded-[40px] overflow-hidden shadow-2xl shadow-slate-200/50 border border-slate-100 transition-all duration-500 hover:-translate-y-4">
             <div class="relative aspect-[4/3] overflow-hidden">
-                @if($item->image)
-                    <img src="{{ asset('storage/' . $item->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="{{ $item->title }}">
+                @if($item->image_url)
+                    <img src="{{ $item->image_url }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="{{ $item->title }}">
                 @else
                     <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">
                         <i class="fa-solid fa-image text-5xl opacity-20"></i>
                     </div>
                 @endif
 
-                @if($item->youtube_url)
+                @if($item->type === 'video')
                     <div class="absolute inset-0 bg-slate-950/40 flex items-center justify-center text-white group-hover:bg-slate-950/20 transition duration-300">
                         <div class="w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-950/40 text-xl group-hover:scale-110 transition duration-300">
                             <i class="fa-solid fa-play ml-1"></i>
@@ -73,7 +73,7 @@
                 @endif
                 <div class="mt-8 pt-6 border-t border-slate-50 flex justify-between items-center">
                     <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">{{ $item->created_at->translatedFormat('d M Y') }}</span>
-                    <button @click="lightboxOpen = true; lightboxImage = '{{ asset('storage/' . $item->image) }}'; lightboxTitle = '{{ $item->title }}'; lightboxVideo = '{{ $item->youtube_url ?? '' }}'" class="text-emerald-600 font-bold text-xs uppercase tracking-widest hover:text-emerald-700 transition">Perbesar</button>
+                    <button @click="lightboxOpen = true; lightboxImage = '{{ $item->image_url }}'; lightboxTitle = '{{ $item->title }}'; lightboxVideo = '{{ $item->type === 'video' ? $item->youtube_url : '' }}'" class="text-emerald-600 font-bold text-xs uppercase tracking-widest hover:text-emerald-700 transition">Perbesar</button>
                 </div>
             </div>
             <div class="absolute inset-0 bg-emerald-600/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>

@@ -14,12 +14,7 @@ class CategoryForm
         return $schema
             ->components([
                 TextInput::make('name')->label('Nama')
-                    ->required()
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')->label('Slug')
-                    ->required()
-                    ->unique(ignoreRecord: true),
+                    ->required(),
             ]);
     }
 }

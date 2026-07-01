@@ -15,6 +15,8 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Sinkronisasi legacy pendidikan**: Menambahkan model boot lifecycle di `Citizen.php` untuk otomatis mensinkronkan kolom `education` dan `education_level`.
 - **Pembersihan Data Statistik**: Memangkas kategori statistik lama yang tidak terdapat dalam kuesioner Excel (seperti stunting dan UMKM) serta menambahkan kategori baru hasil kuesioner (seperti disabilitas, penyakit kronis, kepemilikan rumah, dan bantuan sosial) pada database seeder (`DefaultDataSeeder.php`) dan pengontrol statistik.
 - **Penyederhanaan Menu Admin**: Menghapus resource Filament manual kustom (`StatisticCategoryResource`, `StatisticIndicatorResource`, dan `StatisticDataResource`) dari panel admin karena perhitungan statistik kini telah terotomatisasi penuh secara real-time dari data warga dan keluarga.
+- **Sistem Auto-Slug Otomatis**: Membuat trait `HasSlug` untuk mengotomatisasi pembuatan slug dari field `title` atau `name` saat model disimpan, serta menghapus seluruh kolom input `slug` dari 9 form admin Filament agar penginputan lebih praktis.
+- **Dinamisasi Galeri (Foto & Video)**: Menambahkan kolom `type` pada galeri. Di halaman admin, form input galeri sekarang adaptif: menampilkan unggahan file gambar jika memilih tipe 'Foto', atau kolom tautan YouTube jika memilih tipe 'Video'. Halaman publik (`/galeri`) secara otomatis memuat thumbnail video dari YouTube jika admin mengunggah video tanpa gambar cover.
 
 ## [1.3.0] - 2026-07-01
 

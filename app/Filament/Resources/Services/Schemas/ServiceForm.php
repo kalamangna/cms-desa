@@ -17,12 +17,7 @@ class ServiceForm
         return $schema
             ->components([
                 TextInput::make('title')->label('Nama Layanan')
-                    ->required()
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')->label('Slug')
-                    ->required()
-                    ->unique(ignoreRecord: true),
+                    ->required(),
                 TextInput::make('icon')->label('Ikon (FontAwesome)')
                     ->helperText('Contoh: fa-users, fa-id-card, fa-baby, fa-heart, fa-house-user, fa-hand-holding-heart')
                     ->default('fa-circle-info')

@@ -16,12 +16,7 @@ class PublicationForm
         return $schema
             ->components([
                 TextInput::make('title')->label('Judul')
-                    ->required()
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')->label('Slug')
-                    ->required()
-                    ->unique(ignoreRecord: true),
+                    ->required(),
                 Select::make('type')->label('Tipe')
                     ->options([
                         'Desa Dalam Angka' => 'Desa Dalam Angka',
