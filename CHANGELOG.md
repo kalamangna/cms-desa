@@ -9,6 +9,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Seeder Layanan Default**: Menginisialisasi 6 layanan dasar (KK, KTP, Akta, Buku Nikah, Domisili, SKTM) lengkap dengan detail persyaratan dalam `DefaultDataSeeder.php`.
 - **Galeri Video (YouTube Embed)**: Menambahkan kolom `youtube_url` pada tabel `galleries`, model `Gallery`, dan `GalleryForm.php` admin untuk mendukung video di galeri desa.
 - **Modul Wilayah Dusun**: Membuat tabel `dusuns`, model `Dusun`, dan Filament `DusunResource` di bawah menu Master untuk mengelola pembagian wilayah dusun dan nama kepala dusun.
+- **Fitur Import CSV Data Statistik**: Menyediakan tombol header "Import CSV" di halaman data statistik admin (`ListStatisticData.php`) untuk memproses unggahan file CSV (hasil Google Forms/Excel) ke dalam database secara otomatis (mendukung deteksi kolom dinamis bilingual).
 
 ### Changed
 - **Pembaruan Halaman Layanan**: Menghubungkan halaman `/layanan` ke database, meloop data layanan, dan membuat modal overlay interaktif dengan AlpineJS untuk menampilkan persyaratan secara instan.
