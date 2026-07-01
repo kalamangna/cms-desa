@@ -14,6 +14,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Otomatisasi Grafik Statistik (/statistik)**: Menghubungkan visualisasi data di `/statistik` agar langsung dihitung secara real-time dari data mikro warga dan keluarga ketika database terisi (jumlah penduduk per gender, grafik jenjang pendidikan, grafik jenis pekerjaan, dan jumlah keluarga prasejahtera/penerima bansos).
 - **Sinkronisasi legacy pendidikan**: Menambahkan model boot lifecycle di `Citizen.php` untuk otomatis mensinkronkan kolom `education` dan `education_level`.
 - **Pembersihan Data Statistik**: Memangkas kategori statistik lama yang tidak terdapat dalam kuesioner Excel (seperti stunting dan UMKM) serta menambahkan kategori baru hasil kuesioner (seperti disabilitas, penyakit kronis, kepemilikan rumah, dan bantuan sosial) pada database seeder (`DefaultDataSeeder.php`) dan pengontrol statistik.
+- **Penyederhanaan Menu Admin**: Menghapus resource Filament manual kustom (`StatisticCategoryResource`, `StatisticIndicatorResource`, dan `StatisticDataResource`) dari panel admin karena perhitungan statistik kini telah terotomatisasi penuh secara real-time dari data warga dan keluarga.
 
 ## [1.3.0] - 2026-07-01
 
