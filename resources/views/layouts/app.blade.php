@@ -98,29 +98,43 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm" x-data="{ mobileMenuOpen: false }">
+    <nav class="sticky top-0 z-50 transition-all duration-300 border-b border-slate-200/80"
+         x-data="{ mobileMenuOpen: false, scrolled: false }"
+         @scroll.window="scrolled = (window.pageYOffset > 10)"
+         :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-2' : 'bg-white py-4'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
+            <div class="flex justify-between items-center h-16 transition-all duration-300">
                 <div class="flex items-center">
                     <a href="/" class="flex-shrink-0 flex items-center gap-3">
-                        <img class="h-12 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
+                        <img class="h-10 w-auto transition-all duration-300" :class="scrolled ? 'h-9' : 'h-11'" src="{{ asset('img/sinjai.png') }}" alt="Logo">
                         <div class="flex flex-col">
-                            <span class="font-heading font-bold text-xl leading-tight text-emerald-600">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
-                            <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Portal Resmi Desa</span>
+                            <span class="font-heading font-bold text-lg leading-tight text-emerald-600">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
+                            <span class="text-[9px] uppercase tracking-widest text-slate-500 font-bold">Portal Resmi Desa</span>
                         </div>
                     </a>
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden lg:flex lg:items-center lg:space-x-1" x-data="{ openMenu: null }">
-                    <a href="/" class="{{ request()->is('/') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50' }} px-4 py-2 rounded-xl text-sm font-bold transition">Beranda</a>
+                <div class="hidden lg:flex lg:items-center lg:space-x-8" x-data="{ openMenu: null }">
+                    <a href="/" class="relative py-2 px-1 text-sm font-bold transition-all duration-300 {{ request()->is('/') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                        Beranda
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('/') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                    </a>
                     
                     <!-- Informasi Dropdown -->
-                    <div class="relative" @mouseenter="openMenu = 'info'" @mouseleave="openMenu = null">
-                        <button class="{{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('kegiatan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600' }} px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-1">
-                            Informasi <i class="fa-solid fa-chevron-down text-[10px] opacity-50"></i>
+                    <div class="relative py-2" @mouseenter="openMenu = 'info'" @mouseleave="openMenu = null">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                            Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
-                        <div x-show="openMenu === 'info'" x-transition class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50">
+                        <div x-show="openMenu === 'info'" 
+                             x-transition:enter="transition ease-out duration-150"
+                             x-transition:enter-start="opacity-0 translate-y-2"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-100"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 translate-y-2"
+                             class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
                             <a href="/berita" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Berita</a>
                             <a href="/pengumuman" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Pengumuman</a>
                             <a href="/galeri" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Galeri</a>
@@ -129,22 +143,38 @@
                     </div>
 
                     <!-- Profil Dropdown -->
-                    <div class="relative" @mouseenter="openMenu = 'profil'" @mouseleave="openMenu = null">
-                        <button class="{{ request()->is('profil*') || request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600' }} px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-1">
-                            Profil <i class="fa-solid fa-chevron-down text-[10px] opacity-50"></i>
+                    <div class="relative py-2" @mouseenter="openMenu = 'profil'" @mouseleave="openMenu = null">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('profil*') || request()->is('pemerintahan*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                            Profil <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('pemerintahan*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
-                        <div x-show="openMenu === 'profil'" x-transition class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50">
+                        <div x-show="openMenu === 'profil'" 
+                             x-transition:enter="transition ease-out duration-150"
+                             x-transition:enter-start="opacity-0 translate-y-2"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-100"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 translate-y-2"
+                             class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
                             <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Profil</a>
                             <a href="/pemerintahan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Aparatur Desa</a>
                         </div>
                     </div>
 
                     <!-- Data Dropdown -->
-                    <div class="relative" @mouseenter="openMenu = 'data'" @mouseleave="openMenu = null">
-                        <button class="{{ request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') || request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600' }} px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-1">
-                            Data <i class="fa-solid fa-chevron-down text-[10px] opacity-50"></i>
+                    <div class="relative py-2" @mouseenter="openMenu = 'data'" @mouseleave="openMenu = null">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') || request()->is('apbdes*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                            Data <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') || request()->is('apbdes*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
-                        <div x-show="openMenu === 'data'" x-transition class="absolute top-full left-0 w-56 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50">
+                        <div x-show="openMenu === 'data'" 
+                             x-transition:enter="transition ease-out duration-150"
+                             x-transition:enter-start="opacity-0 translate-y-2"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-100"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 translate-y-2"
+                             class="absolute top-full left-0 w-56 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
                             <a href="/statistik" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Statistik</a>
                             <a href="/dataset" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Open Data</a>
                             <a href="/publikasi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Publikasi</a>
@@ -153,11 +183,19 @@
                     </div>
 
                     <!-- Layanan Dropdown -->
-                    <div class="relative" @mouseenter="openMenu = 'layanan'" @mouseleave="openMenu = null">
-                        <button class="{{ request()->is('layanan*') || request()->is('kontak*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600' }} px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-1">
-                            Layanan <i class="fa-solid fa-chevron-down text-[10px] opacity-50"></i>
+                    <div class="relative py-2" @mouseenter="openMenu = 'layanan'" @mouseleave="openMenu = null">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('layanan*') || request()->is('kontak*') ? 'text-emerald-600' : 'text-slate-600' }}">
+                            Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('layanan*') || request()->is('kontak*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
-                        <div x-show="openMenu === 'layanan'" x-transition class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50">
+                        <div x-show="openMenu === 'layanan'" 
+                             x-transition:enter="transition ease-out duration-150"
+                             x-transition:enter-start="opacity-0 translate-y-2"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-100"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 translate-y-2"
+                             class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
                             <a href="/layanan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Layanan</a>
                             <a href="/kontak" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Kontak</a>
                         </div>
@@ -166,7 +204,7 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="flex items-center lg:hidden">
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-slate-600 hover:text-emerald-600 p-2 focus:outline-none">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-slate-600 hover:text-emerald-600 p-2 focus:outline-none transition-transform duration-200" :class="mobileMenuOpen ? 'rotate-90' : ''">
                         <i class="fa-solid fa-bars text-xl" x-show="!mobileMenuOpen"></i>
                         <i class="fa-solid fa-xmark text-xl" x-show="mobileMenuOpen" x-cloak></i>
                     </button>
@@ -250,57 +288,114 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-white pt-24 pb-12 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12 lg:gap-16">
-            <div class="lg:col-span-2">
-                <div class="flex items-center gap-3 mb-8">
-                    <img class="h-10 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
-                    <h3 class="text-xl font-heading font-bold tracking-tight">{{ $site_settings['village_name'] ?? 'Website Desa' }}</h3>
+    <footer class="relative bg-slate-950 text-white overflow-hidden">
+        <!-- Top gradient wave -->
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent"></div>
+        <div class="absolute -top-px left-0 right-0 h-24 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
+
+                <!-- Brand col -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center">
+                            <img class="h-8 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-heading font-bold tracking-tight">{{ $site_settings['village_name'] ?? 'Website Desa' }}</h3>
+                            <p class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold">Portal Resmi Desa</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8 font-medium max-w-sm">
+                        Website resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} — menyajikan informasi, transparansi anggaran, dan layanan publik yang mudah diakses oleh seluruh warga.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="{{ $site_settings['social_facebook'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Facebook">
+                            <i class="fa-brands fa-facebook-f text-sm"></i>
+                        </a>
+                        <a href="{{ $site_settings['social_instagram'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Instagram">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </a>
+                        <a href="{{ $site_settings['social_youtube'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="YouTube">
+                            <i class="fa-brands fa-youtube text-sm"></i>
+                        </a>
+                    </div>
                 </div>
-                <p class="text-slate-400 text-sm leading-relaxed mb-8 font-medium max-w-md">
-                    Website resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} untuk memberikan layanan informasi publik yang profesional dan transparan.
+
+                <!-- Tautan Cepat -->
+                <div>
+                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Tautan Cepat</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li><a href="/profil" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Profil Desa</a></li>
+                        <li><a href="/pemerintahan" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Aparatur Desa</a></li>
+                        <li><a href="/berita" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Berita</a></li>
+                        <li><a href="/pengumuman" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Pengumuman</a></li>
+                        <li><a href="/galeri" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Galeri</a></li>
+                    </ul>
+                </div>
+
+                <!-- Data & Transparansi -->
+                <div>
+                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Data & Layanan</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li><a href="/statistik" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Statistik Penduduk</a></li>
+                        <li><a href="/apbdes" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> APBDes</a></li>
+                        <li><a href="/dataset" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Open Data</a></li>
+                        <li><a href="/publikasi" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Publikasi</a></li>
+                        <li><a href="/layanan" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Layanan Mandiri</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kontak -->
+                <div>
+                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Kontak Kami</h4>
+                    <ul class="space-y-4 text-sm text-slate-400 font-medium">
+                        <li class="flex items-start gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fa-solid fa-location-dot text-emerald-400 text-xs"></i>
+                            </span>
+                            <span class="leading-relaxed">{{ $site_settings['village_address'] ?? '-' }}</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-envelope text-emerald-400 text-xs"></i>
+                            </span>
+                            <span class="truncate">{{ $site_settings['village_email'] ?? '-' }}</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-phone text-emerald-400 text-xs"></i>
+                            </span>
+                            <span>{{ $site_settings['village_phone'] ?? '-' }}</span>
+                        </li>
+                        @if(!empty($site_settings['village_maps']))
+                        <li class="mt-4">
+                            <div class="rounded-xl overflow-hidden border border-white/10 h-32 w-full">
+                                <iframe
+                                    src="{{ $site_settings['village_maps'] }}"
+                                    width="100%" height="100%"
+                                    style="border:0;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    class="grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-300">
+                                </iframe>
+                            </div>
+                        </li>
+                        @endif
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-slate-500 text-xs font-semibold">
+                    &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}. Semua hak dilindungi.
                 </p>
-                <div class="flex gap-4">
-                    <a href="{{ $site_settings['social_facebook'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition cursor-pointer text-slate-300 hover:text-white" title="Facebook">
-                        <i class="fa-brands fa-facebook-f text-lg"></i>
-                    </a>
-                    <a href="{{ $site_settings['social_instagram'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition cursor-pointer text-slate-300 hover:text-white" title="Instagram">
-                        <i class="fa-brands fa-instagram text-lg"></i>
-                    </a>
-                    <a href="{{ $site_settings['social_youtube'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition cursor-pointer text-slate-300 hover:text-white" title="YouTube">
-                        <i class="fa-brands fa-youtube text-lg"></i>
-                    </a>
-                </div>
+                <p class="text-slate-600 text-xs font-bold uppercase tracking-[0.15em]">
+                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-emerald-500 hover:text-emerald-300 transition">kalamangna</a>
+                </p>
             </div>
-            <div>
-                <h3 class="text-sm font-black uppercase tracking-[0.2em] mb-10 text-emerald-400">Kontak Kami</h3>
-                <ul class="space-y-6 text-sm text-slate-400 font-medium">
-                    <li class="flex items-start gap-4">
-                        <i class="fa-solid fa-location-dot text-emerald-500 mt-1"></i>
-                        <span class="leading-relaxed">{{ $site_settings['village_address'] ?? '-' }}</span>
-                    </li>
-                    <li class="flex items-center gap-4">
-                        <i class="fa-solid fa-envelope text-emerald-500"></i>
-                        <span class="truncate">{{ $site_settings['village_email'] ?? '-' }}</span>
-                    </li>
-                    <li class="flex items-center gap-4">
-                        <i class="fa-solid fa-phone text-emerald-500"></i>
-                        <span>{{ $site_settings['village_phone'] ?? '-' }}</span>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-sm font-black uppercase tracking-[0.2em] mb-10 text-emerald-400">Link Cepat</h3>
-                <ul class="space-y-4 text-sm text-slate-400 font-bold">
-                    <li><a href="/profil" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Profil</a></li>
-                    <li><a href="/layanan" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Layanan</a></li>
-                    <li><a href="/berita" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Berita</a></li>
-                    <li><a href="/statistik" class="hover:text-white transition flex items-center gap-2 group"><i class="fa-solid fa-chevron-right text-[10px] text-emerald-600 group-hover:translate-x-1 transition"></i> Statistik</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">
-            &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}. Dikembangkan oleh <a href="https://github.com/kalamangna" class="hover:text-emerald-400 transition">kalamangna</a>.
         </div>
     </footer>
 
