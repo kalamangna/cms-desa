@@ -54,9 +54,13 @@ class AppServiceProvider extends ServiceProvider
         \App\Models\Gallery::saved($clearHomeCache);
         \App\Models\Gallery::deleted($clearHomeCache);
 
-        if (Schema::hasTable('settings')) {
-            $settings = Setting::pluck('value', 'key')->all();
-            View::share('site_settings', $settings);
+        try {
+            if (Schema::hasTable('settings')) {
+                $settings = Setting::pluck('value', 'key')->all();
+                View::share('site_settings', $settings);
+            }
+        } catch (\Throwable $e) {
+            // Database not ready or migrations not run yet, safe to ignore during boot
         }
     }
 }
