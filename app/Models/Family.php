@@ -70,4 +70,14 @@ class Family extends Model
     {
         return $this->hasMany(Citizen::class);
     }
+
+    protected static function booted()
+    {
+        static::saved(function () {
+            \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
+        });
+        static::deleted(function () {
+            \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
+        });
+    }
 }

@@ -30,4 +30,16 @@ class BudgetRealization extends Model
 
         return ($this->realization_amount / $this->budget_amount) * 100;
     }
+
+    protected static function booted()
+    {
+        static::saved(function () {
+            \Illuminate\Support\Facades\Cache::forget('home_budget_summary');
+            \Illuminate\Support\Facades\Cache::forget('home_belanja_details');
+        });
+        static::deleted(function () {
+            \Illuminate\Support\Facades\Cache::forget('home_budget_summary');
+            \Illuminate\Support\Facades\Cache::forget('home_belanja_details');
+        });
+    }
 }

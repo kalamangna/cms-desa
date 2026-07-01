@@ -23,4 +23,10 @@ class Gallery extends Model
         }
         return $this->image ? asset('storage/' . $this->image) : null;
     }
+
+    protected static function booted()
+    {
+        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_galleries'));
+        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_galleries'));
+    }
 }

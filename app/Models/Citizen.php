@@ -82,6 +82,18 @@ class Citizen extends Model
                 $citizen->education_level = $citizen->education;
             }
         });
+
+        static::saved(function () {
+            \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
+            \Illuminate\Support\Facades\Cache::forget('home_job_stats');
+            \Illuminate\Support\Facades\Cache::forget('home_edu_stats');
+        });
+
+        static::deleted(function () {
+            \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
+            \Illuminate\Support\Facades\Cache::forget('home_job_stats');
+            \Illuminate\Support\Facades\Cache::forget('home_edu_stats');
+        });
     }
 
     public function dusun()

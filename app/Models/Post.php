@@ -24,6 +24,18 @@ class Post extends Model
         'published_at' => 'datetime',
     ];
 
+    protected static function booted()
+    {
+        static::saving(function ($post) {
+            if (empty($post->published_at)) {
+                $post->published_at = now();
+            }
+        });
+
+        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_posts'));
+        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_posts'));
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

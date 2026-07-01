@@ -19,4 +19,10 @@ class Publication extends Model
         'cover',
         'pdf_file',
     ];
+
+    protected static function booted()
+    {
+        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_publications'));
+        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_publications'));
+    }
 }
