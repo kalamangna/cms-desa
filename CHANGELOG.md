@@ -20,6 +20,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Pemisahan Modul Profil & Sejarah**: Membuat halaman kustom baru `ManageProfile` (`Profil & Sejarah`) di bawah grup baru `Profil Desa` di sidebar, serta menghapus tab tersebut dari halaman Pengaturan Aplikasi agar navigasi lebih terfokus.
 - **Penyusunan Ulang Navigasi Sidebar**: Merestrukturisasi kelompok menu admin menjadi 6 grup logis (Kependudukan, Profil Desa, Informasi, Keuangan & Data, Master, Sistem) serta menyelaraskan urutan sortasi (*navigationSort*) masing-masing menu agar antarmuka admin terasa premium dan intuitif.
 - **Pembaruan Lokasi Wilayah Dusun & Karakteristik**: Memindahkan menu `Wilayah Dusun` ke grup `Master` (urutan 5), serta memindahkan form pengaturan `Karakteristik & Wilayah` dari Pengaturan Aplikasi ke dalam tab halaman `Profil & Sejarah` di bawah grup `Profil Desa`.
+- **Penghapusan Modul Metadata**: Menghapus modul `MetadataResource` dari panel admin Filament sesuai permintaan penyederhanaan data.
 
 ## [1.3.0] - 2026-07-01
 
