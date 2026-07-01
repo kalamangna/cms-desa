@@ -9,5 +9,5 @@ class Gallery extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'slug', 'image', 'description'];
+    protected $fillable = ['title', 'slug', 'image', 'youtube_url', 'description'];
 }

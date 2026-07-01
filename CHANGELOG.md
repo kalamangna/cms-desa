@@ -7,11 +7,13 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 ### Added
 - **Modul Layanan (Services)**: Membuat tabel `services`, model `Service`, dan Filament `ServiceResource` untuk mengelola layanan masyarakat secara dinamis dari admin panel.
 - **Seeder Layanan Default**: Menginisialisasi 6 layanan dasar (KK, KTP, Akta, Buku Nikah, Domisili, SKTM) lengkap dengan detail persyaratan dalam `DefaultDataSeeder.php`.
+- **Galeri Video (YouTube Embed)**: Menambahkan kolom `youtube_url` pada tabel `galleries`, model `Gallery`, dan `GalleryForm.php` admin untuk mendukung video di galeri desa.
 
 ### Changed
 - **Pembaruan Halaman Layanan**: Menghubungkan halaman `/layanan` ke database, meloop data layanan, dan membuat modal overlay interaktif dengan AlpineJS untuk menampilkan persyaratan secara instan.
 - **Pengembangan Pengaturan Desa**: Menambahkan tab baru "Profil & Sejarah" dan "Media Sosial" di `ManageSettings.php` untuk mengelola data profil desa dan tautan media sosial langsung dari admin.
 - **Integrasi Peta & Medsos**: Menghubungkan data koordinat peta dan tautan medsos di tata letak global (`layouts/app.blade.php`, `pages/kontak.blade.php`, dan peta beranda) agar terintegrasi dinamis dengan pengaturan backend.
+- **Halaman Galeri dengan Pemutar YouTube**: Mendeteksi tautan YouTube di halaman depan (`/galeri`) untuk menampilkan tombol "Play Video" secara visual dan merender *iframe* YouTube langsung di dalam modal lightbox saat diperbesar.
 
 ## [1.2.0] - 2026-07-01
 

@@ -22,10 +22,13 @@ class GalleryForm
                 TextInput::make('slug')->label('Slug')
                     ->required()
                     ->unique(ignoreRecord: true),
-                FileUpload::make('image')->label('Gambar')
+                FileUpload::make('image')->label('Gambar / Cover Thumbnail')
                     ->image()
                     ->directory('galleries')
                     ->required(),
+                TextInput::make('youtube_url')->label('Link Video YouTube (Opsional)')
+                    ->helperText('Contoh: https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+                    ->url(),
                 Textarea::make('description')->label('Deskripsi')
                     ->columnSpanFull(),
             ]);
