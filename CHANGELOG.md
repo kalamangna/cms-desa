@@ -2,6 +2,18 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.4.0] - 2026-07-01
+
+### Added
+- **Skema & Model Keluarga (Family)**: Menambahkan tabel `families` dan model `Family` untuk menampung data kuesioner profil keluarga (karakteristik bangunan, sanitasi, listrik, dokumentasi foto rumah, serta aset kepemilikan motor/mobil/tanah/dll).
+- **Filament FamilyResource**: Menyediakan panel admin khusus Keluarga dengan form multi-tab yang membagi input data sesuai kelompok kuesioner.
+- **Import CSV Google Form Kependudukan Mikro**: Menambahkan aksi header "Import CSV GForm" pada halaman list Keluarga dan list Penduduk. Aksi ini secara cerdas mencocokkan kolom pertanyaan Google Form, mem-parsing koordinat RT/RW, dan merelasikan data warga individu ke keluarga secara otomatis.
+
+### Changed
+- **Overhaul Model & Form Penduduk (Citizen)**: Memperluas tabel `citizens` dengan 40+ kolom baru (status keberadaan, detail pendapatan bulanan, jenis disabilitas, dan 17 jenis penyakit kronis) serta mendesain ulang form warganya dengan tata letak multi-tab.
+- **Otomatisasi Grafik Statistik (/statistik)**: Menghubungkan visualisasi data di `/statistik` agar langsung dihitung secara real-time dari data mikro warga dan keluarga ketika database terisi (jumlah penduduk per gender, grafik jenjang pendidikan, grafik jenis pekerjaan, dan jumlah keluarga prasejahtera/penerima bansos).
+- **Sinkronisasi legacy pendidikan**: Menambahkan model boot lifecycle di `Citizen.php` untuk otomatis mensinkronkan kolom `education` dan `education_level`.
+
 ## [1.3.0] - 2026-07-01
 
 ### Added

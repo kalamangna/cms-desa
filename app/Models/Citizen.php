@@ -14,6 +14,8 @@ class Citizen extends Model
         'nik',
         'kk_number',
         'dusun_id',
+        'family_id',
+        'kk_order',
         'name',
         'place_of_birth',
         'date_of_birth',
@@ -23,14 +25,72 @@ class Citizen extends Model
         'job',
         'blood_type',
         'marital_status',
+        'family_relation',
+        'school_participation',
+        'education_level',
+        'bpjs_status',
+        'pip_status',
+        'has_income',
+        'job_status',
+        'income_salary',
+        'income_allowance',
+        'income_food',
+        'income_honor',
+        'income_overtime',
+        'income_other',
+        'income_business',
+        'income_passive',
+        'disability_physical',
+        'disability_mental',
+        'disability_intellectual',
+        'disability_blind',
+        'disability_deaf',
+        'disability_speech',
+        'illness_hypertension',
+        'illness_rheumatic',
+        'illness_asthma',
+        'illness_heart',
+        'illness_diabetes',
+        'illness_tbc',
+        'illness_stroke',
+        'illness_cancer',
+        'illness_kidney',
+        'illness_hemophilia',
+        'illness_hiv',
+        'illness_cholesterol',
+        'illness_liver',
+        'illness_thalassemia',
+        'illness_leukemia',
+        'illness_alzheimer',
+        'illness_other',
+        'has_digital_wallet',
         'address',
         'rt',
         'rw',
         'status',
+        'citizenship_status',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($citizen) {
+            if ($citizen->education_level && !$citizen->education) {
+                $citizen->education = $citizen->education_level;
+            } elseif ($citizen->education && !$citizen->education_level) {
+                $citizen->education_level = $citizen->education;
+            }
+        });
+    }
 
     public function dusun()
     {
         return $this->belongsTo(Dusun::class);
+    }
+
+    public function family()
+    {
+        return $this->belongsTo(Family::class);
     }
 }
