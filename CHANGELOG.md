@@ -19,6 +19,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Dinamisasi Galeri (Foto & Video)**: Menambahkan kolom `type` pada galeri. Di halaman admin, form input galeri sekarang adaptif: menampilkan unggahan file gambar jika memilih tipe 'Foto', atau kolom tautan YouTube jika memilih tipe 'Video'. Halaman publik (`/galeri`) secara otomatis memuat thumbnail video dari YouTube jika admin mengunggah video tanpa gambar cover.
 - **Pemisahan Modul Profil & Sejarah**: Membuat halaman kustom baru `ManageProfile` (`Profil & Sejarah`) di bawah grup baru `Profil Desa` di sidebar, serta menghapus tab tersebut dari halaman Pengaturan Aplikasi agar navigasi lebih terfokus.
 - **Penyusunan Ulang Navigasi Sidebar**: Merestrukturisasi kelompok menu admin menjadi 6 grup logis (Kependudukan, Profil Desa, Informasi, Keuangan & Data, Master, Sistem) serta menyelaraskan urutan sortasi (*navigationSort*) masing-masing menu agar antarmuka admin terasa premium dan intuitif.
+- **Pembaruan Lokasi Wilayah Dusun & Karakteristik**: Memindahkan menu `Wilayah Dusun` ke grup `Master` (urutan 5), serta memindahkan form pengaturan `Karakteristik & Wilayah` dari Pengaturan Aplikasi ke dalam tab halaman `Profil & Sejarah` di bawah grup `Profil Desa`.
 
 ## [1.3.0] - 2026-07-01
 

@@ -47,18 +47,6 @@ class ManageSettings extends Page implements HasForms
                                 TextInput::make('village_head')->label('Kepala Desa')->required(),
                                 FileUpload::make('village_logo')->label('Logo Desa')->directory('settings')->image()->columnSpanFull(),
                             ]),
-                        Tabs\Tab::make('Karakteristik & Wilayah')
-                            ->icon('heroicon-o-globe-asia-australia')
-                            ->columns(2)
-                            ->components([
-                                TextInput::make('district_name')->label('Kecamatan')->required(),
-                                TextInput::make('regency_name')->label('Kabupaten')->required(),
-                                TextInput::make('province_name')->label('Provinsi')->required(),
-                                TextInput::make('village_area')->label('Luas Wilayah (km²)')->numeric(),
-                                TextInput::make('village_population')->label('Jumlah Populasi (Jiwa)'),
-                                TextInput::make('village_topography')->label('Topografi Wilayah (misal: Dataran Tinggi)'),
-                                TextInput::make('village_dusun_count')->label('Jumlah Dusun')->numeric(),
-                            ]),
                         Tabs\Tab::make('Kontak & Lokasi')
                             ->icon('heroicon-o-map-pin')
                             ->columns(2)

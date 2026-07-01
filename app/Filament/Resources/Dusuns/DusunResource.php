@@ -18,11 +18,11 @@ class DusunResource extends Resource
 {
     protected static ?string $model = Dusun::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Kependudukan';
+    protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
     protected static ?string $navigationLabel = 'Wilayah Dusun';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 5;
 
     public static function getModelLabel(): string
     {

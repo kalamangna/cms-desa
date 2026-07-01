@@ -6,6 +6,7 @@ use Filament\Pages\Page;
 use Filament\Forms\Form;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
 use Filament\Actions\Action;
@@ -34,11 +35,31 @@ class ManageProfile extends Page implements HasForms
     {
         return $schema
             ->components([
-                RichEditor::make('village_history')->label('Sejarah Desa')->columnSpanFull(),
-                TextInput::make('village_vision')->label('Visi Desa')->columnSpanFull(),
-                RichEditor::make('village_mission')->label('Misi Desa')->columnSpanFull(),
-                TextInput::make('village_head_greeting_title')->label('Judul Sambutan Kades')->columnSpanFull(),
-                RichEditor::make('village_head_greeting')->label('Isi Sambutan Kades')->columnSpanFull(),
+                Tabs::make('Profil & Wilayah')
+                    ->tabs([
+                        Tabs\Tab::make('Sejarah & Visi Misi')
+                            ->icon('heroicon-o-book-open')
+                            ->columns(2)
+                            ->components([
+                                RichEditor::make('village_history')->label('Sejarah Desa')->columnSpanFull(),
+                                TextInput::make('village_vision')->label('Visi Desa')->columnSpanFull(),
+                                RichEditor::make('village_mission')->label('Misi Desa')->columnSpanFull(),
+                                TextInput::make('village_head_greeting_title')->label('Judul Sambutan Kades')->columnSpanFull(),
+                                RichEditor::make('village_head_greeting')->label('Isi Sambutan Kades')->columnSpanFull(),
+                            ]),
+                        Tabs\Tab::make('Karakteristik & Wilayah')
+                            ->icon('heroicon-o-globe-asia-australia')
+                            ->columns(2)
+                            ->components([
+                                TextInput::make('district_name')->label('Kecamatan')->required(),
+                                TextInput::make('regency_name')->label('Kabupaten')->required(),
+                                TextInput::make('province_name')->label('Provinsi')->required(),
+                                TextInput::make('village_area')->label('Luas Wilayah (km²)')->numeric(),
+                                TextInput::make('village_population')->label('Jumlah Populasi (Jiwa)'),
+                                TextInput::make('village_topography')->label('Topografi Wilayah (misal: Dataran Tinggi)'),
+                                TextInput::make('village_dusun_count')->label('Jumlah Dusun')->numeric(),
+                            ]),
+                    ])->columnSpanFull()
             ])
             ->statePath('data');
     }
@@ -79,7 +100,7 @@ class ManageProfile extends Page implements HasForms
         Notification::make()
             ->success()
             ->title('Berhasil')
-            ->body('Profil dan sejarah desa berhasil disimpan.')
+            ->body('Profil, sejarah, dan karakteristik wilayah desa berhasil disimpan.')
             ->send();
     }
 }
