@@ -561,6 +561,13 @@
         });
 
         // Budget Donut Chart
+        @php
+            $donutPalette = ['#10b981', '#0ea5e9', '#f59e0b', '#6366f1', '#ec4899', '#8b5cf6', '#06b6d4', '#14b8a6', '#f97316', '#3b82f6'];
+            $donutColors = [];
+            foreach ($belanjaDetails as $i => $detail) {
+                $donutColors[] = $donutPalette[$i % count($donutPalette)];
+            }
+        @endphp
         const ctxBudget = document.getElementById('budgetRingChart').getContext('2d');
         new Chart(ctxBudget, {
             type: 'doughnut',
@@ -576,7 +583,7 @@
                             {{ $detail->realization_amount }},
                         @endforeach
                     ],
-                    backgroundColor: ['#10b981', '#0ea5e9', '#f59e0b', '#6366f1', '#ec4899', '#8b5cf6'],
+                    backgroundColor: {!! json_encode($donutColors) !!},
                     borderWidth: 0,
                     hoverOffset: 20
                 }]

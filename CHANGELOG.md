@@ -17,6 +17,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Integrasi Peta & Medsos**: Menghubungkan data koordinat peta dan tautan medsos di tata letak global (`layouts/app.blade.php`, `pages/kontak.blade.php`, dan peta beranda) agar terintegrasi dinamis dengan pengaturan backend.
 - **Halaman Galeri dengan Pemutar YouTube**: Mendeteksi tautan YouTube di halaman depan (`/galeri`) untuk menampilkan tombol "Play Video" secara visual dan merender *iframe* YouTube langsung di dalam modal lightbox saat diperbesar.
 - **Relasi Penduduk per Dusun**: Menghubungkan model `Citizen` dengan `Dusun` (relasi `belongsTo`), menambahkan dropdown pilihan Dusun di formulir warga admin (`CitizenForm.php`), menampilkan asal Dusun di tabel list warga, serta menghitung jumlah dusun secara dinamis pada statistik beranda.
+- **Pewarnaan Grafik Dinamis**: Menerapkan generator palet warna dinamis (10 warna premium) pada grafik data statistik (`statistics/index.blade.php`) dan diagram lingkaran anggaran belanja (`home.blade.php`) agar setiap kategori/indikator memiliki warna unik meskipun jumlah datanya bertambah.
 
 ## [1.2.0] - 2026-07-01
 

@@ -81,12 +81,30 @@
         Chart.defaults.font.family = "'Poppins', sans-serif";
         Chart.defaults.color = '#94a3b8';
         
+        @php
+            $palette = [
+                ['hex' => '#10b981', 'rgba' => 'rgba(16, 185, 129, 0.1)'], // emerald
+                ['hex' => '#0ea5e9', 'rgba' => 'rgba(14, 165, 233, 0.1)'], // sky
+                ['hex' => '#f59e0b', 'rgba' => 'rgba(245, 158, 11, 0.1)'], // amber
+                ['hex' => '#8b5cf6', 'rgba' => 'rgba(139, 92, 246, 0.1)'], // violet
+                ['hex' => '#ec4899', 'rgba' => 'rgba(236, 72, 153, 0.1)'], // pink
+                ['hex' => '#f43f5e', 'rgba' => 'rgba(244, 63, 94, 0.1)'],   // rose
+                ['hex' => '#06b6d4', 'rgba' => 'rgba(6, 182, 212, 0.1)'],  // cyan
+                ['hex' => '#14b8a6', 'rgba' => 'rgba(20, 184, 166, 0.1)'], // teal
+                ['hex' => '#f97316', 'rgba' => 'rgba(249, 115, 22, 0.1)'],  // orange
+                ['hex' => '#3b82f6', 'rgba' => 'rgba(59, 130, 246, 0.1)'],  // blue
+            ];
+        @endphp
+
         @foreach($categories as $category)
             (function() {
                 const ctx = document.getElementById('chart-{{ $category->slug }}').getContext('2d');
                 
                 const datasets = [
                     @foreach($category->indicators as $index => $indicator)
+                    @php
+                        $c = $palette[$index % count($palette)];
+                    @endphp
                     {
                         label: '{{ $indicator->name }} ({{ $indicator->unit }})',
                         data: [
@@ -94,8 +112,8 @@
                                 { x: '{{ $data->year }}', y: {{ $data->value }} },
                             @endforeach
                         ],
-                        backgroundColor: '{{ $index % 2 == 0 ? "rgba(16, 185, 129, 0.1)" : "rgba(14, 165, 233, 0.1)" }}',
-                        borderColor: '{{ $index % 2 == 0 ? "#10b981" : "#0ea5e9" }}',
+                        backgroundColor: '{{ $c["rgba"] }}',
+                        borderColor: '{{ $c["hex"] }}',
                         borderWidth: 4,
                         pointBackgroundColor: '#fff',
                         pointBorderWidth: 3,
