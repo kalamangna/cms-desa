@@ -23,6 +23,9 @@ class CitizensTable
                     ->searchable(),
                 TextColumn::make('name')->label('Nama')
                     ->searchable(),
+                TextColumn::make('dusun.name')->label('Dusun')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('place_of_birth')->label('Tempat Lahir')
                     ->searchable(),
                 TextColumn::make('date_of_birth')->label('Tanggal Lahir')

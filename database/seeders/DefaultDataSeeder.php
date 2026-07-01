@@ -9,6 +9,7 @@ use App\Models\Setting;
 use App\Models\StatisticCategory;
 use App\Models\StatisticIndicator;
 use App\Models\Service;
+use App\Models\Dusun;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -160,6 +161,23 @@ class DefaultDataSeeder extends Seeder
                     'description' => $srv['description'],
                     'requirements' => $srv['requirements'],
                 ]
+            );
+        }
+
+        // 5. Default Dusuns Setup
+        $defaultDusuns = [
+            ['name' => 'Dusun I', 'head_name' => 'M. Yusuf'],
+            ['name' => 'Dusun II', 'head_name' => 'H. Mansur'],
+            ['name' => 'Dusun III', 'head_name' => 'Ahmad'],
+            ['name' => 'Dusun IV', 'head_name' => 'Rahman'],
+            ['name' => 'Dusun V', 'head_name' => 'Syarifuddin'],
+            ['name' => 'Dusun VI', 'head_name' => 'Hasbullah'],
+        ];
+
+        foreach ($defaultDusuns as $dus) {
+            Dusun::firstOrCreate(
+                ['name' => $dus['name']],
+                ['head_name' => $dus['head_name']]
             );
         }
     }

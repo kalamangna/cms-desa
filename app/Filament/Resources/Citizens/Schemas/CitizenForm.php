@@ -16,6 +16,10 @@ class CitizenForm
                 TextInput::make('nik')->label('NIK')
                     ->required(),
                 TextInput::make('kk_number')->label('No. KK'),
+                \Filament\Forms\Components\Select::make('dusun_id')->label('Dusun')
+                    ->relationship('dusun', 'name')
+                    ->searchable()
+                    ->preload(),
                 TextInput::make('name')->label('Nama')
                     ->required(),
                 TextInput::make('place_of_birth')->label('Tempat Lahir'),

@@ -13,6 +13,7 @@ class Citizen extends Model
     protected $fillable = [
         'nik',
         'kk_number',
+        'dusun_id',
         'name',
         'place_of_birth',
         'date_of_birth',
@@ -27,4 +28,9 @@ class Citizen extends Model
         'rw',
         'status',
     ];
+
+    public function dusun()
+    {
+        return $this->belongsTo(Dusun::class);
+    }
 }

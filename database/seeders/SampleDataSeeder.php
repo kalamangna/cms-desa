@@ -89,10 +89,12 @@ class SampleDataSeeder extends Seeder
         );
 
         // Citizens (Penduduk)
+        $dusun = \App\Models\Dusun::where('name', 'Dusun I')->first();
         \App\Models\Citizen::updateOrCreate(
             ['nik' => '7301020304050001'],
             [
                 'name' => 'Budi Santoso',
+                'dusun_id' => $dusun?->id,
                 'address' => 'Dusun I',
                 'gender' => 'Laki-laki',
                 'date_of_birth' => '1985-05-12',

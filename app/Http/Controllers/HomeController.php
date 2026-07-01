@@ -53,6 +53,10 @@ class HomeController extends Controller
             })->where('year', $latestYear)->value('value') ?? 0;
         });
 
+        $totalDusun = Cache::remember('home_total_dusun', $ttl, function () {
+            return \App\Models\Dusun::count();
+        });
+
         $jobData = Cache::remember('home_job_stats', $ttl, function () {
             return \App\Models\Citizen::select('job as name', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
                    ->where('status', 'Aktif')
@@ -110,6 +114,7 @@ class HomeController extends Controller
             'villageHead',
             'totalPenduduk',
             'totalUMKM',
+            'totalDusun',
             'latestYear',
             'jobData',
             'eduData',

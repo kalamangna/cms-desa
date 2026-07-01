@@ -54,7 +54,7 @@
             </div>
             <div>
                 <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Dusun</p>
-                <h3 class="text-3xl font-heading font-extrabold text-slate-900">{{ $site_settings['village_dusun_count'] ?? '6' }}</h3>
+                <h3 class="text-3xl font-heading font-extrabold text-slate-900">{{ $totalDusun ?: ($site_settings['village_dusun_count'] ?? '6') }}</h3>
                 <p class="text-xs text-slate-400 mt-1">Wilayah</p>
             </div>
         </div>
