@@ -14,7 +14,7 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data. Dibangun khusus unt
 
 ## 🛠️ Stack Teknologi
 
-- **Framework**: [Laravel 11](https://laravel.com)
+- **Framework**: [Laravel 12](https://laravel.com)
 - **Admin Panel**: [Filament v4](https://filamentphp.com)
 - **CSS Framework**: [Tailwind CSS 4](https://tailwindcss.com)
 - **Icons**: [FontAwesome 6](https://fontawesome.com)
@@ -85,7 +85,7 @@ git clone git@github.com:kalamangna/cms-desa.git project-desa
 ### 4. Setup Laravel & Symlink
 1. Pindah ke folder proyek: `cd project-desa`
 2. Install dependensi: `composer install --optimize-autoloader --no-dev`
-3. Konfigurasi `.env`: `cp .env.example .env` (sesuaikan data database hPanel).
+3. Konfigurasi `.env`: `cp .env.example .env` (sesuaikan data database hPanel, dan set `SEED_SAMPLE_DATA=false` jika ingin instalasi bersih tanpa data demo).
 4. Setup Public HTML:
    - Hapus folder `public_html` bawaan: `rm -rf ~/public_html`
    - Buat link dari `public` ke `public_html`:

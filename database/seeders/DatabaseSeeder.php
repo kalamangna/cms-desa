@@ -17,10 +17,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RolesAndPermissionsSeeder::class,
-            SettingSeeder::class,
-            StatisticDataSeeder::class,
-            SampleDataSeeder::class,
+            DefaultDataSeeder::class,
         ]);
+
+        if (filter_var(env('SEED_SAMPLE_DATA', true), FILTER_VALIDATE_BOOLEAN)) {
+            $this->call([
+                SampleDataSeeder::class,
+            ]);
+        }
     }
 }
