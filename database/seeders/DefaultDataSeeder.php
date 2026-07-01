@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Setting;
 use App\Models\StatisticCategory;
 use App\Models\StatisticIndicator;
+use App\Models\StatisticData;
 use App\Models\Service;
 use App\Models\Dusun;
 use Illuminate\Support\Facades\Hash;
@@ -66,32 +67,63 @@ class DefaultDataSeeder extends Seeder
         }
 
         // 3. Statistic Categories & Indicators Setup
+        // Truncate first to remove old statistics categories
+        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+        StatisticData::truncate();
+        StatisticIndicator::truncate();
+        StatisticCategory::truncate();
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
+
         $statistics = [
             'Penduduk' => [
                 'Jumlah Laki-laki' => 'Jiwa',
                 'Jumlah Perempuan' => 'Jiwa',
             ],
             'Pendidikan' => [
+                'Tidak/belum pernah sekolah' => 'Orang',
                 'SD' => 'Orang',
                 'SMP' => 'Orang',
                 'SMA' => 'Orang',
+                'Diploma' => 'Orang',
                 'Sarjana' => 'Orang',
             ],
             'Pekerjaan' => [
-                'Nelayan' => 'Orang',
                 'Petani' => 'Orang',
-                'PNS' => 'Orang',
                 'Wiraswasta' => 'Orang',
+                'PNS' => 'Orang',
+                'Buruh' => 'Orang',
+                'Tidak Bekerja' => 'Orang',
                 'Lainnya' => 'Orang',
             ],
-            'Kemiskinan' => [
-                'Keluarga Prasejahtera' => 'KK',
+            'Disabilitas' => [
+                'Disabilitas Fisik' => 'Orang',
+                'Disabilitas Mental' => 'Orang',
+                'Disabilitas Intelektual' => 'Orang',
+                'Disabilitas Sensorik Netra' => 'Orang',
+                'Disabilitas Sensorik Rungu' => 'Orang',
+                'Disabilitas Sensorik Wicara' => 'Orang',
             ],
-            'Stunting' => [
-                'Balita Stunting' => 'Anak',
+            'Penyakit Kronis' => [
+                'Hipertensi' => 'Orang',
+                'Rematik' => 'Orang',
+                'Asma' => 'Orang',
+                'Masalah Jantung' => 'Orang',
+                'Diabetes' => 'Orang',
+                'TBC' => 'Orang',
+                'Stroke' => 'Orang',
+                'Kanker' => 'Orang',
+                'Gagal Ginjal' => 'Orang',
+                'Kolesterol' => 'Orang',
+                'Lainnya' => 'Orang',
             ],
-            'UMKM' => [
-                'Jumlah Unit UMKM' => 'Unit',
+            'Bantuan Sosial' => [
+                'Penerima Bantuan' => 'Keluarga',
+                'Tidak Penerima Bantuan' => 'Keluarga',
+            ],
+            'Kepemilikan Rumah' => [
+                'Milik Sendiri' => 'Keluarga',
+                'Sewa/Kontrak' => 'Keluarga',
+                'Bebas Sewa/Dinas/Lainnya' => 'Keluarga',
             ],
         ];
 

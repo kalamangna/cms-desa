@@ -13,6 +13,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Overhaul Model & Form Penduduk (Citizen)**: Memperluas tabel `citizens` dengan 40+ kolom baru (status keberadaan, detail pendapatan bulanan, jenis disabilitas, dan 17 jenis penyakit kronis) serta mendesain ulang form warganya dengan tata letak multi-tab.
 - **Otomatisasi Grafik Statistik (/statistik)**: Menghubungkan visualisasi data di `/statistik` agar langsung dihitung secara real-time dari data mikro warga dan keluarga ketika database terisi (jumlah penduduk per gender, grafik jenjang pendidikan, grafik jenis pekerjaan, dan jumlah keluarga prasejahtera/penerima bansos).
 - **Sinkronisasi legacy pendidikan**: Menambahkan model boot lifecycle di `Citizen.php` untuk otomatis mensinkronkan kolom `education` dan `education_level`.
+- **Pembersihan Data Statistik**: Memangkas kategori statistik lama yang tidak terdapat dalam kuesioner Excel (seperti stunting dan UMKM) serta menambahkan kategori baru hasil kuesioner (seperti disabilitas, penyakit kronis, kepemilikan rumah, dan bantuan sosial) pada database seeder (`DefaultDataSeeder.php`) dan pengontrol statistik.
 
 ## [1.3.0] - 2026-07-01
 
