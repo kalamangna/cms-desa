@@ -20,7 +20,7 @@ class BudgetRealizationResource extends Resource
 {
     protected static ?string $model = BudgetRealization::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Keuangan & Data';
+    protected static string|\UnitEnum|null $navigationGroup = 'Data';
 
     protected static ?int $navigationSort = 1;
 

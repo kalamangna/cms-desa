@@ -22,6 +22,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Pembaruan Lokasi Wilayah Dusun & Karakteristik**: Memindahkan menu `Wilayah Dusun` ke grup `Master` (urutan 5), serta memindahkan form pengaturan `Karakteristik & Wilayah` dari Pengaturan Aplikasi ke dalam tab halaman `Profil & Sejarah` di bawah grup `Profil Desa`.
 - **Penghapusan Modul Metadata**: Menghapus modul `MetadataResource` dari panel admin Filament sesuai permintaan penyederhanaan data.
 - **Pembersihan Cache & Auto-Publish**: Menambahkan pembersihan cache otomatis di beranda (seperti `home_posts`, `home_announcements`, dll.) pada event saving/deleted model agar postingan baru langsung tayang tanpa menunggu 1 jam. Juga mengotomatiskan pengisian `published_at` ke waktu sekarang (`now()`) jika admin mengosongkannya, agar berita yang baru dibuat langsung tampil di halaman publik.
+- **Penyelarasan Menu Halaman Publik & Admin**: Mengubah label menu "Perangkat" di halaman publik (navbar & halaman tim) menjadi "Aparatur Desa" agar konsisten dengan admin, serta menyederhanakan nama grup navigasi admin "Keuangan & Data" menjadi "Data" agar selaras dengan menu dropdown di halaman publik.
 
 ## [1.3.0] - 2026-07-01
 

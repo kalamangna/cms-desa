@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Perangkat - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Aparatur Desa - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
 <!-- Standardized Dark Hero -->
@@ -19,14 +19,14 @@
                 <li>
                     <div class="flex items-center">
                         <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
-                        <span class="text-white">Perangkat</span>
+                        <span class="text-white">Aparatur Desa</span>
                     </div>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl text-center md:text-left">
             <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
-                Perangkat <span class="text-emerald-500 italic">Desa</span>
+                Aparatur <span class="text-emerald-500 italic">Desa</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
                 Jajaran pelayan masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.

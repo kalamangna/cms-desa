@@ -135,7 +135,7 @@
                         </button>
                         <div x-show="openMenu === 'profil'" x-transition class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50">
                             <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Profil</a>
-                            <a href="/pemerintahan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Perangkat</a>
+                            <a href="/pemerintahan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Aparatur Desa</a>
                         </div>
                     </div>
 
@@ -200,7 +200,7 @@
                 <div>
                     <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Profil</span>
                     <a href="/profil" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('profil*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Profil</a>
-                    <a href="/pemerintahan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Perangkat</a>
+                    <a href="/pemerintahan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Aparatur Desa</a>
                 </div>
 
                 <!-- Data Section -->
