@@ -21,8 +21,8 @@ class ManageSettings extends Page implements HasForms
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
-    protected static ?string $title = 'Pengaturan Desa';
-    protected static ?string $navigationLabel = 'Pengaturan';
+    protected static ?string $title = 'Pengaturan Aplikasi';
+    protected static ?string $navigationLabel = 'Pengaturan Aplikasi';
     protected static ?int $navigationSort = 1;
 
     public ?array $data = [];
@@ -46,16 +46,6 @@ class ManageSettings extends Page implements HasForms
                                 TextInput::make('village_name')->label('Nama Desa')->required(),
                                 TextInput::make('village_head')->label('Kepala Desa')->required(),
                                 FileUpload::make('village_logo')->label('Logo Desa')->directory('settings')->image()->columnSpanFull(),
-                            ]),
-                        Tabs\Tab::make('Profil & Sejarah')
-                            ->icon('heroicon-o-document-text')
-                            ->columns(2)
-                            ->components([
-                                RichEditor::make('village_history')->label('Sejarah Desa')->columnSpanFull(),
-                                TextInput::make('village_vision')->label('Visi Desa')->columnSpanFull(),
-                                RichEditor::make('village_mission')->label('Misi Desa')->columnSpanFull(),
-                                TextInput::make('village_head_greeting_title')->label('Judul Sambutan Kades')->columnSpanFull(),
-                                RichEditor::make('village_head_greeting')->label('Isi Sambutan Kades')->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Karakteristik & Wilayah')
                             ->icon('heroicon-o-globe-asia-australia')

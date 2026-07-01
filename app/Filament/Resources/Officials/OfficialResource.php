@@ -20,18 +20,20 @@ class OfficialResource extends Resource
 {
     protected static ?string $model = Official::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Profil';
+    protected static string|\UnitEnum|null $navigationGroup = 'Profil Desa';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationLabel = 'Aparatur Desa';
+
+    protected static ?int $navigationSort = 2;
 
     public static function getModelLabel(): string
     {
-        return 'Perangkat';
+        return 'Aparatur Desa';
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'Perangkat';
+        return 'Aparatur Desa';
     }
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

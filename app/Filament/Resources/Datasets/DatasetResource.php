@@ -20,9 +20,9 @@ class DatasetResource extends Resource
 {
     protected static ?string $model = Dataset::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Data';
+    protected static string|\UnitEnum|null $navigationGroup = 'Keuangan & Data';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     public static function getModelLabel(): string
     {

@@ -20,13 +20,17 @@ class CitizenResource extends Resource
 {
     protected static ?string $model = Citizen::class;
 
-    protected static ?string $modelLabel = 'Penduduk / Warga';
+    protected static ?string $modelLabel = 'Penduduk';
 
-    protected static ?string $pluralModelLabel = 'Data Penduduk';
+    protected static ?string $pluralModelLabel = 'Penduduk';
+
+    protected static ?string $navigationLabel = 'Penduduk';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Kependudukan';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {

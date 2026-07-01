@@ -20,9 +20,9 @@ class PublicationResource extends Resource
 {
     protected static ?string $model = Publication::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Data';
+    protected static string|\UnitEnum|null $navigationGroup = 'Keuangan & Data';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
 
     public static function getModelLabel(): string
     {

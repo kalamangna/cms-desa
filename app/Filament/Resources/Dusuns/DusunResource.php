@@ -18,9 +18,11 @@ class DusunResource extends Resource
 {
     protected static ?string $model = Dusun::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Master';
+    protected static string|\UnitEnum|null $navigationGroup = 'Kependudukan';
 
-    protected static ?string $navigationLabel = 'Dusun';
+    protected static ?string $navigationLabel = 'Wilayah Dusun';
+
+    protected static ?int $navigationSort = 3;
 
     public static function getModelLabel(): string
     {
@@ -33,8 +35,6 @@ class DusunResource extends Resource
     }
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?int $navigationSort = 4;
 
     public static function form(Schema $schema): Schema
     {
