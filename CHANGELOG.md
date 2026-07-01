@@ -18,6 +18,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Halaman Galeri dengan Pemutar YouTube**: Mendeteksi tautan YouTube di halaman depan (`/galeri`) untuk menampilkan tombol "Play Video" secara visual dan merender *iframe* YouTube langsung di dalam modal lightbox saat diperbesar.
 - **Relasi Penduduk per Dusun**: Menghubungkan model `Citizen` dengan `Dusun` (relasi `belongsTo`), menambahkan dropdown pilihan Dusun di formulir warga admin (`CitizenForm.php`), menampilkan asal Dusun di tabel list warga, serta menghitung jumlah dusun secara dinamis pada statistik beranda.
 - **Pewarnaan Grafik Dinamis**: Menerapkan generator palet warna dinamis (10 warna premium) pada grafik data statistik (`statistics/index.blade.php`) dan diagram lingkaran anggaran belanja (`home.blade.php`) agar setiap kategori/indikator memiliki warna unik meskipun jumlah datanya bertambah.
+- **Format dan Unduhan Open Data**: Memperbaiki pencarian dataset di `/dataset` agar dinamis menyaring berdasarkan kata kunci, serta menyelaraskan tampilan format dokumen menjadi tombol unduh mandiri dinamis untuk CSV, XLSX, dan PDF sesuai dengan file yang diunggah di admin panel.
 
 ## [1.2.0] - 2026-07-01
 

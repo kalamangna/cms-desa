@@ -42,10 +42,12 @@
                 <h2 class="text-2xl md:text-3xl font-heading font-bold text-slate-900">Katalog Dataset</h2>
                 <p class="text-slate-500 font-medium mt-1">Ditemukan {{ $datasets->total() }} dataset yang tersedia</p>
             </div>
-            <div class="relative w-full md:w-96">
-                <input type="text" placeholder="Cari dataset..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-emerald-500 shadow-sm font-medium">
-                <i class="fa-solid fa-magnifying-glass h-5 w-5 text-slate-400 absolute left-4 top-4.5"></i>
-            </div>
+            <form action="/dataset" method="GET" class="relative w-full md:w-96">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari dataset..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-emerald-500 shadow-sm font-medium">
+                <button type="submit" class="absolute left-4 top-4.5 text-slate-400 hover:text-emerald-600 transition">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
         </div>
         
         <div class="overflow-x-auto">
@@ -69,16 +71,48 @@
                             <span class="px-4 py-1.5 rounded-full bg-slate-100 text-slate-600 font-black text-[10px] tracking-widest uppercase">{{ $dataset->year }}</span>
                         </td>
                         <td class="px-8 md:px-12 py-8 md:py-10">
-                            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-50 text-amber-700 font-black text-[10px] border border-amber-100 uppercase tracking-widest">
-                                <i class="fa-solid fa-file-lines w-3 h-3"></i>
-                                {{ $dataset->format }}
-                            </span>
+                            <div class="flex flex-wrap gap-2">
+                                @if($dataset->file_csv)
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-[10px] border border-emerald-100 uppercase tracking-wider">
+                                        CSV
+                                    </span>
+                                @endif
+                                @if($dataset->file_xlsx)
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-sky-50 text-sky-700 font-bold text-[10px] border border-sky-100 uppercase tracking-wider">
+                                        XLSX
+                                    </span>
+                                @endif
+                                @if($dataset->file_pdf)
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-rose-50 text-rose-700 font-bold text-[10px] border border-rose-100 uppercase tracking-wider">
+                                        PDF
+                                    </span>
+                                @endif
+                                @if(!$dataset->file_csv && !$dataset->file_xlsx && !$dataset->file_pdf)
+                                    <span class="text-xs text-slate-400 italic">No File</span>
+                                @endif
+                            </div>
                         </td>
                         <td class="px-8 md:px-12 py-8 md:py-10 text-right">
-                            <a href="{{ asset('storage/' . $dataset->file_path) }}" class="inline-flex items-center gap-3 bg-emerald-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-2xl text-sm font-bold hover:bg-emerald-700 transition shadow-xl shadow-emerald-900/10" download>
-                                <i class="fa-solid fa-download w-4 h-4"></i>
-                                <span class="hidden sm:inline">Unduh</span>
-                            </a>
+                            <div class="flex justify-end gap-2">
+                                @if($dataset->file_csv)
+                                    <a href="{{ asset('storage/' . $dataset->file_csv) }}" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700 transition" title="Unduh CSV" download>
+                                        <i class="fa-solid fa-download"></i>
+                                        CSV
+                                    </a>
+                                @endif
+                                @if($dataset->file_xlsx)
+                                    <a href="{{ asset('storage/' . $dataset->file_xlsx) }}" class="inline-flex items-center gap-2 bg-sky-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-sky-700 transition" title="Unduh XLSX" download>
+                                        <i class="fa-solid fa-download"></i>
+                                        XLSX
+                                    </a>
+                                @endif
+                                @if($dataset->file_pdf)
+                                    <a href="{{ asset('storage/' . $dataset->file_pdf) }}" class="inline-flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-rose-700 transition" title="Unduh PDF" download>
+                                        <i class="fa-solid fa-download"></i>
+                                        PDF
+                                    </a>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     @empty
