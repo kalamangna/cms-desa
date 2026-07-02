@@ -41,16 +41,34 @@ Route::get('/publikasi', [PublicationController::class, 'index'])->name('publica
 Route::get('/apbdes', [APBDesController::class, 'index'])->name('apbdes.index');
 
 Route::get('/init-link', function () {
-    $target = storage_path('app/public');
-    $link = public_path('storage');
+    $src = storage_path('app/public');
+    $dst = public_path('storage');
     
-    if (file_exists($link) || is_link($link)) {
-        @unlink($link);
+    // Pastikan folder public/storage dibuat sebagai folder fisik
+    if (!file_exists($dst)) {
+        if (!@mkdir($dst, 0755, true)) {
+            return "Gagal membuat folder public/storage fisik. Harap buat folder tersebut secara manual melalui cPanel File Manager dengan hak akses 755.";
+        }
     }
     
-    if (@symlink($target, $link)) {
-        return "Berhasil membuat symbolic link!";
-    }
+    // Fungsi rekursif menyalin isi folder
+    $copyRecursive = function ($src, $dst) use (&$copyRecursive) {
+        if (!file_exists($src)) return;
+        $dir = opendir($src);
+        @mkdir($dst, 0755, true);
+        while (false !== ($file = readdir($dir))) {
+            if (($file != '.') && ($file != '..')) {
+                if (is_dir($src . '/' . $file)) {
+                    $copyRecursive($src . '/' . $file, $dst . '/' . $file);
+                } else {
+                    @copy($src . '/' . $file, $dst . '/' . $file);
+                }
+            }
+        }
+        closedir($dir);
+    };
     
-    return "Gagal membuat symbolic link. Pastikan folder 'public/storage' belum ada atau minta penyedia hosting mengaktifkan fungsi symlink().";
+    $copyRecursive($src, $dst);
+    
+    return "Berhasil menyalin data dummy & media ke folder fisik public/storage!";
 });

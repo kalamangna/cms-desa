@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.3] - 2026-07-02
+
+### Changed
+- **Penyimpanan Storage Fisik Langsung**: Mengubah root penyimpanan disk `public` langsung ke direktori `public/storage` di `config/filesystems.php` untuk memotong ketergantungan pada symbolic link.
+- **Rute Salin Media Rekursif**: Memperbarui rute `/init-link` di `routes/web.php` untuk melakukan penyalinan folder secara rekursif dari `storage/app/public` ke `public/storage` sebagai pengganti fungsi `symlink()` PHP yang diblokir oleh hosting.
+
 ## [1.5.2] - 2026-07-02
 
 ### Added
