@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.9] - 2026-07-02
+
+### Changed
+- **Pelebaran Kolom Kontak di Footer**: Mengubah grid layout footer dari 5 menjadi 6 kolom di desktop dan memberikan `col-span-2` pada seksi **Kontak Kami** agar data peta (Google Maps) dan detail alamat tampil lebih lebar dan nyaman dibaca.
+
 ## [1.5.8] - 2026-07-02
 
 ### Changed

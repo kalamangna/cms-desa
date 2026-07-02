@@ -294,7 +294,7 @@
         <div class="absolute -top-px left-0 right-0 h-24 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none"></div>
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
 
                 <!-- Brand col -->
                 <div class="lg:col-span-2">
@@ -348,7 +348,7 @@
                 </div>
 
                 <!-- Kontak -->
-                <div>
+                <div class="lg:col-span-2">
                     <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Kontak Kami</h4>
                     <ul class="space-y-4 text-sm text-slate-400 font-medium">
                         <li class="flex items-start gap-3">
