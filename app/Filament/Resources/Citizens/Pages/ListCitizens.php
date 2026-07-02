@@ -8,6 +8,7 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use App\Models\Citizen;
 use App\Models\Family;
@@ -31,6 +32,12 @@ class ListCitizens extends ListRecords
                     Placeholder::make('info')
                         ->label('Petunjuk Penggunaan')
                         ->content('Unggah respon kuesioner Google Form (Individu) secara langsung dalam format Excel (.xlsx / .xls) atau CSV (.csv).'),
+                    Select::make('dusun_id')
+                        ->label('Pilih Dusun (Opsional)')
+                        ->options(Dusun::pluck('name', 'id'))
+                        ->placeholder('Semua Dusun (Deteksi Otomatis dari Alamat)')
+                        ->searchable()
+                        ->preload(),
                     FileUpload::make('csv_file')
                         ->label('File Excel atau CSV')
                         ->acceptedFileTypes([
@@ -45,6 +52,7 @@ class ListCitizens extends ListRecords
                 ])
                 ->action(function (array $data) {
                     $filePath = storage_path('app/public/' . $data['csv_file']);
+                    $selectedDusunId = $data['dusun_id'] ?? null;
                     
                     if (!file_exists($filePath)) {
                         Notification::make()->title('File tidak ditemukan.')->danger()->send();
@@ -147,7 +155,7 @@ class ListCitizens extends ListRecords
                         
                         // Look up family and dusun
                         $familyId = null;
-                        $dusunId = null;
+                        $dusunId = $selectedDusunId;
                         $rt = null;
                         $rw = null;
                         $address = $colAddress !== false ? trim($row[$colAddress]) : '';
@@ -156,7 +164,9 @@ class ListCitizens extends ListRecords
                             $family = Family::where('kk_number', $kkNumber)->first();
                             if ($family) {
                                 $familyId = $family->id;
-                                $dusunId = $family->dusun_id;
+                                if (!$dusunId) {
+                                    $dusunId = $family->dusun_id;
+                                }
                                 $rt = $family->rt;
                                 $rw = $family->rw;
                                 if (empty($address)) {

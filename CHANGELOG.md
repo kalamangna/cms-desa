@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.5] - 2026-07-02
+
+### Added
+- **Pilihan Dusun Sebelum Import**: Menambahkan form dropdown pilihan Dusun (opsional) sebelum mengunggah file Excel/CSV pada modul Keluarga dan Penduduk, yang mana jika dipilih akan secara otomatis menetapkan Dusun tersebut ke seluruh record data yang di-import.
+
 ## [1.6.4] - 2026-07-02
 
 ### Added

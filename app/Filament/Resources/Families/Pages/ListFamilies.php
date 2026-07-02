@@ -8,6 +8,7 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use App\Models\Family;
 use App\Models\Dusun;
@@ -30,6 +31,12 @@ class ListFamilies extends ListRecords
                     Placeholder::make('info')
                         ->label('Petunjuk Penggunaan')
                         ->content('Unggah respon kuesioner Google Form (Keluarga) secara langsung dalam format Excel (.xlsx / .xls) atau CSV (.csv).'),
+                    Select::make('dusun_id')
+                        ->label('Pilih Dusun (Opsional)')
+                        ->options(Dusun::pluck('name', 'id'))
+                        ->placeholder('Semua Dusun (Deteksi Otomatis dari Alamat)')
+                        ->searchable()
+                        ->preload(),
                     FileUpload::make('csv_file')
                         ->label('File Excel atau CSV')
                         ->acceptedFileTypes([
@@ -44,6 +51,7 @@ class ListFamilies extends ListRecords
                 ])
                 ->action(function (array $data) {
                     $filePath = storage_path('app/public/' . $data['csv_file']);
+                    $selectedDusunId = $data['dusun_id'] ?? null;
                     
                     if (!file_exists($filePath)) {
                         Notification::make()->title('File tidak ditemukan.')->danger()->send();
@@ -145,7 +153,7 @@ class ListFamilies extends ListRecords
 
                         // Parse address details
                         $address = $colAddress !== false ? trim($row[$colAddress]) : '';
-                        $rt = null; $rw = null; $dusunId = null;
+                        $rt = null; $rw = null; $dusunId = $selectedDusunId;
 
                         // Smart parse RT/RW/Dusun from address string
                         // e.g. "RT 005 RW 003 Dusun Data" or "005/003/Dusun Data"
@@ -161,12 +169,14 @@ class ListFamilies extends ListRecords
                                 $rw = str_pad($matches[2], 3, '0', STR_PAD_LEFT);
                             }
 
-                            // Match Dusun from address text
-                            $dusunList = Dusun::all();
-                            foreach ($dusunList as $dus) {
-                                if (stripos($address, $dus->name) !== false) {
-                                    $dusunId = $dus->id;
-                                    break;
+                            // Match Dusun from address text if not selected
+                            if (!$dusunId) {
+                                $dusunList = Dusun::all();
+                                foreach ($dusunList as $dus) {
+                                    if (stripos($address, $dus->name) !== false) {
+                                        $dusunId = $dus->id;
+                                        break;
+                                    }
                                 }
                             }
                         }
