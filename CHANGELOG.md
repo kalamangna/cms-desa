@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.1] - 2026-07-02
+
+### Changed
+- **Pembersihan Dashboard Admin**: Menghapus widget kependudukan & pintas cepat kustom dari dashboard admin, mengembalikannya ke template bawaan Filament (`AccountWidget` dan `FilamentInfoWidget`) sesuai permintaan penyederhanaan.
+- **Reorganisasi Menu Navigasi**: Memindahkan tautan submenu **Dokumen** dari kategori dropdown **Informasi** ke dalam kategori dropdown **Data** di navbar desktop serta menu drawer mobile agar pengelompokan menu data/unduhan lebih konsisten.
+- **Optimasi Watch Vite**: Menyesuaikan parameter watch di `vite.config.js` dengan mematikan polling dan menetapkan ambang stabilitas demi mencegah reload loop tanpa akhir saat mendeteksi perubahan file blade.
+
 ## [1.5.0] - 2026-07-02
 
 ### Added
