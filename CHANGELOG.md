@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.0] - 2026-07-02
+
+### Changed
+- **Penyederhanaan Halaman Profil Desa**: Merombak total halaman `/profil` dengan menghapus timeline milestone perjalanan desa, menyatukan seluruh seksi informasi (Sejarah, Visi Misi, Karakteristik Wilayah) menjadi satu alur halaman scrollable berkelanjutan, serta membuang sistem navigasi tab Alpine.js.
+
 ## [1.5.9] - 2026-07-02
 
 ### Changed
