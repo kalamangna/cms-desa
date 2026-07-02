@@ -2,6 +2,30 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.0] - 2026-07-02
+
+### Added
+- **Dashboard Admin Kustom**: Menambahkan `StatsOverviewWidget` (Total Penduduk, Keluarga, Dusun) dan `QuickActionsWidget` (pintasan Import CSV & Pengaturan) pada halaman dashboard panel admin Filament.
+
+### Changed
+- **Perombakan Total Halaman Publik**: Mendesain ulang seluruh 12 halaman publik website dengan tema terang modern bersih, aksen emerald green premium, efek hover, dan mikro-animasi yang konsisten:
+  - **Layout Global**: Header navbar kini mendukung efek *glassmorphism blur* saat halaman di-scroll, menu aktif dengan *sliding underline* animasi, dan hamburger mobile dengan rotasi 90°.
+  - **Footer**: Diperbarui menjadi multi-kolom (5 kolom: Brand, Tautan Cepat, Data & Layanan, Kontak + peta mini embed Google Maps berwarna desaturasi).
+  - **Beranda (`/`)**: Disusun ulang menjadi 6 seksi grid modular premium: Hero fullscreen, Stat Cards floating, Sambutan Kades, Data & APBDes berdampingan, Berita & Pengumuman, Galeri & Publikasi.
+  - **Berita (`/berita`)**: Grid 3 kolom, featured post sebagai card hero besar, sidebar kategori.
+  - **Detail Berita (`/berita/{slug}`)**: Layout artikel dengan hero featured image blur, prose styling, tombol berbagi (FB, WA, X, Salin Link).
+  - **Pengumuman (`/pengumuman`)**: Timeline vertikal dengan accordion Alpine.js expand/collapse per item.
+  - **Galeri (`/galeri`)**: Masonry grid dengan filter Foto/Video Alpine.js, badge YouTube merah untuk konten video.
+  - **Dokumen (`/dokumen`)**: List card horizontal dengan ikon dinamis per tipe file (PDF/DOC/XLS/PPT/ZIP) dan badge warna.
+  - **Publikasi (`/publikasi`)**: Grid 4 kolom dengan cover image aspect 3:4, badge tahun & tipe warna dinamis.
+  - **Statistik (`/statistik`)**: Navigasi tab Alpine.js per kategori, Big Stats Card di atas setiap grafik, layout 2 kolom chart.
+  - **APBDes (`/apbdes`)**: Summary card 3 kolom, progress bar realisasi per pos, accordion detail per kategori, ring SVG persentase, badge status otomatis.
+  - **Profil (`/profil`)**: Tiga tab Alpine.js (Sejarah, Visi Misi, Karakteristik Wilayah) dengan timeline vertikal milestone sejarah.
+  - **Aparatur Desa (`/aparatur`)**: Grid kartu 4 kolom, foto circular dengan ring emerald on-hover, badge jabatan.
+  - **Layanan (`/layanan`)**: Grid kartu layanan dengan persyaratan collapsible Alpine.js dan tombol ajukan.
+  - **Kontak (`/kontak`)**: Split layout info kontak + embed peta Google Maps, tombol WA auto-konversi nomor, ikon sosmed branded.
+- **Konvensi URL**: Mengubah route `/pemerintahan` menjadi `/aparatur` agar selaras dengan label menu "Aparatur Desa". Semua referensi di navbar, footer, dan breadcrumb diperbarui secara menyeluruh.
+
 ## [1.4.0] - 2026-07-01
 
 ### Added

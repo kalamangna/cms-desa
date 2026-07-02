@@ -144,9 +144,9 @@
 
                     <!-- Profil Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'profil'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('profil*') || request()->is('pemerintahan*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('profil*') || request()->is('aparatur*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
                             Profil <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('pemerintahan*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('aparatur*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
                         <div x-show="openMenu === 'profil'" 
                              x-transition:enter="transition ease-out duration-150"
@@ -157,7 +157,7 @@
                              x-transition:leave-end="opacity-0 translate-y-2"
                              class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
                             <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Profil</a>
-                            <a href="/pemerintahan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Aparatur Desa</a>
+                            <a href="/aparatur" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Aparatur Desa</a>
                         </div>
                     </div>
 
@@ -238,7 +238,7 @@
                 <div>
                     <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Profil</span>
                     <a href="/profil" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('profil*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Profil</a>
-                    <a href="/pemerintahan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pemerintahan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Aparatur Desa</a>
+                    <a href="/aparatur" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('aparatur*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Aparatur Desa</a>
                 </div>
 
                 <!-- Data Section -->
@@ -328,7 +328,7 @@
                     <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Tautan Cepat</h4>
                     <ul class="space-y-3 text-sm text-slate-400">
                         <li><a href="/profil" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Profil Desa</a></li>
-                        <li><a href="/pemerintahan" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Aparatur Desa</a></li>
+                        <li><a href="/aparatur" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Aparatur Desa</a></li>
                         <li><a href="/berita" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Berita</a></li>
                         <li><a href="/pengumuman" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Pengumuman</a></li>
                         <li><a href="/galeri" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Galeri</a></li>

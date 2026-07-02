@@ -3,7 +3,9 @@
 @section('title', 'Dokumen - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
-<!-- Standardized Dark Hero -->
+{{-- ═══════════════════════════════════════════════════════════════════ --}}
+{{-- HERO GELAP --}}
+{{-- ═══════════════════════════════════════════════════════════════════ --}}
 <div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
@@ -29,77 +31,113 @@
                 Arsip <span class="text-emerald-500 italic">Dokumen</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Pusat pengunduhan dokumen resmi, peraturan desa, and formulir layanan publik Desa {{ $site_settings['village_name'] ?? '' }}.
+                Pusat pengunduhan dokumen resmi, peraturan desa, dan formulir layanan publik Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
 </div>
 
+{{-- ═══════════════════════════════════════════════════════════════════ --}}
+{{-- KONTEN UTAMA --}}
+{{-- ═══════════════════════════════════════════════════════════════════ --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-    <div class="bg-white rounded-[40px] md:rounded-[60px] shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-        <div class="p-8 md:p-12 border-b border-slate-50 flex flex-col md:flex-row justify-between items-center gap-8 bg-slate-50/30 text-center md:text-left">
+
+    {{-- ─── Header Statistik ─── --}}
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
+        <div>
+            <p class="text-[11px] font-black uppercase tracking-[0.3em] text-emerald-600 mb-2">Arsip Resmi</p>
+            <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900">
+                Daftar Dokumen
+            </h2>
+            <p class="text-slate-500 font-medium mt-2">
+                Ditemukan <span class="text-emerald-600 font-bold">{{ $documents->total() }}</span> dokumen tersedia
+            </p>
+        </div>
+        {{-- Stat Badge --}}
+        <div class="flex-shrink-0 hidden sm:flex items-center gap-3 bg-emerald-50 border border-emerald-100 rounded-2xl px-6 py-4">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white">
+                <i class="fa-solid fa-folder-open text-sm"></i>
+            </div>
             <div>
-                <h2 class="text-2xl md:text-3xl font-heading font-bold text-slate-900">Daftar Dokumen</h2>
-                <p class="text-slate-500 font-medium mt-1">Ditemukan {{ $documents->total() }} dokumen tersedia</p>
-            </div>
-            <div class="relative w-full md:w-96">
-                <input type="text" placeholder="Cari dokumen..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-emerald-500 shadow-sm font-medium">
-                <i class="fa-solid fa-magnifying-glass h-5 w-5 text-slate-400 absolute left-4 top-4.5"></i>
+                <div class="text-xl font-heading font-black text-slate-900">{{ $documents->total() }}</div>
+                <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Total Dokumen</div>
             </div>
         </div>
-        
-        <div class="overflow-x-auto">
-            <table class="w-full text-left min-w-[800px] lg:min-w-0">
-                <thead>
-                    <tr class="bg-white border-b border-slate-50">
-                        <th class="px-8 md:px-12 py-6 md:py-8 font-black text-slate-900 text-[10px] uppercase tracking-[0.3em]">Nama Dokumen & Deskripsi</th>
-                        <th class="px-8 md:px-12 py-6 md:py-8 font-black text-slate-900 text-[10px] uppercase tracking-[0.3em]">Tanggal Unggah</th>
-                        <th class="px-8 md:px-12 py-6 md:py-8 font-black text-slate-900 text-[10px] uppercase tracking-[0.3em] text-right">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-50">
-                    @forelse($documents as $doc)
-                    <tr class="hover:bg-slate-50/50 transition duration-300">
-                        <td class="px-8 md:px-12 py-8 md:py-10">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center flex-shrink-0">
-                                    <i class="fa-solid fa-file-pdf text-xl"></i>
-                                </div>
-                                <div>
-                                    <div class="font-heading font-bold text-lg md:text-xl text-slate-900 mb-1">{{ $doc->title }}</div>
-                                    @if($doc->description)
-                                        <div class="text-sm text-slate-500 max-w-lg leading-relaxed font-medium">{{ $doc->description }}</div>
-                                    @endif
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-8 md:px-12 py-8 md:py-10">
-                            <span class="text-sm text-slate-500 font-bold uppercase tracking-widest">{{ $doc->created_at->translatedFormat('d M Y') }}</span>
-                        </td>
-                        <td class="px-8 md:px-12 py-8 md:py-10 text-right">
-                            <a href="{{ asset('storage/' . $doc->file) }}" class="inline-flex items-center gap-3 bg-slate-900 text-white px-6 md:px-8 py-3 md:py-4 rounded-2xl text-sm font-bold hover:bg-emerald-600 transition shadow-xl shadow-slate-900/10" target="_blank">
-                                <i class="fa-solid fa-download w-4 h-4"></i>
-                                <span class="hidden sm:inline">Unduh Dokumen</span>
-                                <span class="sm:hidden">Unduh</span>
-                            </a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="3" class="px-8 md:px-12 py-20 md:py-32 text-center">
-                            <p class="text-slate-400 font-bold italic">Dokumen belum tersedia.</p>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-        
-        @if($documents->hasPages())
-        <div class="p-8 md:p-12 border-t border-slate-50 bg-slate-50/30">
-            {{ $documents->links() }}
-        </div>
-        @endif
     </div>
+
+    {{-- ─── List Card ─── --}}
+    @forelse($documents as $doc)
+    @php
+        $ext = $doc->file ? strtolower(pathinfo($doc->file, PATHINFO_EXTENSION)) : 'file';
+        $iconMap = [
+            'pdf'  => ['icon' => 'fa-file-pdf',  'bg' => 'bg-red-50',    'text' => 'text-red-500',    'badge' => 'bg-red-100 text-red-700'],
+            'doc'  => ['icon' => 'fa-file-word',  'bg' => 'bg-blue-50',   'text' => 'text-blue-500',   'badge' => 'bg-blue-100 text-blue-700'],
+            'docx' => ['icon' => 'fa-file-word',  'bg' => 'bg-blue-50',   'text' => 'text-blue-500',   'badge' => 'bg-blue-100 text-blue-700'],
+            'xls'  => ['icon' => 'fa-file-excel', 'bg' => 'bg-green-50',  'text' => 'text-green-600',  'badge' => 'bg-green-100 text-green-700'],
+            'xlsx' => ['icon' => 'fa-file-excel', 'bg' => 'bg-green-50',  'text' => 'text-green-600',  'badge' => 'bg-green-100 text-green-700'],
+            'ppt'  => ['icon' => 'fa-file-powerpoint', 'bg' => 'bg-orange-50', 'text' => 'text-orange-500', 'badge' => 'bg-orange-100 text-orange-700'],
+            'pptx' => ['icon' => 'fa-file-powerpoint', 'bg' => 'bg-orange-50', 'text' => 'text-orange-500', 'badge' => 'bg-orange-100 text-orange-700'],
+            'zip'  => ['icon' => 'fa-file-zipper','bg' => 'bg-yellow-50', 'text' => 'text-yellow-600', 'badge' => 'bg-yellow-100 text-yellow-700'],
+        ];
+        $fileStyle = $iconMap[$ext] ?? ['icon' => 'fa-file-lines', 'bg' => 'bg-slate-100', 'text' => 'text-slate-500', 'badge' => 'bg-slate-100 text-slate-600'];
+    @endphp
+    <div class="group flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-white rounded-3xl p-6 md:p-8 mb-4 shadow-sm shadow-slate-200/60 border border-slate-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-50 transition-all duration-300">
+
+        {{-- Ikon file --}}
+        <div class="flex-shrink-0 w-16 h-16 rounded-2xl {{ $fileStyle['bg'] }} {{ $fileStyle['text'] }} flex items-center justify-center text-2xl shadow-inner">
+            <i class="fa-solid {{ $fileStyle['icon'] }}"></i>
+        </div>
+
+        {{-- Konten tengah --}}
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+                <span class="inline-flex items-center gap-1 {{ $fileStyle['badge'] }} text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+                    <i class="fa-solid fa-tag text-[9px]"></i>
+                    {{ strtoupper($ext) }}
+                </span>
+                @if($doc->category ?? false)
+                    <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+                        {{ $doc->category }}
+                    </span>
+                @endif
+            </div>
+            <h3 class="text-lg md:text-xl font-heading font-bold text-slate-900 group-hover:text-emerald-700 transition leading-tight truncate mb-1">
+                {{ $doc->title }}
+            </h3>
+            @if($doc->description)
+                <p class="text-sm text-slate-500 font-medium leading-relaxed line-clamp-2">{{ $doc->description }}</p>
+            @endif
+            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-2">
+                <i class="fa-solid fa-calendar-days mr-1"></i>
+                {{ $doc->created_at->translatedFormat('d F Y') }}
+            </p>
+        </div>
+
+        {{-- Tombol download --}}
+        <div class="flex-shrink-0 w-full sm:w-auto">
+            <a
+                href="{{ asset('storage/' . $doc->file) }}"
+                class="group/btn inline-flex items-center justify-center gap-3 bg-slate-900 text-white px-6 py-3.5 rounded-2xl text-sm font-bold hover:bg-emerald-600 transition-all duration-300 shadow-lg shadow-slate-900/10 hover:shadow-emerald-600/30 w-full sm:w-auto whitespace-nowrap"
+                target="_blank"
+                download
+            >
+                <i class="fa-solid fa-download group-hover/btn:animate-bounce transition"></i>
+                <span>Unduh Dokumen</span>
+            </a>
+        </div>
+    </div>
+    @empty
+    <div class="py-32 text-center bg-slate-50 rounded-[40px] border-2 border-dashed border-slate-200">
+        <i class="fa-solid fa-folder-open text-5xl text-slate-300 mb-6 block"></i>
+        <p class="text-slate-400 font-bold italic">Dokumen belum tersedia.</p>
+    </div>
+    @endforelse
+
+    {{-- ─── Paginasi ─── --}}
+    @if($documents->hasPages())
+    <div class="mt-12">
+        {{ $documents->links() }}
+    </div>
+    @endif
 </div>
 @endsection

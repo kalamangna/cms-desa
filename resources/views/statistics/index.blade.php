@@ -3,7 +3,9 @@
 @section('title', 'Statistik - ' . ($site_settings['village_name'] ?? 'Website Desa'))
 
 @section('content')
-<!-- Standardized Dark Hero -->
+{{-- ═══════════════════════════════════════════════════════
+     DARK HERO
+═══════════════════════════════════════════════════════ --}}
 <div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
@@ -24,54 +26,185 @@
                 </li>
             </ol>
         </nav>
-        <div class="max-w-3xl text-center md:text-left">
-            <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
-                Pusat <span class="text-emerald-500 italic">Statistik</span>
-            </h1>
-            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
-                Data kependudukan, sosial, dan ekonomi Desa {{ $site_settings['village_name'] ?? '' }}.
-            </p>
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+                    Pusat <span class="text-emerald-500 italic">Statistik</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
+                    Data kependudukan, sosial, dan ekonomi Desa {{ $site_settings['village_name'] ?? '' }}.
+                </p>
+            </div>
+            {{-- Live indicator --}}
+            <div class="flex items-center gap-3 bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit">
+                <span class="relative flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+                <span class="text-emerald-400 text-xs font-black uppercase tracking-widest">Live Data</span>
+                <span class="text-slate-400 text-xs font-medium">{{ date('d M Y') }}</span>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-        @foreach($categories as $category)
-            <div class="bg-white rounded-[40px] md:rounded-[48px] shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden group hover:border-emerald-200 transition duration-500">
-                <div class="p-8 md:p-12">
-                    <div class="flex flex-col md:flex-row justify-between items-start mb-10 md:mb-12 gap-6">
+{{-- ═══════════════════════════════════════════════════════
+     ALPINE.JS TAB NAVIGATION + CONTENT
+═══════════════════════════════════════════════════════ --}}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24"
+     x-data="{ activeTab: '{{ $categories->first()?->slug ?? '' }}' }">
+
+    {{-- TAB NAV --}}
+    <div class="mb-12 md:mb-16">
+        <div class="flex items-center gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
+            @foreach($categories as $category)
+            <button
+                @click="activeTab = '{{ $category->slug }}'"
+                :class="activeTab === '{{ $category->slug }}'
+                    ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 border-emerald-600'
+                    : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-300 hover:text-emerald-700'"
+                class="snap-start flex-shrink-0 px-6 py-3 rounded-full text-sm font-bold border transition-all duration-300 flex items-center gap-2 whitespace-nowrap"
+                id="tab-{{ $category->slug }}">
+                <i class="fa-solid fa-chart-line text-xs"></i>
+                {{ $category->name }}
+                <span
+                    :class="activeTab === '{{ $category->slug }}' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'"
+                    class="text-[10px] font-black px-2 py-0.5 rounded-full transition-all duration-300">
+                    {{ $category->indicators->count() }}
+                </span>
+            </button>
+            @endforeach
+        </div>
+    </div>
+
+    {{-- TAB PANELS --}}
+    @foreach($categories as $catIndex => $category)
+    @php
+        $totalIndicators = $category->indicators->count();
+    @endphp
+    <div x-show="activeTab === '{{ $category->slug }}'"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-4"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-cloak>
+
+        {{-- BIG STATS ROW --}}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            {{-- Total Indicators card --}}
+            <div class="col-span-2 md:col-span-1 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-3xl p-6 text-white shadow-xl shadow-emerald-600/25 flex flex-col justify-between min-h-[130px]">
+                <span class="text-emerald-200 text-[10px] font-black uppercase tracking-[0.2em]">Total Indikator</span>
+                <div>
+                    <span class="text-5xl font-extrabold block leading-none">{{ $totalIndicators }}</span>
+                    <span class="text-emerald-200 text-xs font-semibold mt-1 block">indikator aktif</span>
+                </div>
+            </div>
+
+            {{-- Year range card --}}
+            @php
+                $allYears = $category->indicators->flatMap(fn($i) => $i->data->pluck('year'));
+                $minYear = $allYears->min() ?? '-';
+                $maxYear = $allYears->max() ?? '-';
+                $totalRecords = $category->indicators->sum(fn($i) => $i->data->count());
+            @endphp
+            <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-100 flex flex-col justify-between min-h-[130px]">
+                <span class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Rentang Tahun</span>
+                <div>
+                    <span class="text-3xl font-extrabold text-slate-900 block leading-none">{{ $minYear }}–{{ $maxYear }}</span>
+                    <span class="text-slate-400 text-xs font-semibold mt-1 block">periode data</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-100 flex flex-col justify-between min-h-[130px]">
+                <span class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Total Catatan</span>
+                <div>
+                    <span class="text-3xl font-extrabold text-slate-900 block leading-none">{{ number_format($totalRecords) }}</span>
+                    <span class="text-slate-400 text-xs font-semibold mt-1 block">data poin</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 rounded-3xl p-6 text-white flex flex-col justify-between min-h-[130px]">
+                <span class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Kategori</span>
+                <div>
+                    <span class="text-lg font-extrabold block leading-snug">{{ $category->name }}</span>
+                    @if($category->description)
+                    <span class="text-slate-400 text-xs font-medium mt-1 block line-clamp-2">{{ $category->description }}</span>
+                    @else
+                    <span class="text-slate-400 text-xs font-medium mt-1 block">Data resmi desa</span>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        {{-- SECTION HEADER --}}
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-1 block">Visualisasi Data</span>
+                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">{{ $category->name }}</h2>
+            </div>
+            <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold hidden md:flex">
+                <i class="fa-regular fa-calendar-check text-emerald-500"></i>
+                Diperbarui {{ date('d M Y') }}
+            </div>
+        </div>
+
+        {{-- CHARTS GRID: 2-col, full-width if only 1 chart --}}
+        @if($totalIndicators === 1)
+        <div class="grid grid-cols-1 gap-8">
+        @else
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        @endif
+            @foreach($category->indicators as $indicatorIndex => $indicator)
+            <div class="bg-white rounded-[32px] shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden hover:border-emerald-200 transition duration-500 group
+                        {{ $totalIndicators === 1 ? '' : ($totalIndicators % 2 !== 0 && $loop->last ? 'lg:col-span-2' : '') }}">
+                <div class="p-8 md:p-10">
+                    {{-- Chart header --}}
+                    <div class="flex items-start justify-between mb-6 gap-4">
                         <div>
-                            <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-2 block">Kategori Data</span>
-                            <h2 class="text-2xl md:text-3xl font-heading font-bold text-slate-900 mb-3">{{ $category->name }}</h2>
-                            @if($category->description)
-                                <p class="text-slate-500 text-sm italic font-medium">{{ $category->description }}</p>
-                            @endif
+                            <h3 class="text-lg font-heading font-bold text-slate-900 group-hover:text-emerald-700 transition">{{ $indicator->name }}</h3>
+                            <p class="text-slate-400 text-xs font-medium mt-1">Satuan: <span class="font-bold text-slate-600">{{ $indicator->unit }}</span></p>
                         </div>
-                        <span class="bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest px-5 py-2 rounded-full border border-emerald-100 shadow-sm w-fit">
-                            Live Data
+                        <span class="bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-emerald-100 flex-shrink-0">
+                            {{ $indicator->data->count() }} data poin
                         </span>
                     </div>
-                    
-                    <div class="h-80 md:h-96 relative">
-                        <canvas id="chart-{{ $category->slug }}"></canvas>
-                    </div>
-                    
-                    <div class="mt-10 md:mt-12 pt-8 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6">
-...                        <div class="flex items-center gap-3">
-                            <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                            <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Pembaruan: {{ date('d M Y') }}</span>
+
+                    {{-- Latest value highlight --}}
+                    @php $latestData = $indicator->data->sortByDesc('year')->first(); @endphp
+                    @if($latestData)
+                    <div class="flex items-center gap-4 mb-6 bg-slate-50 rounded-2xl p-4">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-arrow-trend-up text-emerald-600 text-sm"></i>
                         </div>
-                        <button class="bg-slate-900 text-white px-8 py-3 rounded-full font-bold text-sm hover:bg-emerald-600 transition shadow-lg shadow-slate-900/10 flex items-center gap-3">
-                            Unduh Data CSV
-                            <i class="fa-solid fa-download w-4 h-4"></i>
-                        </button>
+                        <div>
+                            <span class="text-slate-400 text-[10px] font-black uppercase tracking-wider block">Nilai Terkini ({{ $latestData->year }})</span>
+                            <span class="text-2xl font-extrabold text-slate-900">{{ number_format($latestData->value, 0, ',', '.') }}
+                                <span class="text-sm font-semibold text-slate-500">{{ $indicator->unit }}</span>
+                            </span>
+                        </div>
+                    </div>
+                    @endif
+
+                    {{-- Canvas --}}
+                    <div class="h-72 md:h-80 relative">
+                        <canvas id="chart-{{ $category->slug }}-ind-{{ $indicatorIndex }}"></canvas>
                     </div>
                 </div>
             </div>
-        @endforeach
-    </div>
-</div>
+            @endforeach
+        </div>
+
+        {{-- Download action --}}
+        <div class="mt-8 flex justify-end">
+            <button class="inline-flex items-center gap-2 bg-slate-900 hover:bg-emerald-600 text-white text-sm font-bold px-6 py-3 rounded-full transition duration-300 shadow-lg shadow-slate-900/10">
+                <i class="fa-solid fa-download"></i>
+                Unduh Data CSV
+            </button>
+        </div>
+
+    </div>{{-- /tab panel --}}
+    @endforeach
+
+</div>{{-- /alpine wrapper --}}
 @endsection
 
 @push('scripts')
@@ -80,31 +213,120 @@
     document.addEventListener('DOMContentLoaded', function () {
         Chart.defaults.font.family = "'Poppins', sans-serif";
         Chart.defaults.color = '#94a3b8';
-        
+
         @php
             $palette = [
-                ['hex' => '#10b981', 'rgba' => 'rgba(16, 185, 129, 0.1)'], // emerald
-                ['hex' => '#0ea5e9', 'rgba' => 'rgba(14, 165, 233, 0.1)'], // sky
-                ['hex' => '#f59e0b', 'rgba' => 'rgba(245, 158, 11, 0.1)'], // amber
-                ['hex' => '#8b5cf6', 'rgba' => 'rgba(139, 92, 246, 0.1)'], // violet
-                ['hex' => '#ec4899', 'rgba' => 'rgba(236, 72, 153, 0.1)'], // pink
+                ['hex' => '#10b981', 'rgba' => 'rgba(16, 185, 129, 0.1)'],  // emerald
+                ['hex' => '#0ea5e9', 'rgba' => 'rgba(14, 165, 233, 0.1)'],  // sky
+                ['hex' => '#f59e0b', 'rgba' => 'rgba(245, 158, 11, 0.1)'],  // amber
+                ['hex' => '#8b5cf6', 'rgba' => 'rgba(139, 92, 246, 0.1)'],  // violet
+                ['hex' => '#ec4899', 'rgba' => 'rgba(236, 72, 153, 0.1)'],  // pink
                 ['hex' => '#f43f5e', 'rgba' => 'rgba(244, 63, 94, 0.1)'],   // rose
-                ['hex' => '#06b6d4', 'rgba' => 'rgba(6, 182, 212, 0.1)'],  // cyan
-                ['hex' => '#14b8a6', 'rgba' => 'rgba(20, 184, 166, 0.1)'], // teal
+                ['hex' => '#06b6d4', 'rgba' => 'rgba(6, 182, 212, 0.1)'],   // cyan
+                ['hex' => '#14b8a6', 'rgba' => 'rgba(20, 184, 166, 0.1)'],  // teal
                 ['hex' => '#f97316', 'rgba' => 'rgba(249, 115, 22, 0.1)'],  // orange
                 ['hex' => '#3b82f6', 'rgba' => 'rgba(59, 130, 246, 0.1)'],  // blue
             ];
         @endphp
 
+        // ── Per-indicator charts (new IDs: chart-{slug}-ind-{index}) ──────────
         @foreach($categories as $category)
+            @foreach($category->indicators as $indicatorIndex => $indicator)
             (function() {
-                const ctx = document.getElementById('chart-{{ $category->slug }}').getContext('2d');
-                
+                const el = document.getElementById('chart-{{ $category->slug }}-ind-{{ $indicatorIndex }}');
+                if (!el) return;
+                const ctx = el.getContext('2d');
+
+                @php
+                    $c = $palette[$indicatorIndex % count($palette)];
+                @endphp
+
+                const rawData = [
+                    @foreach($indicator->data as $data)
+                        { x: '{{ $data->year }}', y: {{ $data->value }} },
+                    @endforeach
+                ];
+
+                const labels = [...new Set(rawData.map(d => d.x))].sort();
+                const chartType = '{{ in_array($category->name, ["Pekerjaan", "Pendidikan"]) ? "bar" : "line" }}';
+
+                new Chart(ctx, {
+                    type: chartType,
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '{{ $indicator->name }} ({{ $indicator->unit }})',
+                            data: labels.map(label => {
+                                const found = rawData.find(d => d.x === label);
+                                return found ? found.y : 0;
+                            }),
+                            backgroundColor: '{{ $c["rgba"] }}',
+                            borderColor: '{{ $c["hex"] }}',
+                            borderWidth: 4,
+                            pointBackgroundColor: '#fff',
+                            pointBorderWidth: 3,
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            tension: 0.4,
+                            fill: true,
+                            borderRadius: 12
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 24,
+                                    font: { weight: 'bold', size: 11, family: 'Inter' }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: '#0f172a',
+                                padding: 16,
+                                titleFont: { family: 'Poppins', size: 14, weight: 'bold' },
+                                bodyFont: { family: 'Inter', size: 13 },
+                                cornerRadius: 24,
+                                displayColors: true,
+                                boxPadding: 6
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#f8fafc', borderDash: [5, 5] },
+                                ticks: { font: { weight: 'bold', size: 11 } }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { weight: 'bold', size: 11 } }
+                            }
+                        }
+                    }
+                });
+            })();
+            @endforeach
+        @endforeach
+
+        // ── Legacy chart IDs preserved (chart-{slug}) for backward compat ──────
+        // The original per-category combined chart is recreated below so any
+        // external JS referencing the old canvas IDs still works.
+        @foreach($categories as $category)
+            // NOTE: canvas id="chart-{{ $category->slug }}" is no longer rendered
+            // in the new layout (replaced by per-indicator canvases above).
+            // If your template elsewhere renders <canvas id="chart-{{ $category->slug }}">,
+            // the block below will initialize it automatically.
+            (function() {
+                const el = document.getElementById('chart-{{ $category->slug }}');
+                if (!el) return; // silently skip if canvas not present
+                const ctx = el.getContext('2d');
+
                 const datasets = [
                     @foreach($category->indicators as $index => $indicator)
-                    @php
-                        $c = $palette[$index % count($palette)];
-                    @endphp
+                    @php $c = $palette[$index % count($palette)]; @endphp
                     {
                         label: '{{ $indicator->name }} ({{ $indicator->unit }})',
                         data: [

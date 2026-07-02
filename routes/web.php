@@ -23,7 +23,7 @@ Route::get('/profil', [PageController::class, 'profil'])->name('pages.profil');
 Route::get('/layanan', [PageController::class, 'layanan'])->name('pages.layanan');
 Route::get('/kontak', [PageController::class, 'kontak'])->name('pages.kontak');
 
-Route::get('/pemerintahan', [OfficialController::class, 'index'])->name('officials.index');
+Route::get('/aparatur', [OfficialController::class, 'index'])->name('officials.index');
 
 Route::get('/berita', [PostController::class, 'index'])->name('posts.index');
 Route::get('/berita/{slug}', [PostController::class, 'show'])->name('posts.show');
