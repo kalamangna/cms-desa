@@ -12,6 +12,7 @@ use Filament\Notifications\Notification;
 use App\Models\Family;
 use App\Models\Dusun;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ListFamilies extends ListRecords
 {
@@ -22,16 +23,22 @@ class ListFamilies extends ListRecords
         return [
             CreateAction::make(),
             Action::make('importCsv')
-                ->label('Import CSV GForm')
+                ->label('Import Excel / CSV')
                 ->icon('heroicon-o-arrow-up-tray')
                 ->color('info')
                 ->form([
                     Placeholder::make('info')
                         ->label('Petunjuk Penggunaan')
-                        ->content('Unduh respon kuesioner Google Form (Keluarga) sebagai Excel (.xlsx), lalu simpan sebagai file CSV (.csv) dengan format pemisah koma (,). Unggah file CSV tersebut di bawah.'),
+                        ->content('Unggah respon kuesioner Google Form (Keluarga) secara langsung dalam format Excel (.xlsx / .xls) atau CSV (.csv).'),
                     FileUpload::make('csv_file')
-                        ->label('File CSV Respon Keluarga')
-                        ->acceptedFileTypes(['text/csv', 'text/plain', 'application/csv'])
+                        ->label('File Excel atau CSV')
+                        ->acceptedFileTypes([
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                            'application/vnd.ms-excel',
+                            'text/csv',
+                            'text/plain',
+                            'application/csv'
+                        ])
                         ->required()
                         ->directory('temp'),
                 ])
@@ -43,14 +50,21 @@ class ListFamilies extends ListRecords
                         return;
                     }
 
-                    $file = fopen($filePath, 'r');
-                    $header = fgetcsv($file);
-
-                    if (!$header) {
-                        Notification::make()->title('File CSV Kosong.')->danger()->send();
-                        fclose($file);
+                    try {
+                        $spreadsheet = IOFactory::load($filePath);
+                        $worksheet = $spreadsheet->getActiveSheet();
+                        $rows = $worksheet->toArray(null, true, true, false);
+                    } catch (\Exception $e) {
+                        Notification::make()->title('Gagal membaca file: ' . $e->getMessage())->danger()->send();
                         return;
                     }
+
+                    if (empty($rows)) {
+                        Notification::make()->title('File kosong atau tidak valid.')->danger()->send();
+                        return;
+                    }
+
+                    $header = array_shift($rows);
 
                     // Normalize headers
                     $header = array_map(function($h) {
@@ -85,7 +99,7 @@ class ListFamilies extends ListRecords
                         foreach ($header as $idx => $h) {
                             if (strpos($h, '212.') !== false || strpos($h, 'sumber air utama') !== false) {
                                 $colWater = $idx;
-                                break;
+                                        break;
                             }
                         }
                     }
@@ -118,13 +132,12 @@ class ListFamilies extends ListRecords
                     $colNotes = $this->findColumnIndex($header, ['catatan']);
 
                     if ($colKkNumber === false) {
-                        Notification::make()->title('Format CSV salah.')->body('Nomor KK (Kolom 103) wajib ditemukan.')->danger()->send();
-                        fclose($file);
+                        Notification::make()->title('Format file salah.')->body('Nomor KK (Kolom 103) wajib ditemukan.')->danger()->send();
                         return;
                     }
 
                     $rowCount = 0;
-                    while (($row = fgetcsv($file)) !== false) {
+                    foreach ($rows as $row) {
                         if (count($row) <= $colKkNumber) continue;
 
                         $kkNumber = trim($row[$colKkNumber]);

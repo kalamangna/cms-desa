@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.4] - 2026-07-02
+
+### Added
+- **Dukungan Import File Excel (.xlsx / .xls)**: Menginstal paket `phpoffice/phpspreadsheet` dan merombak proses import data kependudukan pada `ListCitizens.php` (Penduduk) dan `ListFamilies.php` (Keluarga) agar dapat membaca file Excel secara langsung di samping file CSV.
+
 ## [1.6.3] - 2026-07-02
 
 ### Changed
