@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.7] - 2026-07-02
+
+### Changed
+- **Pembaruan Dokumentasi README.md**: Merapikan dokumen panduan instalasi, menyelaraskan instruksi deployment Hostinger hPanel dengan bypass symbolic link, menambahkan dokumentasi fitur data mikro baru, dan merinci langkah troubleshooting hak akses folder.
+
 ## [1.5.6] - 2026-07-02
 
 ### Changed

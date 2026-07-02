@@ -1,32 +1,38 @@
-# Website Desa Cantik (Cinta Statistik)
+# 🏛️ Portal Resmi Desa Cantik (Cinta Statistik)
 
-Portal Informasi Desa Modern, Transparan, dan Berbasis Data. Dibangun khusus untuk memenuhi standar penilaian **Program Desa Cantik BPS**.
+Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Dibangun khusus untuk memenuhi standar penilaian **Program Desa Cantik BPS** serta menyajikan visualisasi data sosial ekonomi (Regsosek/SDGs Desa) secara interaktif.
+
+---
 
 ## 🚀 Fitur Utama
 
-- **Dashboard Statistik Interaktif**: Visualisasi data kependudukan dan sosial secara real-time.
-- **Transparansi APBDes**: Laporan realisasi anggaran dengan grafik alokasi dana yang informatif.
-- **Portal Berita & Warta**: Sistem informasi kegiatan desa dengan layout profesional.
-- **Digital Archive (Open Data & Publikasi)**: Katalog dataset (CSV/XLS) dan dokumen profil desa (PDF) yang siap unduh.
-- **Peta Desa Interaktif**: Integrasi Leaflet JS untuk pemetaan fasilitas dan potensi wilayah.
-- **Backend Admin (Filament)**: Panel administrasi yang mudah digunakan untuk mengelola seluruh konten.
-- **Mobile First Design**: Tampilan yang dioptimalkan untuk perangkat mobile dan desktop.
+- **Dashboard Statistik Interaktif**: Grafik & diagram data kependudukan, pekerjaan, pendidikan, disabilitas, dan penyakit kronis secara real-time yang dihitung dari database warga mikro.
+- **Transparansi APBDes**: Visualisasi realisasi anggaran pendapatan, belanja, dan pembiayaan desa lengkap dengan diagram donat alokasi dan progress bar pencapaian.
+- **Portal Informasi Desa**: Modul publikasi berita kegiatan, pengumuman resmi desa (dilengkapi accordion), galeri foto & video, serta dokumen arsip keputusan/peraturan desa.
+- **Data Mikro SDGs & Regsosek**:
+  - Model kependudukan mikro terintegrasi: `Dusun` -> `Keluarga (Family)` -> `Penduduk (Citizen)`.
+  - Panel admin Filament untuk input kuesioner keluarga (karakteristik bangunan, sanitasi, listrik, kepemilikan aset) dan data penduduk (BPJS, PIP, disabilitas, riwayat penyakit).
+- **Layanan Mandiri Warga**: Katalog panduan administrasi pengurusan surat/layanan desa dengan persyaratan yang dapat di-expand (*collapsible*).
+- **Desain Glassmorphism Premium**: Tampilan frontend modern dengan transisi halus, navigasi dinamis (blur saat scroll), layout grid modular, serta responsive total.
+
+---
 
 ## 🛠️ Stack Teknologi
 
 - **Framework**: [Laravel 12](https://laravel.com)
 - **Admin Panel**: [Filament v4](https://filamentphp.com)
-- **CSS Framework**: [Tailwind CSS 4](https://tailwindcss.com)
-- **Icons**: [FontAwesome 6](https://fontawesome.com)
-- **Interactivity**: Alpine.js, Chart.js, Leaflet.js
-- **Database**: MySQL / SQLite
+- **CSS Engine**: [Tailwind CSS v4](https://tailwindcss.com)
+- **Interaktivitas**: Alpine.js, Chart.js, Leaflet.js
+- **Database**: MySQL / PostgreSQL / SQLite
 
-## 💻 Instalasi Lokal
+---
 
-1. **Clone Proyek**:
+## 💻 Panduan Instalasi Lokal
+
+1. **Clone Repositori**:
    ```bash
-   git clone <url-repository>
-   cd desa-cantik
+   git clone https://github.com/kalamangna/cms-desa.git
+   cd cms-desa
    ```
 
 2. **Install Dependensi**:
@@ -35,118 +41,103 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data. Dibangun khusus unt
    npm install
    ```
 
-3. **Konfigurasi Lingkungan**:
+3. **Konfigurasi Environment**:
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
+   *Sesuaikan konfigurasi database Anda di file `.env`.*
 
-4. **Migrasi & Seed Data**:
+4. **Migrasi & Seed Data Master**:
    ```bash
    php artisan migrate --seed
    ```
 
-5. **Symlink Storage**:
+5. **Kompilasi Aset Frontend**:
    ```bash
-   php artisan storage:link
+   npm run dev # Menjalankan dev server, atau
+   npm run build # Kompilasi build produksi
    ```
 
-6. **Build Aset**:
-   ```bash
-   npm run dev # atau npm run build untuk produksi
-   ```
+---
 
-## 🌐 Panduan Deployment (Git-Based di hPanel Hostinger)
+## 🌐 Panduan Deployment di Server Hostinger (hPanel)
 
-Menggunakan Git di server memudahkan Anda untuk melakukan pembaruan kode hanya dengan perintah `git pull`.
+Karena keterbatasan server shared hosting Hostinger (hPanel) yang menonaktifkan fungsi terminal `exec()` dan fungsi PHP native `symlink()`, sistem ini telah dikonfigurasi untuk menyimpan data upload secara langsung ke folder publik tanpa membutuhkan symbolic link.
 
-### 1. Persiapan SSH di hPanel
-1. Masuk ke hPanel Hostinger > **Advanced** > **SSH Access**.
-2. Aktifkan (Enable) SSH Access.
-3. Catat **SSH IP**, **Port**, **Username**, dan **Password**.
-
-### 2. Konfigurasi SSH Key (Untuk Akses Aman)
-Agar server hPanel dapat mengakses repositori GitHub Anda secara otomatis:
-1. Login ke SSH via Terminal: `ssh -p <port> <username>@<ip>`
-2. Generate SSH Key:
-   ```bash
-   ssh-keygen -t ed25519 -C "email@anda.com"
-   ```
-3. Tekan Enter terus (kosongkan passphrase).
-4. Ambil isi public key: `cat ~/.ssh/id_ed25519.pub`
-5. Salin teks tersebut dan masukkan ke akun GitHub Anda (**Settings** > **SSH and GPG keys** > **New SSH Key**).
-
-### 3. Cloning Repositori
-Masuk ke root direktori hPanel (satu tingkat di atas `public_html`) dan jalankan:
+### 1. Cloning Repositori di SSH
+Login ke SSH Hostinger Anda, masuk ke direktori satu tingkat di atas `public_html`, lalu jalankan:
 ```bash
 git clone git@github.com:kalamangna/cms-desa.git project-desa
 ```
 
-### 4. Setup Laravel & Symlink
+### 2. Konfigurasi Awal di Server
 1. Pindah ke folder proyek: `cd project-desa`
 2. Install dependensi: `composer install --optimize-autoloader --no-dev`
-3. Konfigurasi `.env`: `cp .env.example .env` (sesuaikan data database hPanel, dan set `SEED_SAMPLE_DATA=false` jika ingin instalasi bersih tanpa data demo).
-4. Setup Public HTML:
-   - Hapus folder `public_html` bawaan: `rm -rf ~/public_html`
-   - Buat link dari `public` ke `public_html`:
-     ```bash
-     ln -s ~/project-desa/public ~/public_html
-     ```
-5. Jalankan perintah final:
+3. Konfigurasi file `.env` (sesuaikan database hPanel Anda).
+4. Buat tautan folder `public_html` ke folder `public` proyek:
    ```bash
-   php artisan key:generate
-   php artisan migrate --force --seed
-   php artisan storage:link
+   rm -rf ~/public_html
+   ln -s ~/project-desa/public ~/public_html
    ```
 
-### 5. Alur Update Website (Workflow)
-Setiap kali Anda melakukan perubahan kode di lokal, ikuti langkah ini agar perubahan tampil di server:
+### 3. Migrasi & Setup File Storage
+Jalankan perintah berikut di terminal SSH:
+```bash
+php artisan migrate --force --seed
+php artisan optimize:clear
+```
 
-**Langkah A: Di Komputer Lokal (Laptop)**
-1. Lakukan perubahan kode (Blade, CSS, JS, dsb).
-2. Jalankan build aset:
+Buka browser Anda dan jalankan rute inisialisasi ini untuk menyalin file media bawaan seeder secara fisik:
+👉 **`https://tompobulu.desa.id/init-link`**
+
+*(Jika berhasil, folder fisik `public/storage` akan terbuat secara otomatis dan seluruh file media bawaan akan disalin ke dalamnya).*
+
+---
+
+## 🔄 Alur Update Website (Workflow Harian)
+
+Setiap kali Anda melakukan pembaruan kode di laptop lokal, ikuti alur berikut untuk menerapkannya ke server produksi:
+
+**Di Laptop Lokal (Lokal):**
+1. Selesaikan penulisan kode/perbaikan.
+2. Jalankan build produksi CSS/JS:
    ```bash
    npm run build
    ```
-3. Commit dan Push ke GitHub:
+3. Commit dan push ke GitHub:
    ```bash
    git add .
-   git commit -m "Deskripsi perubahan"
+   git commit -m "Deskripsi perubahan Anda"
    git push origin main
    ```
 
-**Langkah B: Di Server (SSH Hostinger)**
-1. Tarik perubahan terbaru:
+**Di Server Hostinger (SSH):**
+1. Tarik perubahan terbaru dari repositori:
    ```bash
    cd ~/project-desa
    git pull origin main
    ```
-2. Jalankan migrasi jika ada perubahan database:
+2. Jalankan migrasi (jika ada perubahan struktur tabel):
    ```bash
    php artisan migrate --force
    ```
-3. Bersihkan cache agar perubahan sistem terbaca:
+3. Bersihkan cache rute, config, dan views Laravel:
    ```bash
-   php artisan optimize
+   php artisan optimize:clear
    ```
 
-## 🛠️ Troubleshooting & Tips
+---
 
-- **Gagal Membuat Symlink Storage**: Jika `php artisan storage:link` gagal karena pembatasan hosting, gunakan perintah PHP murni:
-  ```bash
-  php -r "symlink(getcwd().'/storage/app/public', getcwd().'/public/storage') ? print 'Success' : print 'Failed';"
-  ```
-- **Error Vite Manifest**: Pastikan folder `public/build` sudah ter-upload ke server (sudah otomatis jika mengikuti Alur Update di atas).
-- **Izin Folder**: Jika menemui error "permission denied", pastikan folder storage dapat ditulis:
-  ```bash
-  chmod -R 775 storage bootstrap/cache
-  ```
+## 📝 Catatan Penting & Troubleshooting
 
-## 📝 Catatan Tambahan
-
-- Pastikan versi PHP pada hosting minimal **8.2**.
-- Aktifkan **SSL (HTTPS)** untuk keamanan data dan akses peta yang optimal.
-- Seluruh ikon menggunakan **FontAwesome 6** via CDN yang terkonfigurasi di `layouts/app.blade.php`.
+- **Error 403 / Gagal Upload Gambar**: Hal ini terjadi jika folder `public/storage` belum terbuat secara fisik di server atau tidak memiliki izin menulis. Pastikan Anda telah mengakses rute `https://tompobulu.desa.id/init-link` setelah melakukan deployment awal.
+- **Hak Akses Folder**: Jika terjadi error izin tulis, set hak akses folder dengan perintah:
+   ```bash
+   chmod -R 755 public/storage storage bootstrap/cache
+   ```
+- **Fallback Gambar Kosong**: Jika data kependudukan atau galeri tidak memiliki file gambar, sistem otomatis memuat berkas lokal `/img/meta.png` sebagai gambar fallback yang aman dan responsif.
+- **Versi PHP**: Pastikan akun hosting Hostinger Anda diset menggunakan **PHP 8.2** atau yang lebih baru.
 
 ---
-*Dibuat oleh Tim Pengembang Desa Cantik.*
+*Dibuat oleh Tim Pengembang Website Desa Cantik.*
