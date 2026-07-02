@@ -21,7 +21,13 @@ class Gallery extends Model
                 return "https://img.youtube.com/vi/{$matches[1]}/hqdefault.jpg";
             }
         }
-        return $this->image ? asset('storage/' . $this->image) : null;
+        
+        if ($this->image && strpos($this->image, 'gallery_dummy.jpg') === false) {
+            return asset('storage/' . $this->image);
+        }
+        
+        // Unsplash beautiful village image as placeholder fallback
+        return "https://images.unsplash.com/photo-1500382017468-9049fee74a62?w=800&q=80";
     }
 
     protected static function booted()

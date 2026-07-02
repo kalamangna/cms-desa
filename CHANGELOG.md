@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.4] - 2026-07-02
+
+### Changed
+- **Penerapan Placeholder Unsplash untuk Galeri**: Mengubah logika model `Gallery` (`getImageUrlAttribute()`) agar menggunakan fallback gambar pemandangan desa dari Unsplash secara langsung jika berkas gambar kosong atau berupa `gallery_dummy.jpg`, guna mengatasi error 403 loading di server hosting Hostinger hPanel.
+
 ## [1.5.3] - 2026-07-02
 
 ### Changed
