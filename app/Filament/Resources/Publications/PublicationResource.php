@@ -26,12 +26,12 @@ class PublicationResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return 'Publikasi';
+        return 'Publikasi Data';
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'Publikasi';
+        return 'Publikasi Data';
     }
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

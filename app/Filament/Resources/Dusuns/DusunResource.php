@@ -20,7 +20,7 @@ class DusunResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
-    protected static ?string $navigationLabel = 'Wilayah Dusun';
+    protected static ?string $navigationLabel = 'Dusun';
 
     protected static ?int $navigationSort = 5;
 

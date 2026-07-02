@@ -19,8 +19,8 @@ class ManageProfile extends Page implements HasForms
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
     protected static string|\UnitEnum|null $navigationGroup = 'Profil Desa';
-    protected static ?string $title = 'Profil & Sejarah';
-    protected static ?string $navigationLabel = 'Profil & Sejarah';
+    protected static ?string $title = 'Profil Desa';
+    protected static ?string $navigationLabel = 'Profil Desa';
     protected static ?int $navigationSort = 1;
 
     public ?array $data = [];
@@ -71,11 +71,11 @@ class ManageProfile extends Page implements HasForms
                 \Filament\Schemas\Components\Form::make([
                     \Filament\Schemas\Components\EmbeddedSchema::make('form'),
                 ])
-                ->id('form')
-                ->livewireSubmitHandler('save')
-                ->footer([
-                    \Filament\Schemas\Components\Actions::make($this->getFormActions()),
-                ]),
+                    ->id('form')
+                    ->livewireSubmitHandler('save')
+                    ->footer([
+                        \Filament\Schemas\Components\Actions::make($this->getFormActions()),
+                    ]),
             ]);
     }
 

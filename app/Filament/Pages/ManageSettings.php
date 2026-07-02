@@ -21,8 +21,8 @@ class ManageSettings extends Page implements HasForms
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
-    protected static ?string $title = 'Pengaturan Aplikasi';
-    protected static ?string $navigationLabel = 'Pengaturan Aplikasi';
+    protected static ?string $title = 'Pengaturan';
+    protected static ?string $navigationLabel = 'Pengaturan';
     protected static ?int $navigationSort = 1;
 
     public ?array $data = [];
@@ -77,11 +77,11 @@ class ManageSettings extends Page implements HasForms
                 \Filament\Schemas\Components\Form::make([
                     \Filament\Schemas\Components\EmbeddedSchema::make('form'),
                 ])
-                ->id('form')
-                ->livewireSubmitHandler('save')
-                ->footer([
-                    \Filament\Schemas\Components\Actions::make($this->getFormActions()),
-                ]),
+                    ->id('form')
+                    ->livewireSubmitHandler('save')
+                    ->footer([
+                        \Filament\Schemas\Components\Actions::make($this->getFormActions()),
+                    ]),
             ]);
     }
 
