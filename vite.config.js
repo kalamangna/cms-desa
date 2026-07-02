@@ -12,7 +12,9 @@ export default defineConfig({
     ],
     server: {
         watch: {
-            ignored: ['**/storage/framework/views/**'],
+            ignored: ['**/storage/framework/views/**', '**/storage/**', '**/vendor/**'],
+            usePolling: false,
+            stabilityThreshold: 600,
         },
     },
 });

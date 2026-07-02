@@ -10,9 +10,8 @@
 <div class="relative bg-slate-900 py-24 md:py-36 overflow-hidden">
     {{-- Dot pattern background --}}
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-emerald-700/25 via-slate-900 to-slate-950"></div>
-        <div class="absolute inset-0 opacity-[0.07]"
-             style="background-image:radial-gradient(#94a3b8 1px,transparent 1px);background-size:22px 22px;"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
         {{-- Glowing orb --}}
         <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 right-0 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
@@ -20,7 +19,7 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-10 text-xs font-bold uppercase tracking-[0.2em] text-emerald-500/70" aria-label="Breadcrumb">
+        <nav class="flex mb-10 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
@@ -39,10 +38,10 @@
             <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-[0.25em] px-4 py-2 rounded-full mb-6">
                 <i class="fa-solid fa-newspaper"></i> Informasi Desa
             </div>
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-heading font-extrabold text-white leading-[1.05] mb-6">
+            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Berita <span class="text-emerald-400 italic">Terbaru</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium max-w-2xl">
+            <p class="text-slate-300 text-lg mt-2">
                 Kabar terkini seputar kegiatan, pembangunan, dan perkembangan
                 <span class="text-slate-200 font-semibold">Desa {{ $site_settings['village_name'] ?? '' }}</span>.
             </p>
@@ -136,7 +135,7 @@
                     @endif
 
                     {{-- ─── Regular Post Card ────────────────────────────── --}}
-                    <article class="group bg-white rounded-2xl overflow-hidden shadow-md shadow-slate-200/60 border border-slate-100 hover:shadow-xl hover:shadow-emerald-100/40 hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <article class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 flex flex-col">
                         {{-- Thumbnail --}}
                         <a href="/berita/{{ $post->slug }}" class="block relative overflow-hidden aspect-[16/10] bg-slate-100 flex-shrink-0">
                             @if($post->featured_image)
@@ -205,7 +204,7 @@
             <aside class="lg:w-1/3 xl:w-[32%] space-y-8">
 
                 {{-- Search (desktop) --}}
-                <div class="hidden lg:block bg-white rounded-2xl p-6 shadow-md shadow-slate-200/50 border border-slate-100">
+                <div class="hidden lg:block bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-300">
                     <h3 class="text-base font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-magnifying-glass text-emerald-500 text-sm"></i> Cari Berita
                     </h3>
@@ -220,7 +219,7 @@
                 </div>
 
                 {{-- Categories --}}
-                <div class="bg-slate-900 rounded-2xl p-6 shadow-xl shadow-slate-900/15">
+                <div class="bg-slate-900 rounded-3xl p-6 shadow-xl shadow-slate-900/15">
                     <h3 class="text-base font-heading font-bold text-emerald-400 mb-5 flex items-center gap-2 pb-4 border-b border-white/10">
                         <i class="fa-solid fa-tags text-sm"></i> Kategori
                     </h3>
@@ -254,7 +253,7 @@
                 </div>
 
                 {{-- Info Box --}}
-                <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl shadow-emerald-500/20">
+                <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-3xl p-6 text-white shadow-xl shadow-emerald-500/20">
                     <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
                         <i class="fa-solid fa-bullhorn text-xl"></i>
                     </div>

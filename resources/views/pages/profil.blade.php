@@ -9,14 +9,14 @@
 <div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
-        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
         {{-- Decorative orbs --}}
         <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute top-8 right-1/3 w-64 h-64 bg-emerald-400/5 rounded-full blur-2xl pointer-events-none"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-sm font-bold uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
                     <a href="/" class="hover:text-emerald-400 transition">Beranda</a>
@@ -34,10 +34,10 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Tentang Desa</span>
             </div>
-            <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Profil <span class="text-emerald-500 italic">Desa</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
+            <p class="text-slate-300 text-lg mt-2">
                 Sejarah, visi, misi, dan karakteristik wilayah Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -45,7 +45,7 @@
 </div>
 
 {{-- ===================== TAB NAVIGATION + CONTENT ===================== --}}
-<div x-data="{ activeTab: 'sejarah' }" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+<div x-data="{ activeTab: 'sejarah' }" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
 
     {{-- Tab Pills --}}
     <div class="flex flex-wrap gap-3 mb-16 border-b border-slate-200 pb-0" role="tablist">
@@ -94,7 +94,10 @@
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
             {{-- Sejarah prose --}}
             <div class="lg:col-span-3">
-                <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-4 block">Asal Usul</span>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="h-px w-8 bg-emerald-500"></div>
+                    <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Asal Usul</span>
+                </div>
                 <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-8">Sejarah Desa</h2>
                 <div class="prose prose-emerald max-w-none text-slate-600 leading-relaxed font-medium mb-16">
                     {!! $site_settings['village_history'] ?? '<p>Sejarah Desa ' . ($site_settings['village_name'] ?? '') . ' berawal dari pemukiman tradisional yang kaya akan nilai budaya dan gotong royong. Selama berpuluh-puluh tahun, desa ini terus berkembang menjadi pusat kegiatan ekonomi dan sosial bagi masyarakat sekitarnya.</p><p>Hingga saat ini, nilai-nilai luhur tersebut tetap dijaga sambil terus melakukan inovasi dalam pelayanan publik dan pembangunan berbasis data statistik yang presisi.</p>' !!}
@@ -103,7 +106,10 @@
 
             {{-- Vertical Timeline --}}
             <div class="lg:col-span-2">
-                <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-4 block">Milestone</span>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="h-px w-8 bg-emerald-500"></div>
+                    <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Milestone</span>
+                </div>
                 <h3 class="text-2xl font-heading font-extrabold text-slate-900 mb-8">Perjalanan Desa</h3>
                 <div class="relative">
                     {{-- Vertical line --}}
@@ -160,7 +166,10 @@
          id="panel-visimisi" role="tabpanel" aria-labelledby="tab-visimisi">
 
         <div class="max-w-4xl mx-auto">
-            <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-4 block text-center">Arah Pembangunan</span>
+            <div class="flex items-center gap-3 mb-4 justify-center">
+                <div class="h-px w-8 bg-emerald-500"></div>
+                <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Arah Pembangunan</span>
+            </div>
             <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-12 text-center">Visi &amp; Misi</h2>
 
             {{-- Visi Card --}}
@@ -204,12 +213,15 @@
          id="panel-karakteristik" role="tabpanel" aria-labelledby="tab-karakteristik">
 
         <div class="max-w-5xl mx-auto">
-            <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-4 block text-center">Data Wilayah</span>
+            <div class="flex items-center gap-3 mb-4 justify-center">
+                <div class="h-px w-8 bg-emerald-500"></div>
+                <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Data Wilayah</span>
+            </div>
             <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-12 text-center">Karakteristik Wilayah</h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                 {{-- Luas Wilayah --}}
-                <div class="group bg-white rounded-[32px] p-8 border border-slate-100 shadow-lg shadow-slate-200/40 hover:border-emerald-300 hover:shadow-emerald-100/60 transition-all duration-300 text-center">
+                <div class="group bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
                     <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                         <i class="fa-solid fa-map-location-dot"></i>
                     </div>
@@ -219,7 +231,7 @@
                 </div>
 
                 {{-- Populasi --}}
-                <div class="group bg-white rounded-[32px] p-8 border border-slate-100 shadow-lg shadow-slate-200/40 hover:border-emerald-300 hover:shadow-emerald-100/60 transition-all duration-300 text-center">
+                <div class="group bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
                     <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                         <i class="fa-solid fa-users"></i>
                     </div>
@@ -229,7 +241,7 @@
                 </div>
 
                 {{-- Topografi --}}
-                <div class="group bg-white rounded-[32px] p-8 border border-slate-100 shadow-lg shadow-slate-200/40 hover:border-emerald-300 hover:shadow-emerald-100/60 transition-all duration-300 text-center">
+                <div class="group bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
                     <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                         <i class="fa-solid fa-mountain-sun"></i>
                     </div>
@@ -246,7 +258,7 @@
                     <i class="fa-solid fa-chart-bar text-emerald-400 text-4xl mb-6"></i>
                     <h3 class="text-2xl md:text-3xl font-heading font-extrabold mb-4">Data Statistik Lengkap</h3>
                     <p class="text-slate-400 leading-relaxed mb-8 max-w-xl mx-auto">Lihat data kependudukan, ekonomi, dan pembangunan desa yang lebih komprehensif di halaman statistik kami.</p>
-                    <a href="/statistik" class="inline-flex items-center gap-3 bg-emerald-600 text-white px-10 py-4 rounded-full font-bold hover:bg-emerald-700 transition shadow-xl shadow-emerald-900/40">
+                    <a href="/statistik" class="inline-flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-2xl transition shadow-xl shadow-emerald-900/40">
                         <i class="fa-solid fa-chart-line"></i>
                         Lihat Statistik Detail
                     </a>
