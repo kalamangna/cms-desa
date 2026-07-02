@@ -26,8 +26,8 @@ class Gallery extends Model
             return asset('storage/' . $this->image);
         }
         
-        // Unsplash beautiful village image as placeholder fallback
-        return "https://images.unsplash.com/photo-1500382017468-9049fee74a62?auto=format&fit=crop&w=800&q=80";
+        // Local meta.png image as placeholder fallback
+        return asset('img/meta.png');
     }
 
     protected static function booted()

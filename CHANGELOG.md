@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.6] - 2026-07-02
+
+### Changed
+- **Penerapan Gambar Fallback Lokal**: Mengubah seluruh placeholder dan fallback gambar di semua modul (Berita Utama, Berita Grid, Kepala Desa, Galeri, dan Publikasi) agar menggunakan berkas gambar lokal `/img/meta.png` sebagai pengganti placeholder eksternal Unsplash maupun placeholder blok ikon abu-abu.
+- **Perbaikan Rujukan Publikasi**: Memperbaiki bug rujukan atribut `cover_image` menjadi `cover` pada modul Publikasi di halaman Beranda agar gambar cover yang diunggah dapat tampil.
+
 ## [1.5.5] - 2026-07-02
 
 ### Changed

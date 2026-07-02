@@ -97,12 +97,10 @@
             <div class="lg:w-5/12 p-4 lg:p-6 flex-shrink-0">
                 @if($villageHead && $villageHead->photo)
                     <img src="{{ asset('storage/' . $villageHead->photo) }}"
-                         class="rounded-[32px] w-full h-[320px] md:h-full max-h-[560px] object-cover object-top" alt="Kepala Desa">
+                          class="rounded-[32px] w-full h-[320px] md:h-full max-h-[560px] object-cover object-top" alt="Kepala Desa">
                 @else
-                    <div class="rounded-[32px] w-full h-[320px] md:h-[480px] bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center text-slate-300">
-                        <i class="fa-solid fa-user-tie text-7xl mb-4 opacity-30"></i>
-                        <p class="text-sm font-medium opacity-50">Foto Kepala Desa</p>
-                    </div>
+                    <img src="{{ asset('img/meta.png') }}"
+                          class="rounded-[32px] w-full h-[320px] md:h-full max-h-[560px] object-cover object-top animate-pulse" alt="Kepala Desa">
                 @endif
             </div>
             <div class="lg:w-7/12 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
@@ -234,9 +232,7 @@
                         @if($featuredPost->featured_image)
                             <img src="{{ asset('storage/' . $featuredPost->featured_image) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featuredPost->title }}">
                         @else
-                            <div class="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center text-slate-300">
-                                <i class="fa-solid fa-image text-5xl opacity-30"></i>
-                            </div>
+                            <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featuredPost->title }}">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                         <div class="absolute top-6 left-6">
@@ -257,7 +253,7 @@
                             @if($post->featured_image)
                                 <img src="{{ asset('storage/' . $post->featured_image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
                             @else
-                                <div class="w-full h-full flex items-center justify-center text-slate-200"><i class="fa-solid fa-image text-2xl"></i></div>
+                                <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
                             @endif
                         </div>
                         <div class="flex-1 min-w-0">
@@ -328,7 +324,7 @@
                         <img src="{{ $gallery->image_url }}"
                              class="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
                              alt="{{ $gallery->title }}"
-                             onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fee74a62?auto=format&fit=crop&w=600&q=80'">
+                             onerror="this.src='{{ asset('img/meta.png') }}'">
                         @if($gallery->type === 'video')
                         <div class="absolute top-3 right-3 w-8 h-8 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
                             <i class="fa-brands fa-youtube text-white text-xs"></i>
@@ -351,12 +347,10 @@
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-200 overflow-hidden group">
                         <div class="flex items-center gap-5 p-5">
                             <div class="w-16 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100">
-                                @if($pub->cover_image)
-                                    <img src="{{ asset('storage/' . $pub->cover_image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $pub->title }}">
+                                @if($pub->cover)
+                                    <img src="{{ asset('storage/' . $pub->cover) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $pub->title }}">
                                 @else
-                                    <div class="w-full h-full flex items-center justify-center bg-emerald-50 text-emerald-400">
-                                        <i class="fa-solid fa-book-open text-xl"></i>
-                                    </div>
+                                    <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $pub->title }}">
                                 @endif
                             </div>
                             <div class="flex-1 min-w-0">

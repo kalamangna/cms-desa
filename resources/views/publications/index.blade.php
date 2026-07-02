@@ -80,11 +80,12 @@
                         loading="lazy"
                     >
                 @else
-                    {{-- Placeholder cover --}}
-                    <div class="w-full h-full flex flex-col items-center justify-center p-10 text-center bg-gradient-to-br from-slate-100 to-slate-200">
-                        <i class="fa-solid fa-book-open text-5xl text-slate-300 mb-4"></i>
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Arsip Digital</span>
-                    </div>
+                    <img
+                        src="{{ asset('img/meta.png') }}"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        alt="{{ $pub->title }}"
+                        loading="lazy"
+                    >
                 @endif
 
                 {{-- Overlay hover --}}

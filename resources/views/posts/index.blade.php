@@ -87,9 +87,9 @@
                                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                          alt="{{ $post->title }}">
                                 @else
-                                    <div class="w-full h-full bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center">
-                                        <i class="fa-solid fa-image text-5xl text-emerald-300"></i>
-                                    </div>
+                                    <img src="{{ asset('img/meta.png') }}"
+                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                         alt="{{ $post->title }}">
                                 @endif
                             </div>
 
@@ -143,9 +143,9 @@
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                      alt="{{ $post->title }}">
                             @else
-                                <div class="w-full h-full bg-gradient-to-br from-slate-100 to-emerald-50 flex items-center justify-center">
-                                    <i class="fa-solid fa-newspaper text-3xl text-slate-300"></i>
-                                </div>
+                                <img src="{{ asset('img/meta.png') }}"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                     alt="{{ $post->title }}">
                             @endif
                             @if($post->category)
                             <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-emerald-700 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">

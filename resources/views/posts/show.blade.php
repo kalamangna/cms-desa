@@ -17,6 +17,10 @@
             <img src="{{ asset('storage/' . $post->featured_image) }}"
                  class="absolute inset-0 w-full h-full object-cover opacity-25 blur-sm scale-110"
                  alt="Background">
+        @else
+            <img src="{{ asset('img/meta.png') }}"
+                 class="absolute inset-0 w-full h-full object-cover opacity-25 blur-sm scale-110"
+                 alt="Background">
         @endif
         <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/80 to-slate-900"></div>
         <div class="absolute inset-0 opacity-[0.06]"
@@ -93,6 +97,12 @@
             @if($post->featured_image)
             <div class="w-full overflow-hidden" style="aspect-ratio:21/9;">
                 <img src="{{ asset('storage/' . $post->featured_image) }}"
+                     class="w-full h-full object-cover"
+                     alt="{{ $post->title }}">
+            </div>
+            @else
+            <div class="w-full overflow-hidden" style="aspect-ratio:21/9;">
+                <img src="{{ asset('img/meta.png') }}"
                      class="w-full h-full object-cover"
                      alt="{{ $post->title }}">
             </div>
@@ -214,9 +224,9 @@
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                  alt="{{ $related->title }}">
                         @else
-                            <div class="w-full h-full bg-gradient-to-br from-slate-100 to-emerald-50 flex items-center justify-center">
-                                <i class="fa-solid fa-newspaper text-2xl text-slate-300"></i>
-                            </div>
+                            <img src="{{ asset('img/meta.png') }}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                 alt="{{ $related->title }}">
                         @endif
                     </div>
                     <div class="p-4 flex flex-col flex-grow">

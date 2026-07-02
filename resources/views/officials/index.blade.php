@@ -65,9 +65,11 @@
                             alt="{{ $official->name }}"
                             loading="lazy">
                     @else
-                        <div class="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center text-slate-300">
-                            <i class="fa-solid fa-user text-4xl"></i>
-                        </div>
+                        <img
+                            src="{{ asset('img/meta.png') }}"
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                            alt="{{ $official->name }}"
+                            loading="lazy">
                     @endif
                 </div>
                 {{-- Online indicator dot --}}
