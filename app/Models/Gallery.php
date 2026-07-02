@@ -27,7 +27,7 @@ class Gallery extends Model
         }
         
         // Unsplash beautiful village image as placeholder fallback
-        return "https://images.unsplash.com/photo-1500382017468-9049fee74a62?w=800&q=80";
+        return "https://images.unsplash.com/photo-1500382017468-9049fee74a62?auto=format&fit=crop&w=800&q=80";
     }
 
     protected static function booted()

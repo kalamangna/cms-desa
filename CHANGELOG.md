@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.5] - 2026-07-02
+
+### Changed
+- **Pembaruan Parameter URL Unsplash**: Menambahkan parameter format, crop, dan kualitas (`auto=format&fit=crop`) pada URL fallback Unsplash di model `Gallery` dan atribut `onerror` di `home.blade.php` agar server Unsplash tidak menolak permintaan dengan status 404.
+
 ## [1.5.4] - 2026-07-02
 
 ### Changed

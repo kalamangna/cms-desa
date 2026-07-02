@@ -328,7 +328,7 @@
                         <img src="{{ $gallery->image_url }}"
                              class="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
                              alt="{{ $gallery->title }}"
-                             onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fee74a62?w=400&q=60'">
+                             onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fee74a62?auto=format&fit=crop&w=600&q=80'">
                         @if($gallery->type === 'video')
                         <div class="absolute top-3 right-3 w-8 h-8 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
                             <i class="fa-brands fa-youtube text-white text-xs"></i>
