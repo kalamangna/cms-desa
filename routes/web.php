@@ -39,3 +39,18 @@ Route::get('/dataset', [DatasetController::class, 'index'])->name('datasets.inde
 Route::get('/publikasi', [PublicationController::class, 'index'])->name('publications.index');
 
 Route::get('/apbdes', [APBDesController::class, 'index'])->name('apbdes.index');
+
+Route::get('/init-link', function () {
+    $target = storage_path('app/public');
+    $link = public_path('storage');
+    
+    if (file_exists($link) || is_link($link)) {
+        @unlink($link);
+    }
+    
+    if (@symlink($target, $link)) {
+        return "Berhasil membuat symbolic link!";
+    }
+    
+    return "Gagal membuat symbolic link. Pastikan folder 'public/storage' belum ada atau minta penyedia hosting mengaktifkan fungsi symlink().";
+});

@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.2] - 2026-07-02
+
+### Added
+- **Rute Inisialisasi Link**: Menambahkan rute `/init-link` untuk memicu fungsi `symlink()` PHP secara programatis guna memintas pemblokiran fungsi `exec()` shell command oleh hosting.
+
 ## [1.5.1] - 2026-07-02
 
 ### Changed
