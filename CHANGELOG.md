@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.3] - 2026-07-02
+
+### Changed
+- **Perbaikan Namespace Komponen Grid Filament v4**: Memperbaiki rujukan namespace komponen `Grid` dari `Filament\Forms\Components` ke `Filament\Schemas\Components` pada `FamilyForm.php` dan `CitizenForm.php` agar kompatibel dengan sistem layouting Filament v4.
+
 ## [1.6.2] - 2026-07-02
 
 ### Changed
