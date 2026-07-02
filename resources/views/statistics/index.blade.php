@@ -9,11 +9,11 @@
 <div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
-        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-sm font-bold uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
                     <a href="/" class="hover:text-emerald-400 transition">Beranda</a>
@@ -28,10 +28,10 @@
         </nav>
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
-                <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+                <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                     Pusat <span class="text-emerald-500 italic">Statistik</span>
                 </h1>
-                <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
+                <p class="text-slate-300 text-lg mt-2">
                     Data kependudukan, sosial, dan ekonomi Desa {{ $site_settings['village_name'] ?? '' }}.
                 </p>
             </div>
@@ -51,7 +51,7 @@
 {{-- ═══════════════════════════════════════════════════════
      ALPINE.JS TAB NAVIGATION + CONTENT
 ═══════════════════════════════════════════════════════ --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24"
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36"
      x-data="{ activeTab: '{{ $categories->first()?->slug ?? '' }}' }">
 
     {{-- TAB NAV --}}
@@ -106,7 +106,7 @@
                 $maxYear = $allYears->max() ?? '-';
                 $totalRecords = $category->indicators->sum(fn($i) => $i->data->count());
             @endphp
-            <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-100 flex flex-col justify-between min-h-[130px]">
+            <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[130px]">
                 <span class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Rentang Tahun</span>
                 <div>
                     <span class="text-3xl font-extrabold text-slate-900 block leading-none">{{ $minYear }}–{{ $maxYear }}</span>
@@ -114,7 +114,7 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-100 flex flex-col justify-between min-h-[130px]">
+            <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[130px]">
                 <span class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Total Catatan</span>
                 <div>
                     <span class="text-3xl font-extrabold text-slate-900 block leading-none">{{ number_format($totalRecords) }}</span>
@@ -138,7 +138,10 @@
         {{-- SECTION HEADER --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-1 block">Visualisasi Data</span>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="h-px w-8 bg-emerald-500"></div>
+                    <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Visualisasi Data</span>
+                </div>
                 <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">{{ $category->name }}</h2>
             </div>
             <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold hidden md:flex">
@@ -154,7 +157,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         @endif
             @foreach($category->indicators as $indicatorIndex => $indicator)
-            <div class="bg-white rounded-[32px] shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden hover:border-emerald-200 transition duration-500 group
+            <div class="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 overflow-hidden group
                         {{ $totalIndicators === 1 ? '' : ($totalIndicators % 2 !== 0 && $loop->last ? 'lg:col-span-2' : '') }}">
                 <div class="p-8 md:p-10">
                     {{-- Chart header --}}
@@ -195,7 +198,7 @@
 
         {{-- Download action --}}
         <div class="mt-8 flex justify-end">
-            <button class="inline-flex items-center gap-2 bg-slate-900 hover:bg-emerald-600 text-white text-sm font-bold px-6 py-3 rounded-full transition duration-300 shadow-lg shadow-slate-900/10">
+            <button class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-2xl transition duration-300 shadow-lg shadow-emerald-600/20">
                 <i class="fa-solid fa-download"></i>
                 Unduh Data CSV
             </button>

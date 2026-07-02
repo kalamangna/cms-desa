@@ -9,24 +9,23 @@
      ========================================================= --}}
 <div class="relative bg-slate-900 py-24 md:py-36 overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-amber-600/15 via-slate-900 to-slate-950"></div>
-        <div class="absolute inset-0 opacity-[0.07]"
-             style="background-image:radial-gradient(#94a3b8 1px,transparent 1px);background-size:22px 22px;"></div>
-        <div class="absolute -top-24 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-10 text-xs font-bold uppercase tracking-[0.2em] text-amber-500/70" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center gap-2">
-                <li>
-                    <a href="/" class="hover:text-amber-400 transition-colors duration-200 flex items-center gap-1.5">
+        <nav class="flex mb-8 text-xs font-bold uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
                         <i class="fa-solid fa-house text-[10px]"></i> Beranda
                     </a>
                 </li>
                 <li class="flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-right text-[9px] text-amber-500/40"></i>
+                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
                     <span class="text-white">Pengumuman</span>
                 </li>
             </ol>
@@ -34,13 +33,13 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-black uppercase tracking-[0.25em] px-4 py-2 rounded-full mb-6">
+            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-[0.25em] px-4 py-2 rounded-full mb-6">
                 <i class="fa-solid fa-bullhorn"></i> Informasi Resmi
             </div>
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-heading font-extrabold text-white leading-[1.05] mb-6">
-                Warta <span class="text-amber-400 italic">Pengumuman</span>
+            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+                Warta <span class="text-emerald-500 italic">Pengumuman</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium max-w-2xl">
+            <p class="text-slate-300 text-lg mt-2 max-w-2xl">
                 Pusat informasi resmi, edaran, dan pemberitahuan penting dari
                 <span class="text-slate-200 font-semibold">Desa {{ $site_settings['village_name'] ?? '' }}</span>.
             </p>
@@ -70,7 +69,7 @@
      TIMELINE CONTENT
      ========================================================= --}}
 <div class="bg-slate-50 min-h-screen">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
 
         @forelse($announcements as $index => $announcement)
 

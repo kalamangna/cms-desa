@@ -9,7 +9,7 @@
 <div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
-        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
         <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
     </div>
 
@@ -32,10 +32,10 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Pemerintahan</span>
             </div>
-            <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Aparatur <span class="text-emerald-500 italic">Desa</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
+            <p class="text-slate-300 text-lg mt-2">
                 Jajaran pelayan masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -53,7 +53,7 @@
     @else
     <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
         @foreach($officials as $official)
-        <div class="group flex flex-col items-center bg-white rounded-[32px] p-6 md:p-8 border border-slate-100 shadow-lg shadow-slate-200/40 hover:shadow-xl hover:shadow-emerald-100/60 hover:-translate-y-2 hover:border-emerald-200 transition-all duration-300">
+        <div class="group flex flex-col items-center bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300">
 
             {{-- Photo --}}
             <div class="relative mb-6">
@@ -102,11 +102,11 @@
                 Kami berkomitmen memberikan pelayanan terbaik bagi seluruh warga desa tanpa pengecualian, didukung oleh data statistik yang akurat untuk setiap keputusan kebijakan.
             </p>
             <div class="mt-10 flex flex-wrap gap-4 justify-center">
-                <a href="/layanan" class="inline-flex items-center gap-2 bg-white text-emerald-700 px-8 py-3.5 rounded-full font-bold text-sm hover:bg-emerald-50 transition shadow-xl shadow-emerald-800/20">
+                <a href="/layanan" class="inline-flex items-center gap-2 bg-white text-emerald-700 px-8 py-4 rounded-2xl font-bold text-sm hover:bg-emerald-50 transition shadow-xl shadow-emerald-800/20">
                     <i class="fa-solid fa-clipboard-list"></i>
                     Lihat Layanan
                 </a>
-                <a href="/kontak" class="inline-flex items-center gap-2 bg-emerald-700/60 border border-white/30 text-white px-8 py-3.5 rounded-full font-bold text-sm hover:bg-emerald-700 transition">
+                <a href="/kontak" class="inline-flex items-center gap-2 bg-emerald-700/60 border border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-sm hover:bg-emerald-700 transition">
                     <i class="fa-solid fa-phone"></i>
                     Hubungi Kami
                 </a>

@@ -9,7 +9,7 @@
 <div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
-        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,10 +28,10 @@
         </nav>
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
-                <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+                <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                     APBDes <span class="text-emerald-500 italic">{{ date('Y') }}</span>
                 </h1>
-                <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
+                <p class="text-slate-300 text-lg mt-2">
                     Transparansi realisasi anggaran Desa {{ $site_settings['village_name'] ?? '' }}.
                 </p>
             </div>
@@ -153,7 +153,10 @@
 ═══════════════════════════════════════════════════════ --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 md:pb-28">
     <div class="mb-12 text-center md:text-left">
-        <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-2 block">Rincian Anggaran</span>
+        <div class="flex items-center gap-3 mb-4 md:justify-start justify-center">
+            <div class="h-px w-8 bg-emerald-500"></div>
+            <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Rincian Anggaran</span>
+        </div>
         <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900">Detail Transparansi Dana</h2>
     </div>
 
@@ -195,9 +198,10 @@
                 {{-- LEFT: sticky sidebar --}}
                 <div class="lg:w-80 w-full lg:sticky lg:top-28 flex-shrink-0">
                     <div class="mb-6">
-                        <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-3 block">
-                            Detail Transparansi
-                        </span>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="h-px w-8 bg-emerald-500"></div>
+                            <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Detail Transparansi</span>
+                        </div>
                         <h3 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-4 leading-tight">
                             Rincian <br class="hidden lg:block">{{ $category->name }}
                         </h3>
@@ -347,8 +351,8 @@
             </p>
         </div>
         <a href="/kontak"
-           class="bg-emerald-600 text-white px-12 py-5 rounded-full font-bold text-lg
-                  hover:bg-emerald-700 transition relative z-10 shadow-xl shadow-emerald-900/20
+           class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-2xl
+                  transition relative z-10 shadow-xl shadow-emerald-900/20
                   flex-shrink-0 flex items-center gap-3">
             <i class="fa-solid fa-paper-plane"></i>
             Hubungi Kami

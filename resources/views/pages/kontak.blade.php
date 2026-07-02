@@ -6,10 +6,10 @@
 @section('content')
 
 {{-- ===================== HERO ===================== --}}
-<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-24 md:py-36 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
-        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
         <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
     </div>
 
@@ -32,10 +32,10 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Kontak &amp; Lokasi</span>
             </div>
-            <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Hubungi <span class="text-emerald-500 italic">Kami</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
+            <p class="text-slate-300 text-lg mt-2">
                 Saluran masukan dan pengaduan warga Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -43,13 +43,13 @@
 </div>
 
 {{-- ===================== SPLIT LAYOUT ===================== --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
 
         {{-- ========== LEFT: Info + Social ========== --}}
         <div class="lg:col-span-2 space-y-10">
             <div>
-                <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em] mb-4 block">Informasi Kontak</span>
+                <div class="flex items-center gap-3 mb-4"><div class="h-px w-8 bg-emerald-500"></div><span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Informasi Kontak</span></div>
                 <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-10">Saluran Layanan</h2>
             </div>
 

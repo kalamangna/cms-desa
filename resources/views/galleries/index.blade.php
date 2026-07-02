@@ -9,7 +9,7 @@
 <div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
-        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,10 +27,10 @@
             </ol>
         </nav>
         <div class="max-w-3xl text-center md:text-left">
-            <h1 class="text-4xl md:text-7xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Galeri <span class="text-emerald-500 italic">Kegiatan</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
+            <p class="text-slate-300 text-lg mt-2">
                 Dokumentasi momen penting Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -99,7 +99,7 @@
         <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
             @foreach($galleries as $item)
             <div
-                class="break-inside-avoid group relative bg-white rounded-3xl overflow-hidden shadow-lg shadow-slate-200/60 border border-slate-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-200/80"
+                class="break-inside-avoid group relative bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-emerald-200"
                 x-show="activeFilter === 'semua' || activeFilter === '{{ $item->type === 'video' ? 'video' : 'photo' }}'"
                 x-transition:enter="transition ease-out duration-400"
                 x-transition:enter-start="opacity-0 scale-95"
