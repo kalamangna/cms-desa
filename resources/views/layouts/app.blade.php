@@ -74,24 +74,24 @@
             </div>
             <div class="flex gap-6 items-center">
                 @auth
-                    <div class="flex items-center gap-6">
-                        <a href="/admin" class="hover:text-emerald-400 transition flex items-center gap-2">
-                            <i class="fa-solid fa-table-cells-large text-[10px]"></i>
-                            Panel Admin
-                        </a>
-                        <form method="POST" action="/admin/logout">
-                            @csrf
-                            <button type="submit" class="hover:text-rose-400 transition flex items-center gap-2">
-                                <i class="fa-solid fa-right-from-bracket text-[10px]"></i>
-                                Keluar
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <a href="/admin/login" class="hover:text-emerald-400 transition flex items-center gap-2">
-                        <i class="fa-solid fa-user text-[10px]"></i>
-                        Login Sistem &rarr;
+                <div class="flex items-center gap-6">
+                    <a href="/admin" class="hover:text-emerald-400 transition flex items-center gap-2">
+                        <i class="fa-solid fa-table-cells-large text-[10px]"></i>
+                        Panel Admin
                     </a>
+                    <form method="POST" action="/admin/logout">
+                        @csrf
+                        <button type="submit" class="hover:text-rose-400 transition flex items-center gap-2">
+                            <i class="fa-solid fa-right-from-bracket text-[10px]"></i>
+                            Keluar
+                        </button>
+                    </form>
+                </div>
+                @else
+                <a href="/admin/login" class="hover:text-emerald-400 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user text-[10px]"></i>
+                    Login Sistem &rarr;
+                </a>
                 @endauth
             </div>
         </div>
@@ -99,9 +99,9 @@
 
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 transition-all duration-300 border-b border-slate-200/80"
-         x-data="{ mobileMenuOpen: false, scrolled: false }"
-         @scroll.window="scrolled = (window.pageYOffset > 10)"
-         :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-2' : 'bg-white py-4'">
+        x-data="{ mobileMenuOpen: false, scrolled: false }"
+        @scroll.window="scrolled = (window.pageYOffset > 10)"
+        :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-2' : 'bg-white py-4'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 transition-all duration-300">
                 <div class="flex items-center">
@@ -120,21 +120,21 @@
                         Beranda
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('/') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                     </a>
-                    
+
                     <!-- Informasi Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'info'" @mouseleave="openMenu = null">
                         <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
                             Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
-                        <div x-show="openMenu === 'info'" 
-                             x-transition:enter="transition ease-out duration-150"
-                             x-transition:enter-start="opacity-0 translate-y-2"
-                             x-transition:enter-end="opacity-100 translate-y-0"
-                             x-transition:leave="transition ease-in duration-100"
-                             x-transition:leave-start="opacity-100 translate-y-0"
-                             x-transition:leave-end="opacity-0 translate-y-2"
-                             class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
+                        <div x-show="openMenu === 'info'"
+                            x-transition:enter="transition ease-out duration-150"
+                            x-transition:enter-start="opacity-0 translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 translate-y-2"
+                            class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
                             <a href="/berita" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Berita</a>
                             <a href="/pengumuman" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Pengumuman</a>
                             <a href="/galeri" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Galeri</a>
@@ -147,15 +147,15 @@
                             Profil <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('aparatur*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
-                        <div x-show="openMenu === 'profil'" 
-                             x-transition:enter="transition ease-out duration-150"
-                             x-transition:enter-start="opacity-0 translate-y-2"
-                             x-transition:enter-end="opacity-100 translate-y-0"
-                             x-transition:leave="transition ease-in duration-100"
-                             x-transition:leave-start="opacity-100 translate-y-0"
-                             x-transition:leave-end="opacity-0 translate-y-2"
-                             class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
-                            <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Profil</a>
+                        <div x-show="openMenu === 'profil'"
+                            x-transition:enter="transition ease-out duration-150"
+                            x-transition:enter-start="opacity-0 translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 translate-y-2"
+                            class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
+                            <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Profil Desa</a>
                             <a href="/aparatur" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Aparatur Desa</a>
                         </div>
                     </div>
@@ -166,19 +166,19 @@
                             Data <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') || request()->is('apbdes*') || request()->is('dokumen*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
-                        <div x-show="openMenu === 'data'" 
-                             x-transition:enter="transition ease-out duration-150"
-                             x-transition:enter-start="opacity-0 translate-y-2"
-                             x-transition:enter-end="opacity-100 translate-y-0"
-                             x-transition:leave="transition ease-in duration-100"
-                             x-transition:leave-start="opacity-100 translate-y-0"
-                             x-transition:leave-end="opacity-0 translate-y-2"
-                             class="absolute top-full left-0 w-56 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
+                        <div x-show="openMenu === 'data'"
+                            x-transition:enter="transition ease-out duration-150"
+                            x-transition:enter-start="opacity-0 translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 translate-y-2"
+                            class="absolute top-full left-0 w-56 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
                             <a href="/statistik" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Statistik</a>
-                            <a href="/apbdes" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">APBDes</a>
                             <a href="/dataset" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Open Data</a>
-                            <a href="/publikasi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Publikasi</a>
+                            <a href="/publikasi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Publikasi Data</a>
                             <a href="/dokumen" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Dokumen</a>
+                            <a href="/apbdes" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">APBDes</a>
                         </div>
                     </div>
 
@@ -188,14 +188,14 @@
                             Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('layanan*') || request()->is('kontak*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
-                        <div x-show="openMenu === 'layanan'" 
-                             x-transition:enter="transition ease-out duration-150"
-                             x-transition:enter-start="opacity-0 translate-y-2"
-                             x-transition:enter-end="opacity-100 translate-y-0"
-                             x-transition:leave="transition ease-in duration-100"
-                             x-transition:leave-start="opacity-100 translate-y-0"
-                             x-transition:leave-end="opacity-0 translate-y-2"
-                             class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
+                        <div x-show="openMenu === 'layanan'"
+                            x-transition:enter="transition ease-out duration-150"
+                            x-transition:enter-start="opacity-0 translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 translate-y-2"
+                            class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
                             <a href="/layanan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Layanan</a>
                             <a href="/kontak" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Kontak</a>
                         </div>
@@ -236,7 +236,7 @@
                 <!-- Profil Section -->
                 <div>
                     <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Profil</span>
-                    <a href="/profil" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('profil*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Profil</a>
+                    <a href="/profil" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('profil*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Profil Desa</a>
                     <a href="/aparatur" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('aparatur*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Aparatur Desa</a>
                 </div>
 
@@ -244,10 +244,10 @@
                 <div>
                     <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Data</span>
                     <a href="/statistik" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('statistik*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Statistik</a>
-                    <a href="/apbdes" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">APBDes</a>
                     <a href="/dataset" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('dataset*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Open Data</a>
-                    <a href="/publikasi" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('publikasi*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Publikasi</a>
+                    <a href="/publikasi" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('publikasi*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Publikasi Data</a>
                     <a href="/dokumen" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('dokumen*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Dokumen</a>
+                    <a href="/apbdes" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">APBDes</a>
                 </div>
 
                 <!-- Layanan Section -->
@@ -259,24 +259,24 @@
 
                 <div class="pt-6 border-t border-slate-100 mt-4">
                     @auth
-                        <div class="flex flex-col gap-3">
-                            <a href="/admin" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
-                                <i class="fa-solid fa-table-cells-large"></i>
-                                Panel Admin
-                            </a>
-                            <form method="POST" action="/admin/logout" class="w-full">
-                                @csrf
-                                <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-100 text-slate-600 text-center">
-                                    <i class="fa-solid fa-right-from-bracket"></i>
-                                    Keluar
-                                </button>
-                            </form>
-                        </div>
-                    @else
-                        <a href="/admin/login" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
-                            <i class="fa-solid fa-user"></i>
-                            Login Sistem
+                    <div class="flex flex-col gap-3">
+                        <a href="/admin" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
+                            <i class="fa-solid fa-table-cells-large"></i>
+                            Panel Admin
                         </a>
+                        <form method="POST" action="/admin/logout" class="w-full">
+                            @csrf
+                            <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-100 text-slate-600 text-center">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                Keluar
+                            </button>
+                        </form>
+                    </div>
+                    @else
+                    <a href="/admin/login" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
+                        <i class="fa-solid fa-user"></i>
+                        Login Sistem
+                    </a>
                     @endauth
                 </div>
             </div>
@@ -294,7 +294,7 @@
         <div class="absolute -top-px left-0 right-0 h-24 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none"></div>
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
 
                 <!-- Brand col -->
                 <div class="lg:col-span-2">
@@ -332,18 +332,6 @@
                         <li><a href="/berita" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Berita</a></li>
                         <li><a href="/pengumuman" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Pengumuman</a></li>
                         <li><a href="/galeri" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Galeri</a></li>
-                    </ul>
-                </div>
-
-                <!-- Data & Transparansi -->
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Data & Layanan</h4>
-                    <ul class="space-y-3 text-sm text-slate-400">
-                        <li><a href="/statistik" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Statistik Penduduk</a></li>
-                        <li><a href="/apbdes" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> APBDes</a></li>
-                        <li><a href="/dataset" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Open Data</a></li>
-                        <li><a href="/publikasi" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Publikasi</a></li>
-                        <li><a href="/layanan" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Layanan Mandiri</a></li>
                     </ul>
                 </div>
 

@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.1] - 2026-07-02
+
+### Changed
+- **Penyederhanaan Kolom Footer**: Menghapus kolom **Data & Layanan** dari footer layout utama, lalu menyesuaikan tata letak grid kembali menjadi 5 kolom agar seimbang dengan proporsi lebar: Brand (2), Tautan Cepat (1), dan Kontak Kami (2).
+
 ## [1.6.0] - 2026-07-02
 
 ### Changed
