@@ -282,7 +282,6 @@ class ListCitizens extends ListRecords
                         $rowCount++;
                     }
 
-                    fclose($file);
                     @unlink($filePath);
 
                     Notification::make()

@@ -249,7 +249,6 @@ class ListFamilies extends ListRecords
                         $rowCount++;
                     }
 
-                    fclose($file);
                     @unlink($filePath);
 
                     Notification::make()

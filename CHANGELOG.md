@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.7] - 2026-07-02
+
+### Changed
+- **Pembersihan Resource Stream**: Menghapus sisa kode pemanggilan `fclose()` pada akhir proses pembacaan file import di `ListCitizens.php` dan `ListFamilies.php` untuk mencegah terjadinya `TypeError` setelah migrasi parser ke PhpSpreadsheet.
+
 ## [1.6.6] - 2026-07-02
 
 ### Added
