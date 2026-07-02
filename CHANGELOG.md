@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.5.8] - 2026-07-02
+
+### Changed
+- **Perbaikan Query Pengurutan Aparatur**: Menghapus klausa pengurutan berdasarkan kolom `order` yang tidak terdaftar pada tabel `officials` di `OfficialController.php`, menyelesaikan error QueryException 1054 di halaman `/aparatur`.
+
 ## [1.5.7] - 2026-07-02
 
 ### Changed
