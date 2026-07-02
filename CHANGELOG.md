@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.6] - 2026-07-02
+
+### Added
+- **Deteksi & Proteksi Salah Upload File**: Menambahkan sistem deteksi headers file cerdas pada modul Keluarga dan Penduduk untuk mendeteksi apabila berkas tertukar (misal file Keluarga diunggah di form Penduduk atau sebaliknya). Sistem akan langsung menghentikan proses import dan menampilkan notifikasi kesalahan yang persisten.
+
 ## [1.6.5] - 2026-07-02
 
 ### Added

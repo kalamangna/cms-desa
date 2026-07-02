@@ -79,6 +79,19 @@ class ListFamilies extends ListRecords
                         return trim(strtolower($h));
                     }, $header);
 
+                    // Validate if it is a citizen sheet uploaded to family form
+                    $hasCitizenIndicator = $this->findColumnIndex($header, ['302. nik anggota', 'nik anggota keluarga']) !== false;
+                    
+                    if ($hasCitizenIndicator) {
+                        Notification::make()
+                            ->title('Gagal: File Tertukar!')
+                            ->body('Anda mengunggah file data PENDUDUK/INDIVIDU di form Keluarga. Harap unggah file data KELUARGA.')
+                            ->danger()
+                            ->persistent()
+                            ->send();
+                        return;
+                    }
+
                     // Map columns dynamically by checking partial string matches
                     $colKkNumber = $this->findColumnIndex($header, ['103. nomor kk', 'nomor kk dari', 'kartu keluarga']);
                     $colHeadName = $this->findColumnIndex($header, ['101. nama kepala', 'nama kepala keluarga']);
