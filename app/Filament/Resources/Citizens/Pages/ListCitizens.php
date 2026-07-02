@@ -81,13 +81,13 @@ class ListCitizens extends ListRecords
                     }, $header);
 
                     // Validate if it is a family sheet uploaded to citizen form
-                    $hasFamilyIndicator = $this->findColumnIndex($header, ['101. nama kepala', 'nama kepala keluarga']) !== false;
-                    $hasCitizenIndicator = $this->findColumnIndex($header, ['302. nik anggota', 'nik anggota keluarga', 'nik']) !== false;
+                    $isFamilySheet = $this->findColumnIndex($header, ['101. nama kepala keluarga', '201. jenis bangunan']) !== false;
+                    $isCitizenSheet = $this->findColumnIndex($header, ['302. nik anggota', '306. jenis kelamin']) !== false;
                     
-                    if ($hasFamilyIndicator && !$hasCitizenIndicator) {
+                    if ($isFamilySheet || !$isCitizenSheet) {
                         Notification::make()
-                            ->title('Gagal: File Tertukar!')
-                            ->body('Anda mengunggah file data KELUARGA di form Penduduk. Harap unggah file data INDIVIDU/PENDUDUK.')
+                            ->title('Gagal: File Salah / Tertukar!')
+                            ->body('Anda mengunggah file data KELUARGA (atau file dengan format salah) di form Penduduk. Harap unggah file data INDIVIDU/PENDUDUK.')
                             ->danger()
                             ->persistent()
                             ->send();

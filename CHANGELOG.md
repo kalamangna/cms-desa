@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.8] - 2026-07-02
+
+### Changed
+- **Peningkatan Keandalan Validasi Berkas**: Memperketat pencocokan header kolom (misal `'101. nama kepala keluarga'`, `'201. jenis bangunan'`, dan `'306. jenis kelamin'`) pada validasi file Keluarga dan Penduduk agar deteksi salah upload bekerja 100% akurat tanpa false-positive akibat kemiripan kata kunci parsial (seperti substring `'nik'`).
+
 ## [1.6.7] - 2026-07-02
 
 ### Changed
