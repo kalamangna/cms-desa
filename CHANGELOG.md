@@ -2,11 +2,6 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
-## [1.6.11] - 2026-07-03
-
-### Added
-- **Penanganan Otomatis NIK & KK Kosong (Auto-Generate)**: Menambahkan generator NIK/KK unik sementara (dummy) yang konsisten (reproducible) berdasarkan kombinasi Nama, Alamat, dan Tanggal Lahir untuk baris data yang NIK/KK-nya tidak terisi di berkas kuesioner Google Form. Hal ini memperbaiki masalah 0 data yang diproses saat melakukan import data mikro.
-
 ## [1.6.10] - 2026-07-03
 
 ### Fixed

@@ -153,23 +153,20 @@ class ListFamilies extends ListRecords
                     $colBldVal = $this->findColumnIndex($header, ['217.n. total nilai harga jual rumah']);
                     $colNotes = $this->findColumnIndex($header, ['catatan']);
 
-                    if ($colAddress === false && $colHeadName === false) {
-                        Notification::make()->title('Format file salah.')->body('Alamat (Kolom 104) atau Nama Kepala Keluarga (Kolom 101) wajib ditemukan.')->danger()->send();
+                    if ($colKkNumber === false) {
+                        Notification::make()->title('Format file salah.')->body('Nomor KK (Kolom 103) wajib ditemukan.')->danger()->send();
                         return;
                     }
 
                     $rowCount = 0;
                     foreach ($rows as $row) {
-                        $address = $colAddress !== false ? trim($row[$colAddress]) : '';
-                        $headName = $colHeadName !== false ? trim($row[$colHeadName]) : '';
-                        if (empty($address) && empty($headName)) continue;
+                        if (count($row) <= $colKkNumber) continue;
 
-                        $kkNumber = $colKkNumber !== false ? trim($row[$colKkNumber]) : '';
-                        if (empty($kkNumber) || strtolower($kkNumber) === 'none' || strlen($kkNumber) < 5) {
-                            $kkNumber = $this->generateDummyKk($address, $rowCount);
-                        }
+                        $kkNumber = trim($row[$colKkNumber]);
+                        if (empty($kkNumber) || strtolower($kkNumber) === 'none' || strlen($kkNumber) < 5) continue;
 
                         // Parse address details
+                        $address = $colAddress !== false ? trim($row[$colAddress]) : '';
                         $rt = null; $rw = null; $dusunId = $selectedDusunId;
 
                         // Smart parse RT/RW/Dusun from address string
@@ -262,30 +259,6 @@ class ListFamilies extends ListRecords
                         ->send();
                 }),
         ];
-    }
-
-    private function generateDummyKk(?string $address, int $rowIndex): string
-    {
-        $cleanAddress = $address ? preg_replace('/[^a-z0-9]/', '', strtolower($address)) : '';
-        if (empty($cleanAddress)) {
-            $hashInput = 'row_' . $rowIndex;
-        } else {
-            $hashInput = 'addr_' . $cleanAddress;
-        }
-        $md5 = md5($hashInput);
-        
-        $numericPart = '';
-        for ($i = 0; $i < strlen($md5); $i++) {
-            if (ctype_digit($md5[$i])) {
-                $numericPart .= $md5[$i];
-            }
-            if (strlen($numericPart) >= 14) {
-                break;
-            }
-        }
-        $numericPart = str_pad($numericPart, 14, '0', STR_PAD_RIGHT);
-        
-        return '88' . substr($numericPart, 0, 14);
     }
 
     private function findColumnIndex(array $header, array $needles): int|bool
