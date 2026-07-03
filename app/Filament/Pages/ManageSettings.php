@@ -43,8 +43,8 @@ class ManageSettings extends Page implements HasForms
                             ->icon('heroicon-o-building-library')
                             ->columns(2)
                             ->components([
-                                TextInput::make('village_name')->label('Nama Desa')->required(),
-                                TextInput::make('village_head')->label('Kepala Desa')->required(),
+                                TextInput::make('village_name')->label('Nama Desa'),
+                                TextInput::make('village_head')->label('Kepala Desa'),
                                 FileUpload::make('village_logo')->label('Logo Desa')->directory('settings')->image()->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Kontak & Lokasi')

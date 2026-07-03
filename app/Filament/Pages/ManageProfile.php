@@ -51,9 +51,9 @@ class ManageProfile extends Page implements HasForms
                             ->icon('heroicon-o-globe-asia-australia')
                             ->columns(2)
                             ->components([
-                                TextInput::make('district_name')->label('Kecamatan')->required(),
-                                TextInput::make('regency_name')->label('Kabupaten')->required(),
-                                TextInput::make('province_name')->label('Provinsi')->required(),
+                                TextInput::make('district_name')->label('Kecamatan'),
+                                TextInput::make('regency_name')->label('Kabupaten'),
+                                TextInput::make('province_name')->label('Provinsi'),
                                 TextInput::make('village_area')->label('Luas Wilayah (km²)')->numeric(),
                                 TextInput::make('village_population')->label('Jumlah Populasi (Jiwa)'),
                                 TextInput::make('village_topography')->label('Topografi Wilayah (misal: Dataran Tinggi)'),

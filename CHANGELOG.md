@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.13] - 2026-07-03
+
+### Changed
+- **Pengaturan Semua Opsional (Optional Settings)**: Menghapus aturan wajib diisi (`required()`) pada seluruh kolom di halaman "Profil Desa" (Kecamatan, Kabupaten, Provinsi) dan halaman "Pengaturan" (Nama Desa, Kepala Desa) agar pengguna dapat menyimpan pengaturan secara bebas tanpa hambatan validasi.
+
 ## [1.6.12] - 2026-07-03
 
 ### Changed
