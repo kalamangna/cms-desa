@@ -10,6 +10,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Pelebaran Kolom Kontak Kami & Penghapusan Tautan Cepat pada Footer (Footer Layout Refactor)**: Menghapus kolom "Tautan Cepat" pada footer, mengembalikan grid utama desktop menjadi 5 kolom (`lg:grid-cols-5`), dan memperlebar kolom "Kontak Kami" menjadi `lg:col-span-2` agar informasi alamat kantor, email, dan telepon terlihat proporsional, lapang, dan mudah dibaca.
 - **Penyelarasan Teks & Ikon Alamat Footer (Footer Address Alignment Fix)**: Menyelaraskan ikon alamat di footer menjadi rata tengah (`items-center`) persis sama seperti perataan ikon email dan nomor HP.
 - **Penghapusan Kolom Format & Penamaan Kolom Aksi Tabel Open Data (Open Data Table Refactor)**: Menghapus kolom "Format" yang redundan di tabel halaman Open Data (`datasets/index.blade.php`) karena format file unduhan sudah diwakili oleh tombol aksi, serta mengubah nama header kolom "Aksi" menjadi "Unduh" agar lebih informatif.
+- **Penghapusan Tombol Unduh Halaman Statistik (Statistics Download Button Removal)**: Menghapus tombol "Unduh Dataset Riil (CSV)" di bagian bawah tab kategori pada halaman visualisasi statistik (`statistics/index.blade.php`), untuk menghindari duplikasi opsi karena download dataset sudah sepenuhnya diwadahi di halaman Open Data.
 
 ## [1.6.37] - 2026-07-03
 

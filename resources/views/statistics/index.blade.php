@@ -200,18 +200,7 @@
             @endforeach
         </div>
 
-        {{-- Download action --}}
-        @php
-            $tabDownloadUrl = in_array($category->name, ['Bantuan Sosial', 'Kepemilikan Rumah'])
-                ? route('dataset.download', ['type' => 'keluarga'])
-                : route('dataset.download', ['type' => 'penduduk']);
-        @endphp
-        <div class="mt-8 flex justify-end">
-            <a href="{{ $tabDownloadUrl }}" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-2xl transition duration-300 shadow-lg shadow-emerald-600/20" download>
-                <i class="fa-solid fa-download"></i>
-                Unduh Dataset Riil (CSV)
-            </a>
-        </div>
+
 
     </div>{{-- /tab panel --}}
     @endforeach
