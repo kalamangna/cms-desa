@@ -197,11 +197,16 @@
         </div>
 
         {{-- Download action --}}
+        @php
+            $tabDownloadUrl = in_array($category->name, ['Bantuan Sosial', 'Kepemilikan Rumah'])
+                ? route('dataset.download', ['type' => 'keluarga'])
+                : route('dataset.download', ['type' => 'penduduk']);
+        @endphp
         <div class="mt-8 flex justify-end">
-            <button class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-2xl transition duration-300 shadow-lg shadow-emerald-600/20">
+            <a href="{{ $tabDownloadUrl }}" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-2xl transition duration-300 shadow-lg shadow-emerald-600/20" download>
                 <i class="fa-solid fa-download"></i>
-                Unduh Data CSV
-            </button>
+                Unduh Dataset Riil (CSV)
+            </a>
         </div>
 
     </div>{{-- /tab panel --}}
@@ -247,7 +252,12 @@
                         </div>
                         <div class="flex gap-2">
                             @if($dataset->file_csv)
-                            <a href="{{ asset('storage/' . $dataset->file_csv) }}" class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-2 rounded-xl text-xs font-bold border border-emerald-100 hover:bg-emerald-100 transition" download>
+                            @php
+                                $csvUrl = $dataset->file_csv === 'dynamic' 
+                                    ? route('dataset.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk' : 'keluarga')])
+                                    : asset('storage/' . $dataset->file_csv);
+                            @endphp
+                            <a href="{{ $csvUrl }}" class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-2 rounded-xl text-xs font-bold border border-emerald-100 hover:bg-emerald-100 transition" download>
                                 <i class="fa-solid fa-download"></i> CSV
                             </a>
                             @endif

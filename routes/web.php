@@ -35,6 +35,7 @@ Route::get('/dokumen', [DocumentController::class, 'index'])->name('documents.in
 Route::get('/statistik', [StatisticController::class, 'index'])->name('statistics.index');
 
 Route::get('/dataset', [DatasetController::class, 'index'])->name('datasets.index');
+Route::get('/dataset/download/{type}', [DatasetController::class, 'download'])->name('dataset.download');
 
 Route::get('/publikasi', [PublicationController::class, 'index'])->name('publications.index');
 

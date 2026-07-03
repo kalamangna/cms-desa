@@ -95,7 +95,12 @@
                         <td class="px-8 md:px-12 py-8 md:py-10 text-right">
                             <div class="flex justify-end gap-2">
                                 @if($dataset->file_csv)
-                                    <a href="{{ asset('storage/' . $dataset->file_csv) }}" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700 transition" title="Unduh CSV" download>
+                                    @php
+                                        $csvUrl = $dataset->file_csv === 'dynamic' 
+                                            ? route('dataset.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk' : 'keluarga')])
+                                            : asset('storage/' . $dataset->file_csv);
+                                    @endphp
+                                    <a href="{{ $csvUrl }}" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700 transition" title="Unduh CSV" download>
                                         <i class="fa-solid fa-download"></i>
                                         CSV
                                     </a>

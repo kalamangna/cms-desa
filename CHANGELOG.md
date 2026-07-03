@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.23] - 2026-07-03
+
+### Added
+- **Generator Unduh Dataset Riil Dinamis (Real-time CSV Generator)**: Mengimplementasikan sistem generator unduh dataset CSV secara instan dari database riil untuk data Penduduk dan Keluarga.
+- **Route Baru `/dataset/download/{type}`**: Menghubungkan tombol unduh di halaman Open Data (`/dataset`) dan tombol di tab kategori Statistik (`/statistik`) langsung ke generator dinamis tersebut, lengkap dengan penyimaran data privat (sensor NIK & KK menggunakan format mask `730701******0001` demi privasi warga).
+
 ## [1.6.22] - 2026-07-03
 
 ### Added
