@@ -115,7 +115,7 @@ class ListFamilies extends ListRecords
                     $colToilet = $this->findColumnIndex($header, ['209. apakah memiliki fasilitas']);
                     $colCloset = $this->findColumnIndex($header, ['210. apa jenis kloset']);
                     $colFeces = $this->findColumnIndex($header, ['211. di manakah tempat pembuangan']);
-                    $colWater = $this->findColumnIndex(['212. sumber air utama', '212. apa sumber air']); // check custom
+                    $colWater = $this->findColumnIndex($header, ['212. sumber air utama', '212. apa sumber air']); // check custom
                     // If not found, manual check from header array:
                     if ($colWater === false) {
                         foreach ($header as $idx => $h) {

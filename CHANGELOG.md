@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.11] - 2026-07-03
+
+### Fixed
+- **Perbaikan ArgumentCountError pada Import Keluarga**: Memperbaiki pemanggilan fungsi `findColumnIndex` pada variabel penentu kolom sumber air (`$colWater`) di `ListFamilies.php` agar menyertakan parameter `$header` yang sebelumnya terlewat.
+
 ## [1.6.10] - 2026-07-03
 
 ### Fixed
