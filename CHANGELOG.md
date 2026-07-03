@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.27] - 2026-07-03
+
+### Added
+- **Ekspor Excel (XLSX) & PDF pada Portal Open Data**: Menambahkan opsi download format Excel (XLSX) menggunakan library PhpSpreadsheet dan format PDF menggunakan Dompdf pada halaman Open Data (`/dataset`). Format unduhan baru ini bersifat dinamis (mengambil data ter-update dari database) dan tetap mematuhi standardisasi privasi total (fully anonymized).
+
 ## [1.6.26] - 2026-07-03
 
 ### Changed

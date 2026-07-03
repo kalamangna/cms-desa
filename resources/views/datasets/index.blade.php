@@ -106,13 +106,23 @@
                                     </a>
                                 @endif
                                 @if($dataset->file_xlsx)
-                                    <a href="{{ asset('storage/' . $dataset->file_xlsx) }}" class="inline-flex items-center gap-2 bg-sky-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-sky-700 transition" title="Unduh XLSX" download>
+                                    @php
+                                        $xlsxUrl = $dataset->file_xlsx === 'dynamic' 
+                                            ? route('dataset.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk-xlsx' : 'keluarga-xlsx')])
+                                            : asset('storage/' . $dataset->file_xlsx);
+                                    @endphp
+                                    <a href="{{ $xlsxUrl }}" class="inline-flex items-center gap-2 bg-sky-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-sky-700 transition" title="Unduh XLSX" download>
                                         <i class="fa-solid fa-download"></i>
                                         XLSX
                                     </a>
                                 @endif
                                 @if($dataset->file_pdf)
-                                    <a href="{{ asset('storage/' . $dataset->file_pdf) }}" class="inline-flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-rose-700 transition" title="Unduh PDF" download>
+                                    @php
+                                        $pdfUrl = $dataset->file_pdf === 'dynamic' 
+                                            ? route('dataset.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk-pdf' : 'keluarga-pdf')])
+                                            : asset('storage/' . $dataset->file_pdf);
+                                    @endphp
+                                    <a href="{{ $pdfUrl }}" class="inline-flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-rose-700 transition" title="Unduh PDF" download>
                                         <i class="fa-solid fa-download"></i>
                                         PDF
                                     </a>
