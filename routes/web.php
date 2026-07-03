@@ -29,6 +29,7 @@ Route::get('/berita', [PostController::class, 'index'])->name('posts.index');
 Route::get('/berita/{slug}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index');
+Route::get('/pengumuman/{slug}', [AnnouncementController::class, 'show'])->name('announcements.show');
 Route::get('/galeri', [GalleryController::class, 'index'])->name('galleries.index');
 Route::get('/dokumen', [DocumentController::class, 'index'])->name('documents.index');
 

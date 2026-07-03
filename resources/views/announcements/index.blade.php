@@ -127,32 +127,39 @@
                 {{-- Card body --}}
                 <div class="px-6 py-5">
                     <h2 class="text-xl md:text-2xl font-heading font-extrabold text-slate-900 mb-3 group-hover:text-amber-700 transition-colors duration-200 leading-snug">
-                        {{ $announcement->title }}
+                        <a href="{{ route('announcements.show', $announcement->slug) }}" class="hover:text-amber-600 transition">
+                            {{ $announcement->title }}
+                        </a>
                     </h2>
                     <div class="text-slate-500 text-sm leading-relaxed line-clamp-3 mb-5">
                         {{ Str::limit(strip_tags($announcement->content), 240) }}
                     </div>
 
-                    {{-- Read more accordion (Alpine.js) --}}
+                    {{-- Read more accordion (Alpine.js) & Link Detail --}}
                     <div x-data="{ open: false }">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button @click="open = !open"
+                                    class="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl transition-all duration-200 bg-slate-100 text-slate-600 hover:bg-slate-200">
+                                <span x-text="open ? 'Sembunyikan' : 'Baca Cepat'"></span>
+                                <i class="fa-solid transition-transform duration-200 text-[10px]"
+                                   :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                            </button>
+
+                            <a href="{{ route('announcements.show', $announcement->slug) }}"
+                               class="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl transition-all duration-200 bg-amber-500 text-white hover:bg-amber-600 shadow-md shadow-amber-500/25">
+                                <span>Halaman Detail</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+
                         {{-- Full content (hidden by default) --}}
                         <div x-show="open"
                              x-transition:enter="transition ease-out duration-300"
                              x-transition:enter-start="opacity-0 transform -translate-y-2"
                              x-transition:enter-end="opacity-100 transform translate-y-0"
-                             class="prose prose-sm prose-emerald max-w-none text-slate-600 mb-5 border-t border-slate-100 pt-4 mt-2">
+                             class="prose prose-sm prose-emerald max-w-none text-slate-600 mt-4 pt-4 border-t border-slate-100">
                             {!! $announcement->content !!}
                         </div>
-
-                        <button @click="open = !open"
-                                class="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl transition-all duration-200"
-                                :class="open
-                                    ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                                    : 'bg-amber-500 text-white hover:bg-amber-600 shadow-md shadow-amber-500/25'">
-                            <span x-text="open ? 'Sembunyikan' : 'Baca Selengkapnya'"></span>
-                            <i class="fa-solid transition-transform duration-200"
-                               :class="open ? 'fa-chevron-up rotate-0' : 'fa-arrow-right'"></i>
-                        </button>
                     </div>
                 </div>
 

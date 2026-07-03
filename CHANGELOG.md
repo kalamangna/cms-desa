@@ -26,14 +26,18 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
   - Menambahkan JSON-LD `Organization` dan `WebSite` (dengan `SearchAction`) secara global di layout utama.
   - Menambahkan JSON-LD `Article` schema di halaman detail berita (`posts/show.blade.php`).
   - Menambahkan `article:published_time`, `article:modified_time`, `article:author`, `article:section` meta tags di halaman berita detail.
+  - **BreadcrumbList JSON-LD Otomatis (Dynamic Breadcrumb Schema)**: Menambahkan skema breadcrumb terstruktur secara otomatis di layout utama `layouts/app.blade.php` berbasis segmen URL/route untuk melengkapi navigasi pencarian yang ramah SEO.
 - **Upgrade Sitemap XML (`sitemap.blade.php` & `SitemapController.php`)**:
   - Menambahkan semua rute publik ke sitemap: `/profil`, `/layanan`, `/aparatur`, `/kontak`, `/pengumuman`, `/galeri`, `/dokumen`, `/publikasi`, `/dataset`.
   - Menambahkan URL detail pengumuman (`/pengumuman/{slug}`) secara dinamis dari database.
   - Mengatur `changefreq` dan `priority` yang tepat per jenis halaman.
 - **Peningkatan `robots.txt`**: Menambahkan blok `Disallow: /admin` dan `Disallow: /admin/*` agar panel admin tidak di-crawl oleh mesin pencari.
+- **Minifikasi HTML Output Dinamis (HTML Minification Middleware)**: Membuat middleware `MinifyHtml` yang secara otomatis memangkas spasi/whitespace berlebih dari output HTML pada seluruh halaman publik untuk mereduksi ukuran byte data transfer tanpa merusak skrip atau teks terformat (tag `pre`, `textarea`, `script`, `style`).
 - **Lazy Loading Gambar (Image Lazy Loading)**:
   - Menambahkan `loading="lazy"` pada semua tag `<img>` yang berada di bawah fold di `home.blade.php`, `posts/index.blade.php`, dan `posts/show.blade.php`.
   - Gambar LCP (foto kepala desa di hero banner) dikecualikan dari lazy loading.
+- **Halaman Detail Pengumuman & Rute Dinamis (Announcement Detail Page & Route)**: Membuat rute `/pengumuman/{slug}`, menambahkan method `show` di `AnnouncementController`, membuat view detail pengumuman `resources/views/announcements/show.blade.php` dengan SEO tag lengkap (meta & JSON-LD), serta memperbarui `index.blade.php` dengan link ke halaman detail pengumuman.
+
 
 ## [1.6.37] - 2026-07-03
 

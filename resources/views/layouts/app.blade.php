@@ -81,7 +81,63 @@
             }
         ]
     }
-    <\/script>
+    </script>
+
+    <!-- JSON-LD: BreadcrumbList (dynamic based on route segments) -->
+    @php
+        $segments = request()->segments();
+        $breadcrumbs = [];
+        
+        $breadcrumbs[] = [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Beranda',
+            'item' => url('/')
+        ];
+        
+        $currentUrl = url('/');
+        foreach ($segments as $idx => $segment) {
+            $currentUrl .= '/' . $segment;
+            
+            $name = ucwords(str_replace('-', ' ', $segment));
+            if (strtolower($name) === 'apbdes') {
+                $name = 'APBDes';
+            } elseif (strtolower($name) === 'berita') {
+                $name = 'Berita';
+            } elseif (strtolower($name) === 'pengumuman') {
+                $name = 'Pengumuman';
+            } elseif (strtolower($name) === 'dataset') {
+                $name = 'Open Data';
+            } elseif (strtolower($name) === 'aparatur') {
+                $name = 'Aparatur Desa';
+            }
+            
+            // Override nama detail berita atau pengumuman jika variabel objek tersedia
+            if ($idx === count($segments) - 1 && count($segments) > 1) {
+                if (isset($post) && $segment === $post->slug) {
+                    $name = $post->title;
+                } elseif (isset($announcement) && $segment === $announcement->slug) {
+                    $name = $announcement->title;
+                }
+            }
+            
+            $breadcrumbs[] = [
+                '@type' => 'ListItem',
+                'position' => $idx + 2,
+                'name' => $name,
+                'item' => $currentUrl
+            ];
+        }
+    @endphp
+    @if(count($segments) > 0)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": {!! json_encode($breadcrumbs, JSON_UNESCAPED_SLASHES) !!}
+    }
+    </script>
+    @endif
 
     <!-- Extra head content (JSON-LD, etc.) from child views -->
     @stack('head')
