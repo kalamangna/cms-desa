@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.30] - 2026-07-03
+
+### Added
+- **Migrasi Data Wilayah Statis Kabupaten & Provinsi**: Membuat berkas migrasi database baru (`2026_07_03_172711_update_province_and_regency_settings_to_sinjai.php`) untuk memperbarui secara otomatis data pengaturan `province_name` menjadi "SULAWESI SELATAN" dan `regency_name` menjadi "SINJAI" di server produksi saat perintah `php artisan migrate` dijalankan.
+
 ## [1.6.29] - 2026-07-03
 
 ### Fixed
