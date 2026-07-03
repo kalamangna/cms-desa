@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.24] - 2026-07-03
+
+### Removed
+- **Panel Open Data di Halaman Statistik**: Menghapus panel visual katalog dataset Open Data di bagian bawah halaman Statistik (`/statistik`) agar halaman statistik tetap bersih dan berfokus penuh pada penyajian diagram/grafik visual. Kemampuan unduh dataset riil secara dinamis pada tiap tab kategori statistik dan di halaman utama Open Data (`/dataset`) tetap dipertahankan.
+
 ## [1.6.23] - 2026-07-03
 
 ### Added
