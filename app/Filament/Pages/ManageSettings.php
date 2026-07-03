@@ -14,6 +14,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Actions\Action;
 use App\Models\Setting;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Cache;
 
 class ManageSettings extends Page implements HasForms
 {
@@ -102,6 +103,16 @@ class ManageSettings extends Page implements HasForms
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
+
+        // Sync with Official model if village_head is updated
+        if (!empty($data['village_head'])) {
+            \App\Models\Official::where('position', 'LIKE', '%Kepala%')
+                ->where('position', 'LIKE', '%Desa%')
+                ->update(['name' => $data['village_head']]);
+        }
+
+        // Clear home page village head cache
+        Cache::forget('home_village_head');
 
         Notification::make()
             ->success()

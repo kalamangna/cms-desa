@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.19] - 2026-07-03
+
+### Changed
+- **Sinkronisasi Otomatis Nama Kepala Desa**: Menghubungkan kolom pengaturan `village_head` di halaman "Pengaturan" agar secara otomatis mengupdate nama Kepala Desa di tabel `officials` (Aparatur Desa), serta menghapus cache `home_village_head` seketika saat disimpan agar perubahan nama langsung tampak di halaman depan tanpa delay.
+
 ## [1.6.18] - 2026-07-03
 
 ### Changed
