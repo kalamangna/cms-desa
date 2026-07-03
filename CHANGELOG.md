@@ -36,8 +36,8 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Lazy Loading Gambar (Image Lazy Loading)**:
   - Menambahkan `loading="lazy"` pada semua tag `<img>` yang berada di bawah fold di `home.blade.php`, `posts/index.blade.php`, dan `posts/show.blade.php`.
   - Gambar LCP (foto kepala desa di hero banner) dikecualikan dari lazy loading.
-- **Halaman Detail Pengumuman & Rute Dinamis (Announcement Detail Page & Route)**: Membuat rute `/pengumuman/{slug}`, menambahkan method `show` di `AnnouncementController`, membuat view detail pengumuman `resources/views/announcements/show.blade.php` dengan SEO tag lengkap (meta & JSON-LD), serta memperbarui `index.blade.php` dengan link ke halaman detail pengumuman.
-
+- **Halaman Detail Pengumuman & Rute Dinamis (Announcement Detail Page & Route)**: Membuat rute `/pengumuman/{slug}`, menambahkan method `show` di `AnnouncementController`, membuat view detail pengumuman `resources/views/announcements/show.blade.php` dengan SEO tag lengkap (meta & JSON-LD), serta memperbarui `index.blade.php` with link ke halaman detail pengumuman.
+- **Halaman Error 404 Kustom yang Cantik (Custom 404 Error Page)**: Membuat view kustom `resources/views/errors/404.blade.php` bertema Desa Cantik yang ramah SEO dengan tombol aksi navigasi cepat (Beranda, Berita Utama, Kontak, Layanan, Statistik, dll.) untuk menekan *bounce rate* ketika pengunjung tersesat.
 
 ## [1.6.37] - 2026-07-03
 
