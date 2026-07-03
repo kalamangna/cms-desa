@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.12] - 2026-07-03
+
+### Changed
+- **Pilihan Dusun Wajib (Required)**: Mengubah kolom dropdown pemilihan Dusun pada form import Keluarga dan Penduduk menjadi wajib diisi (`required()`) sebelum mengunggah berkas Excel/CSV guna memastikan seluruh data yang masuk terpetakan ke Dusun dengan benar.
+
 ## [1.6.11] - 2026-07-03
 
 ### Fixed

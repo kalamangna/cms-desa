@@ -32,11 +32,12 @@ class ListFamilies extends ListRecords
                         ->label('Petunjuk Penggunaan')
                         ->content('Unggah respon kuesioner Google Form (Keluarga) secara langsung dalam format Excel (.xlsx / .xls) atau CSV (.csv).'),
                     Select::make('dusun_id')
-                        ->label('Pilih Dusun (Opsional)')
+                        ->label('Pilih Dusun')
                         ->options(Dusun::pluck('name', 'id'))
-                        ->placeholder('Semua Dusun (Deteksi Otomatis dari Alamat)')
+                        ->placeholder('Pilih Dusun...')
                         ->searchable()
-                        ->preload(),
+                        ->preload()
+                        ->required(),
                     FileUpload::make('csv_file')
                         ->label('File Excel atau CSV')
                         ->acceptedFileTypes([
