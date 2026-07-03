@@ -153,26 +153,34 @@ class ListCitizens extends ListRecords
                     
                     $colWallet = $this->findColumnIndex($header, ['317. apakah memiliki rekening']);
 
-                    if ($colNik === false) {
-                        Notification::make()->title('Format file salah.')->body('NIK Anggota Keluarga (Kolom 302) wajib ditemukan.')->danger()->send();
+                    if ($colName === false) {
+                        Notification::make()->title('Format file salah.')->body('Nama Anggota Keluarga (Kolom 301) wajib ditemukan.')->danger()->send();
                         return;
                     }
 
                     $rowCount = 0;
                     foreach ($rows as $row) {
-                        if (count($row) <= $colNik) continue;
+                        $name = $colName !== false ? trim($row[$colName]) : '';
+                        if (empty($name)) continue;
 
-                        $nik = trim($row[$colNik]);
-                        if (empty($nik) || strlen($nik) < 10) continue;
+                        $nik = $colNik !== false ? trim($row[$colNik]) : '';
+                        if (empty($nik) || strlen($nik) < 10) {
+                            $dob = $colDob !== false ? trim($row[$colDob]) : null;
+                            $nik = $this->generateDummyNik($name, $dob, $rowCount);
+                        }
+
+                        $address = $colAddress !== false ? trim($row[$colAddress]) : '';
 
                         $kkNumber = $colKkNumber !== false ? trim($row[$colKkNumber]) : null;
+                        if (empty($kkNumber)) {
+                            $kkNumber = $this->generateDummyKk($address, $rowCount);
+                        }
                         
                         // Look up family and dusun
                         $familyId = null;
                         $dusunId = $selectedDusunId;
                         $rt = null;
                         $rw = null;
-                        $address = $colAddress !== false ? trim($row[$colAddress]) : '';
 
                         if ($kkNumber) {
                             $family = Family::where('kk_number', $kkNumber)->first();
@@ -291,6 +299,49 @@ class ListCitizens extends ListRecords
                         ->send();
                 }),
         ];
+    }
+
+    private function generateDummyNik(string $name, ?string $dob, int $rowIndex): string
+    {
+        $hashInput = trim(strtolower($name)) . '_' . ($dob ? trim($dob) : $rowIndex);
+        $md5 = md5($hashInput);
+        
+        $numericPart = '';
+        for ($i = 0; $i < strlen($md5); $i++) {
+            if (ctype_digit($md5[$i])) {
+                $numericPart .= $md5[$i];
+            }
+            if (strlen($numericPart) >= 14) {
+                break;
+            }
+        }
+        $numericPart = str_pad($numericPart, 14, '0', STR_PAD_RIGHT);
+        
+        return '99' . substr($numericPart, 0, 14);
+    }
+
+    private function generateDummyKk(?string $address, int $rowIndex): string
+    {
+        $cleanAddress = $address ? preg_replace('/[^a-z0-9]/', '', strtolower($address)) : '';
+        if (empty($cleanAddress)) {
+            $hashInput = 'row_' . $rowIndex;
+        } else {
+            $hashInput = 'addr_' . $cleanAddress;
+        }
+        $md5 = md5($hashInput);
+        
+        $numericPart = '';
+        for ($i = 0; $i < strlen($md5); $i++) {
+            if (ctype_digit($md5[$i])) {
+                $numericPart .= $md5[$i];
+            }
+            if (strlen($numericPart) >= 14) {
+                break;
+            }
+        }
+        $numericPart = str_pad($numericPart, 14, '0', STR_PAD_RIGHT);
+        
+        return '88' . substr($numericPart, 0, 14);
     }
 
     private function findColumnIndex(array $header, array $needles): int|bool
