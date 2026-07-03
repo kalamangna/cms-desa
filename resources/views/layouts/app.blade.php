@@ -294,7 +294,7 @@
         <div class="absolute -top-px left-0 right-0 h-24 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none"></div>
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
 
                 <!-- Brand col -->
                 <div class="lg:col-span-2">
@@ -321,18 +321,6 @@
                             <i class="fa-brands fa-youtube text-sm"></i>
                         </a>
                     </div>
-                </div>
-
-                <!-- Tautan Cepat -->
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Tautan Cepat</h4>
-                    <ul class="space-y-3 text-sm text-slate-400">
-                        <li><a href="/profil" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Profil Desa</a></li>
-                        <li><a href="/aparatur" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Aparatur Desa</a></li>
-                        <li><a href="/berita" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Berita</a></li>
-                        <li><a href="/pengumuman" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Pengumuman</a></li>
-                        <li><a href="/galeri" class="hover:text-white transition flex items-center gap-2 group font-medium"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-600 group-hover:translate-x-1 transition-transform"></i> Galeri</a></li>
-                    </ul>
                 </div>
 
                 <!-- Kontak -->
