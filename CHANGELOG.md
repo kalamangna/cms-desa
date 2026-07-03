@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.32] - 2026-07-03
+
+### Changed
+- **Pembersihan Fallback Grafik Pekerjaan di Beranda**: Menghapus fallback label & data dummy pada grafik bar "Distribusi Pekerjaan" di halaman beranda (`home.blade.php`). Grafik beranda sekarang sepenuhnya mematuhi data riil database kependudukan, sehingga bernilai kosong (clean empty chart) jika data warga bernilai 0.
+
 ## [1.6.31] - 2026-07-03
 
 ### Changed

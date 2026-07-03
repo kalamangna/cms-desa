@@ -388,15 +388,11 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'bar',
             data: {
                 labels: [
-                    @if(isset($useCitizenData) && $useCitizenData && $jobData->count() > 0)
-                        @foreach($jobData->take(8) as $item) '{{ Str::limit($item->name, 15) }}', @endforeach
-                    @else 'Petani','Buruh','PNS','Wiraswasta','Lainnya' @endif
+                    @foreach($jobData->take(8) as $item) '{{ Str::limit($item->name, 15) }}', @endforeach
                 ],
                 datasets: [{ label: 'Jiwa',
                     data: [
-                        @if(isset($useCitizenData) && $useCitizenData && $jobData->count() > 0)
-                            @foreach($jobData->take(8) as $item) {{ $item->total }}, @endforeach
-                        @else 850,420,110,240,180 @endif
+                        @foreach($jobData->take(8) as $item) {{ $item->total }}, @endforeach
                     ],
                     backgroundColor: 'rgba(16,185,129,0.85)', hoverBackgroundColor: '#059669',
                     borderRadius: 10, borderSkipped: false }]
