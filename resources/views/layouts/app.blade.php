@@ -327,11 +327,11 @@
                 <div class="lg:col-span-2">
                     <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Kontak Kami</h4>
                     <ul class="space-y-4 text-sm text-slate-400 font-medium">
-                        <li class="flex items-start gap-3">
-                            <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <li class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-location-dot text-emerald-400 text-xs"></i>
                             </span>
-                            <span class="leading-normal pt-0.5">{{ $site_settings['village_address'] ?? '-' }}</span>
+                            <span>{{ $site_settings['village_address'] ?? '-' }}</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
