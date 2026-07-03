@@ -244,7 +244,7 @@
 
                 const rawData = [
                     @foreach($indicator->data as $data)
-                        { x: '{{ $data->year }}', y: {{ $data->value }} },
+                        { x: '{{ $data->year }}', y: {{ $data->value ?? 0 }} },
                     @endforeach
                 ];
 
@@ -332,7 +332,7 @@
                         label: '{{ $indicator->name }} ({{ $indicator->unit }})',
                         data: [
                             @foreach($indicator->data as $data)
-                                { x: '{{ $data->year }}', y: {{ $data->value }} },
+                                { x: '{{ $data->year }}', y: {{ $data->value ?? 0 }} },
                             @endforeach
                         ],
                         backgroundColor: '{{ $c["rgba"] }}',

@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: {
                 labels: ['Laki-laki', 'Perempuan'],
                 datasets: [{
-                    data: [{{ $lakiLakiCount }}, {{ $perempuanCount }}],
+                    data: [{{ $lakiLakiCount ?? 0 }}, {{ $perempuanCount ?? 0 }}],
                     backgroundColor: ['#0284c7', '#ec4899'],
                     borderWidth: 0,
                     hoverOffset: 12

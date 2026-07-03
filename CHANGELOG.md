@@ -41,6 +41,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
 ### Fixed
 - **Perbaikan ParseError Compiler Blade JSON-LD (Blade JSON-LD Directive Escaping Hotfix)**: Mengoreksi directive `@context` pada penulisan JSON-LD di `layouts/app.blade.php`, `posts/show.blade.php`, dan `announcements/show.blade.php` menjadi `@@context` untuk menghentikan mesin penafsir template Blade yang secara salah mengompilasi string tersebut menjadi tag PHP *if-statement unclosed directive* yang menyebabkan ParseError.
+- **Pencegahan Crash JavaScript pada Chart.js Beranda & Statistik (Chart.js Null Coalescing Hotfix)**: Menambahkan operator `?? 0` pada rendering variabel PHP ke script Chart.js di `home.blade.php` dan `statistics/index.blade.php`. Hal ini mencegah error sintaksis JavaScript (seperti data: `[, ]`) ketika database dalam keadaan kosong/belum diisi data penduduk/data statistik, yang sebelumnya menyebabkan script berhenti di tengah jalan (crash) dan membuat Alpine.js gagal menginisialisasi persembunyian dropdown menu navbar.
 
 ## [1.6.37] - 2026-07-03
 
