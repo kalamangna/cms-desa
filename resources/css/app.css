@@ -56,22 +56,30 @@
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
 }
-.prose ul {
-    list-style-type: disc !important;
-    padding-left: 1.625em !important;
+.prose ul, .prose ol {
+    display: block !important;
+    padding-left: 2rem !important;
     margin-top: 1.25em !important;
     margin-bottom: 1.25em !important;
+}
+.prose ul {
+    list-style: disc outside !important;
+    list-style-type: disc !important;
 }
 .prose ol {
+    list-style: decimal outside !important;
     list-style-type: decimal !important;
-    padding-left: 1.625em !important;
-    margin-top: 1.25em !important;
-    margin-bottom: 1.25em !important;
 }
 .prose li {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    padding-left: 0.375em;
+    display: list-item !important;
+    list-style: inherit !important;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+    padding-left: 0.375em !important;
+}
+.prose li p {
+    display: inline !important;
+    margin: 0 !important;
 }
 .prose ul > li::marker {
     color: #10b981; /* emerald-500 marker */

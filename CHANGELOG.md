@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.10] - 2026-07-03
+
+### Fixed
+- **Keandalan List Bullet & Numbering**: Menambahkan aturan display `list-item` pada `li`, model `outside` pada marker `ol`/`ul`, dan merombak tag `<p>` di dalam list item menjadi `inline` agar penomoran angka/peluru list yang disimpan oleh editor teks Filament muncul secara konsisten 100% di semua browser.
+
 ## [1.6.9] - 2026-07-03
 
 ### Fixed
