@@ -112,7 +112,7 @@
                     {{ $site_settings['village_head_greeting_title'] ?? 'Mewujudkan Desa Mandiri Berbasis Data Presisi' }}
                 </h2>
                 <blockquote class="text-slate-500 text-base md:text-lg leading-relaxed italic mb-10 border-l-4 border-emerald-500 pl-6">
-                    "{{ $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '. Kami berkomitmen untuk menghadirkan pemerintahan yang transparan dan akuntabel.' }}"
+                    {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '. Kami berkomitmen untuk menghadirkan pemerintahan yang transparan dan akuntabel.' !!}
                 </blockquote>
                 <div class="flex items-center gap-5">
                     <div class="w-14 h-14 rounded-2xl bg-emerald-600 flex items-center justify-center text-white flex-shrink-0">

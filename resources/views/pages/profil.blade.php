@@ -94,7 +94,7 @@
                 <span class="text-slate-500 font-black text-[11px] uppercase tracking-[0.3em]">Misi</span>
             </div>
             <div class="prose prose-emerald max-w-none text-slate-600 font-medium">
-                {!! $site_settings['village_mission'] ?? '<ul><li>Meningkatkan kualitas pelayanan publik berbasis teknologi informasi.</li><li>Mendorong kemandirian ekonomi desa melalui pemberdayaan UMKM.</li><li>Meningkatkan kualitas sumber daya manusia melalui pendidikan dan pelatihan.</li><li>Mengoptimalkan pengelolaan data desa yang akurat dan transparan.</li></ul>' !!}
+                {!! $site_settings['village_mission'] ?? '<ol><li>Meningkatkan kualitas pelayanan publik berbasis teknologi informasi.</li><li>Mendorong kemandirian ekonomi desa melalui pemberdayaan UMKM.</li><li>Meningkatkan kualitas sumber daya manusia melalui pendidikan dan pelatihan.</li><li>Mengoptimalkan pengelolaan data desa yang akurat dan transparan.</li></ol>' !!}
             </div>
         </div>
     </div>

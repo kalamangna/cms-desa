@@ -10,3 +10,73 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
     --font-heading: 'Poppins', sans-serif;
 }
+
+/* Custom Typography system for rich text elements */
+.prose {
+    max-width: 65ch;
+    color: #475569; /* text-slate-600 */
+}
+.prose p {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    line-height: 1.75;
+}
+.prose h1, .prose h2, .prose h3, .prose h4 {
+    color: #0f172a; /* text-slate-900 */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    margin-top: 1.6em;
+    margin-bottom: 0.6em;
+    line-height: 1.25;
+}
+.prose h1 { font-size: 2.25em; }
+.prose h2 { font-size: 1.5em; }
+.prose h3 { font-size: 1.25em; }
+.prose a {
+    color: #059669; /* emerald-600 */
+    text-decoration: underline;
+    font-weight: 600;
+}
+.prose a:hover {
+    color: #047857; /* emerald-700 */
+}
+.prose strong {
+    color: #0f172a;
+    font-weight: 700;
+}
+.prose blockquote {
+    font-style: italic;
+    border-left: 4px solid #10b981; /* emerald-500 */
+    padding-left: 1rem;
+    margin: 1.5em 0;
+    color: #334155;
+    background-color: rgba(240, 253, 250, 0.5); /* emerald-50/50 */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+.prose ul {
+    list-style-type: disc !important;
+    padding-left: 1.625em !important;
+    margin-top: 1.25em !important;
+    margin-bottom: 1.25em !important;
+}
+.prose ol {
+    list-style-type: decimal !important;
+    padding-left: 1.625em !important;
+    margin-top: 1.25em !important;
+    margin-bottom: 1.25em !important;
+}
+.prose li {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-left: 0.375em;
+}
+.prose ul > li::marker {
+    color: #10b981; /* emerald-500 marker */
+}
+.prose ol > li::marker {
+    color: #64748b; /* slate-500 marker */
+    font-weight: 600;
+}

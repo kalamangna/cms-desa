@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.9] - 2026-07-03
+
+### Fixed
+- **Penomoran Misi Desa (Numbering)**: Menyediakan style `.prose` kustom di `app.css` untuk menangani list terurut (`<ol>`) dan list biasa (`<ul>`), serta memperbarui fallback data dan seeder agar menggunakan tag `<ol>` untuk penomoran otomatis yang rapi di profil desa.
+- **Rendering Sambutan Kepala Desa**: Mengubah tag render `{{ ... }}` menjadi `{!! ... !!}` pada `home.blade.php` untuk menampilkan teks sambutan Kades yang kaya format HTML secara utuh tanpa meloloskan tag HTML mentah (seperti `<p>`).
+
 ## [1.6.8] - 2026-07-02
 
 ### Changed
