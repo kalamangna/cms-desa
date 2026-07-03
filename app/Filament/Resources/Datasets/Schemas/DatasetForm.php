@@ -20,7 +20,7 @@ class DatasetForm
                 Textarea::make('description')->label('Deskripsi')
                     ->columnSpanFull(),
                 TextInput::make('year')->label('Tahun')
-                    ->numeric()
+                    ->length(4)
                     ->required(),
                 TextInput::make('source')->label('Sumber'),
                 FileUpload::make('file_csv')->label('File CSV')

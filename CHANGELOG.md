@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.29] - 2026-07-03
+
+### Fixed
+- **Format Penulisan Tahun Halaman Admin (Thousands Separator Fix)**: Menghapus pemformatan `.numeric()` pada input form dan tabel kolom tahun (`year`) di halaman admin Open Data (`DatasetResource`). Ini menghentikan Filament dari memformat angka tahun secara otomatis dengan tanda pemisah ribuan (titik/koma) seperti "2.026" atau "2,026", sehingga tahun tertulis bersih "2026".
+
 ## [1.6.28] - 2026-07-03
 
 ### Fixed

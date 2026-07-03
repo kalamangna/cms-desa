@@ -22,7 +22,6 @@ class DatasetsTable
                 TextColumn::make('slug')->label('Slug')
                     ->searchable(),
                 TextColumn::make('year')->label('Tahun')
-                    ->numeric()
                     ->sortable(),
                 TextColumn::make('source')->label('Sumber')
                     ->searchable(),
