@@ -9,6 +9,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Kompilasi Ulang Aset Produksi (Production Assets Compilation)**: Menjalankan kompilasi aset CSS dan Javascript (`npm run build`) untuk memperbarui file aset dan manifest produksi, menjamin seluruh gaya tampilan layout publik yang responsif terkompilasi dengan benar.
 - **Pelebaran Kolom Kontak Kami & Penghapusan Tautan Cepat pada Footer (Footer Layout Refactor)**: Menghapus kolom "Tautan Cepat" pada footer, mengembalikan grid utama desktop menjadi 5 kolom (`lg:grid-cols-5`), dan memperlebar kolom "Kontak Kami" menjadi `lg:col-span-2` agar informasi alamat kantor, email, dan telepon terlihat proporsional, lapang, dan mudah dibaca.
 - **Penyelarasan Teks & Ikon Alamat Footer (Footer Address Alignment Fix)**: Menyelaraskan ikon alamat di footer menjadi rata tengah (`items-center`) persis sama seperti perataan ikon email dan nomor HP.
+- **Penghapusan Kolom Format & Penamaan Kolom Aksi Tabel Open Data (Open Data Table Refactor)**: Menghapus kolom "Format" yang redundan di tabel halaman Open Data (`datasets/index.blade.php`) karena format file unduhan sudah diwakili oleh tombol aksi, serta mengubah nama header kolom "Aksi" menjadi "Unduh" agar lebih informatif.
 
 ## [1.6.37] - 2026-07-03
 

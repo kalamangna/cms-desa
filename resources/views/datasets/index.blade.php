@@ -60,8 +60,7 @@
                     <tr class="bg-white border-b border-slate-50">
                         <th class="px-8 md:px-12 py-6 md:py-8 font-black text-slate-900 text-[10px] uppercase tracking-[0.3em]">Dataset & Deskripsi</th>
                         <th class="px-8 md:px-12 py-6 md:py-8 font-black text-slate-900 text-[10px] uppercase tracking-[0.3em]">Tahun</th>
-                        <th class="px-8 md:px-12 py-6 md:py-8 font-black text-slate-900 text-[10px] uppercase tracking-[0.3em]">Format</th>
-                        <th class="px-8 md:px-12 py-6 md:py-8 font-black text-slate-900 text-[10px] uppercase tracking-[0.3em] text-right">Aksi</th>
+                        <th class="px-8 md:px-12 py-6 md:py-8 font-black text-slate-900 text-[10px] uppercase tracking-[0.3em] text-right">Unduh</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
@@ -73,28 +72,6 @@
                         </td>
                         <td class="px-8 md:px-12 py-8 md:py-10">
                             <span class="px-4 py-1.5 rounded-full bg-slate-100 text-slate-600 font-black text-[10px] tracking-widest uppercase">{{ $dataset->year }}</span>
-                        </td>
-                        <td class="px-8 md:px-12 py-8 md:py-10">
-                            <div class="flex flex-wrap gap-2">
-                                @if($dataset->file_csv)
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-[10px] border border-emerald-100 uppercase tracking-wider">
-                                        CSV
-                                    </span>
-                                @endif
-                                @if($dataset->file_xlsx)
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-sky-50 text-sky-700 font-bold text-[10px] border border-sky-100 uppercase tracking-wider">
-                                        XLSX
-                                    </span>
-                                @endif
-                                @if($dataset->file_pdf)
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-rose-50 text-rose-700 font-bold text-[10px] border border-rose-100 uppercase tracking-wider">
-                                        PDF
-                                    </span>
-                                @endif
-                                @if(!$dataset->file_csv && !$dataset->file_xlsx && !$dataset->file_pdf)
-                                    <span class="text-xs text-slate-400 italic">No File</span>
-                                @endif
-                            </div>
                         </td>
                         <td class="px-8 md:px-12 py-8 md:py-10 text-right">
                             <div class="flex justify-end gap-2">
@@ -136,7 +113,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="px-8 md:px-12 py-20 md:py-32 text-center">
+                        <td colspan="3" class="px-8 md:px-12 py-20 md:py-32 text-center">
                             <p class="text-slate-400 font-bold italic">Dataset belum tersedia.</p>
                         </td>
                     </tr>
