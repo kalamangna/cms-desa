@@ -39,6 +39,9 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Halaman Detail Pengumuman & Rute Dinamis (Announcement Detail Page & Route)**: Membuat rute `/pengumuman/{slug}`, menambahkan method `show` di `AnnouncementController`, membuat view detail pengumuman `resources/views/announcements/show.blade.php` dengan SEO tag lengkap (meta & JSON-LD), serta memperbarui `index.blade.php` with link ke halaman detail pengumuman.
 - **Halaman Error 404 Kustom yang Cantik (Custom 404 Error Page)**: Membuat view kustom `resources/views/errors/404.blade.php` bertema Desa Cantik yang ramah SEO dengan tombol aksi navigasi cepat (Beranda, Berita Utama, Kontak, Layanan, Statistik, dll.) untuk menekan *bounce rate* ketika pengunjung tersesat.
 
+### Fixed
+- **Perbaikan ParseError Compiler Blade JSON-LD (Blade JSON-LD Directive Escaping Hotfix)**: Mengoreksi directive `@context` pada penulisan JSON-LD di `layouts/app.blade.php`, `posts/show.blade.php`, dan `announcements/show.blade.php` menjadi `@@context` untuk menghentikan mesin penafsir template Blade yang secara salah mengompilasi string tersebut menjadi tag PHP *if-statement unclosed directive* yang menyebabkan ParseError.
+
 ## [1.6.37] - 2026-07-03
 
 ### Added

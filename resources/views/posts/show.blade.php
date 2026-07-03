@@ -17,7 +17,7 @@
 @push('head')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
+    "@@context": "https://schema.org",
     "@type": "Article",
     "headline": "{{ addslashes($post->title) }}",
     "description": "{{ addslashes(Str::limit(strip_tags($post->content), 160)) }}",

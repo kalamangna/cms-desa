@@ -39,7 +39,7 @@
     <!-- JSON-LD: Organization + WebSite (global) -->
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@graph": [
             {
                 "@type": "Organization",
@@ -132,7 +132,7 @@
     @if(count($segments) > 0)
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": {!! json_encode($breadcrumbs, JSON_UNESCAPED_SLASHES) !!}
     }
