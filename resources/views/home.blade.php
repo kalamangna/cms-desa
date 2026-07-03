@@ -138,7 +138,7 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Grafik <span class="text-emerald-600">Kependudukan</span> Desa</h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Data & <span class="text-emerald-600">Anggaran</span> Desa</h2>
             </div>
             <a href="/statistik" class="inline-flex items-center gap-2 font-bold text-emerald-600 hover:text-emerald-700 transition text-sm group">
                 Lihat Statistik Lengkap <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>

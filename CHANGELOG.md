@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.36] - 2026-07-03
+
+### Changed
+- **Penyesuaian Judul Section Beranda**: Memperbarui judul bagian grafik di beranda menjadi "Data & Anggaran Desa" agar sesuai dengan isian kolom grafik demografi penduduk dan diagram anggaran APBDes yang disajikan bersandingan.
+
 ## [1.6.35] - 2026-07-03
 
 ### Fixed
