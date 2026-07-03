@@ -204,9 +204,9 @@ class ListFamilies extends ListRecords
                             'rt' => $rt,
                             'rw' => $rw,
                             'address_matches_kk' => $colMatchesKk !== false ? trim($row[$colMatchesKk]) : null,
-                            'assistance_type' => $colBansos !== false ? trim($row[$colBansos]) : null,
+                            'assistance_type' => $colBansos !== false ? $this->parseAssistanceType($row[$colBansos]) : null,
                             'building_type' => $colBuildingType !== false ? trim($row[$colBuildingType]) : null,
-                            'ownership_status' => $colOwnership !== false ? trim($row[$colOwnership]) : null,
+                            'ownership_status' => $colOwnership !== false ? $this->parseOwnershipStatus($row[$colOwnership]) : null,
                             'ownership_proof' => $colProof !== false ? trim($row[$colProof]) : null,
                             'floor_area' => $colFloorArea !== false ? floatval(trim($row[$colFloorArea])) : null,
                             'floor_material' => $colFloorMat !== false ? trim($row[$colFloorMat]) : null,
@@ -260,6 +260,42 @@ class ListFamilies extends ListRecords
                         ->send();
                 }),
         ];
+    }
+
+    private function parseYesNo(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+        
+        if (in_array($clean, ['ya', 'yes', 'true', '1']) || strpos($clean, 'ya') === 0) {
+            return 'Ya';
+        }
+        return 'Tidak';
+    }
+
+    private function parseOwnershipStatus(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (strpos($clean, 'milik sendiri') !== false || strpos($clean, 'sendiri') !== false) {
+            return 'Milik sendiri';
+        } elseif (strpos($clean, 'sewa') !== false || strpos($clean, 'kontrak') !== false) {
+            return 'Sewa/Kontrak';
+        }
+        return 'Bebas Sewa/Dinas/Lainnya';
+    }
+
+    private function parseAssistanceType(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean) || in_array($clean, ['tidak ada', 'tidak', 'none', '-'])) {
+            return 'Tidak Ada';
+        }
+        return trim($val);
     }
 
     private function findColumnIndex(array $header, array $needles): int|bool

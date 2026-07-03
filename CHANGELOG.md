@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.21] - 2026-07-03
+
+### Added
+- **Standardisasi Pemetaan Opsi Kolom (Best Practices)**: Mengintegrasikan helper parsing cerdas (`parseYesNo`, `parseMaritalStatus`, `parseFamilyRelation`, `parseEducationLevel`, `parseJob`, `parseOwnershipStatus`, `parseAssistanceType`) pada skrip import kependudukan di `ListCitizens.php` dan `ListFamilies.php` untuk menormalisasi variasi tulisan tangan respon Google Form secara otomatis, menjamin konsistensi data basis data 100%, serta meminimalisir kegagalan kueri visualisasi statistik.
+
 ## [1.6.20] - 2026-07-03
 
 ### Fixed

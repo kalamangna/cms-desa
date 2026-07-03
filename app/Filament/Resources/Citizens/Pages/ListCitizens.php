@@ -223,15 +223,15 @@ class ListCitizens extends ListRecords
                             'address' => $address,
                             'gender' => $colGender !== false && !empty(trim($row[$colGender])) ? (strpos(strtolower(trim($row[$colGender])), 'perempuan') !== false || strtolower(trim($row[$colGender])) === 'p' ? 'Perempuan' : 'Laki-laki') : null,
                             'date_of_birth' => $dob,
-                            'marital_status' => $colMarital !== false ? trim($row[$colMarital]) : null,
-                            'family_relation' => $colRelation !== false ? trim($row[$colRelation]) : null,
+                            'marital_status' => $colMarital !== false ? $this->parseMaritalStatus($row[$colMarital]) : null,
+                            'family_relation' => $colRelation !== false ? $this->parseFamilyRelation($row[$colRelation]) : null,
                             'school_participation' => $colSchool !== false ? trim($row[$colSchool]) : null,
-                            'education_level' => $colEduLevel !== false ? trim($row[$colEduLevel]) : null,
-                            'education' => $colEduLevel !== false ? trim($row[$colEduLevel]) : null, // legacy
+                            'education_level' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null,
+                            'education' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null, // legacy
                             'bpjs_status' => $colBpjs !== false ? trim($row[$colBpjs]) : null,
                             'pip_status' => $colPip !== false ? trim($row[$colPip]) : null,
                             'has_income' => $colHasIncome !== false ? trim($row[$colHasIncome]) : null,
-                            'job' => $colJob !== false ? trim($row[$colJob]) : null,
+                            'job' => $colJob !== false ? $this->parseJob($row[$colJob]) : null,
                             'job_status' => $colJobStatus !== false ? trim($row[$colJobStatus]) : null,
                             
                             // Income
@@ -245,33 +245,33 @@ class ListCitizens extends ListRecords
                             'income_passive' => $colIncPass !== false ? $this->cleanNumeric(trim($row[$colIncPass])) : 0,
                             
                             // Disabilities
-                            'disability_physical' => $colDisPhys !== false ? trim($row[$colDisPhys]) : null,
-                            'disability_mental' => $colDisMent !== false ? trim($row[$colDisMent]) : null,
-                            'disability_intellectual' => $colDisIntel !== false ? trim($row[$colDisIntel]) : null,
-                            'disability_blind' => $colDisBlind !== false ? trim($row[$colDisBlind]) : null,
-                            'disability_deaf' => $colDisDeaf !== false ? trim($row[$colDisDeaf]) : null,
-                            'disability_speech' => $colDisSpeech !== false ? trim($row[$colDisSpeech]) : null,
+                            'disability_physical' => $colDisPhys !== false ? $this->parseYesNo($row[$colDisPhys]) : null,
+                            'disability_mental' => $colDisMent !== false ? $this->parseYesNo($row[$colDisMent]) : null,
+                            'disability_intellectual' => $colDisIntel !== false ? $this->parseYesNo($row[$colDisIntel]) : null,
+                            'disability_blind' => $colDisBlind !== false ? $this->parseYesNo($row[$colDisBlind]) : null,
+                            'disability_deaf' => $colDisDeaf !== false ? $this->parseYesNo($row[$colDisDeaf]) : null,
+                            'disability_speech' => $colDisSpeech !== false ? $this->parseYesNo($row[$colDisSpeech]) : null,
                             
                             // Illnesses
-                            'illness_hypertension' => $colIllHyper !== false ? trim($row[$colIllHyper]) : null,
-                            'illness_rheumatic' => $colIllRheu !== false ? trim($row[$colIllRheu]) : null,
-                            'illness_asthma' => $colIllAsthma !== false ? trim($row[$colIllAsthma]) : null,
-                            'illness_heart' => $colIllHeart !== false ? trim($row[$colIllHeart]) : null,
-                            'illness_diabetes' => $colIllDiab !== false ? trim($row[$colIllDiab]) : null,
-                            'illness_tbc' => $colIllTbc !== false ? trim($row[$colIllTbc]) : null,
-                            'illness_stroke' => $colIllStroke !== false ? trim($row[$colIllStroke]) : null,
-                            'illness_cancer' => $colIllCancer !== false ? trim($row[$colIllCancer]) : null,
-                            'illness_kidney' => $colIllKidney !== false ? trim($row[$colIllKidney]) : null,
-                            'illness_hemophilia' => $colIllHemo !== false ? trim($row[$colIllHemo]) : null,
-                            'illness_hiv' => $colIllHiv !== false ? trim($row[$colIllHiv]) : null,
-                            'illness_cholesterol' => $colIllChol !== false ? trim($row[$colIllChol]) : null,
-                            'illness_liver' => $colIllLiver !== false ? trim($row[$colIllLiver]) : null,
-                            'illness_thalassemia' => $colIllThal !== false ? trim($row[$colIllThal]) : null,
-                            'illness_leukemia' => $colIllLeuk !== false ? trim($row[$colIllLeuk]) : null,
-                            'illness_alzheimer' => $colIllAlz !== false ? trim($row[$colIllAlz]) : null,
-                            'illness_other' => $colIllOther !== false ? trim($row[$colIllOther]) : null,
+                            'illness_hypertension' => $colIllHyper !== false ? $this->parseYesNo($row[$colIllHyper]) : null,
+                            'illness_rheumatic' => $colIllRheu !== false ? $this->parseYesNo($row[$colIllRheu]) : null,
+                            'illness_asthma' => $colIllAsthma !== false ? $this->parseYesNo($row[$colIllAsthma]) : null,
+                            'illness_heart' => $colIllHeart !== false ? $this->parseYesNo($row[$colIllHeart]) : null,
+                            'illness_diabetes' => $colIllDiab !== false ? $this->parseYesNo($row[$colIllDiab]) : null,
+                            'illness_tbc' => $colIllTbc !== false ? $this->parseYesNo($row[$colIllTbc]) : null,
+                            'illness_stroke' => $colIllStroke !== false ? $this->parseYesNo($row[$colIllStroke]) : null,
+                            'illness_cancer' => $colIllCancer !== false ? $this->parseYesNo($row[$colIllCancer]) : null,
+                            'illness_kidney' => $colIllKidney !== false ? $this->parseYesNo($row[$colIllKidney]) : null,
+                            'illness_hemophilia' => $colIllHemo !== false ? $this->parseYesNo($row[$colIllHemo]) : null,
+                            'illness_hiv' => $colIllHiv !== false ? $this->parseYesNo($row[$colIllHiv]) : null,
+                            'illness_cholesterol' => $colIllChol !== false ? $this->parseYesNo($row[$colIllChol]) : null,
+                            'illness_liver' => $colIllLiver !== false ? $this->parseYesNo($row[$colIllLiver]) : null,
+                            'illness_thalassemia' => $colIllThal !== false ? $this->parseYesNo($row[$colIllThal]) : null,
+                            'illness_leukemia' => $colIllLeuk !== false ? $this->parseYesNo($row[$colIllLeuk]) : null,
+                            'illness_alzheimer' => $colIllAlz !== false ? $this->parseYesNo($row[$colIllAlz]) : null,
+                            'illness_other' => $colIllOther !== false ? $this->parseYesNo($row[$colIllOther]) : null,
                             
-                            'has_digital_wallet' => $colWallet !== false ? trim($row[$colWallet]) : null,
+                            'has_digital_wallet' => $colWallet !== false ? $this->parseYesNo($row[$colWallet]) : null,
                             'status' => 'Aktif',
                             'citizenship_status' => $colStatus !== false ? trim($row[$colStatus]) : 'Tinggal di rumah/tempat tinggal ini',
                         ];
@@ -292,6 +292,100 @@ class ListCitizens extends ListRecords
                         ->send();
                 }),
         ];
+    }
+
+    private function parseYesNo(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+        
+        if (in_array($clean, ['ya', 'yes', 'true', '1']) || strpos($clean, 'ya') === 0) {
+            return 'Ya';
+        }
+        return 'Tidak';
+    }
+
+    private function parseMaritalStatus(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (strpos($clean, 'belum') !== false) {
+            return 'Belum Kawin';
+        } elseif (strpos($clean, 'cerai hidup') !== false || strpos($clean, 'hidup') !== false) {
+            return 'Cerai Hidup';
+        } elseif (strpos($clean, 'cerai mati') !== false || strpos($clean, 'mati') !== false || strpos($clean, 'janda') !== false || strpos($clean, 'duda') !== false) {
+            return 'Cerai Mati';
+        } elseif (strpos($clean, 'kawin') !== false || strpos($clean, 'menikah') !== false || strpos($clean, 'nikah') !== false) {
+            return 'Kawin';
+        }
+        return 'Belum Kawin';
+    }
+
+    private function parseFamilyRelation(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (strpos($clean, 'kepala') !== false || strpos($clean, 'kk') !== false) {
+            return 'Kepala Keluarga';
+        } elseif (strpos($clean, 'istri') !== false || strpos($clean, 'suami') !== false) {
+            return 'Istri';
+        } elseif (strpos($clean, 'anak') !== false) {
+            return 'Anak';
+        } elseif (strpos($clean, 'cucu') !== false) {
+            return 'Cucu';
+        } elseif (strpos($clean, 'tua') !== false || strpos($clean, 'bapak') !== false || strpos($clean, 'ibu') !== false) {
+            return 'Orang Tua';
+        } elseif (strpos($clean, 'mertua') !== false) {
+            return 'Mertua';
+        }
+        return 'Lainnya';
+    }
+
+    private function parseEducationLevel(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (strpos($clean, 'tidak') !== false || strpos($clean, 'belum') !== false) {
+            return 'Tidak/belum pernah sekolah';
+        } elseif (strpos($clean, 'sd') !== false || strpos($clean, 'dasar') !== false || strpos($clean, 'primary') !== false) {
+            return 'SD';
+        } elseif (strpos($clean, 'smp') !== false || strpos($clean, 'tsanawiyah') !== false || strpos($clean, 'menengah pertama') !== false) {
+            return 'SMP';
+        } elseif (strpos($clean, 'sma') !== false || strpos($clean, 'smk') !== false || strpos($clean, 'aliyah') !== false || strpos($clean, 'menengah atas') !== false) {
+            return 'SMA';
+        } elseif (strpos($clean, 'diploma') !== false || strpos($clean, 'd1') !== false || strpos($clean, 'd2') !== false || strpos($clean, 'd3') !== false || strpos($clean, 'd4') !== false || strpos($clean, 'akademik') !== false) {
+            return 'Diploma';
+        } elseif (strpos($clean, 'sarjana') !== false || strpos($clean, 's1') !== false || strpos($clean, 's2') !== false || strpos($clean, 's3') !== false || strpos($clean, 'master') !== false || strpos($clean, 'doktor') !== false) {
+            return 'Sarjana';
+        }
+        return 'Tidak/belum pernah sekolah';
+    }
+
+    private function parseJob(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (strpos($clean, 'tani') !== false || strpos($clean, 'kebun') !== false || strpos($clean, 'sawah') !== false) {
+            return 'Petani';
+        } elseif (strpos($clean, 'wiraswasta') !== false || strpos($clean, 'usaha') !== false || strpos($clean, 'dagang') !== false || strpos($clean, 'toko') !== false || strpos($clean, 'bisnis') !== false) {
+            return 'Wiraswasta';
+        } elseif (strpos($clean, 'pns') !== false || strpos($clean, 'sipil') !== false || strpos($clean, 'negeri') !== false || strpos($clean, 'asn') !== false || strpos($clean, 'pejabat') !== false) {
+            return 'PNS';
+        } elseif (strpos($clean, 'buruh') !== false || strpos($clean, 'pekerja harian') !== false || strpos($clean, 'tukang') !== false || strpos($clean, 'kuli') !== false) {
+            return 'Buruh';
+        } elseif (strpos($clean, 'tidak bekerja') !== false || strpos($clean, 'menganggur') !== false || strpos($clean, 'sekolah') !== false || strpos($clean, 'ibu rumah tangga') !== false || strpos($clean, 'irt') !== false) {
+            return 'Tidak Bekerja';
+        }
+        return 'Lainnya';
     }
 
     private function findColumnIndex(array $header, array $needles): int|bool
