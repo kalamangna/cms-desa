@@ -8,6 +8,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Perbaikan Query Kategori APBDes Beranda (SQL Column Not Found Hotfix)**: Memperbaiki error `SQLSTATE[42S22]: Column not found` pada query `BudgetRealization::whereHas('category')` di `HomeController.php`. Query dan filter pengelompokan anggaran diperbaiki agar menggunakan kolom `slug` (sebagai ganti kolom `type` yang tidak ada di skema database tabel `budget_categories`).
 - **Kompilasi Ulang Aset Produksi (Production Assets Compilation)**: Menjalankan kompilasi aset CSS dan Javascript (`npm run build`) untuk memperbarui file aset dan manifest produksi, menjamin seluruh gaya tampilan layout publik yang responsif terkompilasi dengan benar.
 - **Pelebaran Kolom Kontak Kami & Penghapusan Tautan Cepat pada Footer (Footer Layout Refactor)**: Menghapus kolom "Tautan Cepat" pada footer, mengembalikan grid utama desktop menjadi 5 kolom (`lg:grid-cols-5`), dan memperlebar kolom "Kontak Kami" menjadi `lg:col-span-2` agar informasi alamat kantor, email, dan telepon terlihat proporsional, lapang, dan mudah dibaca.
+- **Penyelarasan Teks & Ikon Alamat Footer (Footer Address Alignment Fix)**: Menyelaraskan teks alamat di footer dengan mengubah `leading-relaxed` menjadi `leading-normal pt-0.5` agar sejajar secara vertikal dengan bagian atas lurus badge ikon.
 
 ## [1.6.37] - 2026-07-03
 

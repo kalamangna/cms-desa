@@ -331,7 +331,7 @@
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
                                 <i class="fa-solid fa-location-dot text-emerald-400 text-xs"></i>
                             </span>
-                            <span class="leading-relaxed">{{ $site_settings['village_address'] ?? '-' }}</span>
+                            <span class="leading-normal pt-0.5">{{ $site_settings['village_address'] ?? '-' }}</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
