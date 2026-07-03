@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.15] - 2026-07-03
+
+### Added
+- **Dropdown Cascading Wilayah Administratif**: Mengubah input teks Provinsi, Kabupaten, dan Kecamatan di form "Profil Desa" menjadi dropdown Select dinamis berjenjang (cascading) terintegrasi dengan API Wilayah Indonesia. Form mewajibkan pemilihan Provinsi terlebih dahulu sebelum Kabupaten dan Kecamatan aktif, serta menyimpan nama wilayah berupa teks untuk keselarasan tampilan halaman depan.
+- **Cache Data Wilayah**: Mengintegrasikan Laravel Cache (durasi 24 jam) untuk seluruh request data wilayah dari API guna mengoptimalkan kecepatan akses dan performa load halaman admin.
+
 ## [1.6.14] - 2026-07-03
 
 ### Changed
