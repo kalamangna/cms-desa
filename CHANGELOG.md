@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.25] - 2026-07-03
+
+### Changed
+- **Anonimisasi Total Data Pribadi Unduhan Open Data (Privacy Enforcement)**: Menghapus seluruh kolom data pribadi teridentifikasi (Nama, NIK, No KK, Alamat Rinci) dari file CSV yang didownload di halaman Open Data (`/dataset`) dan Statistik. Untuk data penduduk, tanggal lahir diubah secara otomatis menjadi kueri umur angka (anonymized age number), dan alamat dipersempit hanya pada cakupan wilayah (RT/RW/Dusun) demi mematuhi UU Pelindungan Data Pribadi (UU PDP).
+
 ## [1.6.24] - 2026-07-03
 
 ### Removed

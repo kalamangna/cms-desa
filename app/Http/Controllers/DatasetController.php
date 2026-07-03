@@ -42,13 +42,11 @@ class DatasetController extends Controller
                 // UTF-8 BOM
                 fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
                 
-                // Header columns
+                // Header columns (Fully Anonymous - No PII)
                 fputcsv($file, [
                     'No',
-                    'NIK',
-                    'Nama',
                     'Jenis Kelamin',
-                    'Tanggal Lahir',
+                    'Umur',
                     'Status Perkawinan',
                     'Hubungan Keluarga',
                     'Tingkat Pendidikan',
@@ -63,17 +61,11 @@ class DatasetController extends Controller
                 $citizens = \App\Models\Citizen::with('dusun')->where('status', 'Aktif')->get();
                 $no = 1;
                 foreach ($citizens as $citizen) {
-                    $maskedNik = $citizen->nik;
-                    if (strlen($maskedNik) === 16) {
-                        $maskedNik = substr($maskedNik, 0, 6) . '******' . substr($maskedNik, 12, 4);
-                    }
-
+                    $age = $citizen->date_of_birth ? \Carbon\Carbon::parse($citizen->date_of_birth)->age : '-';
                     fputcsv($file, [
                         $no++,
-                        $maskedNik,
-                        $citizen->name,
                         $citizen->gender,
-                        $citizen->date_of_birth,
+                        $age,
                         $citizen->marital_status,
                         $citizen->family_relation,
                         $citizen->education_level,
@@ -104,12 +96,9 @@ class DatasetController extends Controller
                 // UTF-8 BOM
                 fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
                 
-                // Header columns
+                // Header columns (Fully Anonymous - No PII)
                 fputcsv($file, [
                     'No',
-                    'No KK',
-                    'Kepala Keluarga',
-                    'Alamat',
                     'Dusun',
                     'RT',
                     'RW',
@@ -120,16 +109,8 @@ class DatasetController extends Controller
                 $families = \App\Models\Family::with('dusun')->get();
                 $no = 1;
                 foreach ($families as $family) {
-                    $maskedKk = $family->kk_number;
-                    if (strlen($maskedKk) === 16) {
-                        $maskedKk = substr($maskedKk, 0, 6) . '******' . substr($maskedKk, 12, 4);
-                    }
-
                     fputcsv($file, [
                         $no++,
-                        $maskedKk,
-                        $family->head_name,
-                        $family->address,
                         $family->dusun?->name ?? '-',
                         $family->rt ?? '-',
                         $family->rw ?? '-',
