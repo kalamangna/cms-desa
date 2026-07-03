@@ -81,11 +81,13 @@
                                 @if($post->featured_image)
                                     <img src="{{ asset('storage/' . $post->featured_image) }}"
                                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                         alt="{{ $post->title }}">
+                                         alt="{{ $post->title }}"
+                                         loading="lazy">
                                 @else
                                     <img src="{{ asset('img/meta.png') }}"
                                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                         alt="{{ $post->title }}">
+                                         alt="{{ $post->title }}"
+                                         loading="lazy">
                                 @endif
                             </div>
 
@@ -137,11 +139,13 @@
                             @if($post->featured_image)
                                 <img src="{{ asset('storage/' . $post->featured_image) }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                     alt="{{ $post->title }}">
+                                     alt="{{ $post->title }}"
+                                     loading="lazy">
                             @else
                                 <img src="{{ asset('img/meta.png') }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                     alt="{{ $post->title }}">
+                                     alt="{{ $post->title }}"
+                                     loading="lazy">
                             @endif
                             @if($post->category)
                             <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-emerald-700 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">

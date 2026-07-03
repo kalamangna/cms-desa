@@ -1,11 +1,45 @@
 @extends('layouts.app')
 
 @section('title', $post->title . ' | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-
+@section('og_type', 'article')
 @section('meta_description', Str::limit(strip_tags($post->content), 160))
 @section('meta_image', $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png'))
+@section('canonical', route('posts.show', $post->slug))
+@section('meta_keywords', $post->title . ', berita desa, ' . ($site_settings['village_name'] ?? '') . ', ' . ($site_settings['district_name'] ?? ''))
 
-@section('content')
+@push('og_extra')
+    <meta property="article:published_time" content="{{ $post->published_at?->toIso8601String() }}">
+    <meta property="article:modified_time" content="{{ $post->updated_at->toIso8601String() }}">
+    <meta property="article:author" content="Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}">
+    <meta property="article:section" content="Berita Desa">
+@endpush
+
+@push('head')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ addslashes($post->title) }}",
+    "description": "{{ addslashes(Str::limit(strip_tags($post->content), 160)) }}",
+    "url": "{{ route('posts.show', $post->slug) }}",
+    "datePublished": "{{ $post->published_at?->toIso8601String() }}",
+    "dateModified": "{{ $post->updated_at->toIso8601String() }}",
+    "image": "{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}",
+    "author": {
+        "@type": "Organization",
+        "@id": "{{ url('/') }}/#organization",
+        "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}"
+    },
+    "publisher": {
+        "@id": "{{ url('/') }}/#organization"
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ route('posts.show', $post->slug) }}"
+    }
+}
+</script>
+@endpush
 
 {{-- =========================================================
      HERO SECTION — dynamic background from featured_image

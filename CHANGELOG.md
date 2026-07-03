@@ -12,6 +12,29 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Penghapusan Kolom Format & Penamaan Kolom Aksi Tabel Open Data (Open Data Table Refactor)**: Menghapus kolom "Format" yang redundan di tabel halaman Open Data (`datasets/index.blade.php`) karena format file unduhan sudah diwakili oleh tombol aksi, serta mengubah nama header kolom "Aksi" menjadi "Unduh" agar lebih informatif.
 - **Penghapusan Tombol Unduh Halaman Statistik (Statistics Download Button Removal)**: Menghapus tombol "Unduh Dataset Riil (CSV)" di bagian bawah tab kategori pada halaman visualisasi statistik (`statistics/index.blade.php`), untuk menghindari duplikasi opsi karena download dataset sudah sepenuhnya diwadahi di halaman Open Data.
 
+## [1.6.39] - 2026-07-04
+
+### Added
+- **Peningkatan Komprehensif SEO Teknis (Comprehensive SEO Enhancement)**:
+  - Menambahkan `<link rel="canonical">` di layout utama yang bisa di-override per halaman untuk mencegah *duplicate content*.
+  - Menambahkan `<meta name="robots" content="index, follow">` secara global.
+  - Menjadikan `og:type` dinamis (bisa di-*override* per halaman via `@section('og_type')`), sehingga halaman berita detail sekarang menggunakan `og:type="article"`.
+  - Menambahkan `og:site_name`, `og:locale`, `og:image:width`, `og:image:height` pada Open Graph.
+  - Menambahkan `@stack('og_extra')` dan `@stack('head')` agar halaman child bisa meng-*inject* meta article dan JSON-LD tambahan.
+  - Menambahkan `meta_keywords` yang bisa di-*override* per halaman.
+- **JSON-LD Structured Data (Schema.org)**:
+  - Menambahkan JSON-LD `Organization` dan `WebSite` (dengan `SearchAction`) secara global di layout utama.
+  - Menambahkan JSON-LD `Article` schema di halaman detail berita (`posts/show.blade.php`).
+  - Menambahkan `article:published_time`, `article:modified_time`, `article:author`, `article:section` meta tags di halaman berita detail.
+- **Upgrade Sitemap XML (`sitemap.blade.php` & `SitemapController.php`)**:
+  - Menambahkan semua rute publik ke sitemap: `/profil`, `/layanan`, `/aparatur`, `/kontak`, `/pengumuman`, `/galeri`, `/dokumen`, `/publikasi`, `/dataset`.
+  - Menambahkan URL detail pengumuman (`/pengumuman/{slug}`) secara dinamis dari database.
+  - Mengatur `changefreq` dan `priority` yang tepat per jenis halaman.
+- **Peningkatan `robots.txt`**: Menambahkan blok `Disallow: /admin` dan `Disallow: /admin/*` agar panel admin tidak di-crawl oleh mesin pencari.
+- **Lazy Loading Gambar (Image Lazy Loading)**:
+  - Menambahkan `loading="lazy"` pada semua tag `<img>` yang berada di bawah fold di `home.blade.php`, `posts/index.blade.php`, dan `posts/show.blade.php`.
+  - Gambar LCP (foto kepala desa di hero banner) dikecualikan dari lazy loading.
+
 ## [1.6.37] - 2026-07-03
 
 ### Added

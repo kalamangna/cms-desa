@@ -269,9 +269,9 @@
                 <a href="/berita/{{ $featuredPost->slug }}" class="block group">
                     <div class="relative rounded-3xl overflow-hidden aspect-[16/9] mb-6 shadow-xl">
                         @if($featuredPost->featured_image)
-                            <img src="{{ asset('storage/' . $featuredPost->featured_image) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featuredPost->title }}">
+                            <img src="{{ asset('storage/' . $featuredPost->featured_image) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featuredPost->title }}" loading="lazy">
                         @else
-                            <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featuredPost->title }}">
+                            <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featuredPost->title }}" loading="lazy">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                         <div class="absolute top-6 left-6">
@@ -290,9 +290,9 @@
                     <a href="/berita/{{ $post->slug }}" class="flex gap-5 group items-center p-4 rounded-2xl hover:bg-slate-50 transition-all duration-200 -mx-4">
                         <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-slate-100">
                             @if($post->featured_image)
-                                <img src="{{ asset('storage/' . $post->featured_image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
+                                <img src="{{ asset('storage/' . $post->featured_image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}" loading="lazy">
                             @else
-                                <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
+                                <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}" loading="lazy">
                             @endif
                         </div>
                         <div class="flex-1 min-w-0">
@@ -363,6 +363,7 @@
                         <img src="{{ $gallery->image_url }}"
                              class="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
                              alt="{{ $gallery->title }}"
+                             loading="lazy"
                              onerror="this.src='{{ asset('img/meta.png') }}'">
                         @if($gallery->type === 'video')
                         <div class="absolute top-3 right-3 w-8 h-8 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
@@ -387,9 +388,9 @@
                         <div class="flex items-center gap-5 p-5">
                             <div class="w-16 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100">
                                 @if($pub->cover)
-                                    <img src="{{ asset('storage/' . $pub->cover) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $pub->title }}">
+                                    <img src="{{ asset('storage/' . $pub->cover) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $pub->title }}" loading="lazy">
                                 @else
-                                    <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $pub->title }}">
+                                    <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $pub->title }}" loading="lazy">
                                 @endif
                             </div>
                             <div class="flex-1 min-w-0">

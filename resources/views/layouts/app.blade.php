@@ -8,25 +8,83 @@
     <!-- SEO Meta Tags -->
     <title>@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))</title>
     <meta name="description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan informasi berita, statistik, dan transparansi anggaran desa.')">
-    <meta name="keywords" content="desa, {{ $site_settings['village_name'] ?? '' }}, {{ $site_settings['district_name'] ?? '' }}, statistik desa, apbdes">
+    <meta name="keywords" content="@yield('meta_keywords', 'desa, ' . ($site_settings['village_name'] ?? '') . ', ' . ($site_settings['district_name'] ?? '') . ', statistik desa, apbdes, pemerintah desa')">
     <meta name="author" content="Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="@yield('canonical', url()->current())">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('img/sinjai.png') }}">
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:site_name" content="Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="@yield('canonical', url()->current())">
     <meta property="og:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
     <meta property="og:description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '.')">
     <meta property="og:image" content="@yield('meta_image', asset('img/meta.png'))">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    @stack('og_extra')
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
-    <meta property="twitter:description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '.')">
-    <meta property="twitter:image" content="@yield('meta_image', asset('img/meta.png'))">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
+    <meta name="twitter:description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '.')">
+    <meta name="twitter:image" content="@yield('meta_image', asset('img/meta.png'))">
+
+    <!-- JSON-LD: Organization + WebSite (global) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "{{ url('/') }}/#organization",
+                "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}",
+                "url": "{{ url('/') }}",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{ asset('img/sinjai.png') }}"
+                },
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "{{ $site_settings['village_address'] ?? '' }}",
+                    "addressLocality": "{{ $site_settings['district_name'] ?? '' }}",
+                    "addressCountry": "ID"
+                },
+                "telephone": "{{ $site_settings['village_phone'] ?? '' }}",
+                "sameAs": [
+                    "{{ $site_settings['social_facebook'] ?? '' }}",
+                    "{{ $site_settings['social_instagram'] ?? '' }}"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "{{ url('/') }}/#website",
+                "url": "{{ url('/') }}",
+                "name": "Desa {{ $site_settings['village_name'] ?? '' }}",
+                "publisher": {
+                    "@id": "{{ url('/') }}/#organization"
+                },
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "{{ url('/berita') }}?search={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                }
+            }
+        ]
+    }
+    <\/script>
+
+    <!-- Extra head content (JSON-LD, etc.) from child views -->
+    @stack('head')
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
