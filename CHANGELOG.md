@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.17] - 2026-07-03
+
+### Changed
+- **Pembersihan Otomatis Placeholder Wilayah (Auto-Heal)**: Menambahkan fungsi auto-heal pada method `mount()` di `ManageProfile.php` dan memperbarui `DefaultDataSeeder.php` agar secara otomatis mendeteksi dan memperbarui nilai placeholder database lama ("Nama Provinsi" dan "Nama Kabupaten") menjadi "SULAWESI SELATAN" dan "SINJAI" tanpa memerlukan modifikasi database manual.
+
 ## [1.6.16] - 2026-07-03
 
 ### Changed

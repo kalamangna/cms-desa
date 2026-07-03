@@ -33,6 +33,17 @@ class ManageProfile extends Page implements HasForms
     public function mount(): void
     {
         $settings = Setting::pluck('value', 'key')->toArray();
+        
+        // Auto-heal placeholders if they exist
+        if (!isset($settings['province_name']) || empty($settings['province_name']) || $settings['province_name'] === 'Nama Provinsi') {
+            $settings['province_name'] = 'SULAWESI SELATAN';
+            Setting::updateOrCreate(['key' => 'province_name'], ['value' => 'SULAWESI SELATAN']);
+        }
+        if (!isset($settings['regency_name']) || empty($settings['regency_name']) || $settings['regency_name'] === 'Nama Kabupaten') {
+            $settings['regency_name'] = 'SINJAI';
+            Setting::updateOrCreate(['key' => 'regency_name'], ['value' => 'SINJAI']);
+        }
+        
         $this->form->fill($settings);
     }
 
