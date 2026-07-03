@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.31] - 2026-07-03
+
+### Changed
+- **Pembersihan Fallback Data Dummy (Zero-Data Realism)**: Menghapus logika fallback data dummy kependudukan pada `StatisticController.php` dan `HomeController.php`. Halaman statistik dan widget jumlah penduduk di beranda sekarang menyajikan data riil secara murni langsung dari database (menampilkan angka 0 atau grafik kosong jika database kosong) daripada kembali ke nilai placeholder seeder lama.
+
 ## [1.6.30] - 2026-07-03
 
 ### Added

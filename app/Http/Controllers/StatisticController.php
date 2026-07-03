@@ -14,11 +14,9 @@ class StatisticController extends Controller
             $query->orderBy('year', 'asc');
         }])->get();
 
-        $citizenCount = \App\Models\Citizen::where('status', 'Aktif')->count();
-        if ($citizenCount > 0) {
-            $currentYear = date('Y');
-            foreach ($categories as $category) {
-                foreach ($category->indicators as $indicator) {
+        $currentYear = date('Y');
+        foreach ($categories as $category) {
+            foreach ($category->indicators as $indicator) {
                     $value = 0;
                     if ($category->name === 'Penduduk') {
                         if (strpos(strtolower($indicator->name), 'laki-laki') !== false) {
@@ -116,7 +114,6 @@ class StatisticController extends Controller
                     $indicator->setRelation('data', collect([$newData]));
                 }
             }
-        }
 
         $datasets = Dataset::latest()->take(3)->get();
 

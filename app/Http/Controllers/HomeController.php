@@ -39,12 +39,8 @@ class HomeController extends Controller
             return StatisticData::max('year') ?? date('Y');
         });
         
-        $totalPenduduk = Cache::remember('home_total_penduduk_real', $ttl, function () use ($latestYear) {
-            $count = \App\Models\Citizen::where('status', 'Aktif')->count();
-            if ($count > 0) return $count;
-            return StatisticData::whereHas('indicator', function($q) {
-                $q->whereIn('name', ['Jumlah Laki-laki', 'Jumlah Perempuan']);
-            })->where('year', $latestYear)->sum('value');
+        $totalPenduduk = Cache::remember('home_total_penduduk_real', $ttl, function () {
+            return \App\Models\Citizen::where('status', 'Aktif')->count();
         });
 
         $totalUMKM = Cache::remember('home_total_umkm', $ttl, function () use ($latestYear) {
