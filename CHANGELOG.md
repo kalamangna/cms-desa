@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.35] - 2026-07-03
+
+### Fixed
+- **Perbaikan Bug Relasi BudgetRealization (Method Call Bug Fix)**: Memperbaiki kesalahan nama metode relasi di `HomeController.php` dari `budgetCategory` menjadi `category` pada model `BudgetRealization`. Ini menyelesaikan error *BadMethodCallException* yang merusak beranda saat memanggil bagan APBDes.
+
 ## [1.6.34] - 2026-07-03
 
 ### Changed

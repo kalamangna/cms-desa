@@ -113,7 +113,7 @@ class HomeController extends Controller
 
         $belanjaDetails = Cache::remember('home_belanja_details', $ttl, function () use ($currentYear) {
             return BudgetRealization::where('year', $currentYear)
-                ->whereHas('budgetCategory', function ($q) {
+                ->whereHas('category', function ($q) {
                     $q->where('type', 'belanja');
                 })
                 ->get();
