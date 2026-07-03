@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.34] - 2026-07-03
+
+### Changed
+- **Penyandingan Grafik Kependudukan & Anggaran (Side-by-Side Demographic & Budget charts)**: Mengembalikan layout 2 kolom di halaman beranda (`home.blade.php`) dengan menyandingkan "Grafik Demografi Penduduk" (Laki-laki vs Perempuan) di kolom kiri dan "Grafik & Informasi Realisasi APBDes" di kolom kanan, menggantikan grafik pekerjaan lama.
+
 ## [1.6.33] - 2026-07-03
 
 ### Changed
