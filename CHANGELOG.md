@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.33] - 2026-07-03
+
+### Changed
+- **Penyajian Grafik Kependudukan Tunggal di Beranda**: Menyederhanakan dan memfokuskan layout infografis halaman depan (`home.blade.php`) dengan menghapus panel grafik Pekerjaan dan APBDes, lalu menggantinya dengan "Grafik Demografi Penduduk" (Perbandingan Laki-laki vs Perempuan menggunakan visualisasi Donut Chart premium). Perhitungan diambil secara dinamis ter-cache lewat `HomeController.php`.
+
 ## [1.6.32] - 2026-07-03
 
 ### Changed

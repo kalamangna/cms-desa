@@ -69,30 +69,54 @@ class HomeController extends Controller
                    ->get();
         });
 
+        $lakiLakiCount = Cache::remember('home_laki_laki_count', $ttl, function () {
+            return \App\Models\Citizen::where('status', 'Aktif')->where('gender', 'Laki-laki')->count();
+        });
+
+        $perempuanCount = Cache::remember('home_perempuan_count', $ttl, function () {
+            return \App\Models\Citizen::where('status', 'Aktif')->where('gender', 'Perempuan')->count();
+        });
+
         $useCitizenData = true; // flag to tell view which format to use
 
         $currentYear = date('Y');
         $budgetSummary = Cache::remember('home_budget_summary', $ttl, function () use ($currentYear) {
-            return [
-                'pendapatan' => [
-                    'budget' => BudgetRealization::whereHas('category', fn($q) => $q->where('slug', 'pendapatan'))
-                        ->where('year', $currentYear)->sum('budget_amount'),
-                    'realization' => BudgetRealization::whereHas('category', fn($q) => $q->where('slug', 'pendapatan'))
-                        ->where('year', $currentYear)->sum('realization_amount'),
-                ],
-                'belanja' => [
-                    'budget' => BudgetRealization::whereHas('category', fn($q) => $q->where('slug', 'belanja'))
-                        ->where('year', $currentYear)->sum('budget_amount'),
-                    'realization' => BudgetRealization::whereHas('category', fn($q) => $q->where('slug', 'belanja'))
-                        ->where('year', $currentYear)->sum('realization_amount'),
-                ],
+            $categories = BudgetCategory::all();
+            $summary = [
+                'pendapatan' => ['budget' => 0, 'realization' => 0],
+                'belanja' => ['budget' => 0, 'realization' => 0],
+                'pembiayaan' => ['budget' => 0, 'realization' => 0]
             ];
+
+            foreach ($categories as $cat) {
+                $budget = BudgetRealization::where('budget_category_id', $cat->id)
+                    ->where('year', $currentYear)
+                    ->sum('budget_amount');
+                $real = BudgetRealization::where('budget_category_id', $cat->id)
+                    ->where('year', $currentYear)
+                    ->sum('realization_amount');
+
+                if ($cat->type === 'pendapatan') {
+                    $summary['pendapatan']['budget'] += $budget;
+                    $summary['pendapatan']['realization'] += $real;
+                } elseif ($cat->type === 'belanja') {
+                    $summary['belanja']['budget'] += $budget;
+                    $summary['belanja']['realization'] += $real;
+                } elseif ($cat->type === 'pembiayaan') {
+                    $summary['pembiayaan']['budget'] += $budget;
+                    $summary['pembiayaan']['realization'] += $real;
+                }
+            }
+
+            return $summary;
         });
 
         $belanjaDetails = Cache::remember('home_belanja_details', $ttl, function () use ($currentYear) {
-            return BudgetRealization::whereHas('category', fn($q) => $q->where('slug', 'belanja'))
-                ->where('year', $currentYear)
-                ->get(['title', 'realization_amount']);
+            return BudgetRealization::where('year', $currentYear)
+                ->whereHas('budgetCategory', function ($q) {
+                    $q->where('type', 'belanja');
+                })
+                ->get();
         });
 
         $publications = Cache::remember('home_publications', $ttl, function () {
@@ -100,7 +124,7 @@ class HomeController extends Controller
         });
 
         $galleries = Cache::remember('home_galleries', $ttl, function () {
-            return Gallery::latest()->take(8)->get();
+            return Gallery::latest()->take(6)->get();
         });
 
         return view('home', compact(
@@ -118,7 +142,9 @@ class HomeController extends Controller
             'budgetSummary',
             'belanjaDetails',
             'publications',
-            'galleries'
+            'galleries',
+            'lakiLakiCount',
+            'perempuanCount'
         ));
     }
 }

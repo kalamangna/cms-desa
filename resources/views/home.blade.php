@@ -129,7 +129,7 @@
     </div>
 </div>
 
-{{-- 4. DATA & ANGGARAN --}}
+{{-- 4. DATA DEMOGRAFI --}}
 <div class="bg-slate-50 py-24 md:py-36">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
@@ -138,71 +138,27 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Data & <span class="text-emerald-600">Anggaran</span> Desa</h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Grafik <span class="text-emerald-600">Kependudukan</span> Desa</h2>
             </div>
             <a href="/statistik" class="inline-flex items-center gap-2 font-bold text-emerald-600 hover:text-emerald-700 transition text-sm group">
                 Lihat Statistik Lengkap <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
             </a>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {{-- Grafik Pekerjaan --}}
+        <div class="max-w-3xl mx-auto">
             <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="p-8 border-b border-slate-100 flex justify-between items-center">
                     <div>
-                        <h3 class="font-heading font-extrabold text-xl text-slate-900">Distribusi Pekerjaan</h3>
-                        <p class="text-slate-400 text-sm mt-1">Data real-time dari basis data warga</p>
+                        <h3 class="font-heading font-extrabold text-xl text-slate-900">Demografi Penduduk</h3>
+                        <p class="text-slate-400 text-sm mt-1">Perbandingan jumlah laki-laki dan perempuan aktif</p>
                     </div>
                     <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100">{{ date('Y') }}</span>
                 </div>
                 <div class="p-8">
-                    <div class="h-72"><canvas id="jobChart"></canvas></div>
+                    <div class="h-72"><canvas id="populationChart"></canvas></div>
                     <a href="/statistik" class="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200">
-                        <i class="fa-solid fa-chart-bar"></i> Statistik Lengkap
+                        <i class="fa-solid fa-chart-line"></i> Lihat Statistik Lengkap
                     </a>
-                </div>
-            </div>
-
-            {{-- APBDes --}}
-            <div class="bg-slate-900 rounded-3xl text-white overflow-hidden">
-                <div class="p-8 border-b border-white/10 flex justify-between items-center">
-                    <div>
-                        <h3 class="font-heading font-extrabold text-xl text-white">APBDes {{ date('Y') }}</h3>
-                        <p class="text-slate-400 text-sm mt-1">Realisasi anggaran desa berjalan</p>
-                    </div>
-                    <a href="/apbdes" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1">
-                        Detail <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                    </a>
-                </div>
-                <div class="p-8">
-                    @php
-                        $pendapatanPct = $budgetSummary['pendapatan']['budget'] > 0 ? min(($budgetSummary['pendapatan']['realization'] / $budgetSummary['pendapatan']['budget']) * 100, 100) : 0;
-                        $belanjaPct   = $budgetSummary['belanja']['budget'] > 0 ? min(($budgetSummary['belanja']['realization'] / $budgetSummary['belanja']['budget']) * 100, 100) : 0;
-                    @endphp
-                    <div class="mb-6">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-bold text-emerald-400 text-sm">Total Pendapatan</span>
-                            <span class="text-sm font-bold text-white">{{ number_format($pendapatanPct, 1) }}%</span>
-                        </div>
-                        <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
-                        </div>
-                        <p class="text-xs text-slate-500 mt-2">Target: Rp {{ number_format($budgetSummary['pendapatan']['budget'], 0, ',', '.') }}</p>
-                    </div>
-                    <div class="mb-8">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-bold text-sky-400 text-sm">Total Belanja</span>
-                            <span class="text-sm font-bold text-white">{{ number_format($belanjaPct, 1) }}%</span>
-                        </div>
-                        <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full bg-sky-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
-                        </div>
-                        <p class="text-xs text-slate-500 mt-2">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
-                    </div>
-                    <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
-                        <p class="text-xs font-black uppercase tracking-wider text-slate-400 mb-4 text-center">Alokasi Belanja Desa</p>
-                        <div class="h-52"><canvas id="budgetRingChart"></canvas></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -381,51 +337,35 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Job Chart
-    const ctxJob = document.getElementById('jobChart');
-    if (ctxJob) {
-        new Chart(ctxJob.getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: [
-                    @foreach($jobData->take(8) as $item) '{{ Str::limit($item->name, 15) }}', @endforeach
-                ],
-                datasets: [{ label: 'Jiwa',
-                    data: [
-                        @foreach($jobData->take(8) as $item) {{ $item->total }}, @endforeach
-                    ],
-                    backgroundColor: 'rgba(16,185,129,0.85)', hoverBackgroundColor: '#059669',
-                    borderRadius: 10, borderSkipped: false }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family:'Inter', size:11 }, color:'#94a3b8' } },
-                    x: { grid: { display: false }, ticks: { font: { family:'Inter', size:10 }, color:'#94a3b8', maxRotation:35 } }
-                }
-            }
-        });
-    }
-
-    // Budget Donut
-    const ctxBudget = document.getElementById('budgetRingChart');
-    if (ctxBudget) {
-        @php
-            $donutPalette = ['#10b981','#0ea5e9','#f59e0b','#6366f1','#ec4899','#8b5cf6','#06b6d4','#14b8a6','#f97316','#3b82f6'];
-            $donutColors = [];
-            foreach ($belanjaDetails as $i => $d) { $donutColors[] = $donutPalette[$i % count($donutPalette)]; }
-        @endphp
-        new Chart(ctxBudget.getContext('2d'), {
+    // Population Chart (Doughnut)
+    const ctxPop = document.getElementById('populationChart');
+    if (ctxPop) {
+        new Chart(ctxPop.getContext('2d'), {
             type: 'doughnut',
             data: {
-                labels: [@foreach($belanjaDetails as $d) '{{ Str::limit($d->title, 20) }}', @endforeach],
-                datasets: [{ data: [@foreach($belanjaDetails as $d) {{ $d->realization_amount }}, @endforeach],
-                    backgroundColor: {!! json_encode($donutColors) !!}, borderWidth: 0, hoverOffset: 14 }]
+                labels: ['Laki-laki', 'Perempuan'],
+                datasets: [{
+                    data: [{{ $lakiLakiCount }}, {{ $perempuanCount }}],
+                    backgroundColor: ['#0284c7', '#ec4899'],
+                    borderWidth: 0,
+                    hoverOffset: 12
+                }]
             },
             options: {
-                responsive: true, maintainAspectRatio: false, cutout: '68%',
-                plugins: { legend: { position:'bottom', labels: { color:'#94a3b8', font:{ family:'Inter', size:10 }, padding:12, boxWidth:10 } } }
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#64748b',
+                            font: { family: 'Inter', size: 12, weight: 'bold' },
+                            padding: 20,
+                            boxWidth: 12
+                        }
+                    }
+                }
             }
         });
     }
