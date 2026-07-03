@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.14] - 2026-07-03
+
+### Changed
+- **Media Sosial Opsional Tanpa Validasi URL Ketat**: Menghapus aturan validasi `->url()` pada kolom Facebook, Instagram, dan YouTube di halaman "Pengaturan" agar pengguna dapat memasukkan teks kosong, karakter `#`, atau username tanpa diblokir oleh format URL protokol standar (`http://` atau `https://`).
+
 ## [1.6.13] - 2026-07-03
 
 ### Changed

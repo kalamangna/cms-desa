@@ -61,9 +61,9 @@ class ManageSettings extends Page implements HasForms
                             ->icon('heroicon-o-share')
                             ->columns(3)
                             ->components([
-                                TextInput::make('social_facebook')->label('Facebook URL')->url(),
-                                TextInput::make('social_instagram')->label('Instagram URL')->url(),
-                                TextInput::make('social_youtube')->label('YouTube URL')->url(),
+                                TextInput::make('social_facebook')->label('Facebook URL'),
+                                TextInput::make('social_instagram')->label('Instagram URL'),
+                                TextInput::make('social_youtube')->label('YouTube URL'),
                             ]),
                     ])->columnSpanFull()
             ])
