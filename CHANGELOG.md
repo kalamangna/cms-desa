@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.16] - 2026-07-03
+
+### Changed
+- **Penyederhanaan Wilayah (Dropdown Kecamatan Sinjai)**: Menyederhanakan form Provinsi dan Kabupaten menjadi field teks statis *Read-Only* ("SULAWESI SELATAN" dan "SINJAI"), serta memfokuskan dropdown Kecamatan agar hanya memuat daftar Kecamatan di Kabupaten Sinjai (menggunakan ID Wilayah `7307`) secara dinamis ter-cache dari API untuk mempermudah operasional admin desa.
+
 ## [1.6.15] - 2026-07-03
 
 ### Added
