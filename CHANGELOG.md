@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.38] - 2026-07-03
+
+### Fixed
+- **Perbaikan Query Kategori APBDes Beranda (SQL Column Not Found Hotfix)**: Memperbaiki error `SQLSTATE[42S22]: Column not found` pada query `BudgetRealization::whereHas('category')` di `HomeController.php`. Query dan filter pengelompokan anggaran diperbaiki agar menggunakan kolom `slug` (sebagai ganti kolom `type` yang tidak ada di skema database tabel `budget_categories`).
+
 ## [1.6.37] - 2026-07-03
 
 ### Added

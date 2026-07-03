@@ -102,13 +102,13 @@ class HomeController extends Controller
                     ->where('year', $currentYear)
                     ->sum('realization_amount');
 
-                if ($cat->type === 'pendapatan') {
+                if ($cat->slug === 'pendapatan') {
                     $summary['pendapatan']['budget'] += $budget;
                     $summary['pendapatan']['realization'] += $real;
-                } elseif ($cat->type === 'belanja') {
+                } elseif ($cat->slug === 'belanja') {
                     $summary['belanja']['budget'] += $budget;
                     $summary['belanja']['realization'] += $real;
-                } elseif ($cat->type === 'pembiayaan') {
+                } elseif ($cat->slug === 'pembiayaan') {
                     $summary['pembiayaan']['budget'] += $budget;
                     $summary['pembiayaan']['realization'] += $real;
                 }
@@ -120,7 +120,7 @@ class HomeController extends Controller
         $belanjaDetails = Cache::remember('home_belanja_details', $ttl, function () use ($currentYear) {
             return BudgetRealization::where('year', $currentYear)
                 ->whereHas('category', function ($q) {
-                    $q->where('type', 'belanja');
+                    $q->where('slug', 'belanja');
                 })
                 ->get();
         });
