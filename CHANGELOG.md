@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.22] - 2026-07-03
+
+### Added
+- **Integrasi Portal Open Data dengan Statistik**: Menambahkan panel integrasi data dinamis di bagian bawah halaman Statistik (`/statistik`). Halaman ini sekarang mengambil 3 daftar dataset terbuka terbaru dari model `Dataset` dan menampilkannya dalam bentuk kartu interaktif lengkap dengan tombol unduh berkas (CSV, XLSX, PDF) serta tautan navigasi langsung ke Portal Open Data utama.
+
 ## [1.6.21] - 2026-07-03
 
 ### Added

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\StatisticCategory;
+use App\Models\Dataset;
 use Illuminate\Http\Request;
 
 class StatisticController extends Controller
@@ -117,6 +118,8 @@ class StatisticController extends Controller
             }
         }
 
-        return view('statistics.index', compact('categories'));
+        $datasets = Dataset::latest()->take(3)->get();
+
+        return view('statistics.index', compact('categories', 'datasets'));
     }
 }

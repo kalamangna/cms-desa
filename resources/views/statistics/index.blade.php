@@ -208,6 +208,70 @@
     @endforeach
 
 </div>{{-- /alpine wrapper --}}
+
+    {{-- INTEGRASI OPEN DATA --}}
+    <div class="mt-24 border-t border-slate-100 pt-16">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {{-- Left column: Call to action --}}
+            <div class="lg:col-span-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="h-px w-8 bg-emerald-500"></div>
+                    <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Transparansi & Open Data</span>
+                </div>
+                <h3 class="text-3xl font-heading font-extrabold text-slate-900 leading-tight mb-4">
+                    Ingin Mengolah Data Sendiri?
+                </h3>
+                <p class="text-slate-500 font-medium leading-relaxed mb-6">
+                    Kami menyediakan seluruh data kependudukan, statistik, dan publikasi dalam format terbuka (Open Data) seperti CSV, XLSX, dan PDF agar Anda dapat memanfaatkannya secara bebas, akurat, dan transparan.
+                </p>
+                <a href="/dataset" class="group inline-flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-lg shadow-emerald-600/20 transition-all duration-300 hover:-translate-y-0.5">
+                    <i class="fa-solid fa-database group-hover:rotate-12 transition-transform"></i>
+                    Kunjungi Open Data Portal
+                </a>
+            </div>
+
+            {{-- Right column: Latest Datasets --}}
+            <div class="lg:col-span-2">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-slate-400 text-xs font-black uppercase tracking-[0.2em]">Dataset Terkait & Terbaru</span>
+                    <span class="text-emerald-600 text-xs font-bold">{{ $datasets->count() }} Dataset Tersedia</span>
+                </div>
+
+                <div class="space-y-4">
+                    @forelse($datasets as $dataset)
+                    <div class="bg-white rounded-3xl p-6 border border-slate-100 hover:border-emerald-200 hover:shadow-md transition duration-300 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <span class="px-2.5 py-1 rounded bg-slate-100 text-slate-600 font-black text-[9px] uppercase tracking-wider mb-2 inline-block">{{ $dataset->year }}</span>
+                            <h4 class="font-heading font-bold text-slate-900 text-base leading-snug">{{ $dataset->title }}</h4>
+                            <p class="text-slate-400 text-xs mt-1 line-clamp-1 font-medium">{{ $dataset->description }}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            @if($dataset->file_csv)
+                            <a href="{{ asset('storage/' . $dataset->file_csv) }}" class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-2 rounded-xl text-xs font-bold border border-emerald-100 hover:bg-emerald-100 transition" download>
+                                <i class="fa-solid fa-download"></i> CSV
+                            </a>
+                            @endif
+                            @if($dataset->file_xlsx)
+                            <a href="{{ asset('storage/' . $dataset->file_xlsx) }}" class="inline-flex items-center gap-1.5 bg-sky-50 text-sky-700 px-3 py-2 rounded-xl text-xs font-bold border border-sky-100 hover:bg-sky-100 transition" download>
+                                <i class="fa-solid fa-download"></i> XLSX
+                            </a>
+                            @endif
+                            @if($dataset->file_pdf)
+                            <a href="{{ asset('storage/' . $dataset->file_pdf) }}" class="inline-flex items-center gap-1.5 bg-rose-50 text-rose-700 px-3 py-2 rounded-xl text-xs font-bold border border-rose-100 hover:bg-rose-100 transition" download>
+                                <i class="fa-solid fa-download"></i> PDF
+                            </a>
+                            @endif
+                        </div>
+                    </div>
+                    @empty
+                    <div class="bg-white rounded-3xl p-8 text-center text-slate-400 border border-dashed border-slate-200 italic font-medium">
+                        Belum ada dataset terbuka yang dipublikasikan.
+                    </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
