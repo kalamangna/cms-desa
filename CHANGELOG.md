@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.26] - 2026-07-03
+
+### Changed
+- **Penyesuaian Deskripsi Dataset Open Data**: Memperbarui deskripsi data kependudukan dan keluarga di database untuk mencerminkan status anonimisasi total (penghapusan NIK, No KK, Nama, dan Alamat Rinci) agar sesuai dengan isi file CSV terbaru yang disajikan.
+
 ## [1.6.25] - 2026-07-03
 
 ### Changed
