@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.28] - 2026-07-03
+
+### Fixed
+- **Alokasi Memori Ekspor PDF (Memory Limit Fix)**: Meningkatkan alokasi memori PHP (`memory_limit` menjadi `512M` dan `set_time_limit` menjadi `120`) di `DatasetController.php` sebelum memproses rendering Dompdf. Ini menyelesaikan masalah *PHP Fatal error: Allowed memory size exhausted* yang menyebabkan browser men-download berkas PDF rusak berisi kode HTML error 500 saat mengompilasi ratusan baris data kependudukan.
+
 ## [1.6.27] - 2026-07-03
 
 ### Added

@@ -30,6 +30,10 @@ class DatasetController extends Controller
 
     public function download($type)
     {
+        // Increase memory and time limits for large dataset exports
+        ini_set('memory_limit', '512M');
+        set_time_limit(120);
+
         // 1. DATA PENDUDUK
         if ($type === 'penduduk') {
             // CSV
