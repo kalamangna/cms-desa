@@ -20,8 +20,9 @@
                 Desa<br><span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? 'Tompobulu' }}</span>
             </h1>
             <p class="text-xl md:text-2xl text-slate-300 mb-4 font-medium leading-relaxed max-w-2xl">
-                Kecamatan {{ $site_settings['district_name'] ?? '...' }},
-                Kabupaten {{ preg_replace('/^Kabupaten\s+/i', '', $site_settings['regency_name'] ?? '...') }}
+                Kecamatan {{ \Illuminate\Support\Str::title($site_settings['district_name'] ?? '...') }},
+                Kabupaten {{ \Illuminate\Support\Str::title(preg_replace('/^Kabupaten\s+/i', '', $site_settings['regency_name'] ?? '...')) }},
+                Provinsi {{ \Illuminate\Support\Str::title($site_settings['province_name'] ?? '...') }}
             </p>
             <p class="text-slate-400 text-base mb-14 max-w-xl">
                 Pemerintahan yang transparan, akuntabel, dan berbasis data presisi untuk kemajuan seluruh warga desa.

@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.18] - 2026-07-03
+
+### Changed
+- **Nama Provinsi di Beranda & Kapitalisasi Teks (Capitalize/Title Case)**: Menampilkan nama Provinsi secara eksplisit pada bagian lokasi di beranda utama halaman publik, serta menerapkan format penulisan Capitalize (`Str::title`) agar nama Kecamatan, Kabupaten, dan Provinsi tertulis rapi dengan huruf besar di awal kata (contoh: "Kecamatan Bontobahari, Kabupaten Sinjai, Provinsi Sulawesi Selatan").
+
 ## [1.6.17] - 2026-07-03
 
 ### Changed
