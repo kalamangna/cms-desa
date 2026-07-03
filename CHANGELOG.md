@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.20] - 2026-07-03
+
+### Fixed
+- **Standardisasi Jenis Kelamin (Gender Case Mismatch)**: Menambahkan parser pemetaan cerdas pada proses import warga (`ListCitizens.php`) agar nilai input gender yang beragam ("Laki-Laki", "laki-laki", "l", "perempuan", "p") dipetakan secara seragam ke format enum database ("Laki-laki" / "Perempuan"). Hal ini menyelesaikan bug "jumlah laki laki 0 jiwa" di halaman statistik akibat perbedaan penulisan huruf besar/kecil.
+- **Pembersihan Data Eksisting**: Menyamakan data jenis kelamin "Laki-Laki" menjadi "Laki-laki" pada seluruh database lokal agar langsung terbaca di diagram statistik.
+
 ## [1.6.19] - 2026-07-03
 
 ### Changed

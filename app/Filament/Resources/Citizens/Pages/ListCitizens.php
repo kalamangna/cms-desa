@@ -221,7 +221,7 @@ class ListCitizens extends ListRecords
                             'rt' => $rt,
                             'rw' => $rw,
                             'address' => $address,
-                            'gender' => $colGender !== false ? trim($row[$colGender]) : null,
+                            'gender' => $colGender !== false && !empty(trim($row[$colGender])) ? (strpos(strtolower(trim($row[$colGender])), 'perempuan') !== false || strtolower(trim($row[$colGender])) === 'p' ? 'Perempuan' : 'Laki-laki') : null,
                             'date_of_birth' => $dob,
                             'marital_status' => $colMarital !== false ? trim($row[$colMarital]) : null,
                             'family_relation' => $colRelation !== false ? trim($row[$colRelation]) : null,
