@@ -1,4 +1,4 @@
-# 🏛️ Daftar Perbaikan Website Desa Cantik — Status Akhir
+# 🏛️ Daftar Perbaikan Website Desa — Status Akhir
 
 Berikut adalah daftar perbaikan yang telah diselesaikan 100% dan diintegrasikan secara penuh ke dalam sistem:
 

@@ -1,4 +1,4 @@
-# 🏛️ Website Desa Cantik (Cinta Statistik) — Instruksi Pengembangan & Catatan Kerja
+# 🏛️ Website Desa — Instruksi Pengembangan & Catatan Kerja
 
 *   **Pencatatan Perubahan:** Setiap sebelum melakukan *push*, pastikan untuk mencatat semua perubahan yang telah dilakukan di dalam berkas [CHANGELOG.md](file:///Users/abedzul/Desktop/htdocs/desa-cms/CHANGELOG.md) sesuai dengan format Keep a Changelog.
 *   **Pembaruan Dokumentasi:** Perbarui berkas [README.md](file:///Users/abedzul/Desktop/htdocs/desa-cms/README.md) jika terdapat perubahan atau penambahan fitur baru yang memerlukan instruksi/konfigurasi tambahan.

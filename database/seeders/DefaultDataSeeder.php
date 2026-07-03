@@ -50,7 +50,7 @@ class DefaultDataSeeder extends Seeder
             ['key' => 'village_vision', 'value' => 'Mewujudkan Desa Mandiri, Cerdas, dan Berbasis Data untuk Kesejahteraan Masyarakat.'],
             ['key' => 'village_mission', 'value' => '<ol><li>Meningkatkan kualitas pelayanan publik berbasis teknologi informasi.</li><li>Mendorong kemandirian ekonomi desa melalui pemberdayaan UMKM.</li><li>Meningkatkan kualitas sumber daya manusia melalui pendidikan dan pelatihan.</li><li>Mengoptimalkan pengelolaan data desa yang akurat dan transparan.</li></ol>'],
             ['key' => 'village_head_greeting_title', 'value' => 'Mewujudkan Desa Mandiri Berbasis Data Presisi'],
-            ['key' => 'village_head_greeting', 'value' => 'Selamat datang di portal resmi Desa. Kami berkomitmen untuk menghadirkan pemerintahan yang transparan dan akuntabel. Melalui Program Desa Cantik (Cinta Statistik), kami berupaya mengelola data desa secara profesional sebagai dasar pembangunan yang tepat sasaran.'],
+            ['key' => 'village_head_greeting', 'value' => 'Selamat datang di portal resmi Desa. Kami berkomitmen untuk menghadirkan pemerintahan yang transparan dan akuntabel. Melalui portal informasi ini, kami berupaya mengelola data desa secara profesional sebagai dasar pembangunan yang tepat sasaran.'],
             ['key' => 'village_area', 'value' => '12.4'],
             ['key' => 'village_population', 'value' => '3.500'],
             ['key' => 'village_topography', 'value' => 'Dataran Tinggi'],

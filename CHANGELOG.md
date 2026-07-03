@@ -1,4 +1,4 @@
-# Changelog - Website Desa Cantik
+# Changelog - Website Desa
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
@@ -22,6 +22,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Rapikan `InstitutionResource` Admin Filament**: Menambahkan navigation group "Profil Desa", label "Lembaga Desa", navigation sort 3, dan icon `BuildingLibrary` agar konsisten dengan `OfficialResource`.
 - **Form Lembaga Desa — Sederhanakan Input**: Menghapus field `slug` (tetap di-generate otomatis oleh model dari nama) dan field `description` dari form admin dan tabel. Form kini hanya berisi Nama dan Logo.
 - **Upload Gambar Opsional (`->nullable()`)**: Menambahkan `->nullable()` pada semua `FileUpload` gambar di form Filament — `OfficialForm` (foto), `PostForm` (featured image), `InstitutionForm` (logo), `PublicationForm` (cover) — agar upload tidak diwajibkan. Fallback ke `img/meta.png` sudah diterapkan di semua view terkait.
+- **Pembersihan Terminologi**: Menghapus seluruh terminologi "Desa Cantik" di dalam berkas konfigurasi (`.env`, `.env.example`), dokumentasi (`README.md`, `GEMINI.md`, `PERBAIKAN.md`), serta greeting default di seeder (`DefaultDataSeeder.php`), digantikan secara konsisten dengan "Website Desa".
 
 ### Removed
 - **Hapus Halaman Detail Pengumuman**: Menghapus route `GET /pengumuman/{slug}`, method `show()` di `AnnouncementController`, link judul dan tombol "Halaman Detail" dari `announcements/index.blade.php`, serta entri URL detail pengumuman dari `sitemap.blade.php`. Konten pengumuman kini hanya dapat dibaca via accordion "Baca Cepat" di halaman daftar.

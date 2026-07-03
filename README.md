@@ -1,6 +1,6 @@
-# 🏛️ Portal Resmi Desa Cantik (Cinta Statistik)
+# 🏛️ Portal Resmi Website Desa
 
-Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Dibangun khusus untuk memenuhi standar penilaian **Program Desa Cantik BPS** serta menyajikan visualisasi data sosial ekonomi (Regsosek/SDGs Desa) secara interaktif.
+Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan visualisasi data sosial ekonomi (Regsosek/SDGs Desa) secara interaktif.
 
 ---
 
@@ -8,12 +8,21 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Dibangun khus
 
 - **Dashboard Statistik Interaktif**: Grafik & diagram data kependudukan, pekerjaan, pendidikan, disabilitas, dan penyakit kronis secara real-time yang dihitung dari database warga mikro.
 - **Transparansi APBDes**: Visualisasi realisasi anggaran pendapatan, belanja, dan pembiayaan desa lengkap dengan diagram donat alokasi dan progress bar pencapaian.
-- **Portal Informasi Desa**: Modul publikasi berita kegiatan, pengumuman resmi desa (dilengkapi accordion), galeri foto & video, serta dokumen arsip keputusan/peraturan desa.
+- **Portal Informasi & Publikasi Desa**:
+  - **Berita & Kegiatan**: Publikasi artikel berita dengan fitur SEO meta lengkap & schema JSON-LD.
+  - **Pengumuman Resmi**: Daftar pengumuman terintegrasi dengan fitur **Baca Cepat** berbasis accordion (tanpa membebani navigasi halaman detail terpisah).
+  - **Galeri Multi-tipe**: Galeri visual terintegrasi untuk foto kegiatan dan video tautan YouTube.
+  - **Lembaga Desa**: Halaman profil lembaga kemasyarakatan desa (`/lembaga`) terstruktur dalam grid modern dengan logo opsional (fallback ke gambar identitas desa).
+  - **Arsip Dokumen**: Portal unduhan keputusan kepala desa, peraturan desa, dan dokumen administrasi publik lainnya.
 - **Data Mikro SDGs & Regsosek**:
   - Model kependudukan mikro terintegrasi: `Dusun` -> `Keluarga (Family)` -> `Penduduk (Citizen)`.
   - Panel admin Filament untuk input kuesioner keluarga (karakteristik bangunan, sanitasi, listrik, kepemilikan aset) dan data penduduk (BPJS, PIP, disabilitas, riwayat penyakit).
 - **Layanan Mandiri Warga**: Katalog panduan administrasi pengurusan surat/layanan desa dengan persyaratan yang dapat di-expand (*collapsible*).
 - **Desain Glassmorphism Premium**: Tampilan frontend modern dengan transisi halus, navigasi dinamis (blur saat scroll), layout grid modular, serta responsive total.
+- **Optimasi Kinerja & SEO**:
+  - *Automatic HTML Minifier* untuk load page yang lebih cepat.
+  - Skema markup JSON-LD (Organization, WebSite, Breadcrumbs, Article) untuk visibilitas mesin pencari yang optimal.
+  - Sistem pelacakan statistik pengunjung terintegrasi (`visitor_logs`) dengan *caching system* berbasis redis/file untuk menjamin performa tinggi.
 
 ---
 
@@ -23,7 +32,7 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Dibangun khus
 - **Admin Panel**: [Filament v4](https://filamentphp.com)
 - **CSS Engine**: [Tailwind CSS v4](https://tailwindcss.com)
 - **Interaktivitas**: Alpine.js, Chart.js, Leaflet.js
-- **Database**: MySQL / PostgreSQL / SQLite
+- **Database**: MySQL / PostgreSQL / SQLite / SQL Server
 
 ---
 
@@ -136,8 +145,8 @@ Setiap kali Anda melakukan pembaruan kode di laptop lokal, ikuti alur berikut un
    ```bash
    chmod -R 755 public/storage storage bootstrap/cache
    ```
-- **Fallback Gambar Kosong**: Jika data kependudukan atau galeri tidak memiliki file gambar, sistem otomatis memuat berkas lokal `/img/meta.png` sebagai gambar fallback yang aman dan responsif.
+- **Fallback Gambar Kosong**: Jika data kependudukan, pengumuman, berita, atau lembaga desa tidak memiliki file gambar/logo, sistem otomatis memuat berkas lokal `/img/meta.png` sebagai gambar fallback yang aman dan responsif.
 - **Versi PHP**: Pastikan akun hosting Hostinger Anda diset menggunakan **PHP 8.2** atau yang lebih baru.
 
 ---
-*Dibuat oleh Tim Pengembang Website Desa Cantik.*
+*Dibuat oleh Tim Pengembang Website Desa.*
