@@ -19,6 +19,7 @@ class OfficialForm
                     ->required(),
                 FileUpload::make('photo')->label('Foto')
                     ->image()
+                    ->nullable()
                     ->directory('officials'),
             ]);
     }

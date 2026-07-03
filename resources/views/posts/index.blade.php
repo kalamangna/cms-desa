@@ -78,17 +78,12 @@
                         <div class="relative rounded-3xl overflow-hidden shadow-xl shadow-slate-200 border border-white">
                             {{-- Image --}}
                             <div class="aspect-[16/8] w-full overflow-hidden bg-slate-200">
-                                @if($post->featured_image)
-                                    <img src="{{ asset('storage/' . $post->featured_image) }}"
-                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                         alt="{{ $post->title }}"
-                                         loading="lazy">
-                                @else
-                                    <img src="{{ asset('img/meta.png') }}"
-                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                         alt="{{ $post->title }}"
-                                         loading="lazy">
-                                @endif
+                                <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                     alt="{{ $post->title }}"
+                                     loading="lazy"
+                                     onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+
                             </div>
 
                             {{-- Overlay --}}
@@ -136,17 +131,12 @@
                     <article class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 flex flex-col">
                         {{-- Thumbnail --}}
                         <a href="/berita/{{ $post->slug }}" class="block relative overflow-hidden aspect-[16/10] bg-slate-100 flex-shrink-0">
-                            @if($post->featured_image)
-                                <img src="{{ asset('storage/' . $post->featured_image) }}"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                     alt="{{ $post->title }}"
-                                     loading="lazy">
-                            @else
-                                <img src="{{ asset('img/meta.png') }}"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                     alt="{{ $post->title }}"
-                                     loading="lazy">
-                            @endif
+                            <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                 alt="{{ $post->title }}"
+                                 loading="lazy"
+                                 onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+
                             @if($post->category)
                             <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-emerald-700 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">
                                 {{ $post->category->name }}

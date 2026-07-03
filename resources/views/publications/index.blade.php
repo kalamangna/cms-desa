@@ -81,6 +81,7 @@
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         alt="{{ $pub->title }}"
                         loading="lazy"
+                        onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'"
                     >
                 @else
                     <img

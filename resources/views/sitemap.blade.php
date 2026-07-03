@@ -99,14 +99,4 @@
     </url>
     @endforeach
 
-    {{-- Detail Pengumuman --}}
-    @foreach($announcements as $announcement)
-    <url>
-        <loc>{{ url('/pengumuman/' . $announcement->slug) }}</loc>
-        <lastmod>{{ $announcement->updated_at->toAtomString() }}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    @endforeach
-
 </urlset>

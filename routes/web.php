@@ -12,6 +12,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\InstitutionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
@@ -24,12 +25,13 @@ Route::get('/layanan', [PageController::class, 'layanan'])->name('pages.layanan'
 Route::get('/kontak', [PageController::class, 'kontak'])->name('pages.kontak');
 
 Route::get('/aparatur', [OfficialController::class, 'index'])->name('officials.index');
+Route::get('/lembaga', [InstitutionController::class, 'index'])->name('institutions.index');
 
 Route::get('/berita', [PostController::class, 'index'])->name('posts.index');
 Route::get('/berita/{slug}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index');
-Route::get('/pengumuman/{slug}', [AnnouncementController::class, 'show'])->name('announcements.show');
+
 Route::get('/galeri', [GalleryController::class, 'index'])->name('galleries.index');
 Route::get('/dokumen', [DocumentController::class, 'index'])->name('documents.index');
 

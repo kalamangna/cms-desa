@@ -12,6 +12,20 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Penghapusan Kolom Format & Penamaan Kolom Aksi Tabel Open Data (Open Data Table Refactor)**: Menghapus kolom "Format" yang redundan di tabel halaman Open Data (`datasets/index.blade.php`) karena format file unduhan sudah diwakili oleh tombol aksi, serta mengubah nama header kolom "Aksi" menjadi "Unduh" agar lebih informatif.
 - **Penghapusan Tombol Unduh Halaman Statistik (Statistics Download Button Removal)**: Menghapus tombol "Unduh Dataset Riil (CSV)" di bagian bawah tab kategori pada halaman visualisasi statistik (`statistics/index.blade.php`), untuk menghindari duplikasi opsi karena download dataset sudah sepenuhnya diwadahi di halaman Open Data.
 
+## [1.6.40] - 2026-07-04
+
+### Added
+- **Halaman Publik Lembaga Desa (`/lembaga`)**: Membuat halaman publik daftar lembaga kemasyarakatan desa dengan tampilan kartu grid (pola konsisten dengan halaman Aparatur Desa), hero section, breadcrumb, dan motto banner. Menambahkan `InstitutionController` dan route `GET /lembaga`.
+- **Navigasi Lembaga Desa**: Menambahkan link "Lembaga Desa" ke dropdown "Profil" di navbar desktop dan seksi "Profil" di menu mobile. Menambahkan mapping breadcrumb `lembaga → Lembaga Desa` dan memperbarui kondisi active state navbar.
+
+### Changed
+- **Rapikan `InstitutionResource` Admin Filament**: Menambahkan navigation group "Profil Desa", label "Lembaga Desa", navigation sort 3, dan icon `BuildingLibrary` agar konsisten dengan `OfficialResource`.
+- **Form Lembaga Desa — Sederhanakan Input**: Menghapus field `slug` (tetap di-generate otomatis oleh model dari nama) dan field `description` dari form admin dan tabel. Form kini hanya berisi Nama dan Logo.
+- **Upload Gambar Opsional (`->nullable()`)**: Menambahkan `->nullable()` pada semua `FileUpload` gambar di form Filament — `OfficialForm` (foto), `PostForm` (featured image), `InstitutionForm` (logo), `PublicationForm` (cover) — agar upload tidak diwajibkan. Fallback ke `img/meta.png` sudah diterapkan di semua view terkait.
+
+### Removed
+- **Hapus Halaman Detail Pengumuman**: Menghapus route `GET /pengumuman/{slug}`, method `show()` di `AnnouncementController`, link judul dan tombol "Halaman Detail" dari `announcements/index.blade.php`, serta entri URL detail pengumuman dari `sitemap.blade.php`. Konten pengumuman kini hanya dapat dibaca via accordion "Baca Cepat" di halaman daftar.
+
 ## [1.6.39] - 2026-07-04
 
 ### Added

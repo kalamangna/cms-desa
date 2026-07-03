@@ -41,21 +41,19 @@
 </script>
 @endpush
 
+@section('content')
+
 {{-- =========================================================
      HERO SECTION — dynamic background from featured_image
      ========================================================= --}}
 <div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     {{-- Blurred featured image as background --}}
     <div class="absolute inset-0 z-0">
-        @if($post->featured_image)
-            <img src="{{ asset('storage/' . $post->featured_image) }}"
-                 class="absolute inset-0 w-full h-full object-cover opacity-25 blur-sm scale-110"
-                 alt="Background">
-        @else
-            <img src="{{ asset('img/meta.png') }}"
-                 class="absolute inset-0 w-full h-full object-cover opacity-25 blur-sm scale-110"
-                 alt="Background">
-        @endif
+        <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
+             class="absolute inset-0 w-full h-full object-cover opacity-25 blur-sm scale-110"
+             alt="Background"
+             onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+
         <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/80 to-slate-900"></div>
         <div class="absolute inset-0 opacity-[0.06]"
              style="background-image:radial-gradient(#94a3b8 1px,transparent 1px);background-size:22px 22px;"></div>
@@ -128,19 +126,13 @@
         <article class="bg-white rounded-3xl shadow-2xl shadow-slate-200/60 overflow-hidden border border-slate-100">
 
             {{-- ─── Featured Image ──────────────────────────────────── --}}
-            @if($post->featured_image)
             <div class="w-full overflow-hidden" style="aspect-ratio:21/9;">
-                <img src="{{ asset('storage/' . $post->featured_image) }}"
+                <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
                      class="w-full h-full object-cover"
-                     alt="{{ $post->title }}">
+                     alt="{{ $post->title }}"
+                     onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
             </div>
-            @else
-            <div class="w-full overflow-hidden" style="aspect-ratio:21/9;">
-                <img src="{{ asset('img/meta.png') }}"
-                     class="w-full h-full object-cover"
-                     alt="{{ $post->title }}">
-            </div>
-            @endif
+
 
             {{-- ─── Article Body ────────────────────────────────────── --}}
             <div class="px-6 md:px-12 lg:px-16 pt-10 md:pt-14 pb-8">
@@ -253,15 +245,11 @@
                 @foreach($relatedPosts as $related)
                 <a href="/berita/{{ $related->slug }}" class="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-200 flex flex-col">
                     <div class="aspect-[16/9] overflow-hidden bg-slate-100">
-                        @if($related->featured_image)
-                            <img src="{{ asset('storage/' . $related->featured_image) }}"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                 alt="{{ $related->title }}">
-                        @else
-                            <img src="{{ asset('img/meta.png') }}"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                 alt="{{ $related->title }}">
-                        @endif
+                        <img src="{{ $related->featured_image ? asset('storage/' . $related->featured_image) : asset('img/meta.png') }}"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             alt="{{ $related->title }}"
+                             onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+
                     </div>
                     <div class="p-4 flex flex-col flex-grow">
                         <time class="text-emerald-600 font-bold text-[9px] uppercase tracking-widest mb-1.5 block">

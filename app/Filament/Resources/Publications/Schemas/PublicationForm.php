@@ -28,7 +28,9 @@ class PublicationForm
                     ->numeric()
                     ->required(),
                 FileUpload::make('cover')
+                    ->label('Sampul (Cover)')
                     ->image()
+                    ->nullable()
                     ->directory('publications/covers'),
                 FileUpload::make('pdf_file')->label('File PDF')
                     ->label('PDF File')

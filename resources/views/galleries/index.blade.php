@@ -114,18 +114,14 @@
             >
                 {{-- Thumbnail --}}
                 <div class="relative overflow-hidden">
-                    @if($item->image_url)
-                        <img
-                            src="{{ $item->image_url }}"
-                            class="w-full object-cover group-hover:scale-105 transition duration-700"
-                            alt="{{ $item->title }}"
-                            loading="lazy"
-                        >
-                    @else
-                        <div class="w-full aspect-[4/3] bg-slate-100 flex items-center justify-center text-slate-300">
-                            <i class="fa-solid fa-image text-5xl opacity-20"></i>
-                        </div>
-                    @endif
+                    <img
+                        src="{{ $item->image_url ? $item->image_url : asset('img/meta.png') }}"
+                        class="w-full object-cover group-hover:scale-105 transition duration-700"
+                        alt="{{ $item->title }}"
+                        loading="lazy"
+                        onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'"
+                    >
+
 
                     {{-- Badge: Video (merah YouTube) --}}
                     @if($item->type === 'video')

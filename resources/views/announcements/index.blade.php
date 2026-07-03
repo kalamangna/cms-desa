@@ -126,10 +126,8 @@
 
                 {{-- Card body --}}
                 <div class="px-6 py-5">
-                    <h2 class="text-xl md:text-2xl font-heading font-extrabold text-slate-900 mb-3 group-hover:text-amber-700 transition-colors duration-200 leading-snug">
-                        <a href="{{ route('announcements.show', $announcement->slug) }}" class="hover:text-amber-600 transition">
-                            {{ $announcement->title }}
-                        </a>
+                    <h2 class="text-xl md:text-2xl font-heading font-extrabold text-slate-900 mb-3 leading-snug">
+                        {{ $announcement->title }}
                     </h2>
                     <div class="text-slate-500 text-sm leading-relaxed line-clamp-3 mb-5">
                         {{ Str::limit(strip_tags($announcement->content), 240) }}
@@ -144,12 +142,6 @@
                                 <i class="fa-solid transition-transform duration-200 text-[10px]"
                                    :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                             </button>
-
-                            <a href="{{ route('announcements.show', $announcement->slug) }}"
-                               class="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl transition-all duration-200 bg-amber-500 text-white hover:bg-amber-600 shadow-md shadow-amber-500/25">
-                                <span>Halaman Detail</span>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                            </a>
                         </div>
 
                         {{-- Full content (hidden by default) --}}

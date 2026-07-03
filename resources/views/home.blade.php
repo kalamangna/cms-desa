@@ -54,15 +54,10 @@
 
                     {{-- Frame foto --}}
                     <div class="relative w-[270px] h-[324px] sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-[40px] overflow-hidden border-2 border-white/10 shadow-2xl">
-                        @if($villageHead && $villageHead->photo)
-                            <img src="{{ asset('storage/' . $villageHead->photo) }}"
-                                 class="w-full h-full object-cover object-top"
-                                 alt="Foto {{ $villageHead->name ?? 'Kepala Desa' }}">
-                        @else
-                            <div class="w-full h-full bg-slate-800 flex items-center justify-center">
-                                <i class="fa-solid fa-user text-slate-600 text-8xl"></i>
-                            </div>
-                        @endif
+                        <img src="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.png') }}"
+                             class="w-full h-full object-cover object-top"
+                             alt="Foto {{ $villageHead->name ?? 'Kepala Desa' }}"
+                             onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
                         {{-- Overlay gradient bawah --}}
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
                     </div>
@@ -86,10 +81,7 @@
         </div>
     </div>
 
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-slate-500">
-        <span class="text-[9px] uppercase tracking-widest font-bold">Scroll</span>
-        <div class="w-px h-8 bg-gradient-to-b from-slate-500 to-transparent animate-pulse"></div>
-    </div>
+
 </div>
 
 {{-- 2. STAT CARDS --}}
@@ -268,11 +260,11 @@
                 @if($featuredPost)
                 <a href="/berita/{{ $featuredPost->slug }}" class="block group">
                     <div class="relative rounded-3xl overflow-hidden aspect-[16/9] mb-6 shadow-xl">
-                        @if($featuredPost->featured_image)
-                            <img src="{{ asset('storage/' . $featuredPost->featured_image) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featuredPost->title }}" loading="lazy">
-                        @else
-                            <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featuredPost->title }}" loading="lazy">
-                        @endif
+                        <img src="{{ $featuredPost->featured_image ? asset('storage/' . $featuredPost->featured_image) : asset('img/meta.png') }}"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                             alt="{{ $featuredPost->title }}"
+                             loading="lazy"
+                             onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                         <div class="absolute top-6 left-6">
                             <span class="bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full">Berita Utama</span>
@@ -289,11 +281,12 @@
                     @forelse($recentPosts as $post)
                     <a href="/berita/{{ $post->slug }}" class="flex gap-5 group items-center p-4 rounded-2xl hover:bg-slate-50 transition-all duration-200 -mx-4">
                         <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-slate-100">
-                            @if($post->featured_image)
-                                <img src="{{ asset('storage/' . $post->featured_image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}" loading="lazy">
-                            @else
-                                <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}" loading="lazy">
-                            @endif
+                            <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                 alt="{{ $post->title }}"
+                                 loading="lazy"
+                                 onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-emerald-600 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
@@ -387,11 +380,12 @@
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-200 overflow-hidden group">
                         <div class="flex items-center gap-5 p-5">
                             <div class="w-16 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100">
-                                @if($pub->cover)
-                                    <img src="{{ asset('storage/' . $pub->cover) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $pub->title }}" loading="lazy">
-                                @else
-                                    <img src="{{ asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $pub->title }}" loading="lazy">
-                                @endif
+                                <img src="{{ $pub->cover ? asset('storage/' . $pub->cover) : asset('img/meta.png') }}"
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                     alt="{{ $pub->title }}"
+                                     loading="lazy"
+                                     onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+
                             </div>
                             <div class="flex-1 min-w-0">
                                 <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{{ $pub->type }} · {{ $pub->year }}</span>

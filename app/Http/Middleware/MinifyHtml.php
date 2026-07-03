@@ -17,6 +17,11 @@ class MinifyHtml
     {
         $response = $next($request);
 
+        // Lewati request admin panel, Livewire, atau debug tools untuk mencegah crash / malfungsi state
+        if ($request->is('admin*') || $request->is('livewire*') || $request->is('_debugbar*')) {
+            return $response;
+        }
+
         // Hanya minifikasi response HTML biasa
         $contentType = $response->headers->get('Content-Type', '');
         if (!str_contains($contentType, 'text/html')) {
@@ -28,8 +33,13 @@ class MinifyHtml
             return $response;
         }
 
-        $content = $this->minify($content);
-        $response->setContent($content);
+        $minified = $this->minify($content);
+        
+        // Pengaman: Jika proses minifikasi menghasilkan string kosong/null (error regex), 
+        // kembalikan konten asli agar halaman tidak blank.
+        if (!empty($minified)) {
+            $response->setContent($minified);
+        }
 
         return $response;
     }
@@ -38,10 +48,12 @@ class MinifyHtml
     {
         // Simpan blok yang tidak boleh dimodifikasi
         $preserve = [];
-        $placeholder = '<!--MINIFY_PRESERVE_%d-->';
+        // PENTING: placeholder TIDAK boleh berbentuk komentar HTML (<!-- -->)
+        // karena akan ikut terhapus oleh langkah penghapusan komentar di bawah.
+        $placeholder = '__MINIFY_BLOCK_%d__';
 
         // Lindungi <pre>, <textarea>, <script>, <style> dari minifikasi
-        $html = preg_replace_callback(
+        $result = preg_replace_callback(
             '/<(pre|textarea|script|style)(\s[^>]*)?>.*?<\/\1>/si',
             function ($matches) use (&$preserve, $placeholder) {
                 $key = count($preserve);
@@ -51,18 +63,56 @@ class MinifyHtml
             $html
         );
 
+        if ($result === null || preg_last_error() !== PREG_NO_ERROR) {
+            return '';
+        }
+        $html = $result;
+
         // Hapus komentar HTML (kecuali conditional comments IE dan komentar khusus)
-        $html = preg_replace('/<!--(?!\[if\s)(?!-->).*?-->/si', '', $html);
+        $result = preg_replace('/<!--(?!\[if\s)(?!-->).*?-->/si', '', $html);
+        if ($result === null || preg_last_error() !== PREG_NO_ERROR) {
+            return '';
+        }
+        $html = $result;
 
         // Hapus whitespace antar tag
-        $html = preg_replace('/>\s+</s', '> <', $html);
+        $result = preg_replace('/>\s+</s', '> <', $html);
+        if ($result === null || preg_last_error() !== PREG_NO_ERROR) {
+            return '';
+        }
+        $html = $result;
+
+        // Normalisasi whitespace di dalam tag HTML (antar atribut yang ditulis multi-line).
+        // Ini penting agar atribut Alpine.js (x-show, x-transition, x-cloak, dll.)
+        // yang ditulis di baris terpisah tidak kehilangan spasi pemisah antar atribut.
+        $result = preg_replace_callback('/<[^>]+>/s', function ($matches) {
+            // Ganti newline dan whitespace berlebih di dalam tag dengan satu spasi
+            return preg_replace('/\s+/', ' ', $matches[0]);
+        }, $html);
+        if ($result === null || preg_last_error() !== PREG_NO_ERROR) {
+            return '';
+        }
+        $html = $result;
 
         // Trim whitespace di awal dan akhir baris
-        $html = preg_replace('/^\s+/m', '', $html);
-        $html = preg_replace('/\s+$/m', '', $html);
+        $result = preg_replace('/^\s+/m', '', $html);
+        if ($result === null || preg_last_error() !== PREG_NO_ERROR) {
+            return '';
+        }
+        $html = $result;
+
+        $result = preg_replace('/\s+$/m', '', $html);
+        if ($result === null || preg_last_error() !== PREG_NO_ERROR) {
+            return '';
+        }
+        $html = $result;
 
         // Hapus baris kosong berganda
-        $html = preg_replace('/\n{2,}/', "\n", $html);
+        $result = preg_replace('/\n{2,}/', "\n", $html);
+        if ($result === null || preg_last_error() !== PREG_NO_ERROR) {
+            return '';
+        }
+        $html = $result;
 
         // Kembalikan blok yang dilindungi
         foreach ($preserve as $key => $block) {

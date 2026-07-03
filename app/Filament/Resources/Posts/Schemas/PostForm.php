@@ -29,6 +29,7 @@ class PostForm
                     ->columnSpanFull(),
                 FileUpload::make('featured_image')->label('Gambar')
                     ->image()
+                    ->nullable()
                     ->directory('posts'),
                 DateTimePicker::make('published_at')->label('Tanggal Publikasi'),
             ]);
