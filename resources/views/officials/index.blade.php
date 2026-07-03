@@ -1,37 +1,35 @@
 @extends('layouts.app')
 
-@section('title', 'Aparatur Desa - ' . ($site_settings['village_name'] ?? 'Website Desa'))
-@section('meta_description', 'Jajaran aparatur dan perangkat Desa ' . ($site_settings['village_name'] ?? '') . ' yang siap melayani masyarakat.')
+@section('title', 'Aparatur Desa | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Temukan informasi jajaran aparatur dan perangkat Desa ' . ($site_settings['village_name'] ?? '') . ' yang siap melayani masyarakat.')
+@section('meta_image', asset('img/meta.png'))
 
 @section('content')
 
 {{-- ===================== HERO ===================== --}}
-<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-sm font-bold uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="/" class="hover:text-emerald-400 transition">Beranda</a>
-                </li>
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center gap-2">
                 <li>
-                    <div class="flex items-center">
-                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
-                        <span class="text-white">Aparatur Desa</span>
-                    </div>
+                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                        <i class="fa-solid fa-house text-[10px]"></i> Beranda
+                    </a>
+                </li>
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <span class="text-white">Aparatur Desa</span>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-6">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Pemerintahan</span>
-            </div>
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Aparatur <span class="text-emerald-500 italic">Desa</span>
             </h1>
@@ -43,7 +41,7 @@
 </div>
 
 {{-- ===================== OFFICIALS GRID ===================== --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
 
     @if($officials->isEmpty())
     <div class="py-24 text-center bg-white rounded-[40px] border-2 border-dashed border-slate-200 shadow-sm">
@@ -51,7 +49,7 @@
         <p class="text-slate-400 font-medium italic">Data aparatur desa belum tersedia.</p>
     </div>
     @else
-    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
         @foreach($officials as $official)
         <div class="group flex flex-col items-center bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300">
 

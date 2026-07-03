@@ -1,51 +1,47 @@
 @extends('layouts.app')
 
-@section('title', 'Profil - ' . ($site_settings['village_name'] ?? 'Website Desa'))
-@section('meta_description', 'Profil lengkap Desa ' . ($site_settings['village_name'] ?? '') . ': sejarah, visi misi, dan karakteristik wilayah.')
+@section('title', 'Profil | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Temukan profil lengkap Desa ' . ($site_settings['village_name'] ?? '') . ': sejarah, visi misi, dan karakteristik wilayah.')
+@section('meta_image', asset('img/meta.png'))
 
 @section('content')
 
 {{-- ===================== HERO ===================== --}}
-<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        {{-- Decorative orbs --}}
-        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute top-8 right-1/3 w-64 h-64 bg-emerald-400/5 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="/" class="hover:text-emerald-400 transition">Beranda</a>
-                </li>
+            <ol class="inline-flex items-center gap-2">
                 <li>
-                    <div class="flex items-center">
-                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
-                        <span class="text-white">Profil</span>
-                    </div>
+                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                        <i class="fa-solid fa-house text-[10px]"></i> Beranda
+                    </a>
+                </li>
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <span class="text-white">Profil</span>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-6">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Tentang Desa</span>
-            </div>
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Profil <span class="text-emerald-500 italic">Desa</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2">
-                Sejarah lengkap, visi, misi, dan karakteristik wilayah Desa {{ $site_settings['village_name'] ?? '' }}.
+                Visi, misi, sejarah, dan profil wilayah Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
 </div>
 
 {{-- ===================== SECTION 1: SEJARAH DESA ===================== --}}
-<section class="bg-white py-20 md:py-28">
+<section class="bg-white py-16 md:py-20 lg:py-28">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center gap-3 mb-4">
             <div class="h-px w-8 bg-emerald-500"></div>
@@ -59,7 +55,7 @@
 </section>
 
 {{-- ===================== SECTION 2: VISI & MISI ===================== --}}
-<section class="bg-slate-50 py-20 md:py-28 border-y border-slate-100">
+<section class="bg-slate-50 py-16 md:py-20 lg:py-28 border-y border-slate-100">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center gap-3 mb-4 justify-center">
             <div class="h-px w-8 bg-emerald-500"></div>
@@ -101,7 +97,7 @@
 </section>
 
 {{-- ===================== SECTION 3: KARAKTERISTIK WILAYAH ===================== --}}
-<section class="bg-white py-20 md:py-28">
+<section class="bg-white py-16 md:py-20 lg:py-28">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center gap-3 mb-4 justify-center">
             <div class="h-px w-8 bg-emerald-500"></div>
@@ -110,34 +106,44 @@
         </div>
         <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-12 text-center">Karakteristik Wilayah</h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {{-- Luas Wilayah --}}
-            <div class="group bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
-                <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+            <div class="group bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mx-auto mb-5 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                     <i class="fa-solid fa-map-location-dot"></i>
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Luas Wilayah</p>
-                <p class="text-4xl font-heading font-extrabold text-slate-900">{{ $site_settings['village_area'] ?? '12.4' }}</p>
+                <p class="text-3xl font-heading font-extrabold text-slate-900">{{ $site_settings['village_area'] ?? '—' }}</p>
                 <p class="text-slate-400 font-bold text-sm mt-1">km²</p>
             </div>
 
             {{-- Populasi --}}
-            <div class="group bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
-                <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+            <div class="group bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mx-auto mb-5 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                     <i class="fa-solid fa-users"></i>
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Populasi</p>
-                <p class="text-4xl font-heading font-extrabold text-slate-900">{{ $site_settings['village_population'] ?? '3.500' }}</p>
+                <p class="text-3xl font-heading font-extrabold text-slate-900">{{ number_format($totalPenduduk ?? 0, 0, ',', '.') }}</p>
                 <p class="text-slate-400 font-bold text-sm mt-1">Jiwa</p>
             </div>
 
+            {{-- Jumlah Dusun --}}
+            <div class="group bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mx-auto mb-5 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                    <i class="fa-solid fa-map-pin"></i>
+                </div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Jumlah Dusun</p>
+                <p class="text-3xl font-heading font-extrabold text-slate-900">{{ number_format($totalDusun ?? 0, 0, ',', '.') }}</p>
+                <p class="text-slate-400 font-bold text-sm mt-1">Wilayah Dusun</p>
+            </div>
+
             {{-- Topografi --}}
-            <div class="group bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
-                <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+            <div class="group bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 text-center">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mx-auto mb-5 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                     <i class="fa-solid fa-mountain-sun"></i>
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Topografi</p>
-                <p class="text-2xl font-heading font-extrabold text-slate-900 mt-2">{{ $site_settings['village_topography'] ?? 'Dataran Tinggi' }}</p>
+                <p class="text-xl font-heading font-extrabold text-slate-900 mt-2.5">{{ $site_settings['village_topography'] ?? '—' }}</p>
                 <p class="text-slate-400 font-bold text-sm mt-1">Wilayah</p>
             </div>
         </div>

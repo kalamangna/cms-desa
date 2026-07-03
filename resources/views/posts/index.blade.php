@@ -1,25 +1,25 @@
 @extends('layouts.app')
 
-@section('title', 'Berita - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Berita | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Temukan artikel dan kabar berita kegiatan terbaru, serta program pembangunan Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . '.')
+@section('meta_image', asset('img/meta.png'))
 
 @section('content')
 
 {{-- =========================================================
      HERO SECTION
      ========================================================= --}}
-<div class="relative bg-slate-900 py-24 md:py-36 overflow-hidden">
-    {{-- Dot pattern background --}}
+<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        {{-- Glowing orb --}}
-        <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 right-0 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-10 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
@@ -35,15 +35,11 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-[0.25em] px-4 py-2 rounded-full mb-6">
-                <i class="fa-solid fa-newspaper"></i> Informasi Desa
-            </div>
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
-                Berita <span class="text-emerald-400 italic">Terbaru</span>
+                Berita <span class="text-emerald-500 italic">Terbaru</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2">
-                Kabar terkini seputar kegiatan, pembangunan, dan perkembangan
-                <span class="text-slate-200 font-semibold">Desa {{ $site_settings['village_name'] ?? '' }}</span>.
+                Kabar kegiatan, pembangunan, dan perkembangan Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
@@ -53,7 +49,7 @@
      MAIN CONTENT
      ========================================================= --}}
 <div class="bg-slate-50 min-h-screen">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
 
         {{-- ─── Search Bar (Mobile) ──────────────────────────────── --}}
         <div class="mb-10 lg:hidden">

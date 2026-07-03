@@ -8,13 +8,15 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Get;
 use Filament\Actions\Action;
 use App\Models\Setting;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 class ManageSettings extends Page implements HasForms
 {
@@ -40,13 +42,34 @@ class ManageSettings extends Page implements HasForms
             ->components([
                 Tabs::make('Pengaturan')
                     ->tabs([
-                        Tabs\Tab::make('Identitas Desa')
+                    Tabs\Tab::make('Identitas Desa')
                             ->icon('heroicon-o-building-library')
                             ->columns(2)
                             ->components([
-                                TextInput::make('village_name')->label('Nama Desa'),
-                                TextInput::make('village_head')->label('Kepala Desa'),
-                                FileUpload::make('village_logo')->label('Logo Desa')->directory('settings')->image()->columnSpanFull(),
+                                TextInput::make('village_name')->label('Nama Desa')->columnSpanFull(),
+                                \Filament\Schemas\Components\Grid::make(3)
+                                    ->schema([
+                                        Select::make('province_name')
+                                            ->label('Provinsi')
+                                            ->options(fn() => self::getProvinces())
+                                            ->searchable()
+                                            ->preload()
+                                            ->live(),
+                                        Select::make('regency_name')
+                                            ->label('Kabupaten/Kota')
+                                            ->options(fn($get) => $get('province_name') ? self::getRegencies($get('province_name')) : [])
+                                            ->disabled(fn($get) => !$get('province_name'))
+                                            ->searchable()
+                                            ->preload()
+                                            ->live(),
+                                        Select::make('district_name')
+                                            ->label('Kecamatan')
+                                            ->options(fn($get) => $get('regency_name') ? self::getDistricts($get('regency_name')) : [])
+                                            ->disabled(fn($get) => !$get('regency_name'))
+                                            ->searchable()
+                                            ->preload(),
+                                    ])
+                                    ->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Kontak & Lokasi')
                             ->icon('heroicon-o-map-pin')
@@ -104,14 +127,7 @@ class ManageSettings extends Page implements HasForms
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
-        // Sync with Official model if village_head is updated
-        if (!empty($data['village_head'])) {
-            \App\Models\Official::where('position', 'LIKE', '%Kepala%')
-                ->where('position', 'LIKE', '%Desa%')
-                ->update(['name' => $data['village_head']]);
-        }
-
-        // Clear home page village head cache
+        // Clear home page cache
         Cache::forget('home_village_head');
 
         Notification::make()
@@ -119,5 +135,92 @@ class ManageSettings extends Page implements HasForms
             ->title('Berhasil')
             ->body('Pengaturan desa berhasil disimpan.')
             ->send();
+    }
+
+    public static function getProvinces(): array
+    {
+        return Cache::remember('provinces_list', 86400, function () {
+            try {
+                $response = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+                if ($response->successful()) {
+                    $options = [];
+                    foreach ($response->json() as $item) {
+                        $name = \Illuminate\Support\Str::title($item['name']);
+                        $options[$name] = $name;
+                    }
+                    asort($options);
+                    return $options;
+                }
+            } catch (\Exception $e) {}
+            return ['Sulawesi Selatan' => 'Sulawesi Selatan'];
+        });
+    }
+
+    public static function getRegencies(?string $provinceName): array
+    {
+        if (empty($provinceName)) {
+            $provinceName = 'Sulawesi Selatan';
+        }
+        return Cache::remember('regencies_list_' . md5($provinceName), 86400, function () use ($provinceName) {
+            try {
+                $provResponse = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+                $provId = '73'; // Default Sulsel
+                if ($provResponse->successful()) {
+                    foreach ($provResponse->json() as $p) {
+                        if (strcasecmp($p['name'], $provinceName) === 0) {
+                            $provId = $p['id'];
+                            break;
+                        }
+                    }
+                }
+
+                $response = Http::get("https://www.emsifa.com/api-wilayah-indonesia/api/regencies/{$provId}.json");
+                if ($response->successful()) {
+                    $options = [];
+                    foreach ($response->json() as $item) {
+                        $name = \Illuminate\Support\Str::title($item['name']);
+                        $options[$name] = $name;
+                    }
+                    asort($options);
+                    return $options;
+                }
+            } catch (\Exception $e) {}
+            return ['Sinjai' => 'Sinjai'];
+        });
+    }
+
+    public static function getDistricts(?string $regencyName): array
+    {
+        if (empty($regencyName)) {
+            $regencyName = 'Sinjai';
+        }
+        return Cache::remember('districts_list_' . md5($regencyName), 86400, function () use ($regencyName) {
+            try {
+                $regResponse = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/regencies/73.json');
+                $regId = '7307'; // Default Sinjai
+                if ($regResponse->successful()) {
+                    foreach ($regResponse->json() as $r) {
+                        $cleanedRegName = preg_replace('/^(kabupaten|kota)\s+/i', '', $regencyName);
+                        $cleanedRName = preg_replace('/^(kabupaten|kota)\s+/i', '', $r['name']);
+                        if (strcasecmp($cleanedRName, $cleanedRegName) === 0) {
+                            $regId = $r['id'];
+                            break;
+                        }
+                    }
+                }
+
+                $response = Http::get("https://www.emsifa.com/api-wilayah-indonesia/api/districts/{$regId}.json");
+                if ($response->successful()) {
+                    $options = [];
+                    foreach ($response->json() as $item) {
+                        $name = \Illuminate\Support\Str::title($item['name']);
+                        $options[$name] = $name;
+                    }
+                    asort($options);
+                    return $options;
+                }
+            } catch (\Exception $e) {}
+            return [];
+        });
     }
 }

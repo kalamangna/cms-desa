@@ -1,28 +1,32 @@
 @extends('layouts.app')
 
-@section('title', 'APBDes - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'APBDes | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Temukan transparansi realisasi Anggaran Pendapatan, Belanja, dan Pembiayaan Desa (APBDes) Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . ' tahun berjalan.')
+@section('meta_image', asset('img/meta.png'))
 
 @section('content')
 {{-- ═══════════════════════════════════════════════════════
      DARK HERO
 ═══════════════════════════════════════════════════════ --}}
-<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-sm font-bold uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="/" class="hover:text-emerald-400 transition">Beranda</a>
-                </li>
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center gap-2">
                 <li>
-                    <div class="flex items-center">
-                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
-                        <span class="text-white">APBDes</span>
-                    </div>
+                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                        <i class="fa-solid fa-house text-[10px]"></i> Beranda
+                    </a>
+                </li>
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <span class="text-white">APBDes</span>
                 </li>
             </ol>
         </nav>
@@ -35,7 +39,7 @@
                     Transparansi realisasi anggaran Desa {{ $site_settings['village_name'] ?? '' }}.
                 </p>
             </div>
-            <div class="flex items-center gap-3 bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit">
+            <div class="flex items-center gap-3 bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit mb-2">
                 <i class="fa-solid fa-shield-halved text-emerald-400"></i>
                 <span class="text-white text-xs font-black uppercase tracking-widest">Data Terverifikasi</span>
             </div>

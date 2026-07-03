@@ -37,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
             Cache::forget('home_belanja_details');
             Cache::forget('home_publications');
             Cache::forget('home_galleries');
+            Cache::forget('home_total_dusun');
+            Cache::forget('profil_total_dusun');
         };
 
         \App\Models\Post::saved($clearHomeCache);
@@ -53,11 +55,38 @@ class AppServiceProvider extends ServiceProvider
         \App\Models\Publication::deleted($clearHomeCache);
         \App\Models\Gallery::saved($clearHomeCache);
         \App\Models\Gallery::deleted($clearHomeCache);
+        \App\Models\Dusun::saved($clearHomeCache);
+        \App\Models\Dusun::deleted($clearHomeCache);
 
         try {
             if (Schema::hasTable('settings')) {
                 $settings = Setting::pluck('value', 'key')->all();
                 View::share('site_settings', $settings);
+            }
+
+            if (Schema::hasTable('visitor_logs')) {
+                $visitorStats = Cache::remember('visitor_stats_summary', 300, function () {
+                    $todayStr = now()->toDateString();
+                    $yesterdayStr = now()->subDay()->toDateString();
+
+                    $today = \App\Models\VisitorLog::where('visit_date', $todayStr)
+                        ->distinct('ip_hash')
+                        ->count('ip_hash');
+
+                    $yesterday = \App\Models\VisitorLog::where('visit_date', $yesterdayStr)
+                        ->distinct('ip_hash')
+                        ->count('ip_hash');
+
+                    $total = \App\Models\VisitorLog::distinct('ip_hash')
+                        ->count('ip_hash');
+
+                    return [
+                        'today' => $today,
+                        'yesterday' => $yesterday,
+                        'total' => $total,
+                    ];
+                });
+                View::share('visitor_stats', $visitorStats);
             }
         } catch (\Throwable $e) {
             // Database not ready or migrations not run yet, safe to ignore during boot

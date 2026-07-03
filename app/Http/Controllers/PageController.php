@@ -8,7 +8,15 @@ class PageController extends Controller
 {
     public function profil()
     {
-        return view('pages.profil');
+        $totalDusun = \Illuminate\Support\Facades\Cache::remember('profil_total_dusun', 3600, function () {
+            return \App\Models\Dusun::count();
+        });
+
+        $totalPenduduk = \Illuminate\Support\Facades\Cache::remember('profil_total_penduduk', 3600, function () {
+            return \App\Models\Citizen::where('status', 'Aktif')->count();
+        });
+
+        return view('pages.profil', compact('totalDusun', 'totalPenduduk'));
     }
 
     public function layanan()

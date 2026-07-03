@@ -11,8 +11,10 @@ use App\Models\BudgetRealization;
 use App\Models\BudgetCategory;
 use App\Models\Publication;
 use App\Models\Gallery;
+use App\Models\Family;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -51,6 +53,10 @@ class HomeController extends Controller
 
         $totalDusun = Cache::remember('home_total_dusun', $ttl, function () {
             return \App\Models\Dusun::count();
+        });
+
+        $totalKeluarga = Cache::remember('home_total_keluarga', $ttl, function () {
+            return Family::count();
         });
 
         $jobData = Cache::remember('home_job_stats', $ttl, function () {
@@ -119,6 +125,20 @@ class HomeController extends Controller
                 ->get();
         });
 
+        // Kalkulasi persentase APBDes (dipindahkan dari Blade)
+        $pendapatanPct = $budgetSummary['pendapatan']['budget'] > 0
+            ? min(($budgetSummary['pendapatan']['realization'] / $budgetSummary['pendapatan']['budget']) * 100, 100)
+            : 0;
+        $belanjaPct = $budgetSummary['belanja']['budget'] > 0
+            ? min(($budgetSummary['belanja']['realization'] / $budgetSummary['belanja']['budget']) * 100, 100)
+            : 0;
+
+        // Preparasi data Chart.js (aman dengan json_encode, dipindahkan dari Blade)
+        $donutPalette = ['#10b981','#0ea5e9','#f59e0b','#6366f1','#ec4899','#8b5cf6','#06b6d4','#14b8a6','#f97316','#3b82f6'];
+        $belanjaChartLabels = $belanjaDetails->map(fn ($d) => Str::limit($d->title, 20))->values();
+        $belanjaChartData   = $belanjaDetails->pluck('realization_amount')->values();
+        $belanjaChartColors = $belanjaDetails->keys()->map(fn ($i) => $donutPalette[$i % count($donutPalette)])->values();
+
         $publications = Cache::remember('home_publications', $ttl, function () {
             return Publication::latest()->take(4)->get();
         });
@@ -128,11 +148,12 @@ class HomeController extends Controller
         });
 
         return view('home', compact(
-            'featuredPost', 
-            'recentPosts', 
-            'announcements', 
+            'featuredPost',
+            'recentPosts',
+            'announcements',
             'villageHead',
             'totalPenduduk',
+            'totalKeluarga',
             'totalUMKM',
             'totalDusun',
             'latestYear',
@@ -141,6 +162,11 @@ class HomeController extends Controller
             'useCitizenData',
             'budgetSummary',
             'belanjaDetails',
+            'pendapatanPct',
+            'belanjaPct',
+            'belanjaChartLabels',
+            'belanjaChartData',
+            'belanjaChartColors',
             'publications',
             'galleries',
             'lakiLakiCount',

@@ -1,37 +1,35 @@
 @extends('layouts.app')
 
-@section('title', 'Kontak - ' . ($site_settings['village_name'] ?? 'Website Desa'))
-@section('meta_description', 'Hubungi Desa ' . ($site_settings['village_name'] ?? '') . '. Temukan alamat, nomor telepon, email, media sosial, dan lokasi kantor desa.')
+@section('title', 'Kontak | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Temukan alamat, nomor telepon, email, media sosial, dan lokasi kantor Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_image', asset('img/meta.png'))
 
 @section('content')
 
 {{-- ===================== HERO ===================== --}}
-<div class="relative bg-slate-900 py-24 md:py-36 overflow-hidden">
+<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-sm font-bold uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="/" class="hover:text-emerald-400 transition">Beranda</a>
-                </li>
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center gap-2">
                 <li>
-                    <div class="flex items-center">
-                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
-                        <span class="text-white">Kontak</span>
-                    </div>
+                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                        <i class="fa-solid fa-house text-[10px]"></i> Beranda
+                    </a>
+                </li>
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <span class="text-white">Kontak</span>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-6">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Kontak &amp; Lokasi</span>
-            </div>
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Hubungi <span class="text-emerald-500 italic">Kami</span>
             </h1>
@@ -43,7 +41,7 @@
 </div>
 
 {{-- ===================== SPLIT LAYOUT ===================== --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
 
         {{-- ========== LEFT: Info + Social ========== --}}
@@ -159,27 +157,16 @@
         <div class="lg:col-span-3 flex flex-col gap-8">
 
             {{-- Map --}}
-            <div class="flex-1 rounded-[40px] overflow-hidden shadow-2xl shadow-slate-300/40 border-4 border-white min-h-[400px] relative bg-slate-100">
-                @if(!empty($site_settings['village_maps']))
-                    <iframe
-                        src="{{ $site_settings['village_maps'] }}"
-                        width="100%" height="100%"
-                        style="border:0; min-height: 400px;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        class="w-full h-full absolute inset-0"
-                        title="Peta Lokasi Kantor Desa {{ $site_settings['village_name'] ?? '' }}">
-                    </iframe>
-                @elseif(!empty($site_settings['village_latitude']) && !empty($site_settings['village_longitude']))
-                    {{-- Leaflet fallback --}}
-                    <div id="contactMap" class="w-full h-full absolute inset-0"></div>
+            <div class="flex-1 rounded-[40px] overflow-hidden shadow-2xl shadow-slate-300/40 border-4 border-white min-h-[400px] relative bg-slate-100 isolate">
+                @if(!empty($site_settings['village_latitude']) && !empty($site_settings['village_longitude']))
+                    {{-- Leaflet Map --}}
+                    <div id="contactMap" class="w-full h-full absolute inset-0 z-0"></div>
                 @else
-                    {{-- Placeholder when no map configured --}}
-                    <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                    {{-- Placeholder when no coordinates configured --}}
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-300 p-6 text-center">
                         <i class="fa-solid fa-map-location-dot text-7xl mb-4 opacity-30"></i>
                         <p class="font-bold text-slate-400">Peta belum dikonfigurasi</p>
-                        <p class="text-sm text-slate-300 mt-1">Tambahkan embed URL peta di pengaturan</p>
+                        <p class="text-sm text-slate-300 mt-1">Tambahkan koordinat Latitude & Longitude di pengaturan lokasi untuk mengaktifkan peta.</p>
                     </div>
                 @endif
             </div>
@@ -241,7 +228,7 @@
 
 @endsection
 
-@if(empty($site_settings['village_maps']) && !empty($site_settings['village_latitude']))
+@if(!empty($site_settings['village_latitude']) && !empty($site_settings['village_longitude']))
 @push('scripts')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>

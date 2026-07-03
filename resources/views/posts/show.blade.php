@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', $post->title . ' - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', $post->title . ' | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
 
 @section('meta_description', Str::limit(strip_tags($post->content), 160))
-@section('meta_image', $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/sinjai.png'))
+@section('meta_image', $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png'))
 
 @section('content')
 
 {{-- =========================================================
      HERO SECTION — dynamic background from featured_image
      ========================================================= --}}
-<div class="relative bg-slate-900 py-24 md:py-36 overflow-hidden">
+<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     {{-- Blurred featured image as background --}}
     <div class="absolute inset-0 z-0">
         @if($post->featured_image)
@@ -29,7 +29,7 @@
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-10 text-xs font-bold uppercase tracking-[0.2em] text-emerald-500/70" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex flex-wrap items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
@@ -145,11 +145,11 @@
                                title="Bagikan ke WhatsApp">
                                 <i class="fa-brands fa-whatsapp text-base"></i>
                             </a>
-                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($post->title) }}"
+                            <a href="https://www.tiktok.com/"
                                target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all duration-200 shadow-sm"
-                               title="Bagikan ke X (Twitter)">
-                                <i class="fa-brands fa-x-twitter text-sm"></i>
+                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-black hover:text-white hover:border-black transition-all duration-200 shadow-sm"
+                               title="Bagikan ke TikTok">
+                                <i class="fa-brands fa-tiktok text-sm"></i>
                             </a>
                             <button onclick="navigator.clipboard.writeText(window.location.href); this.innerHTML='<i class=\'fa-solid fa-check\'></i>'; setTimeout(()=>{ this.innerHTML='<i class=\'fa-solid fa-link\'></i>'; }, 2000)"
                                class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 transition-all duration-200 shadow-sm"

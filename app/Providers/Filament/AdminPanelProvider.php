@@ -32,6 +32,17 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(Login::class)
+            ->brandName(function () {
+                try {
+                    if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                        $name = \App\Models\Setting::where('key', 'village_name')->value('value');
+                        if (!empty($name)) {
+                            return 'Desa ' . \Illuminate\Support\Str::title($name);
+                        }
+                    }
+                } catch (\Throwable $e) {}
+                return 'Desa Tompobulu';
+            })
             ->brandLogo(asset('img/sinjai.png'))
             ->brandLogoHeight('2.5rem')
             ->favicon(asset('img/sinjai.png'))

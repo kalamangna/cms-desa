@@ -54,7 +54,6 @@ class DefaultDataSeeder extends Seeder
             ['key' => 'village_area', 'value' => '12.4'],
             ['key' => 'village_population', 'value' => '3.500'],
             ['key' => 'village_topography', 'value' => 'Dataran Tinggi'],
-            ['key' => 'village_dusun_count', 'value' => '6'],
             ['key' => 'village_latitude', 'value' => '-5.230000'],
             ['key' => 'village_longitude', 'value' => '120.210000'],
             ['key' => 'social_facebook', 'value' => '#'],

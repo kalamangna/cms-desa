@@ -1,33 +1,36 @@
 @extends('layouts.app')
 
-@section('title', 'Publikasi - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Publikasi | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Temukan publikasi, laporan, dan informasi resmi yang diterbitkan oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_image', asset('img/meta.png'))
 
 @section('content')
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
 {{-- HERO GELAP --}}
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
-<div class="relative bg-slate-900 py-24 md:py-36 overflow-hidden">
+<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-bold uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="/" class="hover:text-emerald-400 transition">Beranda</a>
-                </li>
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center gap-2">
                 <li>
-                    <div class="flex items-center">
-                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
-                        <span class="text-white">Publikasi</span>
-                    </div>
+                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                        <i class="fa-solid fa-house text-[10px]"></i> Beranda
+                    </a>
+                </li>
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <span class="text-white">Publikasi</span>
                 </li>
             </ol>
         </nav>
-        <div class="max-w-3xl text-center md:text-left">
+        <div class="max-w-3xl">
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Publikasi <span class="text-emerald-500 italic">Statistik</span>
             </h1>
@@ -41,7 +44,7 @@
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
 {{-- KONTEN UTAMA --}}
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
 
     {{-- ─── Header Statistik ─── --}}
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-14">
@@ -91,16 +94,8 @@
                 {{-- Overlay hover --}}
                 <div class="absolute inset-0 bg-emerald-700/0 group-hover:bg-emerald-700/15 transition-all duration-500"></div>
 
-                {{-- Badge Tahun --}}
-                <div class="absolute top-4 left-4">
-                    <span class="bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg tracking-wider">
-                        {{ $pub->year }}
-                    </span>
-                </div>
-
-                {{-- Badge Tipe --}}
                 @php
-                    $typeLabel = $pub->type ?? ($pub->category ?? 'Publik');
+                    $typeLabel = $pub->type ?? 'Publik';
                     $typeColor = match(strtolower($typeLabel)) {
                         'laporan' => 'bg-blue-600',
                         'monografi' => 'bg-purple-600',
@@ -109,11 +104,6 @@
                         default => 'bg-emerald-600',
                     };
                 @endphp
-                <div class="absolute top-4 right-4">
-                    <span class="inline-flex items-center {{ $typeColor }} text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg">
-                        {{ Str::limit($typeLabel, 10) }}
-                    </span>
-                </div>
 
                 {{-- PDF Icon overlay on hover --}}
                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -125,9 +115,19 @@
 
             {{-- Card Body --}}
             <div class="p-6 flex flex-col flex-1">
-                <p class="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] mb-2 leading-tight">
-                    {{ $pub->category ?? 'Dokumen Publik' }}
-                </p>
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                    <span class="bg-slate-100 text-slate-700 text-[9px] font-bold px-2.5 py-1 rounded-full tracking-wider">
+                        {{ $pub->year }}
+                    </span>
+                    <span class="inline-flex items-center {{ $typeColor }} text-white text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
+                        {{ $typeLabel }}
+                    </span>
+                    @if($pub->category)
+                        <span class="bg-emerald-50 text-emerald-700 text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-emerald-100">
+                            {{ $pub->category }}
+                        </span>
+                    @endif
+                </div>
                 <h3 class="text-base font-heading font-bold text-slate-900 leading-snug mb-auto line-clamp-3 group-hover:text-emerald-700 transition">
                     {{ $pub->title }}
                 </h3>

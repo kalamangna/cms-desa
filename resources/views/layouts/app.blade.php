@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <title>@yield('title', ($site_settings['village_name'] ?? 'Website Desa') . ' - ' . ($site_settings['district_name'] ?? ''))</title>
+    <title>@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))</title>
     <meta name="description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan informasi berita, statistik, dan transparansi anggaran desa.')">
     <meta name="keywords" content="desa, {{ $site_settings['village_name'] ?? '' }}, {{ $site_settings['district_name'] ?? '' }}, statistik desa, apbdes">
     <meta name="author" content="Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}">
@@ -17,14 +17,14 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('title', ($site_settings['village_name'] ?? 'Website Desa'))">
+    <meta property="og:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
     <meta property="og:description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '.')">
     <meta property="og:image" content="@yield('meta_image', asset('img/meta.png'))">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="@yield('title', ($site_settings['village_name'] ?? 'Website Desa'))">
+    <meta property="twitter:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
     <meta property="twitter:description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '.')">
     <meta property="twitter:image" content="@yield('meta_image', asset('img/meta.png'))">
 
@@ -336,7 +336,7 @@
                 </div>
 
                 <!-- Kontak -->
-                <div class="lg:col-span-2">
+                <div>
                     <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Kontak Kami</h4>
                     <ul class="space-y-4 text-sm text-slate-400 font-medium">
                         <li class="flex items-start gap-3">
@@ -357,20 +357,36 @@
                             </span>
                             <span>{{ $site_settings['village_phone'] ?? '-' }}</span>
                         </li>
-                        @if(!empty($site_settings['village_maps']))
-                        <li class="mt-4">
-                            <div class="rounded-xl overflow-hidden border border-white/10 h-32 w-full">
-                                <iframe
-                                    src="{{ $site_settings['village_maps'] }}"
-                                    width="100%" height="100%"
-                                    style="border:0;" allowfullscreen="" loading="lazy"
-                                    referrerpolicy="no-referrer-when-downgrade"
-                                    class="grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-300">
-                                </iframe>
-                            </div>
-                        </li>
-                        @endif
                     </ul>
+                </div>
+
+                <!-- Statistik Pengunjung -->
+                <div>
+                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Statistik Pengunjung</h4>
+                    @if(isset($visitor_stats))
+                    <ul class="space-y-4 text-sm text-slate-400 font-medium">
+                        <li class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-users text-emerald-400 text-xs animate-pulse"></i>
+                            </span>
+                            <span>Hari Ini: <strong class="text-white">{{ number_format($visitor_stats['today'], 0, ',', '.') }}</strong></span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-user-clock text-slate-400 text-xs"></i>
+                            </span>
+                            <span>Kemarin: <strong class="text-slate-300">{{ number_format($visitor_stats['yesterday'], 0, ',', '.') }}</strong></span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-chart-line text-emerald-400 text-xs"></i>
+                            </span>
+                            <span>Total Pengunjung: <strong class="text-emerald-400">{{ number_format($visitor_stats['total'], 0, ',', '.') }}</strong></span>
+                        </li>
+                    </ul>
+                    @else
+                    <p class="text-xs text-slate-500 italic">Data tidak tersedia</p>
+                    @endif
                 </div>
 
             </div>

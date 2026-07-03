@@ -1,38 +1,41 @@
 @extends('layouts.app')
 
-@section('title', 'Dokumen - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Dokumen | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Temukan dokumen resmi dan regulasi Desa ' . ($site_settings['village_name'] ?? '') . ' yang dapat diunduh oleh masyarakat.')
+@section('meta_image', asset('img/meta.png'))
 
 @section('content')
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
 {{-- HERO GELAP --}}
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
-<div class="relative bg-slate-900 py-24 md:py-36 overflow-hidden">
+<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-bold uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="/" class="hover:text-emerald-400 transition">Beranda</a>
-                </li>
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center gap-2">
                 <li>
-                    <div class="flex items-center">
-                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
-                        <span class="text-white">Dokumen</span>
-                    </div>
+                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                        <i class="fa-solid fa-house text-[10px]"></i> Beranda
+                    </a>
+                </li>
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <span class="text-white">Dokumen</span>
                 </li>
             </ol>
         </nav>
-        <div class="max-w-3xl text-center md:text-left">
+        <div class="max-w-3xl">
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
                 Arsip <span class="text-emerald-500 italic">Dokumen</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2">
-                Pusat pengunduhan dokumen resmi, peraturan desa, dan formulir layanan publik Desa {{ $site_settings['village_name'] ?? '' }}.
+                Unduh regulasi, dokumen resmi, dan formulir layanan Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
@@ -41,7 +44,7 @@
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
 {{-- KONTEN UTAMA --}}
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
 
     {{-- ─── Header Statistik ─── --}}
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
@@ -102,7 +105,7 @@
                     </span>
                 @endif
             </div>
-            <h3 class="text-lg md:text-xl font-heading font-bold text-slate-900 group-hover:text-emerald-700 transition leading-tight truncate mb-1">
+            <h3 class="text-lg md:text-xl font-heading font-bold text-slate-900 group-hover:text-emerald-700 transition leading-tight break-words mb-2">
                 {{ $doc->title }}
             </h3>
             @if($doc->description)

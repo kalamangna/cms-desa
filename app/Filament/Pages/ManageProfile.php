@@ -33,20 +33,9 @@ class ManageProfile extends Page implements HasForms
     public function mount(): void
     {
         $settings = Setting::pluck('value', 'key')->toArray();
-        
-        // Auto-heal placeholders if they exist
-        if (!isset($settings['province_name']) || empty($settings['province_name']) || $settings['province_name'] === 'Nama Provinsi') {
-            $settings['province_name'] = 'SULAWESI SELATAN';
-            Setting::updateOrCreate(['key' => 'province_name'], ['value' => 'SULAWESI SELATAN']);
-        }
-        if (!isset($settings['regency_name']) || empty($settings['regency_name']) || $settings['regency_name'] === 'Nama Kabupaten') {
-            $settings['regency_name'] = 'SINJAI';
-            Setting::updateOrCreate(['key' => 'regency_name'], ['value' => 'SINJAI']);
-        }
-        
         $this->form->fill($settings);
     }
-
+ 
     public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
         return $schema
@@ -67,29 +56,14 @@ class ManageProfile extends Page implements HasForms
                             ->icon('heroicon-o-globe-asia-australia')
                             ->columns(2)
                             ->components([
-                                TextInput::make('province_name')
-                                    ->label('Provinsi')
-                                    ->default('SULAWESI SELATAN')
-                                    ->readOnly(),
-                                TextInput::make('regency_name')
-                                    ->label('Kabupaten')
-                                    ->default('SINJAI')
-                                    ->readOnly(),
-                                Select::make('district_name')
-                                    ->label('Kecamatan')
-                                    ->options(fn () => self::getSinjaiDistricts())
-                                    ->searchable()
-                                    ->preload(),
                                 TextInput::make('village_area')->label('Luas Wilayah (km²)')->numeric(),
-                                TextInput::make('village_population')->label('Jumlah Populasi (Jiwa)'),
                                 TextInput::make('village_topography')->label('Topografi Wilayah (misal: Dataran Tinggi)'),
-                                TextInput::make('village_dusun_count')->label('Jumlah Dusun')->numeric(),
                             ]),
                     ])->columnSpanFull()
             ])
             ->statePath('data');
     }
-
+ 
     public function content(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
         return $schema
@@ -104,7 +78,7 @@ class ManageProfile extends Page implements HasForms
                     ]),
             ]);
     }
-
+ 
     protected function getFormActions(): array
     {
         return [
@@ -114,40 +88,19 @@ class ManageProfile extends Page implements HasForms
                 ->color('primary'),
         ];
     }
-
+ 
     public function save(): void
     {
         $data = $this->form->getState();
-
+ 
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
-
+ 
         Notification::make()
             ->success()
             ->title('Berhasil')
             ->body('Profil, sejarah, dan karakteristik wilayah desa berhasil disimpan.')
             ->send();
-    }
-    public static function getSinjaiDistricts(): array
-    {
-        return Cache::remember('sinjai_districts', 86400, function () {
-            try {
-                $response = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/districts/7307.json');
-                if ($response->successful()) {
-                    $list = $response->json();
-                    $options = [];
-                    foreach ($list as $item) {
-                        $name = strtoupper($item['name']);
-                        $options[$name] = $name;
-                    }
-                    asort($options);
-                    return $options;
-                }
-            } catch (\Exception $e) {
-                // Ignore
-            }
-            return [];
-        });
     }
 }

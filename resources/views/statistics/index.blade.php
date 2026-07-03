@@ -1,28 +1,32 @@
 @extends('layouts.app')
 
-@section('title', 'Statistik - ' . ($site_settings['village_name'] ?? 'Website Desa'))
+@section('title', 'Statistik | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Temukan visualisasi data demografi, kependudukan, pekerjaan, tingkat pendidikan, disabilitas, dan penyakit kronis Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . '.')
+@section('meta_image', asset('img/meta.png'))
 
 @section('content')
 {{-- ═══════════════════════════════════════════════════════
      DARK HERO
 ═══════════════════════════════════════════════════════ --}}
-<div class="relative bg-slate-900 py-20 md:py-32 overflow-hidden">
+<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="/" class="hover:text-emerald-400 transition">Beranda</a>
-                </li>
+            <ol class="inline-flex items-center gap-2">
                 <li>
-                    <div class="flex items-center">
-                        <i class="fa-solid fa-chevron-right text-[10px] mx-2"></i>
-                        <span class="text-white">Statistik</span>
-                    </div>
+                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                        <i class="fa-solid fa-house text-[10px]"></i> Beranda
+                    </a>
+                </li>
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <span class="text-white">Statistik</span>
                 </li>
             </ol>
         </nav>
@@ -36,7 +40,7 @@
                 </p>
             </div>
             {{-- Live indicator --}}
-            <div class="flex items-center gap-3 bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit">
+            <div class="flex items-center gap-3 bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit mb-2">
                 <span class="relative flex h-3 w-3">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
@@ -51,7 +55,7 @@
 {{-- ═══════════════════════════════════════════════════════
      ALPINE.JS TAB NAVIGATION + CONTENT
 ═══════════════════════════════════════════════════════ --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36"
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28"
      x-data="{ activeTab: '{{ $categories->first()?->slug ?? '' }}' }">
 
     {{-- TAB NAV --}}

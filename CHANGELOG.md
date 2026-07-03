@@ -2,6 +2,43 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.6.37] - 2026-07-03
+
+### Added
+- **Sistem Pelacakan Pengunjung Ter-cache (Visitor Statistics System)**:
+  * Membuat tabel database `visitor_logs` dan model `VisitorLog` untuk mencatat pengunjung unik harian (hash sha256 dari kombinasi IP + User Agent) secara anonim.
+  * Membuat middleware `TrackVisitor.php` untuk melacak page view halaman publik (melewati AJAX, panel admin, dan rute internal) secara aman.
+  * Menggunakan sistem caching data statistik pengunjung harian (hari ini, kemarin, total) selama 5 menit via `AppServiceProvider.php` untuk performa tinggi.
+  * Menampilkan badge capsule counter statistik di footer halaman publik sebelah kanan Kontak Kami secara rapi.
+
+### Changed
+- **Pembersihan Pengaturan Wilayah & Karakteristik (Region settings cleanup)**:
+  * Menghapus input Provinsi, Kabupaten, Kecamatan, dan Populasi dari halaman admin Profil Desa (`ManageProfile.php`) beserta API helper emsifa terkait, memusatkan pengisiannya secara eksklusif pada Pengaturan Umum (`ManageSettings.php`) untuk menghindari redundansi data.
+- **Otomatisasi Populasi Wilayah (Dynamic Population Source)**:
+  * Mengubah data display populasi pada halaman Profil Publik (`profil.blade.php`) agar dihitung secara dinamis dari database penduduk aktif (`Citizen::where('status', 'Aktif')->count()`) menggantikan input teks statis.
+- **Visual Split Hero & Sambutan Beranda (Home Visual Overhaul)**:
+  * Mengubah Hero Beranda menjadi format split-screen premium (teks kiri, foto Kepala Desa di kanan).
+  * Foto Kepala Desa disesuaikan ukurannya (`w-[270px]` di mobile) agar tampil responsif di semua perangkat termasuk HP 320px tanpa overflow.
+  * Merancang ulang Sambutan Kades di beranda menjadi centered blockquote card bermotif tanda kutip transparan untuk menyelesaikan masalah foto kades ganda.
+  * Menambahkan tautan klik pada card pengumuman beranda menuju detail pengumuman.
+- **Peta Leaflet & OSM Integration**:
+  * Menghapus input Google Maps iframe embed, mengintegrasikan peta Leaflet OpenStreetMap secara murni di halaman Kontak menggunakan koordinat Latitude & Longitude database.
+- **Arah Jajaran Grid & Padding Adaptif (Mobile Grid & Spacing Adjustments)**:
+  * Mengatur heading section beranda (`items-start md:items-end`) agar sejajar rata kiri di mobile dan rata bawah di desktop.
+  * Mengatur Stat Cards beranda agar bertumpuk vertikal (`flex-col`) di mobile dengan padding longgar `p-4 sm:p-6` guna mencegah text-clipping.
+  * Menyesuaikan vertical padding di semua halaman publik (`py-16 md:py-24 lg:py-28` untuk Hero; `py-16 md:py-20 lg:py-28` untuk Seksi) agar lebih padat dan ergonomis pada layar mobile & tablet.
+  * Mengubah grid aparatur desa publik menjadi `grid-cols-1` pada mobile agar tampil satu kolom penuh (*full-width*) yang rapi.
+- **Perapian Badge Kartu Publikasi (Publication Card Badges cleanup)**:
+  * Memindahkan badge Tahun, Kategori, dan Tipe pada kartu publikasi dari atas cover gambar ke bagian dalam Card Body agar cover buku tidak terhalang teks dan lebih rapi di mobile.
+- **Integrasi Tombol TikTok (TikTok Share Button)**:
+  * Menghapus tombol bagikan ke X (Twitter) dan menggantinya dengan tombol bagikan ke TikTok dengan branding warna hitam khas TikTok di halaman detail berita.
+
+### Fixed
+- **Solusi Schema Namespace & Closure Type-error**:
+  * Memperbaiki error `TypeError` Filament v4 dengan menghapus type hint `Get $get` di option closure dan meluruskan penggunaan class Layout `Grid` di `Filament\Schemas\Components\Grid`.
+  * Memperbaiki bug z-index Leaflet Map di halaman kontak agar tidak menutupi sticky navbar menu.
+  * Memperbaiki wrap judul dokumen di halaman Arsip Dokumen dengan mengganti `truncate` menjadi `break-words` untuk mencegah overflow teks di mobile.
+
 ## [1.6.36] - 2026-07-03
 
 ### Changed
