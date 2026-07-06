@@ -31,7 +31,7 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 - **Framework**: [Laravel 12](https://laravel.com)
 - **Admin Panel**: [Filament v4](https://filamentphp.com)
 - **CSS Engine**: [Tailwind CSS v4](https://tailwindcss.com)
-- **Interaktivitas**: Alpine.js, Chart.js, Leaflet.js
+- **Interaktivitas**: Alpine.js, ApexCharts, Leaflet.js
 - **Database**: MySQL / PostgreSQL / SQLite / SQL Server
 
 ---
@@ -57,9 +57,9 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
    ```
    *Sesuaikan konfigurasi database Anda di file `.env`.*
 
-4. **Migrasi & Seed Data Master**:
+4. **Migrasi & Seed Data (Inisialisasi Bersih)**:
    ```bash
-   php artisan migrate --seed
+   php artisan migrate:fresh --seed
    ```
 
 5. **Kompilasi Aset Frontend**:
@@ -72,18 +72,18 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ## 🌐 Panduan Deployment di Server Hostinger (hPanel)
 
-Karena keterbatasan server shared hosting Hostinger (hPanel) yang menonaktifkan fungsi terminal `exec()` dan fungsi PHP native `symlink()`, sistem ini telah dikonfigurasi untuk menyimpan data upload secara langsung ke folder publik tanpa membutuhkan symbolic link.
+Karena keterbatasan server shared hosting Hostinger (hPanel) yang menonaktifkan fungsi terminal `exec()` dan fungsi PHP native `symlink()`, sistem ini menyediakan rute khusus untuk menyalin file media bawaan secara fisik.
 
 ### 1. Cloning Repositori di SSH
 Login ke SSH Hostinger Anda, masuk ke direktori satu tingkat di atas `public_html`, lalu jalankan:
 ```bash
-git clone git@github.com:kalamangna/cms-desa.git project-desa
+git clone https://github.com/kalamangna/cms-desa.git project-desa
 ```
 
 ### 2. Konfigurasi Awal di Server
 1. Pindah ke folder proyek: `cd project-desa`
 2. Install dependensi: `composer install --optimize-autoloader --no-dev`
-3. Konfigurasi file `.env` (sesuaikan database hPanel Anda).
+3. Konfigurasi file `.env` (buat baru atau salin dari `.env.example` dan sesuaikan database hPanel Anda).
 4. Buat tautan folder `public_html` ke folder `public` proyek:
    ```bash
    rm -rf ~/public_html
@@ -93,12 +93,12 @@ git clone git@github.com:kalamangna/cms-desa.git project-desa
 ### 3. Migrasi & Setup File Storage
 Jalankan perintah berikut di terminal SSH:
 ```bash
-php artisan migrate --force --seed
+php artisan migrate:fresh --force --seed
 php artisan optimize:clear
 ```
 
-Buka browser Anda dan jalankan rute inisialisasi ini untuk menyalin file media bawaan seeder secara fisik:
-👉 **`https://tompobulu.desa.id/init-link`**
+Buka browser Anda dan jalankan rute inisialisasi ini untuk menyalin file media bawaan secara fisik:
+👉 **`https://domain-desa-anda.id/init-link`** *(Ganti dengan domain desa Anda)*
 
 *(Jika berhasil, folder fisik `public/storage` akan terbuat secara otomatis dan seluruh file media bawaan akan disalin ke dalamnya).*
 
@@ -140,7 +140,7 @@ Setiap kali Anda melakukan pembaruan kode di laptop lokal, ikuti alur berikut un
 
 ## 📝 Catatan Penting & Troubleshooting
 
-- **Error 403 / Gagal Upload Gambar**: Hal ini terjadi jika folder `public/storage` belum terbuat secara fisik di server atau tidak memiliki izin menulis. Pastikan Anda telah mengakses rute `https://tompobulu.desa.id/init-link` setelah melakukan deployment awal.
+- **Error 403 / Gagal Upload Gambar**: Hal ini terjadi jika folder `public/storage` belum terbuat secara fisik di server atau tidak memiliki izin menulis. Pastikan Anda telah mengakses rute `https://domain-desa-anda.id/init-link` setelah melakukan deployment awal.
 - **Hak Akses Folder**: Jika terjadi error izin tulis, set hak akses folder dengan perintah:
    ```bash
    chmod -R 755 public/storage storage bootstrap/cache
