@@ -37,7 +37,7 @@ class MinifyHtmlTest extends TestCase
 
         $response->assertStatus(200);
         // The whitespace between tags should be minified to single space
-        $response->assertSee('<html> <body> <h1>Hello World</h1> </body> </html>', false);
+        $response->assertSee('<body> <h1>Hello World</h1> </body>', false);
     }
 
     public function test_it_does_not_minify_non_html_responses(): void

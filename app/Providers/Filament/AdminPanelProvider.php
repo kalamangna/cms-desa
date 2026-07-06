@@ -57,7 +57,7 @@ class AdminPanelProvider extends PanelProvider
                     }
                 } catch (\Throwable $e) {
                 }
-                return 'Desa Tompobulu';
+                return 'Website Desa';
             })
             ->brandLogo('/img/sinjai.png')
             ->brandLogoHeight('2.5rem')

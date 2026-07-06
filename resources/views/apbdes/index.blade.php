@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'APBDes | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Laporan transparansi APBDes (Anggaran Pendapatan, Belanja, dan Pembiayaan Desa) yang dikelola oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . ' sebagai perwujudan tata kelola keuangan yang bersih.')
+@section('title', 'APBDes | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('meta_description', 'Laporan transparansi APBDes (Anggaran Pendapatan, Belanja, dan Pembiayaan Desa) yang dikelola oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' sebagai perwujudan tata kelola keuangan yang bersih.')
 @section('meta_image', asset('img/meta.png'))
 
 @push('head')
@@ -12,13 +12,13 @@
         {
             "@type": "GovernmentService",
             "@id": "{{ url('/apbdes') }}#service",
-            "name": "Transparansi APBDes Desa {{ $site_settings['village_name'] ?? 'Tompobulu' }}",
+            "name": "Transparansi APBDes Desa {{ $site_settings['village_name'] ?? '' }}",
             "provider": {
                 "@type": "GovernmentOrganization",
                 "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}",
                 "url": "{{ url('/') }}"
             },
-            "description": "Laporan transparansi Anggaran Pendapatan, Belanja, dan Pembiayaan Desa (APBDes) Desa {{ $site_settings['village_name'] ?? 'Tompobulu' }} tahun berjalan."
+            "description": "Laporan transparansi Anggaran Pendapatan, Belanja, dan Pembiayaan Desa (APBDes) Desa {{ $site_settings['village_name'] ?? '' }} tahun berjalan."
         }
     ]
 }

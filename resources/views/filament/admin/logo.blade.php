@@ -5,7 +5,7 @@
             Pemerintah Desa
         </span>
         <span class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 leading-none">
-            {{ \App\Models\Setting::where('key', 'village_name')->value('value') ?? 'Tompobulu' }}
+            {{ \App\Models\Setting::where('key', 'village_name')->value('value') ?? '' }}
         </span>
     </div>
 </div>

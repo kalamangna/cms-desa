@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $announcement->title . ' | Pengumuman Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('title', $announcement->title . ' | Pengumuman Desa ' . ($site_settings['village_name'] ?? ''))
 @section('og_type', 'article')
 @section('meta_description', Str::limit(strip_tags($announcement->content), 160))
 @section('meta_image', asset('img/meta.png'))

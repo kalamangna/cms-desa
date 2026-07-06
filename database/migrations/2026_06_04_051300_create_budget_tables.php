@@ -24,9 +24,10 @@ return new class extends Migration
         Schema::create('budget_realizations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('budget_category_id')->constrained()->cascadeOnDelete();
-            $table->integer('year');
-            $table->bigInteger('budget_amount');
-            $table->bigInteger('realization_amount');
+            $table->string('title');
+            $table->year('year');
+            $table->decimal('budget_amount', 15, 2)->default(0);
+            $table->decimal('realization_amount', 15, 2)->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -26,7 +26,7 @@ class Login extends BaseLogin
             }
         } catch (\Throwable $e) {
         }
-        return 'Pemerintah Desa Tompobulu';
+        return 'Pemerintah Desa';
     }
 
     public function form(Schema $schema): Schema

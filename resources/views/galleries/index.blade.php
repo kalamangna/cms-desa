@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Galeri | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('title', 'Galeri | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Galeri dokumentasi kegiatan pembangunan, pembinaan kemasyarakatan, dan aktivitas kedinasan Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.png'))
 

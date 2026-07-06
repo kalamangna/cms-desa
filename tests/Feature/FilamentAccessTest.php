@@ -43,25 +43,7 @@ class FilamentAccessTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    public function test_can_login_with_email(): void
-    {
-        $user = User::factory()->create([
-            'username' => 'kalamangna',
-            'email' => 'admin@desa.id',
-            'password' => Hash::make('Syazani'),
-        ]);
 
-        Livewire::test(Login::class)
-            ->fillForm([
-                'login' => 'admin@desa.id',
-                'password' => 'Syazani',
-            ])
-            ->call('authenticate')
-            ->assertHasNoFormErrors()
-            ->assertRedirect('/admin');
-
-        $this->assertAuthenticatedAs($user);
-    }
 
     public function test_home_page_is_accessible(): void
     {

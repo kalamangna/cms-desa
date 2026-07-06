@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Announcement;
-use App\Models\Event;
 use App\Models\Gallery;
 use App\Models\Document;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,16 +42,7 @@ class CMSContentTest extends TestCase
         $this->assertDatabaseHas('announcements', ['title' => 'Pengumuman Penting']);
     }
 
-    public function test_can_create_event(): void
-    {
-        Event::create([
-            'title' => 'Rapat Desa',
-            'slug' => 'rapat-desa',
-            'content' => 'Isi rapat',
-            'start_at' => now(),
-        ]);
-        $this->assertDatabaseHas('events', ['title' => 'Rapat Desa']);
-    }
+
 
     public function test_can_create_gallery(): void
     {

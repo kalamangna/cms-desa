@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . ' untuk publikasi berita pembangunan, struktur aparatur, transparansi anggaran APBDes, dan data statistik kependudukan resmi.')
+@section('title', 'Beranda | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk publikasi berita pembangunan, struktur aparatur, transparansi anggaran APBDes, dan data statistik kependudukan resmi.')
 @section('meta_image', asset('img/meta.png'))
 
 @section('content')
@@ -24,7 +24,7 @@
                     <span class="text-emerald-400 text-xs font-black uppercase tracking-[0.3em]">Portal Resmi Pemerintah Desa</span>
                 </div>
                 <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.05] mb-8">
-                    Desa<br><span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? 'Tompobulu' }}</span>
+                    Desa<br><span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
                 </h1>
                 <p class="text-lg md:text-xl text-slate-300 mb-4 font-medium leading-relaxed">
                     Kecamatan {{ \Illuminate\Support\Str::title($site_settings['district_name'] ?? '...') }},

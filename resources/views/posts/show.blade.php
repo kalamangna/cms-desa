@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $post->title . ' | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('title', $post->title . ' | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('og_type', 'article')
 @section('meta_description', Str::limit(strip_tags($post->content), 160))
 @section('meta_image', $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png'))

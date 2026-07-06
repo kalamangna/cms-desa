@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kontak | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('title', 'Kontak | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Informasi kontak pelayanan publik dan alamat kantor sekretariat Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk pengaduan dan koordinasi.')
 @section('meta_image', asset('img/meta.png'))
 
@@ -61,7 +61,7 @@
                     </div>
                     <div class="min-w-0">
                         <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Alamat Kantor</p>
-                        <p class="text-slate-700 font-semibold leading-relaxed text-sm">{{ $site_settings['village_address'] ?? 'Jalan Poros Desa Tompobulu, Sinjai' }}</p>
+                        <p class="text-slate-700 font-semibold leading-relaxed text-sm">{{ $site_settings['village_address'] ?? '' }}</p>
                     </div>
                 </div>
 

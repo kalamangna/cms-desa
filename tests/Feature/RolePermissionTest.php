@@ -13,7 +13,7 @@ class RolePermissionTest extends TestCase
 
     public function test_roles_are_created_by_seeder(): void
     {
-        $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
+        $this->seed(\Database\Seeders\DefaultDataSeeder::class);
 
         $this->assertDatabaseHas('roles', ['name' => 'super_admin']);
         $this->assertDatabaseHas('roles', ['name' => 'admin_desa']);
@@ -22,9 +22,9 @@ class RolePermissionTest extends TestCase
 
     public function test_super_admin_user_has_super_admin_role(): void
     {
-        $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
+        $this->seed(\Database\Seeders\DefaultDataSeeder::class);
 
-        $user = User::where('email', 'admin@desa.id')->first();
+        $user = User::where('username', 'kalamangna')->first();
         $this->assertTrue($user->hasRole('super_admin'));
     }
 }

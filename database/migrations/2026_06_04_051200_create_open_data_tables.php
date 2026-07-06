@@ -15,8 +15,13 @@ return new class extends Migration
         Schema::create('datasets', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('file_path');
+            $table->year('year');
+            $table->string('source')->nullable();
+            $table->string('file_csv')->nullable();
+            $table->string('file_xlsx')->nullable();
+            $table->string('file_pdf')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,8 +30,10 @@ return new class extends Migration
         Schema::create('metadata', function (Blueprint $table) {
             $table->id();
             $table->foreignId('dataset_id')->constrained()->cascadeOnDelete();
-            $table->string('key');
-            $table->text('value')->nullable();
+            $table->string('source')->nullable();
+            $table->text('definition')->nullable();
+            $table->string('update_frequency')->nullable();
+            $table->string('responsible_person')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,9 +42,11 @@ return new class extends Migration
         Schema::create('publications', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('file')->nullable();
+            $table->string('slug')->unique();
+            $table->string('type'); // Desa Dalam Angka, Profil Statistik, Infografis
+            $table->year('year');
+            $table->string('cover')->nullable();
+            $table->string('pdf_file')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Statistik | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Penyajian visualisasi data statistik sektoral kependudukan, pekerjaan, pendidikan, dan kesehatan mikro yang dikelola Pemerintah Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . '.')
+@section('title', 'Statistik | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('meta_description', 'Penyajian visualisasi data statistik sektoral kependudukan, pekerjaan, pendidikan, dan kesehatan mikro yang dikelola Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.png'))
 
 @section('content')

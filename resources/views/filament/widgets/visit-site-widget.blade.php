@@ -9,7 +9,7 @@
             size="lg"
             class="w-full shadow-sm"
         >
-            Kunjungi Website Desa {{ \App\Models\Setting::where('key', 'village_name')->value('value') ?? 'Tompobulu' }}
+            Kunjungi Website Desa {{ \App\Models\Setting::where('key', 'village_name')->value('value') ?? '' }}
         </x-filament::button>
     </x-filament::section>
 </x-filament-widgets::widget>

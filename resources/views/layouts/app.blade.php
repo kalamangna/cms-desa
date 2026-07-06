@@ -200,7 +200,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em]">
             <div class="flex gap-8">
                 <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-location-dot text-emerald-400"></i> {{ $site_settings['village_address'] ?? 'Desa Tompobulu, Sinjai' }}
+                    <i class="fa-solid fa-location-dot text-emerald-400"></i> {{ $site_settings['village_address'] ?? '' }}
                 </span>
                 <span class="flex items-center gap-2">
                     <i class="fa-solid fa-phone text-emerald-400"></i> {{ $site_settings['village_phone'] ?? '-' }}

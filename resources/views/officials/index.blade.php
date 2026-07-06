@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Aparatur | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('title', 'Aparatur | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Susunan jajaran aparatur dan perangkat desa yang bertugas dalam penyelenggaraan urusan pemerintahan di bawah Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.png'))
 
