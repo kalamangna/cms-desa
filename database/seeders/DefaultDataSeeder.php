@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Setting;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -30,5 +31,11 @@ class DefaultDataSeeder extends Seeder
         );
 
         $user->assignRole($superAdminRole);
+
+        // 2. Default Theme Color Setup
+        Setting::firstOrCreate(
+            ['key' => 'primary_color'],
+            ['value' => '#10b981']
+        );
     }
 }

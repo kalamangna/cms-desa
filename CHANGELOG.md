@@ -28,7 +28,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
   - Menggabungkan skema migrasi tabel `statistic_categories` dan `statistic_indicators` (menambahkan parameter mapping dan is_active langsung pada migrasi awal).
   - Menghapus 19 file migrasi perantara/pengubah (*alter/drop migrations*) serta migrasi pengisian data settings awal yang tidak terpakai agar struktur database murni hanya mengatur skema tabel (tanpa menyisipkan data).
 - **Pembersihan dan Penghapusan Seluruh Seeder Data**:
-  - Mengosongkan berkas seeder `DefaultDataSeeder.php` dari data bawaan (seperti pengaturan desa, kategori statistik, layanan administrasi, dan dusun) sehingga murni hanya mendaftarkan peran (*roles*) dan satu akun Super Admin (`kalamangna` | `Syazani`).
+  - Mengosongkan berkas seeder `DefaultDataSeeder.php` dari data bawaan (seperti pengaturan desa, kategori statistik, layanan administrasi, dan dusun) sehingga murni hanya mendaftarkan peran (*roles*), satu akun Super Admin (`kalamangna` | `Syazani`), serta inisialisasi warna tema primer default (`#10b981`).
   - Menghapus berkas `SampleDataSeeder.php` secara permanen dan menyederhanakan `DatabaseSeeder.php` agar hanya memanggil inisialisasi akun Super Admin.
 - **Pembaruan Estetika Grafik Donat**:
   - Menghapus garis pembatas putih (*stroke/border*) pada seluruh grafik donat di halaman Statistik, Beranda, dan APBDes (`stroke: { show: false }`).
