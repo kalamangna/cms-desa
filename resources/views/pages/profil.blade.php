@@ -49,7 +49,7 @@
         </div>
         <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-8">Sejarah Desa</h2>
         <div class="prose prose-emerald max-w-none text-slate-600 leading-relaxed font-medium">
-            {!! $site_settings['village_history'] ?? '<p>Sejarah Desa ' . ($site_settings['village_name'] ?? '') . ' berawal dari pemukiman tradisional yang kaya akan nilai budaya dan gotong royong. Selama berpuluh-puluh tahun, desa ini terus berkembang menjadi pusat kegiatan ekonomi dan sosial bagi masyarakat sekitarnya.</p><p>Hingga saat ini, nilai-nilai luhur tersebut tetap dijaga sambil terus melakukan inovasi dalam pelayanan publik dan pembangunan berbasis data statistik yang presisi.</p>' !!}
+            {!! $site_settings['village_history'] ?? '<p class="text-slate-400 italic text-center py-6">Informasi sejarah desa belum diisi.</p>' !!}
         </div>
     </div>
 </section>
@@ -76,7 +76,7 @@
                     <span class="text-emerald-200 font-black text-[11px] uppercase tracking-[0.3em]">Visi</span>
                 </div>
                 <p class="text-xl md:text-2xl font-heading font-bold italic leading-relaxed">
-                    "{{ $site_settings['village_vision'] ?? 'Mewujudkan Desa Mandiri, Cerdas, dan Berbasis Data untuk Kesejahteraan Masyarakat.' }}"
+                    "{{ $site_settings['village_vision'] ?? 'Visi desa belum diisi.' }}"
                 </p>
             </div>
         </div>
@@ -90,7 +90,7 @@
                 <span class="text-slate-500 font-black text-[11px] uppercase tracking-[0.3em]">Misi</span>
             </div>
             <div class="prose prose-emerald max-w-none text-slate-600 font-medium">
-                {!! $site_settings['village_mission'] ?? '<ol><li>Meningkatkan kualitas pelayanan publik berbasis teknologi informasi.</li><li>Mendorong kemandirian ekonomi desa melalui pemberdayaan UMKM.</li><li>Meningkatkan kualitas sumber daya manusia melalui pendidikan dan pelatihan.</li><li>Mengoptimalkan pengelolaan data desa yang akurat dan transparan.</li></ol>' !!}
+                {!! $site_settings['village_mission'] ?? '<p class="text-slate-400 italic text-center py-6">Misi desa belum diisi.</p>' !!}
             </div>
         </div>
     </div>
