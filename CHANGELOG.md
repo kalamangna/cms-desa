@@ -2,6 +2,26 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.7.4] - 2026-07-06
+
+### Fixed
+- **Skema Kolom SoftDeletes**:
+  - Menambahkan kolom `$table->softDeletes()` yang hilang pada tabel-tabel hasil konsolidasi modular (`budget_categories`, `budget_realizations`, `categories`, `datasets`, `metadata`, `publications`) untuk mencegah QueryException saat model Eloquent menggunakan trait `SoftDeletes`.
+- **Restorasi Kolom Open Data & Realisasi Anggaran**:
+  - Mengembalikan kolom penting yang terhapus pada tabel `datasets` (`slug`, `year`, `source`, `file_csv`, `file_xlsx`, `file_pdf`).
+  - Mengembalikan kolom penting pada tabel `metadata` (`source`, `definition`, `update_frequency`, `responsible_person`).
+  - Mengembalikan kolom penting pada tabel `publications` (`slug`, `type`, `year`, `cover`, `pdf_file`).
+  - Mengembalikan kolom `title` dan tipe data `decimal` pada tabel `budget_realizations`.
+- **Pembersihan Total Placeholder & Hardcoded Fallback**:
+  - Menghapus string fallback hardcoded "Tompobulu" dan menggantikannya dengan string kosong di seluruh berkas blade, halaman login Filament, dan brand panel admin.
+  - Menghapus fallback narasi sejarah, visi, dan misi dummy pada halaman Profil Desa dengan pesan empty state yang rapi ("Informasi belum diisi").
+  - Menghapus fallback luas wilayah dummy (`12,4`) dan teks sambutan kepala desa fiktif di halaman Beranda.
+- **Perbaikan Rangkaian Pengujian (Test Suite)**:
+  - Memperbarui `RolePermissionTest` agar merujuk ke `DefaultDataSeeder` dan username admin terbaru (`kalamangna`).
+  - Menyesuaikan `MinifyHtmlTest` untuk mengabaikan skrip/gaya otomatis Livewire.
+  - Menghapus berkas `MasterDataWilayahTest` dan pengujian `Event` yang fiturnya sudah ditiadakan.
+  - Menyesuaikan `UserFactory` agar sesuai dengan skema tabel `users` tanpa kolom `email`.
+
 ## [1.7.3] - 2026-07-06
 
 ### Added
