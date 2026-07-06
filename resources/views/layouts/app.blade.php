@@ -112,6 +112,8 @@
                 $name = 'Aparatur Desa';
             } elseif (strtolower($name) === 'lembaga') {
                 $name = 'Lembaga Desa';
+            } elseif (strtolower($name) === 'peta') {
+                $name = 'Peta Spasial';
             }
             
             // Override nama detail berita atau pengumuman jika variabel objek tersedia

@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function () {
             series: [{{ (int)($lakiLakiCount ?? 0) }}, {{ (int)($perempuanCount ?? 0) }}],
             labels: ['Laki-laki', 'Perempuan'],
             colors: ['#0ea5e9', '#ec4899'],
-            stroke: { width: 2 },
+            stroke: { show: false },
             plotOptions: {
                 pie: {
                     donut: {
@@ -509,7 +509,7 @@ document.addEventListener('DOMContentLoaded', function () {
             series: {!! json_encode($belanjaChartData->map(fn($v) => (float)$v)->toArray()) !!},
             labels: {!! json_encode($belanjaChartLabels) !!},
             colors: {!! json_encode($belanjaChartColors) !!},
-            stroke: { width: 2 },
+            stroke: { show: false },
             plotOptions: {
                 pie: {
                     donut: {

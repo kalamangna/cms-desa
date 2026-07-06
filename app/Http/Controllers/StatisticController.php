@@ -17,6 +17,10 @@ class StatisticController extends Controller
             }])->get();
 
         $currentYear = date('Y');
+        
+        $totalCitizens = \App\Models\Citizen::count();
+        $totalFamilies = \App\Models\Family::count();
+        $isEmptyDb = ($totalCitizens === 0 && $totalFamilies === 0);
 
         foreach ($categories as $category) {
             // Guard: lewati kategori yang mapping_table-nya tidak valid
@@ -76,7 +80,7 @@ class StatisticController extends Controller
                     }
                 }
 
-                $liveValue = $query->count();
+                $liveValue = $isEmptyDb ? 0 : $query->count();
 
                 // Buat objek StatisticData sementara untuk data real-time tahun ini
                 $liveData = new \App\Models\StatisticData([
@@ -88,6 +92,14 @@ class StatisticController extends Controller
                 $historicalData = $indicator->data->filter(
                     fn ($d) => (int) $d->year !== (int) $currentYear
                 );
+
+                if ($isEmptyDb) {
+                    $historicalData = $historicalData->map(function ($d) {
+                        $d->value = 0;
+                        return $d;
+                    });
+                }
+
                 $mergedData = $historicalData->push($liveData)->sortBy('year')->values();
 
                 $indicator->setRelation('data', $mergedData);

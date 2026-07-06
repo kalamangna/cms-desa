@@ -439,7 +439,7 @@
                     labels: sortedIndicators.map(ind => ind.name),
                     series: dataPoints,
                     stroke: {
-                        width: 2
+                        show: false
                     },
                     plotOptions: {
                         pie: {

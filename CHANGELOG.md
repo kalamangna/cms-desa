@@ -2,6 +2,27 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.7.3] - 2026-07-06
+
+### Added
+- **Widget Statistik Pengunjung Dashboard Admin**:
+  - Membuat widget grafik [VisitorChartWidget.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/app/Filament/Widgets/VisitorChartWidget.php) untuk melacak Page Views (Hijau Emerald) dan Unique Visitors (Biru Muda) harian secara real-time.
+  - Menyediakan filter waktu drop-down dinamis (7 Hari, 15 Hari, dan 30 Hari Terakhir).
+- **Logika Pembersihan Data & Standardisasi Indikator**:
+  - Menambahkan standardisasi Title Case, auto-trim, dan pembersihan spasi ganda pada generator indikator statistik.
+  - Mempertahankan singkatan resmi kependudukan/pendidikan tetap UPPERCASE (seperti `PNS`, `BPJS`, `SD`, `SMP`, `SMA`, `RT`, `RW`, `D1`-`D4`, `S1`-`S3`, `KIP`, `KIS`, `PIP`, `PKH`, `SKTM`).
+  - Menerapkan deduplikasi pada nama indikator hasil normalisasi untuk menghindari duplikasi kategori data.
+  - Menambahkan filter `whereNull('deleted_at')` agar data warga/keluarga yang sudah dihapus secara lunak tidak terbaca oleh generator indikator.
+
+### Fixed
+- **Bypass Tampilan Data Dummy di Server Production**:
+  - Memperbaiki `StatisticController.php` agar secara dinamis mendeteksi database kependudukan kosong (`total = 0`).
+  - Jika kosong, sistem otomatis meng-override nilai tahun berjalan dan seluruh data historis dummy (seeder) menjadi `0` di memori sehingga grafik publik tampil bersih tanpa data fiktif.
+
+### Changed
+- **Pembaruan Estetika Grafik Donat**:
+  - Menghapus garis pembatas putih (*stroke/border*) pada seluruh grafik donat di halaman Statistik, Beranda, dan APBDes (`stroke: { show: false }`).
+
 ## [1.7.2] - 2026-07-06
 
 ### Added

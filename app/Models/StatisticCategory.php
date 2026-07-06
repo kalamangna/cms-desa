@@ -81,6 +81,7 @@ class StatisticCategory extends Model
                         ]);
                     } else {
                         $query = \Illuminate\Support\Facades\DB::table($category->mapping_table)
+                            ->whereNull('deleted_at')
                             ->whereNotNull($col)
                             ->where($col, '!=', '');
 
@@ -89,17 +90,40 @@ class StatisticCategory extends Model
                         }
 
                         $values = $query->distinct()->pluck($col)->toArray();
+                        $normalizedValues = [];
 
                         foreach ($values as $val) {
                             $valStr = trim((string)$val);
                             if ($valStr === '') continue;
 
-                            $indicatorName = $valStr;
-                            $mappingValue = $valStr;
+                            // Normalisasi spasi ganda
+                            $valStr = preg_replace('/\s+/', ' ', $valStr);
+
+                            // Ubah ke Title Case
+                            $normalized = ucwords(strtolower($valStr));
+
+                            // Penanganan singkatan umum agar tetap UPPERCASE
+                            $abbreviations = [
+                                'Pns', 'Sd', 'Smp', 'Sma', 'Bkkbn', 'Kk', 'Bpjs', 'Rt', 'Rw', 
+                                'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3', 'Pip', 'Pkh', 
+                                'Bnt', 'Blt', 'Kps', 'Kip', 'Kis', 'Sktm', 'Pbi', 'Non Pbi'
+                            ];
+                            foreach ($abbreviations as $abbr) {
+                                // Match exact word bounds or whole string
+                                if (strtolower($normalized) === strtolower($abbr)) {
+                                    $normalized = strtoupper($abbr);
+                                }
+                            }
+
+                            $normalizedValues[$normalized][] = $valStr;
+                        }
+
+                        foreach ($normalizedValues as $indicatorName => $originalValues) {
+                            $mappingValue = $originalValues[0];
 
                             $category->indicators()->create([
                                 'name' => $indicatorName,
-                                'unit' => $unit,
+                                	'unit' => $unit,
                                 'mapping_column' => $col,
                                 'mapping_operator' => '=',
                                 'mapping_value' => $mappingValue,

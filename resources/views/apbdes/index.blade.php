@@ -410,7 +410,7 @@
                     '#10b981', '#0ea5e9', '#f59e0b', '#6366f1', '#ec4899', '#8b5cf6',
                     '#06b6d4', '#f97316', '#14b8a6', '#3b82f6'
                 ],
-                stroke: { width: 2 },
+                stroke: { show: false },
                 plotOptions: {
                     pie: {
                         donut: {

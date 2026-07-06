@@ -29,6 +29,18 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>{{ url('/lembaga') }}</loc>
+        <lastmod>{{ now()->toAtomString() }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>{{ url('/peta') }}</loc>
+        <lastmod>{{ now()->toAtomString() }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>{{ url('/kontak') }}</loc>
         <lastmod>{{ now()->toAtomString() }}</lastmod>
         <changefreq>yearly</changefreq>
