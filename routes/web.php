@@ -20,9 +20,10 @@ Route::get('/robots.txt', [SitemapController::class, 'robots']);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/profil', [PageController::class, 'profil'])->name('pages.profil');
-Route::get('/layanan', [PageController::class, 'layanan'])->name('pages.layanan');
-Route::get('/kontak', [PageController::class, 'kontak'])->name('pages.kontak');
+Route::get('/profil', [PageController::class, 'profil'])->name('profil');
+Route::get('/layanan', [PageController::class, 'layanan'])->name('layanan');
+Route::get('/kontak', [PageController::class, 'kontak'])->name('kontak');
+Route::get('/peta', [\App\Http\Controllers\MapController::class, 'index'])->name('peta.index');
 
 Route::get('/aparatur', [OfficialController::class, 'index'])->name('officials.index');
 Route::get('/lembaga', [InstitutionController::class, 'index'])->name('institutions.index');
@@ -38,7 +39,7 @@ Route::get('/dokumen', [DocumentController::class, 'index'])->name('documents.in
 Route::get('/statistik', [StatisticController::class, 'index'])->name('statistics.index');
 
 Route::get('/dataset', [DatasetController::class, 'index'])->name('datasets.index');
-Route::get('/dataset/download/{type}', [DatasetController::class, 'download'])->name('dataset.download');
+Route::get('/dataset/download/{type}', [DatasetController::class, 'download'])->name('datasets.download');
 
 Route::get('/publikasi', [PublicationController::class, 'index'])->name('publications.index');
 
@@ -75,4 +76,4 @@ Route::get('/init-link', function () {
     $copyRecursive($src, $dst);
     
     return "Berhasil menyalin data dummy & media ke folder fisik public/storage!";
-});
+})->middleware('auth');

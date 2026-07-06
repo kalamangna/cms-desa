@@ -20,9 +20,9 @@ class DusunResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
-    protected static ?string $navigationLabel = 'Dusun';
+    protected static ?string $navigationLabel = 'Master Dusun';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 1;
 
     public static function getModelLabel(): string
     {

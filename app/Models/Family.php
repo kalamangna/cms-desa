@@ -61,6 +61,28 @@ class Family extends Model
         'notes',
     ];
 
+    protected $casts = [
+        'address_matches_kk' => 'integer',
+        'family_member_count' => 'integer',
+        'floor_area' => 'float',
+        'electricity_cost' => 'integer',
+        'internet_cost' => 'integer',
+        'gas_3kg_count' => 'integer',
+        'gas_5kg_count' => 'integer',
+        'refrigerator_count' => 'integer',
+        'ac_count' => 'integer',
+        'jewelry_count' => 'integer',
+        'computer_count' => 'integer',
+        'motorcycle_count' => 'integer',
+        'motorcycle_value' => 'integer',
+        'car_count' => 'integer',
+        'car_value' => 'integer',
+        'other_land_count' => 'integer',
+        'other_land_value' => 'integer',
+        'other_building_count' => 'integer',
+        'other_building_value' => 'integer',
+    ];
+
     public function dusun()
     {
         return $this->belongsTo(Dusun::class);

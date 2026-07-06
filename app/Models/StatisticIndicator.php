@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StatisticIndicator extends Model
 {
-    protected $fillable = ['statistic_category_id', 'name', 'unit'];
+    protected $fillable = ['statistic_category_id', 'name', 'unit', 'mapping_column', 'mapping_operator', 'mapping_value'];
 
     public function category()
     {

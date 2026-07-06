@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Open Data | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Temukan kumpulan dataset terbuka dan data publik Desa ' . ($site_settings['village_name'] ?? '') . ' yang dapat diakses bebas oleh masyarakat.')
+@section('meta_description', 'Portal data terbuka (Open Data) resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' menyajikan kumpulan dataset publik untuk analisis, transparansi, dan kebutuhan akademis.')
 @section('meta_image', asset('img/meta.png'))
 
 @section('content')
@@ -78,7 +78,7 @@
                                 @if($dataset->file_csv)
                                     @php
                                         $csvUrl = $dataset->file_csv === 'dynamic' 
-                                            ? route('dataset.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk' : 'keluarga')])
+                                            ? route('datasets.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk' : 'keluarga')])
                                             : asset('storage/' . $dataset->file_csv);
                                     @endphp
                                     <a href="{{ $csvUrl }}" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700 transition" title="Unduh CSV" download>
@@ -89,7 +89,7 @@
                                 @if($dataset->file_xlsx)
                                     @php
                                         $xlsxUrl = $dataset->file_xlsx === 'dynamic' 
-                                            ? route('dataset.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk-xlsx' : 'keluarga-xlsx')])
+                                            ? route('datasets.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk-xlsx' : 'keluarga-xlsx')])
                                             : asset('storage/' . $dataset->file_xlsx);
                                     @endphp
                                     <a href="{{ $xlsxUrl }}" class="inline-flex items-center gap-2 bg-sky-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-sky-700 transition" title="Unduh XLSX" download>
@@ -100,7 +100,7 @@
                                 @if($dataset->file_pdf)
                                     @php
                                         $pdfUrl = $dataset->file_pdf === 'dynamic' 
-                                            ? route('dataset.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk-pdf' : 'keluarga-pdf')])
+                                            ? route('datasets.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk-pdf' : 'keluarga-pdf')])
                                             : asset('storage/' . $dataset->file_pdf);
                                     @endphp
                                     <a href="{{ $pdfUrl }}" class="inline-flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-rose-700 transition" title="Unduh PDF" download>

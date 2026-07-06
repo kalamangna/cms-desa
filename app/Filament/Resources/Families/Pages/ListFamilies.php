@@ -132,6 +132,10 @@ class ListFamilies extends ListRecords
                     
                     $colPlnCost = $this->findColumnIndex($header, ['214. nilai pengeluaran listrik']);
                     $colNetCost = $this->findColumnIndex($header, ['215. nilai pengeluaran pulsa']);
+                    $colMemberCount = $this->findColumnIndex($header, ['106.a. berapa jumlah keluarga', 'jumlah keluarga yang tinggal dalam 1 rumah']);
+                    $colPlnPower1 = $this->findColumnIndex($header, ['213.b. jika listrik pln', 'berapa daya terpasang', '[meteran 1]']);
+                    $colPlnPower2 = $this->findColumnIndex($header, ['213.b. jika listrik pln', 'berapa daya terpasang', '[meteran 2]']);
+                    $colPlnPower3 = $this->findColumnIndex($header, ['213.b. jika listrik pln', 'berapa daya terpasang', '[meteran 3]']);
                     
                     $colPhotoFront = $this->findColumnIndex($header, ['216.a. foto tampak depan']);
                     $colPhotoLiving = $this->findColumnIndex($header, ['216.b. foto ruang tamu']);
@@ -159,96 +163,142 @@ class ListFamilies extends ListRecords
                         return;
                     }
 
-                    $rowCount = 0;
-                    foreach ($rows as $row) {
-                        if (count($row) <= $colKkNumber) continue;
+                    \Illuminate\Support\Facades\DB::beginTransaction();
 
-                        $kkNumber = trim($row[$colKkNumber]);
-                        if (empty($kkNumber) || strtolower($kkNumber) === 'none' || strlen($kkNumber) < 5) continue;
+                    try {
+                        $rowCount = 0;
+                        foreach ($rows as $index => $row) {
+                            if (count($row) <= $colKkNumber) continue;
 
-                        // Parse address details
-                        $address = $colAddress !== false ? trim($row[$colAddress]) : '';
-                        $rt = null; $rw = null; $dusunId = $selectedDusunId;
+                            $kkNumber = trim($row[$colKkNumber]);
+                            if (empty($kkNumber) || strtolower($kkNumber) === 'none' || strlen($kkNumber) < 5) continue;
 
-                        // Smart parse RT/RW/Dusun from address string
-                        // e.g. "RT 005 RW 003 Dusun Data" or "005/003/Dusun Data"
-                        if (!empty($address)) {
-                            if (preg_match('/rt\s*(\d+)/i', $address, $matches)) {
-                                $rt = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
-                            }
-                            if (preg_match('/rw\s*(\d+)/i', $address, $matches)) {
-                                $rw = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
-                            }
-                            if (!$rt && !$rw && preg_match('/(\d+)\/(\d+)/', $address, $matches)) {
-                                $rt = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
-                                $rw = str_pad($matches[2], 3, '0', STR_PAD_LEFT);
-                            }
+                            // Parse address details
+                            $address = $colAddress !== false ? trim($row[$colAddress]) : '';
+                            $rt = null; $rw = null; $dusunId = $selectedDusunId;
 
-                            // Match Dusun from address text if not selected
-                            if (!$dusunId) {
-                                $dusunList = Dusun::all();
-                                foreach ($dusunList as $dus) {
-                                    if (stripos($address, $dus->name) !== false) {
-                                        $dusunId = $dus->id;
-                                        break;
+                            // Smart parse RT/RW/Dusun from address string
+                            // e.g. "RT 005 RW 003 Dusun Data" or "005/003/Dusun Data"
+                            if (!empty($address)) {
+                                if (preg_match('/rt\s*(\d+)/i', $address, $matches)) {
+                                    $rt = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
+                                }
+                                if (preg_match('/rw\s*(\d+)/i', $address, $matches)) {
+                                    $rw = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
+                                }
+                                if (!$rt && !$rw && preg_match('/(\d+)\/(\d+)/', $address, $matches)) {
+                                    $rt = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
+                                    $rw = str_pad($matches[2], 3, '0', STR_PAD_LEFT);
+                                }
+
+                                // Match Dusun from address text if not selected
+                                if (!$dusunId) {
+                                    $dusunList = Dusun::all();
+                                    foreach ($dusunList as $dus) {
+                                        if (stripos($address, $dus->name) !== false) {
+                                            $dusunId = $dus->id;
+                                            break;
+                                        }
                                     }
                                 }
                             }
+
+                            $power1 = $colPlnPower1 !== false && isset($row[$colPlnPower1]) && trim($row[$colPlnPower1]) !== '' ? trim($row[$colPlnPower1]) : null;
+                            $power2 = $colPlnPower2 !== false && isset($row[$colPlnPower2]) && trim($row[$colPlnPower2]) !== '' ? trim($row[$colPlnPower2]) : null;
+                            $power3 = $colPlnPower3 !== false && isset($row[$colPlnPower3]) && trim($row[$colPlnPower3]) !== '' ? trim($row[$colPlnPower3]) : null;
+                            $powers = array_filter([$power1, $power2, $power3]);
+                            $electricityPower = count($powers) > 0 ? implode(', ', $powers) : null;
+
+                            $dataToSave = [
+                                'head_name' => $colHeadName !== false ? trim($row[$colHeadName]) : null,
+                                'head_nik' => $colHeadNik !== false ? trim($row[$colHeadNik]) : null,
+                                'address' => $address,
+                                'dusun_id' => $dusunId,
+                                'rt' => $rt,
+                                'rw' => $rw,
+                                'address_matches_kk' => $colMatchesKk !== false ? $this->parseYesNo($row[$colMatchesKk]) : null,
+                                'assistance_type' => $colBansos !== false ? $this->parseAssistanceType($row[$colBansos]) : null,
+                                'family_member_count' => $colMemberCount !== false && isset($row[$colMemberCount]) && trim($row[$colMemberCount]) !== '' ? intval(trim($row[$colMemberCount])) : 1,
+                                'building_type' => $colBuildingType !== false ? trim($row[$colBuildingType]) : null,
+                                'ownership_status' => $colOwnership !== false ? $this->parseOwnershipStatus($row[$colOwnership]) : null,
+                                'ownership_proof' => $colProof !== false ? trim($row[$colProof]) : null,
+                                'floor_area' => $colFloorArea !== false ? floatval(trim($row[$colFloorArea])) : null,
+                                'floor_material' => $colFloorMat !== false ? trim($row[$colFloorMat]) : null,
+                                'wall_material' => $colWallMat !== false ? trim($row[$colWallMat]) : null,
+                                'roof_material' => $colRoofMat !== false ? trim($row[$colRoofMat]) : null,
+                                'floor_condition' => $colFloorCond !== false ? trim($row[$colFloorCond]) : null,
+                                'wall_condition' => $colWallCond !== false ? trim($row[$colWallCond]) : null,
+                                'roof_condition' => $colRoofCond !== false ? trim($row[$colRoofCond]) : null,
+                                'toilet_facility' => $colToilet !== false ? trim($row[$colToilet]) : null,
+                                'closet_type' => $colCloset !== false ? trim($row[$colCloset]) : null,
+                                'feces_disposal' => $colFeces !== false ? trim($row[$colFeces]) : null,
+                                'water_source' => $colWater !== false ? trim($row[$colWater]) : null,
+                                'lighting_source' => $colLight !== false ? trim($row[$colLight]) : null,
+                                'electricity_power' => $electricityPower,
+                                'electricity_id' => $colPlnId !== false ? trim($row[$colPlnId]) : null,
+                                'electricity_cost' => $colPlnCost !== false ? $this->cleanNumeric(trim($row[$colPlnCost])) : 0,
+                                'internet_cost' => $colNetCost !== false ? $this->cleanNumeric(trim($row[$colNetCost])) : 0,
+                                'photo_front' => $colPhotoFront !== false ? trim($row[$colPhotoFront]) : null,
+                                'photo_living_room' => $colPhotoLiving !== false ? trim($row[$colPhotoLiving]) : null,
+                                'photo_bathroom' => $colPhotoBath !== false ? trim($row[$colPhotoBath]) : null,
+                                'photo_kk' => $colPhotoKk !== false ? trim($row[$colPhotoKk]) : null,
+                                'gas_3kg_count' => $colGas3 !== false ? intval(trim($row[$colGas3])) : 0,
+                                'gas_5kg_count' => $colGas5 !== false ? intval(trim($row[$colGas5])) : 0,
+                                'refrigerator_count' => $colFridge !== false ? intval(trim($row[$colFridge])) : 0,
+                                'ac_count' => $colAc !== false ? intval(trim($row[$colAc])) : 0,
+                                'jewelry_count' => $colGold !== false ? intval(trim($row[$colGold])) : 0,
+                                'computer_count' => $colComp !== false ? intval(trim($row[$colComp])) : 0,
+                                'motorcycle_count' => $colMotor !== false ? intval(trim($row[$colMotor])) : 0,
+                                'motorcycle_value' => $colMotorVal !== false ? $this->cleanNumeric(trim($row[$colMotorVal])) : 0,
+                                'car_count' => $colCar !== false ? intval(trim($row[$colCar])) : 0,
+                                'car_value' => $colCarVal !== false ? $this->cleanNumeric(trim($row[$colCarVal])) : 0,
+                                'other_land_count' => $colLand !== false ? intval(trim($row[$colLand])) : 0,
+                                'other_land_value' => $colLandVal !== false ? $this->cleanNumeric(trim($row[$colLandVal])) : 0,
+                                'other_building_count' => $colBld !== false ? intval(trim($row[$colBld])) : 0,
+                                'other_building_value' => $colBldVal !== false ? $this->cleanNumeric(trim($row[$colBldVal])) : 0,
+                                'notes' => $colNotes !== false ? trim($row[$colNotes]) : null,
+                            ];
+
+                            $family = Family::withTrashed()->where('kk_number', $kkNumber)->first();
+                            if ($family) {
+                                $updateData = [];
+                                foreach ($dataToSave as $key => $value) {
+                                    if ($value !== null && $value !== '') {
+                                        $updateData[$key] = $value;
+                                    }
+                                }
+                                $family->fill($updateData);
+                                if ($family->trashed()) {
+                                    $family->restore();
+                                } else {
+                                    $family->save();
+                                }
+                            } else {
+                                Family::create(array_merge(['kk_number' => $kkNumber], $dataToSave));
+                            }
+                            $rowCount++;
                         }
 
-                        $dataToSave = [
-                            'head_name' => $colHeadName !== false ? trim($row[$colHeadName]) : null,
-                            'head_nik' => $colHeadNik !== false ? trim($row[$colHeadNik]) : null,
-                            'address' => $address,
-                            'dusun_id' => $dusunId,
-                            'rt' => $rt,
-                            'rw' => $rw,
-                            'address_matches_kk' => $colMatchesKk !== false ? trim($row[$colMatchesKk]) : null,
-                            'assistance_type' => $colBansos !== false ? $this->parseAssistanceType($row[$colBansos]) : null,
-                            'building_type' => $colBuildingType !== false ? trim($row[$colBuildingType]) : null,
-                            'ownership_status' => $colOwnership !== false ? $this->parseOwnershipStatus($row[$colOwnership]) : null,
-                            'ownership_proof' => $colProof !== false ? trim($row[$colProof]) : null,
-                            'floor_area' => $colFloorArea !== false ? floatval(trim($row[$colFloorArea])) : null,
-                            'floor_material' => $colFloorMat !== false ? trim($row[$colFloorMat]) : null,
-                            'wall_material' => $colWallMat !== false ? trim($row[$colWallMat]) : null,
-                            'roof_material' => $colRoofMat !== false ? trim($row[$colRoofMat]) : null,
-                            'floor_condition' => $colFloorCond !== false ? trim($row[$colFloorCond]) : null,
-                            'wall_condition' => $colWallCond !== false ? trim($row[$colWallCond]) : null,
-                            'roof_condition' => $colRoofCond !== false ? trim($row[$colRoofCond]) : null,
-                            'toilet_facility' => $colToilet !== false ? trim($row[$colToilet]) : null,
-                            'closet_type' => $colCloset !== false ? trim($row[$colCloset]) : null,
-                            'feces_disposal' => $colFeces !== false ? trim($row[$colFeces]) : null,
-                            'water_source' => $colWater !== false ? trim($row[$colWater]) : null,
-                            'lighting_source' => $colLight !== false ? trim($row[$colLight]) : null,
-                            'electricity_id' => $colPlnId !== false ? trim($row[$colPlnId]) : null,
-                            'electricity_cost' => $colPlnCost !== false ? $this->cleanNumeric(trim($row[$colPlnCost])) : 0,
-                            'internet_cost' => $colNetCost !== false ? $this->cleanNumeric(trim($row[$colNetCost])) : 0,
-                            'photo_front' => $colPhotoFront !== false ? trim($row[$colPhotoFront]) : null,
-                            'photo_living_room' => $colPhotoLiving !== false ? trim($row[$colPhotoLiving]) : null,
-                            'photo_bathroom' => $colPhotoBath !== false ? trim($row[$colPhotoBath]) : null,
-                            'photo_kk' => $colPhotoKk !== false ? trim($row[$colPhotoKk]) : null,
-                            'gas_3kg_count' => $colGas3 !== false ? intval(trim($row[$colGas3])) : 0,
-                            'gas_5kg_count' => $colGas5 !== false ? intval(trim($row[$colGas5])) : 0,
-                            'refrigerator_count' => $colFridge !== false ? intval(trim($row[$colFridge])) : 0,
-                            'ac_count' => $colAc !== false ? intval(trim($row[$colAc])) : 0,
-                            'jewelry_count' => $colGold !== false ? intval(trim($row[$colGold])) : 0,
-                            'computer_count' => $colComp !== false ? intval(trim($row[$colComp])) : 0,
-                            'motorcycle_count' => $colMotor !== false ? intval(trim($row[$colMotor])) : 0,
-                            'motorcycle_value' => $colMotorVal !== false ? $this->cleanNumeric(trim($row[$colMotorVal])) : 0,
-                            'car_count' => $colCar !== false ? intval(trim($row[$colCar])) : 0,
-                            'car_value' => $colCarVal !== false ? $this->cleanNumeric(trim($row[$colCarVal])) : 0,
-                            'other_land_count' => $colLand !== false ? intval(trim($row[$colLand])) : 0,
-                            'other_land_value' => $colLandVal !== false ? $this->cleanNumeric(trim($row[$colLandVal])) : 0,
-                            'other_building_count' => $colBld !== false ? intval(trim($row[$colBld])) : 0,
-                            'other_building_value' => $colBldVal !== false ? $this->cleanNumeric(trim($row[$colBldVal])) : 0,
-                            'notes' => $colNotes !== false ? trim($row[$colNotes]) : null,
-                        ];
+                        \Illuminate\Support\Facades\DB::commit();
 
-                        Family::updateOrCreate(
-                            ['kk_number' => $kkNumber],
-                            $dataToSave
-                        );
-                        $rowCount++;
+                        foreach (\App\Models\StatisticCategory::where('mapping_table', 'families')->get() as $cat) {
+                            $cat->save();
+                        }
+                    } catch (\Exception $e) {
+                        \Illuminate\Support\Facades\DB::rollBack();
+
+                        $rowNumber = isset($index) ? ($index + 2) : 'Tidak diketahui';
+                        $errorMessage = $e->getMessage();
+
+                        @unlink($filePath);
+
+                        Notification::make()
+                            ->title('Import Gagal (Rollback)')
+                            ->body("Terjadi kesalahan pada Baris #{$rowNumber}: {$errorMessage}. Seluruh transaksi dibatalkan.")
+                            ->danger()
+                            ->persistent()
+                            ->send();
+                        return;
                     }
 
                     @unlink($filePath);
@@ -262,16 +312,15 @@ class ListFamilies extends ListRecords
         ];
     }
 
-    private function parseYesNo(?string $val): ?string
+    private function parseYesNo(?string $val): bool
     {
-        if ($val === null) return null;
+        if ($val === null) return false;
         $clean = strtolower(trim($val));
-        if (empty($clean)) return null;
+        if (empty($clean)) return false;
         
-        if (in_array($clean, ['ya', 'yes', 'true', '1']) || strpos($clean, 'ya') === 0) {
-            return 'Ya';
-        }
-        return 'Tidak';
+        return in_array($clean, ['ya', 'yes', 'true', '1', 'ada']) 
+            || strpos($clean, 'ya') === 0 
+            || strpos($clean, 'ada') === 0;
     }
 
     private function parseOwnershipStatus(?string $val): ?string

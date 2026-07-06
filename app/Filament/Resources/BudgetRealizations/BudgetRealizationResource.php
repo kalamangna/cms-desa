@@ -22,7 +22,7 @@ class BudgetRealizationResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Data';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 4;
 
     public static function getModelLabel(): string
     {

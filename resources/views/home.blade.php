@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Beranda | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Temukan informasi berita kegiatan, aparatur desa, transparansi anggaran APBDes, dan data statistik kependudukan Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . '.')
+@section('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . ' untuk publikasi berita pembangunan, struktur aparatur, transparansi anggaran APBDes, dan data statistik kependudukan resmi.')
 @section('meta_image', asset('img/meta.png'))
 
 @section('content')
@@ -190,7 +190,7 @@
                     <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100">{{ date('Y') }}</span>
                 </div>
                 <div class="p-8">
-                    <div class="h-72"><canvas id="populationChart"></canvas></div>
+                    <div class="h-72"><div id="populationChart"></div></div>
                     <a href="/statistik" class="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200">
                         <i class="fa-solid fa-chart-line"></i> Statistik Lengkap
                     </a>
@@ -231,7 +231,7 @@
                     </div>
                     <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
                         <p class="text-xs font-black uppercase tracking-wider text-slate-400 mb-4 text-center">Alokasi Belanja Desa</p>
-                        <div class="h-52"><canvas id="budgetRingChart"></canvas></div>
+                        <div class="h-52"><div id="budgetRingChart"></div></div>
                     </div>
                 </div>
             </div>
@@ -415,66 +415,149 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Population Chart (Doughnut)
-    const ctxPop = document.getElementById('populationChart');
-    if (ctxPop) {
-        new Chart(ctxPop.getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Laki-laki', 'Perempuan'],
-                datasets: [{
-                    data: [{{ $lakiLakiCount ?? 0 }}, {{ $perempuanCount ?? 0 }}],
-                    backgroundColor: ['#0284c7', '#ec4899'],
-                    borderWidth: 0,
-                    hoverOffset: 12
-                }]
+    // Population Chart (Donut)
+    const elPop = document.getElementById('populationChart');
+    if (elPop) {
+        const optionsPop = {
+            chart: {
+                type: 'donut',
+                height: '100%',
+                fontFamily: 'Inter, sans-serif'
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
+            dataLabels: {
+                enabled: false
+            },
+            series: [{{ (int)($lakiLakiCount ?? 0) }}, {{ (int)($perempuanCount ?? 0) }}],
+            labels: ['Laki-laki', 'Perempuan'],
+            colors: ['#0ea5e9', '#ec4899'],
+            stroke: { width: 2 },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '72%',
                         labels: {
-                            color: '#64748b',
-                            font: { family: 'Inter', size: 12, weight: 'bold' },
-                            padding: 20,
-                            boxWidth: 12
+                            show: true,
+                            name: { 
+                                show: true,
+                                fontFamily: 'Poppins, sans-serif',
+                                fontWeight: 700,
+                                fontSize: '13px',
+                                color: '#64748b'
+                            },
+                            value: { 
+                                show: true,
+                                fontFamily: 'Inter, sans-serif',
+                                fontWeight: 800,
+                                fontSize: '20px',
+                                color: '#0f172a',
+                                formatter: function(val) {
+                                    return parseInt(val).toLocaleString('id-ID');
+                                }
+                            },
+                            total: {
+                                show: true,
+                                label: 'Total Warga',
+                                fontFamily: 'Poppins, sans-serif',
+                                fontWeight: 700,
+                                fontSize: '10px',
+                                color: '#94a3b8',
+                                formatter: function(w) {
+                                    return w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString('id-ID');
+                                }
+                            }
                         }
                     }
                 }
+            },
+            legend: {
+                position: 'bottom',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 600,
+                fontSize: '12px',
+                labels: { colors: '#64748b' },
+                markers: { width: 9, height: 9, radius: 9, offsetY: -1 }
+            },
+            tooltip: {
+                theme: 'light',
+                y: {
+                    formatter: function(val) {
+                        return val.toLocaleString('id-ID') + ' Jiwa';
+                    }
+                }
             }
-        });
+        };
+
+        const chartPop = new ApexCharts(elPop, optionsPop);
+        chartPop.render();
     }
 
     // Budget Donut
-    const ctxBudget = document.getElementById('budgetRingChart');
-    if (ctxBudget) {
-        @php
-            $donutPalette = ['#10b981','#0ea5e9','#f59e0b','#6366f1','#ec4899','#8b5cf6','#06b6d4','#14b8a6','#f97316','#3b82f6'];
-            $donutColors = [];
-            foreach ($belanjaDetails as $i => $d) { $donutColors[] = $donutPalette[$i % count($donutPalette)]; }
-        @endphp
-        new Chart(ctxBudget.getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                labels: {!! json_encode($belanjaChartLabels) !!},
-                datasets: [{
-                    data: {!! json_encode($belanjaChartData) !!},
-                    backgroundColor: {!! json_encode($belanjaChartColors) !!},
-                    borderWidth: 0,
-                    hoverOffset: 14
-                }]
+    const elBudget = document.getElementById('budgetRingChart');
+    if (elBudget) {
+        const optionsBudget = {
+            chart: {
+                type: 'donut',
+                height: '100%',
+                fontFamily: 'Inter, sans-serif'
             },
-            options: {
-                responsive: true, maintainAspectRatio: false, cutout: '68%',
-                plugins: { legend: { position:'bottom', labels: { color:'#94a3b8', font:{ family:'Inter', size:10 }, padding:12, boxWidth:10 } } }
+            dataLabels: {
+                enabled: false
+            },
+            series: {!! json_encode($belanjaChartData->map(fn($v) => (float)$v)->toArray()) !!},
+            labels: {!! json_encode($belanjaChartLabels) !!},
+            colors: {!! json_encode($belanjaChartColors) !!},
+            stroke: { width: 2 },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '72%',
+                        labels: {
+                            show: true,
+                            name: {
+                                show: false
+                            },
+                            value: {
+                                show: true,
+                                fontFamily: 'Inter, sans-serif',
+                                fontWeight: 800,
+                                fontSize: '15px',
+                                color: '#ffffff',
+                                formatter: function(val) {
+                                    if (val >= 1000000000) {
+                                        return 'Rp ' + parseFloat((val / 1000000000).toFixed(1)) + ' M';
+                                    } else if (val >= 1000000) {
+                                        return 'Rp ' + parseFloat((val / 1000000).toFixed(1)) + ' Jt';
+                                    }
+                                    return 'Rp ' + parseInt(val).toLocaleString('id-ID');
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            legend: {
+                position: 'bottom',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 500,
+                fontSize: '10px',
+                labels: { colors: '#94a3b8' },
+                markers: { width: 8, height: 8, radius: 8, offsetY: -1 }
+            },
+            tooltip: {
+                theme: 'dark',
+                y: {
+                    formatter: function(val) {
+                        return 'Rp ' + val.toLocaleString('id-ID');
+                    }
+                }
             }
-        });
+        };
+
+        const chartBudget = new ApexCharts(elBudget, optionsBudget);
+        chartBudget.render();
     }
 });
 </script>

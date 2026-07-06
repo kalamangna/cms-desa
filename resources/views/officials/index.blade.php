@@ -1,8 +1,35 @@
 @extends('layouts.app')
 
-@section('title', 'Aparatur Desa | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Temukan informasi jajaran aparatur dan perangkat Desa ' . ($site_settings['village_name'] ?? '') . ' yang siap melayani masyarakat.')
+@section('title', 'Aparatur | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Susunan jajaran aparatur dan perangkat desa yang bertugas dalam penyelenggaraan urusan pemerintahan di bawah Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.png'))
+
+@push('head')
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "GovernmentOrganization",
+            "@id": "{{ url('/aparatur') }}#organization",
+            "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}",
+            "url": "{{ url('/') }}",
+            "logo": "{{ asset('img/sinjai.png') }}",
+            "employee": [
+                @foreach($officials as $idx => $official)
+                {
+                    "@type": "Person",
+                    "name": "{{ $official->name }}",
+                    "jobTitle": "{{ $official->position }}",
+                    "image": "{{ $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.png') }}"
+                }{{ $idx < count($officials) - 1 ? ',' : '' }}
+                @endforeach
+            ]
+        }
+    ]
+}
+</script>
+@endpush
 
 @section('content')
 

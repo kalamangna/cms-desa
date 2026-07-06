@@ -20,7 +20,7 @@ class OfficialResource extends Resource
 {
     protected static ?string $model = Official::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Profil Desa';
+    protected static string|\UnitEnum|null $navigationGroup = 'Profil';
 
     protected static ?string $navigationLabel = 'Aparatur Desa';
 

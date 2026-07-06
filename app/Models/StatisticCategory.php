@@ -6,10 +6,154 @@ use Illuminate\Database\Eloquent\Model;
 
 class StatisticCategory extends Model
 {
-    protected $fillable = ['name', 'slug', 'description'];
+    protected $fillable = ['name', 'slug', 'description', 'is_active', 'mapping_table', 'mapping_column'];
+
+    protected $casts = [
+        'mapping_column' => 'array',
+    ];
 
     public function indicators()
     {
         return $this->hasMany(StatisticIndicator::class);
+    }
+
+    /** Daftar tabel yang diizinkan untuk mapping dinamis. */
+    const ALLOWED_TABLES = ['citizens', 'families'];
+
+    /** Daftar kolom yang diizinkan per tabel. */
+    const ALLOWED_COLUMNS = [
+        'citizens' => [
+            'gender', 'education_level', 'job', 'marital_status', 'family_relation',
+            'school_participation', 'disability_physical', 'disability_mental',
+            'disability_intellectual', 'disability_blind', 'disability_deaf',
+            'disability_speech', 'illness_hypertension', 'illness_rheumatic',
+            'illness_asthma', 'illness_heart', 'illness_diabetes', 'illness_tbc',
+            'illness_stroke', 'illness_cancer', 'illness_kidney', 'illness_hemophilia',
+            'illness_hiv', 'illness_cholesterol', 'illness_liver', 'illness_thalassemia',
+            'illness_leukemia', 'illness_alzheimer', 'illness_other',
+            'has_digital_wallet', 'has_income', 'pip_status', 'bpjs_status', 'citizenship_status',
+        ],
+        'families' => [
+            'assistance_type', 'ownership_status', 'building_type', 'ownership_proof',
+            'water_source', 'lighting_source', 'floor_material', 'wall_material',
+            'roof_material', 'toilet_facility', 'closet_type', 'address_matches_kk',
+        ],
+    ];
+
+    protected static function booted()
+    {
+        static::saving(function ($category) {
+            if (empty($category->slug) || $category->isDirty('name')) {
+                $category->slug = \Illuminate\Support\Str::slug($category->name);
+            }
+        });
+
+        static::saved(function ($category) {
+            if ($category->mapping_table && !empty($category->mapping_column)) {
+                $columns = is_array($category->mapping_column) 
+                    ? $category->mapping_column 
+                    : (json_decode($category->mapping_column, true) ?: [$category->mapping_column]);
+
+                if (! in_array($category->mapping_table, self::ALLOWED_TABLES, true)) {
+                    return;
+                }
+                $allowedColumns = self::ALLOWED_COLUMNS[$category->mapping_table] ?? [];
+                $labels = self::getColumnLabels();
+
+                // Delete old indicators
+                $category->indicators()->delete();
+
+                foreach ($columns as $col) {
+                    if (! in_array($col, $allowedColumns, true)) {
+                        continue;
+                    }
+
+                    $unit = $category->mapping_table === 'families' ? 'Keluarga' : 'Orang';
+
+                    if (self::isBooleanColumn($col)) {
+                        $indicatorName = $labels[$col] ?? ucwords(str_replace('_', ' ', $col));
+                        $category->indicators()->create([
+                            'name' => $indicatorName,
+                            'unit' => $unit,
+                            'mapping_column' => $col,
+                            'mapping_operator' => '=',
+                            'mapping_value' => '1',
+                        ]);
+                    } else {
+                        $query = \Illuminate\Support\Facades\DB::table($category->mapping_table)
+                            ->whereNotNull($col)
+                            ->where($col, '!=', '');
+
+                        if ($category->mapping_table === 'citizens') {
+                            $query->where('status', 'Aktif');
+                        }
+
+                        $values = $query->distinct()->pluck($col)->toArray();
+
+                        foreach ($values as $val) {
+                            $valStr = trim((string)$val);
+                            if ($valStr === '') continue;
+
+                            $indicatorName = $valStr;
+                            $mappingValue = $valStr;
+
+                            $category->indicators()->create([
+                                'name' => $indicatorName,
+                                'unit' => $unit,
+                                'mapping_column' => $col,
+                                'mapping_operator' => '=',
+                                'mapping_value' => $mappingValue,
+                            ]);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public static function getColumnLabels(): array
+    {
+        return [
+            // citizens
+            'gender' => 'Jenis Kelamin',
+            'education_level' => 'Tingkat Pendidikan Terakhir',
+            'job' => 'Pekerjaan/Profesi',
+            'disability_physical' => 'Disabilitas Fisik',
+            'disability_mental' => 'Disabilitas Mental',
+            'disability_intellectual' => 'Disabilitas Intelektual',
+            'disability_blind' => 'Disabilitas Sensorik Netra',
+            'disability_deaf' => 'Disabilitas Sensorik Rungu',
+            'disability_speech' => 'Disabilitas Sensorik Wicara',
+            'illness_hypertension' => 'Penyakit Hipertensi',
+            'illness_rheumatic' => 'Penyakit Rematik',
+            'illness_asthma' => 'Penyakit Asma',
+            'illness_heart' => 'Penyakit Jantung',
+            'illness_diabetes' => 'Penyakit Diabetes',
+            'illness_tbc' => 'Penyakit TBC',
+            'illness_stroke' => 'Penyakit Stroke',
+            'illness_cancer' => 'Penyakit Kanker',
+            'illness_kidney' => 'Penyakit Gagal Ginjal',
+            'illness_cholesterol' => 'Penyakit Kolesterol',
+            'illness_other' => 'Penyakit Lainnya',
+            'has_digital_wallet' => 'Kepemilikan Dompet Digital/Rekening',
+            
+            // families
+            'assistance_type' => 'Jenis Bantuan Sosial',
+            'ownership_status' => 'Status Kepemilikan Rumah',
+            'building_type' => 'Jenis Bangunan',
+            'ownership_proof' => 'Bukti Kepemilikan Rumah',
+            'water_source' => 'Sumber Air Minum',
+            'lighting_source' => 'Sumber Penerangan',
+        ];
+    }
+
+    public static function isBooleanColumn(?string $column): bool
+    {
+        if (empty($column)) return false;
+        return str_starts_with($column, 'disability_') ||
+               str_starts_with($column, 'illness_') ||
+               str_starts_with($column, 'has_') ||
+               $column === 'address_matches_kk' ||
+               $column === 'pip_status';
     }
 }

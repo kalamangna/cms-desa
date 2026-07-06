@@ -10,110 +10,89 @@ class StatisticController extends Controller
 {
     public function index()
     {
-        $categories = StatisticCategory::with(['indicators.data' => function($query) {
-            $query->orderBy('year', 'asc');
-        }])->get();
+        // Ambil semua kategori aktif beserta indikator dan data historis dari DB
+        $categories = StatisticCategory::where('is_active', true)
+            ->with(['indicators.data' => function ($query) {
+                $query->orderBy('year', 'asc');
+            }])->get();
 
         $currentYear = date('Y');
-        foreach ($categories as $category) {
-            foreach ($category->indicators as $indicator) {
-                    $value = 0;
-                    if ($category->name === 'Penduduk') {
-                        if (strpos(strtolower($indicator->name), 'laki-laki') !== false) {
-                            $value = \App\Models\Citizen::where('status', 'Aktif')->where('gender', 'Laki-laki')->count();
-                        } elseif (strpos(strtolower($indicator->name), 'perempuan') !== false) {
-                            $value = \App\Models\Citizen::where('status', 'Aktif')->where('gender', 'Perempuan')->count();
-                        }
-                    } elseif ($category->name === 'Pendidikan') {
-                        $value = \App\Models\Citizen::where('status', 'Aktif')
-                            ->where(function($q) use ($indicator) {
-                                $q->where('education_level', 'LIKE', '%' . $indicator->name . '%')
-                                  ->orWhere('education', 'LIKE', '%' . $indicator->name . '%');
-                            })->count();
-                    } elseif ($category->name === 'Pekerjaan') {
-                        if ($indicator->name === 'Lainnya') {
-                            $value = \App\Models\Citizen::where('status', 'Aktif')
-                                ->where(function($q) {
-                                    $q->whereNotIn('job', ['Petani', 'Wiraswasta', 'PNS', 'Buruh', 'Tidak Bekerja'])
-                                      ->orWhereNull('job');
-                                })
-                                ->count();
-                        } else {
-                            $value = \App\Models\Citizen::where('status', 'Aktif')
-                                ->where('job', 'LIKE', '%' . $indicator->name . '%')
-                                ->count();
-                        }
-                    } elseif ($category->name === 'Disabilitas') {
-                        $col = null;
-                        if ($indicator->name === 'Disabilitas Fisik') $col = 'disability_physical';
-                        elseif ($indicator->name === 'Disabilitas Mental') $col = 'disability_mental';
-                        elseif ($indicator->name === 'Disabilitas Intelektual') $col = 'disability_intellectual';
-                        elseif ($indicator->name === 'Disabilitas Sensorik Netra') $col = 'disability_blind';
-                        elseif ($indicator->name === 'Disabilitas Sensorik Rungu') $col = 'disability_deaf';
-                        elseif ($indicator->name === 'Disabilitas Sensorik Wicara') $col = 'disability_speech';
 
-                        if ($col) {
-                            $value = \App\Models\Citizen::where('status', 'Aktif')->where($col, 'Ya')->count();
-                        }
-                    } elseif ($category->name === 'Penyakit Kronis') {
-                        $columnMap = [
-                            'Hipertensi' => 'illness_hypertension',
-                            'Rematik' => 'illness_rheumatic',
-                            'Asma' => 'illness_asthma',
-                            'Masalah Jantung' => 'illness_heart',
-                            'Diabetes' => 'illness_diabetes',
-                            'TBC' => 'illness_tbc',
-                            'Stroke' => 'illness_stroke',
-                            'Kanker' => 'illness_cancer',
-                            'Gagal Ginjal' => 'illness_kidney',
-                            'Kolesterol' => 'illness_cholesterol',
-                            'Lainnya' => 'illness_other',
-                        ];
-                        $col = $columnMap[$indicator->name] ?? null;
-                        if ($col) {
-                            $value = \App\Models\Citizen::where('status', 'Aktif')->where($col, 'Ya')->count();
-                        }
-                    } elseif ($category->name === 'Bantuan Sosial') {
-                        if ($indicator->name === 'Penerima Bantuan') {
-                            $value = \App\Models\Family::whereNotNull('assistance_type')
-                                ->where('assistance_type', '!=', '')
-                                ->where('assistance_type', '!=', 'Tidak Ada')
-                                ->where('assistance_type', '!=', 'Tidak')
-                                ->count();
-                        } else {
-                            $value = \App\Models\Family::where(function($q) {
-                                $q->whereNull('assistance_type')
-                                  ->orWhere('assistance_type', '')
-                                  ->orWhere('assistance_type', 'Tidak Ada')
-                                  ->orWhere('assistance_type', 'Tidak');
-                            })->count();
-                        }
-                    } elseif ($category->name === 'Kepemilikan Rumah') {
-                        if ($indicator->name === 'Milik Sendiri') {
-                            $value = \App\Models\Family::where('ownership_status', 'Milik sendiri')->count();
-                        } elseif ($indicator->name === 'Sewa/Kontrak') {
-                            $value = \App\Models\Family::where(function($q) {
-                                $q->where('ownership_status', 'LIKE', '%Sewa%')
-                                  ->orWhere('ownership_status', 'LIKE', '%Kontrak%');
-                            })->count();
-                        } else {
-                            $value = \App\Models\Family::whereNotIn('ownership_status', ['Milik sendiri'])
-                                ->where('ownership_status', 'NOT LIKE', '%Sewa%')
-                                ->where('ownership_status', 'NOT LIKE', '%Kontrak%')
-                                ->count();
-                        }
-                    } else {
-                        // Fallback to existing data point if no custom rule
-                        continue;
-                    }
- 
-                    $newData = new \App\Models\StatisticData([
-                        'year' => $currentYear,
-                        'value' => $value,
-                    ]);
-                    $indicator->setRelation('data', collect([$newData]));
-                }
+        foreach ($categories as $category) {
+            // Guard: lewati kategori yang mapping_table-nya tidak valid
+            if (! $category->mapping_table) {
+                continue;
             }
+            if (! in_array($category->mapping_table, StatisticCategory::ALLOWED_TABLES, true)) {
+                continue;
+            }
+            $allowedColumns = StatisticCategory::ALLOWED_COLUMNS[$category->mapping_table] ?? [];
+
+            foreach ($category->indicators as $indicator) {
+                // Guard: lewati indikator dengan mapping_column tidak dalam whitelist
+                if (! $indicator->mapping_column
+                    || ! in_array($indicator->mapping_column, $allowedColumns, true)) {
+                    continue;
+                }
+
+                // Hitung nilai real-time dari DB untuk tahun ini
+                $query = $category->mapping_table === 'families'
+                    ? \App\Models\Family::query()
+                    : \App\Models\Citizen::query();
+
+                if ($category->mapping_table === 'citizens') {
+                    $query->where('status', 'Aktif');
+                }
+
+                $operator = $indicator->mapping_operator ?: '=';
+                $val      = $indicator->mapping_value;
+
+                if ($operator === 'LIKE') {
+                    $query->where($indicator->mapping_column, 'LIKE', '%' . $val . '%');
+                } elseif ($operator === 'whereNotNull') {
+                    $query->whereNotNull($indicator->mapping_column)
+                          ->where($indicator->mapping_column, '!=', '')
+                          ->where($indicator->mapping_column, '!=', 'Tidak Ada')
+                          ->where($indicator->mapping_column, '!=', 'Tidak');
+                } elseif ($operator === 'whereNullOrTidak') {
+                    $query->where(function ($q) use ($indicator) {
+                        $q->whereNull($indicator->mapping_column)
+                          ->orWhere($indicator->mapping_column, '')
+                          ->orWhere($indicator->mapping_column, 'Tidak Ada')
+                          ->orWhere($indicator->mapping_column, 'Tidak');
+                    });
+                } elseif ($operator === 'whereNotIn') {
+                    $arr = array_map('trim', explode(',', (string) $val));
+                    $query->where(function ($q) use ($indicator, $arr) {
+                        $q->whereNotIn($indicator->mapping_column, $arr)
+                          ->orWhereNull($indicator->mapping_column);
+                    });
+                } else {
+                    // Operator '=' — jika mapping_value null, gunakan whereNull
+                    if (is_null($val)) {
+                        $query->whereNull($indicator->mapping_column);
+                    } else {
+                        $query->where($indicator->mapping_column, $operator, $val);
+                    }
+                }
+
+                $liveValue = $query->count();
+
+                // Buat objek StatisticData sementara untuk data real-time tahun ini
+                $liveData = new \App\Models\StatisticData([
+                    'year'  => $currentYear,
+                    'value' => $liveValue,
+                ]);
+
+                // Pertahankan data historis dari DB; replace/tambahkan entry tahun ini saja
+                $historicalData = $indicator->data->filter(
+                    fn ($d) => (int) $d->year !== (int) $currentYear
+                );
+                $mergedData = $historicalData->push($liveData)->sortBy('year')->values();
+
+                $indicator->setRelation('data', $mergedData);
+            }
+        }
 
         $datasets = Dataset::latest()->take(3)->get();
 

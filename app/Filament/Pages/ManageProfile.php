@@ -23,7 +23,7 @@ class ManageProfile extends Page implements HasForms
     use InteractsWithForms;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
-    protected static string|\UnitEnum|null $navigationGroup = 'Profil Desa';
+    protected static string|\UnitEnum|null $navigationGroup = 'Profil';
     protected static ?string $title = 'Profil Desa';
     protected static ?string $navigationLabel = 'Profil Desa';
     protected static ?int $navigationSort = 1;

@@ -20,6 +20,11 @@ class DusunsTable
                 TextColumn::make('citizens_count')->label('Jumlah Penduduk')
                     ->counts('citizens')
                     ->sortable(),
+                TextColumn::make('geojson')
+                    ->label('Status Spasial')
+                    ->state(fn ($record) => $record->geojson ? 'Terpetakan' : 'Belum')
+                    ->badge()
+                    ->color(fn ($state) => $state === 'Terpetakan' ? 'success' : 'gray'),
                 TextColumn::make('created_at')->label('Dibuat')->dateTime()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([

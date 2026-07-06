@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Layanan | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Temukan prosedur, persyaratan, dan cara pengajuan layanan administrasi dan publik Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_description', 'Panduan standar operasional prosedur, persyaratan berkas, dan jenis layanan administrasi kependudukan pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.png'))
 
 @section('content')

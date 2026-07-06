@@ -17,6 +17,12 @@ class BudgetRealization extends Model
         'realization_amount',
     ];
 
+    protected $casts = [
+        'budget_amount'      => 'float',
+        'realization_amount' => 'float',
+        'year'               => 'integer',
+    ];
+
     public function category()
     {
         return $this->belongsTo(BudgetCategory::class, 'budget_category_id');
@@ -28,18 +34,18 @@ class BudgetRealization extends Model
             return 0;
         }
 
-        return ($this->realization_amount / $this->budget_amount) * 100;
+        return min(($this->realization_amount / $this->budget_amount) * 100, 100);
     }
 
     protected static function booted()
     {
-        static::saved(function () {
-            \Illuminate\Support\Facades\Cache::forget('home_budget_summary');
-            \Illuminate\Support\Facades\Cache::forget('home_belanja_details');
-        });
-        static::deleted(function () {
-            \Illuminate\Support\Facades\Cache::forget('home_budget_summary');
-            \Illuminate\Support\Facades\Cache::forget('home_belanja_details');
-        });
+        $clearCache = function ($realization) {
+            $year = $realization->year ?? date('Y');
+            \Illuminate\Support\Facades\Cache::forget("home_budget_summary_{$year}");
+            \Illuminate\Support\Facades\Cache::forget("home_belanja_details_{$year}");
+        };
+
+        static::saved($clearCache);
+        static::deleted($clearCache);
     }
 }

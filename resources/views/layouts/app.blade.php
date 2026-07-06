@@ -7,7 +7,7 @@
 
     <!-- SEO Meta Tags -->
     <title>@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))</title>
-    <meta name="description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan informasi berita, statistik, dan transparansi anggaran desa.')">
+    <meta name="description" content="@yield('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan pelayanan publik, publikasi berita pembangunan, transparansi anggaran, dan statistik kependudukan secara akurat.')">
     <meta name="keywords" content="@yield('meta_keywords', 'desa, ' . ($site_settings['village_name'] ?? '') . ', ' . ($site_settings['district_name'] ?? '') . ', statistik desa, apbdes, pemerintah desa')">
     <meta name="author" content="Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}">
     <meta name="robots" content="index, follow">
@@ -24,7 +24,7 @@
     <meta property="og:locale" content="id_ID">
     <meta property="og:url" content="@yield('canonical', url()->current())">
     <meta property="og:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
-    <meta property="og:description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '.')">
+    <meta property="og:description" content="@yield('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')">
     <meta property="og:image" content="@yield('meta_image', asset('img/meta.png'))">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -33,7 +33,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
-    <meta name="twitter:description" content="@yield('meta_description', 'Website Resmi Desa ' . ($site_settings['village_name'] ?? '') . '.')">
+    <meta name="twitter:description" content="@yield('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')">
     <meta name="twitter:image" content="@yield('meta_image', asset('img/meta.png'))">
 
     <!-- JSON-LD: Organization + WebSite (global) -->
@@ -170,6 +170,26 @@
         }
     </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Dynamic Primary Color Theme Styles -->
+    @if(isset($site_settings['primary_color']))
+    <style>
+        :root {
+            --primary-base: {{ $site_settings['primary_color'] }};
+            --color-emerald-50: color-mix(in srgb, var(--primary-base) 5%, #ffffff);
+            --color-emerald-100: color-mix(in srgb, var(--primary-base) 10%, #ffffff);
+            --color-emerald-200: color-mix(in srgb, var(--primary-base) 20%, #ffffff);
+            --color-emerald-300: color-mix(in srgb, var(--primary-base) 30%, #ffffff);
+            --color-emerald-400: color-mix(in srgb, var(--primary-base) 50%, #ffffff);
+            --color-emerald-500: var(--primary-base);
+            --color-emerald-600: color-mix(in srgb, var(--primary-base) 85%, #000000);
+            --color-emerald-700: color-mix(in srgb, var(--primary-base) 70%, #000000);
+            --color-emerald-800: color-mix(in srgb, var(--primary-base) 55%, #000000);
+            --color-emerald-900: color-mix(in srgb, var(--primary-base) 40%, #000000);
+            --color-emerald-950: color-mix(in srgb, var(--primary-base) 25%, #000000);
+        }
+    </style>
+    @endif
 </head>
 
 <body class="bg-slate-50 flex flex-col min-h-screen font-sans text-slate-900">
@@ -191,7 +211,7 @@
             <div class="flex gap-6 items-center">
                 @auth
                 <div class="flex items-center gap-6">
-                    <a href="/admin" class="hover:text-emerald-400 transition flex items-center gap-2">
+                    <a href="/admin" target="_blank" class="hover:text-emerald-400 transition flex items-center gap-2">
                         <i class="fa-solid fa-table-cells-large text-[10px]"></i>
                         Panel Admin
                     </a>
@@ -204,7 +224,7 @@
                     </form>
                 </div>
                 @else
-                <a href="/admin/login" class="hover:text-emerald-400 transition flex items-center gap-2">
+                <a href="/admin/login" target="_blank" class="hover:text-emerald-400 transition flex items-center gap-2">
                     <i class="fa-solid fa-user text-[10px]"></i>
                     Login Sistem &rarr;
                 </a>
@@ -259,9 +279,9 @@
 
                     <!-- Profil Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'profil'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('peta*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
                             Profil <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('peta*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
                         <div x-show="openMenu === 'profil'"
                             x-transition:enter="transition ease-out duration-150"
@@ -274,6 +294,7 @@
                             <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Profil Desa</a>
                             <a href="/aparatur" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Aparatur Desa</a>
                             <a href="/lembaga" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Lembaga Desa</a>
+                            <a href="/peta" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Peta Spasial</a>
                         </div>
                     </div>
 
@@ -356,6 +377,7 @@
                     <a href="/profil" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('profil*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Profil Desa</a>
                     <a href="/aparatur" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('aparatur*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Aparatur Desa</a>
                     <a href="/lembaga" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('lembaga*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Lembaga Desa</a>
+                    <a href="/peta" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('peta*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Peta Spasial</a>
                 </div>
 
                 <!-- Data Section -->
@@ -378,7 +400,7 @@
                 <div class="pt-6 border-t border-slate-100 mt-4">
                     @auth
                     <div class="flex flex-col gap-3">
-                        <a href="/admin" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
+                        <a href="/admin" target="_blank" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
                             <i class="fa-solid fa-table-cells-large"></i>
                             Panel Admin
                         </a>
@@ -391,7 +413,7 @@
                         </form>
                     </div>
                     @else
-                    <a href="/admin/login" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
+                    <a href="/admin/login" target="_blank" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
                         <i class="fa-solid fa-user"></i>
                         Login Sistem
                     </a>
@@ -422,11 +444,11 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-heading font-bold tracking-tight">{{ $site_settings['village_name'] ?? 'Website Desa' }}</h3>
-                            <p class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold">Portal Resmi Desa</p>
+                            <p class="text-[10px] uppercase tracking-widest text-emerald-500 font-bold">Portal Resmi Desa</p>
                         </div>
                     </div>
                     <p class="text-slate-400 text-sm leading-relaxed mb-8 font-medium max-w-sm">
-                        Website resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} — menyajikan informasi, transparansi anggaran, dan layanan publik yang mudah diakses oleh seluruh warga.
+                        Portal resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} untuk keterbukaan informasi dan pelayanan publik.
                     </p>
                     <div class="flex gap-3">
                         <a href="{{ $site_settings['social_facebook'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Facebook">
@@ -443,23 +465,23 @@
 
                 <!-- Kontak -->
                 <div class="lg:col-span-2">
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Kontak Kami</h4>
+                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-500">Kontak Kami</h4>
                     <ul class="space-y-4 text-sm text-slate-400 font-medium">
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-location-dot text-emerald-400 text-xs"></i>
+                                <i class="fa-solid fa-location-dot text-emerald-500 text-xs"></i>
                             </span>
                             <span>{{ $site_settings['village_address'] ?? '-' }}</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-envelope text-emerald-400 text-xs"></i>
+                                <i class="fa-solid fa-envelope text-emerald-500 text-xs"></i>
                             </span>
                             <span class="truncate">{{ $site_settings['village_email'] ?? '-' }}</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-phone text-emerald-400 text-xs"></i>
+                                <i class="fa-solid fa-phone text-emerald-500 text-xs"></i>
                             </span>
                             <span>{{ $site_settings['village_phone'] ?? '-' }}</span>
                         </li>
@@ -468,12 +490,12 @@
 
                 <!-- Statistik Pengunjung -->
                 <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Statistik Pengunjung</h4>
+                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-500">Statistik Pengunjung</h4>
                     @if(isset($visitor_stats))
                     <ul class="space-y-4 text-sm text-slate-400 font-medium">
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-users text-emerald-400 text-xs animate-pulse"></i>
+                                <i class="fa-solid fa-users text-emerald-500 text-xs animate-pulse"></i>
                             </span>
                             <span>Hari Ini: <strong class="text-white">{{ number_format($visitor_stats['today'], 0, ',', '.') }}</strong></span>
                         </li>
@@ -485,9 +507,9 @@
                         </li>
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-chart-line text-emerald-400 text-xs"></i>
+                                <i class="fa-solid fa-chart-line text-emerald-500 text-xs"></i>
                             </span>
-                            <span>Total Pengunjung: <strong class="text-emerald-400">{{ number_format($visitor_stats['total'], 0, ',', '.') }}</strong></span>
+                            <span>Total Pengunjung: <strong class="text-emerald-500">{{ number_format($visitor_stats['total'], 0, ',', '.') }}</strong></span>
                         </li>
                     </ul>
                     @else
@@ -500,9 +522,9 @@
             <!-- Bottom bar -->
             <div class="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-slate-500 text-xs font-semibold">
-                    &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}. Semua hak dilindungi.
+                    &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}.
                 </p>
-                <p class="text-slate-600 text-xs font-bold uppercase tracking-[0.15em]">
+                <p class="text-slate-600 text-[10px] font-bold uppercase tracking-[0.15em]">
                     Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-emerald-500 hover:text-emerald-300 transition">kalamangna</a>
                 </p>
             </div>

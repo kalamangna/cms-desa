@@ -18,7 +18,7 @@ class InstitutionResource extends Resource
 {
     protected static ?string $model = Institution::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Profil Desa';
+    protected static string|\UnitEnum|null $navigationGroup = 'Profil';
 
     protected static ?string $navigationLabel = 'Lembaga Desa';
 

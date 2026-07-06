@@ -22,7 +22,7 @@ class BudgetCategoryResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Master';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
 
     public static function getModelLabel(): string
     {

@@ -73,7 +73,7 @@ class CitizenForm
                                         TextInput::make('education_level')->label('Ijazah Tertinggi yang Dimiliki'),
                                         TextInput::make('bpjs_status')->label('Kepesertaan JKN KIS (BPJS)'),
                                         Select::make('pip_status')->label('Menerima Bantuan PIP?')
-                                            ->options(['Ya' => 'Ya', 'Tidak' => 'Tidak']),
+                                            ->options([1 => 'Ya', 0 => 'Tidak']),
                                     ]),
                             ]),
                         
@@ -84,7 +84,7 @@ class CitizenForm
                                         TextInput::make('job')->label('Profesi Pekerjaan Utama'),
                                         TextInput::make('job_status')->label('Kedudukan dalam Pekerjaan Utama'),
                                         Select::make('has_income')->label('Apakah Memiliki Pendapatan?')
-                                            ->options(['Ya' => 'Ya', 'Tidak' => 'Tidak']),
+                                            ->options([1 => 'Ya', 0 => 'Tidak']),
                                         TextInput::make('income_salary')->label('Gaji/Upah Sebulan (Rp)')->numeric()->default(0),
                                         TextInput::make('income_allowance')->label('Tunjangan Sebulan (Rp)')->numeric()->default(0),
                                         TextInput::make('income_food')->label('Uang Makan Sebulan (Rp)')->numeric()->default(0),
@@ -101,34 +101,34 @@ class CitizenForm
                                 Grid::make(2)
                                     ->schema([
                                         // Disabilitas
-                                        Select::make('disability_physical')->label('Disabilitas Fisik')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('disability_mental')->label('Disabilitas Mental')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('disability_intellectual')->label('Disabilitas Intelektual')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('disability_blind')->label('Disabilitas Sensorik Netra')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('disability_deaf')->label('Disabilitas Sensorik Rungu')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('disability_speech')->label('Disabilitas Sensorik Wicara')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
+                                        Select::make('disability_physical')->label('Disabilitas Fisik')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('disability_mental')->label('Disabilitas Mental')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('disability_intellectual')->label('Disabilitas Intelektual')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('disability_blind')->label('Disabilitas Sensorik Netra')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('disability_deaf')->label('Disabilitas Sensorik Rungu')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('disability_speech')->label('Disabilitas Sensorik Wicara')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
                                     ]),
                                 
                                 Grid::make(3)
                                     ->schema([
                                         // Keluhan Kesehatan Kronis
-                                        Select::make('illness_hypertension')->label('Hipertensi')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_rheumatic')->label('Rematik')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_asthma')->label('Asma')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_heart')->label('Masalah Jantung')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_diabetes')->label('Diabetes')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_tbc')->label('TBC')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_stroke')->label('Stroke')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Official/Tidak'),
-                                        Select::make('illness_cancer')->label('Kanker')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_kidney')->label('Gagal Ginjal')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_hemophilia')->label('Hemofilia')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_hiv')->label('HIV/AIDS')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_cholesterol')->label('Kolesterol')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_liver')->label('Sirosis Hati')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_thalassemia')->label('Talasemia')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_leukemia')->label('Leukemia')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_alzheimer')->label('Alzheimer')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
-                                        Select::make('illness_other')->label('Penyakit Kronis Lainnya')->options(['Ya' => 'Ya', 'Tidak' => 'Tidak'])->default('Tidak'),
+                                        Select::make('illness_hypertension')->label('Hipertensi')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_rheumatic')->label('Rematik')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_asthma')->label('Asma')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_heart')->label('Masalah Jantung')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_diabetes')->label('Diabetes')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_tbc')->label('TBC')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_stroke')->label('Stroke')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_cancer')->label('Kanker')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_kidney')->label('Gagal Ginjal')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_hemophilia')->label('Hemofilia')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_hiv')->label('HIV/AIDS')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_cholesterol')->label('Kolesterol')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_liver')->label('Sirosis Hati')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_thalassemia')->label('Talasemia')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_leukemia')->label('Leukemia')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_alzheimer')->label('Alzheimer')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                        Select::make('illness_other')->label('Penyakit Kronis Lainnya')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
                                     ]),
                             ]),
 
@@ -151,8 +151,8 @@ class CitizenForm
                                             ]),
                                         Select::make('has_digital_wallet')->label('Rekening / Dompet Digital Aktif')
                                             ->options([
-                                                'Ya' => 'Ya',
-                                                'Tidak' => 'Tidak',
+                                                1 => 'Ya',
+                                                0 => 'Tidak',
                                             ]),
                                         Select::make('status')->label('Status Keaktifan')
                                             ->options([

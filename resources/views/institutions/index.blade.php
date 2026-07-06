@@ -1,8 +1,34 @@
 @extends('layouts.app')
 
-@section('title', 'Lembaga Desa | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Informasi lembaga-lembaga kemasyarakatan Desa ' . ($site_settings['village_name'] ?? '') . ' yang berperan aktif dalam pembangunan dan pemberdayaan masyarakat desa.')
+@section('title', 'Lembaga | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
+@section('meta_description', 'Profil dan direktori lembaga kemasyarakatan di wilayah Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' yang bermitra dalam pembangunan daerah.')
 @section('meta_image', asset('img/meta.png'))
+
+@push('head')
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "GovernmentOrganization",
+            "@id": "{{ url('/lembaga') }}#organization",
+            "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}",
+            "url": "{{ url('/') }}",
+            "logo": "{{ asset('img/sinjai.png') }}",
+            "subOrganization": [
+                @foreach($institutions as $idx => $institution)
+                {
+                    "@type": "Organization",
+                    "name": "{{ $institution->name }}",
+                    "logo": "{{ $institution->logo ? asset('storage/' . $institution->logo) : asset('img/meta.png') }}"
+                }{{ $idx < count($institutions) - 1 ? ',' : '' }}
+                @endforeach
+            ]
+        }
+    ]
+}
+</script>
+@endpush
 
 @section('content')
 

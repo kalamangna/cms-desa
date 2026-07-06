@@ -37,9 +37,10 @@ class FamilyForm
                                         TextInput::make('rw')->label('RW'),
                                         Select::make('address_matches_kk')->label('Alamat Sesuai KK?')
                                             ->options([
-                                                'Ya Sesuai KK' => 'Ya Sesuai KK',
-                                                'Tidak Sesuai KK' => 'Tidak Sesuai KK',
-                                            ]),
+                                                1 => 'Ya Sesuai KK',
+                                                0 => 'Tidak Sesuai KK',
+                                            ])
+                                            ->formatStateUsing(fn ($state) => $state ? 1 : 0),
                                         TextInput::make('assistance_type')->label('Jenis Bantuan Diterima (e.g. PKH, BPNT)'),
                                         TextInput::make('family_member_count')->label('Jumlah Anggota Keluarga (Tinggal Bersama)')
                                             ->numeric()

@@ -2,6 +2,110 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.7.2] - 2026-07-06
+
+### Added
+- **Migrasi Penuh ke ApexCharts**:
+  - Mengubah visualisasi grafik dari Chart.js ke ApexCharts di halaman Beranda (`home.blade.php`), Statistik (`statistics/index.blade.php`), dan APBDes (`apbdes/index.blade.php`).
+  - Menambahkan list checkbox dinamis dan reaktif (**CheckboxList**) untuk pemetaan kolom kuesioner kependudukan dan keluarga pada form kategori statistik di panel admin Filament.
+  - Menambahkan validasi minimal memilih 1 kolom pemetaan pada kategori statistik.
+- **Logika Pengurutan Data Sektoral (Chart Sorting Logic)**:
+  - Menerapkan pengurutan data nominal secara otomatis berdasarkan nilai tahun berjalan terbesar ke terkecil.
+  - Menerapkan pengurutan data ordinal secara ketat berdasarkan tingkatan hierarki tingkat pendidikan untuk kategori *Pendidikan* dan urutan gender konsisten (*Laki-laki* $\rightarrow$ *Perempuan*) untuk kategori *Penduduk*.
+
+### Fixed
+- **Type mismatch pencocokan tahun pada grafik**: Mengubah pembanding tahun di JavaScript menjadi tipe data `Number` untuk mengatasi masalah data jumlah penduduk yang bernilai nol (tidak muncul).
+- **Pembatasan Koordinat Desimal Y-Axis**: Menyembunyikan tick label desimal pecahan dan memaksa sumbu Y dimulai dari nol (`min: 0`) pada grafik tren.
+- **Kesalahan Casting Collection Laravel**: Memperbaiki `TypeError` di halaman Beranda dengan mengonversi Collection Laravel `$belanjaChartData` ke array float secara aman.
+- **PHP Syntax Fatal Error**: Memparentesis nested ternary operator di model `StatisticCategory.php`.
+- **Interaktivitas Dropdown Pemetaan**: Menambahkan method `live()` pada field `mapping_table` di panel admin agar checkbox kolom termuat instan setelah dropdown dipilih.
+
+### Changed
+- **Pembersihan Tampilan Grafik**:
+  - Menghapus card ringkasan indikator (nilai terkini) di atas grafik sesuai permintaan pengguna, serta memulihkan card informasi kategori.
+  - Mengembalikan styling default ApexCharts yang bersih, termasuk menampilkan garis pembatas potongan donat (`stroke: { width: 2 }`) dan menonaktifkan area fill gradasi pada grafik garis.
+  - Menghapus kolom desimal `.0` pada label rupiah ringkasan anggaran belanja desa.
+  - Menghapus komponen repeater manual indikator dari form admin untuk menyederhanakan formulir karena pemetaan kolom otomatis telah dihandle checkbox.
+
+## [1.7.1] - 2026-07-06
+
+### Added
+- **Fitur Pemilihan Tema Warna Dinamis (Dynamic Primary Color Theme Selector)**:
+  - Menambahkan input `Radio` dengan preview lingkaran warna (swatches) pada tab baru **"Tampilan & Tema"** di halaman Pengaturan admin Filament (`ManageSettings.php`) menggunakan wrapper `HtmlString` (default: `#10b981`).
+  - Pilihan warna preset siap pakai yang disediakan meliputi: Hijau Emerald, Biru Samudra, Merah Kebangsaan, Jingga Senja, dan Ungu Klasik.
+  - Menyuntikkan style inline dynamic pada `<head>` di layout utama (`layouts/app.blade.php`) untuk meng-override CSS variables emerald bawaan Tailwind CSS (`--color-emerald-50` s/d `950`) menggunakan CSS modern `color-mix()` dari warna dasar pilihan admin.
+  - Merefaktor file global `app.css` agar element `.prose` menggunakan CSS custom variables alih-alih nilai hex warna emerald keras (*hardcoded hex*).
+
+### Fixed
+- **Cache Invalidasi Penduduk Tidak Lengkap (`Citizen`)**: Menambahkan `Cache::forget` untuk key `home_laki_laki_count`, `home_perempuan_count`, dan `profil_total_penduduk` pada event `saved` dan `deleted` model `Citizen`. Sebelumnya, saat data penduduk berubah, statistik gender di halaman beranda dan jumlah penduduk di halaman profil bisa menampilkan data lama hingga 1 jam.
+- **Cache Budget Tidak Menyertakan Tahun (`HomeController`, `BudgetRealization`)**: Mengubah cache key `home_budget_summary` dan `home_belanja_details` menjadi menyertakan tahun (contoh: `home_budget_summary_2026`). Ini mencegah data anggaran tahun lama ditampilkan saat tahun berganti sebelum TTL cache habis. Juga memperbarui hook `BudgetRealization::booted()` agar meng-invalidate cache key yang menyertakan tahun dari record yang diubah.
+- **SQL Column Injection — Whitelist Validasi (`StatisticCategory`, `StatisticController`)**: Menambahkan konstanta `ALLOWED_TABLES` dan `ALLOWED_COLUMNS` pada model `StatisticCategory` sebagai whitelist tabel dan kolom yang diizinkan untuk mapping dinamis. Guard validasi ditambahkan di `StatisticCategory::saved()` dan `StatisticController::index()` sebelum query dinamis dijalankan, mencegah akses ke tabel/kolom yang tidak sah.
+- **Data Historis Statistik Tertimpa (`StatisticController`)**: Refactor logika `StatisticController::index()` agar data historis dari database dipertahankan. Sebelumnya, seluruh relasi `data` pada setiap indikator digantikan hanya dengan data real-time tahun ini (`setRelation` destruktif). Sekarang data historis dipertahankan dan hanya entry tahun berjalan yang di-replace/ditambahkan. Juga menambahkan null-safe check untuk `mapping_value` null dengan operator `=` (kini menggunakan `whereNull`).
+- **Memory Exhaustion pada Export Dataset (`DatasetController`)**: Mengubah export CSV penduduk dan keluarga dari `->get()` (memuat seluruh record ke RAM) menjadi `->cursor()` (generator/streaming) untuk menghemat memori secara signifikan pada dataset besar. Juga menambahkan allowlist validasi eksplisit untuk parameter `$type` di awal method `download()`.
+- **TypeError PHP 8 pada `Gallery` Model**: Mengganti `strpos($this->image, ...) === false` dengan `!str_contains($this->image, ...)` yang merupakan idiom PHP 8 modern. Meskipun kode lama sudah dilindungi oleh short-circuit `&&`, perubahan ini meningkatkan kejelasan dan konsistensi.
+- **Missing `$casts` pada `BudgetRealization`**: Menambahkan `$casts` untuk `budget_amount` dan `realization_amount` (ke `float`) dan `year` (ke `integer`) agar konsisten dengan operasi aritmatika. Juga memperbaiki `getPercentageAttribute()` agar membatasi nilai maksimum 100% (konsisten dengan logika di `HomeController`).
+
+## [1.7.0] - 2026-07-05
+
+
+### Added
+- **Fitur Peta Spasial Batas Wilayah Per Dusun (Spatial Mapping Per Dusun)**:
+  - Membuat berkas migrasi `2026_07_05_190000_add_spatial_fields_to_dusuns_table.php` untuk menambahkan kolom `geojson` pada tabel `dusuns`.
+  - Membuat berkas migrasi `2026_07_05_191500_drop_color_column_from_dusuns_table.php` untuk menghapus kolom `color` dari tabel `dusuns` (pengaturan warna dipindahkan sepenuhnya ke logika frontend publik).
+  - Membuat controller publik `MapController` dan mendaftarkan rute `/peta` (nama rute: `peta.index`).
+  - Membuat tampilan interaktif halaman publik peta spasial `resources/views/pages/peta.blade.php` berbasis library Leaflet & OpenStreetMap, lengkap dengan pembagian warna otomatis (10 palet warna premium terkurasi secara dinamis di memori), panel navigasi klik-fokus wilayah (zoom-to-bounds) dan info-card statistik demografi dusun (jumlah jiwa penduduk & keluarga) secara riil.
+  - Menghubungkan link navigasi "Peta Spasial" pada dropdown Profil di header menu desktop dan laci menu mobile di layout utama `layouts/app.blade.php`.
+- **Integrasi Peta Spasial Panel Admin Filament**:
+  - Memperbarui model `Dusun` untuk mendukung fillable baru `geojson` dan relasi `families()`.
+  - Menambahkan input `Textarea` untuk penyimpanan koordinat GeoJSON pada skema form `DusunForm` (seluruh komponen pemilihan warna/ColorPicker dihapus untuk penyederhanaan).
+  - Menampilkan visualisasi status pemetaan spasial di halaman list tabel admin `DusunsTable`.
+- **Konversi Tipe Data Boolean Kolom Yes/No (Database Boolean Type Casting)**: Membuat dan menjalankan file migrasi `2026_07_05_170000_convert_yes_no_columns_to_boolean.php` untuk mengubah tipe data seluruh kolom bertipe Ya/Tidak (status BPJS, PIP, kepemilikan rekening, kesesuaian alamat KK, 6 jenis disabilitas, dan 17 jenis penyakit kronis) dari string menjadi tipe data boolean murni (`boolean`), serta mengonversi nilai `"Ya"`/`"Tidak"` yang ada ke `1`/`0`.
+- **Penanganan Konflik Impor & Soft Delete (Import Conflict & Soft Delete Handling)**:
+  - Memperbarui halaman `ListCitizens` dan `ListFamilies` agar pencarian data unik (NIK & Nomor KK) saat proses impor turut menyertakan data yang telah dihapus secara lunak (`withTrashed()`).
+  - Jika data dengan NIK/KK tersebut ditemukan dalam status terhapus (soft-deleted), sistem akan melakukan pengkinian data (*update*) dan memulihkannya kembali (*restore*), mencegah terjadinya kegagalan SQL `UNIQUE constraint failed`.
+  - Mengonfigurasi logika pemeliharaan data (*preserve data*): saat memperbarui data kependudukan/keluarga yang sudah ada di database, sel-sel kosong/null pada baris Excel tidak akan menimpa nilai database yang sudah ada (mencegah terhapusnya data yang telah diedit atau dilengkapi secara manual oleh admin di panel).
+- **Restorasi Kolom BPJS ke String (BPJS Status Type Restoration)**:
+  - Membuat berkas migrasi `2026_07_05_192500_revert_bpjs_status_to_string.php` untuk mengubah tipe data `bpjs_status` kembali menjadi `string` (karena berisi opsi tulisan deskriptif, bukan sekadar Ya/Tidak).
+  - Menghapus cast `boolean` untuk `bpjs_status` pada model `Citizen`.
+- **Penyelarasan Input Form Admin (Admin Form Component Mapping Alignment)**:
+  - Memetakan ulang pilihan komponen `Select` berbasis boolean (seperti PIP, kepemilikan pendapatan/rekening digital, 6 jenis disabilitas, dan 17 penyakit kronis) pada `CitizenForm` dan `FamilyForm` agar menggunakan kunci `1` / `0` (bukan string `"Ya"`/`"Tidak"`). Hal ini memastikan data boolean dari database terpasang dengan benar pada dropdown form saat proses edit dan disimpan kembali tanpa konflik type-casting.
+- **Penyelarasan Parser Nilai Ya/Tidak Impor Excel (Enhanced Yes/No Parser)**:
+  - Memperbarui fungsi pembantu `parseYesNo` pada `ListCitizens` dan `ListFamilies` agar secara cerdas mengenali variasi jawaban positif dalam Bahasa Indonesia seperti `"Ada"` atau `"Ada, yaitu..."` (bukan hanya kata `"Ya"`).
+  - Menyelaraskan kolom `pip_status`, `has_income` (pada `ListCitizens`), dan `address_matches_kk` (pada `ListFamilies`) agar menggunakan parser `parseYesNo` sebelum disimpan ke database, mencegah kesalahan casting string-to-boolean PHP yang otomatis menganggap kata `"Tidak"` sebagai `true`.
+- **Perbaikan Parsing Tanggal Lahir Impor Excel (Excel DOB Parser Fix)**:
+  - Memperbaiki parser `date_of_birth` pada `ListCitizens` agar mendukung format tanggal bertipe teks murni dengan slashes (`/`), hyphens (`-`), maupun format serial numerik dari Excel secara otomatis tanpa merusak pembacaan string tanggal (seperti `11/23/1986`).
+- **Pembersihan Konsistensi Data Boolean Database (Database Boolean Cleanup)**:
+  - Melakukan pembersihan data (*data cleaning*) pada seluruh record database kependudukan eksisting untuk mengonversi nilai string sisa (seperti `"Ya"`, `"Tidak"`, `"Tidak ada"`, `"Ya Sesuai KK"`, dll. yang masuk pada proses impor lama) menjadi nilai bilangan bulat biner murni (`1` dan `0`). Hal ini menjamin keselarasan data database saat dimuat pada dropdown panel admin.
+- **Pemetaan Casts Model Eloquent (Eloquent Casts Definition)**:
+  - Menyesuaikan properti `$casts` pada model `Citizen` dan `Family` dengan mengubah tipe casting kolom-kolom biner dari `'boolean'` menjadi `'integer'`.
+  - Langkah ini menyelesaikan masalah ketidakcocokan serialisasi Javascript/Livewire pada komponen `Select` (di mana nilai boolean `false`/`true` dari Eloquent gagal dicocokkan dengan kunci integer `0`/`1` di dropdown, menyebabkan input tampak kosong/blank saat mengedit data).
+- **Pengisian & Pembagian Poligon Spasial 7 Dusun (Dusun Spatial Polygon Seeding & Partition)**:
+  - Menyinkronkan dan mengisi data 7 Dusun resmi Desa Tompobulu (Karampuang, Data, Laiya, Aholiang, Bulo, Balle, dan Salohe) sesuai struktur administrasi desa riil.
+  - Mempartisi wilayah geografis koordinat desa (sekitar `-5.1010282, 120.0967011`) menjadi 7 batas administrasi poligon (GeoJSON) yang saling berhimpitan secara teratur.
+  - Langkah ini membuat visualisasi peta spasial interaktif Leaflet di halaman publik langsung aktif dan membagi wilayah desa menjadi 7 dusun secara lengkap dan dinamis.
+  - Menghapus kolom pengaturan statis `village_dusun_count` dari tabel `settings` karena hitungan jumlah dusun sudah dibaca secara otomatis dan dinamis dari tabel `dusuns` (melalui query `Dusun::count()`) di controller halaman beranda dan profil.
+- **Peta Batas Luar Desa Tompobulu (Tompobulu Village Outline Polygon)**:
+  - Menyimpan data koordinat poligon batas luar utuh (bounding polygon GeoJSON) untuk Desa Tompobulu ke tabel `settings` dengan kunci `village_geojson`.
+  - Mengintegrasikan rendering poligon batas luar desa tersebut di halaman publik [peta.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/pages/peta.blade.php) menggunakan visualisasi garis putus-putus tebal warna slate gelap (`dashArray: '8, 8'`), membingkai seluruh 7 dusun di dalamnya secara rapi.
+
+### Changed
+- **Pembaruan Judul Halaman SEO (SEO Page Title Adjustments)**:
+  - Mengubah tag judul halaman (SEO Title) pada halaman Aparatur (`officials/index`), Lembaga (`institutions/index`), Peta Spasial (`pages/peta`), dan Publikasi (`publications/index`) agar lebih ringkas dan sesuai dengan permintaan (mengubah `"Aparatur Desa"` menjadi `"Aparatur"`, `"Lembaga Desa"` menjadi `"Lembaga"`, `"Peta Spasial Desa"` menjadi `"Peta Spasial"`, dan `"Publikasi"` menjadi `"Publikasi Data"`), dengan tetap mempertahankan format akhiran nama desa (`| Desa Tompobulu`).
+- **Penyederhanaan Form Kategori Statistik (Statistic Categories Form Refactor)**:
+  - Menghapus input manual `slug` pada form admin, kini slug dihasilkan secara otomatis di backend lewat Eloquent event `saving()`.
+  - Mengubah layout formulir menjadi satu kolom penuh bertumpuk vertikal (`->columns(1)`) agar data Informasi Kategori dan Parameter Pemetaan tidak lagi terbagi 2 kolom menyamping.
+  - Menghapus komponen *repeater* indikator manual dari form admin. Indikator kini dideteksi dan dibuat secara otomatis oleh model event `saved()` berdasarkan nilai unik dari kolom database terpilih.
+- **Otomatisasi Label Indikator Boolean (Dynamic Boolean Indicator Mapping)**:
+  - Memperbarui logika model event `saved()` di `StatisticCategory` agar secara otomatis memetakan nilai boolean `1`/`0` dari database ke label indikator yang mudah dipahami yaitu `"Ya"` dan `"Tidak"`.
+  - Menghapus kolom `bpjs_status` dari daftar helper `isBooleanColumn()` di `StatisticCategory` setelah kolom tersebut dikembalikan menjadi tipe data teks terperinci (string) di database, mencegah kesalahan identifikasi kolom yang dapat mengacaukan pemetaan indikator statistik.
+- **Penyelarasan Kolom Impor Excel Kependudukan (Excel Importer Alignment)**:
+  - Memperbarui `ListCitizens.php` dan `ListFamilies.php` agar parser `parseYesNo` menghasilkan nilai boolean (`true`/`false`) yang kompatibel dengan tipe data baru di database.
+  - Memetakan kolom jumlah keluarga (`family_member_count`) dan menggabungkan nilai dari 3 kolom meteran listrik (`electricity_power`) pada impor Excel keluarga ke kolom database masing-masing yang sebelumnya kosong.
+
+### Removed
+- **Penghapusan Aksi Bahaya Hapus Semua Data (Danger Zone Action Cleanup)**: Menghapus tombol tindakan "Hapus Semua Data" dari panel admin Penduduk dan Keluarga demi keamanan integritas data produksi.
+- **Penghapusan Generator Dataset Otomatis**: Menghapus tombol tindakan generate dataset otomatis pada panel admin Open Data.
+
 ## [1.6.38] - 2026-07-03
 
 ### Fixed

@@ -1,8 +1,29 @@
 @extends('layouts.app')
 
 @section('title', 'APBDes | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Temukan transparansi realisasi Anggaran Pendapatan, Belanja, dan Pembiayaan Desa (APBDes) Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . ' tahun berjalan.')
+@section('meta_description', 'Laporan transparansi APBDes (Anggaran Pendapatan, Belanja, dan Pembiayaan Desa) yang dikelola oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . ' sebagai perwujudan tata kelola keuangan yang bersih.')
 @section('meta_image', asset('img/meta.png'))
+
+@push('head')
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "GovernmentService",
+            "@id": "{{ url('/apbdes') }}#service",
+            "name": "Transparansi APBDes Desa {{ $site_settings['village_name'] ?? 'Tompobulu' }}",
+            "provider": {
+                "@type": "GovernmentOrganization",
+                "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}",
+                "url": "{{ url('/') }}"
+            },
+            "description": "Laporan transparansi Anggaran Pendapatan, Belanja, dan Pembiayaan Desa (APBDes) Desa {{ $site_settings['village_name'] ?? 'Tompobulu' }} tahun berjalan."
+        }
+    ]
+}
+</script>
+@endpush
 
 @section('content')
 {{-- ═══════════════════════════════════════════════════════
@@ -231,7 +252,7 @@
                             Distribusi Dana
                         </h4>
                         <div class="h-56 relative z-10">
-                            <canvas id="chart-{{ $category->id }}"></canvas>
+                            <div id="chart-{{ $category->id }}"></div>
                         </div>
                     </div>
                 </div>
@@ -366,51 +387,70 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        Chart.defaults.font.family = "'Poppins', sans-serif";
-        Chart.defaults.color = '#94a3b8';
-
         @foreach($categories as $category)
         (function() {
-            const ctx = document.getElementById('chart-{{ $category->id }}').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: {!! json_encode($category->realizations->pluck('title')) !!},
-                    datasets: [{
-                        data: {!! json_encode($category->realizations->pluck('realization_amount')) !!},
-                        backgroundColor: [
-                            '#10b981', '#0ea5e9', '#f59e0b', '#6366f1', '#ec4899', '#8b5cf6',
-                            '#06b6d4', '#f97316', '#14b8a6', '#3b82f6'
-                        ],
-                        borderWidth: 0,
-                        hoverOffset: 20
-                    }]
+            const element = document.getElementById('chart-{{ $category->id }}');
+            if (!element) return;
+
+            const options = {
+                chart: {
+                    type: 'donut',
+                    height: '100%',
+                    fontFamily: 'Inter, sans-serif'
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '80%',
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: '#0f172a',
-                            padding: 14,
-                            cornerRadius: 16,
-                            titleFont: { family: 'Poppins', size: 12, weight: 'bold' },
-                            bodyFont: { family: 'Inter', size: 12 },
-                            callbacks: {
-                                label: function(context) {
-                                    const value = context.parsed;
-                                    return ' Rp ' + value.toLocaleString('id-ID');
+                dataLabels: {
+                    enabled: false
+                },
+                series: {!! json_encode($category->realizations->pluck('realization_amount')->map(fn($v) => (float)$v)) !!},
+                labels: {!! json_encode($category->realizations->pluck('title')) !!},
+                colors: [
+                    '#10b981', '#0ea5e9', '#f59e0b', '#6366f1', '#ec4899', '#8b5cf6',
+                    '#06b6d4', '#f97316', '#14b8a6', '#3b82f6'
+                ],
+                stroke: { width: 2 },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '75%',
+                            labels: {
+                                show: true,
+                                name: { show: false },
+                                value: {
+                                    show: true,
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontWeight: 800,
+                                    fontSize: '15px',
+                                    color: '#0f172a',
+                                    offsetY: 5,
+                                    formatter: function(val) {
+                                        if (val >= 1000000000) {
+                                            return 'Rp ' + parseFloat((val / 1000000000).toFixed(1)) + ' M';
+                                        } else if (val >= 1000000) {
+                                            return 'Rp ' + parseFloat((val / 1000000).toFixed(1)) + ' Jt';
+                                        }
+                                        return 'Rp ' + parseInt(val).toLocaleString('id-ID');
+                                    }
                                 }
                             }
                         }
                     }
+                },
+                legend: { show: false },
+                tooltip: {
+                    theme: 'light',
+                    y: {
+                        formatter: function(val) {
+                            return 'Rp ' + val.toLocaleString('id-ID');
+                        }
+                    }
                 }
-            });
+            };
+
+            const chart = new ApexCharts(element, options);
+            chart.render();
         })();
         @endforeach
     });

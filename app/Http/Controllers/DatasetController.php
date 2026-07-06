@@ -30,6 +30,15 @@ class DatasetController extends Controller
 
     public function download($type)
     {
+        // Allowlist validasi: hanya tipe yang diizinkan yang diproses
+        $allowedTypes = [
+            'penduduk', 'penduduk-xlsx', 'penduduk-pdf',
+            'keluarga', 'keluarga-xlsx', 'keluarga-pdf',
+        ];
+        if (! in_array($type, $allowedTypes, true)) {
+            abort(404);
+        }
+
         // Increase memory and time limits for large dataset exports
         ini_set('memory_limit', '512M');
         set_time_limit(120);
@@ -55,10 +64,10 @@ class DatasetController extends Controller
                     'Tingkat Pendidikan', 'Pekerjaan', 'Dusun', 'RT', 'RW', 'Status BPJS', 'Status PIP'
                 ], ';');
 
-                $citizens = \App\Models\Citizen::with('dusun')->where('status', 'Aktif')->get();
+                // Gunakan cursor() untuk streaming agar tidak OOM pada data besar
                 $no = 1;
-                foreach ($citizens as $citizen) {
-                    $age = $citizen->date_of_birth ? \Carbon\Carbon::parse($citizen->date_of_birth)->age : '-';
+                foreach (\App\Models\Citizen::with('dusun')->where('status', 'Aktif')->cursor() as $citizen) {
+                    $age = $citizen->date_of_birth ? $citizen->date_of_birth->age : '-';
                     fputcsv($file, [
                         $no++, $citizen->gender, $age, $citizen->marital_status, $citizen->family_relation,
                         $citizen->education_level, $citizen->job, $citizen->dusun?->name ?? '-',
@@ -131,9 +140,9 @@ class DatasetController extends Controller
                     'No', 'Dusun', 'RT', 'RW', 'Bantuan Sosial', 'Status Kepemilikan Rumah'
                 ], ';');
 
-                $families = \App\Models\Family::with('dusun')->get();
+                // Gunakan cursor() untuk streaming agar tidak OOM pada data besar
                 $no = 1;
-                foreach ($families as $family) {
+                foreach (\App\Models\Family::with('dusun')->cursor() as $family) {
                     fputcsv($file, [
                         $no++, $family->dusun?->name ?? '-', $family->rt ?? '-', $family->rw ?? '-',
                         $family->assistance_type ?? 'Tidak Ada', $family->ownership_status ?? '-'

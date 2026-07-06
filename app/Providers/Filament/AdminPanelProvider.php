@@ -20,8 +20,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-
 use Filament\Navigation\NavigationGroup;
+use Filament\View\PanelsRenderHook;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -32,6 +32,21 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(Login::class)
+            ->renderHook(
+                PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+                fn (): string => \Illuminate\Support\Facades\Blade::render('
+                    <div class="text-center mt-6">
+                        <x-filament::link
+                            href="/"
+                            icon="heroicon-m-arrow-left"
+                            color="gray"
+                            class="text-sm font-medium"
+                        >
+                            Kembali ke Halaman Utama
+                        </x-filament::link>
+                    </div>
+                '),
+            )
             ->brandName(function () {
                 try {
                     if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
@@ -40,12 +55,13 @@ class AdminPanelProvider extends PanelProvider
                             return 'Desa ' . \Illuminate\Support\Str::title($name);
                         }
                     }
-                } catch (\Throwable $e) {}
+                } catch (\Throwable $e) {
+                }
                 return 'Desa Tompobulu';
             })
-            ->brandLogo(asset('img/sinjai.png'))
+            ->brandLogo('/img/sinjai.png')
             ->brandLogoHeight('2.5rem')
-            ->favicon(asset('img/sinjai.png'))
+            ->favicon('/img/sinjai.png')
             ->font('Poppins') // Menyelaraskan dengan font-heading Frontend
             ->colors([
                 'primary' => Color::Emerald,
@@ -59,6 +75,8 @@ class AdminPanelProvider extends PanelProvider
             ->maxContentWidth('full')
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->navigationGroups([
+                NavigationGroup::make()
+                     ->label('Kependudukan'),
                 NavigationGroup::make()
                      ->label('Informasi'),
                 NavigationGroup::make()
@@ -77,6 +95,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
+                \App\Filament\Widgets\VisitSiteWidget::class,
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])

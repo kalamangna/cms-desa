@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Pengumuman | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Temukan pengumuman resmi dan maklumat penting dari Pemerintah Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . ' untuk seluruh warga.')
+@section('meta_description', 'Daftar pengumuman resmi, keputusan, dan maklumat kedinasan yang diterbitkan oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? 'Tompobulu') . ' untuk masyarakat umum.')
 @section('meta_image', asset('img/meta.png'))
 
 @section('content')

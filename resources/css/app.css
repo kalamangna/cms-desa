@@ -33,12 +33,12 @@
 .prose h2 { font-size: 1.5em; }
 .prose h3 { font-size: 1.25em; }
 .prose a {
-    color: #059669; /* emerald-600 */
+    color: var(--color-emerald-600);
     text-decoration: underline;
     font-weight: 600;
 }
 .prose a:hover {
-    color: #047857; /* emerald-700 */
+    color: var(--color-emerald-700);
 }
 .prose strong {
     color: #0f172a;
@@ -46,11 +46,11 @@
 }
 .prose blockquote {
     font-style: italic;
-    border-left: 4px solid #10b981; /* emerald-500 */
+    border-left: 4px solid var(--color-emerald-500);
     padding-left: 1rem;
     margin: 1.5em 0;
     color: #334155;
-    background-color: rgba(240, 253, 250, 0.5); /* emerald-50/50 */
+    background-color: color-mix(in srgb, var(--color-emerald-500) 5%, transparent);
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     border-top-right-radius: 0.5rem;
@@ -82,7 +82,7 @@
     margin: 0 !important;
 }
 .prose ul > li::marker {
-    color: #10b981; /* emerald-500 marker */
+    color: var(--color-emerald-500);
 }
 .prose ol > li::marker {
     color: #64748b; /* slate-500 marker */

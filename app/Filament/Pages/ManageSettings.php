@@ -17,6 +17,7 @@ use App\Models\Setting;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Filament\Forms\Components\Radio;
 
 class ManageSettings extends Page implements HasForms
 {
@@ -88,6 +89,27 @@ class ManageSettings extends Page implements HasForms
                                 TextInput::make('social_facebook')->label('Facebook URL'),
                                 TextInput::make('social_instagram')->label('Instagram URL'),
                                 TextInput::make('social_youtube')->label('YouTube URL'),
+                            ]),
+                        Tabs\Tab::make('Tampilan & Tema')
+                            ->icon('heroicon-o-paint-brush')
+                            ->columns(1)
+                            ->components([
+                                Radio::make('primary_color')
+                                    ->label('Warna Primer Website')
+                                    ->options([
+                                        '#10b981' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #10b981;"></span> Emerald (Default)</span>'),
+                                        '#14b8a6' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #14b8a6;"></span> Teal</span>'),
+                                        '#0ea5e9' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #0ea5e9;"></span> Sky Blue</span>'),
+                                        '#3b82f6' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #3b82f6;"></span> Royal Blue</span>'),
+                                        '#6366f1' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #6366f1;"></span> Indigo</span>'),
+                                        '#8b5cf6' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #8b5cf6;"></span> Violet</span>'),
+                                        '#f43f5e' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #f43f5e;"></span> Rose</span>'),
+                                        '#f97316' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #f97316;"></span> Orange</span>'),
+                                        '#f59e0b' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #f59e0b;"></span> Amber</span>'),
+                                        '#475569' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #475569;"></span> Slate</span>'),
+                                    ])
+                                    ->default('#10b981')
+                                    ->required(),
                             ]),
                     ])->columnSpanFull()
             ])

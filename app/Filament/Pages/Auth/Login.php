@@ -10,6 +10,25 @@ use Illuminate\Validation\ValidationException;
 
 class Login extends BaseLogin
 {
+    public function getHeading(): string
+    {
+        return 'Login Sistem';
+    }
+
+    public function getSubheading(): ?string
+    {
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                $name = \App\Models\Setting::where('key', 'village_name')->value('value');
+                if (!empty($name)) {
+                    return 'Pemerintah Desa ' . \Illuminate\Support\Str::title($name);
+                }
+            }
+        } catch (\Throwable $e) {
+        }
+        return 'Pemerintah Desa Tompobulu';
+    }
+
     public function form(Schema $schema): Schema
     {
         return $schema

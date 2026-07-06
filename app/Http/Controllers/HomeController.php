@@ -86,7 +86,7 @@ class HomeController extends Controller
         $useCitizenData = true; // flag to tell view which format to use
 
         $currentYear = date('Y');
-        $budgetSummary = Cache::remember('home_budget_summary', $ttl, function () use ($currentYear) {
+        $budgetSummary = Cache::remember("home_budget_summary_{$currentYear}", $ttl, function () use ($currentYear) {
             $categories = BudgetCategory::all();
             $summary = [
                 'pendapatan' => ['budget' => 0, 'realization' => 0],
@@ -117,7 +117,7 @@ class HomeController extends Controller
             return $summary;
         });
 
-        $belanjaDetails = Cache::remember('home_belanja_details', $ttl, function () use ($currentYear) {
+        $belanjaDetails = Cache::remember("home_belanja_details_{$currentYear}", $ttl, function () use ($currentYear) {
             return BudgetRealization::where('year', $currentYear)
                 ->whereHas('category', function ($q) {
                     $q->where('slug', 'belanja');

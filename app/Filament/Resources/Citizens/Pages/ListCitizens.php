@@ -159,128 +159,182 @@ class ListCitizens extends ListRecords
                         return;
                     }
 
-                    $rowCount = 0;
-                    foreach ($rows as $row) {
-                        if (count($row) <= $colNik) continue;
+                    \Illuminate\Support\Facades\DB::beginTransaction();
 
-                        $nik = trim($row[$colNik]);
-                        if (empty($nik) || strlen($nik) < 10) continue;
+                    try {
+                        $rowCount = 0;
+                        foreach ($rows as $index => $row) {
+                            if (count($row) <= $colNik) continue;
 
-                        $kkNumber = $colKkNumber !== false ? trim($row[$colKkNumber]) : null;
-                        
-                        // Look up family and dusun
-                        $familyId = null;
-                        $dusunId = $selectedDusunId;
-                        $rt = null;
-                        $rw = null;
-                        $address = $colAddress !== false ? trim($row[$colAddress]) : '';
+                            $nik = trim($row[$colNik]);
+                            if (empty($nik) || strlen($nik) < 10) continue;
 
-                        if ($kkNumber) {
-                            $family = Family::where('kk_number', $kkNumber)->first();
-                            if ($family) {
-                                $familyId = $family->id;
-                                if (!$dusunId) {
-                                    $dusunId = $family->dusun_id;
-                                }
-                                $rt = $family->rt;
-                                $rw = $family->rw;
-                                if (empty($address)) {
-                                    $address = $family->address;
-                                }
-                            }
-                        }
+                            $kkNumber = $colKkNumber !== false ? trim($row[$colKkNumber]) : null;
+                            
+                            // Look up family and dusun
+                            $familyId = null;
+                            $dusunId = $selectedDusunId;
+                            $rt = null;
+                            $rw = null;
+                            $address = $colAddress !== false ? trim($row[$colAddress]) : '';
 
-                        // Fallback matching for Dusun from address
-                        if (!$dusunId && !empty($address)) {
-                            $dusunList = Dusun::all();
-                            foreach ($dusunList as $dus) {
-                                if (stripos($address, $dus->name) !== false) {
-                                    $dusunId = $dus->id;
-                                    break;
+                            if ($kkNumber) {
+                                $family = Family::where('kk_number', $kkNumber)->first();
+                                if ($family) {
+                                    $familyId = $family->id;
+                                    if (!$dusunId) {
+                                        $dusunId = $family->dusun_id;
+                                    }
+                                    $rt = $family->rt;
+                                    $rw = $family->rw;
+                                    if (empty($address)) {
+                                        $address = $family->address;
+                                    }
                                 }
                             }
-                        }
 
-                        // Parse Date of Birth correctly
-                        $dob = null;
-                        if ($colDob !== false && !empty($row[$colDob])) {
-                            $dobStr = trim($row[$colDob]);
-                            // Try standard Y-m-d format first, then d/m/Y
-                            $time = strtotime(str_replace('/', '-', $dobStr));
-                            if ($time) {
-                                $dob = date('Y-m-d', $time);
+                            // Fallback matching for Dusun from address
+                            if (!$dusunId && !empty($address)) {
+                                $dusunList = Dusun::all();
+                                foreach ($dusunList as $dus) {
+                                    if (stripos($address, $dus->name) !== false) {
+                                        $dusunId = $dus->id;
+                                        break;
+                                    }
+                                }
                             }
+
+                            // Parse Date of Birth correctly
+                            $dob = null;
+                            if ($colDob !== false && !empty($row[$colDob])) {
+                                $dobStr = trim($row[$colDob]);
+                                try {
+                                    if (is_numeric($dobStr) && $dobStr > 10000 && $dobStr < 100000) {
+                                        $dob = date('Y-m-d', \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($dobStr));
+                                    } else {
+                                        $parsedTime = strtotime($dobStr);
+                                        if ($parsedTime) {
+                                            $dob = date('Y-m-d', $parsedTime);
+                                        } else {
+                                            $formats = ['d/m/Y', 'm/d/Y', 'Y-m-d', 'd-m-Y', 'j/n/Y', 'n/j/Y'];
+                                            foreach ($formats as $fmt) {
+                                                $d = \DateTime::createFromFormat($fmt, $dobStr);
+                                                if ($d) {
+                                                    $dob = $d->format('Y-m-d');
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } catch (\Exception $e) {
+                                    $dob = null;
+                                }
+                            }
+
+                            $dataToSave = [
+                                'kk_number' => $kkNumber,
+                                'kk_order' => $colKkOrder !== false ? intval(trim($row[$colKkOrder])) : null,
+                                'name' => $colName !== false ? trim($row[$colName]) : '',
+                                'family_id' => $familyId,
+                                'dusun_id' => $dusunId,
+                                'rt' => $rt,
+                                'rw' => $rw,
+                                'address' => $address,
+                                'gender' => $colGender !== false && !empty(trim($row[$colGender])) ? (strpos(strtolower(trim($row[$colGender])), 'perempuan') !== false || strtolower(trim($row[$colGender])) === 'p' ? 'Perempuan' : 'Laki-laki') : null,
+                                'date_of_birth' => $dob,
+                                'marital_status' => $colMarital !== false ? $this->parseMaritalStatus($row[$colMarital]) : null,
+                                'family_relation' => $colRelation !== false ? $this->parseFamilyRelation($row[$colRelation]) : null,
+                                'school_participation' => $colSchool !== false ? trim($row[$colSchool]) : null,
+                                'education_level' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null,
+                                'education' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null, // legacy
+                                'bpjs_status' => $colBpjs !== false ? trim($row[$colBpjs]) : null,
+                                'pip_status' => $colPip !== false ? $this->parseYesNo($row[$colPip]) : null,
+                                'has_income' => $colHasIncome !== false ? $this->parseYesNo($row[$colHasIncome]) : null,
+                                'job' => $colJob !== false ? $this->parseJob($row[$colJob]) : null,
+                                'job_status' => $colJobStatus !== false ? trim($row[$colJobStatus]) : null,
+                                
+                                // Income
+                                'income_salary' => $colIncSalary !== false ? $this->cleanNumeric(trim($row[$colIncSalary])) : 0,
+                                'income_allowance' => $colIncAllow !== false ? $this->cleanNumeric(trim($row[$colIncAllow])) : 0,
+                                'income_food' => $colIncFood !== false ? $this->cleanNumeric(trim($row[$colIncFood])) : 0,
+                                'income_honor' => $colIncHonor !== false ? $this->cleanNumeric(trim($row[$colIncHonor])) : 0,
+                                'income_overtime' => $colIncOver !== false ? $this->cleanNumeric(trim($row[$colIncOver])) : 0,
+                                'income_other' => $colIncOther !== false ? $this->cleanNumeric(trim($row[$colIncOther])) : 0,
+                                'income_business' => $colIncBus !== false ? $this->cleanNumeric(trim($row[$colIncBus])) : 0,
+                                'income_passive' => $colIncPass !== false ? $this->cleanNumeric(trim($row[$colIncPass])) : 0,
+                                
+                                // Disabilities
+                                'disability_physical' => $colDisPhys !== false ? $this->parseYesNo($row[$colDisPhys]) : null,
+                                'disability_mental' => $colDisMent !== false ? $this->parseYesNo($row[$colDisMent]) : null,
+                                'disability_intellectual' => $colDisIntel !== false ? $this->parseYesNo($row[$colDisIntel]) : null,
+                                'disability_blind' => $colDisBlind !== false ? $this->parseYesNo($row[$colDisBlind]) : null,
+                                'disability_deaf' => $colDisDeaf !== false ? $this->parseYesNo($row[$colDisDeaf]) : null,
+                                'disability_speech' => $colDisSpeech !== false ? $this->parseYesNo($row[$colDisSpeech]) : null,
+                                
+                                // Illnesses
+                                'illness_hypertension' => $colIllHyper !== false ? $this->parseYesNo($row[$colIllHyper]) : null,
+                                'illness_rheumatic' => $colIllRheu !== false ? $this->parseYesNo($row[$colIllRheu]) : null,
+                                'illness_asthma' => $colIllAsthma !== false ? $this->parseYesNo($row[$colIllAsthma]) : null,
+                                'illness_heart' => $colIllHeart !== false ? $this->parseYesNo($row[$colIllHeart]) : null,
+                                'illness_diabetes' => $colIllDiab !== false ? $this->parseYesNo($row[$colIllDiab]) : null,
+                                'illness_tbc' => $colIllTbc !== false ? $this->parseYesNo($row[$colIllTbc]) : null,
+                                'illness_stroke' => $colIllStroke !== false ? $this->parseYesNo($row[$colIllStroke]) : null,
+                                'illness_cancer' => $colIllCancer !== false ? $this->parseYesNo($row[$colIllCancer]) : null,
+                                'illness_kidney' => $colIllKidney !== false ? $this->parseYesNo($row[$colIllKidney]) : null,
+                                'illness_hemophilia' => $colIllHemo !== false ? $this->parseYesNo($row[$colIllHemo]) : null,
+                                'illness_hiv' => $colIllHiv !== false ? $this->parseYesNo($row[$colIllHiv]) : null,
+                                'illness_cholesterol' => $colIllChol !== false ? $this->parseYesNo($row[$colIllChol]) : null,
+                                'illness_liver' => $colIllLiver !== false ? $this->parseYesNo($row[$colIllLiver]) : null,
+                                'illness_thalassemia' => $colIllThal !== false ? $this->parseYesNo($row[$colIllThal]) : null,
+                                'illness_leukemia' => $colIllLeuk !== false ? $this->parseYesNo($row[$colIllLeuk]) : null,
+                                'illness_alzheimer' => $colIllAlz !== false ? $this->parseYesNo($row[$colIllAlz]) : null,
+                                'illness_other' => $colIllOther !== false ? $this->parseYesNo($row[$colIllOther]) : null,
+                                
+                                'has_digital_wallet' => $colWallet !== false ? $this->parseYesNo($row[$colWallet]) : null,
+                                'status' => 'Aktif',
+                                'citizenship_status' => $colStatus !== false ? trim($row[$colStatus]) : 'Tinggal di rumah/tempat tinggal ini',
+                            ];
+
+                            $citizen = Citizen::withTrashed()->where('nik', $nik)->first();
+                            if ($citizen) {
+                                $updateData = [];
+                                foreach ($dataToSave as $key => $value) {
+                                    if ($value !== null && $value !== '') {
+                                        $updateData[$key] = $value;
+                                    }
+                                }
+                                $citizen->fill($updateData);
+                                if ($citizen->trashed()) {
+                                    $citizen->restore();
+                                } else {
+                                    $citizen->save();
+                                }
+                            } else {
+                                Citizen::create(array_merge(['nik' => $nik], $dataToSave));
+                            }
+                            $rowCount++;
                         }
 
-                        $dataToSave = [
-                            'kk_number' => $kkNumber,
-                            'kk_order' => $colKkOrder !== false ? intval(trim($row[$colKkOrder])) : null,
-                            'name' => $colName !== false ? trim($row[$colName]) : '',
-                            'family_id' => $familyId,
-                            'dusun_id' => $dusunId,
-                            'rt' => $rt,
-                            'rw' => $rw,
-                            'address' => $address,
-                            'gender' => $colGender !== false && !empty(trim($row[$colGender])) ? (strpos(strtolower(trim($row[$colGender])), 'perempuan') !== false || strtolower(trim($row[$colGender])) === 'p' ? 'Perempuan' : 'Laki-laki') : null,
-                            'date_of_birth' => $dob,
-                            'marital_status' => $colMarital !== false ? $this->parseMaritalStatus($row[$colMarital]) : null,
-                            'family_relation' => $colRelation !== false ? $this->parseFamilyRelation($row[$colRelation]) : null,
-                            'school_participation' => $colSchool !== false ? trim($row[$colSchool]) : null,
-                            'education_level' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null,
-                            'education' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null, // legacy
-                            'bpjs_status' => $colBpjs !== false ? trim($row[$colBpjs]) : null,
-                            'pip_status' => $colPip !== false ? trim($row[$colPip]) : null,
-                            'has_income' => $colHasIncome !== false ? trim($row[$colHasIncome]) : null,
-                            'job' => $colJob !== false ? $this->parseJob($row[$colJob]) : null,
-                            'job_status' => $colJobStatus !== false ? trim($row[$colJobStatus]) : null,
-                            
-                            // Income
-                            'income_salary' => $colIncSalary !== false ? $this->cleanNumeric(trim($row[$colIncSalary])) : 0,
-                            'income_allowance' => $colIncAllow !== false ? $this->cleanNumeric(trim($row[$colIncAllow])) : 0,
-                            'income_food' => $colIncFood !== false ? $this->cleanNumeric(trim($row[$colIncFood])) : 0,
-                            'income_honor' => $colIncHonor !== false ? $this->cleanNumeric(trim($row[$colIncHonor])) : 0,
-                            'income_overtime' => $colIncOver !== false ? $this->cleanNumeric(trim($row[$colIncOver])) : 0,
-                            'income_other' => $colIncOther !== false ? $this->cleanNumeric(trim($row[$colIncOther])) : 0,
-                            'income_business' => $colIncBus !== false ? $this->cleanNumeric(trim($row[$colIncBus])) : 0,
-                            'income_passive' => $colIncPass !== false ? $this->cleanNumeric(trim($row[$colIncPass])) : 0,
-                            
-                            // Disabilities
-                            'disability_physical' => $colDisPhys !== false ? $this->parseYesNo($row[$colDisPhys]) : null,
-                            'disability_mental' => $colDisMent !== false ? $this->parseYesNo($row[$colDisMent]) : null,
-                            'disability_intellectual' => $colDisIntel !== false ? $this->parseYesNo($row[$colDisIntel]) : null,
-                            'disability_blind' => $colDisBlind !== false ? $this->parseYesNo($row[$colDisBlind]) : null,
-                            'disability_deaf' => $colDisDeaf !== false ? $this->parseYesNo($row[$colDisDeaf]) : null,
-                            'disability_speech' => $colDisSpeech !== false ? $this->parseYesNo($row[$colDisSpeech]) : null,
-                            
-                            // Illnesses
-                            'illness_hypertension' => $colIllHyper !== false ? $this->parseYesNo($row[$colIllHyper]) : null,
-                            'illness_rheumatic' => $colIllRheu !== false ? $this->parseYesNo($row[$colIllRheu]) : null,
-                            'illness_asthma' => $colIllAsthma !== false ? $this->parseYesNo($row[$colIllAsthma]) : null,
-                            'illness_heart' => $colIllHeart !== false ? $this->parseYesNo($row[$colIllHeart]) : null,
-                            'illness_diabetes' => $colIllDiab !== false ? $this->parseYesNo($row[$colIllDiab]) : null,
-                            'illness_tbc' => $colIllTbc !== false ? $this->parseYesNo($row[$colIllTbc]) : null,
-                            'illness_stroke' => $colIllStroke !== false ? $this->parseYesNo($row[$colIllStroke]) : null,
-                            'illness_cancer' => $colIllCancer !== false ? $this->parseYesNo($row[$colIllCancer]) : null,
-                            'illness_kidney' => $colIllKidney !== false ? $this->parseYesNo($row[$colIllKidney]) : null,
-                            'illness_hemophilia' => $colIllHemo !== false ? $this->parseYesNo($row[$colIllHemo]) : null,
-                            'illness_hiv' => $colIllHiv !== false ? $this->parseYesNo($row[$colIllHiv]) : null,
-                            'illness_cholesterol' => $colIllChol !== false ? $this->parseYesNo($row[$colIllChol]) : null,
-                            'illness_liver' => $colIllLiver !== false ? $this->parseYesNo($row[$colIllLiver]) : null,
-                            'illness_thalassemia' => $colIllThal !== false ? $this->parseYesNo($row[$colIllThal]) : null,
-                            'illness_leukemia' => $colIllLeuk !== false ? $this->parseYesNo($row[$colIllLeuk]) : null,
-                            'illness_alzheimer' => $colIllAlz !== false ? $this->parseYesNo($row[$colIllAlz]) : null,
-                            'illness_other' => $colIllOther !== false ? $this->parseYesNo($row[$colIllOther]) : null,
-                            
-                            'has_digital_wallet' => $colWallet !== false ? $this->parseYesNo($row[$colWallet]) : null,
-                            'status' => 'Aktif',
-                            'citizenship_status' => $colStatus !== false ? trim($row[$colStatus]) : 'Tinggal di rumah/tempat tinggal ini',
-                        ];
+                        \Illuminate\Support\Facades\DB::commit();
 
-                        Citizen::updateOrCreate(
-                            ['nik' => $nik],
-                            $dataToSave
-                        );
-                        $rowCount++;
+                        foreach (\App\Models\StatisticCategory::where('mapping_table', 'citizens')->get() as $cat) {
+                            $cat->save();
+                        }
+                    } catch (\Exception $e) {
+                        \Illuminate\Support\Facades\DB::rollBack();
+
+                        $rowNumber = isset($index) ? ($index + 2) : 'Tidak diketahui';
+                        $errorMessage = $e->getMessage();
+
+                        @unlink($filePath);
+
+                        Notification::make()
+                            ->title('Import Gagal (Rollback)')
+                            ->body("Terjadi kesalahan pada Baris #{$rowNumber}: {$errorMessage}. Seluruh transaksi dibatalkan.")
+                            ->danger()
+                            ->persistent()
+                            ->send();
+                        return;
                     }
 
                     @unlink($filePath);
@@ -294,16 +348,15 @@ class ListCitizens extends ListRecords
         ];
     }
 
-    private function parseYesNo(?string $val): ?string
+    private function parseYesNo(?string $val): bool
     {
-        if ($val === null) return null;
+        if ($val === null) return false;
         $clean = strtolower(trim($val));
-        if (empty($clean)) return null;
+        if (empty($clean)) return false;
         
-        if (in_array($clean, ['ya', 'yes', 'true', '1']) || strpos($clean, 'ya') === 0) {
-            return 'Ya';
-        }
-        return 'Tidak';
+        return in_array($clean, ['ya', 'yes', 'true', '1', 'ada']) 
+            || strpos($clean, 'ya') === 0 
+            || strpos($clean, 'ada') === 0;
     }
 
     private function parseMaritalStatus(?string $val): ?string

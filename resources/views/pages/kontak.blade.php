@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Kontak | Desa ' . ($site_settings['village_name'] ?? 'Tompobulu'))
-@section('meta_description', 'Temukan alamat, nomor telepon, email, media sosial, dan lokasi kantor Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_description', 'Informasi kontak pelayanan publik dan alamat kantor sekretariat Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk pengaduan dan koordinasi.')
 @section('meta_image', asset('img/meta.png'))
 
 @section('content')
@@ -187,6 +187,7 @@
                 <h3 class="text-2xl font-heading font-bold text-slate-900 mb-2">Kirim Pesan atau Pengaduan</h3>
                 <p class="text-slate-400 text-sm mb-8 font-medium">Kami akan merespons dalam 1x24 jam kerja.</p>
                 <form action="#" method="POST" class="space-y-5">
+                    @csrf
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
                             <label for="contact-name" class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2.5 ml-1">Nama Lengkap</label>

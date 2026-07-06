@@ -22,7 +22,7 @@ class Gallery extends Model
             }
         }
         
-        if ($this->image && strpos($this->image, 'gallery_dummy.jpg') === false) {
+        if ($this->image && !str_contains($this->image, 'gallery_dummy.jpg')) {
             return asset('storage/' . $this->image);
         }
         
