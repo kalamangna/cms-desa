@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('dusun_id')->nullable()->constrained('dusuns')->nullOnDelete();
             $table->string('rt', 10)->nullable();
             $table->string('rw', 10)->nullable();
-            $table->string('address_matches_kk')->nullable();
+            $table->boolean('address_matches_kk')->default(false);
             $table->string('assistance_type')->nullable(); // bantuan sosial
             $table->integer('family_member_count')->default(1);
             

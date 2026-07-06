@@ -25,8 +25,10 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
   - Menggabungkan skema migrasi tabel `officials` (menghapus kolom `nip`, `nik`, dan masa jabatan langsung pada migrasi awal).
   - Menggabungkan skema migrasi tabel `galleries` (menambahkan kolom `type` dan `youtube_url` langsung pada migrasi awal).
   - Menggabungkan skema migrasi tabel `dusuns` (menambahkan kolom `geojson` langsung pada migrasi awal).
+  - Menggabungkan skema migrasi tabel `families` (menentukan kolom status kesesuaian alamat bertipe boolean langsung pada migrasi awal).
+  - Menggabungkan skema migrasi tabel `citizens` (menambahkan parameter keluarga, disabilitas, riwayat penyakit kronis, kepemilikan rekening digital, serta relasi dusun bertipe boolean/string langsung pada migrasi awal).
   - Menggabungkan skema migrasi tabel `statistic_categories` dan `statistic_indicators` (menambahkan parameter mapping dan is_active langsung pada migrasi awal).
-  - Menghapus 19 file migrasi perantara/pengubah (*alter/drop migrations*) serta migrasi pengisian data settings awal yang tidak terpakai agar struktur database murni hanya mengatur skema tabel (tanpa menyisipkan data).
+  - Menghapus 24 file migrasi perantara/pengubah (*alter/drop migrations*) serta migrasi pengisian data settings awal yang tidak terpakai agar struktur database murni hanya mengatur skema tabel (tanpa menyisipkan data).
 - **Pembersihan dan Penghapusan Seluruh Seeder Data**:
   - Mengosongkan berkas seeder `DefaultDataSeeder.php` dari data bawaan (seperti pengaturan desa, kategori statistik, layanan administrasi, dan dusun) sehingga murni hanya mendaftarkan peran (*roles*), satu akun Super Admin (`kalamangna` | `Syazani`), serta inisialisasi warna tema primer default (`#10b981`).
   - Menghapus berkas `SampleDataSeeder.php` secara permanen dan menyederhanakan `DatabaseSeeder.php` agar hanya memanggil inisialisasi akun Super Admin.
