@@ -11,13 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // 1. Categories Table (News Categories)
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->timestamps();
+        });
+
+        // 2. Posts Table (News Articles)
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('content');
-            $table->string('featured_image')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -30,5 +39,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('posts');
+        Schema::dropIfExists('categories');
     }
 };

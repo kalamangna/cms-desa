@@ -20,15 +20,16 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
   - Jika kosong, sistem otomatis meng-override nilai tahun berjalan dan seluruh data historis dummy (seeder) menjadi `0` di memori sehingga grafik publik tampil bersih tanpa data fiktif.
 
 ### Changed
-- **Pembersihan dan Konsolidasi Skema Migrasi Database**:
-  - Menggabungkan/meringkas skema migrasi tabel `users` (menghapus kolom email dan menambahkan `softDeletes` langsung pada migrasi awal).
-  - Menggabungkan skema migrasi tabel `officials` (menghapus kolom `nip`, `nik`, dan masa jabatan langsung pada migrasi awal).
-  - Menggabungkan skema migrasi tabel `galleries` (menambahkan kolom `type` dan `youtube_url` langsung pada migrasi awal).
-  - Menggabungkan skema migrasi tabel `dusuns` (menambahkan kolom `geojson` langsung pada migrasi awal).
-  - Menggabungkan skema migrasi tabel `families` (menentukan kolom status kesesuaian alamat bertipe boolean langsung pada migrasi awal).
-  - Menggabungkan skema migrasi tabel `citizens` (menambahkan parameter keluarga, disabilitas, riwayat penyakit kronis, kepemilikan rekening digital, serta relasi dusun bertipe boolean/string langsung pada migrasi awal).
-  - Menggabungkan skema migrasi tabel `statistic_categories` dan `statistic_indicators` (menambahkan parameter mapping dan is_active langsung pada migrasi awal).
-  - Menghapus 24 file migrasi perantara/pengubah (*alter/drop migrations*) serta migrasi pengisian data settings awal yang tidak terpakai agar struktur database murni hanya mengatur skema tabel (tanpa menyisipkan data).
+- **Pembersihan dan Konsolidasi Modular Skema Migrasi Database**:
+  - Mengelompokkan tabel-tabel database yang saling terkait ke dalam satu file migrasi modular untuk merampingkan folder `database/migrations` agar sangat bersih dan teratur.
+  - **Village Features Module**: Menggabungkan pembuatan tabel `announcements`, `galleries`, `documents`, `services`, `institutions`, dan `officials` ke dalam satu berkas migrasi.
+  - **News Module**: Menggabungkan pembuatan tabel `categories` dan `posts` ke dalam satu berkas migrasi.
+  - **Open Data Module**: Menggabungkan pembuatan tabel `datasets`, `metadata`, dan `publications` ke dalam satu berkas migrasi.
+  - **Budget Module**: Menggabungkan pembuatan tabel `budget_categories` dan `budget_realizations` ke dalam satu berkas migrasi.
+  - **Demography Module**: Menggabungkan pembuatan tabel `dusuns` (termasuk kolom geojson), `families`, dan `citizens` (termasuk kolom kuesioner disabilitas, penyakit kronis, dan digital wallet) ke dalam satu berkas migrasi.
+  - **Statistics Module**: Menggabungkan pembuatan tabel `statistic_categories`, `statistic_indicators`, dan `statistic_data` ke dalam satu berkas migrasi.
+  - **Laravel Core & Spatie**: Mempertahankan migrasi bawaan seperti `users`, `cache`, `jobs`, `permissions` (Spatie), `settings`, dan `visitor_logs` secara terpisah.
+  - **Hasil**: Memangkas total berkas migrasi dari semula **48 file** menjadi **hanya 12 file** modular yang sangat bersih, teratur, dan cepat dimigrasi.
 - **Pembersihan dan Penghapusan Seluruh Seeder Data**:
   - Mengosongkan berkas seeder `DefaultDataSeeder.php` dari data bawaan (seperti pengaturan desa, kategori statistik, layanan administrasi, dan dusun) sehingga murni hanya mendaftarkan peran (*roles*), satu akun Super Admin (`kalamangna` | `Syazani`), serta inisialisasi warna tema primer default (`#10b981`).
   - Menghapus berkas `SampleDataSeeder.php` secara permanen dan menyederhanakan `DatabaseSeeder.php` agar hanya memanggil inisialisasi akun Super Admin.
