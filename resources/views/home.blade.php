@@ -123,7 +123,7 @@
             </div>
             <div class="min-w-0 w-full">
                 <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
-                <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ $site_settings['village_area'] ?? '12,4' }}</h3>
+                <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ $site_settings['village_area'] ?? '—' }}</h3>
                 <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Km²</p>
             </div>
         </div>
@@ -145,10 +145,10 @@
                 <div class="h-px w-8 bg-emerald-500"></div>
             </div>
             <h2 class="text-2xl md:text-4xl font-heading font-extrabold text-slate-900 mb-10 leading-tight">
-                "{{ $site_settings['village_head_greeting_title'] ?? 'Mewujudkan Desa Mandiri Berbasis Data Presisi' }}"
+                "{{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}"
             </h2>
             <div class="text-slate-500 text-base md:text-lg leading-relaxed italic mb-12 max-w-3xl">
-                {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '. Kami berkomitmen untuk menghadirkan pemerintahan yang transparan dan akuntabel.' !!}
+                {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' !!}
             </div>
             <div class="flex flex-col items-center gap-3">
                 <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
