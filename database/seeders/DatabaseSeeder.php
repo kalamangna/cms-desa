@@ -19,11 +19,5 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DefaultDataSeeder::class,
         ]);
-
-        if (filter_var(env('SEED_SAMPLE_DATA', true), FILTER_VALIDATE_BOOLEAN)) {
-            $this->call([
-                SampleDataSeeder::class,
-            ]);
-        }
     }
 }
