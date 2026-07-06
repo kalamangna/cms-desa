@@ -188,9 +188,16 @@
                         <p class="text-slate-400 text-sm mt-1">Perbandingan jumlah laki-laki dan perempuan aktif</p>
                     </div>
                     <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100">{{ date('Y') }}</span>
-                </div>
-                <div class="p-8">
-                    <div class="h-72"><div id="populationChart"></div></div>
+                </div>                <div class="p-8">
+                    @if($lakiLakiCount == 0 && $perempuanCount == 0)
+                        <div class="h-72 flex flex-col items-center justify-center text-center p-4">
+                            <i class="fa-solid fa-users-slash text-slate-300 text-4xl mb-3"></i>
+                            <p class="text-slate-500 text-sm font-semibold">Belum ada data demografi aktif.</p>
+                            <p class="text-slate-400 text-xs mt-1">Impor data warga melalui panel admin untuk melihat visualisasi.</p>
+                        </div>
+                    @else
+                        <div class="h-72"><div id="populationChart"></div></div>
+                    @endif
                     <a href="/statistik" class="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200">
                         <i class="fa-solid fa-chart-line"></i> Statistik Lengkap
                     </a>
@@ -209,7 +216,7 @@
                     </a>
                 </div>
                 <div class="p-8">
-                    <div class="mb-6">
+                    <div class="mb-8">
                         <div class="flex justify-between items-center mb-2">
                             <span class="font-bold text-emerald-400 text-sm">Total Pendapatan</span>
                             <span class="text-sm font-bold text-white">{{ number_format($pendapatanPct, 1) }}%</span>
@@ -231,8 +238,14 @@
                     </div>
                     <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
                         <p class="text-xs font-black uppercase tracking-wider text-slate-400 mb-4 text-center">Alokasi Belanja Desa</p>
-                        <div class="h-52"><div id="budgetRingChart"></div></div>
-                    </div>
+                        @if($belanjaDetails->isEmpty())
+                            <div class="h-52 flex flex-col items-center justify-center text-center p-4">
+                                <i class="fa-solid fa-chart-pie text-slate-500 text-3xl mb-2"></i>
+                                <p class="text-slate-400 text-xs">Belum ada data alokasi belanja untuk tahun ini.</p>
+                            </div>
+                        @else
+                            <div class="h-52"><div id="budgetRingChart"></div></div>
+                        @endif
                 </div>
             </div>
         </div>

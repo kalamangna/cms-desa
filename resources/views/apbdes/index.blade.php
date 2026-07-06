@@ -72,8 +72,19 @@
      SUMMARY DASHBOARD CARDS (overlap hero)
 ═══════════════════════════════════════════════════════ --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 md:-mt-16 mb-20 md:mb-28 relative z-10">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-        @foreach($categories as $category)
+    @if($categories->isEmpty())
+        <div class="flex flex-col items-center justify-center text-center py-20 px-4 border border-slate-100 bg-white shadow-2xl rounded-[40px]">
+            <div class="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center border border-emerald-100 mb-6">
+                <i class="fa-solid fa-building-columns text-emerald-600 text-3xl"></i>
+            </div>
+            <h2 class="text-xl font-extrabold text-slate-900 mb-2">Belum Ada Data Realisasi APBDes</h2>
+            <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                Pemerintah desa belum mengonfigurasi anggaran pendapatan dan belanja desa (APBDes). Silakan masuk ke panel administrasi untuk menambahkan data anggaran dan realisasinya.
+            </p>
+        </div>
+    @else
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+            @foreach($categories as $category)
         @php
             $totalBudget      = $category->realizations->sum('budget_amount');
             $totalRealization = $category->realizations->sum('realization_amount');
@@ -354,7 +365,8 @@
             </div>
         </div>{{-- /category block --}}
         @endforeach
-    </div>
+        </div>
+    @endif
 </div>
 
 {{-- ═══════════════════════════════════════════════════════

@@ -58,7 +58,18 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28"
      x-data="{ activeTab: '{{ $categories->first()?->slug ?? '' }}' }">
 
-    {{-- TAB NAV --}}
+    @if($categories->isEmpty())
+        <div class="flex flex-col items-center justify-center text-center py-16 px-4 border border-slate-100 bg-slate-50/50 rounded-3xl">
+            <div class="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center border border-emerald-100 mb-6">
+                <i class="fa-solid fa-chart-pie text-emerald-600 text-3xl"></i>
+            </div>
+            <h2 class="text-xl font-extrabold text-slate-900 mb-2">Belum Ada Kategori Statistik</h2>
+            <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                Pemerintah desa belum mengonfigurasi kategori data statistik dinamis. Silakan masuk ke panel administrasi untuk menambahkan kategori statistik dan menghubungkannya dengan database kependudukan.
+            </p>
+        </div>
+    @else
+        {{-- TAB NAV --}}
     <div class="mb-12 md:mb-16">
         <div class="flex items-center gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
             @foreach($categories as $category)
@@ -192,6 +203,7 @@
 
     </div>{{-- /tab panel --}}
     @endforeach
+    @endif
 
 </div>{{-- /alpine wrapper --}}
 @endsection
