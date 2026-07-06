@@ -16,10 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('position');
             $table->string('photo')->nullable();
-            $table->string('nip')->nullable();
-            $table->string('nik')->nullable();
-            $table->date('period_start')->nullable();
-            $table->date('period_end')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

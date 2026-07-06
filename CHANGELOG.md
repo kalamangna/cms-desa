@@ -20,6 +20,15 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
   - Jika kosong, sistem otomatis meng-override nilai tahun berjalan dan seluruh data historis dummy (seeder) menjadi `0` di memori sehingga grafik publik tampil bersih tanpa data fiktif.
 
 ### Changed
+- **Pembersihan dan Konsolidasi Skema Migrasi Database**:
+  - Menggabungkan/meringkas skema migrasi tabel `users` (menghapus kolom email dan menambahkan `softDeletes` langsung pada migrasi awal).
+  - Menggabungkan skema migrasi tabel `officials` (menghapus kolom `nip`, `nik`, dan masa jabatan langsung pada migrasi awal).
+  - Menggabungkan skema migrasi tabel `galleries` (menambahkan kolom `type` dan `youtube_url` langsung pada migrasi awal).
+  - Menggabungkan skema migrasi tabel `dusuns` (menambahkan kolom `geojson` langsung pada migrasi awal).
+  - Menggabungkan skema migrasi tabel `statistic_categories` dan `statistic_indicators` (menambahkan parameter mapping dan is_active langsung pada migrasi awal).
+  - Menghapus 18 file migrasi perantara/pengubah (*alter/drop migrations*) yang sudah tidak terpakai agar struktur database lebih ringkas, bersih, dan cepat dimigrasi dari awal.
+- **Pembersihan Akun Pengguna Seeder**:
+  - Memastikan seeder hanya menyimpan satu akun pengguna superadmin resmi (`kalamangna`) dan membuang semua akun uji coba lainnya demi keamanan sistem produksi.
 - **Pembaruan Estetika Grafik Donat**:
   - Menghapus garis pembatas putih (*stroke/border*) pada seluruh grafik donat di halaman Statistik, Beranda, dan APBDes (`stroke: { show: false }`).
 

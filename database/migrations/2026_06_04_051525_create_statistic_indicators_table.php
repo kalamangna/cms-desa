@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('statistic_category_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('unit')->nullable(); // e.g., Orang, Jiwa, Persen
+            $table->string('mapping_column')->nullable();
+            $table->string('mapping_operator')->default('=');
+            $table->string('mapping_value')->nullable();
             $table->timestamps();
         });
     }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('image');
             $table->text('description')->nullable();
+            $table->string('type')->default('image');
+            $table->string('youtube_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

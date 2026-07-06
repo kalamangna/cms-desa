@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->string('mapping_table')->nullable();
+            $table->text('mapping_column')->nullable();
             $table->timestamps();
         });
     }

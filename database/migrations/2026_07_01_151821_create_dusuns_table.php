@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('head_name')->nullable();
+            $table->text('geojson')->nullable();
             $table->timestamps();
         });
     }
