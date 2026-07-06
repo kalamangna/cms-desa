@@ -26,7 +26,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
   - Menggabungkan skema migrasi tabel `galleries` (menambahkan kolom `type` dan `youtube_url` langsung pada migrasi awal).
   - Menggabungkan skema migrasi tabel `dusuns` (menambahkan kolom `geojson` langsung pada migrasi awal).
   - Menggabungkan skema migrasi tabel `statistic_categories` dan `statistic_indicators` (menambahkan parameter mapping dan is_active langsung pada migrasi awal).
-  - Menghapus 18 file migrasi perantara/pengubah (*alter/drop migrations*) yang sudah tidak terpakai agar struktur database lebih ringkas, bersih, dan cepat dimigrasi dari awal.
+  - Menghapus 19 file migrasi perantara/pengubah (*alter/drop migrations*) serta migrasi pengisian data settings awal yang tidak terpakai agar struktur database murni hanya mengatur skema tabel (tanpa menyisipkan data).
 - **Pembersihan dan Penghapusan Seluruh Seeder Data**:
   - Mengosongkan berkas seeder `DefaultDataSeeder.php` dari data bawaan (seperti pengaturan desa, kategori statistik, layanan administrasi, dan dusun) sehingga murni hanya mendaftarkan peran (*roles*) dan satu akun Super Admin (`kalamangna` | `Syazani`).
   - Menghapus berkas `SampleDataSeeder.php` secara permanen dan menyederhanakan `DatabaseSeeder.php` agar hanya memanggil inisialisasi akun Super Admin.
