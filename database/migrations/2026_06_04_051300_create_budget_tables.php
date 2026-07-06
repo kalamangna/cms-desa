@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // 2. Budget Realizations Table
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->bigInteger('budget_amount');
             $table->bigInteger('realization_amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

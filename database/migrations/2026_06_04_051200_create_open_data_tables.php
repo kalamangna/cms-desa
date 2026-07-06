@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('file_path');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // 2. Metadata Table
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->string('key');
             $table->text('value')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // 3. Publications Table (e.g. Infographics/Reports PDFs)
@@ -37,6 +39,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('file')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
