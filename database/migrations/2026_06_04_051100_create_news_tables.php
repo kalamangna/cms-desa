@@ -34,6 +34,11 @@ return new class extends Migration
                 if (!Schema::hasColumn('posts', 'deleted_at')) {
                     $table->softDeletes();
                 }
+                if (Schema::hasColumn('posts', 'photo') && !Schema::hasColumn('posts', 'featured_image')) {
+                    $table->renameColumn('photo', 'featured_image');
+                } elseif (!Schema::hasColumn('posts', 'featured_image')) {
+                    $table->string('featured_image')->nullable();
+                }
             });
         } else {
             Schema::create('posts', function (Blueprint $table) {
@@ -42,7 +47,7 @@ return new class extends Migration
                 $table->string('title');
                 $table->string('slug')->unique();
                 $table->text('content');
-                $table->string('photo')->nullable();
+                $table->string('featured_image')->nullable();
                 $table->timestamp('published_at')->nullable();
                 $table->timestamps();
                 $table->softDeletes();

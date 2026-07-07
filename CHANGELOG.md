@@ -5,6 +5,9 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 ## [1.7.4] - 2026-07-07
 
 ### Fixed
+- **Sinkronisasi Kolom Gambar Berita (`featured_image`)**:
+  - Mengubah penamaan kolom pada tabel `posts` dari `photo` menjadi `featured_image` agar konsisten dengan deklarasi Model `Post`, skema unggahan admin Filament, dan pemanggilan variabel di halaman pratinjau meta berita publik (`posts/show.blade.php`).
+  - Menambahkan migrasi otomatis untuk mengganti nama kolom dari `photo` ke `featured_image` pada database produksi lama guna menjaga keutuhan data foto berita.
 - **Empty State & Pembersihan Otomatis Halaman Statistik Publik**:
   - Menyempurnakan `StatisticController` dan `statistics/index.blade.php` agar secara dinamis menampilkan kotak panduan/pesan status kosong (*empty state*) yang anggun dan interaktif apabila database kependudukan kosong (jumlah warga/keluarga = 0), alih-alih me-render grafik ApexCharts kosong yang datar.
   - Menambahkan pembersihan otomatis terhadap data dummy historis bawaan seeder lama (`year < currentYear` di tabel `statistic_data`) ketika database kependudukan sudah mulai terisi dengan data riil, guna menjaga akurasi grafik dan mencegah percampuran data fiktif.
