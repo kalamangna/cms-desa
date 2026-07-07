@@ -19,9 +19,7 @@ class OfficialForm
                     ->required(),
                 FileUpload::make('photo')->label('Foto')
                     ->image()
-                    ->imageResizeMode('cover')
                     ->imageResizeTargetWidth(600)
-                    ->imageResizeTargetHeight(800)
                     ->nullable()
                     ->directory('officials'),
             ]);
