@@ -108,6 +108,6 @@ class StatisticController extends Controller
 
         $datasets = Dataset::latest()->take(3)->get();
 
-        return view('statistics.index', compact('categories', 'datasets'));
+        return view('statistics.index', compact('categories', 'datasets', 'isEmptyDb'));
     }
 }

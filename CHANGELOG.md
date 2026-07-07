@@ -5,6 +5,8 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 ## [1.7.4] - 2026-07-07
 
 ### Fixed
+- **Empty State Halaman Statistik Publik**:
+  - Menyempurnakan `StatisticController` dan `statistics/index.blade.php` agar secara dinamis menampilkan kotak panduan/pesan status kosong (*empty state*) yang anggun dan interaktif apabila database kependudukan kosong (jumlah warga/keluarga = 0), alih-alih me-render grafik ApexCharts kosong yang datar.
 - **Idempotensi Berkas Migrasi Database (Safe Idempotent Migrations)**:
   - Memodifikasi seluruh 12 berkas migrasi modular agar secara otomatis memeriksa keberadaan tabel (`Schema::hasTable`) dan kolom (`Schema::hasColumn`) sebelum melakukan tindakan *create* atau *alter*. Hal ini menjamin perintah `php artisan migrate` berjalan 100% sukses tanpa crash *Table already exists* dan secara otomatis menambal kolom yang kurang (seperti `deleted_at`) pada database server yang sudah berisi data nyata.
 - **Skema Kolom SoftDeletes**:

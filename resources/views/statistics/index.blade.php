@@ -58,7 +58,17 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28"
      x-data="{ activeTab: '{{ $categories->first()?->slug ?? '' }}' }">
 
-    @if($categories->isEmpty())
+    @if($isEmptyDb)
+        <div class="flex flex-col items-center justify-center text-center py-16 px-4 border border-slate-100 bg-slate-50/50 rounded-3xl max-w-2xl mx-auto">
+            <div class="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center border border-emerald-100 mb-6">
+                <i class="fa-solid fa-users-slash text-emerald-600 text-3xl"></i>
+            </div>
+            <h2 class="text-xl font-extrabold text-slate-900 mb-2">Data Kependudukan Belum Tersedia</h2>
+            <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                Belum ada data demografi dan kependudukan di sistem saat ini. Administrator dapat mengimpor data warga untuk menyajikan visualisasi data statistik secara dinamis.
+            </p>
+        </div>
+    @elseif($categories->isEmpty())
         <div class="flex flex-col items-center justify-center text-center py-16 px-4 border border-slate-100 bg-slate-50/50 rounded-3xl">
             <div class="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center border border-emerald-100 mb-6">
                 <i class="fa-solid fa-chart-pie text-emerald-600 text-3xl"></i>
@@ -525,9 +535,11 @@
         };
 
         // Initialize all charts on load
-        @foreach($categories as $category)
-            window.renderCategoryChart('{{ $category->slug }}', 'bar');
-        @endforeach
+        @if(!$isEmptyDb)
+            @foreach($categories as $category)
+                window.renderCategoryChart('{{ $category->slug }}', 'bar');
+            @endforeach
+        @endif
     });
 </script>
 @endpush
