@@ -29,6 +29,9 @@ class PostForm
                     ->columnSpanFull(),
                 FileUpload::make('featured_image')->label('Gambar')
                     ->image()
+                    ->imageResizeMode('cover')
+                    ->imageResizeTargetWidth(1200)
+                    ->imageResizeTargetHeight(630)
                     ->nullable()
                     ->directory('posts'),
                 DateTimePicker::make('published_at')->label('Tanggal Publikasi'),

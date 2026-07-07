@@ -26,6 +26,9 @@ class GalleryForm
                     ->live(),
                 FileUpload::make('image')->label('Foto')
                     ->image()
+                    ->imageResizeMode('cover')
+                    ->imageResizeTargetWidth(1200)
+                    ->imageResizeTargetHeight(800)
                     ->directory('galleries')
                     ->visible(fn ($get) => $get('type') === 'foto')
                     ->required(fn ($get) => $get('type') === 'foto'),

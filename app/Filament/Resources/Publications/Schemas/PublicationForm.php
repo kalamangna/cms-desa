@@ -30,6 +30,9 @@ class PublicationForm
                 FileUpload::make('cover')
                     ->label('Sampul (Cover)')
                     ->image()
+                    ->imageResizeMode('cover')
+                    ->imageResizeTargetWidth(600)
+                    ->imageResizeTargetHeight(800)
                     ->nullable()
                     ->directory('publications/covers'),
                 FileUpload::make('pdf_file')->label('File PDF')

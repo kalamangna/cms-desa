@@ -116,16 +116,28 @@ class FamilyForm
                                     ->schema([
                                         FileUpload::make('photo_front')->label('Foto Rumah Tampak Depan')
                                             ->directory('families/photos')
-                                            ->image(),
+                                            ->image()
+                                            ->imageResizeMode('cover')
+                                            ->imageResizeTargetWidth(1200)
+                                            ->imageResizeTargetHeight(900),
                                         FileUpload::make('photo_living_room')->label('Foto Ruang Tamu')
                                             ->directory('families/photos')
-                                            ->image(),
+                                            ->image()
+                                            ->imageResizeMode('cover')
+                                            ->imageResizeTargetWidth(1200)
+                                            ->imageResizeTargetHeight(900),
                                         FileUpload::make('photo_bathroom')->label('Foto Kamar Mandi')
                                             ->directory('families/photos')
-                                            ->image(),
+                                            ->image()
+                                            ->imageResizeMode('cover')
+                                            ->imageResizeTargetWidth(1200)
+                                            ->imageResizeTargetHeight(900),
                                         FileUpload::make('photo_kk')->label('Foto Kartu Keluarga')
                                             ->directory('families/photos')
-                                            ->image(),
+                                            ->image()
+                                            ->imageResizeMode('cover')
+                                            ->imageResizeTargetWidth(1200)
+                                            ->imageResizeTargetHeight(900),
                                     ]),
                                 Textarea::make('notes')->label('Catatan Lainnya')
                                     ->columnSpanFull(),

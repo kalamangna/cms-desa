@@ -5,6 +5,9 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 ## [1.7.4] - 2026-07-07
 
 ### Fixed
+- **Kompresi & Resizing Gambar Client-Side via FileUpload**:
+  - Mengonfigurasi seluruh input unggah gambar di Filament (Berita, Sampul Publikasi, Foto Aparatur, Logo Lembaga, Galeri Foto, dan Foto Survei Keluarga) agar secara otomatis melakukan pengubahan ukuran (*resizing*) dan kompresi di sisi browser pengguna sebelum file diunggah ke server.
+  - Untuk gambar berita, resolusi diubah otomatis menjadi 1200x630 piksel (ukuran standar ideal Open Graph/Facebook). Hal ini mengompresi gambar kamera ponsel asli yang berukuran sangat besar (misal 10.9 MB) menjadi di bawah 300 KB, sehingga memenuhi batasan ketat WhatsApp (maksimal 300 KB) agar gambar pratinjau tautan dapat tampil sempurna saat dibagikan.
 - **Sinkronisasi Kolom Gambar Berita (`featured_image`)**:
   - Mengubah penamaan kolom pada tabel `posts` dari `photo` menjadi `featured_image` agar konsisten dengan deklarasi Model `Post`, skema unggahan admin Filament, dan pemanggilan variabel di halaman pratinjau meta berita publik (`posts/show.blade.php`).
   - Menambahkan migrasi otomatis untuk mengganti nama kolom dari `photo` ke `featured_image` pada database produksi lama guna menjaga keutuhan data foto berita.

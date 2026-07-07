@@ -18,6 +18,9 @@ class InstitutionForm
                 FileUpload::make('logo')
                     ->label('Logo Lembaga')
                     ->image()
+                    ->imageResizeMode('cover')
+                    ->imageResizeTargetWidth(400)
+                    ->imageResizeTargetHeight(400)
                     ->nullable()
                     ->directory('institutions')
                     ->columnSpanFull(),
