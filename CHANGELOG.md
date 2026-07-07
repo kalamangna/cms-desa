@@ -5,9 +5,6 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 ## [1.7.4] - 2026-07-07
 
 ### Fixed
-- **Pembuatan Desain Bingkai Kustom `meta.png`**:
-  - Mengembangkan desain grafis kustom modern dan minimalis untuk berkas `public/img/meta.png` yang digunakan sebagai fallback gambar preview (social media Open Graph) default di seluruh halaman publik.
-  - Desain baru mengusung tema hijau emerald premium, ilustrasi lanskap pedesaan Indonesia yang geometris, logo placeholder resmi, serta teks tipografi formal "Website Resmi Pemerintah Desa".
 - **Empty State & Pembersihan Otomatis Halaman Statistik Publik**:
   - Menyempurnakan `StatisticController` dan `statistics/index.blade.php` agar secara dinamis menampilkan kotak panduan/pesan status kosong (*empty state*) yang anggun dan interaktif apabila database kependudukan kosong (jumlah warga/keluarga = 0), alih-alih me-render grafik ApexCharts kosong yang datar.
   - Menambahkan pembersihan otomatis terhadap data dummy historis bawaan seeder lama (`year < currentYear` di tabel `statistic_data`) ketika database kependudukan sudah mulai terisi dengan data riil, guna menjaga akurasi grafik dan mencegah percampuran data fiktif.
