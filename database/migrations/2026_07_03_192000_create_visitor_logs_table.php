@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('visitor_logs', function (Blueprint $blueprint) {
-            $blueprint->id();
-            $blueprint->string('ip_hash', 64);
-            $blueprint->string('url')->nullable();
-            $blueprint->string('user_agent')->nullable();
-            $blueprint->date('visit_date');
-            $blueprint->timestamps();
+        if (!Schema::hasTable('visitor_logs')) {
+            Schema::create('visitor_logs', function (Blueprint $blueprint) {
+                $blueprint->id();
+                $blueprint->string('ip_hash', 64);
+                $blueprint->string('url')->nullable();
+                $blueprint->string('user_agent')->nullable();
+                $blueprint->date('visit_date');
+                $blueprint->timestamps();
 
-            // Indexes for speed
-            $blueprint->index(['visit_date', 'ip_hash']);
-            $blueprint->index('visit_date');
-        });
+                // Indexes for speed
+                $blueprint->index(['visit_date', 'ip_hash']);
+                $blueprint->index('visit_date');
+            });
+        }
     }
 
     /**
