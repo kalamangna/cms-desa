@@ -42,9 +42,24 @@ Artisan::command('app:compress-post-images', function () {
             continue;
         }
         
-        $path = storage_path('app/public/' . $imageName);
-        if (!file_exists($path)) {
-            $this->warn("File tidak ditemukan: {$imageName} di {$path}");
+        $possiblePaths = [
+            storage_path('app/public/' . $imageName),
+            public_path('storage/' . $imageName),
+            base_path('../public_html/storage/' . $imageName),
+            base_path('../public/storage/' . $imageName),
+            base_path('../storage/' . $imageName),
+        ];
+        
+        $path = null;
+        foreach ($possiblePaths as $p) {
+            if (file_exists($p)) {
+                $path = $p;
+                break;
+            }
+        }
+        
+        if (!$path) {
+            $this->warn("File tidak ditemukan: {$imageName} di seluruh direktori pencarian.");
             continue;
         }
         
