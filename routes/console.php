@@ -15,11 +15,16 @@ Artisan::command('app:sync-production', function () {
 
     // 1. Tambahkan kolom softDeletes jika belum ada
     $tables = [
+        'announcements',
         'budget_categories', 
         'budget_realizations', 
         'categories', 
         'datasets', 
+        'documents',
+        'galleries',
         'metadata', 
+        'officials',
+        'posts',
         'publications'
     ];
 
