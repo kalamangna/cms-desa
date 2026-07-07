@@ -10,17 +10,22 @@ class StatisticController extends Controller
 {
     public function index()
     {
-        // Ambil semua kategori aktif beserta indikator dan data historis dari DB
-        $categories = StatisticCategory::where('is_active', true)
-            ->with(['indicators.data' => function ($query) {
-                $query->orderBy('year', 'asc');
-            }])->get();
-
         $currentYear = date('Y');
         
         $totalCitizens = \App\Models\Citizen::count();
         $totalFamilies = \App\Models\Family::count();
         $isEmptyDb = ($totalCitizens === 0 && $totalFamilies === 0);
+
+        if (!$isEmptyDb) {
+            // Hapus data dummy dari seeder sebelumnya di database agar tidak mengotori grafik real
+            \App\Models\StatisticData::where('year', '<', $currentYear)->delete();
+        }
+
+        // Ambil semua kategori aktif beserta indikator dan data historis dari DB
+        $categories = StatisticCategory::where('is_active', true)
+            ->with(['indicators.data' => function ($query) {
+                $query->orderBy('year', 'asc');
+            }])->get();
 
         foreach ($categories as $category) {
             // Guard: lewati kategori yang mapping_table-nya tidak valid
