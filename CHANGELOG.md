@@ -9,6 +9,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
 ### Added
 - **Unit Test untuk Galeri Video Tanpa Gambar**: Menambahkan kasus uji `test_can_create_video_gallery_without_image` pada [CMSContentTest.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/tests/Feature/CMSContentTest.php) untuk memverifikasi dan memastikan fungsionalitas pembuatan galeri video berjalan dengan sukses tanpa menyertakan berkas gambar.
+- **Tombol Perbesar & Lightbox Modal di Beranda**: Mengintegrasikan tombol perbesar (expand) beserta modal interaktif Lightbox (menggunakan Alpine.js) di bagian galeri halaman depan ([home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php)), menyelaraskan fungsionalitasnya dengan halaman galeri utama.
 
 ## [1.7.4] - 2026-07-07
 

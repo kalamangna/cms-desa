@@ -343,7 +343,20 @@
 </div>
 
 {{-- 6. GALERI & PUBLIKASI --}}
-<div class="bg-slate-50 py-16 md:py-20 lg:py-28">
+<div 
+    class="bg-slate-50 py-16 md:py-20 lg:py-28"
+    x-data="{
+        lightboxOpen: false,
+        lightboxImage: '',
+        lightboxTitle: '',
+        lightboxVideo: '',
+        getYoutubeEmbed(url) {
+            if (!url) return '';
+            const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
+            return (match && match[2].length === 11) ? 'https://www.youtube.com/embed/' + match[2] : '';
+        }
+    }"
+>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
             <div>
@@ -377,7 +390,16 @@
                         </div>
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <p class="text-white font-bold text-sm line-clamp-1">{{ $gallery->title }}</p>
+                            <div class="flex items-center justify-between gap-2">
+                                <p class="text-white font-bold text-sm line-clamp-1">{{ $gallery->title }}</p>
+                                <button 
+                                    @click="lightboxOpen = true; lightboxImage = '{{ $gallery->image_url }}'; lightboxTitle = '{{ addslashes($gallery->title) }}'; lightboxVideo = '{{ $gallery->type === 'video' ? $gallery->youtube_url : '' }}'"
+                                    class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-sm transition cursor-pointer flex-shrink-0"
+                                    title="Perbesar"
+                                >
+                                    <i class="fa-solid fa-expand text-xs"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     @empty
@@ -422,6 +444,53 @@
                     @endforelse
                 </div>
             </div>
+        </div>
+    </div>
+
+    {{-- ═══════════════════════════════════════════════════════════════════ --}}
+    {{-- LIGHTBOX MODAL --}}
+    {{-- ═══════════════════════════════════════════════════════════════════ --}}
+    <div
+        x-show="lightboxOpen"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/95 backdrop-blur-sm"
+        x-cloak
+        @keydown.escape.window="lightboxOpen = false; lightboxVideo = ''"
+    >
+        {{-- Tombol tutup --}}
+        <button
+            @click="lightboxOpen = false; lightboxVideo = ''"
+            class="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-white focus:outline-none transition z-50 cursor-pointer"
+        >
+            <i class="fa-solid fa-xmark text-4xl"></i>
+        </button>
+
+        <div
+            @click.away="lightboxOpen = false; lightboxVideo = ''"
+            class="relative max-w-4xl w-full mx-4 flex flex-col items-center justify-center"
+            x-show="lightboxOpen"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+        >
+            <template x-if="lightboxVideo">
+                <div class="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-white/10">
+                    <iframe
+                        class="w-full h-full"
+                        :src="getYoutubeEmbed(lightboxVideo)"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </template>
+            <template x-if="!lightboxVideo">
+                <img :src="lightboxImage" :alt="lightboxTitle" class="w-full h-auto max-h-[85vh] object-contain rounded-xl shadow-2xl">
+            </template>
+
+            <h3 x-text="lightboxTitle" class="text-white text-center mt-6 font-heading font-bold text-xl md:text-2xl"></h3>
         </div>
     </div>
 </div>
