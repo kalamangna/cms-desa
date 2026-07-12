@@ -15,7 +15,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Pengujian Halaman Kontak & Layanan**: Menambahkan kasus uji pada [FrontendAccessTest.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/tests/Feature/FrontendAccessTest.php) untuk memastikan rute kontak & layanan dapat diakses dengan baik serta memuat kode skema JSON-LD yang tepat.
 
 ### Changed
-- **Migrasi ke Google Maps**: Menggantikan peta Leaflet.js di halaman Kontak ([kontak.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/pages/kontak.blade.php)) menggunakan ubin peta *iframe embed* Google Maps dinamis berbasis koordinat database tanpa memerlukan API Key berbayar, serta membersihkan pemuatan pustaka Leaflet agar halaman memuat lebih cepat.
+- **Migrasi ke Google Maps (Tampilan Area)**: Menggantikan peta Leaflet.js di halaman Kontak ([kontak.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/pages/kontak.blade.php)) menggunakan ubin peta *iframe embed* Google Maps dinamis yang melakukan kueri pencarian berdasarkan nama desa, kecamatan, dan kabupaten secara otomatis untuk memetakan poligon batas area desa secara utuh tanpa memerlukan API Key berbayar, serta membersihkan pustaka Leaflet agar halaman memuat lebih cepat.
 
 ## [1.7.4] - 2026-07-07
 

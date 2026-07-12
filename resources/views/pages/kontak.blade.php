@@ -192,21 +192,21 @@
 
             {{-- Map --}}
             <div class="flex-1 rounded-[40px] overflow-hidden shadow-2xl shadow-slate-300/40 border-4 border-white min-h-[400px] relative bg-slate-100 isolate">
-                @if(!empty($site_settings['village_latitude']) && !empty($site_settings['village_longitude']))
-                    {{-- Google Maps Embed --}}
+                @if(!empty($site_settings['village_name']))
+                    {{-- Google Maps Embed (Village Area) --}}
                     <iframe 
                         class="w-full h-full absolute inset-0 z-0 border-0"
-                        src="https://maps.google.com/maps?q={{ $site_settings['village_latitude'] }},{{ $site_settings['village_longitude'] }}&z=15&output=embed" 
+                        src="https://maps.google.com/maps?q=Desa+{{ urlencode($site_settings['village_name']) }}+Kecamatan+{{ urlencode($site_settings['district_name'] ?? '') }}+Kabupaten+{{ urlencode($site_settings['regency_name'] ?? '') }}&z=13&output=embed" 
                         allowfullscreen="" 
                         loading="lazy" 
                         referrerpolicy="no-referrer-when-downgrade"
                     ></iframe>
                 @else
-                    {{-- Placeholder when no coordinates configured --}}
+                    {{-- Placeholder when no village name configured --}}
                     <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-300 p-6 text-center">
                         <i class="fa-solid fa-map-location-dot text-7xl mb-4 opacity-30"></i>
                         <p class="font-bold text-slate-400">Peta belum dikonfigurasi</p>
-                        <p class="text-sm text-slate-300 mt-1">Tambahkan koordinat Latitude & Longitude di pengaturan lokasi untuk mengaktifkan peta.</p>
+                        <p class="text-sm text-slate-300 mt-1">Tambahkan nama desa di pengaturan untuk mengaktifkan peta.</p>
                     </div>
                 @endif
             </div>
