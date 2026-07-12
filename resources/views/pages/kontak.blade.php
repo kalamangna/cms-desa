@@ -4,6 +4,40 @@
 @section('meta_description', 'Informasi kontak pelayanan publik dan alamat kantor sekretariat Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk pengaduan dan koordinasi.')
 @section('meta_image', asset('img/meta.png'))
 
+@push('head')
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "GovernmentOffice",
+    "@@id": "{{ url('/kontak') }}#governmentoffice",
+    "name": "Kantor Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}",
+    "url": "{{ url('/kontak') }}",
+    "logo": {
+        "@@type": "ImageObject",
+        "url": "{{ asset('img/sinjai.png') }}"
+    },
+    "image": "{{ asset('img/meta.png') }}",
+    "description": "Kantor pelayanan publik dan administrasi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}.",
+    "telephone": {!! json_encode($site_settings['village_phone'] ?? '') !!},
+    "email": {!! json_encode($site_settings['village_email'] ?? '') !!},
+    "address": {
+        "@@type": "PostalAddress",
+        "streetAddress": {!! json_encode($site_settings['village_address'] ?? '') !!},
+        "addressLocality": {!! json_encode($site_settings['district_name'] ?? '') !!},
+        "addressRegion": {!! json_encode(($site_settings['regency_name'] ?? '') . ', SULAWESI SELATAN') !!},
+        "addressCountry": "ID"
+    }
+    @if(!empty($site_settings['village_latitude']) && !empty($site_settings['village_longitude'])),
+    "geo": {
+        "@@type": "GeoCoordinates",
+        "latitude": "{{ $site_settings['village_latitude'] }}",
+        "longitude": "{{ $site_settings['village_longitude'] }}"
+    }
+    @endif
+}
+</script>
+@endpush
+
 @section('content')
 
 {{-- ===================== HERO ===================== --}}
@@ -159,8 +193,14 @@
             {{-- Map --}}
             <div class="flex-1 rounded-[40px] overflow-hidden shadow-2xl shadow-slate-300/40 border-4 border-white min-h-[400px] relative bg-slate-100 isolate">
                 @if(!empty($site_settings['village_latitude']) && !empty($site_settings['village_longitude']))
-                    {{-- Leaflet Map --}}
-                    <div id="contactMap" class="w-full h-full absolute inset-0 z-0"></div>
+                    {{-- Google Maps Embed --}}
+                    <iframe 
+                        class="w-full h-full absolute inset-0 z-0 border-0"
+                        src="https://maps.google.com/maps?q={{ $site_settings['village_latitude'] }},{{ $site_settings['village_longitude'] }}&z=15&output=embed" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
                 @else
                     {{-- Placeholder when no coordinates configured --}}
                     <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-300 p-6 text-center">
@@ -229,23 +269,4 @@
 
 @endsection
 
-@if(!empty($site_settings['village_latitude']) && !empty($site_settings['village_longitude']))
-@push('scripts')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const mapEl = document.getElementById('contactMap');
-        if (!mapEl) return;
-        const map = L.map('contactMap').setView([{{ $site_settings['village_latitude'] ?? '-5.23' }}, {{ $site_settings['village_longitude'] ?? '120.21' }}], 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        L.marker([{{ $site_settings['village_latitude'] ?? '-5.23' }}, {{ $site_settings['village_longitude'] ?? '120.21' }}])
-            .addTo(map)
-            .bindPopup('Kantor Desa {{ $site_settings["village_name"] ?? "" }}')
-            .openPopup();
-    });
-</script>
-@endpush
-@endif
+

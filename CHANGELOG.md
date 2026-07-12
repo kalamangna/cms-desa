@@ -10,6 +10,12 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 ### Added
 - **Unit Test untuk Galeri Video Tanpa Gambar**: Menambahkan kasus uji `test_can_create_video_gallery_without_image` pada [CMSContentTest.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/tests/Feature/CMSContentTest.php) untuk memverifikasi dan memastikan fungsionalitas pembuatan galeri video berjalan dengan sukses tanpa menyertakan berkas gambar.
 - **Tombol Perbesar & Lightbox Modal di Beranda**: Mengintegrasikan tombol perbesar (expand) beserta modal interaktif Lightbox (menggunakan Alpine.js) di bagian galeri halaman depan ([home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php)), menyelaraskan fungsionalitasnya dengan halaman galeri utama.
+- **Struktur Data JSON-LD Dinamis (SEO Lokal)**: Menyematkan skema terstruktur `GovernmentOffice` di halaman Kontak ([kontak.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/pages/kontak.blade.php)) dan daftar `GovernmentService` secara otomatis di halaman Layanan ([layanan.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/pages/layanan.blade.php)) untuk mendongkrak visibilitas pencarian lokal.
+- **Optimasi SEO Dinamis Halaman Berita**: Mengubah metadata judul dan meta deskripsi di halaman indeks berita ([posts/index.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/posts/index.blade.php)) agar merespons secara dinamis terhadap penyaringan kategori atau kueri kata kunci pencarian.
+- **Pengujian Halaman Kontak & Layanan**: Menambahkan kasus uji pada [FrontendAccessTest.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/tests/Feature/FrontendAccessTest.php) untuk memastikan rute kontak & layanan dapat diakses dengan baik serta memuat kode skema JSON-LD yang tepat.
+
+### Changed
+- **Migrasi ke Google Maps**: Menggantikan peta Leaflet.js di halaman Kontak ([kontak.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/pages/kontak.blade.php)) menggunakan ubin peta *iframe embed* Google Maps dinamis berbasis koordinat database tanpa memerlukan API Key berbayar, serta membersihkan pemuatan pustaka Leaflet agar halaman memuat lebih cepat.
 
 ## [1.7.4] - 2026-07-07
 

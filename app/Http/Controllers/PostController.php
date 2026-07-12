@@ -19,7 +19,9 @@ class PostController extends Controller
             });
         }
 
+        $selectedCategory = null;
         if ($request->filled('category')) {
+            $selectedCategory = Category::where('slug', $request->category)->first();
             $query->whereHas('category', function ($q) use ($request) {
                 $q->where('slug', $request->category);
             });
@@ -31,7 +33,7 @@ class PostController extends Controller
             $query->where('published_at', '<=', now());
         }])->get();
 
-        return view('posts.index', compact('posts', 'categories'));
+        return view('posts.index', compact('posts', 'categories', 'selectedCategory'));
     }
 
     public function show($slug)

@@ -4,6 +4,36 @@
 @section('meta_description', 'Panduan standar operasional prosedur, persyaratan berkas, dan jenis layanan administrasi kependudukan pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.png'))
 
+@push('head')
+@if(!$services->isEmpty())
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@graph": [
+        @foreach($services as $idx => $service)
+        {
+            "@@type": "GovernmentService",
+            "@@id": "{{ url('/layanan') }}#service-{{ $service->id }}",
+            "name": {!! json_encode($service->title) !!},
+            "description": {!! json_encode(strip_tags($service->description)) !!},
+            "serviceOperator": {
+                "@@type": "GovernmentOrganization",
+                "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}",
+                "url": "{{ url('/') }}"
+            },
+            "provider": {
+                "@@type": "GovernmentOffice",
+                "name": "Kantor Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}",
+                "url": "{{ url('/kontak') }}"
+            }
+        }{{ $idx < count($services) - 1 ? ',' : '' }}
+        @endforeach
+    ]
+}
+</script>
+@endif
+@endpush
+
 @section('content')
 {{-- Wrapper with Alpine JS state --}}
 <div x-data="{ activeService: null }" class="relative">
