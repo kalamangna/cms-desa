@@ -196,7 +196,7 @@
                     {{-- Google Maps Embed (Village Area) --}}
                     <iframe 
                         class="w-full h-full absolute inset-0 z-0 border-0"
-                        src="https://maps.google.com/maps?q=Desa+{{ urlencode($site_settings['village_name']) }}+Kecamatan+{{ urlencode($site_settings['district_name'] ?? '') }}+Kabupaten+{{ urlencode($site_settings['regency_name'] ?? '') }}&z=13&output=embed" 
+                        src="https://maps.google.com/maps?q=Desa+{{ urlencode($site_settings['village_name']) }}+Kecamatan+{{ urlencode($site_settings['district_name'] ?? '') }}+Kabupaten+{{ urlencode($site_settings['regency_name'] ?? '') }}&z=12&output=embed" 
                         allowfullscreen="" 
                         loading="lazy" 
                         referrerpolicy="no-referrer-when-downgrade"
