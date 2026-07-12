@@ -79,8 +79,12 @@ class ManageSettings extends Page implements HasForms
                                 TextInput::make('village_email')->label('Email Desa')->email(),
                                 TextInput::make('village_phone')->label('Nomor Telepon'),
                                 TextInput::make('village_address')->label('Alamat Kantor')->columnSpanFull(),
-                                TextInput::make('village_latitude')->label('Latitude Peta (misal: -5.230000)'),
-                                TextInput::make('village_longitude')->label('Longitude Peta (misal: 120.210000)'),
+                                TextInput::make('village_latitude')
+                                    ->label('Latitude Kantor Desa')
+                                    ->helperText('Koordinat garis lintang Kantor Desa (contoh: -5.230000) untuk SEO & peta spasial.'),
+                                TextInput::make('village_longitude')
+                                    ->label('Longitude Kantor Desa')
+                                    ->helperText('Koordinat garis bujur Kantor Desa (contoh: 120.210000) untuk SEO & peta spasial.'),
                             ]),
                         Tabs\Tab::make('Media Sosial')
                             ->icon('heroicon-o-share')

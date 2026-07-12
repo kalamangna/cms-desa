@@ -16,6 +16,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
 ### Changed
 - **Migrasi ke Google Maps (Tampilan Area)**: Menggantikan peta Leaflet.js di halaman Kontak ([kontak.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/pages/kontak.blade.php)) menggunakan ubin peta *iframe embed* Google Maps dinamis yang melakukan kueri pencarian berdasarkan nama desa, kecamatan, dan kabupaten secara otomatis untuk memetakan poligon batas area desa secara utuh tanpa memerlukan API Key berbayar, serta membersihkan pustaka Leaflet agar halaman memuat lebih cepat.
+- **Keterangan Koordinat Panel Admin**: Memperjelas penamaan label dan menambahkan *helper text* panduan pengisian Latitude dan Longitude pada halaman Pengaturan admin Filament ([ManageSettings.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/app/Filament/Pages/ManageSettings.php)) untuk mempermudah pemahaman koordinat kantor desa.
 
 ## [1.7.4] - 2026-07-07
 
