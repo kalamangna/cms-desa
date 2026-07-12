@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.7.5] - 2026-07-13
+
+### Fixed
+- **QueryException pada Pembuatan Galeri Video**: Mengubah kolom `image` pada tabel `galleries` menjadi `nullable` melalui migrasi database. Hal ini memperbaiki masalah kegagalan penyimpanan data (*SQLSTATE[HY000]: General error: 1364 Field 'image' doesn't have a default value*) saat membuat galeri dengan tipe `video` di mana unggahan foto dikosongkan karena tidak diperlukan (pratinjau gambar akan otomatis diambil secara dinamis dari tautan YouTube).
+
+### Added
+- **Unit Test untuk Galeri Video Tanpa Gambar**: Menambahkan kasus uji `test_can_create_video_gallery_without_image` pada [CMSContentTest.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/tests/Feature/CMSContentTest.php) untuk memverifikasi dan memastikan fungsionalitas pembuatan galeri video berjalan dengan sukses tanpa menyertakan berkas gambar.
+
 ## [1.7.4] - 2026-07-07
 
 ### Fixed

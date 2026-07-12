@@ -54,6 +54,21 @@ class CMSContentTest extends TestCase
         $this->assertDatabaseHas('galleries', ['title' => 'Foto Kegiatan']);
     }
 
+    public function test_can_create_video_gallery_without_image(): void
+    {
+        Gallery::create([
+            'title' => 'Video Kegiatan',
+            'slug' => 'video-kegiatan',
+            'type' => 'video',
+            'youtube_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        ]);
+        $this->assertDatabaseHas('galleries', [
+            'title' => 'Video Kegiatan',
+            'type' => 'video',
+            'image' => null,
+        ]);
+    }
+
     public function test_can_create_document(): void
     {
         Document::create([
