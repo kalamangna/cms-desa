@@ -85,8 +85,12 @@ git clone https://github.com/kalamangna/cms-desa.git
 ### 2. Konfigurasi Awal di Server
 1. Pindah ke folder proyek: `cd cms-desa`
 2. Install dependensi: `composer install --optimize-autoloader --no-dev`
-3. Konfigurasi file `.env` (buat baru atau salin dari `.env.example` dan sesuaikan database hPanel Anda).
-4. Buat tautan folder `public_html` ke folder `public` proyek:
+3. Konfigurasi file `.env` (salin dari `.env.example` dengan perintah `cp .env.example .env` lalu sesuaikan konfigurasi database hPanel Anda).
+4. Buat key enkripsi aplikasi:
+   ```bash
+   php artisan key:generate
+   ```
+5. Buat tautan folder `public_html` ke folder `public` proyek:
    ```bash
    rm -rf ~/public_html
    ln -s ~/cms-desa/public ~/public_html
