@@ -56,7 +56,7 @@ class ManageProfile extends Page implements HasForms
                             ->icon('heroicon-o-globe-asia-australia')
                             ->columns(2)
                             ->components([
-                                TextInput::make('village_area')->label('Luas Wilayah (km²)')->numeric(),
+                                TextInput::make('village_area')->label('Luas Wilayah (km²)'),
                                 Select::make('village_topography')
                                     ->label('Topografi Wilayah')
                                     ->options([
