@@ -173,8 +173,8 @@
                <!-- Modal Image Header -->
                <div class="relative aspect-video w-full bg-slate-100 flex-shrink-0">
                    <img :src="selectedPotential?.image"
-                        class="w-full h-full object-cover"
-                        alt="">
+                        :alt="selectedPotential?.title"
+                        class="w-full h-full object-cover">
                </div>
 
                <!-- Modal Content -->
