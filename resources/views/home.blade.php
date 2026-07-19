@@ -250,7 +250,7 @@
             <div class="min-w-0 w-full">
                 <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
                 <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ $site_settings['village_area'] ?? '—' }}</h3>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Km²</p>
+                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">km²</p>
             </div>
         </div>
 
