@@ -154,9 +154,9 @@
             </div>
         </div>
         @empty
-        <div class="col-span-full py-40 text-center bg-slate-50 rounded-[40px] border-2 border-dashed border-slate-200">
-            <i class="fa-solid fa-book-open text-5xl text-slate-300 mb-6 block"></i>
-            <p class="text-slate-400 font-bold italic">Dokumen belum tersedia.</p>
+        <div class="col-span-full text-center py-16">
+            <i class="fa-solid fa-book-open text-slate-300 text-3xl mb-3 block"></i>
+            <h3 class="text-slate-400 font-bold text-sm">Belum Ada Publikasi</h3>
         </div>
         @endforelse
     </div>

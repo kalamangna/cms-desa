@@ -11,13 +11,15 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Actions\Action;
 use App\Models\Setting;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\FileUpload;
 
 class ManageSettings extends Page implements HasForms
 {
@@ -34,6 +36,14 @@ class ManageSettings extends Page implements HasForms
     public function mount(): void
     {
         $settings = Setting::pluck('value', 'key')->toArray();
+        foreach ($settings as $key => $value) {
+            if (is_string($value) && str_starts_with($value, '[') && str_ends_with($value, ']')) {
+                $decoded = json_decode($value, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $settings[$key] = $decoded;
+                }
+            }
+        }
         $this->form->fill($settings);
     }
 
@@ -81,10 +91,41 @@ class ManageSettings extends Page implements HasForms
                                 TextInput::make('village_address')->label('Alamat Kantor')->columnSpanFull(),
                                 TextInput::make('village_latitude')
                                     ->label('Latitude Kantor Desa')
-                                    ->helperText('Koordinat garis lintang Kantor Desa (contoh: -5.230000) untuk SEO & peta spasial.'),
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(function ($state, $set) {
+                                        if (empty($state)) return;
+                                        if (str_contains($state, ',')) {
+                                            $parts = explode(',', $state);
+                                            $lat = trim($parts[0]);
+                                            $lng = trim($parts[1]);
+                                            if (is_numeric($lat) && is_numeric($lng)) {
+                                                $set('village_latitude', $lat);
+                                                $set('village_longitude', $lng);
+                                            }
+                                        } elseif (str_contains($state, 'google.com/maps') || str_contains($state, 'goo.gl/maps')) {
+                                            if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $state, $matches)) {
+                                                $set('village_latitude', $matches[1]);
+                                                $set('village_longitude', $matches[2]);
+                                            }
+                                        }
+                                    })
+                                    ->helperText('Garis lintang Kantor Desa (contoh: -5.230000). Bisa juga langsung tempel koordinat Google Maps (misal: -5.23, 120.21) di sini.'),
                                 TextInput::make('village_longitude')
                                     ->label('Longitude Kantor Desa')
-                                    ->helperText('Koordinat garis bujur Kantor Desa (contoh: 120.210000) untuk SEO & peta spasial.'),
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(function ($state, $set) {
+                                        if (empty($state)) return;
+                                        if (str_contains($state, ',')) {
+                                            $parts = explode(',', $state);
+                                            $lat = trim($parts[0]);
+                                            $lng = trim($parts[1]);
+                                            if (is_numeric($lat) && is_numeric($lng)) {
+                                                $set('village_latitude', $lat);
+                                                $set('village_longitude', $lng);
+                                            }
+                                        }
+                                    })
+                                    ->helperText('Garis bujur Kantor Desa (contoh: 120.210000).'),
                             ]),
                         Tabs\Tab::make('Media Sosial')
                             ->icon('heroicon-o-share')
@@ -114,6 +155,9 @@ class ManageSettings extends Page implements HasForms
                                     ])
                                     ->default('#10b981')
                                     ->required(),
+                                TextInput::make('userway_widget_id')
+                                    ->label('UserWay Widget ID')
+                                    ->helperText('Masukkan Widget ID UserWay Anda (jika scriptnya adalah https://cdn.userway.org/widget.js?id=ID, masukkan ID tersebut).'),
                             ]),
                     ])->columnSpanFull()
             ])
@@ -150,7 +194,8 @@ class ManageSettings extends Page implements HasForms
         $data = $this->form->getState();
 
         foreach ($data as $key => $value) {
-            Setting::updateOrCreate(['key' => $key], ['value' => $value]);
+            $valueToStore = is_array($value) ? json_encode($value) : $value;
+            Setting::updateOrCreate(['key' => $key], ['value' => $valueToStore]);
         }
 
         // Clear home page cache

@@ -59,6 +59,14 @@ class HomeController extends Controller
             return Family::count();
         });
 
+        $totalRT = Cache::remember('home_total_rt', $ttl, function () {
+            return \App\Models\Dusun::sum('total_rt');
+        });
+
+        $totalRW = Cache::remember('home_total_rw', $ttl, function () {
+            return \App\Models\Dusun::sum('total_rw');
+        });
+
         $jobData = Cache::remember('home_job_stats', $ttl, function () {
             return \App\Models\Citizen::select('job as name', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
                    ->where('status', 'Aktif')
@@ -81,6 +89,18 @@ class HomeController extends Controller
 
         $perempuanCount = Cache::remember('home_perempuan_count', $ttl, function () {
             return \App\Models\Citizen::where('status', 'Aktif')->where('gender', 'Perempuan')->count();
+        });
+
+        $disabilitasCount = Cache::remember('home_disabilitas_count', $ttl, function () {
+            return \App\Models\Citizen::where('status', 'Aktif')
+                ->where(function ($q) {
+                    $q->where('disability_physical', 1)
+                      ->orWhere('disability_mental', 1)
+                      ->orWhere('disability_intellectual', 1)
+                      ->orWhere('disability_blind', 1)
+                      ->orWhere('disability_deaf', 1)
+                      ->orWhere('disability_speech', 1);
+                })->count();
         });
 
         $useCitizenData = true; // flag to tell view which format to use
@@ -156,6 +176,8 @@ class HomeController extends Controller
             'totalKeluarga',
             'totalUMKM',
             'totalDusun',
+            'totalRT',
+            'totalRW',
             'latestYear',
             'jobData',
             'eduData',
@@ -170,7 +192,8 @@ class HomeController extends Controller
             'publications',
             'galleries',
             'lakiLakiCount',
-            'perempuanCount'
+            'perempuanCount',
+            'disabilitasCount'
         ));
     }
 }

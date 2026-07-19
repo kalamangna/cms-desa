@@ -36,10 +36,10 @@
         {{-- Heading --}}
         <div class="max-w-3xl">
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
-                Warta <span class="text-emerald-500 italic">Pengumuman</span>
+                Pengumuman <span class="text-emerald-500 italic">Resmi</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 max-w-2xl">
-                Informasi resmi, edaran, dan pengumuman penting Desa {{ $site_settings['village_name'] ?? '' }}.
+                Informasi penting dan edaran resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
@@ -159,16 +159,11 @@
         </div>
 
         @empty
-
         {{-- Empty state --}}
-        <div class="py-28 text-center bg-white rounded-3xl border-2 border-dashed border-slate-200 shadow-sm">
-            <div class="w-20 h-20 rounded-full bg-amber-50 flex items-center justify-center mx-auto mb-6 border-2 border-amber-100">
-                <i class="fa-solid fa-bullhorn text-3xl text-amber-300"></i>
-            </div>
-            <h3 class="font-heading font-bold text-slate-700 text-xl mb-2">Belum Ada Pengumuman</h3>
-            <p class="text-slate-400 font-medium text-sm">Belum ada pengumuman resmi yang dipublikasikan saat ini.</p>
+        <div class="col-span-full text-center py-16">
+            <i class="fa-solid fa-bullhorn text-slate-300 text-3xl mb-3 block"></i>
+            <h3 class="text-slate-400 font-bold text-sm">Belum Ada Pengumuman</h3>
         </div>
-
         @endforelse
 
         {{-- ─── Pagination ──────────────────────────────────────────── --}}

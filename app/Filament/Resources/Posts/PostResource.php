@@ -34,7 +34,7 @@ class PostResource extends Resource
         return 'Berita';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-newspaper';
 
     public static function form(Schema $schema): Schema
     {

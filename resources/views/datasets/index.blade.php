@@ -113,8 +113,9 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="3" class="px-8 md:px-12 py-20 md:py-32 text-center">
-                            <p class="text-slate-400 font-bold italic">Dataset belum tersedia.</p>
+                        <td colspan="3" class="px-6 py-16 text-center">
+                            <i class="fa-solid fa-database text-slate-300 text-3xl mb-3 block"></i>
+                            <h3 class="text-slate-400 font-bold text-sm">Belum Ada Dataset</h3>
                         </td>
                     </tr>
                     @endforelse

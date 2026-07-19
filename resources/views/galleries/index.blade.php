@@ -48,6 +48,7 @@
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28"
     x-data="{
         activeFilter: 'semua',
+        filtersWithData: {{ json_encode($galleries->map(fn($g) => $g->type === 'video' ? 'video' : 'photo')->unique()->values()->toArray()) }},
         lightboxOpen: false,
         lightboxImage: '',
         lightboxTitle: '',
@@ -95,9 +96,9 @@
 
     {{-- ─── Masonry Grid ─── --}}
     @if($galleries->isEmpty())
-        <div class="py-32 text-center bg-slate-50 rounded-[40px] border-2 border-dashed border-slate-200">
-            <i class="fa-solid fa-images text-5xl text-slate-300 mb-6 block"></i>
-            <p class="text-slate-400 font-bold italic">Belum ada foto di galeri saat ini.</p>
+        <div class="text-center py-16">
+            <i class="fa-solid fa-images text-slate-300 text-3xl mb-3 block"></i>
+            <h3 class="text-slate-400 font-bold text-sm">Belum Ada Dokumentasi</h3>
         </div>
     @else
         <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
@@ -171,6 +172,14 @@
             </div>
             @endforeach
         </div>
+
+         <!-- Empty category state -->
+         <div x-show="activeFilter !== 'semua' && !filtersWithData.includes(activeFilter)"
+              class="col-span-full text-center py-16"
+              x-cloak>
+             <i class="fa-solid fa-images text-slate-300 text-3xl mb-3 block"></i>
+             <h3 class="text-slate-400 font-bold text-sm">Belum Ada Dokumentasi</h3>
+         </div>
     @endif
 
     {{-- ─── Paginasi ─── --}}

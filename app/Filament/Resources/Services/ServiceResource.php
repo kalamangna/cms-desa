@@ -32,7 +32,7 @@ class ServiceResource extends Resource
         return 'Layanan';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-queue-list';
 
     protected static ?int $navigationSort = 2;
 

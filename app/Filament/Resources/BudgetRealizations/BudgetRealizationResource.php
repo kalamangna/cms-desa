@@ -20,9 +20,9 @@ class BudgetRealizationResource extends Resource
 {
     protected static ?string $model = BudgetRealization::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Data';
+    protected static string|\UnitEnum|null $navigationGroup = 'Transparansi';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 1;
 
     public static function getModelLabel(): string
     {
@@ -34,7 +34,7 @@ class BudgetRealizationResource extends Resource
         return 'APBDes';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-banknotes';
 
     public static function form(Schema $schema): Schema
     {

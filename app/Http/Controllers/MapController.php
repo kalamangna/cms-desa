@@ -21,6 +21,8 @@ class MapController extends Controller
         // Get general settings for map center coordinates
         $site_settings = Setting::pluck('value', 'key')->toArray();
 
-        return view('pages.peta', compact('dusuns', 'site_settings'));
+        $facilities = \App\Models\PublicFacility::all();
+
+        return view('pages.peta', compact('dusuns', 'site_settings', 'facilities'));
     }
 }

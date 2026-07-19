@@ -11,7 +11,7 @@ class Announcement extends Model
 {
     use SoftDeletes, HasSlug;
 
-    protected $fillable = ['title', 'slug', 'content', 'published_at'];
+    protected $fillable = ['title', 'slug', 'photo', 'content', 'published_at'];
 
     protected static function booted()
     {

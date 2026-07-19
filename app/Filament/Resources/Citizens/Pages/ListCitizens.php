@@ -232,7 +232,6 @@ class ListCitizens extends ListRecords
                             }
 
                             $dataToSave = [
-                                'kk_number' => $kkNumber,
                                 'kk_order' => $colKkOrder !== false ? intval(trim($row[$colKkOrder])) : null,
                                 'name' => $colName !== false ? trim($row[$colName]) : '',
                                 'family_id' => $familyId,

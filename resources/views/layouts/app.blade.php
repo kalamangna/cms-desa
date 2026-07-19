@@ -259,31 +259,11 @@
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('/') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                     </a>
 
-                    <!-- Informasi Dropdown -->
-                    <div class="relative py-2" @mouseenter="openMenu = 'info'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
-                            Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
-                        </button>
-                        <div x-show="openMenu === 'info'"
-                            x-transition:enter="transition ease-out duration-150"
-                            x-transition:enter-start="opacity-0 translate-y-2"
-                            x-transition:enter-end="opacity-100 translate-y-0"
-                            x-transition:leave="transition ease-in duration-100"
-                            x-transition:leave-start="opacity-100 translate-y-0"
-                            x-transition:leave-end="opacity-0 translate-y-2"
-                            class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
-                            <a href="/berita" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Berita</a>
-                            <a href="/pengumuman" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Pengumuman</a>
-                            <a href="/galeri" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Galeri</a>
-                        </div>
-                    </div>
-
                     <!-- Profil Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'profil'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('peta*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
                             Profil <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('peta*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
                         <div x-show="openMenu === 'profil'"
                             x-transition:enter="transition ease-out duration-150"
@@ -296,37 +276,57 @@
                             <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Profil Desa</a>
                             <a href="/aparatur" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Aparatur Desa</a>
                             <a href="/lembaga" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Lembaga Desa</a>
-                            <a href="/peta" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Peta Spasial</a>
+                            <a href="/potensi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Potensi Desa</a>
                         </div>
                     </div>
 
-                    <!-- Data Dropdown -->
-                    <div class="relative py-2" @mouseenter="openMenu = 'data'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') || request()->is('apbdes*') || request()->is('dokumen*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
-                            Data <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') || request()->is('apbdes*') || request()->is('dokumen*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                    <!-- Informasi Dropdown -->
+                    <div class="relative py-2" @mouseenter="openMenu = 'info'" @mouseleave="openMenu = null">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                            Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
-                        <div x-show="openMenu === 'data'"
+                        <div x-show="openMenu === 'info'"
                             x-transition:enter="transition ease-out duration-150"
                             x-transition:enter-start="opacity-0 translate-y-2"
                             x-transition:enter-end="opacity-100 translate-y-0"
                             x-transition:leave="transition ease-in duration-100"
                             x-transition:leave-start="opacity-100 translate-y-0"
                             x-transition:leave-end="opacity-0 translate-y-2"
-                            class="absolute top-full left-0 w-56 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
+                            class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
+                            <a href="/berita" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Berita</a>
+                            <a href="/pengumuman" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Pengumuman</a>
+                            <a href="/galeri" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Galeri</a>
+                            <a href="/dokumen" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Dokumen</a>
+                        </div>
+                    </div>
+
+                    <!-- Transparansi Dropdown -->
+                    <div class="relative py-2" @mouseenter="openMenu = 'transparansi'" @mouseleave="openMenu = null">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                            Transparansi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                        </button>
+                        <div x-show="openMenu === 'transparansi'"
+                            x-transition:enter="transition ease-out duration-150"
+                            x-transition:enter-start="opacity-0 translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 translate-y-2"
+                            class="absolute top-full right-0 w-56 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
+                            <a href="/apbdes" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">APBDes</a>
                             <a href="/statistik" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Statistik</a>
                             <a href="/dataset" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Open Data</a>
                             <a href="/publikasi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Publikasi Data</a>
-                            <a href="/dokumen" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Dokumen</a>
-                            <a href="/apbdes" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">APBDes</a>
                         </div>
                     </div>
 
                     <!-- Layanan Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'layanan'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('layanan*') || request()->is('kontak*') ? 'text-emerald-600' : 'text-slate-600' }}">
+                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('layanan*') || request()->is('kontak*') || request()->is('buku-tamu*') || request()->is('pengaduan*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
                             Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('layanan*') || request()->is('kontak*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('layanan*') || request()->is('kontak*') || request()->is('buku-tamu*') || request()->is('pengaduan*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
                         <div x-show="openMenu === 'layanan'"
                             x-transition:enter="transition ease-out duration-150"
@@ -335,11 +335,19 @@
                             x-transition:leave="transition ease-in duration-100"
                             x-transition:leave-start="opacity-100 translate-y-0"
                             x-transition:leave-end="opacity-0 translate-y-2"
-                            class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
-                            <a href="/layanan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Layanan</a>
+                            class="absolute top-full right-0 w-52 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
+                            <a href="/layanan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Layanan Mandiri</a>
+                            <a href="/pengaduan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Pengaduan</a>
+                            <a href="/buku-tamu" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Buku Tamu</a>
                             <a href="/kontak" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition">Kontak</a>
                         </div>
                     </div>
+
+                    <!-- Peta Spasial (Top-Level Link) -->
+                    <a href="/peta" class="relative py-2 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none {{ request()->is('peta*') ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-600' }}">
+                        Peta Spasial
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 transition-all duration-300 origin-left {{ request()->is('peta*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                    </a>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -365,39 +373,43 @@
                 <!-- Home Link -->
                 <a href="/" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('/') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Beranda</a>
 
-                <!-- Informasi Section -->
-                <div>
-                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Informasi</span>
-                    <a href="/berita" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('berita*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Berita</a>
-                    <a href="/pengumuman" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pengumuman*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Pengumuman</a>
-                    <a href="/galeri" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('galeri*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Galeri</a>
-                </div>
-
                 <!-- Profil Section -->
                 <div>
                     <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Profil</span>
                     <a href="/profil" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('profil*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Profil Desa</a>
                     <a href="/aparatur" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('aparatur*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Aparatur Desa</a>
                     <a href="/lembaga" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('lembaga*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Lembaga Desa</a>
-                    <a href="/peta" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('peta*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Peta Spasial</a>
+                    <a href="/potensi" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('potensi*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Potensi Desa</a>
                 </div>
 
-                <!-- Data Section -->
+                <!-- Informasi Section -->
                 <div>
-                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Data</span>
+                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Informasi</span>
+                    <a href="/berita" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('berita*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Berita</a>
+                    <a href="/pengumuman" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pengumuman*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Pengumuman</a>
+                    <a href="/galeri" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('galeri*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Galeri</a>
+                    <a href="/dokumen" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('dokumen*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Dokumen</a>
+                </div>
+
+                <!-- Transparansi Section -->
+                <div>
+                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Transparansi</span>
+                    <a href="/apbdes" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">APBDes</a>
                     <a href="/statistik" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('statistik*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Statistik</a>
                     <a href="/dataset" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('dataset*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Open Data</a>
                     <a href="/publikasi" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('publikasi*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Publikasi Data</a>
-                    <a href="/dokumen" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('dokumen*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Dokumen</a>
-                    <a href="/apbdes" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('apbdes*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">APBDes</a>
                 </div>
 
                 <!-- Layanan Section -->
                 <div>
                     <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Layanan</span>
-                    <a href="/layanan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('layanan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Layanan</a>
+                    <a href="/layanan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('layanan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Layanan Mandiri</a>
+                    <a href="/pengaduan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pengaduan*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Pengaduan</a>
+                    <a href="/buku-tamu" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('buku-tamu*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Buku Tamu</a>
                     <a href="/kontak" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('kontak*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Kontak</a>
                 </div>
+
+                <a href="/peta" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('peta*') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-700' }} transition">Peta Spasial</a>
 
                 <div class="pt-6 border-t border-slate-100 mt-4">
                     @auth
@@ -487,6 +499,18 @@
                             </span>
                             <span>{{ $site_settings['village_phone'] ?? '-' }}</span>
                         </li>
+                        <li class="mt-5 pt-5 border-t border-white/5">
+                            <div class="flex items-start gap-3">
+                                <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fa-regular fa-clock text-emerald-500 text-xs"></i>
+                                </span>
+                                <div>
+                                    <span class="block text-xs font-black uppercase tracking-widest text-emerald-500 mb-1">Jam Operasional</span>
+                                    <span class="text-slate-300 text-sm font-semibold">Senin – Jumat</span><br>
+                                    <span class="text-slate-400 text-sm font-medium">08.00 – 16.00 WITA</span>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
 
@@ -532,6 +556,11 @@
             </div>
         </div>
     </footer>
+
+    @if(!empty($site_settings['userway_widget_id']))
+    <!-- UserWay Accessibility Widget -->
+    <script>(function(d){var s = d.createElement("script");s.setAttribute("data-account", "{{ $site_settings['userway_widget_id'] }}");s.setAttribute("src", "https://cdn.userway.org/widget.js");(d.body || d.head).appendChild(s);})(document);</script>
+    @endif
 
     @stack('scripts')
 </body>

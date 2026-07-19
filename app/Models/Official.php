@@ -10,10 +10,23 @@ class Official extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'parent_id',
         'name',
         'position',
         'photo',
+        'level',
+        'order',
     ];
+
+    public function parent()
+    {
+        return $this->belongsTo(Official::class, 'parent_id');
+    }
+
+    public function subordinates()
+    {
+        return $this->hasMany(Official::class, 'parent_id')->orderBy('order', 'asc');
+    }
 
     protected $casts = [];
 

@@ -14,7 +14,7 @@ class StatisticDashboardTest extends TestCase
         $response = $this->get('/statistik');
 
         $response->assertStatus(200);
-        $response->assertSee('Pusat');
         $response->assertSee('Statistik');
+        $response->assertSee('Desa');
     }
 }

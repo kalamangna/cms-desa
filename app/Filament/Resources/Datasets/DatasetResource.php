@@ -20,9 +20,9 @@ class DatasetResource extends Resource
 {
     protected static ?string $model = Dataset::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Data';
+    protected static string|\UnitEnum|null $navigationGroup = 'Transparansi';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public static function getModelLabel(): string
     {
@@ -34,7 +34,7 @@ class DatasetResource extends Resource
         return 'Open Data';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-circle-stack';
 
     public static function form(Schema $schema): Schema
     {

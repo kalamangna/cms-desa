@@ -36,7 +36,7 @@ class OfficialResource extends Resource
         return 'Aparatur Desa';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-briefcase';
 
     public static function form(Schema $schema): Schema
     {

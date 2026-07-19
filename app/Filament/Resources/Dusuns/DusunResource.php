@@ -34,7 +34,7 @@ class DusunResource extends Resource
         return 'Dusun';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-map-pin';
 
     public static function form(Schema $schema): Schema
     {

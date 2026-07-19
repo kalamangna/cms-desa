@@ -12,7 +12,6 @@ class Citizen extends Model
 
     protected $fillable = [
         'nik',
-        'kk_number',
         'dusun_id',
         'family_id',
         'kk_order',
@@ -126,8 +125,10 @@ class Citizen extends Model
             \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
             \Illuminate\Support\Facades\Cache::forget('home_job_stats');
             \Illuminate\Support\Facades\Cache::forget('home_edu_stats');
+            \Illuminate\Support\Facades\Cache::forget('home_religion_stats');
             \Illuminate\Support\Facades\Cache::forget('home_laki_laki_count');
             \Illuminate\Support\Facades\Cache::forget('home_perempuan_count');
+            \Illuminate\Support\Facades\Cache::forget('home_disabilitas_count');
             \Illuminate\Support\Facades\Cache::forget('profil_total_penduduk');
         });
 
@@ -135,8 +136,10 @@ class Citizen extends Model
             \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
             \Illuminate\Support\Facades\Cache::forget('home_job_stats');
             \Illuminate\Support\Facades\Cache::forget('home_edu_stats');
+            \Illuminate\Support\Facades\Cache::forget('home_religion_stats');
             \Illuminate\Support\Facades\Cache::forget('home_laki_laki_count');
             \Illuminate\Support\Facades\Cache::forget('home_perempuan_count');
+            \Illuminate\Support\Facades\Cache::forget('home_disabilitas_count');
             \Illuminate\Support\Facades\Cache::forget('profil_total_penduduk');
         });
     }

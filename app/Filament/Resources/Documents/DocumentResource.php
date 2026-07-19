@@ -20,9 +20,9 @@ class DocumentResource extends Resource
 {
     protected static ?string $model = Document::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Data';
+    protected static string|\UnitEnum|null $navigationGroup = 'Informasi';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public static function getModelLabel(): string
     {
@@ -34,7 +34,7 @@ class DocumentResource extends Resource
         return 'Dokumen';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document';
 
     public static function form(Schema $schema): Schema
     {

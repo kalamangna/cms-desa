@@ -34,7 +34,7 @@ class AnnouncementResource extends Resource
         return 'Pengumuman';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bell';
 
     public static function form(Schema $schema): Schema
     {

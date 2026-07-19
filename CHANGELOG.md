@@ -2,6 +2,35 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.7.6] - 2026-07-19
+
+### Added
+- **Fitur Potensi Desa**: Menambahkan modul Potensi Desa yang sederhana namun dinamis untuk menyimpan sektor pariwisata, pertanian, peternakan, industri kreatif, dan seni budaya. Dilengkapi dengan view interaktif Alpine.js modal detail di frontend (`/potensi`), menu navigasi desktop/mobile, dan Filament resource admin panel CRUD yang terintegrasi di grup Profil (diurutkan tepat di bawah Lembaga Desa).
+- **Relokasi Fasilitas Umum**: Memindahkan panel resource Fasilitas Umum di Filament admin dari grup Profil ke grup Master untuk pengelompokan basis data dasar yang lebih terstruktur.
+- **Fitur Baru SOTK (Pratinjau PDF di Tab Baru)**: Mengubah pencetakan bagan SOTK organisasi desa menggunakan Blob URL di tab baru browser secara sinkron untuk memotong Popup Blocker browser.
+- **Pencegahan Popup Blocker**: Menggunakan tab kosong instan saat klik user lalu mengisi alamat tab asinkron setelah PDF selesai dirender.
+- **Idempotensi & Konsolidasi Berkas Migrasi Baru**: Menggabungkan seluruh berkas migrasi baru yang bertambah di sesi ini menjadi **1 berkas migrasi tunggal terstruktur** (`2026_07_16_170823_upgrade_village_features_and_modules.php`) yang dilengkapi proteksi eksistensi (`Schema::hasTable` & `Schema::hasColumn`) agar aman dijalankan baik untuk upgrade 3 website lama maupun instalasi segar 1 website baru.
+- **Peta Spasial Menu Utama**: Memindahkan tautan menu "Peta Spasial" dari sub menu dropdown Profil menjadi menu utama (*top-level link*) tersendiri di ujung kanan navbar.
+- **Empty States Tingkat Kategori (Tab)**: Menambahkan penanganan empty states dinamis berbasis Alpine.js pada halaman Potensi Desa dan Galeri Foto/Video jika kategori/filter yang dipilih oleh pengunjung tidak memiliki data sama sekali.
+
+### Changed
+- **Penyederhanaan Empty States**: Menyelaraskan seluruh visualisasi data kosong (*empty states*) di semua halaman publik (Beranda, Berita, Pengumuman, Galeri, Dokumen, Publikasi, Layanan Mandiri, Open Data, Potensi Desa, Aparatur, Lembaga, APBDes, Statistik Kependudukan, Profil Desa, dan Peta Spasial) menggunakan format terpusat yang minimalis berupa **Ikon + Judul** (tanpa deskripsi panjang atau border/card shadow tebal) untuk konsistensi visual yang bersih.
+- **Restrukturisasi Card Profil Desa**: Menggabungkan data wilayah (Dusun, RW, RT) pada bagian Karakteristik Wilayah di halaman Profil Desa menjadi satu card gabungan berlabel "Jumlah Dusun" dengan sub-keterangan RW dan RT untuk mengurangi kepadatan jumlah card dari 6 menjadi 4.
+- **Navigasi Layanan**: Memindahkan posisi menu "Buku Tamu" ke bawah menu "Pengaduan" di dalam grup menu "Layanan" pada header navigasi desktop dropdown maupun menu mobile sidebar.
+
+### Fixed
+- **Nullsafe Bug Beranda**: Memperbaiki error crash di `home.blade.php` jika Kepala Desa kosong dengan menggunakan akses nullsafe `$villageHead?->name`.
+- **Penyaringan Statistik Kustom**: Memperbaiki bug kueri di `StatisticService.php` dengan menambahkan operator kustom ke `ALLOWED_OPERATORS` agar kueri statistik mikro tidak bernilai 0.
+- **Penyelarasan Judul & Subjudul Halaman Publik**: Menyelaraskan seluruh judul dan subjudul halaman publik (Profil, Potensi, APBDes, Statistik, Layanan, Kontak, Pengumuman, Peta Spasial) dengan gaya "simpel & to the point" untuk merefleksikan fitur riil (seperti peta batas dusun, fasum, dan demografi), serta memperbarui asersi unit testing `StatisticDashboardTest` agar sesuai dengan modifikasi judul baru.
+- **Penyelarasan Konsistensi Desain Kartu Kosong (Empty States)**: Memastikan berkas potensi, berita, pengumuman, dokumen, publikasi, layanan, dataset, aparatur, lembaga, galeri foto, statistik, dan APBDes menggunakan format visual kartu premium yang 100% konsisten (border-slate-100, shadow-xl, font-heading tebal, max-w-sm paragraf keterangan).
+- **Perbaikan Kebocoran Sintaks JS di Potensi**: Memperbaiki masalah kebocoran teks `tes<\/p>" })"` pada tombol Selengkapnya di halaman potensi publik akibat penanganan string deskripsi HTML di atribut `@click` Alpine.js yang kurang aman. Mengganti `{!! json_encode(...) !!}` dengan `{{ json_encode(...) }}` yang otomatis di-escape oleh Blade sebagai entitas HTML aman.
+- **Inkonsistensi Elemen Empty States Peta & Profil**: Menyelaraskan penanda tag heading dari `<p>` atau `<h4>` menjadi `<h3>` pada *empty states* sidebar peta, sejarah, dan misi desa agar 100% konsisten secara struktural dengan sisa aplikasi.
+- **Ketidakcocokan Skema Tabel dan Model (Fillable Mismatch)**: Menyelaraskan *mass assignment* (`$fillable`) pada model `User` (menghapus `email`), `Announcement` (menambah `photo`), `Institution` (menambah `motto`), dan `ServiceRequest` (menambah `admin_response`) agar sesuai dengan skema migrasi akhir database dan mencegah kegagalan penyimpanan data.
+
+### Removed
+- **Berkas Redundan**: Menghapus file view pengumuman lama, modal sotk inline lama, dan file screenshot `image.png` / `image copy*.png` dari root.
+- **Variabel Lingkungan Usang**: Menghapus variabel `SEED_SAMPLE_DATA` dari `.env.example` karena telah usang dan berkas seedernya sudah lama dihapus, mencegah kebingungan pengembang di masa depan.
+
 ## [1.7.5] - 2026-07-13
 
 ### Fixed

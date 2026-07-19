@@ -5,6 +5,124 @@
 @section('meta_image', asset('img/meta.png'))
 
 @section('content')
+
+@php
+    $popups = \App\Models\PopupInfographic::where('is_active', true)
+        ->orderBy('sort_order', 'asc')
+        ->get(['image', 'title'])
+        ->toArray();
+@endphp
+
+@if(!empty($popups))
+<div x-data="{ 
+        isOpen: false,
+        activeSlide: 0,
+        popups: @js($popups),
+        get activeSlideTitle() {
+            return this.popups[this.activeSlide]?.title || '';
+        },
+        totalSlides: {{ count($popups) }},
+        init() {
+            const hasShown = sessionStorage.getItem('home_popup_shown_session');
+            if (!hasShown) {
+                setTimeout(() => {
+                    this.isOpen = true;
+                }, 1000);
+            }
+        },
+        closePopup() {
+            this.isOpen = false;
+            sessionStorage.setItem('home_popup_shown_session', 'true');
+        },
+        nextSlide() {
+            this.activeSlide = (this.activeSlide + 1) % this.totalSlides;
+        },
+        prevSlide() {
+            this.activeSlide = (this.activeSlide - 1 + this.totalSlides) % this.totalSlides;
+        }
+     }"
+     x-show="isOpen"
+     x-transition:enter="transition ease-out duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition ease-in duration-200"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
+     x-cloak>
+    
+    <!-- Modal Container -->
+    <div @click.away="closePopup()"
+         x-show="isOpen"
+         x-transition:enter="transition ease-out duration-300 transform"
+         x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200 transform"
+         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+         x-transition:leave-end="opacity-0 scale-95 translate-y-4"
+         class="relative w-full max-w-lg md:max-w-2xl bg-white rounded-[32px] overflow-hidden shadow-2xl border border-slate-100">
+        
+        <!-- Header / Close button -->
+        <div class="absolute top-4 right-4 z-20">
+            <button @click="closePopup()"
+                    class="w-10 h-10 rounded-full bg-slate-950/50 hover:bg-slate-950 text-white flex items-center justify-center transition focus:outline-none"
+                    aria-label="Close modal">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Slides Wrapper -->
+        <div class="relative overflow-hidden bg-slate-950 select-none">
+            <div class="relative flex transition-transform duration-500 ease-out"
+                 :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
+                
+                @foreach($popups as $popup)
+                <div class="w-full flex-shrink-0 flex items-center justify-center min-w-full">
+                    <img src="{{ asset('storage/' . $popup['image']) }}" 
+                         class="w-full h-auto object-contain max-h-[65vh] md:max-h-[70vh]"
+                         alt="{{ $popup['title'] ?? 'Infografis Beranda' }}">
+                </div>
+                @endforeach
+            </div>
+
+            @if(count($popups) > 1)
+            <!-- Navigation Arrow Left -->
+            <button @click="prevSlide()" 
+                    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition z-10 focus:outline-none">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <!-- Navigation Arrow Right -->
+            <button @click="nextSlide()" 
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition z-10 focus:outline-none">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <!-- Indicators (Dots) -->
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                @foreach($popups as $index => $popup)
+                <button @click="activeSlide = {{ $index }}" 
+                        :class="activeSlide === {{ $index }} ? 'bg-emerald-500 w-6' : 'bg-white/50 hover:bg-white w-2'"
+                        class="h-2 rounded-full transition-all duration-300 focus:outline-none"></button>
+                @endforeach
+            </div>
+            @endif
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+            <div class="flex flex-col pr-4">
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-400">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
+                <span class="text-sm font-bold text-slate-700 mt-0.5 line-clamp-1" x-show="activeSlideTitle" x-text="activeSlideTitle"></span>
+            </div>
+            <button @click="closePopup()" class="bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl border border-slate-200 transition flex-shrink-0 focus:outline-none">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+@endif
+
 {{-- 1. HERO --}}
 <div class="relative bg-slate-900 min-h-[90vh] flex items-center overflow-hidden">
     <div class="absolute inset-0 z-0">
@@ -56,7 +174,7 @@
                     <div class="relative w-[270px] h-[324px] sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-[40px] overflow-hidden border-2 border-white/10 shadow-2xl">
                         <img src="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.png') }}"
                              class="w-full h-full object-cover object-top"
-                             alt="Foto {{ $villageHead->name ?? 'Kepala Desa' }}"
+                             alt="Foto {{ $villageHead?->name ?? 'Kepala Desa' }}"
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
                         {{-- Overlay gradient bawah --}}
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
@@ -87,6 +205,8 @@
 {{-- 2. STAT CARDS --}}
 <div class="relative z-20 mt-16 lg:-mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+
+        {{-- Penduduk --}}
         <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-2xl shadow-slate-200/60 border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-400 hover:-translate-y-1 transition-all duration-300">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-users text-lg sm:text-xl"></i>
@@ -97,6 +217,8 @@
                 <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Jiwa Aktif</p>
             </div>
         </div>
+
+        {{-- Keluarga --}}
         <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-2xl shadow-slate-200/60 border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-sky-400 hover:-translate-y-1 transition-all duration-300">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-house-chimney text-lg sm:text-xl"></i>
@@ -107,6 +229,8 @@
                 <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Kepala Keluarga</p>
             </div>
         </div>
+
+        {{-- Dusun --}}
         <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-2xl shadow-slate-200/60 border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-amber-400 hover:-translate-y-1 transition-all duration-300">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-map-location-dot text-lg sm:text-xl"></i>
@@ -114,9 +238,11 @@
             <div class="min-w-0 w-full">
                 <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Dusun</p>
                 <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalDusun, 0, ',', '.') }}</h3>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Wilayah</p>
+                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ $totalRT }} RT / {{ $totalRW }} RW</p>
             </div>
         </div>
+
+        {{-- Luas Wilayah --}}
         <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-2xl shadow-slate-200/60 border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-violet-400 hover:-translate-y-1 transition-all duration-300">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-50 flex items-center justify-center text-violet-600 group-hover:bg-violet-600 group-hover:text-white transition-all duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-ruler-combined text-lg sm:text-xl"></i>
@@ -127,6 +253,7 @@
                 <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Km²</p>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -182,12 +309,24 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {{-- Grafik Demografi Penduduk --}}
             <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
-                <div class="p-8 border-b border-slate-100 flex justify-between items-center">
+                <div class="p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h3 class="font-heading font-extrabold text-xl text-slate-900">Demografi Penduduk</h3>
-                        <p class="text-slate-400 text-sm mt-1">Perbandingan jumlah laki-laki dan perempuan aktif</p>
+                        <h3 class="font-heading font-extrabold text-xl text-slate-900" id="chartCardTitle">Demografi Penduduk</h3>
+                        <p class="text-slate-400 text-sm mt-1" id="chartCardSubtitle">Perbandingan jumlah laki-laki dan perempuan aktif</p>
                     </div>
-                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100">{{ date('Y') }}</span>
+                    <div class="flex items-center gap-2">
+                        <div class="relative">
+                            <select id="homeChartType" class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
+                                <option value="gender">Jenis Kelamin</option>
+                                <option value="job">Pekerjaan</option>
+                                <option value="education">Pendidikan</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-slate-400">
+                                <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">{{ date('Y') }}</span>
+                    </div>
                 </div>                <div class="p-8">
                     @if($lakiLakiCount == 0 && $perempuanCount == 0)
                         <div class="h-72 flex flex-col items-center justify-center text-center p-4">
@@ -308,7 +447,12 @@
                         <i class="fa-solid fa-arrow-right text-slate-200 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all flex-shrink-0 hidden md:block"></i>
                     </a>
                     @empty
-                        @if(!$featuredPost)<p class="text-center text-slate-400 italic py-10">Belum ada berita terbaru.</p>@endif
+                        @if(!$featuredPost)
+                        <div class="text-center py-10 px-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <i class="fa-solid fa-newspaper text-slate-300 text-2xl mb-2 block"></i>
+                            <h4 class="text-slate-400 font-bold text-xs">Belum Ada Berita</h4>
+                        </div>
+                        @endif
                     @endforelse
                 </div>
             </div>
@@ -333,7 +477,10 @@
                             </div>
                         </a>
                         @empty
-                        <p class="text-center text-slate-400 italic py-6 text-sm">Belum ada pengumuman.</p>
+                        <div class="text-center py-10 px-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <i class="fa-solid fa-bullhorn text-slate-300 text-2xl mb-2 block"></i>
+                            <h4 class="text-slate-400 font-bold text-xs">Belum Ada Pengumuman</h4>
+                        </div>
                         @endforelse
                     </div>
                 </div>
@@ -376,8 +523,14 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {{-- Galeri Masonry --}}
             <div class="lg:col-span-7">
+                @if($galleries->isEmpty())
+                <div class="text-center py-10 px-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                    <i class="fa-solid fa-images text-slate-300 text-2xl mb-2 block"></i>
+                    <h4 class="text-slate-400 font-bold text-xs">Belum Ada Dokumentasi</h4>
+                </div>
+                @else
                 <div class="columns-2 gap-4 space-y-4">
-                    @forelse($galleries as $gallery)
+                    @foreach($galleries as $gallery)
                     <div class="relative group overflow-hidden rounded-3xl shadow-md break-inside-avoid hover:-translate-y-1 transition-transform duration-300">
                         <img src="{{ $gallery->image_url }}"
                              class="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
@@ -402,10 +555,9 @@
                             </div>
                         </div>
                     </div>
-                    @empty
-                    <p class="text-center text-slate-400 italic py-10 col-span-2">Belum ada foto galeri.</p>
-                    @endforelse
+                    @endforeach
                 </div>
+                @endif
             </div>
 
             {{-- Publikasi --}}
@@ -436,12 +588,12 @@
                             </div>
                         </div>
                     </div>
-                    @empty
-                    <div class="bg-white rounded-2xl border border-slate-100 p-8 text-center">
-                        <i class="fa-solid fa-book-open text-slate-200 text-4xl mb-3"></i>
-                        <p class="text-slate-400 italic text-sm">Belum ada publikasi tersedia.</p>
-                    </div>
-                    @endforelse
+                     @empty
+                     <div class="text-center py-10 px-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                         <i class="fa-solid fa-book-open text-slate-300 text-2xl mb-2 block"></i>
+                         <h4 class="text-slate-400 font-bold text-xs">Belum Ada Publikasi</h4>
+                     </div>
+                     @endforelse
                 </div>
             </div>
         </div>
@@ -494,27 +646,83 @@
         </div>
     </div>
 </div>
+
+
 @endsection
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Population Chart (Donut)
-    const elPop = document.getElementById('populationChart');
-    if (elPop) {
-        const optionsPop = {
+    // Data demografi terenkripsi dari server
+    const genderData = [
+        { label: 'Laki-laki', value: {{ (int)($lakiLakiCount ?? 0) }} },
+        { label: 'Perempuan', value: {{ (int)($perempuanCount ?? 0) }} }
+    ];
+
+    const jobData = {!! json_encode($jobData->map(fn($item) => ['label' => $item->name ?: 'Tidak Diketahui', 'value' => (int)$item->total])->toArray()) !!};
+    const eduData = {!! json_encode($eduData->map(fn($item) => ['label' => $item->name ?: 'Tidak Diketahui', 'value' => (int)$item->total])->toArray()) !!};
+
+    // Urutkan data descending
+    jobData.sort((a, b) => b.value - a.value);
+    eduData.sort((a, b) => b.value - a.value);
+
+    let currentPopChart = null;
+
+    function renderDemografiChart(type) {
+        const elPop = document.getElementById('populationChart');
+        if (!elPop) return;
+
+        if (currentPopChart) {
+            currentPopChart.destroy();
+            currentPopChart = null;
+        }
+
+        const titleEl = document.getElementById('chartCardTitle');
+        const subtitleEl = document.getElementById('chartCardSubtitle');
+
+        let series, labels, colors;
+
+        if (type === 'gender') {
+            if (titleEl) titleEl.innerText = 'Demografi Penduduk';
+            if (subtitleEl) subtitleEl.innerText = 'Perbandingan jumlah laki-laki dan perempuan aktif';
+
+            series = genderData.map(d => d.value);
+            labels = genderData.map(d => d.label);
+            colors = ['#0ea5e9', '#ec4899'];
+        } else {
+            const isJob = type === 'job';
+            if (titleEl) titleEl.innerText = isJob ? 'Pekerjaan Penduduk' : 'Pendidikan Penduduk';
+            if (subtitleEl) subtitleEl.innerText = isJob ? 'Distribusi warga aktif berdasarkan mata pencaharian' : 'Distribusi warga aktif berdasarkan tingkat pendidikan';
+
+            let rawData = isJob ? jobData : eduData;
+            // Limit data untuk efisiensi visual (top 7 + Lainnya)
+            let displayData = [...rawData];
+            if (displayData.length > 8) {
+                const top = displayData.slice(0, 7);
+                const rest = displayData.slice(7);
+                const othersVal = rest.reduce((sum, item) => sum + item.value, 0);
+                if (othersVal > 0) {
+                    top.push({ label: 'Lainnya', value: othersVal });
+                }
+                displayData = top;
+            }
+
+            series = displayData.map(d => d.value);
+            labels = displayData.map(d => d.label);
+            colors = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#f43f5e', '#06b6d4', '#14b8a6', '#f97316', '#3b82f6'];
+        }
+
+        let optionsPop = {
             chart: {
                 type: 'donut',
                 height: '100%',
                 fontFamily: 'Inter, sans-serif'
             },
-            dataLabels: {
-                enabled: false
-            },
-            series: [{{ (int)($lakiLakiCount ?? 0) }}, {{ (int)($perempuanCount ?? 0) }}],
-            labels: ['Laki-laki', 'Perempuan'],
-            colors: ['#0ea5e9', '#ec4899'],
+            dataLabels: { enabled: false },
+            series: series,
+            labels: labels,
+            colors: colors,
             stroke: { show: false },
             plotOptions: {
                 pie: {
@@ -522,22 +730,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         size: '72%',
                         labels: {
                             show: true,
-                            name: { 
-                                show: true,
-                                fontFamily: 'Poppins, sans-serif',
-                                fontWeight: 700,
-                                fontSize: '13px',
-                                color: '#64748b'
-                            },
-                            value: { 
+                            name: { show: true, fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '13px', color: '#64748b' },
+                            value: {
                                 show: true,
                                 fontFamily: 'Inter, sans-serif',
                                 fontWeight: 800,
                                 fontSize: '20px',
                                 color: '#0f172a',
-                                formatter: function(val) {
-                                    return parseInt(val).toLocaleString('id-ID');
-                                }
+                                formatter: function(val) { return parseInt(val).toLocaleString('id-ID'); }
                             },
                             total: {
                                 show: true,
@@ -572,8 +772,19 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
 
-        const chartPop = new ApexCharts(elPop, optionsPop);
-        chartPop.render();
+        currentPopChart = new ApexCharts(elPop, optionsPop);
+        currentPopChart.render();
+    }
+
+    // Inisialisasi awal
+    renderDemografiChart('gender');
+
+    // Listener switch dropdown
+    const selectHomeChart = document.getElementById('homeChartType');
+    if (selectHomeChart) {
+        selectHomeChart.addEventListener('change', function(e) {
+            renderDemografiChart(e.target.value);
+        });
     }
 
     // Budget Donut

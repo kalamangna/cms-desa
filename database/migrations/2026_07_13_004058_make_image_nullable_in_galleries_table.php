@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('galleries', function (Blueprint $table) {
-            $table->string('image')->nullable()->change();
-        });
+        if (Schema::hasColumn('galleries', 'image')) {
+            Schema::table('galleries', function (Blueprint $table) {
+                $table->string('image')->nullable()->change();
+            });
+        }
     }
 
     /**
@@ -21,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('galleries', function (Blueprint $table) {
-            $table->string('image')->nullable(false)->change();
-        });
+        if (Schema::hasColumn('galleries', 'image')) {
+            Schema::table('galleries', function (Blueprint $table) {
+                $table->string('image')->nullable(false)->change();
+            });
+        }
     }
 };

@@ -16,7 +16,15 @@ class PageController extends Controller
             return \App\Models\Citizen::where('status', 'Aktif')->count();
         });
 
-        return view('pages.profil', compact('totalDusun', 'totalPenduduk'));
+        $totalRt = \Illuminate\Support\Facades\Cache::remember('profil_total_rt', 3600, function () {
+            return (int) \App\Models\Dusun::sum('total_rt');
+        });
+
+        $totalRw = \Illuminate\Support\Facades\Cache::remember('profil_total_rw', 3600, function () {
+            return (int) \App\Models\Dusun::sum('total_rw');
+        });
+
+        return view('pages.profil', compact('totalDusun', 'totalPenduduk', 'totalRt', 'totalRw'));
     }
 
     public function layanan()
@@ -28,5 +36,11 @@ class PageController extends Controller
     public function kontak()
     {
         return view('pages.kontak');
+    }
+
+    public function potensi()
+    {
+        $potentials = \App\Models\VillagePotential::where('is_active', true)->latest()->get();
+        return view('pages.potensi', compact('potentials'));
     }
 }

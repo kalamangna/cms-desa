@@ -47,6 +47,7 @@ class AdminPanelProvider extends PanelProvider
                     </div>
                 '),
             )
+
             ->brandName(function () {
                 try {
                     if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
@@ -78,11 +79,13 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                      ->label('Kependudukan'),
                 NavigationGroup::make()
-                     ->label('Informasi'),
-                NavigationGroup::make()
                      ->label('Profil'),
                 NavigationGroup::make()
-                     ->label('Data'),
+                     ->label('Informasi'),
+                NavigationGroup::make()
+                     ->label('Transparansi'),
+                NavigationGroup::make()
+                     ->label('Layanan'),
                 NavigationGroup::make()
                      ->label('Master'),
                 NavigationGroup::make()

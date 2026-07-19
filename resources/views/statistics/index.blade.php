@@ -5,8 +5,12 @@
 @section('meta_image', asset('img/meta.png'))
 
 @section('content')
+
 {{-- ═══════════════════════════════════════════════════════
-     DARK HERO
+     HERO
+═══════════════════════════════════════════════════════ --}}
+{{-- ═══════════════════════════════════════════════════════
+     HERO
 ═══════════════════════════════════════════════════════ --}}
 <div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
@@ -30,13 +34,14 @@
                 </li>
             </ol>
         </nav>
+
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
                 <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
-                    Pusat <span class="text-emerald-500 italic">Statistik</span>
+                    Statistik <span class="text-emerald-500 italic">Desa</span>
                 </h1>
                 <p class="text-slate-300 text-lg mt-2">
-                    Data kependudukan, sosial, dan ekonomi Desa {{ $site_settings['village_name'] ?? '' }}.
+                    Data kependudukan, sosial, dan ekonomi Desa.
                 </p>
             </div>
             {{-- Live indicator --}}
@@ -53,493 +58,994 @@
 </div>
 
 {{-- ═══════════════════════════════════════════════════════
-     ALPINE.JS TAB NAVIGATION + CONTENT
+     MAIN CONTENT
 ═══════════════════════════════════════════════════════ --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28"
-     x-data="{ activeTab: '{{ $categories->first()?->slug ?? '' }}' }">
+<div class="bg-slate-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20"
+         x-data="statistikApp()"
+         x-init="init()"
+         id="statistik-main">
 
-    @if($isEmptyDb)
-        <div class="flex flex-col items-center justify-center text-center py-16 px-4 border border-slate-100 bg-slate-50/50 rounded-3xl max-w-2xl mx-auto">
-            <div class="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center border border-emerald-100 mb-6">
-                <i class="fa-solid fa-users-slash text-emerald-600 text-3xl"></i>
+        @if($isEmptyDb)
+            <div class="text-center py-16 bg-white rounded-[32px] border border-slate-100 shadow-sm max-w-2xl mx-auto">
+                <i class="fa-solid fa-users-slash text-slate-300 text-3xl mb-3 block"></i>
+                <h3 class="text-slate-400 font-bold text-sm">Data Kependudukan Belum Tersedia</h3>
             </div>
-            <h2 class="text-xl font-extrabold text-slate-900 mb-2">Data Kependudukan Belum Tersedia</h2>
-            <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
-                Belum ada data demografi dan kependudukan di sistem saat ini. Administrator dapat mengimpor data warga untuk menyajikan visualisasi data statistik secara dinamis.
-            </p>
-        </div>
-    @elseif($categories->isEmpty())
-        <div class="flex flex-col items-center justify-center text-center py-16 px-4 border border-slate-100 bg-slate-50/50 rounded-3xl">
-            <div class="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center border border-emerald-100 mb-6">
-                <i class="fa-solid fa-chart-pie text-emerald-600 text-3xl"></i>
+        @elseif($categories->isEmpty())
+            <div class="text-center py-16 bg-white rounded-[32px] border border-slate-100 shadow-sm max-w-2xl mx-auto">
+                <i class="fa-solid fa-chart-pie text-slate-300 text-3xl mb-3 block"></i>
+                <h3 class="text-slate-400 font-bold text-sm">Belum Ada Kategori Statistik</h3>
             </div>
-            <h2 class="text-xl font-extrabold text-slate-900 mb-2">Belum Ada Kategori Statistik</h2>
-            <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
-                Pemerintah desa belum mengonfigurasi kategori data statistik dinamis. Silakan masuk ke panel administrasi untuk menambahkan kategori statistik dan menghubungkannya dengan database kependudukan.
-            </p>
-        </div>
-    @else
-        {{-- TAB NAV --}}
-    <div class="mb-12 md:mb-16">
-        <div class="flex items-center gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
-            @foreach($categories as $category)
-            <button
-                @click="activeTab = '{{ $category->slug }}'"
-                :class="activeTab === '{{ $category->slug }}'
-                    ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 border-emerald-600'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-300 hover:text-emerald-700'"
-                class="snap-start flex-shrink-0 px-6 py-3 rounded-full text-sm font-bold border transition-all duration-300 flex items-center gap-2 whitespace-nowrap"
-                id="tab-{{ $category->slug }}">
-                <i class="fa-solid fa-chart-line text-xs"></i>
-                {{ $category->name }}
-                <span
-                    :class="activeTab === '{{ $category->slug }}' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'"
-                    class="text-[10px] font-black px-2 py-0.5 rounded-full transition-all duration-300">
-                    {{ $category->indicators->count() }}
-                </span>
-            </button>
-            @endforeach
+        @else
+            {{-- ─── SUMMARY CARDS ─────────────────────────────────────────── --}}
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                {{-- Total Penduduk --}}
+                <div class="bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl p-6 text-white shadow-xl shadow-emerald-600/30 flex flex-col justify-between min-h-[120px]">
+                    <span class="text-emerald-200 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                        <i class="fa-solid fa-users text-xs"></i> Total Penduduk
+                    </span>
+                    <div>
+                        <span class="text-3xl md:text-4xl font-extrabold block leading-none">{{ number_format($summaryCards['total_penduduk']) }}</span>
+                        <span class="text-emerald-200 text-[10px] font-semibold mt-2 block">jiwa aktif {{ $summaryCards['latest_year'] }}</span>
+                    </div>
+                </div>
+
+                {{-- YoY Growth --}}
+                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between min-h-[120px]">
+                    <span class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                        <i class="fa-solid fa-chart-line text-emerald-500 text-xs"></i> Pertumbuhan YoY
+                    </span>
+                    <div>
+                        @if(!is_null($summaryCards['yoy_growth']))
+                            @php $yoy = $summaryCards['yoy_growth']; @endphp
+                            <span class="text-3xl font-extrabold block leading-none {{ $yoy >= 0 ? 'text-emerald-600' : 'text-rose-500' }}">
+                                {{ $yoy >= 0 ? '+' : '' }}{{ $yoy }}%
+                            </span>
+                            <span class="text-slate-400 text-[10px] font-semibold mt-2 block">vs {{ $summaryCards['latest_year'] - 1 }}</span>
+                        @else
+                            <span class="text-2xl font-extrabold block leading-none text-slate-300">—</span>
+                            <span class="text-slate-400 text-[10px] font-semibold mt-2 block">data historis belum ada</span>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- Tahun Terkini --}}
+                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between min-h-[120px]">
+                    <span class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                        <i class="fa-regular fa-calendar text-emerald-500 text-xs"></i> Tahun Data
+                    </span>
+                    <div>
+                        <span class="text-3xl font-extrabold text-slate-900 block leading-none">{{ $summaryCards['latest_year'] }}</span>
+                        <span class="text-slate-400 text-[10px] font-semibold mt-2 block">data real-time</span>
+                    </div>
+                </div>
+
+                {{-- Dusun Terbanyak --}}
+                <div class="bg-slate-900 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[120px]">
+                    <span class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                        <i class="fa-solid fa-location-dot text-emerald-400 text-xs"></i> Dusun Terbanyak
+                    </span>
+                    <div>
+                        <span class="text-lg font-extrabold block leading-snug">{{ $summaryCards['top_dusun'] }}</span>
+                        <span class="text-slate-400 text-[10px] font-semibold mt-2 block">{{ number_format($summaryCards['top_dusun_count']) }} jiwa</span>
+                    </div>
+                </div>
+            </div>
+
+    {{-- Mobile: Dropdown Category Selector --}}
+    <div class="md:hidden mb-6">
+        <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Pilih Kategori</label>
+        <div class="relative">
+            <select
+                x-model="activeTab"
+                @change="onCategoryChange($event.target.value)"
+                class="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-5 py-3.5 pr-10 text-sm font-bold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                id="stat-category-select">
+                @foreach($categories as $category)
+                <option value="{{ $category->slug }}">{{ $category->name }} ({{ $category->indicators->count() }} indikator)</option>
+                @endforeach
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
+                <i class="fa-solid fa-chevron-down text-xs"></i>
+            </div>
         </div>
     </div>
 
-    {{-- TAB PANELS --}}
-    @foreach($categories as $catIndex => $category)
-    @php
-        $totalIndicators = $category->indicators->count();
-    @endphp
-    <div x-show="activeTab === '{{ $category->slug }}'"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 translate-y-4"
-         x-transition:enter-end="opacity-100 translate-y-0"
-         x-cloak>
+    {{-- Layout: Sidebar (desktop) + Content --}}
+    <div class="flex gap-8 items-start">
 
-        {{-- BIG STATS ROW --}}
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            {{-- Total Indicators card --}}
-            <div class="col-span-2 md:col-span-1 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-3xl p-6 text-white shadow-xl shadow-emerald-600/25 flex flex-col justify-between min-h-[130px]">
-                <span class="text-emerald-200 text-[10px] font-black uppercase tracking-[0.2em]">Total Indikator</span>
-                <div>
-                    <span class="text-5xl font-extrabold block leading-none">{{ $totalIndicators }}</span>
-                    <span class="text-emerald-200 text-xs font-semibold mt-1 block">indikator aktif</span>
+        {{-- ── SIDEBAR (desktop only) ──────────────────────────────────── --}}
+        <aside class="hidden md:block w-64 flex-shrink-0 sticky top-24 self-start">
+            <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                <div class="px-5 pt-5 pb-3">
+                    <span class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-layer-group text-emerald-500"></i> Kategori
+                    </span>
+                </div>
+                <nav class="pb-3">
+                    @foreach($categories as $category)
+                    <button
+                        @click="onCategoryChange('{{ $category->slug }}')"
+                        :class="activeTab === '{{ $category->slug }}'
+                            ? 'bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500'
+                            : 'text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900'"
+                        class="w-full text-left flex items-center justify-between gap-2 px-5 py-3 text-sm font-semibold transition-all duration-200"
+                        id="sidebar-tab-{{ $category->slug }}">
+                        <span class="flex items-center gap-2 leading-snug">
+                            <i class="fa-solid fa-chart-bar text-[10px] flex-shrink-0"
+                               :class="activeTab === '{{ $category->slug }}' ? 'text-emerald-500' : 'text-slate-300'"></i>
+                            {{ $category->name }}
+                        </span>
+                        <span
+                            :class="activeTab === '{{ $category->slug }}' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'"
+                            class="text-[10px] font-black px-2 py-0.5 rounded-full flex-shrink-0 transition-all duration-200">
+                            {{ $category->indicators->count() }}
+                        </span>
+                    </button>
+                    @endforeach
+                </nav>
+
+                {{-- Filter Dusun & Tahun --}}
+                <div class="border-t border-slate-100 px-5 py-4">
+                    <form method="GET" action="/statistik">
+                        <input type="hidden" name="kategori" :value="activeTab">
+
+                        @if($dusuns->count() > 0)
+                        {{-- Filter Dusun --}}
+                        <div class="mb-4">
+                            <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-dot text-emerald-500"></i> Filter Dusun
+                            </label>
+                            <div class="relative">
+                                <select
+                                    name="dusun_id"
+                                    onchange="this.form.submit()"
+                                    class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 pr-8 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                                    <option value="">Semua Dusun</option>
+                                    @foreach($dusuns as $dusun)
+                                        <option value="{{ $dusun->id }}" {{ $selectedDusunId == $dusun->id ? 'selected' : '' }}>{{ $dusun->name }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        {{-- Filter Tahun --}}
+                        <div class="mb-2">
+                            <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 flex items-center gap-1.5">
+                                <i class="fa-regular fa-calendar text-emerald-500"></i> Filter Tahun
+                            </label>
+                            <div class="relative">
+                                <select
+                                    name="year"
+                                    onchange="this.form.submit()"
+                                    class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 pr-8 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                                    <option value="" {{ $selectedYear === '' ? 'selected' : '' }}>Semua Tahun</option>
+                                    @foreach($availableYears as $yr)
+                                        <option value="{{ $yr }}" {{ $selectedYear == $yr ? 'selected' : '' }}>{{ $yr }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if($selectedDusunId || $selectedYear)
+                        <a href="/statistik?kategori={{ request()->query('kategori', $categories->first()?->slug) }}" class="inline-flex items-center gap-1 text-[10px] text-rose-400 hover:text-rose-600 font-semibold mt-2 transition-colors">
+                            <i class="fa-solid fa-xmark"></i> Hapus filter
+                        </a>
+                        @endif
+                    </form>
                 </div>
             </div>
+        </aside>
 
-            {{-- Year range card --}}
+        {{-- ── MAIN PANEL ───────────────────────────────────────────────── --}}
+        <div class="flex-1 min-w-0">
+
+            @foreach($categories as $catIndex => $category)
             @php
-                $allYears = $category->indicators->flatMap(fn($i) => $i->data->pluck('year'));
-                $minYear = $allYears->min() ?? '-';
-                $maxYear = $allYears->max() ?? '-';
-                $totalRecords = $category->indicators->sum(fn($i) => $i->data->count());
+                $totalIndicators = $category->indicators->count();
+                $allYears = $category->indicators->flatMap(fn($i) => $i->data->pluck('year'))->unique()->sort()->values();
+                $isPendudukCategory = str_contains(strtolower($category->name), 'penduduk');
             @endphp
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[130px]">
-                <span class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Rentang Tahun</span>
-                <div>
-                    <span class="text-3xl font-extrabold text-slate-900 block leading-none">{{ $minYear }}–{{ $maxYear }}</span>
-                    <span class="text-slate-400 text-xs font-semibold mt-1 block">periode data</span>
-                </div>
-            </div>
 
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[130px]">
-                <span class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Total Catatan</span>
-                <div>
-                    <span class="text-3xl font-extrabold text-slate-900 block leading-none">{{ number_format($totalRecords) }}</span>
-                    <span class="text-slate-400 text-xs font-semibold mt-1 block">data poin</span>
-                </div>
-            </div>
+            <div x-show="activeTab === '{{ $category->slug }}'"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-3"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 data-panel-slug="{{ $category->slug }}"
+                 x-cloak>
 
-            <div class="bg-slate-900 rounded-3xl p-6 text-white flex flex-col justify-between min-h-[130px]">
-                <span class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Kategori</span>
-                <div>
-                    <span class="text-lg font-extrabold block leading-snug">{{ $category->name }}</span>
-                    @if($category->description)
-                    <span class="text-slate-400 text-xs font-medium mt-1 block line-clamp-2">{{ $category->description }}</span>
-                    @else
-                    <span class="text-slate-400 text-xs font-medium mt-1 block">Data resmi desa</span>
-                    @endif
+                {{-- Section header --}}
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="h-px w-6 bg-emerald-500"></div>
+                            <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.25em]">Visualisasi Data</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">{{ $category->name }}</h2>
+                        @if($category->description)
+                        <p class="text-slate-500 text-sm mt-1">{{ $category->description }}</p>
+                        @endif
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
+                        <i class="fa-regular fa-calendar-check text-emerald-500"></i>
+                        Diperbarui {{ date('d M Y') }}
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        {{-- SECTION HEADER --}}
-        <div class="flex items-center justify-between mb-8">
-            <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="h-px w-8 bg-emerald-500"></div>
-                    <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Visualisasi Data</span>
+                {{-- ── CHART CONTAINER ───────────────────────────────────── --}}
+                <div class="bg-white rounded-[28px] border border-slate-100 shadow-sm overflow-hidden p-6 md:p-8 mb-6"
+                     x-data="{
+                         currentType: '{{ $isPendudukCategory ? 'pyramid' : 'bar' }}',
+                         showPercent: false,
+                         filterYear: 'all',
+                         compareYear: 'none',
+                         showGender: false,
+                         renderChart() {
+                             window.renderStatChart('{{ $category->slug }}', this.currentType, this.showPercent, this.filterYear, this.compareYear, this.showGender);
+                         }
+                     }"
+                     x-init="setTimeout(() => { if (activeTab === '{{ $category->slug }}') renderChart(); }, 150)">
+
+                    {{-- Toolbar --}}
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="text-base font-heading font-extrabold text-slate-900">Grafik {{ $category->name }}</h3>
+                            <p class="text-slate-400 text-xs font-medium mt-0.5">{{ $totalIndicators }} indikator &mdash; {{ $allYears->count() > 1 ? $allYears->first() . '–' . $allYears->last() : ($allYears->first() ?? date('Y')) }}</p>
+                        </div>
+
+                        {{-- Controls --}}
+                        <div class="flex flex-wrap items-center gap-2">
+
+
+
+                            {{-- Compare Year --}}
+                            @if($allYears->count() > 1)
+                            <div class="relative">
+                                <select x-model="compareYear"
+                                        @change="renderChart('{{ $category->slug }}')"
+                                        class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
+                                    <option value="none">Bandingkan...</option>
+                                    @foreach($allYears as $yr)
+                                    <option value="{{ $yr }}">vs {{ $yr }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                                </div>
+                            </div>
+                            @endif
+
+                            {{-- Toggle Persentase --}}
+                            <button @click="showPercent = !showPercent; renderChart('{{ $category->slug }}')"
+                                    :class="showPercent ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-300'"
+                                    class="px-3 py-2 rounded-xl text-xs font-bold border transition-all duration-200 flex items-center gap-1.5">
+                                <i class="fa-solid fa-percent text-[10px]"></i>
+                                <span x-text="showPercent ? 'Persentase' : 'Jumlah'"></span>
+                            </button>
+
+                            @if($category->mapping_table === 'citizens')
+                            {{-- Toggle Jenis Kelamin --}}
+                            <button @click="showGender = !showGender; renderChart('{{ $category->slug }}')"
+                                    x-show="compareYear === 'none'"
+                                    :class="showGender ? 'bg-sky-600 text-white border-sky-600 shadow-md shadow-sky-600/10' : 'bg-white text-slate-600 border-slate-200 hover:border-sky-300 hover:text-sky-700'"
+                                    class="px-3 py-2 rounded-xl text-xs font-bold border transition-all duration-200 flex items-center gap-1.5">
+                                <i class="fa-solid fa-venus-mars text-[10px]"></i>
+                                <span>Jenis Kelamin</span>
+                            </button>
+                            @endif
+
+                            {{-- Tipe Grafik --}}
+                            <div class="inline-flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+                                @if($isPendudukCategory)
+                                <button @click="currentType = 'pyramid'; renderChart('{{ $category->slug }}')"
+                                        :class="currentType === 'pyramid' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none"
+                                        title="Pyramid">
+                                    <i class="fa-solid fa-triangle-exclamation rotate-180"></i>
+                                </button>
+                                @endif
+                                <button @click="currentType = 'bar'; renderChart('{{ $category->slug }}')"
+                                        :class="currentType === 'bar' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none">
+                                    <i class="fa-solid fa-chart-bar"></i>
+                                </button>
+                                <button @click="currentType = 'line'; renderChart('{{ $category->slug }}')"
+                                        :class="currentType === 'line' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </button>
+                                <button @click="currentType = 'doughnut'; renderChart('{{ $category->slug }}')"
+                                        :class="currentType === 'doughnut' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none">
+                                    <i class="fa-solid fa-chart-pie"></i>
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    {{-- Chart area --}}
+                    <div class="h-80 md:h-[400px] relative">
+                        <div id="chart-{{ $category->slug }}" class="w-full h-full"></div>
+                    </div>
                 </div>
-                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">{{ $category->name }}</h2>
-            </div>
-            <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold hidden md:flex">
-                <i class="fa-regular fa-calendar-check text-emerald-500"></i>
-                Diperbarui {{ date('d M Y') }}
-            </div>
-        </div>
 
-        <!-- MAIN CHART CONTAINER (WITH INTERACTIVE TOGGLE SWITCH) -->
-        <div x-data="{ currentType: 'bar' }" 
-             class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden p-8 md:p-10 mb-8">
-            
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-                <div>
-                    <h3 class="text-lg font-heading font-extrabold text-slate-900">Grafik Perbandingan & Analisis Tren</h3>
-                    <p class="text-slate-400 text-xs font-medium mt-1">Menggabungkan semua indikator kategori {{ $category->name }}</p>
+                {{-- ── TABEL DETAIL ───────────────────────────────────────── --}}
+                @if($totalIndicators > 0)
+                @php
+                    $isCitizens = ($category->mapping_table === 'citizens');
+                    // Tentukan tahun yang ditampilkan: filter aktif atau tahun terbaru
+                    $tableYear = $selectedYear
+                        ? (int)$selectedYear
+                        : (int)($allYears->last() ?? date('Y'));
+                @endphp
+                <div class="bg-white rounded-[28px] border border-slate-100 shadow-sm overflow-hidden mb-8">
+                    <div class="flex items-center justify-between px-6 md:px-8 pt-6 pb-4">
+                        <div>
+                            <h3 class="text-base font-heading font-extrabold text-slate-900">
+                                Tabel {{ $category->name }}{{ $isCitizens ? ' Berdasarkan Jenis Kelamin' : '' }}
+                            </h3>
+                            <p class="text-slate-400 text-xs font-medium mt-0.5">
+                                {{ $isCitizens ? 'Tahun ' . $tableYear : 'Data per indikator berdasarkan tahun' }}
+                            </p>
+                        </div>
+                        {{-- Tombol Ekspor --}}
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" @click.outside="open = false"
+                                    class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 border border-slate-200 text-slate-600 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200">
+                                <i class="fa-solid fa-download text-[10px]"></i>
+                                <span>Ekspor</span>
+                                <i class="fa-solid fa-chevron-down text-[8px]" :class="open ? 'rotate-180' : ''"
+                                   style="transition: transform .2s"></i>
+                            </button>
+                            <div x-show="open" x-transition
+                                 class="absolute right-0 mt-1.5 w-40 bg-white rounded-2xl shadow-xl border border-slate-100 py-1.5 z-30">
+                                <button onclick="exportTableCSV('tabel-{{ $category->slug }}')"
+                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
+                                    <i class="fa-solid fa-file-csv text-emerald-500 w-4 text-center"></i> CSV
+                                </button>
+                                <button onclick="exportTableExcel('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}')"
+                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
+                                    <i class="fa-solid fa-file-excel text-emerald-600 w-4 text-center"></i> Excel
+                                </button>
+                                <button onclick="exportTablePDF('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}')"
+                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
+                                    <i class="fa-solid fa-file-pdf text-red-500 w-4 text-center"></i> PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        @if($isCitizens)
+                        {{-- ── Tabel citizens: Indikator | Laki-laki | Perempuan | Total ── --}}
+                        @php
+                            $firstIndicatorUnit = $category->indicators->first()->unit ?? '';
+                            $grandTotal = 0;
+                            foreach ($category->indicators as $ind) {
+                                $dp = $ind->data->firstWhere('year', $tableYear);
+                                $grandTotal += $dp ? (int)($dp->value ?? 0) : 0;
+                            }
+                        @endphp
+                        <table id="tabel-{{ $category->slug }}" class="w-full text-sm border-collapse">
+                            <thead>
+                                <tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50/70">
+                                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 sticky left-0 bg-slate-50/70 z-10 min-w-[200px]">Indikator</th>
+                                    <th class="text-right px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-sky-500 whitespace-nowrap leading-tight">
+                                        Laki-laki<br>
+                                        <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">({{ $firstIndicatorUnit }})</span>
+                                    </th>
+                                    <th class="text-right px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-pink-500 whitespace-nowrap leading-tight">
+                                        Perempuan<br>
+                                        <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">({{ $firstIndicatorUnit }})</span>
+                                    </th>
+                                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap leading-tight">
+                                        Total<br>
+                                        <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">({{ $firstIndicatorUnit }})</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50">
+                                @foreach($category->indicators as $indicator)
+                                @php
+                                    $dp  = $indicator->data->firstWhere('year', $tableYear);
+                                    $valL = $dp ? (int)($dp->value_male   ?? 0) : 0;
+                                    $valP = $dp ? (int)($dp->value_female ?? 0) : 0;
+                                    $valT = $dp ? (int)($dp->value        ?? 0) : 0;
+                                    $pctT = $grandTotal > 0 ? round(($valT / $grandTotal) * 100, 1) : 0;
+                                @endphp
+                                <tr class="hover:bg-slate-50/50 transition-colors duration-100 group">
+                                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50/50 transition-colors text-xs leading-snug">
+                                        {{ $indicator->name }}
+                                    </td>
+                                    <td class="px-5 py-3.5 text-right whitespace-nowrap">
+                                        <span class="text-xs font-bold text-sky-700">{{ number_format($valL) }}</span>
+                                    </td>
+                                    <td class="px-5 py-3.5 text-right whitespace-nowrap">
+                                        <span class="text-xs font-bold text-pink-600">{{ number_format($valP) }}</span>
+                                    </td>
+                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
+                                        {{ number_format($valT) }}
+                                        @if($grandTotal > 0)
+                                            <span class="text-[10px] text-slate-400 font-medium ml-1">({{ $pctT }}%)</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        @else
+                        {{-- ── Tabel non-citizens: Indikator | [tahun-tahun] ── --}}
+                        <table id="tabel-{{ $category->slug }}" class="w-full text-sm border-collapse">
+                            <thead>
+                                <tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50/70">
+                                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 sticky left-0 bg-slate-50/70 z-10 min-w-[200px]">Indikator</th>
+                                    <th class="text-left px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap">Satuan</th>
+                                    @foreach($allYears as $yr)
+                                    <th class="text-right px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap border-l border-slate-100">{{ $yr }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50">
+                                @foreach($category->indicators as $indicator)
+                                <tr class="hover:bg-slate-50/50 transition-colors duration-100 group">
+                                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50/50 transition-colors text-xs leading-snug">
+                                        {{ $indicator->name }}
+                                    </td>
+                                    <td class="px-4 py-3.5 text-xs text-slate-400 font-medium whitespace-nowrap">{{ $indicator->unit }}</td>
+                                    @foreach($allYears as $yr)
+                                    @php
+                                        $dp  = $indicator->data->firstWhere('year', $yr);
+                                        $val = $dp ? (int)$dp->value : null;
+                                    @endphp
+                                    <td class="px-4 py-3.5 text-right text-xs font-bold text-slate-800 whitespace-nowrap border-l border-slate-100">
+                                        {{ $val !== null ? number_format($val) : '—' }}
+                                    </td>
+                                    @endforeach
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @endif
+                    </div>
                 </div>
-                
-                <!-- Chart type selector buttons -->
-                <div class="inline-flex bg-slate-100 p-1.5 rounded-2xl w-fit self-start sm:self-center border border-slate-200">
-                    <button @click="currentType = 'line'; window.changeChartType('{{ $category->slug }}', 'line')" 
-                            :class="currentType === 'line' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'" 
-                            class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 focus:outline-none">
-                        <i class="fa-solid fa-chart-line"></i> Garis
-                    </button>
-                    <button @click="currentType = 'bar'; window.changeChartType('{{ $category->slug }}', 'bar')" 
-                            :class="currentType === 'bar' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'" 
-                            class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 focus:outline-none">
-                        <i class="fa-solid fa-chart-bar"></i> Batang
-                    </button>
-                    <button @click="currentType = 'doughnut'; window.changeChartType('{{ $category->slug }}', 'doughnut')" 
-                            :class="currentType === 'doughnut' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'" 
-                            class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 focus:outline-none">
-                        <i class="fa-solid fa-chart-pie"></i> Donat
-                    </button>
-                </div>
-            </div>
+                @endif
 
-            <!-- Chart Container -->
-            <div class="h-96 md:h-[420px] relative">
-                <div id="chart-{{ $category->slug }}"></div>
-            </div>
-        </div>
+            </div>{{-- /tab panel --}}
+            @endforeach
 
-    </div>{{-- /tab panel --}}
-    @endforeach
+        </div>{{-- /main panel --}}
+    </div>{{-- /layout --}}
+
     @endif
-
 </div>{{-- /alpine wrapper --}}
+</div>{{-- /bg-slate-50 --}}
+
 @endsection
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        @php
-            $palette = [
-                ['hex' => '#10b981', 'rgba' => 'rgba(16, 185, 129, 0.1)'],  // emerald
-                ['hex' => '#0ea5e9', 'rgba' => 'rgba(14, 165, 233, 0.1)'],  // sky
-                ['hex' => '#f59e0b', 'rgba' => 'rgba(245, 158, 11, 0.1)'],  // amber
-                ['hex' => '#8b5cf6', 'rgba' => 'rgba(139, 92, 246, 0.1)'],  // violet
-                ['hex' => '#ec4899', 'rgba' => 'rgba(236, 72, 153, 0.1)'],  // pink
-                ['hex' => '#f43f5e', 'rgba' => 'rgba(244, 63, 94, 0.1)'],   // rose
-                ['hex' => '#06b6d4', 'rgba' => 'rgba(6, 182, 212, 0.1)'],   // cyan
-                ['hex' => '#14b8a6', 'rgba' => 'rgba(20, 184, 166, 0.1)'],  // teal
-                ['hex' => '#f97316', 'rgba' => 'rgba(249, 115, 22, 0.1)'],  // orange
-                ['hex' => '#3b82f6', 'rgba' => 'rgba(59, 130, 246, 0.1)'],  // blue
-            ];
-        @endphp
 
-        const categoryData = {
-            @foreach($categories as $category)
-            '{{ $category->slug }}': {
-                name: '{{ $category->name }}',
-                years: {!! json_encode($category->indicators->flatMap(fn($i) => $i->data->pluck('year'))->unique()->sort()->values()->toArray()) !!},
-                indicators: [
-                    @foreach($category->indicators as $idx => $indicator)
-                    @php
-                        $c = $palette[$idx % count($palette)];
-                        if (str_contains(strtolower($indicator->name), 'laki-laki')) {
-                            $c = ['hex' => '#0ea5e9', 'rgba' => 'rgba(14, 165, 233, 0.15)'];
-                        } elseif (str_contains(strtolower($indicator->name), 'perempuan')) {
-                            $c = ['hex' => '#ec4899', 'rgba' => 'rgba(236, 72, 153, 0.15)'];
-                        }
-                    @endphp
-                    {
-                        name: '{{ $indicator->name }}',
-                        unit: '{{ $indicator->unit }}',
-                        colorHex: '{{ $c["hex"] }}',
-                        colorRgba: '{{ $c["rgba"] }}',
-                        data: {!! json_encode($indicator->data->map(fn($d) => ['year' => (int)$d->year, 'value' => (int)$d->value])->toArray()) !!}
-                    },
-                    @endforeach
-                ]
-            },
-            @endforeach
+
+    // ── Palette ────────────────────────────────────────────────────────────
+    const palette = [
+        '#10b981','#0ea5e9','#f59e0b','#8b5cf6','#ec4899',
+        '#f43f5e','#06b6d4','#14b8a6','#f97316','#3b82f6',
+    ];
+
+    // ── Category data (server-rendered) ────────────────────────────────────
+    @php
+        $phpPalette = [
+            '#10b981','#0ea5e9','#f59e0b','#8b5cf6','#ec4899',
+            '#f43f5e','#06b6d4','#14b8a6','#f97316','#3b82f6',
+        ];
+    @endphp
+    const categoryData = {
+        @foreach($categories as $category)
+        '{{ $category->slug }}': {
+            name: '{{ addslashes($category->name) }}',
+            isPenduduk: {{ str_contains(strtolower($category->name), 'penduduk') ? 'true' : 'false' }},
+            isEducation: {{ str_contains(strtolower($category->name), 'pendidikan') ? 'true' : 'false' }},
+            years: {!! json_encode($category->indicators->flatMap(fn($i) => $i->data->pluck('year'))->unique()->sort()->values()->toArray()) !!},
+            indicators: [
+                @foreach($category->indicators as $idx => $indicator)
+                @php
+                    $c = $phpPalette[$idx % count($phpPalette)];
+                    if (str_contains(strtolower($indicator->name), 'laki-laki') || str_contains(strtolower($indicator->name), 'laki laki')) {
+                        $c = '#0ea5e9';
+                    } elseif (str_contains(strtolower($indicator->name), 'perempuan')) {
+                        $c = '#ec4899';
+                    }
+                @endphp
+                {
+                    name: '{{ addslashes($indicator->name) }}',
+                    unit: '{{ addslashes($indicator->unit) }}',
+                    color: '{{ $c }}',
+                    data: {!! json_encode($indicator->data->map(fn($d) => [
+                        'year'         => (int)$d->year,
+                        'value'        => (int)$d->value,
+                        'value_male'   => (int)($d->value_male ?? 0),
+                        'value_female' => (int)($d->value_female ?? 0),
+                    ])->toArray()) !!}
+                },
+                @endforeach
+            ]
+        },
+        @endforeach
+    };
+
+    // ── Chart instances store ───────────────────────────────────────────────
+    const chartInstances = {};
+
+    // ── Sorting helpers ─────────────────────────────────────────────────────
+    const educationOrder = [
+        'tidak/belum pernah sekolah','tidak sekolah','belum sekolah','paud','tk',
+        'sd','smp','sma','diploma','d1','d2','d3','d4','sarjana','s1','magister','s2','doktor','s3'
+    ];
+
+    function sortIndicators(cat, indicators) {
+        let sorted = [...indicators];
+        if (cat.isEducation) {
+            sorted.sort((a, b) => {
+                const na = a.name.toLowerCase().trim();
+                const nb = b.name.toLowerCase().trim();
+                let ia = educationOrder.findIndex(o => na.includes(o));
+                let ib = educationOrder.findIndex(o => nb.includes(o));
+                if (ia === -1) ia = 999;
+                if (ib === -1) ib = 999;
+                return ia - ib;
+            });
+        } else if (cat.isPenduduk) {
+            sorted.sort((a, b) => {
+                const na = a.name.toLowerCase();
+                const nb = b.name.toLowerCase();
+                if (na.includes('laki') && !nb.includes('laki')) return -1;
+                if (!na.includes('laki') && nb.includes('laki')) return 1;
+                return 0;
+            });
+        } else {
+            const latestYear = cat.years.length ? Math.max(...cat.years.map(Number)) : new Date().getFullYear();
+            sorted.sort((a, b) => {
+                const va = a.data.find(d => Number(d.year) === Number(latestYear))?.value || 0;
+                const vb = b.data.find(d => Number(d.year) === Number(latestYear))?.value || 0;
+                return vb - va;
+            });
+        }
+        return sorted;
+    }
+
+    // ── Main render function ────────────────────────────────────────────────
+    window.renderStatChart = function(slug, type, showPercent, filterYear, compareYear, showGender) {
+        const cat = categoryData[slug];
+        if (!cat) return;
+        const el = document.getElementById('chart-' + slug);
+        if (!el) return;
+
+        if (chartInstances[slug]) {
+            chartInstances[slug].destroy();
+            delete chartInstances[slug];
+        }
+
+        let filteredIndicators = sortIndicators(cat, cat.indicators);
+
+        // Apply year filter
+        let activeYears = cat.years.map(Number);
+        if (filterYear && filterYear !== 'all') {
+            activeYears = [Number(filterYear)];
+        }
+
+        // Compare mode: show two specific years side by side in bar chart
+        let compareYearNum = null;
+        if (compareYear && compareYear !== 'none') {
+            compareYearNum = Number(compareYear);
+        }
+
+        let showGenderSplit = showGender && activeYears.length === 1 && (type === 'bar' || type === 'line');
+
+        // Calculate grand total (for percentage)
+        const grandTotals = {};
+        if (showPercent) {
+            activeYears.forEach(yr => {
+                grandTotals[yr] = filteredIndicators.reduce((sum, ind) => {
+                    const d = ind.data.find(d => Number(d.year) === yr);
+                    return sum + (d ? d.value : 0);
+                }, 0);
+            });
+        }
+
+        const getValue = (ind, yr) => {
+            const d = ind.data.find(d => Number(d.year) === yr);
+            const raw = d ? d.value : 0;
+            if (showPercent && grandTotals[yr] > 0) {
+                return Math.round((raw / grandTotals[yr]) * 1000) / 10; // 1dp %
+            }
+            return raw;
         };
 
-        const chartInstances = {};
+        const yLabel = showPercent ? '%' : '';
 
-        window.renderCategoryChart = function(slug, type) {
-            const cat = categoryData[slug];
-            const element = document.getElementById('chart-' + slug);
-            if (!element) return;
+        // ── PYRAMID (horizontal bar for penduduk) ────────────────────────
+        if (type === 'pyramid' && cat.isPenduduk) {
+            const latestYear = compareYearNum || (activeYears.length ? Math.max(...activeYears) : new Date().getFullYear());
+            const lakiInd = filteredIndicators.find(i => i.name.toLowerCase().includes('laki'));
+            const perempuanInd = filteredIndicators.find(i => i.name.toLowerCase().includes('perempuan'));
 
-            // Destroy existing instance if it exists
-            if (chartInstances[slug]) {
-                chartInstances[slug].destroy();
-            }
+            const lakiVal  = lakiInd  ? getValue(lakiInd,  latestYear) : 0;
+            const wanInd   = perempuanInd ? getValue(perempuanInd, latestYear) : 0;
 
-            // Ambil tahun terbaru untuk penentuan nilai pengurutan
-            const latestYearForSort = cat.years.length > 0 ? Math.max(...cat.years.map(Number)) : new Date().getFullYear();
-
-            // Salin dan urutkan indikator berdasarkan jenis data (Ordinal, Gender, Nominal)
-            let sortedIndicators = [...cat.indicators];
-
-            if (cat.name.toLowerCase().includes('pendidikan')) {
-                const educationOrder = [
-                    'tidak/belum pernah sekolah',
-                    'tidak sekolah',
-                    'belum sekolah',
-                    'paud',
-                    'tk',
-                    'sd',
-                    'smp',
-                    'sma',
-                    'diploma',
-                    'd1',
-                    'd2',
-                    'd3',
-                    'd4',
-                    'sarjana',
-                    's1',
-                    'magister',
-                    's2',
-                    'doktor',
-                    's3'
-                ];
-                sortedIndicators.sort((a, b) => {
-                    const nameA = a.name.toLowerCase().trim();
-                    const nameB = b.name.toLowerCase().trim();
-                    
-                    let indexA = educationOrder.findIndex(item => nameA.includes(item));
-                    let indexB = educationOrder.findIndex(item => nameB.includes(item));
-                    
-                    if (indexA === -1) indexA = 999;
-                    if (indexB === -1) indexB = 999;
-                    
-                    return indexA - indexB;
-                });
-            } else if (cat.name.toLowerCase().includes('penduduk')) {
-                // Pastikan Laki-laki selalu pertama, Perempuan kedua
-                sortedIndicators.sort((a, b) => {
-                    const nameA = a.name.toLowerCase();
-                    const nameB = b.name.toLowerCase();
-                    if (nameA.includes('laki') && !nameB.includes('laki')) return -1;
-                    if (!nameA.includes('laki') && nameB.includes('laki')) return 1;
-                    return 0;
-                });
+            // Fallback: if no gender-specific indicators, show all indicators as horizontal bar
+            if (!lakiInd && !perempuanInd) {
+                type = 'bar';
             } else {
-                // Urutkan desc berdasarkan nilai tahun terbaru untuk kategori nominal
-                sortedIndicators.sort((a, b) => {
-                    const valA = a.data.find(d => Number(d.year) === Number(latestYearForSort))?.value || 0;
-                    const valB = b.data.find(d => Number(d.year) === Number(latestYearForSort))?.value || 0;
-                    return valB - valA;
-                });
+                const seriesData = [
+                    { x: 'Laki-laki', y: lakiVal },
+                    { x: 'Perempuan', y: wanInd },
+                ];
+                const config = {
+                    chart: { type: 'bar', height: '100%', fontFamily: 'Inter, sans-serif',
+                        toolbar: { show: false } },
+                    plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 8 } },
+                    dataLabels: { enabled: true, formatter: (val) => showPercent ? val + '%' : val.toLocaleString('id-ID') },
+                    series: [{ name: 'Jumlah', data: seriesData }],
+                    colors: ['#0ea5e9', '#ec4899'],
+                    xaxis: { labels: { style: { colors: '#94a3b8', fontWeight: 600 },
+                        formatter: (val) => showPercent ? val + '%' : val.toLocaleString('id-ID') }},
+                    yaxis: { labels: { style: { colors: '#64748b', fontWeight: 700 } } },
+                    grid: { borderColor: 'rgba(148,163,184,0.1)', strokeDashArray: 4 },
+                    legend: { show: false },
+                    tooltip: { y: { formatter: (val) => showPercent ? val + '%' : val.toLocaleString('id-ID') + ' ' + (cat.indicators[0]?.unit || 'Jiwa') } }
+                };
+                chartInstances[slug] = new ApexCharts(el, config);
+                chartInstances[slug].render();
+                return;
             }
+        }
 
-            let chartConfig = {};
+        // ── BAR / LINE ────────────────────────────────────────────────────
+        if (type === 'bar' || type === 'line') {
+            let series;
 
-            if (type === 'line' || type === 'bar') {
-                const datasets = sortedIndicators.map((ind) => {
-                    const dataPoints = cat.years.map((yr) => {
-                        const found = ind.data.find(d => Number(d.year) === Number(yr));
-                        return found ? found.value : 0;
-                    });
-                    return {
+            if (showGenderSplit) {
+                const yr = activeYears[0];
+                series = [
+                    {
+                        name: 'Laki-laki',
+                        data: filteredIndicators.map(ind => {
+                            const d = ind.data.find(d => Number(d.year) === yr);
+                            const val = d ? (d.value_male ?? 0) : 0;
+                            if (showPercent && d && d.value > 0) {
+                                return Math.round((val / d.value) * 1000) / 10;
+                            }
+                            return val;
+                        })
+                    },
+                    {
+                        name: 'Perempuan',
+                        data: filteredIndicators.map(ind => {
+                            const d = ind.data.find(d => Number(d.year) === yr);
+                            const val = d ? (d.value_female ?? 0) : 0;
+                            if (showPercent && d && d.value > 0) {
+                                return Math.round((val / d.value) * 1000) / 10;
+                            }
+                            return val;
+                        })
+                    }
+                ];
+            } else if (compareYearNum !== null && activeYears.length === 1) {
+                // Compare two years: each indicator gets 2 bars
+                const yr1 = activeYears[0];
+                const yr2 = compareYearNum;
+                series = [
+                    {
+                        name: String(yr1),
+                        data: filteredIndicators.map(ind => getValue(ind, yr1)),
+                    },
+                    {
+                        name: String(yr2),
+                        data: filteredIndicators.map(ind => getValue(ind, yr2)),
+                    },
+                ];
+            } else if (filteredIndicators.length === 1) {
+                // Single indicator: show trend over years
+                series = [{
+                    name: filteredIndicators[0].name,
+                    data: activeYears.map(yr => getValue(filteredIndicators[0], yr)),
+                }];
+            } else {
+                // Multiple indicators: each as a series, years on x-axis (multi-year)
+                // But if year is filtered to single year, show as single-year bar
+                if (activeYears.length === 1) {
+                    const yr = activeYears[0];
+                    series = [{
+                        name: String(yr),
+                        data: filteredIndicators.map(ind => getValue(ind, yr)),
+                    }];
+                } else {
+                    series = filteredIndicators.map(ind => ({
                         name: ind.name,
-                        data: dataPoints
-                    };
-                });
-
-                const hasGender = sortedIndicators.some(ind => ind.name.toLowerCase().includes('laki') || ind.name.toLowerCase().includes('perempuan'));
-                const chartColors = hasGender 
-                    ? sortedIndicators.map(ind => {
-                        if (ind.name.toLowerCase().includes('laki')) return '#0ea5e9';
-                        if (ind.name.toLowerCase().includes('perempuan')) return '#ec4899';
-                        return ind.colorHex;
-                    })
-                    : undefined;
-
-                chartConfig = {
-                    chart: {
-                        type: type,
-                        height: '100%',
-                        fontFamily: 'Inter, sans-serif',
-                        toolbar: {
-                            show: true,
-                            tools: { download: true, selection: false, zoom: false, zoomin: false, zoomout: false, pan: false, reset: false }
-                        }
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
-                    series: datasets,
-                    stroke: {
-                        curve: 'smooth',
-                        width: type === 'bar' ? 0 : 3
-                    },
-                    plotOptions: {
-                        bar: {
-                            borderRadius: 6,
-                            columnWidth: '55%'
-                        }
-                    },
-                    xaxis: {
-                        categories: cat.years.map(String),
-                        labels: {
-                            rotate: -45,
-                            rotateAlways: false,
-                            hideOverlappingLabels: true,
-                            style: { colors: '#94a3b8', fontWeight: 600, fontSize: '11px' }
-                        },
-                        axisBorder: { show: false },
-                        axisTicks: { show: false }
-                    },
-                    yaxis: {
-                        min: 0,
-                        labels: {
-                            style: { colors: '#94a3b8', fontWeight: 600, fontSize: '11px' },
-                            formatter: function(val) {
-                                if (val % 1 === 0) {
-                                    return val.toLocaleString('id-ID');
-                                }
-                                return '';
-                            }
-                        }
-                    },
-                    grid: {
-                        borderColor: 'rgba(148, 163, 184, 0.08)',
-                        strokeDashArray: 5,
-                        xaxis: { lines: { show: false } },
-                        yaxis: { lines: { show: true } }
-                    },
-                    legend: {
-                        position: 'bottom',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: 600,
-                        fontSize: '12px',
-                        labels: { colors: '#64748b' },
-                        markers: { width: 10, height: 10, radius: 10, offsetY: -1 }
-                    },
-                    tooltip: {
-                        theme: 'light',
-                        y: {
-                            formatter: function(val, opts) {
-                                const indIndex = opts.seriesIndex;
-                                const unit = cat.indicators[indIndex] ? cat.indicators[indIndex].unit : '';
-                                return val.toLocaleString('id-ID') + ' ' + unit;
-                            }
-                        }
-                    }
-                };
-                if (chartColors) {
-                    chartConfig.colors = chartColors;
-                }
-            } else if (type === 'doughnut') {
-                const latestYear = cat.years.length > 0 ? Math.max(...cat.years.map(Number)) : new Date().getFullYear();
-                const dataPoints = sortedIndicators.map((ind) => {
-                    const found = ind.data.find(d => Number(d.year) === Number(latestYear));
-                    return found ? found.value : 0;
-                });
-
-                const hasGender = sortedIndicators.some(ind => ind.name.toLowerCase().includes('laki') || ind.name.toLowerCase().includes('perempuan'));
-                const chartColors = hasGender 
-                    ? sortedIndicators.map(ind => {
-                        if (ind.name.toLowerCase().includes('laki')) return '#0ea5e9';
-                        if (ind.name.toLowerCase().includes('perempuan')) return '#ec4899';
-                        return ind.colorHex;
-                    })
-                    : undefined;
-
-                chartConfig = {
-                    chart: {
-                        type: 'donut',
-                        height: '100%',
-                        fontFamily: 'Inter, sans-serif'
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
-                    labels: sortedIndicators.map(ind => ind.name),
-                    series: dataPoints,
-                    stroke: {
-                        show: false
-                    },
-                    plotOptions: {
-                        pie: {
-                            donut: {
-                                size: '72%',
-                                labels: {
-                                    show: true,
-                                    name: { 
-                                        show: true, 
-                                        fontFamily: 'Poppins, sans-serif', 
-                                        fontWeight: 700,
-                                        fontSize: '14px',
-                                        color: '#64748b'
-                                    },
-                                    value: { 
-                                        show: true, 
-                                        fontFamily: 'Inter, sans-serif', 
-                                        fontWeight: 800,
-                                        fontSize: '22px',
-                                        color: '#0f172a',
-                                        formatter: function(val) {
-                                            return parseInt(val).toLocaleString('id-ID');
-                                        }
-                                    },
-                                    total: {
-                                        show: true,
-                                        label: 'Total (' + latestYear + ')',
-                                        fontFamily: 'Poppins, sans-serif',
-                                        fontWeight: 700,
-                                        fontSize: '11px',
-                                        color: '#94a3b8',
-                                        formatter: function(w) {
-                                            return w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString('id-ID');
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    legend: {
-                        position: 'bottom',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: 600,
-                        fontSize: '12px',
-                        labels: { colors: '#64748b' },
-                        markers: { width: 10, height: 10, radius: 10, offsetY: -1 }
-                    },
-                    tooltip: {
-                        theme: 'light',
-                        y: {
-                            formatter: function(val, opts) {
-                                const indIndex = opts.seriesIndex;
-                                const unit = cat.indicators[indIndex] ? cat.indicators[indIndex].unit : '';
-                                return val.toLocaleString('id-ID') + ' ' + unit;
-                            }
-                        }
-                    }
-                };
-
-                if (chartColors) {
-                    chartConfig.colors = chartColors;
+                        data: activeYears.map(yr => getValue(ind, yr)),
+                    }));
                 }
             }
 
-            chartInstances[slug] = new ApexCharts(element, chartConfig);
+            const hasGender = filteredIndicators.some(i =>
+                i.name.toLowerCase().includes('laki') || i.name.toLowerCase().includes('perempuan')
+            );
+            const colors = showGenderSplit
+                ? ['#0ea5e9', '#ec4899']
+                : (hasGender
+                    ? filteredIndicators.map(i => {
+                        if (i.name.toLowerCase().includes('laki')) return '#0ea5e9';
+                        if (i.name.toLowerCase().includes('perempuan')) return '#ec4899';
+                        return i.color;
+                      })
+                    : filteredIndicators.map(i => i.color));
+
+            const xCats = (showGenderSplit || (compareYearNum !== null && activeYears.length === 1))
+                ? filteredIndicators.map(i => i.name)
+                : (activeYears.length === 1 ? filteredIndicators.map(i => i.name) : activeYears.map(String));
+
+            const config = {
+                chart: {
+                    type: type,
+                    height: '100%',
+                    fontFamily: 'Inter, sans-serif',
+                    toolbar: { show: true, tools: { download: true, selection: false, zoom: false, zoomin: false, zoomout: false, pan: false, reset: false } }
+                },
+                colors: colors,
+                series: series,
+                dataLabels: { enabled: false },
+                stroke: { curve: 'smooth', width: type === 'line' ? 3 : 0 },
+                plotOptions: { bar: { borderRadius: 6, columnWidth: filteredIndicators.length > 6 ? '80%' : '55%', distributed: (type === 'bar' && series.length === 1) } },
+                xaxis: {
+                    categories: xCats,
+                    labels: {
+                        show: !(activeYears.length === 1 && compareYearNum === null && !showGenderSplit),
+                        rotate: -35,
+                        rotateAlways: false,
+                        hideOverlappingLabels: true,
+                        style: { colors: '#94a3b8', fontWeight: 600, fontSize: '10px' }
+                    },
+                    axisBorder: { show: false }, axisTicks: { show: false }
+                },
+                yaxis: {
+                    min: 0,
+                    labels: {
+                        style: { colors: '#94a3b8', fontWeight: 600, fontSize: '11px' },
+                        formatter: (val) => {
+                            if (showPercent) return val + '%';
+                            if (val % 1 === 0) return val.toLocaleString('id-ID');
+                            return '';
+                        }
+                    }
+                },
+                grid: { borderColor: 'rgba(148,163,184,0.08)', strokeDashArray: 5, xaxis: { lines: { show: false } }, yaxis: { lines: { show: true } } },
+                legend: { position: 'bottom', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '11px', labels: { colors: '#64748b' }, markers: { width: 8, height: 8, radius: 8, offsetY: -1 } },
+                tooltip: {
+                    theme: 'light',
+                    y: { formatter: (val, opts) => {
+                        const unit = filteredIndicators[opts.seriesIndex]?.unit || '';
+                        if (showPercent) return val + '%';
+                        return val.toLocaleString('id-ID') + (unit ? ' ' + unit : '');
+                    }}
+                }
+            };
+            chartInstances[slug] = new ApexCharts(el, config);
             chartInstances[slug].render();
-        };
+            return;
+        }
 
-        window.changeChartType = function(slug, type) {
-            window.renderCategoryChart(slug, type);
-        };
+        // ── DOUGHNUT ───────────────────────────────────────────────────────
+        if (type === 'doughnut') {
+            const latestYear = activeYears.length ? Math.max(...activeYears) : new Date().getFullYear();
+            const values = filteredIndicators.map(ind => getValue(ind, latestYear));
+            const colors = filteredIndicators.map((i, idx) => {
+                if (i.name.toLowerCase().includes('laki')) return '#0ea5e9';
+                if (i.name.toLowerCase().includes('perempuan')) return '#ec4899';
+                return i.color || palette[idx % palette.length];
+            });
 
-        // Initialize all charts on load
-        @if(!$isEmptyDb)
-            @foreach($categories as $category)
-                window.renderCategoryChart('{{ $category->slug }}', 'bar');
-            @endforeach
-        @endif
+            const config = {
+                chart: { type: 'donut', height: '100%', fontFamily: 'Inter, sans-serif' },
+                colors: colors,
+                labels: filteredIndicators.map(i => i.name),
+                series: values,
+                dataLabels: { enabled: false },
+                stroke: { show: false },
+                plotOptions: {
+                    pie: { donut: {
+                        size: '72%',
+                        labels: {
+                            show: true,
+                            name: { show: true, fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '13px', color: '#64748b' },
+                            value: { show: true, fontFamily: 'Inter, sans-serif', fontWeight: 800, fontSize: '22px', color: '#0f172a',
+                                formatter: (val) => showPercent ? val + '%' : parseInt(val).toLocaleString('id-ID') },
+                            total: {
+                                show: true,
+                                label: 'Total (' + latestYear + ')',
+                                fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '11px', color: '#94a3b8',
+                                formatter: (w) => {
+                                    const tot = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                                    return showPercent ? '100%' : tot.toLocaleString('id-ID');
+                                }
+                            }
+                        }
+                    }}
+                },
+                legend: { position: 'bottom', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '11px', labels: { colors: '#64748b' }, markers: { width: 8, height: 8, radius: 8, offsetY: -1 } },
+                tooltip: { theme: 'light', y: { formatter: (val) => {
+                    if (showPercent) return val + '%';
+                    return val.toLocaleString('id-ID');
+                }}}
+            };
+            chartInstances[slug] = new ApexCharts(el, config);
+            chartInstances[slug].render();
+        }
+    };
+
+
+
+    // ── Alpine component ───────────────────────────────────────────────────
+    window.statistikApp = function() {
+        const defaultSlug = '{{ request()->query('kategori', $categories->first()?->slug ?? '') }}';
+        return {
+            activeTab: defaultSlug || Object.keys(categoryData)[0] || '',
+            init() {
+                this.$nextTick(() => {
+                    this.updateUrl(this.activeTab);
+                });
+            },
+            onCategoryChange(slug) {
+                this.activeTab = slug;
+                this.$nextTick(() => {
+                    this.renderActiveChart();
+                    this.updateUrl(slug);
+                });
+            },
+            renderActiveChart() {
+                if (categoryData[this.activeTab]) {
+                    const cat = categoryData[this.activeTab];
+                    const defaultType = cat.isPenduduk ? 'pyramid' : 'bar';
+                    window.renderStatChart(this.activeTab, defaultType, false, 'all', 'none', false);
+                }
+            },
+            updateUrl(slug) {
+                const url = new URL(window.location);
+                url.searchParams.set('kategori', slug);
+                @if($selectedDusunId)
+                url.searchParams.set('dusun_id', '{{ $selectedDusunId }}');
+                @endif
+                window.history.replaceState({}, '', url.toString());
+            }
+        };
+    };
+</script>
+
+<script>
+// ── Ekspor Tabel ───────────────────────────────────────────────────────────
+function getTableData(tableId) {
+    const table = document.getElementById(tableId);
+    if (!table) return { headers: [], rows: [] };
+
+    const headers = [];
+    // Ambil semua th dari thead (satu baris header saja)
+    table.querySelectorAll('thead tr:first-child th').forEach(th => {
+        headers.push(th.innerText.trim());
     });
+
+    const rows = [];
+    table.querySelectorAll('tbody tr, tfoot tr').forEach(tr => {
+        const row = [];
+        tr.querySelectorAll('td').forEach(td => {
+            row.push(td.innerText.trim().replace(/\n/g, ' '));
+        });
+        if (row.length) rows.push(row);
+    });
+
+    return { headers, rows };
+}
+
+function exportTableCSV(tableId) {
+    const { headers, rows } = getTableData(tableId);
+    const escape = v => '"' + String(v).replace(/"/g, '""') + '"';
+    const lines = [headers.map(escape).join(',')];
+    rows.forEach(row => lines.push(row.map(escape).join(',')));
+    const blob = new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = tableId + '.csv';
+    a.click();
+}
+
+function exportTableExcel(tableId, sheetName) {
+    if (typeof XLSX === 'undefined') {
+        alert('Library Excel belum dimuat. Coba refresh halaman.');
+        return;
+    }
+    const { headers, rows } = getTableData(tableId);
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+
+    // Style header (bold)
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    for (let C = range.s.c; C <= range.e.c; C++) {
+        const cell = ws[XLSX.utils.encode_cell({ r: 0, c: C })];
+        if (cell) cell.s = { font: { bold: true } };
+    }
+
+    // Auto column width
+    ws['!cols'] = headers.map((h, i) => ({
+        wch: Math.max(h.length, ...rows.map(r => String(r[i] || '').length), 10) + 2
+    }));
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, sheetName || 'Data');
+    XLSX.writeFile(wb, (tableId || 'tabel') + '.xlsx');
+}
+
+function exportTablePDF(tableId, title) {
+    if (typeof window.jspdf === 'undefined') {
+        alert('Library PDF belum dimuat. Coba refresh halaman.');
+        return;
+    }
+    const { jsPDF } = window.jspdf;
+    const { headers, rows } = getTableData(tableId);
+
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+
+    // Judul
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(16, 185, 129); // emerald-500
+    doc.text(title || 'Data Statistik', 14, 16);
+
+    // Tanggal
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(100, 116, 139); // slate-500
+    doc.text('Diekspor: ' + new Date().toLocaleDateString('id-ID', { dateStyle: 'long' }), 14, 22);
+
+    doc.autoTable({
+        head: [headers],
+        body: rows,
+        startY: 27,
+        styles: {
+            font: 'helvetica',
+            fontSize: 9,
+            cellPadding: 3,
+            valign: 'middle',
+        },
+        headStyles: {
+            fillColor: [16, 185, 129],
+            textColor: 255,
+            fontStyle: 'bold',
+            halign: 'center',
+        },
+        columnStyles: { 0: { halign: 'left' } },
+        alternateRowStyles: { fillColor: [248, 250, 252] },
+        foot: rows.length ? undefined : undefined,
+        didParseCell(data) {
+            // Baris terakhir (Total) — bold
+            if (data.section === 'body' && data.row.index === rows.length - 1) {
+                data.cell.styles.fontStyle = 'bold';
+                data.cell.styles.fillColor = [241, 245, 249];
+            }
+        },
+        margin: { left: 14, right: 14 },
+    });
+
+    doc.save((tableId || 'tabel') + '.pdf');
+}
 </script>
 @endpush

@@ -15,6 +15,7 @@ class Institution extends Model
         'slug',
         'logo',
         'description',
+        'motto',
     ];
 
     /**

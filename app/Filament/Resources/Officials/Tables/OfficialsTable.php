@@ -23,6 +23,21 @@ class OfficialsTable
                 TextColumn::make('position')->label('Jabatan')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('parent.name')->label('Atasan')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('level')->label('Tingkat')
+                    ->formatStateUsing(fn ($state) => match ((int) $state) {
+                        1 => 'Kepala Desa',
+                        2 => 'Sekretaris Desa',
+                        3 => 'Kasi / Kaur',
+                        4 => 'Kepala Dusun',
+                        5 => 'Staf / Pendukung',
+                        default => 'Lainnya',
+                    })
+                    ->sortable(),
+                TextColumn::make('order')->label('Urutan')
+                    ->sortable(),
                 TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()

@@ -43,6 +43,14 @@ class AppServiceProvider extends ServiceProvider
             Cache::forget('home_galleries');
             Cache::forget('home_total_dusun');
             Cache::forget('profil_total_dusun');
+            Cache::forget('home_total_rt');
+            Cache::forget('home_total_rw');
+            Cache::forget('home_total_keluarga');
+            Cache::forget('home_total_penduduk_real');
+            Cache::forget('home_job_stats');
+            Cache::forget('home_edu_stats');
+            Cache::forget('home_laki_laki_count');
+            Cache::forget('home_perempuan_count');
         };
 
         \App\Models\Post::saved($clearHomeCache);
@@ -61,10 +69,22 @@ class AppServiceProvider extends ServiceProvider
         \App\Models\Gallery::deleted($clearHomeCache);
         \App\Models\Dusun::saved($clearHomeCache);
         \App\Models\Dusun::deleted($clearHomeCache);
+        \App\Models\Citizen::saved($clearHomeCache);
+        \App\Models\Citizen::deleted($clearHomeCache);
+        \App\Models\Family::saved($clearHomeCache);
+        \App\Models\Family::deleted($clearHomeCache);
 
         try {
             if (Schema::hasTable('settings')) {
                 $settings = Setting::pluck('value', 'key')->all();
+                foreach ($settings as $key => $value) {
+                    if (is_string($value) && str_starts_with($value, '[') && str_ends_with($value, ']')) {
+                        $decoded = json_decode($value, true);
+                        if (json_last_error() === JSON_ERROR_NONE) {
+                            $settings[$key] = $decoded;
+                        }
+                    }
+                }
                 View::share('site_settings', $settings);
             }
 

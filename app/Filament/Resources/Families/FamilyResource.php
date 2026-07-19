@@ -34,7 +34,7 @@ class FamilyResource extends Resource
         return 'Keluarga';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?int $navigationSort = 2;
 

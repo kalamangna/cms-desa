@@ -34,7 +34,7 @@ class GalleryResource extends Resource
         return 'Galeri';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-camera';
 
     public static function form(Schema $schema): Schema
     {

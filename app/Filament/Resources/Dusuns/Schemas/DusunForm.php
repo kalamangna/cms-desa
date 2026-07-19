@@ -21,8 +21,18 @@ class DusunForm
                             ->unique(ignoreRecord: true),
                         TextInput::make('head_name')
                             ->label('Nama Kepala Dusun'),
+                        TextInput::make('total_rt')
+                            ->label('Jumlah RT')
+                            ->numeric()
+                            ->default(0)
+                            ->required(),
+                        TextInput::make('total_rw')
+                            ->label('Jumlah RW')
+                            ->numeric()
+                            ->default(0)
+                            ->required(),
                     ])
-                    ->columns(1),
+                    ->columns(2),
 
                 Section::make('Peta Spasial (Batas Wilayah)')
                     ->description('Masukkan data koordinat batas wilayah dusun dalam format GeoJSON. Sistem akan mengacak warna tampilan area masing-masing dusun secara otomatis di halaman publik.')

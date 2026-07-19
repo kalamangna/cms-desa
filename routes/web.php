@@ -22,8 +22,19 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/profil', [PageController::class, 'profil'])->name('profil');
 Route::get('/layanan', [PageController::class, 'layanan'])->name('layanan');
+Route::post('/layanan/ajukan', [\App\Http\Controllers\ServiceRequestController::class, 'store'])->name('service-requests.store');
+Route::get('/layanan/lacak', [\App\Http\Controllers\ServiceRequestController::class, 'track'])->name('service-requests.track');
+
 Route::get('/kontak', [PageController::class, 'kontak'])->name('kontak');
+Route::get('/potensi', [PageController::class, 'potensi'])->name('potensi');
 Route::get('/peta', [\App\Http\Controllers\MapController::class, 'index'])->name('peta.index');
+
+Route::get('/buku-tamu', [\App\Http\Controllers\GuestBookController::class, 'index'])->name('guest-book.index');
+Route::post('/buku-tamu', [\App\Http\Controllers\GuestBookController::class, 'store'])->name('guest-book.store');
+
+Route::get('/pengaduan', [\App\Http\Controllers\ComplaintController::class, 'index'])->name('complaints.index');
+Route::post('/pengaduan', [\App\Http\Controllers\ComplaintController::class, 'store'])->name('complaints.store');
+Route::get('/pengaduan/lacak', [\App\Http\Controllers\ComplaintController::class, 'track'])->name('complaints.track');
 
 Route::get('/aparatur', [OfficialController::class, 'index'])->name('officials.index');
 Route::get('/lembaga', [InstitutionController::class, 'index'])->name('institutions.index');
@@ -45,7 +56,7 @@ Route::get('/publikasi', [PublicationController::class, 'index'])->name('publica
 
 Route::get('/apbdes', [APBDesController::class, 'index'])->name('apbdes.index');
 
-Route::get('/init-link', function () {
+Route::get('/init', function () {
     $src = storage_path('app/public');
     $dst = public_path('storage');
     

@@ -10,6 +10,8 @@ class Dusun extends Model
         'name',
         'head_name',
         'geojson',
+        'total_rt',
+        'total_rw',
     ];
 
     public function citizens()

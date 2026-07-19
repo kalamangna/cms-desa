@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class StatisticCategory extends Model
 {
-    protected $fillable = ['name', 'slug', 'description', 'is_active', 'mapping_table', 'mapping_column'];
+    protected $fillable = [
+        'name', 'slug', 'description', 'is_active', 'mapping_table', 'mapping_column',
+        'comparison_column', 'comparison_value_a', 'comparison_value_b', 'comparison_label_a', 'comparison_label_b'
+    ];
 
     protected $casts = [
         'mapping_column' => 'array',
@@ -68,7 +71,7 @@ class StatisticCategory extends Model
                         continue;
                     }
 
-                    $unit = $category->mapping_table === 'families' ? 'Keluarga' : 'Orang';
+                    $unit = $category->mapping_table === 'families' ? 'Keluarga' : 'Jiwa';
 
                     if (self::isBooleanColumn($col)) {
                         $indicatorName = $labels[$col] ?? ucwords(str_replace('_', ' ', $col));

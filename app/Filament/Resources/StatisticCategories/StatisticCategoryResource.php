@@ -46,7 +46,7 @@ class StatisticCategoryResource extends Resource
         return 'Kategori Statistik';
     }
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-chart-pie';
 
     public static function form(Schema $schema): Schema
     {

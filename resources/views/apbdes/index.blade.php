@@ -57,7 +57,7 @@
                     APBDes <span class="text-emerald-500 italic">{{ date('Y') }}</span>
                 </h1>
                 <p class="text-slate-300 text-lg mt-2">
-                    Transparansi realisasi anggaran Desa {{ $site_settings['village_name'] ?? '' }}.
+                    Laporan transparansi realisasi anggaran pendapatan dan belanja desa.
                 </p>
             </div>
             <div class="flex items-center gap-3 bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit mb-2">
@@ -73,14 +73,9 @@
 ═══════════════════════════════════════════════════════ --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 md:-mt-16 mb-20 md:mb-28 relative z-10">
     @if($categories->isEmpty())
-        <div class="flex flex-col items-center justify-center text-center py-20 px-4 border border-slate-100 bg-white shadow-2xl rounded-[40px]">
-            <div class="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center border border-emerald-100 mb-6">
-                <i class="fa-solid fa-building-columns text-emerald-600 text-3xl"></i>
-            </div>
-            <h2 class="text-xl font-extrabold text-slate-900 mb-2">Belum Ada Data Realisasi APBDes</h2>
-            <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
-                Pemerintah desa belum mengonfigurasi anggaran pendapatan dan belanja desa (APBDes). Silakan masuk ke panel administrasi untuk menambahkan data anggaran dan realisasinya.
-            </p>
+        <div class="text-center py-16 bg-white rounded-[32px] border border-slate-100 shadow-sm">
+            <i class="fa-solid fa-scale-balanced text-slate-300 text-3xl mb-3 block"></i>
+            <h3 class="text-slate-400 font-bold text-sm">Belum Ada Data Realisasi APBDes</h3>
         </div>
     @else
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">

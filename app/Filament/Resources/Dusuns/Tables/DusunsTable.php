@@ -17,6 +17,8 @@ class DusunsTable
             ->columns([
                 TextColumn::make('name')->label('Nama Dusun')->searchable()->sortable(),
                 TextColumn::make('head_name')->label('Kepala Dusun')->searchable()->sortable(),
+                TextColumn::make('total_rt')->label('RT')->sortable(),
+                TextColumn::make('total_rw')->label('RW')->sortable(),
                 TextColumn::make('citizens_count')->label('Jumlah Penduduk')
                     ->counts('citizens')
                     ->sortable(),

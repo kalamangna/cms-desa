@@ -171,12 +171,9 @@
 
                 @empty
                 {{-- Empty state --}}
-                <div class="py-24 text-center bg-white rounded-3xl border-2 border-dashed border-slate-200 shadow-sm">
-                    <div class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-6">
-                        <i class="fa-solid fa-newspaper text-3xl text-slate-300"></i>
-                    </div>
-                    <h3 class="font-heading font-bold text-slate-700 text-xl mb-2">Belum Ada Berita</h3>
-                    <p class="text-slate-400 font-medium text-sm">Belum ada berita yang dipublikasikan saat ini.</p>
+                <div class="col-span-full text-center py-16">
+                    <i class="fa-solid fa-newspaper text-slate-300 text-3xl mb-3 block"></i>
+                    <h3 class="text-slate-400 font-bold text-sm">Belum Ada Berita</h3>
                 </div>
                 @endforelse
 

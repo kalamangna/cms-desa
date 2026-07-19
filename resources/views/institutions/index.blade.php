@@ -70,9 +70,9 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
 
     @if($institutions->isEmpty())
-    <div class="py-24 text-center bg-white rounded-[40px] border-2 border-dashed border-slate-200 shadow-sm">
-        <i class="fa-solid fa-building-columns text-slate-200 text-6xl mb-6"></i>
-        <p class="text-slate-400 font-medium italic">Data lembaga desa belum tersedia.</p>
+    <div class="text-center py-16">
+        <i class="fa-solid fa-building-columns text-slate-300 text-3xl mb-3 block"></i>
+        <h3 class="text-slate-400 font-bold text-sm">Belum Ada Lembaga</h3>
     </div>
     @else
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">

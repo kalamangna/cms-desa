@@ -49,7 +49,14 @@
         </div>
         <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-8">Sejarah Desa</h2>
         <div class="prose prose-emerald max-w-none text-slate-600 leading-relaxed font-medium">
-            {!! $site_settings['village_history'] ?? '<p class="text-slate-400 italic text-center py-6">Informasi sejarah desa belum diisi.</p>' !!}
+            @if(!empty($site_settings['village_history']))
+                {!! $site_settings['village_history'] !!}
+            @else
+                <div class="text-center py-10">
+                    <i class="fa-solid fa-clock-rotate-left text-slate-300 text-3xl mb-3 block"></i>
+                    <h3 class="text-slate-400 font-bold text-sm">Sejarah Belum Tersedia</h3>
+                </div>
+            @endif
         </div>
     </div>
 </section>
@@ -90,7 +97,14 @@
                 <span class="text-slate-500 font-black text-[11px] uppercase tracking-[0.3em]">Misi</span>
             </div>
             <div class="prose prose-emerald max-w-none text-slate-600 font-medium">
-                {!! $site_settings['village_mission'] ?? '<p class="text-slate-400 italic text-center py-6">Misi desa belum diisi.</p>' !!}
+                @if(!empty($site_settings['village_mission']))
+                    {!! $site_settings['village_mission'] !!}
+                @else
+                    <div class="text-center py-10">
+                        <i class="fa-solid fa-list-check text-slate-300 text-3xl mb-3 block"></i>
+                        <h3 class="text-slate-400 font-bold text-sm">Misi Belum Tersedia</h3>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -134,7 +148,7 @@
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Jumlah Dusun</p>
                 <p class="text-3xl font-heading font-extrabold text-slate-900">{{ number_format($totalDusun ?? 0, 0, ',', '.') }}</p>
-                <p class="text-slate-400 font-bold text-sm mt-1">Wilayah Dusun</p>
+                <p class="text-slate-400 font-bold text-xs mt-1">{{ number_format($totalRw ?? 0, 0, ',', '.') }} RW / {{ number_format($totalRt ?? 0, 0, ',', '.') }} RT</p>
             </div>
 
             {{-- Topografi --}}
@@ -143,7 +157,7 @@
                     <i class="fa-solid fa-mountain-sun"></i>
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Topografi</p>
-                <p class="text-xl font-heading font-extrabold text-slate-900 mt-2.5">{{ $site_settings['village_topography'] ?? '—' }}</p>
+                <p class="text-lg font-heading font-extrabold text-slate-900 mt-2.5 line-clamp-1" title="{{ $site_settings['village_topography'] ?? '—' }}">{{ $site_settings['village_topography'] ?? '—' }}</p>
                 <p class="text-slate-400 font-bold text-sm mt-1">Wilayah</p>
             </div>
         </div>
