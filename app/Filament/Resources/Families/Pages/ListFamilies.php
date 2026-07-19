@@ -23,14 +23,14 @@ class ListFamilies extends ListRecords
     {
         return [
             CreateAction::make(),
-            Action::make('importCsv')
-                ->label('Import Excel / CSV')
+            Action::make('importExcel')
+                ->label('Import Excel')
                 ->icon('heroicon-o-arrow-up-tray')
                 ->color('info')
                 ->form([
                     Placeholder::make('info')
                         ->label('Petunjuk Penggunaan')
-                        ->content('Unggah respon kuesioner Google Form (Keluarga) secara langsung dalam format Excel (.xlsx / .xls) atau CSV (.csv).'),
+                        ->content('Unggah respon kuesioner Google Form (Keluarga) secara langsung dalam format Excel (.xlsx / .xls).'),
                     Select::make('dusun_id')
                         ->label('Pilih Dusun')
                         ->options(Dusun::pluck('name', 'id'))
@@ -38,20 +38,17 @@ class ListFamilies extends ListRecords
                         ->searchable()
                         ->preload()
                         ->required(),
-                    FileUpload::make('csv_file')
-                        ->label('File Excel atau CSV')
+                    FileUpload::make('excel_file')
+                        ->label('File Excel')
                         ->acceptedFileTypes([
                             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                             'application/vnd.ms-excel',
-                            'text/csv',
-                            'text/plain',
-                            'application/csv'
                         ])
                         ->required()
                         ->directory('temp'),
                 ])
                 ->action(function (array $data) {
-                    $filePath = storage_path('app/public/' . $data['csv_file']);
+                    $filePath = storage_path('app/public/' . $data['excel_file']);
                     $selectedDusunId = $data['dusun_id'] ?? null;
                     
                     if (!file_exists($filePath)) {
