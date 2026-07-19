@@ -31,7 +31,7 @@ class ListCitizens extends ListRecords
                 ->form([
                     Placeholder::make('info')
                         ->label('Petunjuk Penggunaan')
-                        ->content('Unggah respon kuesioner Google Form (Individu) secara langsung dalam format Excel (.xlsx / .xls).'),
+                        ->content(new \Illuminate\Support\HtmlString('Unggah respon kuesioner Google Form (Individu) secara langsung dalam format Excel (.xlsx / .xls).<br><br><strong>⚠️ PENTING:</strong> Pastikan Anda sudah mengunggah/mengisi <strong>Data Keluarga (KK)</strong> terlebih dahulu sebelum mengunggah data Penduduk, agar anggota keluarga otomatis masuk ke dalam KK yang tepat.')),
                     Select::make('dusun_id')
                         ->label('Pilih Dusun')
                         ->options(Dusun::pluck('name', 'id'))
