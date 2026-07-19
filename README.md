@@ -79,17 +79,17 @@ Karena keterbatasan server shared hosting Hostinger (hPanel) yang menonaktifkan 
 ### 1. Cloning Repositori di SSH
 Login ke SSH Hostinger Anda, masuk ke direktori satu tingkat di atas `public_html`, lalu jalankan:
 ```bash
-git clone https://github.com/kalamangna/cms-desa.git project-desa
+git clone https://github.com/kalamangna/cms-desa.git
 ```
 
 ### 2. Konfigurasi Awal di Server
-1. Pindah ke folder proyek: `cd project-desa`
+1. Pindah ke folder proyek: `cd desa-cms`
 2. Install dependensi: `composer install --optimize-autoloader --no-dev`
 3. Konfigurasi file `.env` (buat baru atau salin dari `.env.example` dan sesuaikan database hPanel Anda).
 4. Buat tautan folder `public_html` ke folder `public` proyek:
    ```bash
    rm -rf ~/public_html
-   ln -s ~/project-desa/public ~/public_html
+   ln -s ~/desa-cms/public ~/public_html
    ```
 
 ### 3. Migrasi & Setup File Storage
@@ -138,7 +138,7 @@ Setiap kali Anda melakukan pembaruan kode di laptop lokal, ikuti alur berikut un
 **Di Server Hostinger (SSH):**
 1. Tarik perubahan terbaru dari repositori:
    ```bash
-   cd ~/project-desa
+   cd ~/desa-cms
    git pull origin main
    ```
 2. Jalankan migrasi (jika ada perubahan struktur tabel):
