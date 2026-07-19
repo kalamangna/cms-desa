@@ -57,7 +57,21 @@ class ManageProfile extends Page implements HasForms
                             ->columns(2)
                             ->components([
                                 TextInput::make('village_area')->label('Luas Wilayah (km²)')->numeric(),
-                                TextInput::make('village_topography')->label('Topografi Wilayah (misal: Dataran Tinggi)'),
+                                Select::make('village_topography')
+                                    ->label('Topografi Wilayah')
+                                    ->options([
+                                        'Dataran Rendah'  => 'Dataran Rendah',
+                                        'Dataran Tinggi'  => 'Dataran Tinggi',
+                                        'Pegunungan'      => 'Pegunungan',
+                                        'Perbukitan'      => 'Perbukitan',
+                                        'Pesisir / Pantai' => 'Pesisir / Pantai',
+                                        'Lembah'          => 'Lembah',
+                                        'Rawa'            => 'Rawa',
+                                        'Kepulauan'       => 'Kepulauan',
+                                    ])
+                                    ->searchable()
+                                    ->native(false)
+                                    ->placeholder('Pilih topografi wilayah desa'),
                             ]),
                     ])->columnSpanFull()
             ])
