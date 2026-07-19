@@ -17,7 +17,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Penyederhanaan Empty States**: Menyelaraskan seluruh visualisasi data kosong (*empty states*) di semua halaman publik (Beranda, Berita, Pengumuman, Galeri, Dokumen, Publikasi, Layanan Mandiri, Open Data, Potensi Desa, Aparatur, Lembaga, APBDes, Statistik Kependudukan, Profil Desa, dan Peta Spasial) menggunakan format terpusat yang minimalis berupa **Ikon + Judul** (tanpa deskripsi panjang atau border/card shadow tebal) untuk konsistensi visual yang bersih.
 - **Restrukturisasi Card Profil Desa**: Menggabungkan data wilayah (Dusun, RW, RT) pada bagian Karakteristik Wilayah di halaman Profil Desa menjadi satu card gabungan berlabel "Jumlah Dusun" dengan sub-keterangan RW dan RT untuk mengurangi kepadatan jumlah card dari 6 menjadi 4.
 - **Navigasi Layanan**: Memindahkan posisi menu "Buku Tamu" ke bawah menu "Pengaduan" di dalam grup menu "Layanan" pada header navigasi desktop dropdown maupun menu mobile sidebar.
-- **Petunjuk Folder Deployment**: Memperbarui petunjuk folder instalasi pada server Hostinger di berkas `README.md` agar menggunakan nama folder default repositori Git (`desa-cms`) secara konsisten alih-alih folder placeholder (`project-desa`).
+- **Petunjuk Folder Deployment**: Memperbarui petunjuk folder instalasi pada server Hostinger di berkas `README.md` agar menggunakan nama folder default repositori Git (`cms-desa`) secara konsisten alih-alih folder placeholder (`project-desa`).
 
 ### Fixed
 - **Nullsafe Bug Beranda**: Memperbaiki error crash di `home.blade.php` jika Kepala Desa kosong dengan menggunakan akses nullsafe `$villageHead?->name`.

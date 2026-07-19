@@ -83,13 +83,13 @@ git clone https://github.com/kalamangna/cms-desa.git
 ```
 
 ### 2. Konfigurasi Awal di Server
-1. Pindah ke folder proyek: `cd desa-cms`
+1. Pindah ke folder proyek: `cd cms-desa`
 2. Install dependensi: `composer install --optimize-autoloader --no-dev`
 3. Konfigurasi file `.env` (buat baru atau salin dari `.env.example` dan sesuaikan database hPanel Anda).
 4. Buat tautan folder `public_html` ke folder `public` proyek:
    ```bash
    rm -rf ~/public_html
-   ln -s ~/desa-cms/public ~/public_html
+   ln -s ~/cms-desa/public ~/public_html
    ```
 
 ### 3. Migrasi & Setup File Storage
@@ -138,7 +138,7 @@ Setiap kali Anda melakukan pembaruan kode di laptop lokal, ikuti alur berikut un
 **Di Server Hostinger (SSH):**
 1. Tarik perubahan terbaru dari repositori:
    ```bash
-   cd ~/desa-cms
+   cd ~/cms-desa
    git pull origin main
    ```
 2. Jalankan migrasi (jika ada perubahan struktur tabel):
