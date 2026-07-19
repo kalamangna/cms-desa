@@ -27,8 +27,7 @@ class CitizenForm
                                         TextInput::make('nik')->label('NIK')
                                             ->required()
                                             ->unique(ignoreRecord: true),
-                                        TextInput::make('kk_number')->label('No. KK'),
-                                        Select::make('family_id')->label('Relasi Keluarga')
+                                        Select::make('family_id')->label('Kartu Keluarga (KK)')
                                             ->relationship('family', 'kk_number')
                                             ->searchable()
                                             ->preload()
