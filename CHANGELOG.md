@@ -13,10 +13,12 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Tipe Kolom Dompet Digital**: Mengubah kolom `has_digital_wallet` pada tabel `citizens` menjadi `string` (nullable) untuk fleksibilitas opsi penyimpanannya.
 - **Format Nama Penduduk (Capitalization)**: Memastikan pengisian dan tampilan nama penduduk diformat otomatis menjadi huruf kapital (`UPPERCASE`).
 - **AJAX Real-Time Filtering (Statistik)**: Mengintegrasikan Alpine.js dan Fetch API untuk pembaruan grafik dan tabel rincian kependudukan publik secara real-time tanpa memuat ulang halaman (*no-reload*). Default penyajian data dikunci pada tahun berjalan (`{{ date('Y') }}`).
+- **Penyederhanaan Impor Keluarga (Tanpa Baris KK Sekunder)**: Menghapus logika pembuat *shell record* otomatis untuk KK sekunder/tambahan se-rumah (`106.b`) saat impor Excel Keluarga agar jumlah baris impor 100% konsisten dengan jumlah KK utama di Excel.
 
 ### Fixed
 - **Penanganan Galat Sintaksis ApexCharts & DOM**: Memperbaiki masalah `Node cannot be found in the current page` dan kebocoran warna indikator (`undefined color`) pada grafik ApexCharts saat penyaringan dusun dilakukan secara dinamis.
 - **Resolusi Jalur Berkas Unggahan Excel (Import)**: Memperbaiki galat `File tidak ditemukan` saat melakukan impor Excel Keluarga dan Penduduk di server produksi dengan menggunakan penentuan jalur dinamis `Storage::disk()->path()` serta pemeriksaan jalur cadangan (*fallback paths*).
+- **Pembersihan Baris Duplikat File Excel (Raw Data)**: Menghapus baris-baris duplikat KK dan NIK pada berkas Excel mentah di folder `raw/keluarga` dan `raw/individu`.
 
 ## [1.7.6] - 2026-07-19
 

@@ -298,26 +298,6 @@ class ListFamilies extends ListRecords
                             }
                             $rowCount++;
 
-                            // Also create shell family records for secondary KKs living in the same home (106.b)
-                            // so that individual residents belonging to secondary KKs are correctly linked to family_id
-                            foreach ($header as $colIdx => $colNameStr) {
-                                if (strpos($colNameStr, '106.b.') !== false && isset($row[$colIdx])) {
-                                    $secKk = trim($row[$colIdx]);
-                                    if (!empty($secKk) && strlen($secKk) >= 10 && is_numeric($secKk)) {
-                                        $secFam = Family::withTrashed()->where('kk_number', $secKk)->first();
-                                        if (!$secFam) {
-                                            Family::create([
-                                                'kk_number' => $secKk,
-                                                'address' => $address,
-                                                'dusun_id' => $dusunId,
-                                                'rt' => $rt,
-                                                'rw' => $rw,
-                                                'notes' => 'Anggota KK tambahan dalam 1 rumah (106.b)',
-                                            ]);
-                                        }
-                                    }
-                                }
-                            }
                         }
 
                         \Illuminate\Support\Facades\DB::commit();
