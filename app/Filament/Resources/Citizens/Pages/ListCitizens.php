@@ -439,20 +439,26 @@ class ListCitizens extends ListRecords
         $clean = strtolower(trim($val));
         if (empty($clean)) return null;
 
-        if (strpos($clean, 'tidak') !== false || strpos($clean, 'belum') !== false) {
-            return 'Tidak/belum pernah sekolah';
-        } elseif (strpos($clean, 'sd') !== false || strpos($clean, 'dasar') !== false || strpos($clean, 'primary') !== false) {
-            return 'SD';
-        } elseif (strpos($clean, 'smp') !== false || strpos($clean, 'tsanawiyah') !== false || strpos($clean, 'menengah pertama') !== false) {
-            return 'SMP';
+        if (strpos($clean, 's2') !== false || strpos($clean, 's3') !== false || strpos($clean, 'master') !== false || strpos($clean, 'doktor') !== false) {
+            return 'S2/S3';
+        } elseif (strpos($clean, 's1') !== false || strpos($clean, 'd4') !== false || strpos($clean, 'profesi') !== false || strpos($clean, 'sarjana') !== false) {
+            return 'D4/S1/Profesi';
+        } elseif (strpos($clean, 'd1') !== false || strpos($clean, 'd2') !== false || strpos($clean, 'd3') !== false || strpos($clean, 'diploma') !== false || strpos($clean, 'akademik') !== false) {
+            return 'D1/D2/D3';
         } elseif (strpos($clean, 'sma') !== false || strpos($clean, 'smk') !== false || strpos($clean, 'aliyah') !== false || strpos($clean, 'menengah atas') !== false) {
-            return 'SMA';
-        } elseif (strpos($clean, 'diploma') !== false || strpos($clean, 'd1') !== false || strpos($clean, 'd2') !== false || strpos($clean, 'd3') !== false || strpos($clean, 'd4') !== false || strpos($clean, 'akademik') !== false) {
-            return 'Diploma';
-        } elseif (strpos($clean, 'sarjana') !== false || strpos($clean, 's1') !== false || strpos($clean, 's2') !== false || strpos($clean, 's3') !== false || strpos($clean, 'master') !== false || strpos($clean, 'doktor') !== false) {
-            return 'Sarjana';
+            return 'SMA/sederajat';
+        } elseif (strpos($clean, 'smp') !== false || strpos($clean, 'tsanawiyah') !== false || strpos($clean, 'menengah pertama') !== false) {
+            return 'SMP/sederajat';
+        } elseif (strpos($clean, 'sd') !== false || strpos($clean, 'dasar') !== false || strpos($clean, 'primary') !== false) {
+            if (strpos($clean, 'tidak') !== false || strpos($clean, 'belum') !== false || strpos($clean, 'tanpa') !== false) {
+                return 'Tidak punya ijazah SD';
+            }
+            return 'SD/sederajat';
+        } elseif (strpos($clean, 'tidak') !== false || strpos($clean, 'belum') !== false || strpos($clean, 'tanpa') !== false) {
+            return 'Tidak punya ijazah SD';
         }
-        return 'Tidak/belum pernah sekolah';
+
+        return trim($val);
     }
 
     private function parseJob(?string $val): ?string
