@@ -177,6 +177,7 @@ class ListCitizens extends ListRecords
 
                     try {
                         $rowCount = 0;
+                        $touchedFamilyIds = [];
                         foreach ($rows as $index => $row) {
                             if (count($row) <= $colNik) continue;
 
@@ -196,6 +197,7 @@ class ListCitizens extends ListRecords
                                 $family = Family::where('kk_number', $kkNumber)->first();
                                 if ($family) {
                                     $familyId = $family->id;
+                                    $touchedFamilyIds[] = $familyId;
                                     if (!$dusunId) {
                                         $dusunId = $family->dusun_id;
                                     }
@@ -326,6 +328,23 @@ class ListCitizens extends ListRecords
                                 Citizen::create(array_merge(['nik' => $nik], $dataToSave));
                             }
                             $rowCount++;
+                        }
+
+                        // Sync real family member counts based on uploaded citizens
+                        $updatedFamilyIds = array_unique(array_filter($touchedFamilyIds ?? []));
+                        if (!empty($updatedFamilyIds)) {
+                            foreach (Family::whereIn('id', $updatedFamilyIds)->get() as $fam) {
+                                $fam->update([
+                                    'family_member_count' => $fam->citizens()->count()
+                                ]);
+                            }
+                        } else {
+                            // If no specific touched ids tracked, recalculate for all families with citizens
+                            foreach (Family::has('citizens')->get() as $fam) {
+                                $fam->update([
+                                    'family_member_count' => $fam->citizens()->count()
+                                ]);
+                            }
                         }
 
                         \Illuminate\Support\Facades\DB::commit();

@@ -22,7 +22,18 @@ class FamiliesTable
                 TextColumn::make('dusun.name')->label('Dusun')->searchable()->sortable(),
                 TextColumn::make('rt')->label('RT')->sortable(),
                 TextColumn::make('rw')->label('RW')->sortable(),
-                TextColumn::make('family_member_count')->label('Jumlah Anggota')->sortable(),
+                TextColumn::make('family_member_count')
+                    ->label('Jumlah Anggota')
+                    ->formatStateUsing(function ($state, Family $record) {
+                        $realCount = $record->citizens()->count();
+                        if ($realCount > 0) {
+                            return "{$realCount} Jiwa";
+                        }
+                        return "{$state} Jiwa";
+                    })
+                    ->badge()
+                    ->color(fn (Family $record) => $record->citizens()->count() > 0 ? 'success' : 'gray')
+                    ->sortable(),
                 TextColumn::make('assistance_type')->label('Bansos')->searchable(),
                 TextColumn::make('cow_count')->label('Sapi')->sortable()->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('goat_count')->label('Kambing')->sortable()->toggleable(isToggledHiddenByDefault: false),

@@ -14,6 +14,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Format Nama Penduduk (Capitalization)**: Memastikan pengisian dan tampilan nama penduduk diformat otomatis menjadi huruf kapital (`UPPERCASE`).
 - **AJAX Real-Time Filtering (Statistik)**: Mengintegrasikan Alpine.js dan Fetch API untuk pembaruan grafik dan tabel rincian kependudukan publik secara real-time tanpa memuat ulang halaman (*no-reload*). Default penyajian data dikunci pada tahun berjalan (`{{ date('Y') }}`).
 - **Penyederhanaan Impor Keluarga (Tanpa Baris KK Sekunder)**: Menghapus logika pembuat *shell record* otomatis untuk KK sekunder/tambahan se-rumah (`106.b`) saat impor Excel Keluarga agar jumlah baris impor 100% konsisten dengan jumlah KK utama di Excel.
+- **Pemetaan Otomatis Jumlah Anggota Keluarga dari Data Penduduk**: Menambahkan sinkronisasi otomatis kolom `family_member_count` berdasarkan jumlah riil anggota penduduk yang terhubung (`citizens()->count()`) saat impor data Penduduk, serta mempercantik tampilan *badge* jumlah anggota keluarga pada tabel admin Filament (`FamiliesTable`).
 
 ### Fixed
 - **Penanganan Galat Sintaksis ApexCharts & DOM**: Memperbaiki masalah `Node cannot be found in the current page` dan kebocoran warna indikator (`undefined color`) pada grafik ApexCharts saat penyaringan dusun dilakukan secara dinamis.
