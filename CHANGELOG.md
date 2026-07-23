@@ -20,6 +20,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Penanganan Galat Sintaksis ApexCharts & DOM**: Memperbaiki masalah `Node cannot be found in the current page` dan kebocoran warna indikator (`undefined color`) pada grafik ApexCharts saat penyaringan dusun dilakukan secara dinamis.
 - **Resolusi Jalur Berkas Unggahan Excel (Import)**: Memperbaiki galat `File tidak ditemukan` saat melakukan impor Excel Keluarga dan Penduduk di server produksi dengan menggunakan penentuan jalur dinamis `Storage::disk()->path()` serta pemeriksaan jalur cadangan (*fallback paths*).
 - **Pembersihan Baris Duplikat File Excel (Raw Data)**: Menghapus baris-baris duplikat KK dan NIK pada berkas Excel mentah di folder `raw/keluarga` dan `raw/individu`.
+- **Kapasitas Kolom RT & RW Penduduk**: Menambahkan migrasi database `2026_07_23_160306_change_rt_rw_length_in_citizens_table.php` untuk memperbesar kapasitas kolom `rt` dan `rw` pada tabel `citizens` dari `VARCHAR(3)` menjadi `VARCHAR(10)` agar selaras dengan tabel keluarga dan mencegah galat `Data too long for column 'rw'` saat impor Excel.
 
 ## [1.7.6] - 2026-07-19
 

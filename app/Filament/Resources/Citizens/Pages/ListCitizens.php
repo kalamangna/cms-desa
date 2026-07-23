@@ -201,8 +201,8 @@ class ListCitizens extends ListRecords
                                     if (!$dusunId) {
                                         $dusunId = $family->dusun_id;
                                     }
-                                    $rt = $family->rt;
-                                    $rw = $family->rw;
+                                    $rt = $family->rt ? substr($family->rt, 0, 10) : null;
+                                    $rw = $family->rw ? substr($family->rw, 0, 10) : null;
                                     if (empty($address)) {
                                         $address = $family->address;
                                     }
