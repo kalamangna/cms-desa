@@ -467,17 +467,32 @@ class ListCitizens extends ListRecords
         $clean = strtolower(trim($val));
         if (empty($clean)) return null;
 
-        if (strpos($clean, 'tani') !== false || strpos($clean, 'kebun') !== false || strpos($clean, 'sawah') !== false) {
-            return 'Petani';
-        } elseif (strpos($clean, 'wiraswasta') !== false || strpos($clean, 'usaha') !== false || strpos($clean, 'dagang') !== false || strpos($clean, 'toko') !== false || strpos($clean, 'bisnis') !== false) {
-            return 'Wiraswasta';
-        } elseif (strpos($clean, 'pns') !== false || strpos($clean, 'sipil') !== false || strpos($clean, 'negeri') !== false || strpos($clean, 'asn') !== false || strpos($clean, 'pejabat') !== false) {
-            return 'PNS';
-        } elseif (strpos($clean, 'buruh') !== false || strpos($clean, 'pekerja harian') !== false || strpos($clean, 'tukang') !== false || strpos($clean, 'kuli') !== false) {
-            return 'Buruh';
-        } elseif (strpos($clean, 'tidak bekerja') !== false || strpos($clean, 'menganggur') !== false || strpos($clean, 'sekolah') !== false || strpos($clean, 'ibu rumah tangga') !== false || strpos($clean, 'irt') !== false) {
-            return 'Tidak Bekerja';
+        if (strpos($clean, 'tidak bekerja') !== false || strpos($clean, 'menganggur') !== false) {
+            return 'Belum / Tidak Bekerja';
+        } elseif (strpos($clean, 'irt') !== false || strpos($clean, 'ibu rumah tangga') !== false || strpos($clean, 'iry') !== false) {
+            return 'Ibu Rumah Tangga';
+        } elseif (strpos($clean, 'tani') !== false || strpos($clean, 'kebun') !== false || strpos($clean, 'sawah') !== false || strpos($clean, 'peternak') !== false || strpos($clean, 'pertanian') !== false) {
+            return 'Petani / Pekebun';
+        } elseif (strpos($clean, 'pelajar') !== false || strpos($clean, 'mahasiswa') !== false || strpos($clean, 'mahasiswi') !== false) {
+            return 'Pelajar / Mahasiswa';
+        } elseif (strpos($clean, 'wiraswasta') !== false || strpos($clean, 'wirausaha') !== false || strpos($clean, 'pengusaha') !== false || strpos($clean, 'bengkel') !== false || strpos($clean, 'warung') !== false || strpos($clean, 'kripik') !== false || strpos($clean, 'mua') !== false) {
+            return 'Wiraswasta / Pengusaha';
+        } elseif (strpos($clean, 'karyawan') !== false || strpos($clean, 'pelayaran') !== false || strpos($clean, 'batu bara') !== false || strpos($clean, 'bandara') !== false) {
+            return 'Karyawan Swasta';
+        } elseif (strpos($clean, 'guru') !== false || strpos($clean, 'kepsek') !== false || strpos($clean, 'dosen') !== false || strpos($clean, 'operator sekolah') !== false || strpos($clean, 'operator tk') !== false) {
+            return 'Tenaga Pendidikan';
+        } elseif (strpos($clean, 'perawat') !== false || strpos($clean, 'bidan') !== false || strpos($clean, 'nakes') !== false || strpos($clean, 'kesehatan') !== false || strpos($clean, 'skm') !== false) {
+            return 'Tenaga Kesehatan';
+        } elseif (strpos($clean, 'pns') !== false || strpos($clean, 'asn') !== false || strpos($clean, 'pppk') !== false || strpos($clean, 'kades') !== false || strpos($clean, 'perangkat desa') !== false || strpos($clean, 'staf desa') !== false || strpos($clean, 'bpd') !== false || strpos($clean, 'satpol pp') !== false || strpos($clean, 'pejabat') !== false) {
+            return 'PNS / Aparatur';
+        } elseif (strpos($clean, 'buruh') !== false || strpos($clean, 'konstruksi') !== false || strpos($clean, 'bangunan') !== false || strpos($clean, 'tukang') !== false || strpos($clean, 'art') !== false || strpos($clean, 'asisten rumah tangga') !== false || strpos($clean, 'pengasuh') !== false || strpos($clean, 'baby sister') !== false) {
+            return 'Buruh / Pekerja Harian';
+        } elseif (strpos($clean, 'sopir') !== false || strpos($clean, 'kurir') !== false || strpos($clean, 'mbg') !== false) {
+            return 'Pekerja Jasa & Transportasi';
+        } elseif (strpos($clean, 'pensiunan') !== false) {
+            return 'Pensiunan';
         }
+
         return 'Lainnya';
     }
 
