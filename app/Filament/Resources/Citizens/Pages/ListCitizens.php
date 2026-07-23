@@ -488,17 +488,17 @@ class ListCitizens extends ListRecords
         if (empty($clean)) return null;
 
         if (strpos($clean, 'berusaha sendiri') !== false || strpos($clean, 'berusah') !== false || strpos($clean, 'burusaha') !== false || strpos($clean, 'mandiri') !== false || strpos($clean, 'pedagang') !== false) {
-            return 'Mandiri';
+            return 'Berusaha sendiri';
         } elseif (strpos($clean, 'buruh') !== false || strpos($clean, 'karyawan') !== false || strpos($clean, 'swasta') !== false || strpos($clean, 'pembantu') !== false) {
-            return 'Karyawan Swasta';
+            return 'Buruh/karyawan/pegawai swasta';
         } elseif (strpos($clean, 'pekerja bebas') !== false || strpos($clean, 'babas') !== false) {
-            return 'Pekerja Bebas';
+            return 'Pekerja bebas';
         } elseif (strpos($clean, 'pekerja keluarga') !== false || strpos($clean, 'keluaga') !== false || strpos($clean, 'tidak dibayar') !== false || strpos($clean, 'tak dibayar') !== false) {
-            return 'Pekerja Keluarga';
+            return 'Pekerja keluarga/tidak dibayar';
         } elseif (strpos($clean, 'asn') !== false || strpos($clean, 'tni') !== false || strpos($clean, 'polri') !== false || strpos($clean, 'bumn') !== false || strpos($clean, 'bumd') !== false || strpos($clean, 'pejabat') !== false || strpos($clean, 'kades') !== false || strpos($clean, 'kepala dusun') !== false || strpos($clean, 'pemerintahan') !== false || strpos($clean, 'pelayanan') !== false || strpos($clean, 'desa') !== false || strpos($clean, 'bpd') !== false) {
-            return 'PNS / Aparatur';
+            return 'ASN/TNI/Polri/BUMN/BUMD/pejabat negara';
         } elseif (strpos($clean, 'dibantu buruh') !== false || strpos($clean, 'pemberi kerja') !== false) {
-            return 'Pemberi Kerja';
+            return 'Berusaha dibantu buruh';
         }
 
         return 'Lainnya';

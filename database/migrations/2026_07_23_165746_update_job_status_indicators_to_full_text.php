@@ -11,19 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $cat = \App\Models\StatisticCategory::firstOrCreate(
-            ['slug' => 'status-pekerjaan'],
-            [
-                'name' => 'Status Pekerjaan',
-                'description' => 'Statistik Penduduk Berdasarkan Status Kedudukan Pekerjaan Utama',
-                'mapping_table' => 'citizens',
-                'mapping_column' => 'job_status',
-                'chart_type' => 'bar',
-                'order' => 5,
-                'is_active' => true,
-            ]
-        );
-
+        $cat = \App\Models\StatisticCategory::where('slug', 'status-pekerjaan')->first();
         if ($cat) {
             $cat->indicators()->delete();
             $items = [
