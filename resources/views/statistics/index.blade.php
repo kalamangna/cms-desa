@@ -764,7 +764,15 @@
                     }
                 },
                 grid: { borderColor: 'rgba(148,163,184,0.08)', strokeDashArray: 5, xaxis: { lines: { show: false } }, yaxis: { lines: { show: true } } },
-                legend: { position: 'bottom', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '11px', labels: { colors: '#64748b' }, markers: { width: 8, height: 8, radius: 8, offsetY: -1 } },
+                legend: {
+                    show: type !== 'bar' || showGenderSplit,
+                    position: 'bottom',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 600,
+                    fontSize: '11px',
+                    labels: { colors: '#64748b' },
+                    markers: { width: 8, height: 8, radius: 8, offsetY: -1 }
+                },
                 tooltip: {
                     theme: 'light',
                     y: { formatter: (val, opts) => {
