@@ -75,9 +75,9 @@ class StatisticCategoryResource extends Resource
                                 if ($table === 'citizens') {
                                     return [
                                         'gender' => 'Jenis Kelamin',
-                                        'education_level' => 'Tingkat Pendidikan Terakhir (Kolom 311)',
-                                        'job' => 'Pekerjaan/Profesi (Kolom 313)',
-                                        'job_status' => 'Status Kedudukan Pekerjaan Utama (Kolom 314)',
+                                        'education_level' => 'Tingkat Pendidikan Terakhir',
+                                        'job' => 'Pekerjaan/Profesi',
+                                        'job_status' => 'Status Kedudukan Pekerjaan Utama',
                                         'disability_physical' => 'Disabilitas Fisik',
                                         'disability_mental' => 'Disabilitas Mental',
                                         'disability_intellectual' => 'Disabilitas Intelektual',
