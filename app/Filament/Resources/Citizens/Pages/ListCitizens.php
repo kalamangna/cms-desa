@@ -266,7 +266,7 @@ class ListCitizens extends ListRecords
                                 'pip_status' => $colPip !== false ? $this->parseYesNo($row[$colPip]) : 0,
                                 'has_income' => $colHasIncome !== false ? $this->parseYesNo($row[$colHasIncome]) : 0,
                                 'job' => $colJob !== false ? $this->parseJob($row[$colJob]) : null,
-                                'job_status' => $colJobStatus !== false ? trim($row[$colJobStatus]) : null,
+                                'job_status' => $colJobStatus !== false ? $this->parseJobStatus($row[$colJobStatus]) : null,
                                 
                                 // Income
                                 'income_salary' => $colIncSalary !== false ? $this->cleanNumeric(trim($row[$colIncSalary])) : 0,
@@ -478,6 +478,29 @@ class ListCitizens extends ListRecords
         } elseif (strpos($clean, 'tidak bekerja') !== false || strpos($clean, 'menganggur') !== false || strpos($clean, 'sekolah') !== false || strpos($clean, 'ibu rumah tangga') !== false || strpos($clean, 'irt') !== false) {
             return 'Tidak Bekerja';
         }
+        return 'Lainnya';
+    }
+
+    private function parseJobStatus(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (strpos($clean, 'berusaha sendiri') !== false || strpos($clean, 'berusah') !== false || strpos($clean, 'burusaha') !== false || strpos($clean, 'mandiri') !== false || strpos($clean, 'pedagang') !== false) {
+            return 'Mandiri';
+        } elseif (strpos($clean, 'buruh') !== false || strpos($clean, 'karyawan') !== false || strpos($clean, 'swasta') !== false || strpos($clean, 'pembantu') !== false) {
+            return 'Karyawan Swasta';
+        } elseif (strpos($clean, 'pekerja bebas') !== false || strpos($clean, 'babas') !== false) {
+            return 'Pekerja Bebas';
+        } elseif (strpos($clean, 'pekerja keluarga') !== false || strpos($clean, 'keluaga') !== false || strpos($clean, 'tidak dibayar') !== false || strpos($clean, 'tak dibayar') !== false) {
+            return 'Pekerja Keluarga';
+        } elseif (strpos($clean, 'asn') !== false || strpos($clean, 'tni') !== false || strpos($clean, 'polri') !== false || strpos($clean, 'bumn') !== false || strpos($clean, 'bumd') !== false || strpos($clean, 'pejabat') !== false || strpos($clean, 'kades') !== false || strpos($clean, 'kepala dusun') !== false || strpos($clean, 'pemerintahan') !== false || strpos($clean, 'pelayanan') !== false || strpos($clean, 'desa') !== false || strpos($clean, 'bpd') !== false) {
+            return 'PNS / Aparatur';
+        } elseif (strpos($clean, 'dibantu buruh') !== false || strpos($clean, 'pemberi kerja') !== false) {
+            return 'Pemberi Kerja';
+        }
+
         return 'Lainnya';
     }
 
