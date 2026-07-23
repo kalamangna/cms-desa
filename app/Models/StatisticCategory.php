@@ -82,6 +82,27 @@ class StatisticCategory extends Model
                             'mapping_operator' => '=',
                             'mapping_value' => '1',
                         ]);
+                    } elseif ($col === 'education_level') {
+                        $eduItems = [
+                            ['name' => 'Tidak Punya Ijazah SD', 'mapping_value' => 'Tidak punya ijazah SD'],
+                            ['name' => 'SD / Sederajat', 'mapping_value' => 'SD/sederajat'],
+                            ['name' => 'SMP / Sederajat', 'mapping_value' => 'SMP/sederajat'],
+                            ['name' => 'SMA / Sederajat', 'mapping_value' => 'SMA/sederajat'],
+                            ['name' => 'D1 / D2 / D3', 'mapping_value' => 'D1/D2/D3'],
+                            ['name' => 'D4 / S1 / Profesi', 'mapping_value' => 'D4/S1/Profesi'],
+                            ['name' => 'S2 / S3', 'mapping_value' => 'S2/S3'],
+                        ];
+                        foreach ($eduItems as $idx => $item) {
+                            $category->indicators()->create([
+                                'name' => $item['name'],
+                                'unit' => 'Jiwa',
+                                'mapping_column' => 'education_level',
+                                'mapping_operator' => '=',
+                                'mapping_value' => $item['mapping_value'],
+                                'order' => $idx + 1,
+                                'is_active' => true,
+                            ]);
+                        }
                     } elseif ($col === 'job_status') {
                         $jobStatusItems = [
                             ['name' => 'Berusaha Sendiri', 'mapping_value' => 'Berusaha sendiri'],
