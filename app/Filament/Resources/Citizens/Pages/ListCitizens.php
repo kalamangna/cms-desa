@@ -230,7 +230,7 @@ class ListCitizens extends ListRecords
 
                             $dataToSave = [
                                 'kk_order' => $colKkOrder !== false ? intval(trim($row[$colKkOrder])) : null,
-                                'name' => $colName !== false ? trim($row[$colName]) : '',
+                                'name' => $colName !== false ? $this->cleanName($row[$colName]) : '',
                                 'family_id' => $familyId,
                                 'dusun_id' => $dusunId,
                                 'rt' => $rt,
@@ -244,8 +244,8 @@ class ListCitizens extends ListRecords
                                 'education_level' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null,
                                 'education' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null, // legacy
                                 'bpjs_status' => $colBpjs !== false ? trim($row[$colBpjs]) : null,
-                                'pip_status' => $colPip !== false ? $this->parseYesNo($row[$colPip]) : null,
-                                'has_income' => $colHasIncome !== false ? $this->parseYesNo($row[$colHasIncome]) : null,
+                                'pip_status' => $colPip !== false ? $this->parseYesNo($row[$colPip]) : 0,
+                                'has_income' => $colHasIncome !== false ? $this->parseYesNo($row[$colHasIncome]) : 0,
                                 'job' => $colJob !== false ? $this->parseJob($row[$colJob]) : null,
                                 'job_status' => $colJobStatus !== false ? trim($row[$colJobStatus]) : null,
                                 
@@ -260,33 +260,33 @@ class ListCitizens extends ListRecords
                                 'income_passive' => $colIncPass !== false ? $this->cleanNumeric(trim($row[$colIncPass])) : 0,
                                 
                                 // Disabilities
-                                'disability_physical' => $colDisPhys !== false ? $this->parseYesNo($row[$colDisPhys]) : null,
-                                'disability_mental' => $colDisMent !== false ? $this->parseYesNo($row[$colDisMent]) : null,
-                                'disability_intellectual' => $colDisIntel !== false ? $this->parseYesNo($row[$colDisIntel]) : null,
-                                'disability_blind' => $colDisBlind !== false ? $this->parseYesNo($row[$colDisBlind]) : null,
-                                'disability_deaf' => $colDisDeaf !== false ? $this->parseYesNo($row[$colDisDeaf]) : null,
-                                'disability_speech' => $colDisSpeech !== false ? $this->parseYesNo($row[$colDisSpeech]) : null,
+                                'disability_physical' => $colDisPhys !== false ? $this->parseYesNo($row[$colDisPhys]) : 0,
+                                'disability_mental' => $colDisMent !== false ? $this->parseYesNo($row[$colDisMent]) : 0,
+                                'disability_intellectual' => $colDisIntel !== false ? $this->parseYesNo($row[$colDisIntel]) : 0,
+                                'disability_blind' => $colDisBlind !== false ? $this->parseYesNo($row[$colDisBlind]) : 0,
+                                'disability_deaf' => $colDisDeaf !== false ? $this->parseYesNo($row[$colDisDeaf]) : 0,
+                                'disability_speech' => $colDisSpeech !== false ? $this->parseYesNo($row[$colDisSpeech]) : 0,
                                 
                                 // Illnesses
-                                'illness_hypertension' => $colIllHyper !== false ? $this->parseYesNo($row[$colIllHyper]) : null,
-                                'illness_rheumatic' => $colIllRheu !== false ? $this->parseYesNo($row[$colIllRheu]) : null,
-                                'illness_asthma' => $colIllAsthma !== false ? $this->parseYesNo($row[$colIllAsthma]) : null,
-                                'illness_heart' => $colIllHeart !== false ? $this->parseYesNo($row[$colIllHeart]) : null,
-                                'illness_diabetes' => $colIllDiab !== false ? $this->parseYesNo($row[$colIllDiab]) : null,
-                                'illness_tbc' => $colIllTbc !== false ? $this->parseYesNo($row[$colIllTbc]) : null,
-                                'illness_stroke' => $colIllStroke !== false ? $this->parseYesNo($row[$colIllStroke]) : null,
-                                'illness_cancer' => $colIllCancer !== false ? $this->parseYesNo($row[$colIllCancer]) : null,
-                                'illness_kidney' => $colIllKidney !== false ? $this->parseYesNo($row[$colIllKidney]) : null,
-                                'illness_hemophilia' => $colIllHemo !== false ? $this->parseYesNo($row[$colIllHemo]) : null,
-                                'illness_hiv' => $colIllHiv !== false ? $this->parseYesNo($row[$colIllHiv]) : null,
-                                'illness_cholesterol' => $colIllChol !== false ? $this->parseYesNo($row[$colIllChol]) : null,
-                                'illness_liver' => $colIllLiver !== false ? $this->parseYesNo($row[$colIllLiver]) : null,
-                                'illness_thalassemia' => $colIllThal !== false ? $this->parseYesNo($row[$colIllThal]) : null,
-                                'illness_leukemia' => $colIllLeuk !== false ? $this->parseYesNo($row[$colIllLeuk]) : null,
-                                'illness_alzheimer' => $colIllAlz !== false ? $this->parseYesNo($row[$colIllAlz]) : null,
-                                'illness_other' => $colIllOther !== false ? $this->parseYesNo($row[$colIllOther]) : null,
+                                'illness_hypertension' => $colIllHyper !== false ? $this->parseYesNo($row[$colIllHyper]) : 0,
+                                'illness_rheumatic' => $colIllRheu !== false ? $this->parseYesNo($row[$colIllRheu]) : 0,
+                                'illness_asthma' => $colIllAsthma !== false ? $this->parseYesNo($row[$colIllAsthma]) : 0,
+                                'illness_heart' => $colIllHeart !== false ? $this->parseYesNo($row[$colIllHeart]) : 0,
+                                'illness_diabetes' => $colIllDiab !== false ? $this->parseYesNo($row[$colIllDiab]) : 0,
+                                'illness_tbc' => $colIllTbc !== false ? $this->parseYesNo($row[$colIllTbc]) : 0,
+                                'illness_stroke' => $colIllStroke !== false ? $this->parseYesNo($row[$colIllStroke]) : 0,
+                                'illness_cancer' => $colIllCancer !== false ? $this->parseYesNo($row[$colIllCancer]) : 0,
+                                'illness_kidney' => $colIllKidney !== false ? $this->parseYesNo($row[$colIllKidney]) : 0,
+                                'illness_hemophilia' => $colIllHemo !== false ? $this->parseYesNo($row[$colIllHemo]) : 0,
+                                'illness_hiv' => $colIllHiv !== false ? $this->parseYesNo($row[$colIllHiv]) : 0,
+                                'illness_cholesterol' => $colIllChol !== false ? $this->parseYesNo($row[$colIllChol]) : 0,
+                                'illness_liver' => $colIllLiver !== false ? $this->parseYesNo($row[$colIllLiver]) : 0,
+                                'illness_thalassemia' => $colIllThal !== false ? $this->parseYesNo($row[$colIllThal]) : 0,
+                                'illness_leukemia' => $colIllLeuk !== false ? $this->parseYesNo($row[$colIllLeuk]) : 0,
+                                'illness_alzheimer' => $colIllAlz !== false ? $this->parseYesNo($row[$colIllAlz]) : 0,
+                                'illness_other' => $colIllOther !== false ? $this->parseYesNo($row[$colIllOther]) : 0,
                                 
-                                'has_digital_wallet' => $colWallet !== false ? $this->parseYesNo($row[$colWallet]) : null,
+                                'has_digital_wallet' => $colWallet !== false ? trim($row[$colWallet]) : null,
                                 'status' => 'Aktif',
                                 'citizenship_status' => $colStatus !== false ? trim($row[$colStatus]) : 'Tinggal di rumah/tempat tinggal ini',
                             ];
@@ -344,15 +344,17 @@ class ListCitizens extends ListRecords
         ];
     }
 
-    private function parseYesNo(?string $val): bool
+    private function parseYesNo(?string $val): int
     {
-        if ($val === null) return false;
+        if ($val === null) return 0;
         $clean = strtolower(trim($val));
-        if (empty($clean)) return false;
+        if (empty($clean)) return 0;
         
-        return in_array($clean, ['ya', 'yes', 'true', '1', 'ada']) 
+        $isYes = in_array($clean, ['ya', 'yes', 'true', '1', 'ada']) 
             || strpos($clean, 'ya') === 0 
             || strpos($clean, 'ada') === 0;
+
+        return $isYes ? 1 : 0;
     }
 
     private function parseMaritalStatus(?string $val): ?string
@@ -449,9 +451,33 @@ class ListCitizens extends ListRecords
         return false;
     }
 
+    private function cleanName(?string $name): string
+    {
+        if ($name === null) return '';
+        $name = trim($name);
+        if (empty($name)) return '';
+
+        // Fix spacing around dots (e.g., "A.ismail" -> "A. Ismail")
+        $name = preg_replace('/([a-zA-Z])\.(?=[a-zA-Z])/', '$1. ', $name);
+
+        // Convert to UPPERCASE
+        return mb_strtoupper($name);
+    }
+
     private function cleanNumeric(string $val): int
     {
-        $clean = preg_replace('/[^0-9]/', '', $val);
+        $val = strtolower(trim($val));
+        if (empty($val) || in_array($val, ['tidak ada', 'none', '-', '?'])) return 0;
+
+        // Support shortcuts like "4,8jt" or "4.8 jt"
+        if (strpos($val, 'jt') !== false) {
+            $numPart = preg_replace('/[^0-9\.,]/', '', str_replace('jt', '', $val));
+            $numPart = str_replace(',', '.', $numPart);
+            return intval(floatval($numPart) * 1000000);
+        }
+
+        // Clean normal formatted currency like 3,000,000.00
+        $clean = preg_replace('/[^0-9]/', '', explode('.', $val)[0]);
         return empty($clean) ? 0 : intval($clean);
     }
 }

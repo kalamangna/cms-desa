@@ -2,6 +2,21 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.7.7] - 2026-07-23
+
+### Added
+- **Kolom Data Ternak pada Pendata Kependudukan (Family)**: Menambahkan kolom `cow_count` (sapi), `goat_count` (kambing), dan `buffalo_count` (kerbau) pada skema tabel `families`, form input Filament admin (`FamilyForm`), serta tabel keluarga.
+- **Kategori Statistik Penduduk (Per Dusun)**: Menambahkan statistik kependudukan per dusun secara dinamis di halaman statistik publik (`/statistik`).
+
+### Changed
+- **Peningkatan Kapasitas Nilai Aset Keluarga**: Mengubah tipe data nilai aset motor (`motorcycle_value`), mobil (`car_value`), tanah lain (`other_land_value`), dan bangunan lain (`other_building_value`) pada tabel `families` dari `integer` menjadi `bigInteger` untuk mendukung nilai hingga miliaran rupiah.
+- **Tipe Kolom Dompet Digital**: Mengubah kolom `has_digital_wallet` pada tabel `citizens` menjadi `string` (nullable) untuk fleksibilitas opsi penyimpanannya.
+- **Format Nama Penduduk (Capitalization)**: Memastikan pengisian dan tampilan nama penduduk diformat otomatis menjadi huruf kapital (`UPPERCASE`).
+- **AJAX Real-Time Filtering (Statistik)**: Mengintegrasikan Alpine.js dan Fetch API untuk pembaruan grafik dan tabel rincian kependudukan publik secara real-time tanpa memuat ulang halaman (*no-reload*). Default penyajian data dikunci pada tahun berjalan (`{{ date('Y') }}`).
+
+### Fixed
+- **Penanganan Galat Sintaksis ApexCharts & DOM**: Memperbaiki masalah `Node cannot be found in the current page` dan kebocoran warna indikator (`undefined color`) pada grafik ApexCharts saat penyaringan dusun dilakukan secara dinamis.
+
 ## [1.7.6] - 2026-07-19
 
 ### Added

@@ -159,7 +159,7 @@
                     <div class="pt-4 border-t border-slate-50">
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-sm font-bold text-slate-700">Persentase Capaian</span>
-                            <span class="text-lg font-black {{ $theme['text'] }}">{{ number_format($percentage, 1) }}%</span>
+                            <span class="text-lg font-black {{ $theme['text'] }}">{{ number_format($percentage, 1, ',', '.') }}%</span>
                         </div>
                         {{-- Segmented progress bar --}}
                         <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">

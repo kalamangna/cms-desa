@@ -83,7 +83,6 @@ class Citizen extends Model
         'income_passive' => 'integer',
         'pip_status' => 'integer',
         'has_income' => 'integer',
-        'has_digital_wallet' => 'integer',
         'disability_physical' => 'integer',
         'disability_mental' => 'integer',
         'disability_intellectual' => 'integer',

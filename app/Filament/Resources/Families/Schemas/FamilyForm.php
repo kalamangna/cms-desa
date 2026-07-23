@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Filament\Schemas\Components\Grid;
 
 class FamilyForm
@@ -107,6 +108,9 @@ class FamilyForm
                                         TextInput::make('other_land_value')->label('Total Nilai Jual Tanah (Rp)')->numeric()->default(0),
                                         TextInput::make('other_building_count')->label('Bangunan Lain Dimiliki (Jumlah)')->numeric()->default(0),
                                         TextInput::make('other_building_value')->label('Total Nilai Jual Bangunan (Rp)')->numeric()->default(0),
+                                        TextInput::make('cow_count')->label('Jumlah Sapi')->numeric()->default(0),
+                                        TextInput::make('goat_count')->label('Jumlah Kambing/Domba')->numeric()->default(0),
+                                        TextInput::make('buffalo_count')->label('Jumlah Kerbau')->numeric()->default(0),
                                     ]),
                             ]),
                         
@@ -114,19 +118,63 @@ class FamilyForm
                             ->schema([
                                 Grid::make(2)
                                     ->schema([
-                                        FileUpload::make('photo_front')->label('Foto Rumah Tampak Depan')
+                                        Placeholder::make('photo_front_drive')
+                                            ->label('Foto Rumah Tampak Depan')
+                                            ->content(function ($record) {
+                                                $url = $record?->photo_front;
+                                                if (empty($url)) return new \Illuminate\Support\HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
+                                                if (str_starts_with($url, 'http')) {
+                                                    return new \Illuminate\Support\HtmlString('<a href="' . e($url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                }
+                                                return new \Illuminate\Support\HtmlString('<a href="' . asset('storage/' . $url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
+                                            }),
+
+                                        Placeholder::make('photo_living_room_drive')
+                                            ->label('Foto Ruang Tamu')
+                                            ->content(function ($record) {
+                                                $url = $record?->photo_living_room;
+                                                if (empty($url)) return new \Illuminate\Support\HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
+                                                if (str_starts_with($url, 'http')) {
+                                                    return new \Illuminate\Support\HtmlString('<a href="' . e($url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                }
+                                                return new \Illuminate\Support\HtmlString('<a href="' . asset('storage/' . $url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
+                                            }),
+
+                                        Placeholder::make('photo_bathroom_drive')
+                                            ->label('Foto Kamar Mandi')
+                                            ->content(function ($record) {
+                                                $url = $record?->photo_bathroom;
+                                                if (empty($url)) return new \Illuminate\Support\HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
+                                                if (str_starts_with($url, 'http')) {
+                                                    return new \Illuminate\Support\HtmlString('<a href="' . e($url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                }
+                                                return new \Illuminate\Support\HtmlString('<a href="' . asset('storage/' . $url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
+                                            }),
+
+                                        Placeholder::make('photo_kk_drive')
+                                            ->label('Foto Kartu Keluarga')
+                                            ->content(function ($record) {
+                                                $url = $record?->photo_kk;
+                                                if (empty($url)) return new \Illuminate\Support\HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
+                                                if (str_starts_with($url, 'http')) {
+                                                    return new \Illuminate\Support\HtmlString('<a href="' . e($url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                }
+                                                return new \Illuminate\Support\HtmlString('<a href="' . asset('storage/' . $url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
+                                            }),
+
+                                        FileUpload::make('photo_front')->label('Unggah/Ganti Foto Rumah Tampak Depan')
                                             ->directory('families/photos')
                                             ->image()
                                             ->imageResizeTargetWidth(1200),
-                                        FileUpload::make('photo_living_room')->label('Foto Ruang Tamu')
+                                        FileUpload::make('photo_living_room')->label('Unggah/Ganti Foto Ruang Tamu')
                                             ->directory('families/photos')
                                             ->image()
                                             ->imageResizeTargetWidth(1200),
-                                        FileUpload::make('photo_bathroom')->label('Foto Kamar Mandi')
+                                        FileUpload::make('photo_bathroom')->label('Unggah/Ganti Foto Kamar Mandi')
                                             ->directory('families/photos')
                                             ->image()
                                             ->imageResizeTargetWidth(1200),
-                                        FileUpload::make('photo_kk')->label('Foto Kartu Keluarga')
+                                        FileUpload::make('photo_kk')->label('Unggah/Ganti Foto Kartu Keluarga')
                                             ->directory('families/photos')
                                             ->image()
                                             ->imageResizeTargetWidth(1200),

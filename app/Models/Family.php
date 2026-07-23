@@ -58,6 +58,9 @@ class Family extends Model
         'other_land_value',
         'other_building_count',
         'other_building_value',
+        'cow_count',
+        'goat_count',
+        'buffalo_count',
         'notes',
     ];
 
@@ -81,6 +84,9 @@ class Family extends Model
         'other_land_value' => 'integer',
         'other_building_count' => 'integer',
         'other_building_value' => 'integer',
+        'cow_count' => 'integer',
+        'goat_count' => 'integer',
+        'buffalo_count' => 'integer',
     ];
 
     public function dusun()

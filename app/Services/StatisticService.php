@@ -36,7 +36,10 @@ class StatisticService
             'categories' => $categories,
             'summaryCards' => $this->buildSummaryCards($currentYear, $isEmptyDb, $selectedDusunId),
             'availableYears' => $this->getAvailableYears($currentYear),
-            'dusuns' => Dusun::orderBy('name', 'asc')->get(),
+            'dusuns' => Dusun::withCount([
+                'citizens' => fn ($q) => $q->where('status', 'Aktif'),
+                'families',
+            ])->orderBy('name', 'asc')->get(),
             'datasets' => Dataset::latest()->take(3)->get(),
         ];
     }
@@ -50,10 +53,18 @@ class StatisticService
 
         foreach ($categories as $category) {
             $indicatorsData = [];
-            foreach ($category->indicators as $indicator) {
+            $palette = ['#10b981','#0ea5e9','#f59e0b','#8b5cf6','#ec4899','#f43f5e','#06b6d4','#14b8a6','#f97316','#3b82f6'];
+            foreach ($category->indicators as $idx => $indicator) {
+                $c = $palette[$idx % count($palette)];
+                if (str_contains(strtolower($indicator->name), 'laki-laki') || str_contains(strtolower($indicator->name), 'laki laki')) {
+                    $c = '#0ea5e9';
+                } elseif (str_contains(strtolower($indicator->name), 'perempuan')) {
+                    $c = '#ec4899';
+                }
                 $indicatorsData[] = [
                     'name' => $indicator->name,
                     'unit' => $indicator->unit,
+                    'color' => $c,
                     'data' => $indicator->data->map(fn ($d) => [
                         'year' => (int) $d->year,
                         'value' => (int) $d->value,
@@ -102,13 +113,9 @@ class StatisticService
 
         $topDusun = null;
         if (! $isEmptyDb) {
-            $query = Dusun::withCount(['citizens' => fn ($q) => $q->where('status', 'Aktif')]);
-
-            if ($selectedDusunId) {
-                $query->where('id', $selectedDusunId);
-            }
-
-            $topDusun = $query->orderByDesc('citizens_count')->first();
+            $topDusun = Dusun::withCount(['citizens' => fn ($q) => $q->where('status', 'Aktif')])
+                ->orderByDesc('citizens_count')
+                ->first();
         }
 
         return [
@@ -149,6 +156,15 @@ class StatisticService
         $categories = StatisticCategory::where('is_active', true)
             ->with(['indicators.data' => fn ($q) => $q->orderBy('year', 'asc')])
             ->get();
+
+        $dusunCategory = $this->createStaticDusunCategory($currentYear, $selectedDusunId);
+
+        if ($categories->isEmpty()) {
+            return $dusunCategory;
+        }
+
+        // Prepend synthetic Penduduk category as the first default category
+        $categories = $dusunCategory->concat($categories);
 
         foreach ($categories as $category) {
             if (! $category->mapping_table) {
@@ -321,5 +337,46 @@ class StatisticService
         }
 
         return $merged;
+    }
+
+    private function createStaticDusunCategory(int $currentYear, ?int $selectedDusunId): Collection
+    {
+        $dusuns = Dusun::orderBy('name', 'asc')->get();
+        $indicators = collect();
+
+        foreach ($dusuns as $dusun) {
+            if ($selectedDusunId && $dusun->id != $selectedDusunId) {
+                continue;
+            }
+
+            $male = Citizen::where('status', 'Aktif')->where('dusun_id', $dusun->id)->where('gender', 'Laki-laki')->count();
+            $female = Citizen::where('status', 'Aktif')->where('dusun_id', $dusun->id)->where('gender', 'Perempuan')->count();
+            $total = $male + $female;
+
+            $liveData = new StatisticData([
+                'year' => $currentYear,
+                'value' => $total,
+                'value_male' => $male,
+                'value_female' => $female,
+            ]);
+
+            $indicator = new StatisticIndicator([
+                'name' => 'Dusun ' . $dusun->name,
+                'unit' => 'Jiwa',
+            ]);
+            $indicator->setRelation('data', collect([$liveData]));
+            $indicators->push($indicator);
+        }
+
+        $category = new StatisticCategory([
+            'name' => 'Penduduk',
+            'slug' => 'penduduk',
+            'description' => 'Data statistik real-time sebaran jumlah penduduk aktif berdasarkan wilayah dusun.',
+            'mapping_table' => 'citizens',
+            'is_active' => true,
+        ]);
+        $category->setRelation('indicators', $indicators);
+
+        return collect([$category]);
     }
 }

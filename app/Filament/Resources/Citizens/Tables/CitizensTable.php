@@ -19,7 +19,8 @@ class CitizensTable
             ->columns([
                 TextColumn::make('nik')->label('NIK')
                     ->searchable(),
-                TextColumn::make('kk_number')->label('No. KK')
+                TextColumn::make('family.kk_number')->label('No. KK')
+                    ->placeholder('-')
                     ->searchable(),
                 TextColumn::make('name')->label('Nama')
                     ->searchable(),

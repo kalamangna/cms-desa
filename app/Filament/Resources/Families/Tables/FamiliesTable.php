@@ -24,6 +24,23 @@ class FamiliesTable
                 TextColumn::make('rw')->label('RW')->sortable(),
                 TextColumn::make('family_member_count')->label('Jumlah Anggota')->sortable(),
                 TextColumn::make('assistance_type')->label('Bansos')->searchable(),
+                TextColumn::make('cow_count')->label('Sapi')->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('goat_count')->label('Kambing')->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('buffalo_count')->label('Kerbau')->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('photo_kk')
+                    ->label('Foto KK')
+                    ->formatStateUsing(fn ($state) => empty($state) ? '-' : (str_starts_with($state, 'http') ? '🔗 Google Drive' : '🖼️ Foto Lokal'))
+                    ->url(fn ($state) => empty($state) ? null : (str_starts_with($state, 'http') ? $state : asset('storage/' . $state)), shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->color('primary')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('photo_front')
+                    ->label('Foto Rumah')
+                    ->formatStateUsing(fn ($state) => empty($state) ? '-' : (str_starts_with($state, 'http') ? '🔗 Google Drive' : '🖼️ Foto Lokal'))
+                    ->url(fn ($state) => empty($state) ? null : (str_starts_with($state, 'http') ? $state : asset('storage/' . $state)), shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->color('primary')
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('created_at')->label('Dibuat')->dateTime()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([

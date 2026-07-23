@@ -153,6 +153,9 @@ class ListFamilies extends ListRecords
                     $colLandVal = $this->findColumnIndex($header, ['217.l. total nilai harga jual tanah']);
                     $colBld = $this->findColumnIndex($header, ['217.m. jumlah rumah']);
                     $colBldVal = $this->findColumnIndex($header, ['217.n. total nilai harga jual rumah']);
+                    $colCow = $this->findColumnIndex($header, ['217.o. jumlah sapi']);
+                    $colGoat = $this->findColumnIndex($header, ['217.p. jumlah kambing']);
+                    $colBuffalo = $this->findColumnIndex($header, ['217.q. jumlah kerbau']);
                     $colNotes = $this->findColumnIndex($header, ['catatan']);
 
                     if ($colKkNumber === false) {
@@ -177,10 +180,10 @@ class ListFamilies extends ListRecords
                             // Smart parse RT/RW/Dusun from address string
                             // e.g. "RT 005 RW 003 Dusun Data" or "005/003/Dusun Data"
                             if (!empty($address)) {
-                                if (preg_match('/rt\s*(\d+)/i', $address, $matches)) {
+                                if (preg_match('/rt[\.\s]*(\d+)/i', $address, $matches)) {
                                     $rt = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
                                 }
-                                if (preg_match('/rw\s*(\d+)/i', $address, $matches)) {
+                                if (preg_match('/rw[\.\s]*(\d+)/i', $address, $matches)) {
                                     $rw = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
                                 }
                                 if (!$rt && !$rw && preg_match('/(\d+)\/(\d+)/', $address, $matches)) {
@@ -207,13 +210,13 @@ class ListFamilies extends ListRecords
                             $electricityPower = count($powers) > 0 ? implode(', ', $powers) : null;
 
                             $dataToSave = [
-                                'head_name' => $colHeadName !== false ? trim($row[$colHeadName]) : null,
+                                'head_name' => $colHeadName !== false ? $this->cleanName($row[$colHeadName]) : null,
                                 'head_nik' => $colHeadNik !== false ? trim($row[$colHeadNik]) : null,
                                 'address' => $address,
                                 'dusun_id' => $dusunId,
                                 'rt' => $rt,
                                 'rw' => $rw,
-                                'address_matches_kk' => $colMatchesKk !== false ? $this->parseYesNo($row[$colMatchesKk]) : null,
+                                'address_matches_kk' => $colMatchesKk !== false ? $this->parseYesNo($row[$colMatchesKk]) : 0,
                                 'assistance_type' => $colBansos !== false ? $this->parseAssistanceType($row[$colBansos]) : null,
                                 'family_member_count' => $colMemberCount !== false && isset($row[$colMemberCount]) && trim($row[$colMemberCount]) !== '' ? intval(trim($row[$colMemberCount])) : 1,
                                 'building_type' => $colBuildingType !== false ? trim($row[$colBuildingType]) : null,
@@ -253,6 +256,9 @@ class ListFamilies extends ListRecords
                                 'other_land_value' => $colLandVal !== false ? $this->cleanNumeric(trim($row[$colLandVal])) : 0,
                                 'other_building_count' => $colBld !== false ? intval(trim($row[$colBld])) : 0,
                                 'other_building_value' => $colBldVal !== false ? $this->cleanNumeric(trim($row[$colBldVal])) : 0,
+                                'cow_count' => $colCow !== false ? intval(trim($row[$colCow])) : 0,
+                                'goat_count' => $colGoat !== false ? intval(trim($row[$colGoat])) : 0,
+                                'buffalo_count' => $colBuffalo !== false ? intval(trim($row[$colBuffalo])) : 0,
                                 'notes' => $colNotes !== false ? trim($row[$colNotes]) : null,
                             ];
 
@@ -274,6 +280,27 @@ class ListFamilies extends ListRecords
                                 Family::create(array_merge(['kk_number' => $kkNumber], $dataToSave));
                             }
                             $rowCount++;
+
+                            // Also create shell family records for secondary KKs living in the same home (106.b)
+                            // so that individual residents belonging to secondary KKs are correctly linked to family_id
+                            foreach ($header as $colIdx => $colNameStr) {
+                                if (strpos($colNameStr, '106.b.') !== false && isset($row[$colIdx])) {
+                                    $secKk = trim($row[$colIdx]);
+                                    if (!empty($secKk) && strlen($secKk) >= 10 && is_numeric($secKk)) {
+                                        $secFam = Family::withTrashed()->where('kk_number', $secKk)->first();
+                                        if (!$secFam) {
+                                            Family::create([
+                                                'kk_number' => $secKk,
+                                                'address' => $address,
+                                                'dusun_id' => $dusunId,
+                                                'rt' => $rt,
+                                                'rw' => $rw,
+                                                'notes' => 'Anggota KK tambahan dalam 1 rumah (106.b)',
+                                            ]);
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         \Illuminate\Support\Facades\DB::commit();
@@ -309,15 +336,17 @@ class ListFamilies extends ListRecords
         ];
     }
 
-    private function parseYesNo(?string $val): bool
+    private function parseYesNo(?string $val): int
     {
-        if ($val === null) return false;
+        if ($val === null) return 0;
         $clean = strtolower(trim($val));
-        if (empty($clean)) return false;
+        if (empty($clean)) return 0;
         
-        return in_array($clean, ['ya', 'yes', 'true', '1', 'ada']) 
+        $isYes = in_array($clean, ['ya', 'yes', 'true', '1', 'sesuai', 'ada']) 
             || strpos($clean, 'ya') === 0 
-            || strpos($clean, 'ada') === 0;
+            || strpos($clean, 'sesuai') === 0;
+
+        return $isYes ? 1 : 0;
     }
 
     private function parseOwnershipStatus(?string $val): ?string
@@ -356,9 +385,33 @@ class ListFamilies extends ListRecords
         return false;
     }
 
+    private function cleanName(?string $name): ?string
+    {
+        if ($name === null) return null;
+        $name = trim($name);
+        if (empty($name)) return null;
+
+        // Fix spacing around dots (e.g., "A.ismail" -> "A. Ismail")
+        $name = preg_replace('/([a-zA-Z])\.(?=[a-zA-Z])/', '$1. ', $name);
+
+        // Convert to UPPERCASE
+        return mb_strtoupper($name);
+    }
+
     private function cleanNumeric(string $val): int
     {
-        $clean = preg_replace('/[^0-9]/', '', $val);
+        $val = strtolower(trim($val));
+        if (empty($val) || in_array($val, ['tidak ada', 'none', '-', '?'])) return 0;
+
+        // Support shortcuts like "4,8jt" or "4.8 jt"
+        if (strpos($val, 'jt') !== false) {
+            $numPart = preg_replace('/[^0-9\.,]/', '', str_replace('jt', '', $val));
+            $numPart = str_replace(',', '.', $numPart);
+            return intval(floatval($numPart) * 1000000);
+        }
+
+        // Clean normal formatted currency like 3,000,000.00
+        $clean = preg_replace('/[^0-9]/', '', explode('.', $val)[0]);
         return empty($clean) ? 0 : intval($clean);
     }
 }
