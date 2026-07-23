@@ -48,11 +48,28 @@ class ListFamilies extends ListRecords
                         ->directory('temp'),
                 ])
                 ->action(function (array $data) {
-                    $filePath = storage_path('app/public/' . $data['excel_file']);
+                    $disk = config('filament.default_filesystem_disk', 'public');
+                    $filePath = \Illuminate\Support\Facades\Storage::disk($disk)->path($data['excel_file']);
+                    
+                    if (!file_exists($filePath)) {
+                        // Fallback check in storage_path('app/public/') or storage_path('app/private/') or public_path('storage/')
+                        $possiblePaths = [
+                            storage_path('app/public/' . $data['excel_file']),
+                            storage_path('app/' . $data['excel_file']),
+                            public_path('storage/' . $data['excel_file']),
+                        ];
+                        foreach ($possiblePaths as $path) {
+                            if (file_exists($path)) {
+                                $filePath = $path;
+                                break;
+                            }
+                        }
+                    }
+
                     $selectedDusunId = $data['dusun_id'] ?? null;
                     
                     if (!file_exists($filePath)) {
-                        Notification::make()->title('File tidak ditemukan.')->danger()->send();
+                        Notification::make()->title('File tidak ditemukan. Path: ' . $filePath)->danger()->send();
                         return;
                     }
 

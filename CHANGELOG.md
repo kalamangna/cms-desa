@@ -16,6 +16,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
 ### Fixed
 - **Penanganan Galat Sintaksis ApexCharts & DOM**: Memperbaiki masalah `Node cannot be found in the current page` dan kebocoran warna indikator (`undefined color`) pada grafik ApexCharts saat penyaringan dusun dilakukan secara dinamis.
+- **Resolusi Jalur Berkas Unggahan Excel (Import)**: Memperbaiki galat `File tidak ditemukan` saat melakukan impor Excel Keluarga dan Penduduk di server produksi dengan menggunakan penentuan jalur dinamis `Storage::disk()->path()` serta pemeriksaan jalur cadangan (*fallback paths*).
 
 ## [1.7.6] - 2026-07-19
 
