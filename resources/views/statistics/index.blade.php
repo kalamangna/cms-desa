@@ -555,10 +555,9 @@
     // ── Chart instances store ───────────────────────────────────────────────
     const chartInstances = {};
 
-    // ── Sorting helpers ─────────────────────────────────────────────────────
     const educationOrder = [
-        'tidak/belum pernah sekolah','tidak sekolah','belum sekolah','paud','tk',
-        'sd','smp','sma','diploma','d1','d2','d3','d4','sarjana','s1','magister','s2','doktor','s3'
+        'tidak punya ijazah','tidak/belum pernah sekolah','tidak sekolah','belum sekolah',
+        'sd','smp','sma','d1','d2','d3','d4','s1','profesi','s2','s3'
     ];
 
     function sortIndicators(cat, indicators) {
