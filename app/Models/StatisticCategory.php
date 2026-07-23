@@ -26,7 +26,7 @@ class StatisticCategory extends Model
     /** Daftar kolom yang diizinkan per tabel. */
     const ALLOWED_COLUMNS = [
         'citizens' => [
-            'gender', 'education_level', 'job', 'marital_status', 'family_relation',
+            'gender', 'education_level', 'job', 'job_status', 'marital_status', 'family_relation',
             'school_participation', 'disability_physical', 'disability_mental',
             'disability_intellectual', 'disability_blind', 'disability_deaf',
             'disability_speech', 'illness_hypertension', 'illness_rheumatic',
@@ -82,6 +82,27 @@ class StatisticCategory extends Model
                             'mapping_operator' => '=',
                             'mapping_value' => '1',
                         ]);
+                    } elseif ($col === 'job_status') {
+                        $jobStatusItems = [
+                            ['name' => 'Berusaha Sendiri', 'mapping_value' => 'Berusaha sendiri'],
+                            ['name' => 'Buruh / Karyawan / Pegawai Swasta', 'mapping_value' => 'Buruh/karyawan/pegawai swasta'],
+                            ['name' => 'Pekerja Bebas', 'mapping_value' => 'Pekerja bebas'],
+                            ['name' => 'Pekerja Keluarga / Tidak Dibayar', 'mapping_value' => 'Pekerja keluarga/tidak dibayar'],
+                            ['name' => 'ASN / TNI / Polri / BUMN / BUMD / Pejabat Negara', 'mapping_value' => 'ASN/TNI/Polri/BUMN/BUMD/pejabat negara'],
+                            ['name' => 'Berusaha Dibantu Buruh', 'mapping_value' => 'Berusaha dibantu buruh'],
+                            ['name' => 'Lainnya', 'mapping_value' => 'Lainnya'],
+                        ];
+                        foreach ($jobStatusItems as $idx => $item) {
+                            $category->indicators()->create([
+                                'name' => $item['name'],
+                                'unit' => 'Jiwa',
+                                'mapping_column' => 'job_status',
+                                'mapping_operator' => '=',
+                                'mapping_value' => $item['mapping_value'],
+                                'order' => $idx + 1,
+                                'is_active' => true,
+                            ]);
+                        }
                     } else {
                         $query = \Illuminate\Support\Facades\DB::table($category->mapping_table)
                             ->whereNull('deleted_at')
