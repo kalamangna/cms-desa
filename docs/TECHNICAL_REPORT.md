@@ -1,55 +1,152 @@
-# LAPORAN TEKNIS & DOKUMEN SPESIFIKASI SISTEM (SRS & SDD)
-## PENGEMBANGAN SISTEM INFORMASI PORTAL DESA & CMS BERBASIS DATA MIKRO
+# LAPORAN TEKNIS PENGEMBANGAN SISTEM INFORMASI PORTAL DESA & CMS BERBASIS DATA MIKRO
 
 ---
 
-**Nama Aplikasi**: Portal Resmi Website & CMS Desa  
-**Versi Sistem**: 1.8.2 (Release Production)  
-**Kerangka Kerja (Framework)**: Laravel 12, Filament v4, Tailwind CSS v4  
-**Penyusun / Pranata Komputer**: Tim Pengembang & Pengelola Sistem Informasi Desa  
-**Tanggal Penyusunan**: 24 Juli 2026  
+## 📑 COVER
+
+```
+================================================================================
+                    LAPORAN REKAYASA PERANGKAT LUNAK
+       PENGEMBANGAN SISTEM INFORMASI PORTAL DESA & CMS BERBASIS DATA MIKRO
+                           VERSI PRODUCTION 1.8.2
+================================================================================
+
+                                Disusun Oleh:
+                     Jabatan Fungsional Pranata Komputer
+                   Tim Pengembang & Pengelola Sistem Desa
+
+                               Pemerintah Desa
+                                 Tahun 2026
+```
 
 ---
 
-## BAB I: PENDAHULUAN & SPESIFIKASI KEBUTUHAN (SRS)
+## ✍️ LEMBAR PENGESAHAN
+
+```
+                       LEMBAR PENGESAHAN LAPORAN TEKNIS
+       SISTEM INFORMASI PORTAL DESA & CMS BERBASIS DATA MIKRO (v1.8.2)
+
+   Naskah Laporan Rekayasa Perangkat Lunak ini telah diperiksa, diuji, dan
+   disetujui sebagai Dokumen Teknis Resmi untuk keperluan Penilaian Angka Kredit
+   (PAK) Jabatan Fungsional Pranata Komputer serta Dokumen Serah Terima Operasional.
+
+   Disetujui di : Desa
+   Pada Tanggal : 24 Juli 2026
+
+   Mengetahui,                                       Disusun Oleh,
+   Kepala Desa                                       Pranata Komputer
+
+   ( ____________________ )                          ( ____________________ )
+```
+
+---
+
+## 📜 KATA PENGANTAR
+
+Puji dan syukur kami panjatkan ke hadirat Tuhan Yang Maha Esa atas rahmat dan karunia-Nya, sehingga Laporan Teknis Pengembangan **Sistem Informasi Portal Desa & CMS Berbasis Data Mikro Versi 1.8.2** ini dapat diselesaikan dengan baik.
+
+Dokumen ini disusun untuk memberikan gambaran secara menyeluruh mengenai proses rekayasa perangkat lunak, mulai dari tahap analisis kebutuhan, perancangan arsitektur, struktur basis data, pengembangan API, prosedur pengujian (*testing*), hingga panduan pemeliharaan (*maintenance*).
+
+Penyusun mengucapkan terima kasih kepada seluruh pihak yang telah memberikan dukungan dan kontribusi selama proses pengembangan sistem informasi ini. Semoga sistem informasi ini dapat memberikan manfaat nyata bagi transparansi dan efektivitas tata kelola pemerintahan desa.
+
+*Desa, 24 Juli 2026*  
+**Tim Penyusun / Pranata Komputer**
+
+---
+
+## 📖 DAFTAR ISI
+
+- **COVER**
+- **LEMBAR PENGESAHAN**
+- **KATA PENGANTAR**
+- **DAFTAR ISI**
+- **BAB I: PENDAHULUAN**
+  - 1.1 Latar Belakang
+  - 1.2 Maksud dan Tujuan
+  - 1.3 Ruang Lingkup
+- **BAB II: ANALISIS KEBUTUHAN**
+  - 2.1 Kebutuhan Fungsional (*Functional Requirements*)
+  - 2.2 Kebutuhan Non-Fungsional (*Non-Functional Requirements*)
+- **BAB III: PERANCANGAN SISTEM**
+  - 3.1 Arsitektur Perangkat Lunak
+  - 3.2 Diagram Alir Data (*Data Flow*)
+- **BAB IV: IMPLEMENTASI**
+  - 4.1 Teknologi & Pustaka Pendukung
+  - 4.2 Fitur Visualisasi Stacked Bar 2 Arah Dinamis
+  - 4.3 Penguncian Kolom Tabel (*Sticky Column*)
+- **BAB V: DATABASE**
+  - 5.1 ERD & Relasi Entitas
+  - 5.2 Spesifikasi Tabel Utama
+- **BAB VI: API**
+  - 6.1 Endpoint Statistik Dinamis (`GET /statistik`)
+  - 6.2 Endpoint Layanan Mandiri & Pengaduan Warga
+- **BAB VII: PANDUAN INSTALASI**
+  - 7.1 Pemasangan Lingkungan Lokal (*Development*)
+  - 7.2 Deployment Server Produksi (Hostinger/cPanel)
+- **BAB VIII: PANDUAN PENGGUNA**
+  - 8.1 Petunjuk Operasional Admin Panel (Filament)
+  - 8.2 Petunjuk Penggunaan Portal Publik
+- **BAB IX: PENGUJIAN**
+  - 9.1 Hasil Pengujian Otomatis (*Automated Testing*)
+  - 9.2 Pengujian Penerimaan Pengguna (*User Acceptance Testing*)
+- **BAB X: PEMELIHARAAN**
+  - 10.1 Solusi Kendala Hosting & Storage Link
+  - 10.2 Hardening Keamanan & Optimasi Cache
+- **LAMPIRAN**
+  - Lampiran A: Riwayat Perubahan (*Changelog*)
+  - Lampiran B: Tangkapan Layar Tampilan (*Screenshot*)
+  - Lampiran C: Diagram Diagram Relasi Basis Data (*ERD*)
+  - Lampiran D: Struktur Folder Proyek (*Directory Tree*)
+
+---
+
+## BAB I: PENDAHULUAN
 
 ### 1.1 Latar Belakang
-Pemerintah Desa memerlukan platform portal informasi digital yang tidak hanya berfungsi sebagai media publikasi berita dan pengumuman, melainkan juga mampu mengelola dan menyajikan data mikro kependudukan (Regsosek & SDGs Desa) secara transparan, akurat, dan real-time. Untuk mendukung hal tersebut, dikembangkan **Sistem Informasi Portal Desa & CMS Berbasis Data Mikro** yang mengintegrasikan pengelolaan data kependudukan tingkat keluarga dan individu dengan visualisasi grafik interaktif.
+Pemerintah Desa memerlukan portal informasi digital yang tidak hanya berfungsi sebagai media berita dan pengumuman, melainkan juga mampu mengelola dan menyajikan data sosial ekonomi mikro kependudukan (Regsosek & SDGs Desa) secara transparan, akurat, dan *real-time*. Oleh karena itu, dikembangkan **Sistem Informasi Portal Desa & CMS Berbasis Data Mikro** yang mengintegrasikan pengelolaan data tingkat keluarga dan individu dengan visualisasi grafik interaktif.
 
-### 1.2 Tujuan Sistem
+### 1.2 Maksud dan Tujuan
 1. Menyediakan portal publik desa yang modern, responsif, dan mudah diakses oleh masyarakat.
-2. Mengelola data mikro kependudukan terstruktur (`Dusun` $\rightarrow$ `Keluarga` $\rightarrow$ `Penduduk`) melalui Admin Panel terintegrasi.
-3. Menyajikan visualisasi data statistik sektoral 1 arah dan 2 arah (cross-tabulation dinamis) yang didukung ekspor data resmi (CSV, Excel, PDF).
+2. Mengelola data mikro kependudukan terstruktur (`Dusun` $\rightarrow$ `Keluarga` $\rightarrow$ `Penduduk`) via Admin Panel terintegrasi.
+3. Menyajikan visualisasi data statistik sektoral 1 arah dan 2 arah (*cross-tabulation* dinamis) yang didukung ekspor data resmi (CSV, Excel, PDF).
 4. Menyediakan layanan mandiri permohonan surat, pengaduan warga, serta transparansi realisasi APBDes secara interaktif.
 
-### 1.3 Kebutuhan Fungsional (Functional Requirements)
-- **FR-01 (Manajemen Data Mikro)**: Sistem dapat mencatat dan mengimpor data kuesioner keluarga (bangunan, sanitasi, listrik, aset) dan individu warga (pendidikan, pekerjaan, BPJS, PIP, disabilitas) dari berkas Excel.
-- **FR-02 (Statistik & Visualisasi 2 Arah)**: Sistem dapat menampilkan grafik batang tumpuk horizontal (*Horizontal Stacked Bar*) dan tabel rincian dengan pembanding dinamis (*Gender*, *Pendidikan*, *Pekerjaan*, *Dusun*, dll.) yang dapat dikonfigurasi dari admin panel.
-- **FR-03 (Transparansi APBDes)**: Sistem dapat menampilkan alokasi pendapatan, belanja, dan pembiayaan desa lengkap dengan *progress bar* pencapaian realisasi.
-- **FR-04 (Layanan Publik & Mandiri)**: Sistem menyediakan pengajuan permohonan surat dengan nomor tiket pelacakan, formulir pengaduan warga online, serta buku tamu digital.
-- **FR-05 (Ekspor Berkas Resmi)**: Sistem menyediakan fungsi ekspor tabel statistik ke format CSV, Excel (XLSX), dan PDF lengkap dengan Kop Header Resmi Pemerintah Desa.
-
-### 1.4 Kebutuhan Non-Fungsional (Non-Functional Requirements)
-- **NFR-01 (Security)**: Proteksi CSRF pada semua form, sanitasi input dari ancaman XSS, otorisasi berbasis peran (Spatie Permission), dan enkripsi password mutakhir.
-- **NFR-02 (Performance)**: Optimasi query database dengan *Eager Loading* untuk mencegah masalah *N+1 Query*, caching statistik pengunjung, dan minifikasi HTML otomatis.
-- **NFR-03 (Usability & Responsiveness)**: Tampilan antarmuka modern (*Glassmorphism Design*) yang responsif di perangkat Mobile, Tablet, maupun Desktop.
-- **NFR-04 (SEO Optimization)**: Implementasi Skema Markup JSON-LD (Organization, WebSite, Breadcrumbs, Article) dan Meta Tag terstruktur.
+### 1.3 Ruang Lingkup
+Ruang lingkup proyek mencakup pembangunan backend Laravel 12, admin panel Filament v4, antarmuka publik Tailwind CSS v4, visualisasi grafik ApexCharts, pemetaan wilayah Leaflet.js, serta mekanisme pengujian & deployment.
 
 ---
 
-## BAB II: PERANCANGAN ARSITEKTUR & BASIS DATA (SDD)
+## BAB II: ANALISIS KEBUTUHAN
 
-### 2.1 Arsitektur Perangkat Lunak
-Sistem dibangun menggunakan arsitektur **Model-View-Controller (MVC)** modern berbasis Laravel 12 dengan pemisahan komponen sebagai berikut:
+### 2.1 Kebutuhan Fungsional (Functional Requirements)
+- **FR-01 (Manajemen Data Mikro)**: Mengimpor dan mengelola kuesioner keluarga (bangunan, sanitasi, listrik, aset) dan individu warga (pendidikan, pekerjaan, BPJS, PIP, disabilitas) dari berkas Excel.
+- **FR-02 (Statistik 2 Arah Dinamis)**: Menyajikan grafik *Horizontal Stacked Bar* dan tabel rincian dengan pembanding dinamis (*Gender*, *Pendidikan*, *Pekerjaan*, *Dusun*, dll).
+- **FR-03 (Transparansi APBDes)**: Menyajikan target dan realisasi pendapatan/belanja desa lengkap dengan *progress bar* pencapaian.
+- **FR-04 (Layanan Mandiri & Pengaduan)**: Menyediakan permohonan surat online ber-nomor tiket, formulir pengaduan warga, dan buku tamu digital.
+- **FR-05 (Ekspor Berkas Resmi)**: Menyediakan ekspor tabel statistik ke format CSV, Excel (XLSX), dan PDF ber-Kop Header Resmi Pemerintah Desa.
+
+### 2.2 Kebutuhan Non-Fungsional (Non-Functional Requirements)
+- **NFR-01 (Security)**: Proteksi CSRF, sanitasi input XSS, otorisasi peran (Spatie Permission), dan enkripsi password Bcrypt/Argon2.
+- **NFR-02 (Performance)**: Optimasi kueri dengan *Eager Loading* untuk mencegah masalah *N+1 Query*, caching statistik pengunjung, dan minifikasi HTML.
+- **NFR-03 (Responsiveness)**: Desain antarmuka modern yang responsif di Mobile, Tablet, dan Desktop.
+
+---
+
+## BAB III: PERANCANGAN SISTEM
+
+### 3.1 Arsitektur Perangkat Lunak
+Sistem dibangun menggunakan pola **Model-View-Controller (MVC)** modern berbasis Laravel 12:
 - **Backend Framework**: Laravel 12 (PHP 8.3+)
 - **Admin Panel Engine**: Filament v4
 - **Frontend Styling**: Tailwind CSS v4 & Alpine.js
-- **Visualisasi & Grafik**: ApexCharts & Leaflet.js (GIS)
+- **Visualisasi & Pemetaan**: ApexCharts & Leaflet.js
 
+### 3.2 Diagram Alir Data (Data Flow)
 ```
-[ Pengunjung / Warga ]         [ Operator Desa ]
-         │                            │
-         ▼                            ▼
+[ Warga / Publik ]            [ Operator Desa ]
+        │                            │
+        ▼                            ▼
 ┌──────────────────┐        ┌──────────────────┐
 │   Web Frontend   │        │ Filament Admin   │
 │  (Blade + Alpine)│        │   (Control Panel)│
@@ -68,51 +165,160 @@ Sistem dibangun menggunakan arsitektur **Model-View-Controller (MVC)** modern be
            └──────────────────────┘
 ```
 
-### 2.2 Skema Entitas Basis Data Utama (ERD)
-1. **`dusuns`**: Menyimpan wilayah administratif dusun ID, Nama Dusun, Kepala Dusun.
-2. **`families`**: Menyimpan data kepala keluarga, alamat, Karakteristik Rumah (bangunan, sanitasi, meteran listrik, kepemilikan aset), dan program bantuan sosial (PKH, BPNT, BLT, dll).
-3. **`citizens`**: Menyimpan data warga individu (NIK, Nama, Jenis Kelamin, Hubungan Keluarga, Pekerjaan, Pendidikan, Status Perkawinan, BPJS, PIP, Dompet Digital).
-4. **`statistic_categories`**: Kategori statistik (`slug`, `name`, `mapping_table`, `secondary_columns` [JSON]).
-5. **`statistic_indicators`**: Indikator rincian statistik (`category_id`, `name`, `unit`).
-6. **`budget_realizations`**: Data pendapatan dan belanja desa (Tahun, Kategori, Anggaran, Realisasi).
+---
+
+## BAB IV: IMPLEMENTASI
+
+### 4.1 Teknologi & Pustaka Pendukung
+Sistem mengintegrasikan berbagai teknologi mutakhir:
+- **Laravel 12 & Filament v4**: Pengelolaan data CRUD dan manajemen otorisasi admin.
+- **Tailwind CSS v4 & Alpine.js**: Styling komponen antarmuka publik dan manipulasi DOM dinamis.
+- **ApexCharts**: Rendering grafik batang tumpuk horizontal (*Horizontal Stacked Bar*) secara responsif.
+
+### 4.2 Fitur Visualisasi Stacked Bar 2 Arah Dinamis
+Ketika pembanding 2 arah diaktifkan (misal: *Pekerjaan x Pendidikan*), grafik secara otomatis dikunci dalam mode **Horizontal Stacked Bar Chart** dengan kalkulasi tinggi dinamis (`Math.max(380, count * 48)px`) agar label profesi berdiri tegak lurus dan rapi.
+
+### 4.3 Penguncian Kolom Tabel (Sticky Column)
+Kolom `Indikator` pada `<thead>`, `<tbody>`, dan `<tfoot>` diterapkan kelas CSS `sticky left-0` dengan warna background solid 100% (`bg-white` / `bg-slate-50`), *z-index* tinggi (`z-10`/`z-20`), dan bayangan pemisah (`shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]`) agar data tidak bocor saat tabel di-scroll.
 
 ---
 
-## BAB III: IMPLEMENTASI FITUR UNGGULAN & ALGORITMA
+## BAB V: DATABASE
 
-### 3.1 Algoritma Cross-Tabulation Statistik Dinamis (`StatisticService.php`)
-Sistem menghitung matriks perbandingan 2 arah secara dinamis pada runtime untuk menghindari penyimpanan redundan di database.
-- **Logika Matriks**:
-  Perhitungan `breakdowns` dilakukan dengan mengelompokkan data warga/keluarga berdasarkan indikator utama dan kolom pembanding sumbu ke-2 (`secondary_columns`).
-- **Skema Penguncian Kolom Tabel (Sticky Column)**:
-  Untuk kenyamanan navigasi tabel lebar di layar HP/Tablet, sel kolom `Indikator` diterapkan kelas CSS `sticky left-0` dengan warna latar belakang solid 100% (`bg-white` / `bg-slate-50`), *z-index* tinggi (`z-10`/`z-20`), serta garis bayangan pemisah (`shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]`).
+### 5.1 ERD & Relasi Entitas
+Relasi antar tabel kependudukan: `dusuns` (1:N) $\rightarrow$ `families` (1:N) $\rightarrow$ `citizens`.
 
-### 3.2 Tampilan Horizontal Stacked Bar Chart
-Untuk mencegah label indikator yang panjang (misal: *"Buruh / Karyawan / Pegawai Swasta"*) terpotong atau tertulis miring pada grafik 2 arah yang padat, visualisasi disajikan dalam bentuk **Horizontal Stacked Bar Chart** dengan konfigurasi tinggi dinamis (`Math.max(380, count * 48)px`).
+### 5.2 Spesifikasi Tabel Utama
+- **`dusuns`**: `id`, `name`, `head_name`.
+- **`families`**: `id`, `dusun_id`, `family_card_number`, `head_of_family_name`, `address`, `building_type`, `ownership_status`, `electricity_power_meter_1..3`, `assistance_type`, `motorcycle_value`, `car_value`.
+- **`citizens`**: `id`, `family_id`, `dusun_id`, `nik`, `name` (UPPERCASE), `gender`, `family_relationship`, `education_level`, `job`, `job_status`, `marital_status`, `bpjs_status`, `pip_status`, `has_digital_wallet`, `domicile_address_type`.
+- **`statistic_categories`**: `id`, `name`, `slug`, `mapping_table`, `secondary_columns` (JSON).
 
 ---
 
-## BAB IV: PENGUJIAN & VERIFIKASI SISTEM (UAT)
+## BAB VI: API
 
-### 4.1 Hasil Pengujian Otomatis (Automated Testing)
-Pengujian suite menggunakan PHPUnit / Laravel Pest:
+### 6.1 Endpoint Statistik Dinamis (`GET /statistik`)
+- **Query Parameters**: `kategori`, `dusun_id`, `year`, `json=1`.
+- **Respon JSON**: Mengembalikan data kategori, `secondaryConfigs`, array indikator, dan matriks `breakdowns` per indikator.
+
+### 6.2 Endpoint Layanan Mandiri & Pengaduan Warga
+- `POST /layanan-mandiri/permohonan`: Pengajuan permohonan surat warga (menghasilkan Nomor Tiket SRT-YYYYMMDD-XXXX).
+- `POST /pengaduan`: Formulir pengaduan warga online.
+
+---
+
+## BAB VII: PANDUAN INSTALASI
+
+### 7.1 Pemasangan Lingkungan Lokal (Development)
+```bash
+git clone https://github.com/kalamangna/cms-desa.git
+cd cms-desa
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate:fresh --seed
+npm run dev
+php artisan serve
+```
+
+### 7.2 Deployment Server Produksi (Hostinger/cPanel)
+```bash
+git clone https://github.com/kalamangna/cms-desa.git
+cd cms-desa
+composer install --no-dev --optimize-autoloader
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --force
+rm -rf ~/public_html
+ln -s ~/cms-desa/public ~/public_html
+php artisan config:cache && php artisan route:cache && php artisan view:cache
+```
+
+---
+
+## BAB VIII: PANDUAN PENGGUNA
+
+### 8.1 Petunjuk Operasional Admin Panel (Filament)
+- **Login**: Akses `/admin`, masukkan kredensial operator.
+- **Impor Excel**: Masuk menu Kependudukan $\rightarrow$ Klik Impor Excel $\rightarrow$ Unggah file kuesioner.
+- **Set Opsi Pembanding**: Masuk Master $\rightarrow$ Kategori Statistik $\rightarrow$ Centang `secondary_columns`.
+
+### 8.2 Petunjuk Penggunaan Portal Publik
+- **Statistik**: Akses `/statistik` $\rightarrow$ Pilih Kategori $\rightarrow$ Ubah Dropdown Pembanding $\rightarrow$ Ekspor CSV/XLSX/PDF.
+- **Layanan Mandiri**: Akses `/layanan-mandiri` $\rightarrow$ Input NIK & Jenis Surat $\rightarrow$ Dapatkan Nomor Tiket.
+
+---
+
+## BAB IX: PENGUJIAN
+
+### 9.1 Hasil Pengujian Otomatis (Automated Testing)
+Pengujian suite menggunakan PHPUnit / Pest:
 - **Test Case**: `Tests\Feature\StatisticDashboardTest`
-- **Status**: **PASS (100%)** — 3 Assertions Lulus.
+- **Hasil**: **PASS (100%)** — 3 Assertions Lulus.
 
-### 4.2 Matrix Pengujian Fitur Utamanya
-| No | Komponen Uji | Skenario | Hasil Diharapkan | Status |
+### 9.2 Pengujian Penerimaan Pengguna (User Acceptance Testing)
+| No | Fitur Uji | Skenario | Hasil | Status |
 |:---|:---|:---|:---|:---:|
-| 1 | Impor Data Mikro | Upload berkas Excel Kependudukan (300+ kolom) | Data Keluarga & Penduduk tersimpan rapi dan di-normalize ke *Title Case* | SUCCESS |
-| 2 | Opsi Pembanding Dinamis | Centang opsi pembanding di Filament Admin | Dropdown pembanding muncul di publik & merevisi grafik ApexCharts secara instant | SUCCESS |
-| 3 | Ekspor Kop Resmi | Klik Ekspor (CSV, Excel, PDF) | File terunduh berisi Kop Header Resmi Pemerintah Desa & data tabel aktif | SUCCESS |
-| 4 | Responsivitas Tabel | Scroll horizontal tabel statistik di HP | Kolom Indikator tetap terkunci (sticky) tanpa ada teks yang bocor/overflow | SUCCESS |
+| 1 | Impor Data Mikro | Upload Excel 300+ Kolom | Data tersimpan & ter-normalize *Title Case* | SUCCESS |
+| 2 | Opsi Pembanding | Centang opsi pembanding di Filament | Dropdown & Grafik Stacked Bar ter-update | SUCCESS |
+| 3 | Ekspor Kop Resmi | Klik Ekspor PDF/Excel | File terunduh ber-Kop Resmi Desa | SUCCESS |
+| 4 | Sticky Table Cell | Scroll horizontal tabel | Kolom Indikator terkunci tanpa overflow | SUCCESS |
 
 ---
 
-## BAB V: KESIMPULAN & REKOMENDASI
+## BAB X: PEMELIHARAAN
 
-### 5.1 Kesimpulan
-Sistem Informasi Portal Desa & CMS Berbasis Data Mikro versi 1.8.2 telah selesai dibangun dan diuji dengan hasil sempurna. Sistem ini memenuhi seluruh standar rekayasa perangkat lunak pemerintah (PSR-12, SOLID, Clean Code) serta siap dioperasikan secara penuh untuk mendukung transparansi dan tata kelola pemerintah desa berbasis data akurat.
+### 10.1 Solusi Kendala Hosting & Storage Link
+Jika gambar media tidak muncul di Hostinger (akibat `symlink()` ditutup), jalankan pembuat symlink via SSH: `ln -s ~/cms-desa/public ~/public_html`.
+
+### 10.2 Hardening Keamanan & Optimasi Cache
+Jalankan pembersihan cache rutin:
+```bash
+php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan cache:clear
+```
 
 ---
-*Dokumen ini merupakan dokumentasi teknis resmi Sistem Informasi Desa.*
+
+## LAMPIRAN
+
+### Lampiran A: Riwayat Perubahan (Changelog Summary)
+- **v1.8.2**: Fitur Multi-Pembanding Dinamis 2 Arah, Horizontal Stacked Bar Chart, Sticky Column Solid, dan Konsolidasi Dokumen.
+- **v1.8.1**: Reorganisasi 5 Tab Form Penduduk dan 4 Tab Form Keluarga.
+- **v1.8.0**: Multi-Program Bantuan Sosial CheckboxList & Normalisasi Status Pekerjaan Title Case.
+
+### Lampiran B: Tangkapan Layar Tampilan (Screenshot)
+- *Dashboard Statistik Public* (`/statistik`)
+- *Filament Admin Panel* (`/admin`)
+- *Halaman Transparansi APBDes* (`/apbdes`)
+
+### Lampiran C: Diagram Relasi Basis Data (ERD)
+`dusuns` (1:N) $\rightarrow$ `families` (1:N) $\rightarrow$ `citizens`.
+
+### Lampiran D: Struktur Folder Proyek (Directory Tree)
+```
+cms-desa/
+├── app/
+│   ├── Filament/Resources/
+│   ├── Models/
+│   └── Services/StatisticService.php
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── docs/
+│   ├── TECHNICAL_REPORT.md
+│   ├── SYSTEM_REQUIREMENTS.md
+│   ├── SYSTEM_DESIGN.md
+│   ├── DATABASE.md
+│   ├── API.md
+│   ├── INSTALLATION_GUIDE.md
+│   ├── USER_GUIDE.md
+│   ├── TESTING_REPORT.md
+│   ├── MAINTENANCE_GUIDE.md
+│   └── CHANGELOG.md
+├── resources/views/
+│   └── statistics/index.blade.php
+├── routes/web.php
+└── README.md
+```

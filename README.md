@@ -6,13 +6,18 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ## 📚 Dokumentasi Proyek (`docs/`)
 
-Dokumentasi lengkap pengembangan dan pengoperasian sistem informasi ini tersusun secara terstruktur di dalam folder `docs/`:
+Dokumentasi resmi sistem informasi ini disusun secara terstruktur di folder `docs/` mengikuti standar Rekayasa Perangkat Lunak 10 BAB (Bahasa Inggris pada nama berkas):
 
-- 📑 **[Laporan Teknis & Spesifikasi Sistem (SRS & SDD)](docs/TECHNICAL_REPORT.md)** — Dokumen spesifikasi kebutuhan, perancangan arsitektur, dan laporan hasil pengujian sistem untuk PAK/BAST.
-- 🗄️ **[Arsitektur Sistem, API, & Keamanan](docs/SYSTEM_ARCHITECTURE.md)** — Dokumentasi skema basis data (ERD), rincian endpoint API internal/publik, serta kebijakan hardening keamanan.
-- 💻 **[Panduan Deployment & Troubleshooting](docs/DEPLOYMENT_GUIDE.md)** — Instruksi instalasi lokal, panduan deployment server produksi (Hostinger hPanel/SSH), serta solusi pemecahan masalah (FAQ).
-- 📖 **[Buku Petunjuk Pengguna (User Guide)](docs/USER_GUIDE.md)** — Panduan pengoperasian untuk Operator Desa (Admin Panel Filament) dan Masyarakat Umum (Portal Publik).
-- 📜 **[Riwayat Perubahan (Changelog)](docs/CHANGELOG.md)** — Catatan riwayat versi dan pembaruan fitur (*Keep a Changelog*).
+- 📑 **[TECHNICAL_REPORT.md](docs/TECHNICAL_REPORT.md)** — **Dokumen Laporan Teknis Utama** yang memuat Cover, Lembar Pengesahan, Kata Pengantar, Daftar Isi, BAB I s/d BAB X, dan Lampiran (A-D).
+- 📋 **[SYSTEM_REQUIREMENTS.md](docs/SYSTEM_REQUIREMENTS.md)** — **BAB I & BAB II**: Pendahuluan, Maksud & Tujuan, Analisis Kebutuhan Fungsional (FR) & Non-Fungsional (NFR).
+- 📐 **[SYSTEM_DESIGN.md](docs/SYSTEM_DESIGN.md)** — **BAB III & BAB IV**: Perancangan Arsitektur MVC, Data Flow Diagram, Implementasi Stacked Bar 2 Arah & Sticky Column.
+- 🗄️ **[DATABASE.md](docs/DATABASE.md)** — **BAB V & Lampiran C**: Perancangan Basis Data, Relasi Entitas (ERD), dan Spesifikasi Tabel Utama.
+- 🌐 **[API.md](docs/API.md)** — **BAB VI**: Dokumentasi API Endpoint Statistik Publik (`/statistik`), Layanan Mandiri, & Pengaduan Warga.
+- 💻 **[INSTALLATION_GUIDE.md](docs/INSTALLATION_GUIDE.md)** — **BAB VII**: Panduan Pemasangan Lingkungan Lokal (Development) & Deployment Server Produksi (Hostinger/cPanel).
+- 📖 **[USER_GUIDE.md](docs/USER_GUIDE.md)** — **BAB VIII**: Panduan Penggunaan untuk Operator Desa (Admin Panel Filament 5 Tab Penduduk & 4 Tab Keluarga) dan Publik.
+- 🧪 **[TESTING_REPORT.md](docs/TESTING_REPORT.md)** — **BAB IX**: Hasil Pengujian Otomatis (*Automated Test* 100% PASS) & Matriks UAT (*User Acceptance Testing*).
+- 🛠️ **[MAINTENANCE_GUIDE.md](docs/MAINTENANCE_GUIDE.md)** — **BAB X**: Pemeliharaan Sistem, Hardening Keamanan, Handling Symbolic Link Hosting, & Optimasi Cache.
+- 📜 **[CHANGELOG.md](docs/CHANGELOG.md)** — **Lampiran A**: Riwayat Catatan Perubahan Versi (*Keep a Changelog*).
 
 ---
 
@@ -22,15 +27,15 @@ Dokumentasi lengkap pengembangan dan pengoperasian sistem informasi ini tersusun
 - **Transparansi APBDes**: Visualisasi realisasi anggaran pendapatan, belanja, dan pembiayaan desa lengkap dengan diagram donat alokasi dan progress bar pencapaian.
 - **Portal Informasi & Publikasi Desa**:
   - **Berita & Kegiatan**: Publikasi artikel berita dengan fitur SEO meta lengkap & schema JSON-LD, serta kompresi otomatis pratinjau WhatsApp.
-  - **Pengumuman Resmi**: Daftar pengumuman terintegrasi dengan fitur **Baca Cepat** berbasis accordion (tanpa membebani navigasi halaman detail terpisah).
+  - **Pengumuman Resmi**: Daftar pengumuman terintegrasi dengan fitur **Baca Cepat** berbasis accordion.
   - **Galeri Multi-tipe**: Galeri visual terintegrasi untuk foto kegiatan dan video tautan YouTube.
   - **Lembaga Desa**: Halaman profil lembaga kemasyarakatan desa (`/lembaga`) terstruktur dalam grid modern dengan logo opsional.
   - **Arsip Dokumen**: Portal unduhan keputusan kepala desa, peraturan desa, dan dokumen administrasi publik lainnya.
   - **Potensi Desa**: Galeri dan deskripsi sektor pariwisata, komoditas pertanian/perkebunan, peternakan, industri kreatif, seni & budaya.
 - **Data Mikro SDGs & Regsosek**:
   - Model kependudukan mikro terintegrasi: `Dusun` $\rightarrow$ `Keluarga (Family)` $\rightarrow$ `Penduduk (Citizen)`.
-  - Panel admin Filament untuk input kuesioner keluarga (karakteristik bangunan, sanitasi, listrik, kepemilikan aset) dan data penduduk (BPJS, PIP, disabilitas, riwayat penyakit).
-- **Layanan Mandiri & Pengaduan Warga**: Layanan permohonan surat administrasi desa, pelacakan status permohonan secara real-time via nomor tiket, formulir pengaduan warga online, serta buku tamu digital terintegrasi.
+  - Panel admin Filament untuk input kuesioner keluarga dan data penduduk.
+- **Layanan Mandiri & Pengaduan Warga**: Layanan permohonan surat administrasi desa, pelacakan status permohonan via nomor tiket, formulir pengaduan warga online, serta buku tamu digital terintegrasi.
 - **Peta Spasial Desa**: Pemetaan interaktif wilayah administratif dusun, batas wilayah, dan titik koordinat sebaran fasilitas umum berbasis Leaflet.js.
 
 ---
@@ -68,4 +73,4 @@ Dokumentasi lengkap pengembangan dan pengoperasian sistem informasi ini tersusun
    npm run dev
    php artisan serve
    ```
-*Untuk panduan lengkap instalasi dan deployment server produksi, silakan baca [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md).*
+*Untuk panduan lengkap instalasi dan deployment server produksi, silakan baca [docs/INSTALLATION_GUIDE.md](docs/INSTALLATION_GUIDE.md).*
