@@ -69,9 +69,6 @@ class Citizen extends Model
         'status',
         'citizenship_status',
         'domicile_address_type',
-        'domicile_province',
-        'domicile_city',
-        'domicile_country',
     ];
 
     protected $casts = [

@@ -116,9 +116,6 @@ class ListCitizens extends ListRecords
                     $colName = $this->findColumnIndex($header, ['301. nama anggota', 'nama anggota keluarga', 'nama']);
                     $colStatus = $this->findColumnIndex($header, ['303. keberadaan', 'keberadaan anggota keluarga']);
                     $colDomicileType = $this->findColumnIndex($header, ['304. alamat domisili', 'alamat domisili']);
-                    $colDomicileProvince = $this->findColumnIndex($header, ['305dn.a.', 'provinsi domisili']);
-                    $colDomicileCity = $this->findColumnIndex($header, ['305dn.b.', 'kabupaten/kota domisili']);
-                    $colDomicileCountry = $this->findColumnIndex($header, ['305ln.', 'negara domisili']);
 
                     $colGender = $this->findColumnIndex($header, ['306. jenis kelamin', 'jenis kelamin']);
                     $colDob = $this->findColumnIndex($header, ['307. tanggal lahir', 'tanggal lahir']);
@@ -267,9 +264,6 @@ class ListCitizens extends ListRecords
                                 'address' => $address,
                                 'citizenship_status' => $colStatus !== false ? trim($row[$colStatus]) : 'Tinggal di rumah/tempat tinggal ini',
                                 'domicile_address_type' => $domicileAddressType,
-                                'domicile_province' => $colDomicileProvince !== false ? trim($row[$colDomicileProvince]) ?: null : null,
-                                'domicile_city' => $colDomicileCity !== false ? trim($row[$colDomicileCity]) ?: null : null,
-                                'domicile_country' => $colDomicileCountry !== false ? trim($row[$colDomicileCountry]) ?: null : null,
                                 'gender' => $colGender !== false && !empty(trim($row[$colGender])) ? (strpos(strtolower(trim($row[$colGender])), 'perempuan') !== false || strtolower(trim($row[$colGender])) === 'p' ? 'Perempuan' : 'Laki-laki') : null,
                                 'date_of_birth' => $dob,
                                 'marital_status' => $colMarital !== false ? $this->parseMaritalStatus($row[$colMarital]) : null,
