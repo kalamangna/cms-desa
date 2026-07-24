@@ -153,9 +153,9 @@ class ListFamilies extends ListRecords
                     $colPlnCost = $this->findColumnIndex($header, ['214. nilai pengeluaran listrik']);
                     $colNetCost = $this->findColumnIndex($header, ['215. nilai pengeluaran pulsa']);
                     $colMemberCount = $this->findColumnIndex($header, ['106.a. berapa jumlah keluarga', 'jumlah keluarga yang tinggal dalam 1 rumah']);
-                    $colPlnPower1 = $this->findColumnIndex($header, ['213.b. jika listrik pln', 'berapa daya terpasang', '[meteran 1]']);
-                    $colPlnPower2 = $this->findColumnIndex($header, ['213.b. jika listrik pln', 'berapa daya terpasang', '[meteran 2]']);
-                    $colPlnPower3 = $this->findColumnIndex($header, ['213.b. jika listrik pln', 'berapa daya terpasang', '[meteran 3]']);
+                    $colPlnPower1 = $this->findColumnIndex($header, ['[meteran 1]']);
+                    $colPlnPower2 = $this->findColumnIndex($header, ['[meteran 2]']);
+                    $colPlnPower3 = $this->findColumnIndex($header, ['[meteran 3]']);
                     
                     $colPhotoFront = $this->findColumnIndex($header, ['216.a. foto tampak depan']);
                     $colPhotoLiving = $this->findColumnIndex($header, ['216.b. foto ruang tamu']);
