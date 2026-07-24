@@ -150,8 +150,10 @@ class CitizenForm
                                             ]),
                                         Select::make('has_digital_wallet')->label('Rekening / Dompet Digital Aktif')
                                             ->options([
-                                                1 => 'Ya',
-                                                0 => 'Tidak',
+                                                'Tidak ada' => 'Tidak Ada',
+                                                'Ya untuk pribadi' => 'Ya untuk Pribadi',
+                                                'Ya untuk usaha dan pribadi' => 'Ya untuk Usaha & Pribadi',
+                                                'Ya untuk usaha' => 'Ya untuk Usaha',
                                             ]),
                                         Select::make('status')->label('Status Keaktifan')
                                             ->options([

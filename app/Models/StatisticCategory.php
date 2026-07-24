@@ -124,6 +124,24 @@ class StatisticCategory extends Model
                                 'is_active' => true,
                             ]);
                         }
+                    } elseif ($col === 'has_digital_wallet') {
+                        $walletItems = [
+                            ['name' => 'Tidak Ada', 'mapping_value' => 'Tidak ada'],
+                            ['name' => 'Ya untuk Pribadi', 'mapping_value' => 'Ya untuk pribadi'],
+                            ['name' => 'Ya untuk Usaha & Pribadi', 'mapping_value' => 'Ya untuk usaha dan pribadi'],
+                            ['name' => 'Ya untuk Usaha', 'mapping_value' => 'Ya untuk usaha'],
+                        ];
+                        foreach ($walletItems as $idx => $item) {
+                            $category->indicators()->create([
+                                'name' => $item['name'],
+                                'unit' => 'Jiwa',
+                                'mapping_column' => 'has_digital_wallet',
+                                'mapping_operator' => '=',
+                                'mapping_value' => $item['mapping_value'],
+                                'order' => $idx + 1,
+                                'is_active' => true,
+                            ]);
+                        }
                     } else {
                         $query = \Illuminate\Support\Facades\DB::table($category->mapping_table)
                             ->whereNull('deleted_at')
