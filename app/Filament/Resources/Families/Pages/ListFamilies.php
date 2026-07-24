@@ -213,17 +213,6 @@ class ListFamilies extends ListRecords
                                     $rt = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
                                     $rw = str_pad($matches[2], 3, '0', STR_PAD_LEFT);
                                 }
-
-                                // Match Dusun from address text if not selected
-                                if (!$dusunId) {
-                                    $dusunList = Dusun::all();
-                                    foreach ($dusunList as $dus) {
-                                        if (stripos($address, $dus->name) !== false) {
-                                            $dusunId = $dus->id;
-                                            break;
-                                        }
-                                    }
-                                }
                             }
 
                             $power1 = $colPlnPower1 !== false && isset($row[$colPlnPower1]) && trim($row[$colPlnPower1]) !== '' ? trim($row[$colPlnPower1]) : null;

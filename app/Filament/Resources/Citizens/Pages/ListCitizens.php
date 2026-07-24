@@ -216,16 +216,6 @@ class ListCitizens extends ListRecords
                                 }
                             }
 
-                            // Fallback matching for Dusun from address
-                            if (!$dusunId && !empty($address)) {
-                                $dusunList = Dusun::all();
-                                foreach ($dusunList as $dus) {
-                                    if (stripos($address, $dus->name) !== false) {
-                                        $dusunId = $dus->id;
-                                        break;
-                                    }
-                                }
-                            }
 
                             // Parse Date of Birth correctly
                             $dob = null;
