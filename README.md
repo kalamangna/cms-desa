@@ -57,4 +57,4 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
    npm run dev
    php artisan serve
    ```
-*Untuk panduan lengkap instalasi dan deployment server produksi, silakan baca [docs/7_INSTALLATION_GUIDE.md](docs/7_INSTALLATION_GUIDE.md).*
+
