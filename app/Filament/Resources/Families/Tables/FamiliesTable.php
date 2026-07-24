@@ -35,10 +35,6 @@ class FamiliesTable
                     ->badge()
                     ->color(fn (Family $record) => $record->citizens()->count() > 0 ? 'success' : 'gray')
                     ->sortable(),
-                TextColumn::make('assistance_type')->label('Bansos')->searchable()->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('cow_count')->label('Sapi')->sortable()->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('goat_count')->label('Kambing')->sortable()->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('buffalo_count')->label('Kerbau')->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('photo_kk')
                     ->label('Foto KK')
                     ->formatStateUsing(fn ($state) => empty($state) ? '-' : (str_starts_with($state, 'http') ? '🔗 Google Drive' : '🖼️ Foto Lokal'))
