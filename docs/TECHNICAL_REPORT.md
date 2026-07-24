@@ -255,16 +255,17 @@ php artisan config:cache && php artisan route:cache && php artisan view:cache
 
 ### 9.1 Hasil Pengujian Otomatis (Automated Testing)
 Pengujian suite menggunakan PHPUnit / Pest:
-- **Test Case**: `Tests\Feature\StatisticDashboardTest`
-- **Hasil**: **PASS (100%)** — 3 Assertions Lulus.
+- **Status Akhir**: **PASS (100%)** — 40 Test Cases (72 Assertions Lulus) di 15 Test Classes.
+- **Waktu Eksekusi**: 3.38 detik.
 
-### 9.2 Pengujian Penerimaan Pengguna (User Acceptance Testing)
-| No | Fitur Uji | Skenario | Hasil | Status |
-|:---|:---|:---|:---|:---:|
+### 9.2 Pengujian Penerimaan Pengguna (User Acceptance Testing / UAT)
+| No | Komponen & Fitur Uji | Skenario Pengujian | Hasil yang Diharapkan | Status |
+|:---:|:---|:---|:---|:---:|
 | 1 | Impor Data Mikro | Upload Excel 300+ Kolom | Data tersimpan & ter-normalize *Title Case* | SUCCESS |
 | 2 | Opsi Pembanding | Centang opsi pembanding di Filament | Dropdown & Grafik Stacked Bar ter-update | SUCCESS |
-| 3 | Ekspor Kop Resmi | Klik Ekspor PDF/Excel | File terunduh ber-Kop Resmi Desa | SUCCESS |
-| 4 | Sticky Table Cell | Scroll horizontal tabel | Kolom Indikator terkunci tanpa overflow | SUCCESS |
+| 3 | Horizontal Stacked Bar | Aktifkan pembanding 2 arah | Grafik menjadi *Horizontal Stacked Bar* | SUCCESS |
+| 4 | Ekspor Kop Resmi | Klik Ekspor PDF/Excel | File terunduh ber-Kop Resmi Desa | SUCCESS |
+| 5 | Sticky Table Cell | Scroll horizontal tabel | Kolom Indikator terkunci tanpa overflow | SUCCESS |
 
 ---
 
@@ -284,7 +285,7 @@ php artisan config:clear && php artisan route:clear && php artisan view:clear &&
 ## LAMPIRAN
 
 ### Lampiran A: Riwayat Perubahan (Changelog Summary)
-- **v1.8.2**: Fitur Multi-Pembanding Dinamis 2 Arah, Horizontal Stacked Bar Chart, Sticky Column Solid, dan Konsolidasi Dokumen.
+- **v1.8.2**: Fitur Multi-Pembanding Dinamis 2 Arah, Horizontal Stacked Bar Chart, Sticky Column Solid, dan Konsolidasi Dokumen per BAB.
 - **v1.8.1**: Reorganisasi 5 Tab Form Penduduk dan 4 Tab Form Keluarga.
 - **v1.8.0**: Multi-Program Bantuan Sosial CheckboxList & Normalisasi Status Pekerjaan Title Case.
 
@@ -307,15 +308,19 @@ cms-desa/
 │   ├── migrations/
 │   └── seeders/
 ├── docs/
+│   ├── 0_COVER_AND_PREFACE.md
+│   ├── 1_INTRODUCTION.md
+│   ├── 2_REQUIREMENTS_ANALYSIS.md
+│   ├── 3_SYSTEM_DESIGN.md
+│   ├── 4_IMPLEMENTATION.md
+│   ├── 5_DATABASE.md
+│   ├── 6_API.md
+│   ├── 7_INSTALLATION_GUIDE.md
+│   ├── 8_USER_GUIDE.md
+│   ├── 9_TESTING.md
+│   ├── 10_MAINTENANCE.md
+│   ├── 11_APPENDIX.md
 │   ├── TECHNICAL_REPORT.md
-│   ├── SYSTEM_REQUIREMENTS.md
-│   ├── SYSTEM_DESIGN.md
-│   ├── DATABASE.md
-│   ├── API.md
-│   ├── INSTALLATION_GUIDE.md
-│   ├── USER_GUIDE.md
-│   ├── TESTING_REPORT.md
-│   ├── MAINTENANCE_GUIDE.md
 │   └── CHANGELOG.md
 ├── resources/views/
 │   └── statistics/index.blade.php

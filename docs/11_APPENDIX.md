@@ -1,9 +1,9 @@
-# LAMPIRAN (APPENDIX.md)
+# LAMPIRAN (11_APPENDIX.md)
 
 ---
 
 ## 📜 LAMPIRAN A: RIWAYAT PERUBAHAN (CHANGELOG SUMMARY)
-- **v1.8.2**: Fitur Multi-Pembanding Dinamis 2 Arah, Horizontal Stacked Bar Chart, Sticky Column Solid, dan Konsolidasi Dokumen.
+- **v1.8.2**: Fitur Multi-Pembanding Dinamis 2 Arah, Horizontal Stacked Bar Chart, Sticky Column Solid, dan Konsolidasi Dokumen per BAB.
 - **v1.8.1**: Reorganisasi 5 Tab Form Penduduk dan 4 Tab Form Keluarga.
 - **v1.8.0**: Multi-Program Bantuan Sosial CheckboxList & Normalisasi Status Pekerjaan Title Case.
 
@@ -32,18 +32,18 @@ cms-desa/
 │   ├── migrations/
 │   └── seeders/
 ├── docs/
-│   ├── COVER_AND_PREFACE.md
-│   ├── CHAPTER_1_INTRODUCTION.md
-│   ├── CHAPTER_2_REQUIREMENTS_ANALYSIS.md
-│   ├── CHAPTER_3_SYSTEM_DESIGN.md
-│   ├── CHAPTER_4_IMPLEMENTATION.md
-│   ├── CHAPTER_5_DATABASE.md
-│   ├── CHAPTER_6_API.md
-│   ├── CHAPTER_7_INSTALLATION_GUIDE.md
-│   ├── CHAPTER_8_USER_GUIDE.md
-│   ├── CHAPTER_9_TESTING.md
-│   ├── CHAPTER_10_MAINTENANCE.md
-│   ├── APPENDIX.md
+│   ├── 0_COVER_AND_PREFACE.md
+│   ├── 1_INTRODUCTION.md
+│   ├── 2_REQUIREMENTS_ANALYSIS.md
+│   ├── 3_SYSTEM_DESIGN.md
+│   ├── 4_IMPLEMENTATION.md
+│   ├── 5_DATABASE.md
+│   ├── 6_API.md
+│   ├── 7_INSTALLATION_GUIDE.md
+│   ├── 8_USER_GUIDE.md
+│   ├── 9_TESTING.md
+│   ├── 10_MAINTENANCE.md
+│   ├── 11_APPENDIX.md
 │   ├── TECHNICAL_REPORT.md
 │   └── CHANGELOG.md
 ├── resources/views/
