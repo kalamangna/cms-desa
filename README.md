@@ -63,4 +63,4 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ---
 
-Dikembangkan oleh [kalamangna](https://github.com/kalamangna) | Lisensi MIT
+Dikembangkan oleh [kalamangna](https://github.com/kalamangna)
