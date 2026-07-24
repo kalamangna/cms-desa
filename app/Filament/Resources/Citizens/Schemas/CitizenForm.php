@@ -71,13 +71,13 @@ class CitizenForm
                                             ]),
                                         Select::make('education_level')->label('Ijazah Tertinggi yang Dimiliki')
                                             ->options([
-                                                'Tidak punya ijazah SD' => 'Tidak Punya Ijazah SD',
-                                                'SD/sederajat' => 'SD / Sederajat',
-                                                'SMP/sederajat' => 'SMP / Sederajat',
-                                                'SMA/sederajat' => 'SMA / Sederajat',
-                                                'D1/D2/D3' => 'D1 / D2 / D3',
-                                                'D4/S1/Profesi' => 'D4 / S1 / Profesi',
-                                                'S2/S3' => 'S2 / S3',
+                                                'Tidak Punya Ijazah SD' => 'Tidak Punya Ijazah SD',
+                                                'SD / Sederajat' => 'SD / Sederajat',
+                                                'SMP / Sederajat' => 'SMP / Sederajat',
+                                                'SMA / Sederajat' => 'SMA / Sederajat',
+                                                'D1 / D2 / D3' => 'D1 / D2 / D3',
+                                                'D4 / S1 / Profesi' => 'D4 / S1 / Profesi',
+                                                'S2 / S3' => 'S2 / S3',
                                             ])
                                             ->searchable(),
                                         Select::make('bpjs_status')->label('Kepesertaan JKN KIS (BPJS)')

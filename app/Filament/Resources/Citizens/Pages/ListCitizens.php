@@ -438,22 +438,22 @@ class ListCitizens extends ListRecords
         if (empty($clean)) return null;
 
         if (strpos($clean, 's2') !== false || strpos($clean, 's3') !== false || strpos($clean, 'master') !== false || strpos($clean, 'doktor') !== false) {
-            return 'S2/S3';
+            return 'S2 / S3';
         } elseif (strpos($clean, 's1') !== false || strpos($clean, 'd4') !== false || strpos($clean, 'profesi') !== false || strpos($clean, 'sarjana') !== false) {
-            return 'D4/S1/Profesi';
+            return 'D4 / S1 / Profesi';
         } elseif (strpos($clean, 'd1') !== false || strpos($clean, 'd2') !== false || strpos($clean, 'd3') !== false || strpos($clean, 'diploma') !== false || strpos($clean, 'akademik') !== false) {
-            return 'D1/D2/D3';
+            return 'D1 / D2 / D3';
         } elseif (strpos($clean, 'sma') !== false || strpos($clean, 'smk') !== false || strpos($clean, 'aliyah') !== false || strpos($clean, 'menengah atas') !== false) {
-            return 'SMA/sederajat';
+            return 'SMA / Sederajat';
         } elseif (strpos($clean, 'smp') !== false || strpos($clean, 'tsanawiyah') !== false || strpos($clean, 'menengah pertama') !== false) {
-            return 'SMP/sederajat';
+            return 'SMP / Sederajat';
         } elseif (strpos($clean, 'sd') !== false || strpos($clean, 'dasar') !== false || strpos($clean, 'primary') !== false) {
             if (strpos($clean, 'tidak') !== false || strpos($clean, 'belum') !== false || strpos($clean, 'tanpa') !== false) {
-                return 'Tidak punya ijazah SD';
+                return 'Tidak Punya Ijazah SD';
             }
-            return 'SD/sederajat';
+            return 'SD / Sederajat';
         } elseif (strpos($clean, 'tidak') !== false || strpos($clean, 'belum') !== false || strpos($clean, 'tanpa') !== false) {
-            return 'Tidak punya ijazah SD';
+            return 'Tidak Punya Ijazah SD';
         }
 
         return trim($val);
