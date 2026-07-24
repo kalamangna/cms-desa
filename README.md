@@ -63,6 +63,4 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ---
 
-<div align="center">
-  <b>Dikembangkan oleh <a href="https://github.com/kalamangna">Kalamangna</a></b>
-</div>
+**Dikembangkan oleh [kalamangna](https://github.com/kalamangna)**
