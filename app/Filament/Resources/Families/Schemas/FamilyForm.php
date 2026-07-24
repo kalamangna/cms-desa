@@ -55,14 +55,51 @@ class FamilyForm
                             ->schema([
                                 Grid::make(3)
                                     ->schema([
-                                        TextInput::make('building_type')->label('Jenis Bangunan Tempat Tinggal'),
-                                        TextInput::make('ownership_status')->label('Status Kepemilikan Bangunan'),
-                                        TextInput::make('ownership_proof')->label('Bukti Kepemilikan'),
-                                        TextInput::make('floor_area')->label('Luas Lantai Bangunan (m²)')
-                                            ->numeric(),
-                                        TextInput::make('floor_material')->label('Bahan Lantai Utama Terluas'),
-                                        TextInput::make('wall_material')->label('Bahan Dinding Utama Terluas'),
-                                        TextInput::make('roof_material')->label('Bahan Atap Utama Terluas'),
+                                         Select::make('building_type')->label('Jenis Bangunan Tempat Tinggal')
+                                             ->options([
+                                                 'Rumah Tinggal Tunggal' => 'Rumah Tinggal Tunggal',
+                                                 'Lainnya' => 'Lainnya',
+                                             ])
+                                             ->searchable(),
+                                         Select::make('ownership_status')->label('Status Kepemilikan Bangunan')
+                                             ->options([
+                                                 'Milik Sendiri' => 'Milik Sendiri',
+                                                 'Bebas Sewa' => 'Bebas Sewa',
+                                                 'Sewa / Kontrak' => 'Sewa / Kontrak',
+                                             ])
+                                             ->searchable(),
+                                         Select::make('ownership_proof')->label('Bukti Kepemilikan')
+                                             ->options([
+                                                 'SHM' => 'SHM',
+                                                 'Tidak Punya' => 'Tidak Punya',
+                                             ])
+                                             ->searchable(),
+                                         TextInput::make('floor_area')->label('Luas Lantai Bangunan (m²)')
+                                             ->numeric(),
+                                         Select::make('floor_material')->label('Bahan Lantai Utama Terluas')
+                                             ->options([
+                                                 'Semen / Bata Merah' => 'Semen / Bata Merah',
+                                                 'Keramik' => 'Keramik',
+                                                 'Kayu / Papan' => 'Kayu / Papan',
+                                                 'Ubin / Tegel / Teraso' => 'Ubin / Tegel / Teraso',
+                                                 'Parket / Vinil / Karpet' => 'Parket / Vinil / Karpet',
+                                                 'Tanah' => 'Tanah',
+                                             ])
+                                             ->searchable(),
+                                         Select::make('wall_material')->label('Bahan Dinding Utama Terluas')
+                                             ->options([
+                                                 'Tembok' => 'Tembok',
+                                                 'Kayu / Papan / Gipsum / GRC / Calciboard' => 'Kayu / Papan / Gipsum / GRC / Calciboard',
+                                                 'Seng' => 'Seng',
+                                             ])
+                                             ->searchable(),
+                                         Select::make('roof_material')->label('Bahan Atap Utama Terluas')
+                                             ->options([
+                                                 'Seng' => 'Seng',
+                                                 'Genteng' => 'Genteng',
+                                                 'Asbes' => 'Asbes',
+                                             ])
+                                             ->searchable(),
                                         Select::make('floor_condition')->label('Kondisi Lantai')
                                             ->options(['Baik' => 'Baik', 'Rusak Ringan' => 'Rusak Ringan', 'Rusak Sedang' => 'Rusak Sedang', 'Rusak Berat' => 'Rusak Berat']),
                                         Select::make('wall_condition')->label('Kondisi Dinding')

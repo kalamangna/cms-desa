@@ -359,11 +359,11 @@ class ListFamilies extends ListRecords
         if (empty($clean)) return null;
 
         if (strpos($clean, 'milik sendiri') !== false || strpos($clean, 'sendiri') !== false) {
-            return 'Milik sendiri';
-        } elseif (strpos($clean, 'sewa') !== false || strpos($clean, 'kontrak') !== false) {
-            return 'Sewa/Kontrak';
+            return 'Milik Sendiri';
+        } elseif (strpos($clean, 'sewa') !== false && strpos($clean, 'bebas') === false) {
+            return 'Sewa / Kontrak';
         }
-        return 'Bebas Sewa/Dinas/Lainnya';
+        return 'Bebas Sewa';
     }
 
     private function parseAssistanceType(?string $val): ?string
