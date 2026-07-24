@@ -56,10 +56,6 @@ Route::get('/publikasi', [PublicationController::class, 'index'])->name('publica
 
 Route::get('/apbdes', [APBDesController::class, 'index'])->name('apbdes.index');
 
-Route::get('/dokumentasi', [\App\Http\Controllers\DocumentationController::class, 'index'])->name('documentation.index');
-Route::get('/dokumentasi/{key}', [\App\Http\Controllers\DocumentationController::class, 'show'])->name('documentation.show');
-Route::get('/dokumentasi/{key}/pdf', [\App\Http\Controllers\DocumentationController::class, 'downloadPdf'])->name('documentation.pdf');
-
 Route::get('/init', function () {
     $src = storage_path('app/public');
     $dst = public_path('storage');
