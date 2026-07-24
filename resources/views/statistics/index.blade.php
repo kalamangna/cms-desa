@@ -715,15 +715,17 @@
             const hasGender = filteredIndicators.some(i =>
                 i.name.toLowerCase().includes('laki') || i.name.toLowerCase().includes('perempuan')
             );
-            const colors = showGenderSplit
-                ? ['#0ea5e9', '#ec4899']
-                : (hasGender
-                    ? filteredIndicators.map((i, idx) => {
-                        if (i.name.toLowerCase().includes('laki')) return '#0ea5e9';
-                        if (i.name.toLowerCase().includes('perempuan')) return '#ec4899';
-                        return i.color || palette[idx % palette.length];
-                      })
-                    : filteredIndicators.map((i, idx) => i.color || palette[idx % palette.length]));
+            const colors = (showGenderSplit && type === 'bar')
+                ? filteredIndicators.map((i, idx) => i.color || palette[idx % palette.length])
+                : (showGenderSplit
+                    ? ['#0ea5e9', '#ec4899']
+                    : (hasGender
+                        ? filteredIndicators.map((i, idx) => {
+                            if (i.name.toLowerCase().includes('laki')) return '#0ea5e9';
+                            if (i.name.toLowerCase().includes('perempuan')) return '#ec4899';
+                            return i.color || palette[idx % palette.length];
+                          })
+                        : filteredIndicators.map((i, idx) => i.color || palette[idx % palette.length])));
 
             const xCats = (showGenderSplit || (compareYearNum !== null && activeYears.length === 1))
                 ? filteredIndicators.map(i => i.name)
