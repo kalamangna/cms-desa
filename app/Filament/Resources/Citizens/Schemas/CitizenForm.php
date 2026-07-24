@@ -69,7 +69,17 @@ class CitizenForm
                                                 'Masih sekolah' => 'Masih sekolah',
                                                 'Tidak bersekolah lagi' => 'Tidak bersekolah lagi',
                                             ]),
-                                        TextInput::make('education_level')->label('Ijazah Tertinggi yang Dimiliki'),
+                                        Select::make('education_level')->label('Ijazah Tertinggi yang Dimiliki')
+                                            ->options([
+                                                'Tidak punya ijazah SD' => 'Tidak Punya Ijazah SD',
+                                                'SD/sederajat' => 'SD / Sederajat',
+                                                'SMP/sederajat' => 'SMP / Sederajat',
+                                                'SMA/sederajat' => 'SMA / Sederajat',
+                                                'D1/D2/D3' => 'D1 / D2 / D3',
+                                                'D4/S1/Profesi' => 'D4 / S1 / Profesi',
+                                                'S2/S3' => 'S2 / S3',
+                                            ])
+                                            ->searchable(),
                                         TextInput::make('bpjs_status')->label('Kepesertaan JKN KIS (BPJS)'),
                                         Select::make('pip_status')->label('Menerima Bantuan PIP?')
                                             ->options([1 => 'Ya', 0 => 'Tidak']),
@@ -81,7 +91,17 @@ class CitizenForm
                                 Grid::make(2)
                                     ->schema([
                                         TextInput::make('job')->label('Profesi Pekerjaan Utama'),
-                                        TextInput::make('job_status')->label('Kedudukan dalam Pekerjaan Utama'),
+                                        Select::make('job_status')->label('Kedudukan dalam Pekerjaan Utama')
+                                            ->options([
+                                                'Berusaha Sendiri' => 'Berusaha Sendiri',
+                                                'Buruh / Karyawan / Pegawai Swasta' => 'Buruh / Karyawan / Pegawai Swasta',
+                                                'Pekerja Bebas' => 'Pekerja Bebas',
+                                                'Pekerja Keluarga / Tidak Dibayar' => 'Pekerja Keluarga / Tidak Dibayar',
+                                                'ASN / TNI / Polri / BUMN / BUMD / Pejabat Negara' => 'ASN / TNI / Polri / BUMN / BUMD / Pejabat Negara',
+                                                'Berusaha Dibantu Buruh' => 'Berusaha Dibantu Buruh',
+                                                'Lainnya' => 'Lainnya',
+                                            ])
+                                            ->searchable(),
                                         Select::make('has_income')->label('Apakah Memiliki Pendapatan?')
                                             ->options([1 => 'Ya', 0 => 'Tidak']),
                                         TextInput::make('income_salary')->label('Gaji/Upah Sebulan (Rp)')->numeric()->default(0),
