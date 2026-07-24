@@ -357,7 +357,7 @@
                                 Tabel {{ $category->name }}{{ $isCitizens ? ' Berdasarkan Jenis Kelamin' : '' }}
                             </h3>
                             <p class="text-slate-400 text-xs font-medium mt-0.5">
-                                {{ $isCitizens ? 'Tahun ' . $tableYear : 'Data per indikator berdasarkan tahun' }}
+                                Tahun {{ $tableYear }}
                             </p>
                         </div>
                         {{-- Tombol Ekspor --}}
