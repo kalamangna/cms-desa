@@ -424,6 +424,8 @@
                                     $valL = $dp ? (int)($dp->value_male   ?? 0) : 0;
                                     $valP = $dp ? (int)($dp->value_female ?? 0) : 0;
                                     $valT = $dp ? (int)($dp->value        ?? 0) : 0;
+                                    $pctL = $grandTotal > 0 ? round(($valL / $grandTotal) * 100, 1) : 0;
+                                    $pctP = $grandTotal > 0 ? round(($valP / $grandTotal) * 100, 1) : 0;
                                     $pctT = $grandTotal > 0 ? round(($valT / $grandTotal) * 100, 1) : 0;
                                 @endphp
                                 <tr class="hover:bg-slate-50/50 transition-colors duration-100 group">
@@ -432,14 +434,20 @@
                                     </td>
                                     <td class="px-5 py-3.5 text-right whitespace-nowrap">
                                         <span class="text-xs font-bold text-sky-700">{{ number_format($valL, 0, ',', '.') }}</span>
+                                        @if($grandTotal > 0)
+                                            <span class="text-[10px] text-sky-400 font-medium ml-1">({{ str_replace('.', ',', (string)$pctL) }}%)</span>
+                                        @endif
                                     </td>
                                     <td class="px-5 py-3.5 text-right whitespace-nowrap">
                                         <span class="text-xs font-bold text-pink-600">{{ number_format($valP, 0, ',', '.') }}</span>
+                                        @if($grandTotal > 0)
+                                            <span class="text-[10px] text-pink-400 font-medium ml-1">({{ str_replace('.', ',', (string)$pctP) }}%)</span>
+                                        @endif
                                     </td>
                                     <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
                                         {{ number_format($valT, 0, ',', '.') }}
                                         @if($grandTotal > 0)
-                                            <span class="text-[10px] text-slate-400 font-medium ml-1">({{ $pctT }}%)</span>
+                                            <span class="text-[10px] text-slate-400 font-medium ml-1">({{ str_replace('.', ',', (string)$pctT) }}%)</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -976,6 +984,8 @@
                         totL += valL;
                         totP += valP;
                         totT += valT;
+                        const pctL = grandTotal > 0 ? (Math.round((valL / grandTotal) * 1000) / 10) : 0;
+                        const pctP = grandTotal > 0 ? (Math.round((valP / grandTotal) * 1000) / 10) : 0;
                         const pctT = grandTotal > 0 ? (Math.round((valT / grandTotal) * 1000) / 10) : 0;
 
                         html += `<tr class="hover:bg-slate-50/50 transition-colors duration-100 group">
@@ -984,9 +994,11 @@
                             </td>
                             <td class="px-5 py-3.5 text-right whitespace-nowrap">
                                 <span class="text-xs font-bold text-sky-700">${valL.toLocaleString('id-ID')}</span>
+                                ${grandTotal > 0 ? `<span class="text-[10px] text-sky-400 font-medium ml-1">(${pctL.toString().replace('.', ',')}%)</span>` : ''}
                             </td>
                             <td class="px-5 py-3.5 text-right whitespace-nowrap">
                                 <span class="text-xs font-bold text-pink-600">${valP.toLocaleString('id-ID')}</span>
+                                ${grandTotal > 0 ? `<span class="text-[10px] text-pink-400 font-medium ml-1">(${pctP.toString().replace('.', ',')}%)</span>` : ''}
                             </td>
                             <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
                                 ${valT.toLocaleString('id-ID')}
