@@ -81,7 +81,9 @@ class FamilyForm
                                         TextInput::make('feces_disposal')->label('Tempat Pembuangan Akhir Tinja'),
                                         TextInput::make('water_source')->label('Sumber Air Minum Utama'),
                                         TextInput::make('lighting_source')->label('Sumber Penerangan Utama'),
-                                        TextInput::make('electricity_power')->label('Daya Listrik (VA/Watt)'),
+                                        TextInput::make('electricity_power_meter_1')->label('Daya Listrik Meteran 1'),
+                                        TextInput::make('electricity_power_meter_2')->label('Daya Listrik Meteran 2'),
+                                        TextInput::make('electricity_power_meter_3')->label('Daya Listrik Meteran 3'),
                                         TextInput::make('electricity_id')->label('ID Pelanggan PLN'),
                                         TextInput::make('electricity_cost')->label('Nilai Pengeluaran Listrik Sebulan (Rp)')
                                             ->numeric(),
