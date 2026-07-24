@@ -105,12 +105,12 @@ class StatisticCategory extends Model
                         }
                     } elseif ($col === 'job_status') {
                         $jobStatusItems = [
-                            ['name' => 'Berusaha Sendiri', 'mapping_value' => 'Berusaha sendiri'],
-                            ['name' => 'Buruh / Karyawan / Pegawai Swasta', 'mapping_value' => 'Buruh/karyawan/pegawai swasta'],
-                            ['name' => 'Pekerja Bebas', 'mapping_value' => 'Pekerja bebas'],
-                            ['name' => 'Pekerja Keluarga / Tidak Dibayar', 'mapping_value' => 'Pekerja keluarga/tidak dibayar'],
-                            ['name' => 'ASN / TNI / Polri / BUMN / BUMD / Pejabat Negara', 'mapping_value' => 'ASN/TNI/Polri/BUMN/BUMD/pejabat negara'],
-                            ['name' => 'Berusaha Dibantu Buruh', 'mapping_value' => 'Berusaha dibantu buruh'],
+                            ['name' => 'Berusaha Sendiri', 'mapping_value' => 'Berusaha Sendiri'],
+                            ['name' => 'Buruh / Karyawan / Pegawai Swasta', 'mapping_value' => 'Buruh / Karyawan / Pegawai Swasta'],
+                            ['name' => 'Pekerja Bebas', 'mapping_value' => 'Pekerja Bebas'],
+                            ['name' => 'Pekerja Keluarga / Tidak Dibayar', 'mapping_value' => 'Pekerja Keluarga / Tidak Dibayar'],
+                            ['name' => 'ASN / TNI / Polri / BUMN / BUMD / Pejabat Negara', 'mapping_value' => 'ASN / TNI / Polri / BUMN / BUMD / Pejabat Negara'],
+                            ['name' => 'Berusaha Dibantu Buruh', 'mapping_value' => 'Berusaha Dibantu Buruh'],
                             ['name' => 'Lainnya', 'mapping_value' => 'Lainnya'],
                         ];
                         foreach ($jobStatusItems as $idx => $item) {
