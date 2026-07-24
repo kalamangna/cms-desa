@@ -448,33 +448,48 @@
                         </table>
 
                         @else
-                        {{-- ── Tabel non-citizens: Indikator | [tahun-tahun] ── --}}
+                        {{-- ── Tabel non-citizens (Keluarga, dll): Indikator | Jumlah | Persentase ── --}}
+                        @php
+                            $firstIndicatorUnit = $category->indicators->first()->unit ?? 'Keluarga';
+                        @endphp
                         <table id="tabel-{{ $category->slug }}" class="w-full text-sm border-collapse">
                             <thead>
                                 <tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50/70">
                                     <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 sticky left-0 bg-slate-50/70 z-10 min-w-[200px]">Indikator</th>
-                                    <th class="text-left px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap">Satuan</th>
-                                    @foreach($allYears as $yr)
-                                    <th class="text-right px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap border-l border-slate-100">{{ $yr }}</th>
-                                    @endforeach
+                                    <th class="text-right px-6 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 whitespace-nowrap leading-tight">
+                                        Jumlah<br>
+                                        <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">({{ $firstIndicatorUnit }})</span>
+                                    </th>
+                                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap leading-tight">
+                                        Persentase<br>
+                                        <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(%)</span>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-{{ $category->slug }}" class="divide-y divide-slate-50">
+                                @php
+                                    $grandTotal = 0;
+                                    foreach ($category->indicators as $ind) {
+                                        $dp = $ind->data->firstWhere('year', $tableYear);
+                                        $grandTotal += $dp ? (int)($dp->value ?? 0) : 0;
+                                    }
+                                @endphp
                                 @foreach($category->indicators as $indicator)
+                                @php
+                                    $dp  = $indicator->data->firstWhere('year', $tableYear);
+                                    $valT = $dp ? (int)($dp->value ?? 0) : 0;
+                                    $pctT = $grandTotal > 0 ? round(($valT / $grandTotal) * 100, 1) : 0;
+                                @endphp
                                 <tr class="hover:bg-slate-50/50 transition-colors duration-100 group">
                                     <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50/50 transition-colors text-xs leading-snug">
                                         {{ $indicator->name }}
                                     </td>
-                                    <td class="px-4 py-3.5 text-xs text-slate-400 font-medium whitespace-nowrap">{{ $indicator->unit }}</td>
-                                    @foreach($allYears as $yr)
-                                    @php
-                                        $dp  = $indicator->data->firstWhere('year', $yr);
-                                        $val = $dp ? (int)$dp->value : null;
-                                    @endphp
-                                    <td class="px-4 py-3.5 text-right text-xs font-bold text-slate-800 whitespace-nowrap border-l border-slate-100">
-                                        {{ $val !== null ? number_format($val, 0, ',', '.') : '—' }}
+                                    <td class="px-6 py-3.5 text-right whitespace-nowrap">
+                                        <span class="text-xs font-bold text-emerald-600">{{ number_format($valT, 0, ',', '.') }}</span>
                                     </td>
-                                    @endforeach
+                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
+                                        {{ str_replace('.', ',', (string)$pctT) }}%
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -953,22 +968,26 @@
                         </tr>`;
                     });
                 } else {
-                    const activeYears = cat.years.length ? cat.years.map(Number) : [tableYear];
+                    const grandTotal = sortedIndicators.reduce((sum, ind) => {
+                        const d = ind.data.find(d => Number(d.year) === tableYear);
+                        return sum + (d ? d.value : 0);
+                    }, 0);
+
                     sortedIndicators.forEach(ind => {
-                        let cells = '';
-                        activeYears.forEach(yr => {
-                            const d = ind.data.find(d => Number(d.year) === yr);
-                            const val = d ? d.value : null;
-                            cells += `<td class="px-4 py-3.5 text-right text-xs font-bold text-slate-800 whitespace-nowrap border-l border-slate-100">
-                                ${val !== null ? val.toLocaleString('id-ID') : '—'}
-                            </td>`;
-                        });
+                        const d = ind.data.find(d => Number(d.year) === tableYear);
+                        const valT = d ? (d.value ?? 0) : 0;
+                        const pctT = grandTotal > 0 ? (Math.round((valT / grandTotal) * 1000) / 10) : 0;
+
                         html += `<tr class="hover:bg-slate-50/50 transition-colors duration-100 group">
                             <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50/50 transition-colors text-xs leading-snug">
                                 ${ind.name}
                             </td>
-                            <td class="px-4 py-3.5 text-xs text-slate-400 font-medium whitespace-nowrap">${ind.unit || ''}</td>
-                            ${cells}
+                            <td class="px-6 py-3.5 text-right whitespace-nowrap">
+                                <span class="text-xs font-bold text-emerald-600">${valT.toLocaleString('id-ID')}</span>
+                            </td>
+                            <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
+                                ${pctT.toString().replace('.', ',')}%
+                            </td>
                         </tr>`;
                     });
                 }
