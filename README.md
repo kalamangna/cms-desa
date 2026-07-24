@@ -60,3 +60,7 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
     npm run dev
     php artisan serve
     ```
+
+---
+
+Dikembangkan oleh [kalamangna](https://github.com/kalamangna) | Lisensi MIT
