@@ -371,15 +371,15 @@
                             </button>
                             <div x-show="open" x-transition
                                  class="absolute right-0 mt-1.5 w-40 bg-white rounded-2xl shadow-xl border border-slate-100 py-1.5 z-30">
-                                <button onclick="exportTableCSV('tabel-{{ $category->slug }}')"
+                                <button onclick="exportTableCSV('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}', '{{ addslashes($site_settings['village_name'] ?? '') }}')"
                                         class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
                                     <i class="fa-solid fa-file-csv text-emerald-500 w-4 text-center"></i> CSV
                                 </button>
-                                <button onclick="exportTableExcel('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}')"
+                                <button onclick="exportTableExcel('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}', '{{ addslashes($site_settings['village_name'] ?? '') }}')"
                                         class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
                                     <i class="fa-solid fa-file-excel text-emerald-600 w-4 text-center"></i> Excel
                                 </button>
-                                <button onclick="exportTablePDF('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}')"
+                                <button onclick="exportTablePDF('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}', '{{ addslashes($site_settings['village_name'] ?? '') }}')"
                                         class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
                                     <i class="fa-solid fa-file-pdf text-red-500 w-4 text-center"></i> PDF
                                 </button>
@@ -1049,44 +1049,56 @@ function getTableData(tableId) {
     return { headers, rows };
 }
 
-function exportTableCSV(tableId) {
+function exportTableCSV(tableId, categoryName, villageName) {
     const { headers, rows } = getTableData(tableId);
     const escape = v => '"' + String(v).replace(/"/g, '""') + '"';
-    const lines = [headers.map(escape).join(',')];
+    const lines = [];
+
+    if (villageName) {
+        lines.push(escape('PEMERINTAH DESA ' + villageName.toUpperCase()));
+    }
+    lines.push(escape('TABEL STATISTIK ' + (categoryName || '').toUpperCase()));
+    lines.push(escape('Diekspor: ' + new Date().toLocaleDateString('id-ID', { dateStyle: 'long' })));
+    lines.push(''); // baris kosong pemisah
+
+    lines.push(headers.map(escape).join(','));
     rows.forEach(row => lines.push(row.map(escape).join(',')));
+
     const blob = new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = tableId + '.csv';
+    a.download = (categoryName ? categoryName.toLowerCase().replace(/[^a-z0-9]/g, '_') : tableId) + '.csv';
     a.click();
 }
 
-function exportTableExcel(tableId, sheetName) {
+function exportTableExcel(tableId, categoryName, villageName) {
     if (typeof XLSX === 'undefined') {
         alert('Library Excel belum dimuat. Coba refresh halaman.');
         return;
     }
     const { headers, rows } = getTableData(tableId);
-    const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    const headerRows = [];
 
-    // Style header (bold)
-    const range = XLSX.utils.decode_range(ws['!ref']);
-    for (let C = range.s.c; C <= range.e.c; C++) {
-        const cell = ws[XLSX.utils.encode_cell({ r: 0, c: C })];
-        if (cell) cell.s = { font: { bold: true } };
+    if (villageName) {
+        headerRows.push(['PEMERINTAH DESA ' + villageName.toUpperCase()]);
     }
+    headerRows.push(['TABEL STATISTIK ' + (categoryName || '').toUpperCase()]);
+    headerRows.push(['Diekspor: ' + new Date().toLocaleDateString('id-ID', { dateStyle: 'long' })]);
+    headerRows.push([]); // baris kosong
+
+    const ws = XLSX.utils.aoa_to_sheet([...headerRows, headers, ...rows]);
 
     // Auto column width
     ws['!cols'] = headers.map((h, i) => ({
-        wch: Math.max(h.length, ...rows.map(r => String(r[i] || '').length), 10) + 2
+        wch: Math.max(h.length, ...rows.map(r => String(r[i] || '').length), 12) + 4
     }));
 
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, sheetName || 'Data');
-    XLSX.writeFile(wb, (tableId || 'tabel') + '.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, categoryName || 'Data');
+    XLSX.writeFile(wb, (categoryName ? categoryName.toLowerCase().replace(/[^a-z0-9]/g, '_') : tableId) + '.xlsx');
 }
 
-function exportTablePDF(tableId, title) {
+function exportTablePDF(tableId, categoryName, villageName) {
     if (typeof window.jspdf === 'undefined') {
         alert('Library PDF belum dimuat. Coba refresh halaman.');
         return;
@@ -1096,22 +1108,33 @@ function exportTablePDF(tableId, title) {
 
     const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
 
-    // Judul
+    let currentY = 16;
+    if (villageName) {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(100, 116, 139); // slate-500
+        doc.text('PEMERINTAH DESA ' + villageName.toUpperCase(), 14, currentY);
+        currentY += 6;
+    }
+
+    // Judul Kategori
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(14);
     doc.setTextColor(16, 185, 129); // emerald-500
-    doc.text(title || 'Data Statistik', 14, 16);
+    doc.text(categoryName ? 'Tabel Statistik ' + categoryName : 'Data Statistik', 14, currentY);
+    currentY += 6;
 
     // Tanggal
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
     doc.setTextColor(100, 116, 139); // slate-500
-    doc.text('Diekspor: ' + new Date().toLocaleDateString('id-ID', { dateStyle: 'long' }), 14, 22);
+    doc.text('Diekspor: ' + new Date().toLocaleDateString('id-ID', { dateStyle: 'long' }), 14, currentY);
+    currentY += 5;
 
     doc.autoTable({
         head: [headers],
         body: rows,
-        startY: 27,
+        startY: currentY,
         styles: {
             font: 'helvetica',
             fontSize: 9,
@@ -1126,7 +1149,6 @@ function exportTablePDF(tableId, title) {
         },
         columnStyles: { 0: { halign: 'left' } },
         alternateRowStyles: { fillColor: [248, 250, 252] },
-        foot: rows.length ? undefined : undefined,
         didParseCell(data) {
             // Baris terakhir (Total) — bold
             if (data.section === 'body' && data.row.index === rows.length - 1) {
@@ -1137,7 +1159,7 @@ function exportTablePDF(tableId, title) {
         margin: { left: 14, right: 14 },
     });
 
-    doc.save((tableId || 'tabel') + '.pdf');
+    doc.save((categoryName ? categoryName.toLowerCase().replace(/[^a-z0-9]/g, '_') : tableId) + '.pdf');
 }
 </script>
 @endpush
