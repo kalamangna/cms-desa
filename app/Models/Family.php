@@ -61,6 +61,9 @@ class Family extends Model
         'cow_count',
         'goat_count',
         'buffalo_count',
+        'rental_estimate',
+        'rental_free_estimate',
+        'rental_contract_value',
         'notes',
     ];
 
@@ -87,6 +90,9 @@ class Family extends Model
         'cow_count' => 'integer',
         'goat_count' => 'integer',
         'buffalo_count' => 'integer',
+        'rental_estimate' => 'integer',
+        'rental_free_estimate' => 'integer',
+        'rental_contract_value' => 'integer',
     ];
 
     public function dusun()

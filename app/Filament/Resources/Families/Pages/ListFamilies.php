@@ -123,9 +123,15 @@ class ListFamilies extends ListRecords
                     $colFloorMat = $this->findColumnIndex($header, ['205. bahan bangunan utama lantai']);
                     $colWallMat = $this->findColumnIndex($header, ['206. bahan bangunan utama dinding']);
                     $colRoofMat = $this->findColumnIndex($header, ['207. bahan bangunan utama atap']);
-                    $colFloorCond = $this->findColumnIndex($header, ['kondisi lantai, dinding', '[lantai]']);
-                    $colWallCond = $this->findColumnIndex($header, ['kondisi lantai, dinding', '[dinding]']);
-                    $colRoofCond = $this->findColumnIndex($header, ['kondisi lantai, dinding', '[atap]']);
+                    // Fix #3: Gunakan needle spesifik agar masing-masing kolom 208 terdeteksi dengan tepat
+                    $colFloorCond = $this->findColumnIndex($header, ['[lantai]']);
+                    $colWallCond = $this->findColumnIndex($header, ['[dinding]']);
+                    $colRoofCond = $this->findColumnIndex($header, ['[atap]']);
+                    
+                    // Fix #5: Deteksi kolom sewa/kepemilikan biaya (203.a/b/c)
+                    $colRentalEstimate = $this->findColumnIndex($header, ['203.a. perkiraan sewa']);
+                    $colRentalFree = $this->findColumnIndex($header, ['203.b. perkiraan sewa']);
+                    $colRentalContract = $this->findColumnIndex($header, ['203.c. nilai kontrak']);
                     
                     $colToilet = $this->findColumnIndex($header, ['209. apakah memiliki fasilitas']);
                     $colCloset = $this->findColumnIndex($header, ['210. apa jenis kloset']);
@@ -276,6 +282,10 @@ class ListFamilies extends ListRecords
                                 'cow_count' => $colCow !== false ? intval(trim($row[$colCow])) : 0,
                                 'goat_count' => $colGoat !== false ? intval(trim($row[$colGoat])) : 0,
                                 'buffalo_count' => $colBuffalo !== false ? intval(trim($row[$colBuffalo])) : 0,
+                                // Fix #5: Kolom sewa bangunan (203.a/b/c)
+                                'rental_estimate' => $colRentalEstimate !== false ? $this->cleanNumeric(trim($row[$colRentalEstimate])) : null,
+                                'rental_free_estimate' => $colRentalFree !== false ? $this->cleanNumeric(trim($row[$colRentalFree])) : null,
+                                'rental_contract_value' => $colRentalContract !== false ? $this->cleanNumeric(trim($row[$colRentalContract])) : null,
                                 'notes' => $colNotes !== false ? trim($row[$colNotes]) : null,
                             ];
 

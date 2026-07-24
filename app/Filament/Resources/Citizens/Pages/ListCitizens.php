@@ -115,8 +115,11 @@ class ListCitizens extends ListRecords
                     $colKkOrder = $this->findColumnIndex($header, ['103.a. nomor urut', 'nomor urut anggota']);
                     $colName = $this->findColumnIndex($header, ['301. nama anggota', 'nama anggota keluarga', 'nama']);
                     $colStatus = $this->findColumnIndex($header, ['303. keberadaan', 'keberadaan anggota keluarga']);
-                    $colAddress = $this->findColumnIndex($header, ['304. alamat domisili', 'alamat domisili']);
-                    
+                    $colDomicileType = $this->findColumnIndex($header, ['304. alamat domisili', 'alamat domisili']);
+                    $colDomicileProvince = $this->findColumnIndex($header, ['305dn.a.', 'provinsi domisili']);
+                    $colDomicileCity = $this->findColumnIndex($header, ['305dn.b.', 'kabupaten/kota domisili']);
+                    $colDomicileCountry = $this->findColumnIndex($header, ['305ln.', 'negara domisili']);
+
                     $colGender = $this->findColumnIndex($header, ['306. jenis kelamin', 'jenis kelamin']);
                     $colDob = $this->findColumnIndex($header, ['307. tanggal lahir', 'tanggal lahir']);
                     $colMarital = $this->findColumnIndex($header, ['308. status perkawinan', 'status perkawinan']);
@@ -124,7 +127,8 @@ class ListCitizens extends ListRecords
                     $colSchool = $this->findColumnIndex($header, ['310. partisipasi sekolah', 'partisipasi sekolah']);
                     $colEduLevel = $this->findColumnIndex($header, ['311. ijazah/sttb', 'ijazah tertinggi']);
                     $colBpjs = $this->findColumnIndex($header, ['kepesertaan jkn', 'bpjs']);
-                    $colPip = $this->findColumnIndex($header, ['program indonesia pintar', 'bantuan pip']);
+                    // Fix #1: tambah needle pendek 'pip' agar cocok dengan header "PIP" di beberapa file
+                    $colPip = $this->findColumnIndex($header, ['program indonesia pintar', 'bantuan pip', 'pip']);
                     
                     $colHasIncome = $this->findColumnIndex($header, ['312. apakah anggota', 'memiliki pendapatan']);
                     $colIncSalary = $this->findColumnIndex($header, ['312.a. gaji']);
@@ -185,13 +189,20 @@ class ListCitizens extends ListRecords
                             if (empty($nik) || strlen($nik) < 10) continue;
 
                             $kkNumber = $colKkNumber !== false ? trim($row[$colKkNumber]) : null;
-                            
+
                             // Look up family and dusun
                             $familyId = null;
                             $dusunId = $selectedDusunId;
                             $rt = null;
                             $rw = null;
-                            $address = $colAddress !== false ? trim($row[$colAddress]) : '';
+
+                            // Fix #2: Kolom 304 berisi enum status, bukan teks alamat.
+                            // Simpan ke domicile_address_type, bukan ke address.
+                            $domicileEnumValues = ['sesuai kk dan ktp', 'hanya sesuai kk', 'hanya sesuai ktp'];
+                            $rawDomicileType = $colDomicileType !== false ? trim($row[$colDomicileType]) : '';
+                            $domicileAddressType = $rawDomicileType !== '' ? $rawDomicileType : null;
+                            // address akan diisi dari data keluarga (family->address)
+                            $address = '';
 
                             if ($kkNumber) {
                                 $family = Family::where('kk_number', $kkNumber)->first();
@@ -203,9 +214,8 @@ class ListCitizens extends ListRecords
                                     }
                                     $rt = $family->rt ? substr($family->rt, 0, 10) : null;
                                     $rw = $family->rw ? substr($family->rw, 0, 10) : null;
-                                    if (empty($address)) {
-                                        $address = $family->address;
-                                    }
+                                    // Ambil alamat dari data keluarga (benar)
+                                    $address = $family->address ?? '';
                                 }
                             }
 
@@ -255,6 +265,11 @@ class ListCitizens extends ListRecords
                                 'rt' => $rt,
                                 'rw' => $rw,
                                 'address' => $address,
+                                'citizenship_status' => $colStatus !== false ? trim($row[$colStatus]) : 'Tinggal di rumah/tempat tinggal ini',
+                                'domicile_address_type' => $domicileAddressType,
+                                'domicile_province' => $colDomicileProvince !== false ? trim($row[$colDomicileProvince]) ?: null : null,
+                                'domicile_city' => $colDomicileCity !== false ? trim($row[$colDomicileCity]) ?: null : null,
+                                'domicile_country' => $colDomicileCountry !== false ? trim($row[$colDomicileCountry]) ?: null : null,
                                 'gender' => $colGender !== false && !empty(trim($row[$colGender])) ? (strpos(strtolower(trim($row[$colGender])), 'perempuan') !== false || strtolower(trim($row[$colGender])) === 'p' ? 'Perempuan' : 'Laki-laki') : null,
                                 'date_of_birth' => $dob,
                                 'marital_status' => $colMarital !== false ? $this->parseMaritalStatus($row[$colMarital]) : null,
@@ -307,7 +322,6 @@ class ListCitizens extends ListRecords
                                 
                                 'has_digital_wallet' => $colWallet !== false ? trim($row[$colWallet]) : null,
                                 'status' => 'Aktif',
-                                'citizenship_status' => $colStatus !== false ? trim($row[$colStatus]) : 'Tinggal di rumah/tempat tinggal ini',
                             ];
 
                             $citizen = Citizen::withTrashed()->where('nik', $nik)->first();
