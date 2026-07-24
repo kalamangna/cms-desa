@@ -169,17 +169,29 @@ Sistem dibangun menggunakan pola **Model-View-Controller (MVC)** modern berbasis
 
 ## BAB IV: IMPLEMENTASI
 
-### 4.1 Teknologi & Pustaka Pendukung
-Sistem mengintegrasikan berbagai teknologi mutakhir:
-- **Laravel 12 & Filament v4**: Pengelolaan data CRUD dan manajemen otorisasi admin.
-- **Tailwind CSS v4 & Alpine.js**: Styling komponen antarmuka publik dan manipulasi DOM dinamis.
-- **ApexCharts**: Rendering grafik batang tumpuk horizontal (*Horizontal Stacked Bar*) secara responsif.
+### 4.1 Tumpukan Teknologi & Dependensi (Tech Stack & Environment)
+Sistem diimplementasikan mengacu pada standar *Laravel Best Practices* dan *SOLID Principles* menggunakan tumpukan teknologi utama:
+- **Core Framework**: Laravel 12.x (PHP 8.3+) dengan Eloquent ORM & Eager Loading anti N+1 Query.
+- **Admin Panel Engine**: Filament v4 untuk pengelolaan data mikro kependudukan, APBDes, & konten CMS.
+- **Styling & Interaktivitas**: Tailwind CSS v4, Alpine.js v3, ApexCharts.js (Visualisasi 2 Arah), & Leaflet.js (GIS).
+- **Pengolahan Data & Otorisasi**: PhpSpreadsheet v5 (Impor Excel 300+ kolom) & Spatie Laravel-Permission (RBAC).
 
-### 4.2 Fitur Visualisasi Stacked Bar 2 Arah Dinamis
-Ketika pembanding 2 arah diaktifkan (misal: *Pekerjaan x Pendidikan*), grafik secara otomatis dikunci dalam mode **Horizontal Stacked Bar Chart** dengan kalkulasi tinggi dinamis (`Math.max(380, count * 48)px`) agar label profesi berdiri tegak lurus dan rapi.
+### 4.2 Service Layer Matriks Cross-Tabulation (`StatisticService.php`)
+Perhitungan matriks 2 arah dilakukan secara dinamis pada runtime untuk menghindari penyimpanan data redundan di database. Sistem meng-clone kueri kependudukan dan menghitung pengelompokan `breakdowns` per indikator terhadap opsi pembanding sumbu ke-2 (`secondary_columns`).
 
-### 4.3 Penguncian Kolom Tabel (Sticky Column)
+### 4.3 Form Admin Panel Filament (5 Tab Penduduk & 4 Tab Keluarga)
+- **Form Penduduk (`CitizenResource`)**: Dikelompokkan dalam 5 Tab (*Identitas Warga*, *Pendidikan & Pekerjaan*, *Pendapatan & Keuangan*, *Kesehatan & Disabilitas*, dan *Kependudukan*).
+- **Form Keluarga (`FamilyResource`)**: Dikelompokkan dalam 4 Tab (*Identitas Keluarga*, *Karakteristik Rumah*, *Sanitasi & Utilitas*, dan *Aset & Bantuan*).
+
+### 4.4 Fitur Visualisasi Stacked Bar 2 Arah Dinamis
+Ketika pembanding 2 arah diaktifkan (misal: *Pekerjaan x Pendidikan*), grafik secara otomatis dikunci dalam mode **Horizontal Stacked Bar Chart** (`horizontal: true`) dengan kalkulasi tinggi dinamis (`Math.max(380, count * 48)px`) agar label profesi berdiri tegak lurus dan rapi tanpa terpotong.
+
+### 4.5 Penguncian Kolom Tabel Sticky Column Solid
 Kolom `Indikator` pada `<thead>`, `<tbody>`, dan `<tfoot>` diterapkan kelas CSS `sticky left-0` dengan warna background solid 100% (`bg-white` / `bg-slate-50`), *z-index* tinggi (`z-10`/`z-20`), dan bayangan pemisah (`shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]`) agar data tidak bocor saat tabel di-scroll.
+
+### 4.6 Kompresi Gambar WhatsApp Client-Side & Layanan Mandiri
+- **Kompresi Foto Berita**: Resizing otomatis Canvas HTML5 ke 1200x630px (< 300 KB) agar pratinjau tautan WhatsApp tampil sempurna.
+- **Permohonan Surat & Pengaduan**: Generator Nomor Tiket unik (`SRT-YYYYMMDD-XXXX` / `ADU-YYYYMMDD-XXXX`) dengan sistem pelacakan status real-time.
 
 ---
 
