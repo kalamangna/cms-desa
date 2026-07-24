@@ -660,8 +660,23 @@ document.addEventListener('DOMContentLoaded', function () {
         { label: 'Perempuan', value: {{ (int)($perempuanCount ?? 0) }} }
     ];
 
-    const jobData = {!! json_encode($jobData->map(fn($item) => ['label' => $item->name ?: 'Tidak Diketahui', 'value' => (int)$item->total])->toArray()) !!};
-    const eduData = {!! json_encode($eduData->map(fn($item) => ['label' => $item->name ?: 'Tidak Diketahui', 'value' => (int)$item->total])->toArray()) !!};
+    const jobData = {!! json_encode($jobData->map(function($item) {
+        $name = trim($item->name ?? '');
+        if (empty($name) || strtolower($name) === 'tidak diketahui') {
+            return null;
+        }
+        if (str_contains($name, 'ASN') || str_contains($name, 'TNI')) {
+            $name = 'ASN / TNI / Polri / BUMN';
+        }
+        return ['label' => $name, 'value' => (int)$item->total];
+    })->filter()->values()->toArray()) !!};
+    const eduData = {!! json_encode($eduData->map(function($item) {
+        $name = trim($item->name ?? '');
+        if (empty($name) || strtolower($name) === 'tidak diketahui') {
+            return null;
+        }
+        return ['label' => $name, 'value' => (int)$item->total];
+    })->filter()->values()->toArray()) !!};
 
     // Urutkan data descending
     jobData.sort((a, b) => b.value - a.value);
@@ -758,9 +773,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 position: 'bottom',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 600,
-                fontSize: '12px',
+                fontSize: '11px',
                 labels: { colors: '#64748b' },
-                markers: { width: 9, height: 9, radius: 9, offsetY: -1 }
+                markers: { width: 8, height: 8, radius: 8, offsetY: -1 },
+                itemMargin: { horizontal: 8, vertical: 4 }
             },
             tooltip: {
                 theme: 'light',
