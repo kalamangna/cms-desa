@@ -744,7 +744,7 @@
                 xaxis: {
                     categories: xCats,
                     labels: {
-                        show: true,
+                        show: type !== 'bar',
                         rotate: -35,
                         rotateAlways: false,
                         hideOverlappingLabels: true,
@@ -765,7 +765,7 @@
                 },
                 grid: { borderColor: 'rgba(148,163,184,0.08)', strokeDashArray: 5, xaxis: { lines: { show: false } }, yaxis: { lines: { show: true } } },
                 legend: {
-                    show: type !== 'bar' || showGenderSplit,
+                    show: true,
                     position: 'bottom',
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 600,
