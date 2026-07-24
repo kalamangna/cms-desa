@@ -142,6 +142,24 @@ class StatisticCategory extends Model
                                 'is_active' => true,
                             ]);
                         }
+                    } elseif ($col === 'bpjs_status') {
+                        $bpjsItems = [
+                            ['name' => 'BPJS PBI Pemda', 'mapping_value' => 'BPJS PBI Pemda'],
+                            ['name' => 'BPJS Mandiri', 'mapping_value' => 'BPJS Mandiri'],
+                            ['name' => 'BPJS PBI Tunjangan Pemerintah Pusat', 'mapping_value' => 'BPJS PBI Tunjangan Pemerintah Pusat'],
+                            ['name' => 'Tidak Terdaftar', 'mapping_value' => 'Tidak Terdaftar'],
+                        ];
+                        foreach ($bpjsItems as $idx => $item) {
+                            $category->indicators()->create([
+                                'name' => $item['name'],
+                                'unit' => 'Jiwa',
+                                'mapping_column' => 'bpjs_status',
+                                'mapping_operator' => '=',
+                                'mapping_value' => $item['mapping_value'],
+                                'order' => $idx + 1,
+                                'is_active' => true,
+                            ]);
+                        }
                     } else {
                         $query = \Illuminate\Support\Facades\DB::table($category->mapping_table)
                             ->whereNull('deleted_at')

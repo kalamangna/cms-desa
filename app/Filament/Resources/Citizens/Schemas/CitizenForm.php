@@ -80,7 +80,14 @@ class CitizenForm
                                                 'S2/S3' => 'S2 / S3',
                                             ])
                                             ->searchable(),
-                                        TextInput::make('bpjs_status')->label('Kepesertaan JKN KIS (BPJS)'),
+                                        Select::make('bpjs_status')->label('Kepesertaan JKN KIS (BPJS)')
+                                            ->options([
+                                                'BPJS PBI Pemda' => 'BPJS PBI Pemda',
+                                                'BPJS Mandiri' => 'BPJS Mandiri',
+                                                'BPJS PBI Tunjangan Pemerintah Pusat' => 'BPJS PBI Tunjangan Pemerintah Pusat',
+                                                'Tidak Terdaftar' => 'Tidak Terdaftar',
+                                            ])
+                                            ->searchable(),
                                         Select::make('pip_status')->label('Menerima Bantuan PIP?')
                                             ->options([1 => 'Ya', 0 => 'Tidak']),
                                     ]),
