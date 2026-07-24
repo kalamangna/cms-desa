@@ -52,10 +52,16 @@ class FamilyForm
                                                 'Bedah Rumah' => 'Bedah Rumah',
                                                 'Bantuan Lainnya' => 'Bantuan Lainnya',
                                             ])
-                                            ->formatStateUsing(function ($state) {
-                                                if (is_array($state)) return $state;
-                                                if (empty($state) || $state === 'Tidak Ada') return [];
-                                                return array_map('trim', explode(',', $state));
+                                            ->afterStateHydrated(function (CheckboxList $component, $state) {
+                                                if (is_array($state)) {
+                                                    $component->state($state);
+                                                    return;
+                                                }
+                                                if (empty($state) || $state === 'Tidak Ada') {
+                                                    $component->state([]);
+                                                    return;
+                                                }
+                                                $component->state(array_map('trim', explode(',', $state)));
                                             })
                                             ->dehydrateStateUsing(function ($state) {
                                                 if (empty($state) || !is_array($state)) return 'Tidak Ada';
