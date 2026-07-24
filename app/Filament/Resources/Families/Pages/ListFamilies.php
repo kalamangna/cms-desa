@@ -241,7 +241,11 @@ class ListFamilies extends ListRecords
                                 'rw' => $rw,
                                 'address_matches_kk' => $colMatchesKk !== false ? $this->parseYesNo($row[$colMatchesKk]) : 0,
                                 'assistance_type' => $colBansos !== false ? $this->parseAssistanceType($row[$colBansos]) : null,
-                                'family_member_count' => $colMemberCount !== false && isset($row[$colMemberCount]) && trim($row[$colMemberCount]) !== '' ? intval(trim($row[$colMemberCount])) : 1,
+                                // Kolom 106.a berisi '1' atau '>1' (bukan angka riil)
+                                // '>1' → 2 (minimal lebih dari 1); akan di-overwrite saat import individu
+                                'family_member_count' => $colMemberCount !== false && isset($row[$colMemberCount]) && trim($row[$colMemberCount]) !== ''
+                                    ? (trim($row[$colMemberCount]) === '>1' ? 2 : max(1, intval(trim($row[$colMemberCount]))))
+                                    : 1,
                                 'building_type' => $colBuildingType !== false ? trim($row[$colBuildingType]) : null,
                                 'ownership_status' => $colOwnership !== false ? $this->parseOwnershipStatus($row[$colOwnership]) : null,
                                 'ownership_proof' => $colProof !== false ? trim($row[$colProof]) : null,
