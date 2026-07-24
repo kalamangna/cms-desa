@@ -1,11 +1,8 @@
-# INSTALLATION & DEPLOYMENT GUIDE (INSTALLATION_GUIDE.md)
-## BAB VII: PANDUAN INSTALASI & DEPLOYMENT
+# BAB VII: PANDUAN INSTALASI (CHAPTER_7_INSTALLATION_GUIDE.md)
 
 ---
 
-## BAB VII: PANDUAN INSTALASI
-
-### 7.1 Pemasangan Lingkungan Lokal (Development)
+## 7.1 Pemasangan Lingkungan Lokal (Development)
 ```bash
 git clone https://github.com/kalamangna/cms-desa.git
 cd cms-desa
@@ -18,7 +15,9 @@ npm run dev
 php artisan serve
 ```
 
-### 7.2 Deployment Server Produksi (Hostinger/cPanel)
+---
+
+## 7.2 Deployment Server Produksi (Hostinger/cPanel)
 ```bash
 git clone https://github.com/kalamangna/cms-desa.git
 cd cms-desa

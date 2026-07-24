@@ -1,11 +1,8 @@
-# API SPECIFICATION DOCUMENT (API.md)
-## BAB VI: API ENDPOINTS
+# BAB VI: API (CHAPTER_6_API.md)
 
 ---
 
-## BAB VI: API
-
-### 6.1 Endpoint Statistik Dinamis (`GET /statistik`)
+## 6.1 Endpoint Statistik Dinamis (`GET /statistik`)
 - **Query Parameters**:
   - `kategori` (`string`): Slug kategori (`pekerjaan`, `pendidikan`).
   - `dusun_id` (`integer`): ID Dusun untuk menyaring data per wilayah.
@@ -34,6 +31,8 @@
 }
 ```
 
-### 6.2 Endpoint Layanan Mandiri & Pengaduan Warga
+---
+
+## 6.2 Endpoint Layanan Mandiri & Pengaduan Warga
 - `POST /layanan-mandiri/permohonan`: Pengajuan permohonan surat warga (menghasilkan Nomor Tiket SRT-YYYYMMDD-XXXX).
 - `POST /pengaduan`: Formulir pengaduan warga online terintegrasi ke dashboard operator.
