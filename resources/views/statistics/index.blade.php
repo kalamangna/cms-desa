@@ -744,7 +744,7 @@
                 xaxis: {
                     categories: xCats,
                     labels: {
-                        show: type !== 'bar',
+                        show: type !== 'bar' || series.length > 1,
                         rotate: -35,
                         rotateAlways: false,
                         hideOverlappingLabels: true,
