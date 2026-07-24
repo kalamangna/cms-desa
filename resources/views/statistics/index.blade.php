@@ -463,9 +463,6 @@
                                     <td class="px-5 py-3.5 text-right text-xs font-black text-pink-700 whitespace-nowrap">{{ number_format($totalPerempuan, 0, ',', '.') }}</td>
                                     <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">
                                         {{ number_format($totalAll, 0, ',', '.') }}
-                                        @if($totalAll > 0)
-                                            <span class="text-[10px] text-slate-500 font-bold ml-1">(100%)</span>
-                                        @endif
                                     </td>
                                 </tr>
                             </tfoot>
@@ -1006,7 +1003,6 @@
                             <td class="px-5 py-3.5 text-right text-xs font-black text-pink-700 whitespace-nowrap">${totP.toLocaleString('id-ID')}</td>
                             <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">
                                 ${totT.toLocaleString('id-ID')}
-                                ${totT > 0 ? '<span class="text-[10px] text-slate-500 font-bold ml-1">(100%)</span>' : ''}
                             </td>
                         </tr>`;
                     }
