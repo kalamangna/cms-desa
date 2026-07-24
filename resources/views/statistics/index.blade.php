@@ -1117,6 +1117,19 @@ function getTableData(tableId) {
     return { headers, rows };
 }
 
+function generateExportFilename(categoryName, villageName, ext) {
+    const vName = villageName ? villageName.toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '') : '';
+    const cName = categoryName ? categoryName.toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '') : 'data';
+    const year = document.querySelector('[x-model="selectedYear"]')?.value || new Date().getFullYear();
+    
+    let filename = 'statistik_' + cName;
+    if (vName) {
+        filename = 'desa_' + vName + '_' + filename;
+    }
+    filename += '_' + year + '.' + ext;
+    return filename;
+}
+
 function exportTableCSV(tableId, categoryName, villageName) {
     const { headers, rows } = getTableData(tableId);
     const escape = v => '"' + String(v).replace(/"/g, '""') + '"';
@@ -1135,7 +1148,7 @@ function exportTableCSV(tableId, categoryName, villageName) {
     const blob = new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = (categoryName ? categoryName.toLowerCase().replace(/[^a-z0-9]/g, '_') : tableId) + '.csv';
+    a.download = generateExportFilename(categoryName, villageName, 'csv');
     a.click();
 }
 
@@ -1163,7 +1176,7 @@ function exportTableExcel(tableId, categoryName, villageName) {
 
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, categoryName || 'Data');
-    XLSX.writeFile(wb, (categoryName ? categoryName.toLowerCase().replace(/[^a-z0-9]/g, '_') : tableId) + '.xlsx');
+    XLSX.writeFile(wb, generateExportFilename(categoryName, villageName, 'xlsx'));
 }
 
 function exportTablePDF(tableId, categoryName, villageName) {
@@ -1227,7 +1240,7 @@ function exportTablePDF(tableId, categoryName, villageName) {
         margin: { left: 14, right: 14 },
     });
 
-    doc.save((categoryName ? categoryName.toLowerCase().replace(/[^a-z0-9]/g, '_') : tableId) + '.pdf');
+    doc.save(generateExportFilename(categoryName, villageName, 'pdf'));
 }
 </script>
 @endpush
