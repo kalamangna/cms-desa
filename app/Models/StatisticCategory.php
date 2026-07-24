@@ -160,6 +160,27 @@ class StatisticCategory extends Model
                                 'is_active' => true,
                             ]);
                         }
+                    } elseif ($col === 'assistance_type') {
+                        $bansosItems = [
+                            ['name' => 'PKH', 'operator' => 'LIKE', 'value' => '%PKH%'],
+                            ['name' => 'BPNT / Sembako', 'operator' => 'LIKE', 'value' => '%BPNT%'],
+                            ['name' => 'BLT Desa', 'operator' => 'LIKE', 'value' => '%BLT%'],
+                            ['name' => 'Subsidi Listrik', 'operator' => 'LIKE', 'value' => '%Subsidi Listrik%'],
+                            ['name' => 'Bedah Rumah', 'operator' => 'LIKE', 'value' => '%Bedah Rumah%'],
+                            ['name' => 'Bantuan Lainnya', 'operator' => 'LIKE', 'value' => '%Bantuan Lainnya%'],
+                            ['name' => 'Tidak Menerima Bantuan', 'operator' => '=', 'value' => 'Tidak Ada'],
+                        ];
+                        foreach ($bansosItems as $idx => $item) {
+                            $category->indicators()->create([
+                                'name' => $item['name'],
+                                'unit' => 'Keluarga',
+                                'mapping_column' => 'assistance_type',
+                                'mapping_operator' => $item['operator'],
+                                'mapping_value' => $item['value'],
+                                'order' => $idx + 1,
+                                'is_active' => true,
+                            ]);
+                        }
                     } else {
                         $query = \Illuminate\Support\Facades\DB::table($category->mapping_table)
                             ->whereNull('deleted_at')

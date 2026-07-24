@@ -8,6 +8,7 @@ use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
 use Filament\Schemas\Components\Grid;
@@ -42,7 +43,26 @@ class FamilyForm
                                                 0 => 'Tidak Sesuai KK',
                                             ])
                                             ->formatStateUsing(fn ($state) => $state ? 1 : 0),
-                                        TextInput::make('assistance_type')->label('Jenis Bantuan Diterima (e.g. PKH, BPNT)'),
+                                        CheckboxList::make('assistance_type')->label('Jenis Bantuan Sosial Diterima')
+                                            ->options([
+                                                'PKH' => 'PKH (Program Keluarga Harapan)',
+                                                'BPNT / Sembako' => 'BPNT / Sembako',
+                                                'BLT Desa' => 'BLT Desa',
+                                                'Subsidi Listrik' => 'Subsidi Listrik',
+                                                'Bedah Rumah' => 'Bedah Rumah',
+                                                'Bantuan Lainnya' => 'Bantuan Lainnya',
+                                            ])
+                                            ->formatStateUsing(function ($state) {
+                                                if (is_array($state)) return $state;
+                                                if (empty($state) || $state === 'Tidak Ada') return [];
+                                                return array_map('trim', explode(',', $state));
+                                            })
+                                            ->dehydrateStateUsing(function ($state) {
+                                                if (empty($state) || !is_array($state)) return 'Tidak Ada';
+                                                return implode(', ', $state);
+                                            })
+                                            ->columns(2)
+                                            ->columnSpanFull(),
                                         TextInput::make('family_member_count')->label('Jumlah Anggota Keluarga (Tinggal Bersama)')
                                             ->numeric()
                                             ->default(1),
