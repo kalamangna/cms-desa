@@ -6,21 +6,21 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ## 📚 Dokumentasi Proyek Per BAB (`docs/`)
 
-Dokumentasi resmi sistem informasi ini disusun secara terstruktur di folder `docs/` di mana setiap BAB memiliki berkas `.md` tersendiri dengan penamaan file berbahasa Inggris:
+Dokumentasi resmi sistem informasi ini disusun secara terstruktur di folder `docs/` di mana setiap BAB memiliki berkas `.md` bernomor terpisah (urut dari `0_` hingga `11_`):
 
 - 📑 **[TECHNICAL_REPORT.md](docs/TECHNICAL_REPORT.md)** — **Dokumen Laporan Teknis Master Utuh** (Kompilasi Cover s/d BAB X & Lampiran).
-- 📜 **[COVER_AND_PREFACE.md](docs/COVER_AND_PREFACE.md)** — Cover, Lembar Pengesahan (Pranata Komputer & Kepala Desa), Kata Pengantar, & Daftar Isi.
-- 📘 **[CHAPTER_1_INTRODUCTION.md](docs/CHAPTER_1_INTRODUCTION.md)** — **BAB I: Pendahuluan** (Latar Belakang, Maksud & Tujuan, Ruang Lingkup).
-- 📋 **[CHAPTER_2_REQUIREMENTS_ANALYSIS.md](docs/CHAPTER_2_REQUIREMENTS_ANALYSIS.md)** — **BAB II: Analisis Kebutuhan** (Functional & Non-Functional Requirements).
-- 📐 **[CHAPTER_3_SYSTEM_DESIGN.md](docs/CHAPTER_3_SYSTEM_DESIGN.md)** — **BAB III: Perancangan Sistem** (Arsitektur MVC & Data Flow Diagram).
-- 🛠️ **[CHAPTER_4_IMPLEMENTATION.md](docs/CHAPTER_4_IMPLEMENTATION.md)** — **BAB IV: Implementasi** (Laravel 12, Filament v4, Stacked Bar 2 Arah, Sticky Table).
-- 🗄️ **[CHAPTER_5_DATABASE.md](docs/CHAPTER_5_DATABASE.md)** — **BAB V: Database** (Spesifikasi Tabel Utama `citizens`, `families`, `statistic_categories`).
-- 🌐 **[CHAPTER_6_API.md](docs/CHAPTER_6_API.md)** — **BAB VI: API** (Endpoint Statistik Dinamis `/statistik`, Layanan Surat, & Pengaduan).
-- 💻 **[CHAPTER_7_INSTALLATION_GUIDE.md](docs/CHAPTER_7_INSTALLATION_GUIDE.md)** — **BAB VII: Panduan Instalasi** (Development & Deployment Hostinger/cPanel).
-- 📖 **[CHAPTER_8_USER_GUIDE.md](docs/CHAPTER_8_USER_GUIDE.md)** — **BAB VIII: Panduan Pengguna** (Operator Admin Panel 5 Tab Penduduk & 4 Tab Keluarga, serta Publik).
-- 🧪 **[CHAPTER_9_TESTING.md](docs/CHAPTER_9_TESTING.md)** — **BAB IX: Pengujian** (PHPUnit / Pest Automated Testing 100% PASS & Matriks UAT).
-- 🔧 **[CHAPTER_10_MAINTENANCE.md](docs/CHAPTER_10_MAINTENANCE.md)** — **BAB X: Pemeliharaan** (Storage Link Hosting, Hardening Keamanan, & Clear Cache).
-- 📎 **[APPENDIX.md](docs/APPENDIX.md)** — **Lampiran A-D** (Summary Changelog, Screenshots, ERD, & Directory Tree).
+- 📜 **[0_COVER_AND_PREFACE.md](docs/0_COVER_AND_PREFACE.md)** — Cover, Lembar Pengesahan (Pranata Komputer & Kepala Desa), Kata Pengantar, & Daftar Isi.
+- 📘 **[1_INTRODUCTION.md](docs/1_INTRODUCTION.md)** — **BAB I: Pendahuluan** (Latar Belakang, Maksud & Tujuan, Ruang Lingkup).
+- 📋 **[2_REQUIREMENTS_ANALYSIS.md](docs/2_REQUIREMENTS_ANALYSIS.md)** — **BAB II: Analisis Kebutuhan** (Functional & Non-Functional Requirements).
+- 📐 **[3_SYSTEM_DESIGN.md](docs/3_SYSTEM_DESIGN.md)** — **BAB III: Perancangan Sistem** (Arsitektur MVC & Data Flow Diagram).
+- 🛠️ **[4_IMPLEMENTATION.md](docs/4_IMPLEMENTATION.md)** — **BAB IV: Implementasi** (Laravel 12, Filament v4, Stacked Bar 2 Arah, Sticky Table).
+- 🗄️ **[5_DATABASE.md](docs/5_DATABASE.md)** — **BAB V: Database** (Spesifikasi Tabel Utama `citizens`, `families`, `statistic_categories`).
+- 🌐 **[6_API.md](docs/6_API.md)** — **BAB VI: API** (Endpoint Statistik Dinamis `/statistik`, Layanan Surat, & Pengaduan).
+- 💻 **[7_INSTALLATION_GUIDE.md](docs/7_INSTALLATION_GUIDE.md)** — **BAB VII: Panduan Instalasi** (Development & Deployment Hostinger/cPanel).
+- 📖 **[8_USER_GUIDE.md](docs/8_USER_GUIDE.md)** — **BAB VIII: Panduan Pengguna** (Operator Admin Panel 5 Tab Penduduk & 4 Tab Keluarga, serta Publik).
+- 🧪 **[9_TESTING.md](docs/9_TESTING.md)** — **BAB IX: Pengujian** (PHPUnit / Pest Automated Testing 100% PASS & Matriks UAT).
+- 🔧 **[10_MAINTENANCE.md](docs/10_MAINTENANCE.md)** — **BAB X: Pemeliharaan** (Storage Link Hosting, Hardening Keamanan, & Clear Cache).
+- 📎 **[11_APPENDIX.md](docs/11_APPENDIX.md)** — **Lampiran A-D** (Summary Changelog, Screenshots, ERD, & Directory Tree).
 - 📜 **[CHANGELOG.md](docs/CHANGELOG.md)** — Riwayat Perubahan Versi Lengkap (*Keep a Changelog*).
 
 ---
@@ -77,4 +77,4 @@ Dokumentasi resmi sistem informasi ini disusun secara terstruktur di folder `doc
    npm run dev
    php artisan serve
    ```
-*Untuk panduan lengkap instalasi dan deployment server produksi, silakan baca [docs/CHAPTER_7_INSTALLATION_GUIDE.md](docs/CHAPTER_7_INSTALLATION_GUIDE.md).*
+*Untuk panduan lengkap instalasi dan deployment server produksi, silakan baca [docs/7_INSTALLATION_GUIDE.md](docs/7_INSTALLATION_GUIDE.md).*
