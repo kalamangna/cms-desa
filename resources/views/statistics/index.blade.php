@@ -469,7 +469,7 @@
                         </table>
 
                         @else
-                        {{-- ── Tabel non-citizens (Keluarga, dll): Indikator | Jumlah | Persentase ── --}}
+                        {{-- ── Tabel non-citizens (Keluarga, dll): Indikator | Total ── --}}
                         @php
                             $firstIndicatorUnit = $category->indicators->first()->unit ?? 'Keluarga';
                         @endphp
@@ -477,13 +477,9 @@
                             <thead>
                                 <tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50/70">
                                     <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 sticky left-0 bg-slate-50/70 z-10 min-w-[200px]">Indikator</th>
-                                    <th class="text-right px-6 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 whitespace-nowrap leading-tight">
-                                        Jumlah<br>
-                                        <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">({{ $firstIndicatorUnit }})</span>
-                                    </th>
                                     <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap leading-tight">
-                                        Persentase<br>
-                                        <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(%)</span>
+                                        Total<br>
+                                        <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">({{ $firstIndicatorUnit }})</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -505,11 +501,11 @@
                                     <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50/50 transition-colors text-xs leading-snug">
                                         {{ $indicator->name }}
                                     </td>
-                                    <td class="px-6 py-3.5 text-right whitespace-nowrap">
-                                        <span class="text-xs font-bold text-emerald-600">{{ number_format($valT, 0, ',', '.') }}</span>
-                                    </td>
                                     <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
-                                        {{ str_replace('.', ',', (string)$pctT) }}%
+                                        {{ number_format($valT, 0, ',', '.') }}
+                                        @if($grandTotal > 0)
+                                            <span class="text-[10px] text-slate-400 font-medium ml-1">({{ str_replace('.', ',', (string)$pctT) }}%)</span>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -517,8 +513,7 @@
                             <tfoot id="tfoot-{{ $category->slug }}" class="border-t-2 border-slate-200 bg-slate-100/70 font-extrabold text-slate-900">
                                 <tr>
                                     <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100/70">Total</td>
-                                    <td class="px-6 py-3.5 text-right text-xs font-black text-emerald-700 whitespace-nowrap">{{ number_format($grandTotal, 0, ',', '.') }}</td>
-                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">—</td>
+                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">{{ number_format($grandTotal, 0, ',', '.') }}</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -1026,11 +1021,9 @@
                             <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50/50 transition-colors text-xs leading-snug">
                                 ${ind.name}
                             </td>
-                            <td class="px-6 py-3.5 text-right whitespace-nowrap">
-                                <span class="text-xs font-bold text-emerald-600">${valT.toLocaleString('id-ID')}</span>
-                            </td>
                             <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
-                                ${pctT.toString().replace('.', ',')}%
+                                ${valT.toLocaleString('id-ID')}
+                                ${grandTotal > 0 ? `<span class="text-[10px] text-slate-400 font-medium ml-1">(${pctT.toString().replace('.', ',')}%)</span>` : ''}
                             </td>
                         </tr>`;
                     });
@@ -1039,8 +1032,7 @@
                     if (tfoot) {
                         tfoot.innerHTML = `<tr>
                             <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100/70">Total</td>
-                            <td class="px-6 py-3.5 text-right text-xs font-black text-emerald-700 whitespace-nowrap">${grandTotal.toLocaleString('id-ID')}</td>
-                            <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">—</td>
+                            <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">${grandTotal.toLocaleString('id-ID')}</td>
                         </tr>`;
                     }
                 }
