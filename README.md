@@ -7,20 +7,24 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ## 🚀 Fitur Utama
 
-- **Dashboard Statistik Interaktif**: Grafik & diagram data kependudukan, pekerjaan, pendidikan, disabilitas, dan penyakit kronis secara real-time yang dihitung dari database warga mikro. Supports **Horizontal Stacked Bar Chart** untuk perbandingan 2 arah.
-- **Transparansi APBDes**: Visualisasi realisasi anggaran pendapatan, belanja, dan pembiayaan desa lengkap dengan diagram donat alokasi dan progress bar pencapaian.
-- **Portal Informasi & Publikasi Desa**:
-  - **Berita & Kegiatan**: Publikasi artikel berita dengan fitur SEO meta lengkap & schema JSON-LD, serta kompresi otomatis pratinjau WhatsApp.
-  - **Pengumuman Resmi**: Daftar pengumuman terintegrasi dengan fitur **Baca Cepat** berbasis accordion.
-  - **Galeri Multi-tipe**: Galeri visual terintegrasi untuk foto kegiatan dan video tautan YouTube.
-  - **Lembaga Desa**: Halaman profil lembaga kemasyarakatan desa (`/lembaga`) terstruktur dalam grid modern dengan logo opsional.
-  - **Arsip Dokumen**: Portal unduhan keputusan kepala desa, peraturan desa, dan dokumen administrasi publik lainnya.
-  - **Potensi Desa**: Galeri dan deskripsi sektor pariwisata, komoditas pertanian/perkebunan, peternakan, industri kreatif, seni & budaya.
-- **Data Mikro SDGs & Regsosek**:
-  - Model kependudukan mikro terintegrasi: `Dusun` $\rightarrow$ `Keluarga (Family)` $\rightarrow$ `Penduduk (Citizen)`.
-  - Panel admin Filament untuk input kuesioner keluarga dan data penduduk.
-- **Layanan Mandiri & Pengaduan Warga**: Layanan permohonan surat administrasi desa, pelacakan status permohonan via nomor tiket, formulir pengaduan warga online, serta buku tamu digital terintegrasi.
-- **Peta Spasial Desa**: Pemetaan interaktif wilayah administratif dusun, batas wilayah, dan titik koordinat sebaran fasilitas umum berbasis Leaflet.js.
+- **Data Mikro Kependudukan (Regsosek & SDGs)**: Pengelolaan hierarki wilayah `Dusun` $\rightarrow$ `Keluarga` $\rightarrow$ `Penduduk` melalui panel admin Filament terintegrasi.
+- **Dashboard Statistik Dinamis**: Visualisasi grafik kependudukan secara real-time. Mendukung format perbandingan 1 arah dan 2 arah (*Horizontal Stacked Bar Chart*) serta fitur ekspor tabel ber-Kop Header resmi Pemerintah Desa (CSV, Excel, PDF).
+- **Manajemen Konten (CMS)**: 
+  - **Berita & Kegiatan**: Artikel terpublikasi dengan kompresi otomatis gambar (menjamin pratinjau WhatsApp) dan struktur metadata SEO (`JSON-LD`).
+  - **Pengumuman Resmi**: Daftar pengumuman interaktif bergaya *accordion* (Baca Cepat).
+  - **Galeri & Infografis**: Pengelolaan multi-tipe visual (Foto, embed YouTube) serta fitur **Infografis Popup** untuk pesan darurat/iklan layanan masyarakat di halaman depan.
+- **Profil Pemerintahan Desa**: Manajemen daftar susunan **Aparatur Desa** dan tata kelola **Lembaga Kemasyarakatan**, lengkap dengan deskripsi fungsional serta bagan hierarki.
+- **Peta Spasial & GIS Desa**: Pemetaan interaktif Leaflet.js untuk delineasi batas wilayah administratif dusun dan titik persebaran (*markers*) **Fasilitas Publik / Umum**.
+- **Keterbukaan Informasi Publik**:
+  - **Transparansi APBDes**: Visualisasi donat alokasi anggaran dan progress bar serapan biaya secara presisi.
+  - **Repositori Unduhan**: Pengarsipan Dokumen Publik (SK, Perdes), Publikasi Desa (Laporan/Buku Terbitan), dan Dataset Terbuka (Open Data CSV/Excel) dengan mekanisme pencatatan riwayat unduhan.
+  - **Potensi Desa**: Basis data kekayaan lokal meliputi sektor pariwisata, pertanian, peternakan, hingga industri kreatif.
+- **Layanan Mandiri & Interaksi Warga**:
+  - **Permohonan Surat**: Sistem *self-service* pencetakan surat administrasi berbekal identifikasi NIK, disertai fitur penerbitan dan pelacakan **Nomor Tiket**.
+  - **Pengaduan Online & Buku Tamu**: Mekanisme umpan balik (*feedback*) warga langsung ke antrean tinjauan dashboard operator desa.
+- **Konfigurasi Global & Keamanan (Tanpa Coding)**:
+  - Manajemen identitas logo desa, kontak, tautan medsos, metadata SEO, serta **Pemilih Tema Warna Dinamis** dari pengaturan admin.
+  - Skema autentikasi kokoh berbasis *Role-Based Access Control* (RBAC) dengan Spatie Permissions.
 
 ---
 
