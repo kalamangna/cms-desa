@@ -463,7 +463,6 @@
                                     <td class="px-5 py-3.5 text-right text-xs font-black text-pink-700 whitespace-nowrap">{{ number_format($totalPerempuan, 0, ',', '.') }}</td>
                                     <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">
                                         {{ number_format($totalAll, 0, ',', '.') }}
-                                        <span class="text-[10px] text-slate-500 font-bold ml-1">(100%)</span>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -519,7 +518,7 @@
                                 <tr>
                                     <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100/70">Total</td>
                                     <td class="px-6 py-3.5 text-right text-xs font-black text-emerald-700 whitespace-nowrap">{{ number_format($grandTotal, 0, ',', '.') }}</td>
-                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">100%</td>
+                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">—</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -1009,7 +1008,6 @@
                             <td class="px-5 py-3.5 text-right text-xs font-black text-pink-700 whitespace-nowrap">${totP.toLocaleString('id-ID')}</td>
                             <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">
                                 ${totT.toLocaleString('id-ID')}
-                                <span class="text-[10px] text-slate-500 font-bold ml-1">(100%)</span>
                             </td>
                         </tr>`;
                     }
@@ -1042,7 +1040,7 @@
                         tfoot.innerHTML = `<tr>
                             <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100/70">Total</td>
                             <td class="px-6 py-3.5 text-right text-xs font-black text-emerald-700 whitespace-nowrap">${grandTotal.toLocaleString('id-ID')}</td>
-                            <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">100%</td>
+                            <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">—</td>
                         </tr>`;
                     }
                 }
