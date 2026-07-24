@@ -149,7 +149,11 @@
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    </noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <!-- Scripts & Styles -->
@@ -244,7 +248,7 @@
             <div class="flex justify-between items-center h-16 transition-all duration-300">
                 <div class="flex items-center">
                     <a href="/" class="flex-shrink-0 flex items-center gap-3">
-                        <img class="h-10 w-auto transition-all duration-300" :class="scrolled ? 'h-9' : 'h-11'" src="{{ asset('img/sinjai.png') }}" alt="Logo">
+                        <img class="h-10 w-auto transition-all duration-300" :class="scrolled ? 'h-9' : 'h-11'" src="{{ asset('img/sinjai.png') }}" alt="Logo" width="44" height="44">
                         <div class="flex flex-col">
                             <span class="font-heading font-bold text-lg leading-tight text-emerald-600">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
                             <span class="text-[9px] uppercase tracking-widest text-slate-500 font-bold">Portal Resmi Desa</span>
@@ -454,7 +458,7 @@
                 <div class="lg:col-span-2">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-12 h-12 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center">
-                            <img class="h-8 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo">
+                            <img class="h-8 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo" width="32" height="32">
                         </div>
                         <div>
                             <h3 class="text-lg font-heading font-bold tracking-tight">{{ $site_settings['village_name'] ?? 'Website Desa' }}</h3>

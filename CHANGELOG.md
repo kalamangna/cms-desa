@@ -7,7 +7,9 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 ### Documentation
 - **Penyelarasan Dokumentasi Lintas Modul**: Memperbarui dokumen spesifikasi, implementasi, basis data, panduan pengguna, dan pengujian (`1_INTRODUCTION.md`, `2_REQUIREMENTS_ANALYSIS.md`, `3_SYSTEM_DESIGN.md`, `4_IMPLEMENTATION.md`, `5_DATABASE.md`, `8_USER_GUIDE.md`, `9_TESTING.md`, dan `TECHNICAL_REPORT.md`) agar secara komprehensif memuat rincian fitur-fitur penting yang telah terbangun: Manajemen Konten/CMS, Spasial & Pemetaan GIS, Repositori Keterbukaan Publik, dan Layanan Mandiri.
 
-
+### SEO & Web Vitals
+- **Structured Data (JSON-LD)**: Menyuntikkan schema `TouristAttraction` dan `Place` ke halaman Potensi Desa agar dapat dibaca optimal oleh mesin telusur.
+- **Core Web Vitals - CLS & FOUT**: Mencegah *Cumulative Layout Shift* dengan membakukan atribut `width` dan `height` pada elemen gambar (seperti logo navigasi), serta menambahkan fitur `<link rel="preload">` pada *font* Inter & Poppins di `app.blade.php` agar mencegah *Flash of Unstyled Text*.
 ## [1.8.2] - 2026-07-24
 
 ### Added

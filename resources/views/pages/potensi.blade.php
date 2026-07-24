@@ -4,6 +4,31 @@
 @section('meta_description', 'Katalog potensi unggulan, komoditas, kebudayaan, dan pariwisata pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.png'))
 
+@push('head')
+@if(!$potentials->isEmpty())
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@graph": [
+        @foreach($potentials as $pot)
+        {
+            "@@type": "TouristAttraction",
+            "@@id": "{{ url('/potensi') }}#potensi-{{ $pot->id }}",
+            "name": {!! json_encode($pot->title) !!},
+            "description": {!! json_encode(strip_tags($pot->description)) !!},
+            "image": "{{ $pot->image ? asset('storage/' . $pot->image) : asset('img/meta.png') }}",
+            "location": {
+                "@@type": "Place",
+                "name": "Desa {{ $site_settings['village_name'] ?? '' }}"
+            }
+        }@if(!$loop->last),@endif
+        @endforeach
+    ]
+}
+</script>
+@endif
+@endpush
+
 @section('content')
 
 {{-- ===================== HERO ===================== --}}
