@@ -10,10 +10,12 @@ use App\Models\StatisticCategory;
 use App\Models\StatisticData;
 use App\Models\StatisticIndicator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class StatisticService
 {
     const ALLOWED_OPERATORS = ['=', '!=', '>', '<', '>=', '<=', 'LIKE', 'whereNotNull', 'whereNullOrTidak', 'whereNotIn'];
+
     /**
      * Ambil data statistik lengkap untuk halaman /statistik.
      */
@@ -65,6 +67,7 @@ class StatisticService
                     'name' => $indicator->name,
                     'unit' => $indicator->unit,
                     'color' => $c,
+                    'breakdowns' => $indicator->breakdowns ?? [],
                     'data' => $indicator->data->map(fn ($d) => [
                         'year' => (int) $d->year,
                         'value' => (int) $d->value,
@@ -76,8 +79,9 @@ class StatisticService
 
             $data[$category->slug] = [
                 'name' => $category->name,
+                'secondaryConfigs' => $category->secondaryConfigs ?? [],
                 'years' => $category->indicators
-                    ->flatMap(fn ($i) => $i->data->pluck('year'))
+                    ->flatMap(fn ($i) => $i->data ? $i->data->pluck('year') : collect())
                     ->unique()->sort()->values()->toArray(),
                 'indicators' => $indicatorsData,
             ];
@@ -127,10 +131,6 @@ class StatisticService
         ];
     }
 
-    /**
-     * Hitung pertumbuhan year-on-year berdasarkan data yang setara:
-     * jumlah penduduk aktif tahun ini vs jumlah penduduk aktif tahun lalu.
-     */
     private function calculateYoYGrowth(int $currentYear, int $citizenCountThisYear): ?float
     {
         $citizenCountLastYear = StatisticData::where('year', $currentYear - 1)
@@ -160,11 +160,10 @@ class StatisticService
         $dusunCategory = $this->createStaticDusunCategory($currentYear, $selectedDusunId);
 
         if ($categories->isEmpty()) {
-            return $dusunCategory;
+            $categories = $dusunCategory;
+        } else {
+            $categories = $dusunCategory->concat($categories);
         }
-
-        // Prepend synthetic Penduduk category as the first default category
-        $categories = $dusunCategory->concat($categories);
 
         foreach ($categories as $category) {
             if (! $category->mapping_table) {
@@ -173,6 +172,9 @@ class StatisticService
             if (! in_array($category->mapping_table, StatisticCategory::ALLOWED_TABLES, true)) {
                 continue;
             }
+
+            $secondaryConfigs = $this->getSecondaryOptions($category);
+            $category->secondaryConfigs = $secondaryConfigs;
 
             $allowedColumns = StatisticCategory::ALLOWED_COLUMNS[$category->mapping_table] ?? [];
 
@@ -189,6 +191,20 @@ class StatisticService
                     : $this->queryIndicatorCount($category, $indicator, $selectedDusunId);
 
                 $genderBreakdown = $this->getGenderBreakdown($category, $indicator, $selectedDusunId, $isEmptyDb);
+
+                // Compute breakdowns for all configured secondary columns
+                $breakdowns = [];
+                foreach ($secondaryConfigs as $secKey => $secConf) {
+                    $breakdowns[$secKey] = $this->getSecondaryBreakdownCounts(
+                        $category,
+                        $indicator,
+                        $secKey,
+                        $secConf['options'],
+                        $selectedDusunId,
+                        $isEmptyDb,
+                    );
+                }
+                $indicator->breakdowns = $breakdowns;
 
                 $liveData = new StatisticData([
                     'year' => $currentYear,
@@ -211,6 +227,141 @@ class StatisticService
         }
 
         return $categories;
+    }
+
+    public function getSecondaryOptions(StatisticCategory $category): array
+    {
+        $secCols = $category->secondary_columns;
+        if (empty($secCols)) {
+            if ($category->mapping_table === 'citizens') {
+                $secCols = ['gender'];
+            } else {
+                $secCols = [];
+            }
+        }
+
+        $allLabels = [
+            'gender' => 'Jenis Kelamin',
+            'education_level' => 'Tingkat Pendidikan',
+            'marital_status' => 'Status Perkawinan',
+            'job_status' => 'Status Pekerjaan',
+            'dusun_id' => 'Dusun',
+            'school_participation' => 'Partisipasi Sekolah',
+            'has_digital_wallet' => 'Dompet Digital / Rekening',
+            'bpjs_status' => 'Kepesertaan BPJS',
+            'ownership_status' => 'Status Kepemilikan Rumah',
+            'building_type' => 'Jenis Bangunan',
+            'water_source' => 'Sumber Air Minum',
+            'lighting_source' => 'Sumber Penerangan',
+        ];
+
+        $palette = ['#0ea5e9','#ec4899','#10b981','#f59e0b','#8b5cf6','#f43f5e','#06b6d4','#14b8a6','#f97316','#3b82f6','#64748b','#84cc16'];
+
+        $result = [];
+        foreach ($secCols as $col) {
+            $label = $allLabels[$col] ?? ucwords(str_replace('_', ' ', $col));
+            $options = $this->getSecondaryOptionsList($category, $col);
+            $colors = [];
+            foreach ($options as $idx => $opt) {
+                if ($col === 'gender') {
+                    $colors[] = str_contains(strtolower($opt), 'laki') ? '#0ea5e9' : '#ec4899';
+                } else {
+                    $colors[] = $palette[$idx % count($palette)];
+                }
+            }
+            $result[$col] = [
+                'key' => $col,
+                'label' => $label,
+                'options' => $options,
+                'colors' => $colors,
+            ];
+        }
+
+        return $result;
+    }
+
+    private function getSecondaryOptionsList(StatisticCategory $category, string $column): array
+    {
+        return match ($column) {
+            'gender' => ['Laki-laki', 'Perempuan'],
+            'education_level' => [
+                'Tidak Punya Ijazah SD', 'SD / Sederajat', 'SMP / Sederajat',
+                'SMA / Sederajat', 'D1 / D2 / D3', 'D4 / S1 / Profesi', 'S2 / S3'
+            ],
+            'marital_status' => ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati'],
+            'job_status' => [
+                'Berusaha Sendiri', 'Buruh / Karyawan / Pegawai Swasta', 'Pekerja Bebas',
+                'Pekerja Keluarga / Tidak Dibayar', 'ASN / TNI / Polri / BUMN / BUMD / Pejabat Negara',
+                'Berusaha Dibantu Buruh', 'Lainnya'
+            ],
+            'school_participation' => ['Tidak / Belum Pernah Sekolah', 'Masih Sekolah', 'Tidak Bersekolah Lagi'],
+            'has_digital_wallet' => ['Tidak Ada', 'Ya untuk Pribadi', 'Ya untuk Usaha & Pribadi', 'Ya untuk Usaha'],
+            'bpjs_status' => ['BPJS PBI Pemda', 'BPJS Mandiri', 'BPJS PBI Tunjangan Pemerintah Pusat', 'Tidak Terdaftar'],
+            'ownership_status' => ['Milik Sendiri', 'Bebas Sewa', 'Sewa / Kontrak'],
+            'building_type' => ['Rumah Tinggal Tunggal', 'Lainnya'],
+            'water_source' => ['Sumur Terlindung', 'Sumur Bor / Pompa', 'Leding', 'Mata Air', 'Air kemasan bermerek', 'Lainnya'],
+            'lighting_source' => ['Listrik PLN Dengan Meteran', 'Listrik PLN Tanpa Meteran', 'Listrik Non-PLN', 'Bukan Listrik'],
+            'dusun_id' => Dusun::orderBy('name', 'asc')->pluck('name')->map(fn($n) => 'Dusun ' . $n)->toArray(),
+            default => DB::table($category->mapping_table)->whereNotNull($column)->where($column, '!=', '')->distinct()->pluck($column)->toArray(),
+        };
+    }
+
+    private function getSecondaryBreakdownCounts(
+        StatisticCategory $category,
+        StatisticIndicator $indicator,
+        string $secColumn,
+        array $secOptions,
+        ?int $selectedDusunId,
+        bool $isEmptyDb
+    ): array {
+        if ($isEmptyDb) {
+            $res = [];
+            foreach ($secOptions as $opt) {
+                $res[$opt] = 0;
+            }
+            return $res;
+        }
+
+        $baseQuery = $category->mapping_table === 'families'
+            ? Family::query()
+            : Citizen::query()->where('status', 'Aktif');
+
+        if ($selectedDusunId) {
+            $baseQuery->where('dusun_id', $selectedDusunId);
+        }
+
+        $this->applyIndicatorCondition($baseQuery, $indicator);
+
+        $res = [];
+        if ($secColumn === 'dusun_id') {
+            $dusuns = Dusun::orderBy('name', 'asc')->get();
+            foreach ($dusuns as $dusun) {
+                $optName = 'Dusun ' . $dusun->name;
+                $res[$optName] = (clone $baseQuery)->where('dusun_id', $dusun->id)->count();
+            }
+        } elseif (in_array($secColumn, ['assistance_type'], true)) {
+            foreach ($secOptions as $opt) {
+                $q = clone $baseQuery;
+                if ($opt === 'Tidak Menerima Bantuan') {
+                    $q->where(fn($sub) => $sub->whereNull('assistance_type')->orWhere('assistance_type', 'Tidak Ada')->orWhere('assistance_type', ''));
+                } else {
+                    $q->where('assistance_type', 'LIKE', '%' . $opt . '%');
+                }
+                $res[$opt] = $q->count();
+            }
+        } else {
+            foreach ($secOptions as $opt) {
+                $q = clone $baseQuery;
+                if ($opt === 'Tidak Ada' || $opt === 'Tidak Terdaftar') {
+                    $q->where(fn($sub) => $sub->whereNull($secColumn)->orWhere($secColumn, '')->orWhere($secColumn, $opt));
+                } else {
+                    $q->where($secColumn, '=', $opt);
+                }
+                $res[$opt] = $q->count();
+            }
+        }
+
+        return $res;
     }
 
     private function queryIndicatorCount(
@@ -260,9 +411,6 @@ class StatisticService
         ];
     }
 
-    /**
-     * Terapkan kondisi query berdasarkan indikator mapping.
-     */
     private function applyIndicatorCondition($query, StatisticIndicator $indicator): void
     {
         $operator = $indicator->mapping_operator ?: '=';
@@ -312,9 +460,9 @@ class StatisticService
         ?int $selectedDusunId,
         ?int $selectedYear,
     ): Collection {
-        $historicalData = $indicator->data->filter(
+        $historicalData = $indicator->data ? $indicator->data->filter(
             fn ($d) => (int) $d->year !== $currentYear,
-        );
+        ) : collect();
 
         if ($selectedDusunId) {
             $historicalData = collect();
@@ -365,6 +513,14 @@ class StatisticService
                 'unit' => 'Jiwa',
             ]);
             $indicator->setRelation('data', collect([$liveData]));
+
+            $indicator->breakdowns = [
+                'gender' => [
+                    'Laki-laki' => $male,
+                    'Perempuan' => $female,
+                ],
+            ];
+
             $indicators->push($indicator);
         }
 
@@ -373,8 +529,19 @@ class StatisticService
             'slug' => 'penduduk',
             'description' => 'Data statistik real-time sebaran jumlah penduduk aktif berdasarkan wilayah dusun.',
             'mapping_table' => 'citizens',
+            'secondary_columns' => ['gender'],
             'is_active' => true,
         ]);
+
+        $category->secondaryConfigs = [
+            'gender' => [
+                'key' => 'gender',
+                'label' => 'Jenis Kelamin',
+                'options' => ['Laki-laki', 'Perempuan'],
+                'colors' => ['#0ea5e9', '#ec4899'],
+            ],
+        ];
+
         $category->setRelation('indicators', $indicators);
 
         return collect([$category]);

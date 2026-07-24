@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 
 class ComplaintsTable
 {
@@ -39,7 +40,13 @@ class ComplaintsTable
                     ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'Menunggu' => 'Menunggu',
+                        'Diproses' => 'Diproses',
+                        'Selesai' => 'Selesai',
+                    ]),
             ])
             ->recordActions([
                 Action::make('whatsapp')

@@ -2,6 +2,20 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.8.2] - 2026-07-24
+
+### Added
+- **Multi-Pembanding Dinamis Grafik & Tabel (Sumbu Ke-2)**: Menambahkan field `secondary_columns` pada model `StatisticCategory` dan form Filament Admin (`StatisticCategoryForm.php`) untuk memilih lebih dari 1 kolom pembanding per kategori statistik secara fleksibel (misal: *Jenis Kelamin*, *Pendidikan*, *Status Perkawinan*, *Dusun*, dll.).
+- **Perhitungan Matriks Breakdown Dinamis**: Menyempurnakan `StatisticService` dengan kalkulasi cross-tabulation dinamis per indikator untuk semua kolom pembanding yang dikonfigurasi.
+- **Horizontal Stacked Bar Chart untuk Data 2 Arah**: Mengimplementasikan grafik batang tumpuk horizontal (*Horizontal Stacked Bar*) saat opsi pembanding diaktifkan di halaman `/statistik`, dengan label indikator berdiri tegak, rapi, dan mudah dibaca tanpa saling bertumpukan atau miring.
+- **Warna Aksen Tabel Berpasangan**: Merender header kolom, sel data, dan footer tabel dengan warna yang diselaraskan secara presisi terhadap palet warna pada grafik.
+
+### Changed
+- **Penyederhanaan Default Pembanding**: Menetapkan opsi *"Tanpa Pembanding"* sebagai default universal untuk data penduduk dan keluarga, sehingga statistik diawali dengan tampilan 1 arah dan dapat ditingkatkan ke 2 arah secara opsional dari dropdown.
+- **Penyembunyian Otomatis Pie Chart**: Menyembunyikan tombol pilihan Pie/Doughnut Chart secara otomatis saat mode pembanding 2 arah diaktifkan.
+- **Penguncian Cell Indikator Tabel (Sticky Column)**: Memperbaiki sel kolom `Indikator` pada `<thead>`, `<tbody>`, dan `<tfoot>` dengan background padat (solid 100%), *z-index* tinggi, serta bayangan pemisah (*right shadow*) agar data tidak bocor atau saling bertumpukan (*overflow*) saat tabel di-scroll secara horizontal.
+- **Pembersihan Berkas Migrasi**: Mengkonsolidasikan migrasi penambahan kolom dan inisialisasi default `secondary_columns` ke dalam satu berkas bersih `2026_07_24_165000_add_secondary_columns_to_statistic_categories_table.php`.
+
 ## [1.8.1] - 2026-07-24
 
 ### Changed

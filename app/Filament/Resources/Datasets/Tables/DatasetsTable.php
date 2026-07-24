@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -17,34 +18,59 @@ class DatasetsTable
     {
         return $table
             ->columns([
-                TextColumn::make('title')->label('Judul')
-                    ->searchable(),
-                TextColumn::make('slug')->label('Slug')
-                    ->searchable(),
-                TextColumn::make('year')->label('Tahun')
-                    ->sortable(),
-                TextColumn::make('source')->label('Sumber')
-                    ->searchable(),
-                TextColumn::make('file_csv')->label('File CSV')
-                    ->searchable(),
-                TextColumn::make('file_xlsx')->label('File XLSX')
-                    ->searchable(),
-                TextColumn::make('file_pdf')->label('File PDF')
-                    ->searchable(),
-                TextColumn::make('created_at')->label('Dibuat')
-                    ->dateTime()
+                // ── Kolom utama ──────────────────────────────────────────────────
+                TextColumn::make('title')
+                    ->label('Judul')
+                    ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')->label('Diperbarui')
-                    ->dateTime()
+                    ->limit(40),
+
+                TextColumn::make('year')
+                    ->label('Tahun')
                     ->sortable()
+                    ->badge()
+                    ->color('gray'),
+
+                TextColumn::make('source')
+                    ->label('Sumber')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->limit(25),
+
+                TextColumn::make('slug')
+                    ->label('Slug')
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')->label('Dihapus')
-                    ->dateTime()
+
+                // ── Ketersediaan berkas (ikon ceklis) ────────────────────────────
+                TextColumn::make('file_csv')
+                    ->label('CSV')
+                    ->formatStateUsing(fn ($state) => empty($state) ? '—' : '✓')
+                    ->color(fn ($state) => empty($state) ? 'gray' : 'success')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('file_xlsx')
+                    ->label('XLSX')
+                    ->formatStateUsing(fn ($state) => empty($state) ? '—' : '✓')
+                    ->color(fn ($state) => empty($state) ? 'gray' : 'success')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('file_pdf')
+                    ->label('PDF')
+                    ->formatStateUsing(fn ($state) => empty($state) ? '—' : '✓')
+                    ->color(fn ($state) => empty($state) ? 'gray' : 'success')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('created_at')
+                    ->label('Dibuat')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('year')
+                    ->label('Tahun')
+                    ->options(fn () => \App\Models\Dataset::distinct()->orderByDesc('year')->pluck('year', 'year')->toArray()),
                 TrashedFilter::make(),
             ])
             ->recordActions([

@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 
 class ServiceRequestsTable
 {
@@ -39,7 +40,18 @@ class ServiceRequestsTable
                     ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'Menunggu' => 'Menunggu',
+                        'Diproses' => 'Diproses',
+                        'Selesai' => 'Selesai',
+                    ]),
+                SelectFilter::make('service_id')
+                    ->label('Layanan')
+                    ->relationship('service', 'title')
+                    ->searchable()
+                    ->preload(),
             ])
             ->recordActions([
                 Action::make('whatsapp')

@@ -19,10 +19,25 @@ class GalleriesTable
         return $table
             ->columns([
                 TextColumn::make('title')->label('Judul')
-                    ->searchable(),
-                TextColumn::make('slug')->label('Slug')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->limit(35),
+                TextColumn::make('type')->label('Tipe')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'photo' => 'success',
+                        'video' => 'danger',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'photo' => '🖼️ Foto',
+                        'video' => '🎬 Video',
+                        default => $state,
+                    }),
                 ImageColumn::make('image')->label('Gambar'),
+                TextColumn::make('slug')->label('Slug')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()

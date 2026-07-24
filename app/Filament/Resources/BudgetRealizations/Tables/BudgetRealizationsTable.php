@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class BudgetRealizationsTable
@@ -37,7 +38,14 @@ class BudgetRealizationsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('year')
+                    ->label('Tahun')
+                    ->options(fn () => \App\Models\BudgetRealization::distinct()->orderByDesc('year')->pluck('year', 'year')->toArray()),
+                SelectFilter::make('budget_category_id')
+                    ->label('Kategori')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload(),
             ])
             ->recordActions([
                 EditAction::make(),

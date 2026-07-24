@@ -15,7 +15,7 @@ class PublicationsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('cover'),
+                ImageColumn::make('cover')->label('Sampul'),
                 TextColumn::make('title')->label('Judul')
                     ->searchable()
                     ->sortable(),

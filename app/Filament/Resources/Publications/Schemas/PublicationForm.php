@@ -34,7 +34,6 @@ class PublicationForm
                     ->nullable()
                     ->directory('publications/covers'),
                 FileUpload::make('pdf_file')->label('File PDF')
-                    ->label('PDF File')
                     ->directory('publications/pdfs')
                     ->acceptedFileTypes(['application/pdf'])
                     ->required(),

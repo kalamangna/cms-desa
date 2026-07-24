@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class StatisticCategory extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'description', 'is_active', 'mapping_table', 'mapping_column',
+        'name', 'slug', 'description', 'is_active', 'mapping_table', 'mapping_column', 'secondary_columns',
         'comparison_column', 'comparison_value_a', 'comparison_value_b', 'comparison_label_a', 'comparison_label_b'
     ];
 
     protected $casts = [
         'mapping_column' => 'array',
+        'secondary_columns' => 'array',
     ];
 
     public function indicators()

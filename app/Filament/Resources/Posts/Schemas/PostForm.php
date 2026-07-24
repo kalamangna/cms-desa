@@ -8,8 +8,8 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Str;
-use Filament\Forms\Set;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
 
 class PostForm
 {
@@ -17,22 +17,36 @@ class PostForm
     {
         return $schema
             ->components([
-                Select::make('category_id')->label('Kategori')
-                    ->relationship('category', 'name')
-                    ->required()
-                    ->searchable()
-                    ->preload(),
-                TextInput::make('title')->label('Judul')
-                    ->required(),
-                RichEditor::make('content')->label('Konten')
-                    ->required()
-                    ->columnSpanFull(),
-                FileUpload::make('featured_image')->label('Gambar')
-                    ->image()
-                    ->imageResizeTargetWidth(1200)
-                    ->nullable()
-                    ->directory('posts'),
-                DateTimePicker::make('published_at')->label('Tanggal Publikasi'),
+                Section::make('Konten Berita')
+                    ->description('Judul, kategori, dan isi artikel berita')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('title')->label('Judul')
+                                    ->required()
+                                    ->columnSpanFull(),
+                                Select::make('category_id')->label('Kategori')
+                                    ->relationship('category', 'name')
+                                    ->required()
+                                    ->searchable()
+                                    ->preload(),
+                                FileUpload::make('featured_image')->label('Gambar Utama')
+                                    ->image()
+                                    ->imageResizeTargetWidth(1200)
+                                    ->nullable()
+                                    ->directory('posts'),
+                            ]),
+                        RichEditor::make('content')->label('Konten')
+                            ->required()
+                            ->columnSpanFull(),
+                    ]),
+
+                Section::make('Pengaturan Publikasi')
+                    ->description('Waktu tayang artikel di halaman publik')
+                    ->schema([
+                        DateTimePicker::make('published_at')->label('Tanggal Publikasi')
+                            ->helperText('Kosongkan jika belum ingin dipublikasikan'),
+                    ]),
             ]);
     }
 }
