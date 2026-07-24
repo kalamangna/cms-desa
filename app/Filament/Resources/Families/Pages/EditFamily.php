@@ -20,4 +20,15 @@ class EditFamily extends EditRecord
             RestoreAction::make(),
         ];
     }
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        if (isset($data['assistance_type']) && is_string($data['assistance_type'])) {
+            if (empty($data['assistance_type']) || $data['assistance_type'] === 'Tidak Ada') {
+                $data['assistance_type'] = [];
+            } else {
+                $data['assistance_type'] = array_map('trim', explode(',', $data['assistance_type']));
+            }
+        }
+        return $data;
+    }
 }
