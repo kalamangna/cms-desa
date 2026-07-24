@@ -1,7 +1,7 @@
 # 🏛️ Website Desa — Instruksi Pengembangan & Catatan Kerja (Gemini Agent)
 
 ## 📌 Aturan Eksekusi Perintah "PUSH" (Pre-Push Checklist)
-*   **Pencatatan Perubahan:** Setiap sebelum melakukan *push*, pastikan untuk mencatat semua perubahan yang telah dilakukan di dalam berkas [CHANGELOG.md](file:///Users/abedzul/Desktop/htdocs/desa-cms/CHANGELOG.md) sesuai dengan format Keep a Changelog.
+*   **Pencatatan Perubahan:** Setiap sebelum melakukan *push*, pastikan untuk mencatat semua perubahan yang telah dilakukan di dalam berkas [docs/CHANGELOG.md](file:///Users/abedzul/Desktop/htdocs/desa-cms/docs/CHANGELOG.md) sesuai dengan format Keep a Changelog.
 *   **Pembaruan Dokumentasi:** Perbarui berkas [README.md](file:///Users/abedzul/Desktop/htdocs/desa-cms/README.md) jika terdapat perubahan atau penambahan fitur baru yang memerlukan instruksi/konfigurasi tambahan.
 *   **Kompilasi CSS (Tailwind 4 & Vite):** Jika terdapat perubahan pada berkas CSS, pastikan untuk melakukan proses *build* CSS (`npm run build`) sebelum melakukan *push*. Namun, karena pengguna saat ini menjalankan proses *watch* CSS (`npm run dev` atau `composer dev`) secara aktif, **tidak perlu menjalankan build CSS secara berulang-ulang** selama penulisan kode maupun sebelum melakukan *push*.
 *   **Dependensi Composer (Laravel 12 & Filament v4):** Jika terdapat perubahan pada berkas [composer.json](file:///Users/abedzul/Desktop/htdocs/desa-cms/composer.json) atau `composer.lock`, pastikan untuk menjalankan perintah `composer install --no-dev --optimize-autoloader` sebelum melakukan *push*.
