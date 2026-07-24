@@ -9,13 +9,10 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 Dokumentasi lengkap pengembangan dan pengoperasian sistem informasi ini tersusun secara terstruktur di dalam folder `docs/`:
 
 - 📑 **[Laporan Teknis & Spesifikasi Sistem (SRS & SDD)](docs/TECHNICAL_REPORT.md)** — Dokumen spesifikasi kebutuhan, perancangan arsitektur, dan laporan hasil pengujian sistem untuk PAK/BAST.
-- 💻 **[Panduan Instalasi & Deployment](docs/INSTALLATION.md)** — Instruksi pemasangan di lingkungan lokal maupun server produksi (Hostinger, cPanel, VPS).
-- 📜 **[Riwayat Perubahan (Changelog)](docs/CHANGELOG.md)** — Catatan riwayat versi dan pembaruan fitur (*Keep a Changelog*).
-- 🌐 **[Dokumentasi API & Endpoint](docs/API.md)** — Rincian endpoint API statistik, permohonan layanan, dan tracking analitik pengunjung.
-- 🗄️ **[Struktur Basis Data & ERD](docs/DATABASE.md)** — Dokumentasi skema tabel, relasi entitas, tipe data, dan optimasi kueri database.
+- 🗄️ **[Arsitektur Sistem, API, & Keamanan](docs/SYSTEM_ARCHITECTURE.md)** — Dokumentasi skema basis data (ERD), rincian endpoint API internal/publik, serta kebijakan hardening keamanan.
+- 💻 **[Panduan Deployment & Troubleshooting](docs/DEPLOYMENT_GUIDE.md)** — Instruksi instalasi lokal, panduan deployment server produksi (Hostinger hPanel/SSH), serta solusi pemecahan masalah (FAQ).
 - 📖 **[Buku Petunjuk Pengguna (User Guide)](docs/USER_GUIDE.md)** — Panduan pengoperasian untuk Operator Desa (Admin Panel Filament) dan Masyarakat Umum (Portal Publik).
-- 🛠️ **[Panduan Penanganan Masalah & FAQ](docs/TROUBLESHOOTING.md)** — Solusi kendala hosting (Hostinger/symlink), impor Excel, pratinjau WhatsApp, dan pembersihan cache.
-- 🛡️ **[Kebijakan Keamanan & Hardening](docs/SECURITY.md)** — Arsitektur keamanan CSRF, XSS sanitization, PDO SQL injection prevention, RBAC, dan validasi berkas.
+- 📜 **[Riwayat Perubahan (Changelog)](docs/CHANGELOG.md)** — Catatan riwayat versi dan pembaruan fitur (*Keep a Changelog*).
 
 ---
 
@@ -71,4 +68,4 @@ Dokumentasi lengkap pengembangan dan pengoperasian sistem informasi ini tersusun
    npm run dev
    php artisan serve
    ```
-*Untuk panduan lengkap instalasi dan deployment server produksi, silakan baca [docs/INSTALLATION.md](docs/INSTALLATION.md).*
+*Untuk panduan lengkap instalasi dan deployment server produksi, silakan baca [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md).*
