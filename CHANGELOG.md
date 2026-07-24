@@ -2,6 +2,18 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.7.9] - 2026-07-24
+
+### Added
+- **Pengisian Karakteristik Rumah via Dropdown (Select)**: Mengubah seluruh field input tekstual pada Tab Karakteristik Rumah di Form Admin Keluarga (`FamilyForm.php`) menjadi *Select Dropdown* (`building_type`, `ownership_status`, `ownership_proof`, `floor_material`, `wall_material`, `roof_material`) dengan pilihan baku *Title Case* yang rapi.
+- **Standarisasi Nilai Karakteristik Rumah di Database**: Menambahkan migrasi `2026_07_24_142511_standardize_house_characteristics_in_families_and_indicators.php` untuk merapikan penulisan data bahan bangunan dan status kepemilikan menjadi *Title Case* baku (seperti `Semen / Bata Merah`, `Kayu / Papan / Gipsum / GRC / Calciboard`, `Milik Sendiri`, `Sewa / Kontrak`).
+- **Kop Header Resmi pada Ekspor Tabel**: Berkas hasil ekspor tabel (CSV, Excel, PDF) di halaman statistik kini dilengkapi Kop Header berisi Nama Desa (`PEMERINTAH DESA ...`), Nama Kategori Statistik, serta Tanggal Ekspor.
+- **Penyelarasan Format Nama File Ekspor**: Standarisasi nama file yang diunduh dari statistik dengan pola `desa_[nama_desa]_statistik_[slug_kategori]_[tahun].[ext]`.
+- **Baris Total Footer Tabel Statistik**: Menambahkan baris akumulasi Total di `<tfoot>` tabel statistik web dan berkas ekspor. Persentase Laki-laki dan Perempuan pada footer tabel individu secara otomatis dihitung terhadap populasi keseluruhan.
+
+### Changed
+- **Penyatuan Tampilan Tabel Keluarga**: Menyesuaikan tampilan tabel keluarga pada halaman statistik agar mengikuti format tabel individu (menggabungkan persentase ke dalam kolom Total).
+
 ## [1.7.8] - 2026-07-24
 
 ### Added
