@@ -28,20 +28,23 @@ class CitizensTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('place_of_birth')->label('Tempat Lahir')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date_of_birth')->label('Tanggal Lahir')
                     ->date()
                     ->sortable(),
                 TextColumn::make('gender')->label('Jenis Kelamin')
                     ->searchable(),
                 TextColumn::make('religion')->label('Agama')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('education')->label('Pendidikan')
                     ->searchable(),
                 TextColumn::make('job')->label('Pekerjaan')
                     ->searchable(),
                 TextColumn::make('blood_type')->label('Gol. Darah')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('marital_status')->label('Status Kawin')
                     ->searchable(),
                 TextColumn::make('rt')->label('RT')
