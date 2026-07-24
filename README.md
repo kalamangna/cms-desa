@@ -14,6 +14,8 @@ Dokumentasi lengkap pengembangan dan pengoperasian sistem informasi ini tersusun
 - 🌐 **[Dokumentasi API & Endpoint](docs/API.md)** — Rincian endpoint API statistik, permohonan layanan, dan tracking analitik pengunjung.
 - 🗄️ **[Struktur Basis Data & ERD](docs/DATABASE.md)** — Dokumentasi skema tabel, relasi entitas, tipe data, dan optimasi kueri database.
 - 📖 **[Buku Petunjuk Pengguna (User Guide)](docs/USER_GUIDE.md)** — Panduan pengoperasian untuk Operator Desa (Admin Panel Filament) dan Masyarakat Umum (Portal Publik).
+- 🛠️ **[Panduan Penanganan Masalah & FAQ](docs/TROUBLESHOOTING.md)** — Solusi kendala hosting (Hostinger/symlink), impor Excel, pratinjau WhatsApp, dan pembersihan cache.
+- 🛡️ **[Kebijakan Keamanan & Hardening](docs/SECURITY.md)** — Arsitektur keamanan CSRF, XSS sanitization, PDO SQL injection prevention, RBAC, dan validasi berkas.
 
 ---
 
