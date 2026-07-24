@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.8.0] - 2026-07-24
+
+### Added
+- **Multi-Program Bantuan Sosial via Checkbox**: Mengubah field input bantuan sosial pada Form Admin Keluarga (`FamilyForm.php`) menjadi *CheckboxList* multi-pilihan dengan 6 program bantuan sosial baku (`PKH`, `BPNT / Sembako`, `BLT Desa`, `Subsidi Listrik`, `Bedah Rumah`, `Bantuan Lainnya`).
+- **Hidrasi Centang Otomatis Form Edit Keluarga**: Mengimplementasikan `mutateFormDataBeforeFill` pada `EditFamily.php` agar seluruh pilihan bantuan sosial yang tersimpan dari Excel otomatis tercentang secara presisi saat membuka form edit keluarga di Filament Admin.
+- **Normalisasi Variasi Status Pekerjaan**: Menambahkan migrasi `2026_07_24_150659_clean_and_normalize_all_job_status_variations.php` untuk menyatukan 30+ ejaan mentah `job_status` dari impor Excel menjadi 6 Kategori Baku *Title Case*.
+- **Normalisasi Data & Indikator Statistik Bantuan Sosial**: Menambahkan migrasi `2026_07_24_151240_sync_social_assistance_indicators_and_clean_data.php` untuk merapikan teks `assistance_type` di tabel `families` dan membuatkan kategori statistik "Jenis Bantuan Sosial" dengan 7 indikator terukur di `/statistik`.
+
 ## [1.7.9] - 2026-07-24
 
 ### Added
