@@ -1,4 +1,4 @@
-# BAB III: PERANCANGAN SISTEM (CHAPTER_3_SYSTEM_DESIGN.md)
+# BAB III: PERANCANGAN SISTEM (3_SYSTEM_DESIGN.md)
 
 ---
 
@@ -13,23 +13,25 @@ Sistem dibangun menggunakan pola **Model-View-Controller (MVC)** modern berbasis
 
 ## 3.2 Diagram Alir Data (Data Flow Diagram)
 ```
-[ Warga / Publik ]            [ Operator Desa ]
+[ Warga / Publik ]            [ Operator / Admin ]
         │                            │
         ▼                            ▼
 ┌──────────────────┐        ┌──────────────────┐
 │   Web Frontend   │        │ Filament Admin   │
-│  (Blade + Alpine)│        │   (Control Panel)│
+│ (Portal, Publikasi,       │ (Kelola Data Mikro,
+│  Layanan, GIS Map)        │  CMS, Profil, Pengaturan)
 └────────┬─────────┘        └────────┬─────────┘
          │                           │
          └─────────────┬─────────────┘
                        ▼
            ┌──────────────────────┐
            │  Laravel Core Engine │
-           │  (Routes, Controller,│
-           │   StatisticService)  │
+           │  (Routes, Middleware,│
+           │   Controller, Service)
            └───────────┬──────────┘
                        ▼
            ┌──────────────────────┐
            │ Database (MySQL/Maria)│
+           │ (Penduduk, CMS, Log)  │
            └──────────────────────┘
 ```

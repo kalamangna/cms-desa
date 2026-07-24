@@ -2,7 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
-## [1.8.2] - 2026-07-24
+## [1.8.3] - 2026-07-24
+
+### Documentation
+- **Penyelarasan Dokumentasi Lintas Modul**: Memperbarui dokumen spesifikasi, implementasi, basis data, panduan pengguna, dan pengujian (`1_INTRODUCTION.md`, `2_REQUIREMENTS_ANALYSIS.md`, `3_SYSTEM_DESIGN.md`, `4_IMPLEMENTATION.md`, `5_DATABASE.md`, `8_USER_GUIDE.md`, `9_TESTING.md`, dan `TECHNICAL_REPORT.md`) agar secara komprehensif memuat rincian fitur-fitur penting yang telah terbangun: Manajemen Konten/CMS, Spasial & Pemetaan GIS, Repositori Keterbukaan Publik, dan Layanan Mandiri.
+
 
 ### Added
 - **Multi-Pembanding Dinamis Grafik & Tabel (Sumbu Ke-2)**: Menambahkan field `secondary_columns` pada model `StatisticCategory` dan form Filament Admin (`StatisticCategoryForm.php`) untuk memilih lebih dari 1 kolom pembanding per kategori statistik secara fleksibel (misal: *Jenis Kelamin*, *Pendidikan*, *Status Perkawinan*, *Dusun*, dll.).

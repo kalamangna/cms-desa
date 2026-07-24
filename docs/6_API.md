@@ -1,4 +1,4 @@
-# BAB VI: API (CHAPTER_6_API.md)
+# BAB VI: API (6_API.md)
 
 ---
 

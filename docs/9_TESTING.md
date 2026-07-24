@@ -54,3 +54,6 @@ Pengujian UAT dilakukan secara langsung untuk memverifikasi fungsionalitas dan k
 | 8 | **Permohonan Surat & Tiket** | Warga mengisi formulir layanan mandiri di `/layanan-mandiri`. | Sistem mengembalikan Nomor Tiket pelacakan unik (`SRT-YYYYMMDD-XXXX`). | **SUCCESS** |
 | 9 | **Transparansi APBDes** | Membuka halaman `/apbdes` untuk melihat realisasi anggaran desa. | Diagram alokasi dan *progress bar* pencapaian realisasi anggaran tampil presisi. | **SUCCESS** |
 | 10 | **Pengaduan Warga Online** | Warga mengirimkan formulir laporan aduan di `/pengaduan`. | Laporan masuk ke dashboard Filament Admin operator untuk ditindaklanjuti. | **SUCCESS** |
+| 11 | **Manajemen Konten (CMS)** | Operator mempublikasikan berita, galeri, atau pengumuman via Filament. | Konten langsung muncul secara terurut (*latest*) pada beranda portal publik. | **SUCCESS** |
+| 12 | **Pemetaan Fasilitas (GIS)** | Menambahkan titik fasilitas publik beserta koordinat spasialnya. | Penanda (*marker*) otomatis terender presisi pada peta interaktif Leaflet.js publik. | **SUCCESS** |
+| 13 | **Konfigurasi Identitas Web** | Admin memperbarui logo, nama desa, dan kontak via *Setting* sistem. | Perubahan instan terefleksi di *header*, *footer*, dan *meta tags* SEO semua halaman. | **SUCCESS** |

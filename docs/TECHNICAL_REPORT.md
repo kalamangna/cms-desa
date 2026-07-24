@@ -125,6 +125,10 @@ Ruang lingkup proyek mencakup pembangunan backend Laravel 12, admin panel Filame
 - **FR-03 (Transparansi APBDes)**: Menyajikan target dan realisasi pendapatan/belanja desa lengkap dengan *progress bar* pencapaian.
 - **FR-04 (Layanan Mandiri & Pengaduan)**: Menyediakan permohonan surat online ber-nomor tiket, formulir pengaduan warga, dan buku tamu digital.
 - **FR-05 (Ekspor Berkas Resmi)**: Menyediakan ekspor tabel statistik ke format CSV, Excel (XLSX), dan PDF ber-Kop Header Resmi Pemerintah Desa.
+- **FR-06 (Manajemen Konten / CMS)**: Mengelola Publikasi Berita (Posts), Kategori, Pengumuman, Galeri, dan Infografis Popup.
+- **FR-07 (Informasi Profil Desa)**: Mengelola Data Aparatur Pemerintahan, Lembaga Desa, Potensi Desa, dan Pemetaan Fasilitas Publik (GIS).
+- **FR-08 (Keterbukaan Informasi Publik)**: Mengelola repositori Dokumen Publik, Publikasi Desa, dan Data Terbuka (Datasets).
+- **FR-09 (Konfigurasi & Sistem)**: Mengelola Pengaturan Website, Metadata, Log Pengunjung, dan Manajemen Pengguna beserta Perannya (RBAC).
 
 ### 2.2 Kebutuhan Non-Fungsional (Non-Functional Requirements)
 - **NFR-01 (Security)**: Proteksi CSRF, sanitasi input XSS, otorisasi peran (Spatie Permission), dan enkripsi password Bcrypt/Argon2.
@@ -193,6 +197,9 @@ Kolom `Indikator` pada `<thead>`, `<tbody>`, dan `<tfoot>` diterapkan kelas CSS 
 - **Kompresi Foto Berita**: Resizing otomatis Canvas HTML5 ke 1200x630px (< 300 KB) agar pratinjau tautan WhatsApp tampil sempurna.
 - **Permohonan Surat & Pengaduan**: Generator Nomor Tiket unik (`SRT-YYYYMMDD-XXXX` / `ADU-YYYYMMDD-XXXX`) dengan sistem pelacakan status real-time.
 
+### 4.7 Implementasi Sistem Manajemen Konten (CMS) & Keterbukaan Publik
+Sistem memiliki modul terintegrasi untuk mengelola Publikasi Berita, Dokumen Publik, Dataset Terbuka, serta Profil Pemerintahan. Selain itu, manajemen Fasilitas Publik diimplementasikan melalui sistem informasi geografis (GIS) ringan yang merekam koordinat (Latitude & Longitude) dan divisualisasikan secara langsung pada *frontend* menggunakan library **Leaflet.js**. Data repositori publik juga didukung mekanisme pencatatan riwayat interaksi seperti jumlah unduhan (`download_count`).
+
 ---
 
 ## BAB V: DATABASE
@@ -205,6 +212,30 @@ Relasi antar tabel kependudukan: `dusuns` (1:N) $\rightarrow$ `families` (1:N) $
 - **`families`**: `id`, `dusun_id`, `family_card_number`, `head_of_family_name`, `address`, `building_type`, `ownership_status`, `electricity_power_meter_1..3`, `assistance_type`, `motorcycle_value`, `car_value`.
 - **`citizens`**: `id`, `family_id`, `dusun_id`, `nik`, `name` (UPPERCASE), `gender`, `family_relationship`, `education_level`, `job`, `job_status`, `marital_status`, `bpjs_status`, `pip_status`, `has_digital_wallet`, `domicile_address_type`.
 - **`statistic_categories`**: `id`, `name`, `slug`, `mapping_table`, `secondary_columns` (JSON).
+- **`statistic_indicators`**: `id`, `category_id`, `name`, `mapping_column`, `order`.
+- **`statistic_data`**: `id`, `indicator_id`, `year`, `value`.
+- **`budget_categories`**: `id`, `name`, `type`, `slug`.
+- **`budget_realizations`**: `id`, `year`, `type`, `category_name`, `budget_amount`, `realization_amount`.
+- **`posts`**: `id`, `category_id`, `user_id`, `title`, `slug`, `content`, `image`, `is_published`.
+- **`categories`**: `id`, `name`, `slug`.
+- **`announcements`**: `id`, `title`, `slug`, `content`, `is_active`.
+- **`galleries`**: `id`, `title`, `image`, `description`, `is_active`.
+- **`documents`**: `id`, `title`, `file_path`, `type`, `is_public`.
+- **`publications`**: `id`, `title`, `file_path`, `cover_image`, `description`.
+- **`datasets`**: `id`, `title`, `file_path`, `description`, `download_count`.
+- **`officials`**: `id`, `name`, `position`, `image`, `order`.
+- **`institutions`**: `id`, `name`, `description`, `logo`, `leader_name`.
+- **`public_facilities`**: `id`, `name`, `category`, `latitude`, `longitude`, `image`.
+- **`village_potentials`**: `id`, `title`, `category`, `description`, `image`.
+- **`services`**: `id`, `name`, `description`, `requirements` (JSON), `is_active`.
+- **`service_requests`**: `id`, `service_id`, `nik`, `name`, `tracking_code`, `status`, `notes`.
+- **`complaints`**: `id`, `tracking_code`, `name`, `nik`, `title`, `content`, `status`, `reply`.
+- **`guest_books`**: `id`, `name`, `institution`, `purpose`, `date`.
+- **`visitor_logs`**: `id`, `ip_address`, `user_agent`, `visited_at`.
+- **`settings`**: `key`, `value`.
+- **`metadata`**: `key`, `value`.
+- **`popup_infographics`**: `id`, `title`, `image`, `is_active`, `link`.
+- **`users`**: `id`, `name`, `email`, `password`, `role`.
 
 ---
 
@@ -253,13 +284,17 @@ php artisan config:cache && php artisan route:cache && php artisan view:cache
 ## BAB VIII: PANDUAN PENGGUNA
 
 ### 8.1 Petunjuk Operasional Admin Panel (Filament)
-- **Login**: Akses `/admin`, masukkan kredensial operator.
-- **Impor Excel**: Masuk menu Kependudukan $\rightarrow$ Klik Impor Excel $\rightarrow$ Unggah file kuesioner.
-- **Set Opsi Pembanding**: Masuk Master $\rightarrow$ Kategori Statistik $\rightarrow$ Centang `secondary_columns`.
+- **Login**: Akses `/admin`, masukkan email & password akun Anda.
+- **Manajemen Kependudukan**: Masuk menu Kependudukan $\rightarrow$ Klik Impor Excel $\rightarrow$ Unggah berkas kuesioner desa `.xlsx`. Pastikan struktur kolom sesuai *template*.
+- **Manajemen CMS & Informasi**: Gunakan menu **Konten** untuk mengunggah Berita, Pengumuman, Galeri, dan Infografis Popup. Gunakan menu **Profil** untuk memperbarui Data Aparatur, Lembaga, dan Fasilitas Publik (GIS).
+- **Pengaturan Global**: Masuk menu **Sistem** $\rightarrow$ **Pengaturan Web** untuk mengubah identitas web (logo desa, nama desa, kontak, dan tautan sosial media) tanpa perlu *coding*.
+- **Mengatur Opsi Statistik Dinamis**: Masuk Master $\rightarrow$ Kategori Statistik $\rightarrow$ Centang *secondary columns* pada opsi yang tersedia untuk mengaktifkan fitur perbandingan grafik 2 arah.
 
 ### 8.2 Petunjuk Penggunaan Portal Publik
-- **Statistik**: Akses `/statistik` $\rightarrow$ Pilih Kategori $\rightarrow$ Ubah Dropdown Pembanding $\rightarrow$ Ekspor CSV/XLSX/PDF.
-- **Layanan Mandiri**: Akses `/layanan-mandiri` $\rightarrow$ Input NIK & Jenis Surat $\rightarrow$ Dapatkan Nomor Tiket.
+- **Navigasi Konten Utama**: Pengunjung dapat mengakses halaman Berita, Profil Pemerintahan, peta interaktif Fasilitas Publik, serta menjelajahi repositori Dokumen Publik atau Dataset melalui menu navigasi utama.
+- **Navigasi Statistik 2 Arah**: Akses `/statistik` $\rightarrow$ Pilih Kategori $\rightarrow$ Ubah *Dropdown* Pembanding `[ Pembanding: ... ▾ ]` $\rightarrow$ Grafik otomatis di-*render* ulang ke format *Horizontal Stacked Bar*.
+- **Ekspor Tabel Resmi**: Pada halaman statistik yang sama, klik tombol **Ekspor** (CSV, Excel, PDF) untuk menyimpan data ber-Kop Header Resmi Pemerintah Desa.
+- **Layanan Mandiri & Pengaduan**: Akses `/layanan-mandiri` atau `/pengaduan` untuk mengajukan permohonan surat atau laporan secara digital. Sistem akan langsung menerbitkan **Nomor Tiket** untuk dilacak statusnya di halaman `/lacak`.
 
 ---
 
@@ -278,6 +313,10 @@ Pengujian suite menggunakan PHPUnit / Pest:
 | 3 | Horizontal Stacked Bar | Aktifkan pembanding 2 arah | Grafik menjadi *Horizontal Stacked Bar* | SUCCESS |
 | 4 | Ekspor Kop Resmi | Klik Ekspor PDF/Excel | File terunduh ber-Kop Resmi Desa | SUCCESS |
 | 5 | Sticky Table Cell | Scroll horizontal tabel | Kolom Indikator terkunci tanpa overflow | SUCCESS |
+| 6 | Layanan & Pengaduan | Warga submit form layanan/aduan | Sistem menerbitkan Nomor Tiket unik otomatis | SUCCESS |
+| 7 | Manajemen Konten (CMS) | Operator posting berita via admin | Berita tayang seketika di beranda (*latest*) | SUCCESS |
+| 8 | Pemetaan Fasilitas (GIS) | Menambahkan titik fasilitas + latitude | Titik lokasi (*marker*) langsung ter-render di peta | SUCCESS |
+| 9 | Konfigurasi Web Sistem | Admin merubah logo desa via pengaturan | Logo pada *header/footer* berubah tanpa coding | SUCCESS |
 
 ---
 
