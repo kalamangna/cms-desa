@@ -16,9 +16,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('families', function (Blueprint $table) {
-            $table->bigInteger('rental_estimate')->nullable()->after('ownership_proof');
-            $table->bigInteger('rental_free_estimate')->nullable()->after('rental_estimate');
-            $table->bigInteger('rental_contract_value')->nullable()->after('rental_free_estimate');
+            if (!Schema::hasColumn('families', 'rental_estimate')) {
+                $table->bigInteger('rental_estimate')->nullable()->after('ownership_proof');
+            }
+            if (!Schema::hasColumn('families', 'rental_free_estimate')) {
+                $table->bigInteger('rental_free_estimate')->nullable()->after('rental_estimate');
+            }
+            if (!Schema::hasColumn('families', 'rental_contract_value')) {
+                $table->bigInteger('rental_contract_value')->nullable()->after('rental_free_estimate');
+            }
         });
     }
 

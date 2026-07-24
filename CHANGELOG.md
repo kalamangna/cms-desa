@@ -2,6 +2,15 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.8.1] - 2026-07-24
+
+### Changed
+- **Reorganisasi Tab Form Admin Penduduk (`CitizenForm.php`)**: Mengubah pengelompokan tab dari 4 menjadi 5 tab yang lebih logis sesuai konteks field — `Identitas Warga`, `Pendidikan & Pekerjaan` *(baru)*, `Pendapatan & Keuangan` *(baru)*, `Kesehatan & Disabilitas`, dan `Kependudukan`. Field `school_participation` & `education_level` dipindah dari "Identitas" ke tab baru "Pendidikan & Pekerjaan"; `bpjs_status` & `pip_status` dipindah ke "Kesehatan & Disabilitas"; `has_digital_wallet` dipindah ke "Pendapatan & Keuangan".
+- **Reorganisasi Tab Form Admin Keluarga (`FamilyForm.php`)**: Memindahkan field `assistance_type` (Bantuan Sosial) dari tab "Identitas Keluarga" ke tab baru `Aset & Bantuan`; mengganti nama tab "Sanitasi & Listrik" menjadi `Sanitasi & Utilitas` yang lebih representatif.
+- **Pengelompokan Sub-Section di Dalam Tab (CitizenForm & FamilyForm)**: Menambahkan komponen `Section` di dalam setiap tab untuk mengelompokkan field yang berkaitan secara lebih granular — masing-masing section dilengkapi judul dan deskripsi singkat. Total section: 10 section di `CitizenForm` dan 15 section di `FamilyForm`.
+- **Penyederhanaan Tabel Penduduk (`CitizensTable.php`)**: Mengurangi kolom tampil default dari 12 menjadi 5 kolom utama (NIK, Nama Lengkap, Dusun, Jenis Kelamin, Status). Kolom lain (No. KK, Tgl. Lahir, Pekerjaan, Hub. Keluarga, Status Kawin, Pendidikan, RT, RW) disembunyikan sebagai kolom *toggleable*.
+- **Penyederhanaan Tabel Keluarga (`FamiliesTable.php`)**: Mengurangi kolom tampil default menjadi 5 kolom utama (No. KK, Kepala Keluarga, Dusun, RT/RW gabungan, Anggota). Kolom NIK KK, Foto Rumah, Foto KK, dan Dibuat disembunyikan sebagai kolom *toggleable*.
+
 ## [1.8.0] - 2026-07-24
 
 ### Added

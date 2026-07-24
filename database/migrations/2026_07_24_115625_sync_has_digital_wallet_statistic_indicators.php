@@ -11,17 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $category = StatisticCategory::firstOrCreate(
-            ['slug' => 'dompet-digital-rekening'],
-            [
-                'name' => 'Kepemilikan Dompet Digital / Rekening',
-                'description' => 'Statistik kepemilikan rekening bank atau dompet digital aktif warga desa.',
-                'mapping_table' => 'citizens',
-                'mapping_column' => 'has_digital_wallet',
-                'is_active' => true,
-                'order' => 12,
-            ]
-        );
+        $category = StatisticCategory::where('slug', 'dompet-digital-rekening')->first();
+        if (!$category) {
+            return;
+        }
 
         if ($category->indicators()->count() === 0) {
             $walletItems = [
@@ -50,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        StatisticCategory::where('slug', 'dompet-digital-rekening')->delete();
+        // No-op
     }
 };

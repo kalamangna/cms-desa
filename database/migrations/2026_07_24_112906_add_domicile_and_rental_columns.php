@@ -17,10 +17,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('citizens', function (Blueprint $table) {
-            $table->string('domicile_address_type')->nullable()->after('citizenship_status');
-            $table->string('domicile_province')->nullable()->after('domicile_address_type');
-            $table->string('domicile_city')->nullable()->after('domicile_province');
-            $table->string('domicile_country')->nullable()->after('domicile_city');
+            if (!Schema::hasColumn('citizens', 'domicile_address_type')) {
+                $table->string('domicile_address_type')->nullable()->after('citizenship_status');
+            }
+            if (!Schema::hasColumn('citizens', 'domicile_province')) {
+                $table->string('domicile_province')->nullable()->after('domicile_address_type');
+            }
+            if (!Schema::hasColumn('citizens', 'domicile_city')) {
+                $table->string('domicile_city')->nullable()->after('domicile_province');
+            }
+            if (!Schema::hasColumn('citizens', 'domicile_country')) {
+                $table->string('domicile_country')->nullable()->after('domicile_city');
+            }
         });
     }
 

@@ -39,17 +39,11 @@ return new class extends Migration
             ]);
         }
 
-        // 2. Create or Update Statistic Category for Jenis Bantuan Sosial
-        $category = StatisticCategory::firstOrCreate(
-            ['slug' => 'bantuan-sosial'],
-            [
-                'name' => 'Jenis Bantuan Sosial',
-                'description' => 'Statistik penerima program bantuan sosial keluarga',
-                'is_active' => true,
-                'mapping_table' => 'families',
-                'mapping_column' => 'assistance_type',
-            ]
-        );
+        // 2. Find Statistic Category for Jenis Bantuan Sosial
+        $category = StatisticCategory::where('slug', 'bantuan-sosial')->first();
+        if (!$category) {
+            return;
+        }
 
         // Clear existing indicators to rebuild cleanly
         $category->indicators()->delete();

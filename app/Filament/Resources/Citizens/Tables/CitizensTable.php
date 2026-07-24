@@ -17,52 +17,94 @@ class CitizensTable
     {
         return $table
             ->columns([
-                TextColumn::make('nik')->label('NIK')
+                // ── Kolom utama ──────────────────────────────────────────────────
+                TextColumn::make('nik')
+                    ->label('NIK')
+                    ->searchable()
+                    ->copyable()
+                    ->fontFamily('mono'),
+
+                TextColumn::make('name')
+                    ->label('Nama Lengkap')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('dusun.name')
+                    ->label('Dusun')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('gender')
+                    ->label('Jenis Kelamin')
                     ->searchable(),
-                TextColumn::make('family.kk_number')->label('No. KK')
+
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'Aktif' => 'success',
+                        'Pindah' => 'warning',
+                        'Meninggal' => 'danger',
+                        default => 'gray',
+                    }),
+
+                // ── Kolom tambahan (tersembunyi, bisa diaktifkan) ────────────────
+                TextColumn::make('family.kk_number')
+                    ->label('No. KK')
                     ->placeholder('-')
-                    ->searchable(),
-                TextColumn::make('name')->label('Nama')
-                    ->searchable(),
-                TextColumn::make('dusun.name')->label('Dusun')
                     ->searchable()
-                    ->sortable(),
-                TextColumn::make('place_of_birth')->label('Tempat Lahir')
-                    ->searchable()
+                    ->copyable()
+                    ->fontFamily('mono')
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('date_of_birth')->label('Tanggal Lahir')
-                    ->date()
-                    ->sortable(),
-                TextColumn::make('gender')->label('Jenis Kelamin')
-                    ->searchable(),
-                TextColumn::make('religion')->label('Agama')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('education')->label('Pendidikan')
-                    ->searchable(),
-                TextColumn::make('job')->label('Pekerjaan')
-                    ->searchable(),
-                TextColumn::make('blood_type')->label('Gol. Darah')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('marital_status')->label('Status Kawin')
-                    ->searchable(),
-                TextColumn::make('rt')->label('RT')
-                    ->searchable(),
-                TextColumn::make('rw')->label('RW')
-                    ->searchable(),
-                TextColumn::make('status')->label('Status')
-                    ->searchable(),
-                TextColumn::make('created_at')->label('Dibuat')
-                    ->dateTime()
+
+                TextColumn::make('date_of_birth')
+                    ->label('Tgl. Lahir')
+                    ->date('d/m/Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')->label('Diperbarui')
-                    ->dateTime()
+
+                TextColumn::make('job')
+                    ->label('Pekerjaan')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->limit(25)
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('family_relation')
+                    ->label('Hub. Keluarga')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('marital_status')
+                    ->label('Status Kawin')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('education_level')
+                    ->label('Pendidikan')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('rt')
+                    ->label('RT')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('rw')
+                    ->label('RW')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('created_at')
+                    ->label('Dibuat')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')->label('Dihapus')
-                    ->dateTime()
+
+                TextColumn::make('updated_at')
+                    ->label('Diperbarui')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
