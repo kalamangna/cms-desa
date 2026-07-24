@@ -318,7 +318,7 @@
                         <div class="relative">
                             <select id="homeChartType" class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
                                 <option value="gender">Jenis Kelamin</option>
-                                <option value="job">Pekerjaan</option>
+                                <option value="job">Status Pekerjaan</option>
                                 <option value="education">Pendidikan</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-slate-400">
@@ -692,8 +692,8 @@ document.addEventListener('DOMContentLoaded', function () {
             colors = ['#0ea5e9', '#ec4899'];
         } else {
             const isJob = type === 'job';
-            if (titleEl) titleEl.innerText = isJob ? 'Pekerjaan Penduduk' : 'Pendidikan Penduduk';
-            if (subtitleEl) subtitleEl.innerText = isJob ? 'Distribusi warga aktif berdasarkan mata pencaharian' : 'Distribusi warga aktif berdasarkan tingkat pendidikan';
+            if (titleEl) titleEl.innerText = isJob ? 'Status Pekerjaan' : 'Pendidikan Penduduk';
+            if (subtitleEl) subtitleEl.innerText = isJob ? 'Distribusi warga aktif berdasarkan kedudukan pekerjaan' : 'Distribusi warga aktif berdasarkan tingkat pendidikan';
 
             let rawData = isJob ? jobData : eduData;
             // Limit data untuk efisiensi visual (top 7 + Lainnya)

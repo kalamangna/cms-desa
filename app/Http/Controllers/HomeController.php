@@ -68,10 +68,11 @@ class HomeController extends Controller
         });
 
         $jobData = Cache::remember('home_job_stats', $ttl, function () {
-            return \App\Models\Citizen::select('job as name', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+            return \App\Models\Citizen::select('job_status as name', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
                    ->where('status', 'Aktif')
-                   ->whereNotNull('job')
-                   ->groupBy('job')
+                   ->whereNotNull('job_status')
+                   ->where('job_status', '!=', '')
+                   ->groupBy('job_status')
                    ->get();
         });
 
