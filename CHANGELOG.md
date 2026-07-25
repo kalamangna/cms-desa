@@ -8,6 +8,8 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Otomatisasi Deployment Multi-Server**: Membuat script bash (`deploy.sh`) untuk mengeksekusi proses _deployment_ secara paralel ke 5 server Hostinger (`tompobulu.desa.id`, `lamattiriattang.desa.id`, `lappacinrana.desa.id`, `duampanuae.desa.id`, `massaile.desa.id`).
 - **Keamanan Kredensial**: Mendaftarkan `deploy.sh` ke dalam `.gitignore` untuk mencegah kebocoran alamat IP dan username hosting.
 - **Dokumentasi Deployment**: Menambahkan panduan mengeksekusi `deploy.sh` di dalam `README.md`.
+- **Uji Coba Otomatisasi**: Menambahkan komentar pada file rute (`routes/web.php`) untuk melakukan uji coba _script_ deployment multi-server.
+
 
 
 ## [1.8.4] - 2026-07-25
