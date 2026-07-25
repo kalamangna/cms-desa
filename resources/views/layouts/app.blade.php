@@ -555,7 +555,7 @@
                     &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}.
                 </p>
                 <p class="text-slate-600 text-[10px] font-bold uppercase tracking-[0.15em]">
-                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-emerald-500 hover:text-emerald-300 transition">kalamangna</a> &bull; v1.8.5
+                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-emerald-500 hover:text-emerald-300 transition">kalamangna</a> &bull; v{{ config('app.version', '1.8.5') }}
                 </p>
             </div>
         </div>
