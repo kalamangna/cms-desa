@@ -203,12 +203,16 @@
     <div class="bg-emerald-900 text-white py-2 hidden md:block">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em]">
             <div class="flex gap-8">
+                @if(!empty($site_settings['village_address']))
                 <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-location-dot text-emerald-400"></i> {{ $site_settings['village_address'] ?? '' }}
+                    <i class="fa-solid fa-location-dot text-emerald-400"></i> {{ $site_settings['village_address'] }}
                 </span>
+                @endif
+                @if(!empty($site_settings['village_phone']))
                 <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-phone text-emerald-400"></i> {{ $site_settings['village_phone'] ?? '-' }}
+                    <i class="fa-solid fa-phone text-emerald-400"></i> {{ $site_settings['village_phone'] }}
                 </span>
+                @endif
                 <span class="flex items-center gap-2">
                     <i class="fa-regular fa-calendar text-emerald-400"></i>
                     {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
