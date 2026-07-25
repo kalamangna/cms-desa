@@ -203,40 +203,28 @@
     <div class="bg-emerald-900 text-white py-2 hidden md:block">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em]">
             <div class="flex gap-8">
-                @if(!empty($site_settings['village_address']))
                 <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-location-dot text-emerald-400"></i> {{ $site_settings['village_address'] }}
+                    <i class="fa-solid fa-location-dot text-emerald-400"></i> {{ !empty($site_settings['village_address']) ? $site_settings['village_address'] : '-' }}
                 </span>
-                @endif
-                @if(!empty($site_settings['village_phone']))
                 <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-phone text-emerald-400"></i> {{ $site_settings['village_phone'] }}
-                </span>
-                @endif
-                <span class="flex items-center gap-2">
-                    <i class="fa-regular fa-calendar text-emerald-400"></i>
-                    {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
+                    <i class="fa-solid fa-phone text-emerald-400"></i> {{ !empty($site_settings['village_phone']) ? $site_settings['village_phone'] : '-' }}
                 </span>
             </div>
-            <div class="flex gap-6 items-center">
+            <div class="flex gap-4 items-center">
                 @auth
-                <div class="flex items-center gap-6">
-                    <a href="/admin" target="_blank" class="hover:text-emerald-400 transition flex items-center gap-2">
-                        <i class="fa-solid fa-table-cells-large text-[10px]"></i>
-                        Panel Admin
-                    </a>
-                    <form method="POST" action="/admin/logout">
-                        @csrf
-                        <button type="submit" class="hover:text-rose-400 transition flex items-center gap-2">
-                            <i class="fa-solid fa-right-from-bracket text-[10px]"></i>
-                            Keluar
-                        </button>
-                    </form>
-                </div>
+                <a href="/admin" class="hover:text-emerald-400 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-gauge text-[9px]"></i> Dashboard
+                </a>
+                <span class="opacity-30">|</span>
+                <form method="POST" action="/admin/logout" class="inline">
+                    @csrf
+                    <button type="submit" class="hover:text-rose-400 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-right-from-bracket text-[9px]"></i> Keluar
+                    </button>
+                </form>
                 @else
-                <a href="/admin/login" target="_blank" class="hover:text-emerald-400 transition flex items-center gap-2">
-                    <i class="fa-solid fa-user text-[10px]"></i>
-                    Login Sistem &rarr;
+                <a href="/admin/login" class="hover:text-emerald-400 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-lock text-[9px]"></i> Login Admin
                 </a>
                 @endauth
             </div>
@@ -477,21 +465,40 @@
                         <a href="{{ $site_settings['social_facebook'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Facebook">
                             <i class="fa-brands fa-facebook-f text-sm"></i>
                         </a>
+                        @else
+                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-600 opacity-40 cursor-not-allowed select-none" title="Facebook (Belum diatur)">
+                            <i class="fa-brands fa-facebook-f text-sm"></i>
+                        </span>
                         @endif
+
                         @if(!empty($site_settings['social_instagram']))
                         <a href="{{ $site_settings['social_instagram'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Instagram">
                             <i class="fa-brands fa-instagram text-sm"></i>
                         </a>
+                        @else
+                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-600 opacity-40 cursor-not-allowed select-none" title="Instagram (Belum diatur)">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </span>
                         @endif
+
                         @if(!empty($site_settings['social_youtube']))
                         <a href="{{ $site_settings['social_youtube'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="YouTube">
                             <i class="fa-brands fa-youtube text-sm"></i>
                         </a>
+                        @else
+                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-600 opacity-40 cursor-not-allowed select-none" title="YouTube (Belum diatur)">
+                            <i class="fa-brands fa-youtube text-sm"></i>
+                        </span>
                         @endif
+
                         @if(!empty($site_settings['social_tiktok']))
                         <a href="{{ $site_settings['social_tiktok'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="TikTok">
                             <i class="fa-brands fa-tiktok text-sm"></i>
                         </a>
+                        @else
+                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-600 opacity-40 cursor-not-allowed select-none" title="TikTok (Belum diatur)">
+                            <i class="fa-brands fa-tiktok text-sm"></i>
+                        </span>
                         @endif
                     </div>
                 </div>
