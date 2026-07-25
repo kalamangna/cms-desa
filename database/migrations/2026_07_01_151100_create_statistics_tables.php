@@ -41,6 +41,8 @@ return new class extends Migration
                 $table->string('mapping_column')->nullable();
                 $table->string('mapping_operator')->default('=');
                 $table->string('mapping_value')->nullable();
+                $table->integer('order')->default(0);
+                $table->boolean('is_active')->default(true);
                 $table->timestamps();
             });
         }
