@@ -1,46 +1,31 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use App\Models\StatisticCategory;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
     /**
-     * Run the migrations.
-     * Ensure "Kepemilikan Dompet Digital/Rekening" statistic category and indicators exist.
+     * Standardize 'dompet-digital-rekening' indicator names (no insert if already has indicators).
+     * Only updates existing indicators — does NOT create new ones.
      */
     public function up(): void
     {
-        $category = StatisticCategory::where('slug', 'dompet-digital-rekening')->first();
-        if (!$category) {
-            return;
-        }
+        $mappings = [
+            'Tidak ada'              => 'Tidak Ada',
+            'Ya untuk pribadi'       => 'Ya untuk Pribadi',
+            'Ya untuk usaha dan pribadi' => 'Ya untuk Usaha & Pribadi',
+            'Ya untuk usaha'         => 'Ya untuk Usaha',
+        ];
 
-        if ($category->indicators()->count() === 0) {
-            $walletItems = [
-                ['name' => 'Tidak Ada', 'mapping_value' => 'Tidak ada'],
-                ['name' => 'Ya untuk Pribadi', 'mapping_value' => 'Ya untuk pribadi'],
-                ['name' => 'Ya untuk Usaha & Pribadi', 'mapping_value' => 'Ya untuk usaha dan pribadi'],
-                ['name' => 'Ya untuk Usaha', 'mapping_value' => 'Ya untuk usaha'],
-            ];
-
-            foreach ($walletItems as $idx => $item) {
-                $category->indicators()->create([
-                    'name' => $item['name'],
-                    'unit' => 'Jiwa',
-                    'mapping_column' => 'has_digital_wallet',
-                    'mapping_operator' => '=',
-                    'mapping_value' => $item['mapping_value'],
-                    'order' => $idx + 1,
-                    'is_active' => true,
-                ]);
-            }
+        foreach ($mappings as $old => $new) {
+            DB::table('statistic_indicators')
+                ->where('mapping_column', 'has_digital_wallet')
+                ->where('mapping_value', $old)
+                ->update(['mapping_value' => $new, 'name' => $new]);
         }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         // No-op

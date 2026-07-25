@@ -1,52 +1,33 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Fix education_level indicator display names (no delete/insert).
      */
     public function up(): void
     {
-        $cat = \App\Models\StatisticCategory::where('slug', 'pendidikan')->first();
-        if (!$cat) {
-            // Fallback: cari via mapping_column (tipe TEXT, gunakan LIKE bukan whereJsonContains)
-            $cat = \App\Models\StatisticCategory::where('mapping_column', 'education_level')
-                ->orWhere('mapping_column', 'LIKE', '%education_level%')
-                ->first();
-        }
+        $mappings = [
+            'Tidak punya ijazah SD' => ['name' => 'Tidak Punya Ijazah SD', 'new_value' => 'Tidak Punya Ijazah SD'],
+            'SD/sederajat'          => ['name' => 'SD / Sederajat',        'new_value' => 'SD / Sederajat'],
+            'SMP/sederajat'         => ['name' => 'SMP / Sederajat',       'new_value' => 'SMP / Sederajat'],
+            'SMA/sederajat'         => ['name' => 'SMA / Sederajat',       'new_value' => 'SMA / Sederajat'],
+            'D1/D2/D3'              => ['name' => 'D1 / D2 / D3',          'new_value' => 'D1 / D2 / D3'],
+            'D4/S1/Profesi'         => ['name' => 'D4 / S1 / Profesi',     'new_value' => 'D4 / S1 / Profesi'],
+            'S2/S3'                 => ['name' => 'S2 / S3',               'new_value' => 'S2 / S3'],
+        ];
 
-        if ($cat) {
-            $cat->indicators()->delete();
-            $items = [
-                ['name' => 'Tidak Punya Ijazah SD', 'mapping_value' => 'Tidak punya ijazah SD'],
-                ['name' => 'SD / Sederajat', 'mapping_value' => 'SD/sederajat'],
-                ['name' => 'SMP / Sederajat', 'mapping_value' => 'SMP/sederajat'],
-                ['name' => 'SMA / Sederajat', 'mapping_value' => 'SMA/sederajat'],
-                ['name' => 'D1 / D2 / D3', 'mapping_value' => 'D1/D2/D3'],
-                ['name' => 'D4 / S1 / Profesi', 'mapping_value' => 'D4/S1/Profesi'],
-                ['name' => 'S2 / S3', 'mapping_value' => 'S2/S3'],
-            ];
-            foreach ($items as $idx => $item) {
-                $cat->indicators()->create([
-                    'name' => $item['name'],
-                    'unit' => 'Jiwa',
-                    'mapping_column' => 'education_level',
-                    'mapping_operator' => '=',
-                    'mapping_value' => $item['mapping_value'],
-                    'order' => $idx + 1,
-                    'is_active' => true,
-                ]);
-            }
+        foreach ($mappings as $old => $data) {
+            DB::table('statistic_indicators')
+                ->where('mapping_column', 'education_level')
+                ->where('mapping_value', $old)
+                ->update(['mapping_value' => $data['new_value'], 'name' => $data['name']]);
         }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         //

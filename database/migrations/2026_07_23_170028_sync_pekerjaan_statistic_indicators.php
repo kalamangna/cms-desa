@@ -1,51 +1,37 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Standardize 'pekerjaan' category indicator mapping_value and names (no delete/insert).
      */
     public function up(): void
     {
-        $cat = \App\Models\StatisticCategory::where('slug', 'pekerjaan')->first();
-        if ($cat) {
-            $cat->indicators()->delete();
-            $items = [
-                ['name' => 'Belum / Tidak Bekerja', 'mapping_value' => 'Belum / Tidak Bekerja'],
-                ['name' => 'Ibu Rumah Tangga', 'mapping_value' => 'Ibu Rumah Tangga'],
-                ['name' => 'Petani / Pekebun', 'mapping_value' => 'Petani / Pekebun'],
-                ['name' => 'Pelajar / Mahasiswa', 'mapping_value' => 'Pelajar / Mahasiswa'],
-                ['name' => 'Wiraswasta / Pengusaha', 'mapping_value' => 'Wiraswasta / Pengusaha'],
-                ['name' => 'Karyawan Swasta', 'mapping_value' => 'Karyawan Swasta'],
-                ['name' => 'Tenaga Pendidikan', 'mapping_value' => 'Tenaga Pendidikan'],
-                ['name' => 'Tenaga Kesehatan', 'mapping_value' => 'Tenaga Kesehatan'],
-                ['name' => 'PNS / Aparatur', 'mapping_value' => 'PNS / Aparatur'],
-                ['name' => 'Buruh / Pekerja Harian', 'mapping_value' => 'Buruh / Pekerja Harian'],
-                ['name' => 'Pekerja Jasa & Transportasi', 'mapping_value' => 'Pekerja Jasa & Transportasi'],
-                ['name' => 'Pensiunan', 'mapping_value' => 'Pensiunan'],
-                ['name' => 'Lainnya', 'mapping_value' => 'Lainnya'],
-            ];
-            foreach ($items as $idx => $item) {
-                $cat->indicators()->create([
-                    'name' => $item['name'],
-                    'unit' => 'Jiwa',
-                    'mapping_column' => 'job',
-                    'mapping_operator' => '=',
-                    'mapping_value' => $item['mapping_value'],
-                    'order' => $idx + 1,
-                    'is_active' => true,
-                ]);
-            }
+        $mappings = [
+            'Belum / tidak bekerja'        => 'Belum / Tidak Bekerja',
+            'Ibu rumah tangga'             => 'Ibu Rumah Tangga',
+            'Petani / pekebun'             => 'Petani / Pekebun',
+            'Pelajar / mahasiswa'          => 'Pelajar / Mahasiswa',
+            'Wiraswasta / pengusaha'       => 'Wiraswasta / Pengusaha',
+            'Karyawan swasta'              => 'Karyawan Swasta',
+            'Tenaga pendidikan'            => 'Tenaga Pendidikan',
+            'Tenaga kesehatan'             => 'Tenaga Kesehatan',
+            'Pns / aparatur'               => 'PNS / Aparatur',
+            'Buruh / pekerja harian'       => 'Buruh / Pekerja Harian',
+            'Pekerja jasa & transportasi'  => 'Pekerja Jasa & Transportasi',
+        ];
+
+        foreach ($mappings as $old => $new) {
+            DB::table('statistic_indicators')
+                ->where('mapping_column', 'job')
+                ->where('mapping_value', $old)
+                ->update(['mapping_value' => $new, 'name' => $new]);
         }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         //
