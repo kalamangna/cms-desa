@@ -155,19 +155,39 @@
             {{-- Social Media --}}
             <div class="bg-slate-900 rounded-[28px] p-8 text-white">
                 <h4 class="text-xs font-black uppercase tracking-[0.2em] text-emerald-400 mb-6">Ikuti Media Sosial</h4>
+                @php
+                    $hasSocial = !empty($site_settings['social_facebook']) || 
+                                 !empty($site_settings['social_instagram']) || 
+                                 !empty($site_settings['social_youtube']) || 
+                                 !empty($site_settings['social_tiktok']) || 
+                                 !empty($phone);
+                @endphp
+                @if($hasSocial)
                 <div class="flex flex-wrap gap-3">
-                    <a href="{{ $site_settings['social_facebook'] ?? '#' }}" target="_blank" rel="noopener"
+                    @if(!empty($site_settings['social_facebook']))
+                    <a href="{{ $site_settings['social_facebook'] }}" target="_blank" rel="noopener"
                        class="flex items-center gap-2 bg-white/10 hover:bg-[#1877F2] border border-white/10 hover:border-[#1877F2] text-white px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200">
                         <i class="fa-brands fa-facebook-f"></i> Facebook
                     </a>
-                    <a href="{{ $site_settings['social_instagram'] ?? '#' }}" target="_blank" rel="noopener"
+                    @endif
+                    @if(!empty($site_settings['social_instagram']))
+                    <a href="{{ $site_settings['social_instagram'] }}" target="_blank" rel="noopener"
                        class="flex items-center gap-2 bg-white/10 hover:bg-[#E1306C] border border-white/10 hover:border-[#E1306C] text-white px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200">
                         <i class="fa-brands fa-instagram"></i> Instagram
                     </a>
-                    <a href="{{ $site_settings['social_youtube'] ?? '#' }}" target="_blank" rel="noopener"
+                    @endif
+                    @if(!empty($site_settings['social_youtube']))
+                    <a href="{{ $site_settings['social_youtube'] }}" target="_blank" rel="noopener"
                        class="flex items-center gap-2 bg-white/10 hover:bg-[#FF0000] border border-white/10 hover:border-[#FF0000] text-white px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200">
                         <i class="fa-brands fa-youtube"></i> YouTube
                     </a>
+                    @endif
+                    @if(!empty($site_settings['social_tiktok']))
+                    <a href="{{ $site_settings['social_tiktok'] }}" target="_blank" rel="noopener"
+                       class="flex items-center gap-2 bg-white/10 hover:bg-black border border-white/10 hover:border-black text-white px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200">
+                        <i class="fa-brands fa-tiktok"></i> TikTok
+                    </a>
+                    @endif
                     @if(!empty($phone))
                     <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
                        class="flex items-center gap-2 bg-white/10 hover:bg-[#25D366] border border-white/10 hover:border-[#25D366] text-white px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200">
@@ -175,6 +195,12 @@
                     </a>
                     @endif
                 </div>
+                @else
+                <div class="flex items-center gap-3 text-slate-400 text-sm">
+                    <i class="fa-solid fa-circle-info text-emerald-400"></i>
+                    <span>Tautan media sosial resmi belum dikonfigurasi di pengaturan.</span>
+                </div>
+                @endif
             </div>
 
             {{-- Link Pengaduan --}}

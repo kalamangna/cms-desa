@@ -469,15 +469,26 @@
                         Portal resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} untuk keterbukaan informasi dan pelayanan publik.
                     </p>
                     <div class="flex gap-3">
-                        <a href="{{ $site_settings['social_facebook'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Facebook">
+                        @if(!empty($site_settings['social_facebook']))
+                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Facebook">
                             <i class="fa-brands fa-facebook-f text-sm"></i>
                         </a>
-                        <a href="{{ $site_settings['social_instagram'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Instagram">
+                        @endif
+                        @if(!empty($site_settings['social_instagram']))
+                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Instagram">
                             <i class="fa-brands fa-instagram text-sm"></i>
                         </a>
-                        <a href="{{ $site_settings['social_youtube'] ?? '#' }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="YouTube">
+                        @endif
+                        @if(!empty($site_settings['social_youtube']))
+                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="YouTube">
                             <i class="fa-brands fa-youtube text-sm"></i>
                         </a>
+                        @endif
+                        @if(!empty($site_settings['social_tiktok']))
+                        <a href="{{ $site_settings['social_tiktok'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="TikTok">
+                            <i class="fa-brands fa-tiktok text-sm"></i>
+                        </a>
+                        @endif
                     </div>
                 </div>
 
