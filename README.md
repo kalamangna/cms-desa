@@ -39,6 +39,8 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ## 💻 Panduan Instalasi
 
+### 🛠️ Lingkungan Lokal (Development)
+
 1. **Clone Repositori**:
     ```bash
     git clone https://github.com/kalamangna/cms-desa.git
@@ -60,6 +62,36 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
     npm run dev
     php artisan serve
     ```
+
+---
+
+### 🌐 Deployment Server Produksi (Hostinger / cPanel)
+
+1. **Clone Repositori & Install Dependensi**:
+    ```bash
+    git clone https://github.com/kalamangna/cms-desa.git
+    cd cms-desa
+    composer install --no-dev --optimize-autoloader
+    cp .env.example .env
+    php artisan key:generate
+    ```
+2. **Migrasi Database & Tautan Storage**:
+    ```bash
+    php artisan migrate:fresh --seed
+    php artisan storage:link
+    ```
+3. **Hubungkan `public_html` ke Folder Public**:
+    ```bash
+    cd ..
+    rm -rf public_html
+    ln -s cms-desa/public public_html
+    ```
+4. **Optimasi Performa & Inisialisasi Media**:
+    ```bash
+    cd cms-desa
+    php artisan config:cache && php artisan route:cache && php artisan view:cache
+    ```
+    *Setelah login ke Admin Panel Filament, akses URL `https://domain-desa.id/init` di browser untuk menyalin berkas aset/media bawaan (`dummy storage`) ke folder publik.*
 
 ---
 
