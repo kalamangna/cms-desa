@@ -95,4 +95,17 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ---
 
+### 🚀 Otomatisasi Deployment (Multi-Server)
+
+Untuk mengelola instalasi di beberapa server sekaligus tanpa perlu SSH manual satu-per-satu, gunakan *script* `deploy.sh` yang telah disediakan.
+1. Salin `deploy.sh` (jika belum ada) dan sesuaikan konfigurasi *username*, IP, dan *path* untuk masing-masing server.
+2. Pastikan file `deploy.sh` sudah dimasukkan ke dalam `.gitignore` untuk mencegah kebocoran kredensial server.
+3. Jalankan script:
+    ```bash
+    chmod +x deploy.sh
+    ./deploy.sh
+    ```
+
+---
+
 **Dikembangkan oleh [kalamangna](https://github.com/kalamangna)**
