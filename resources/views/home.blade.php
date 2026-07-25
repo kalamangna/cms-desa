@@ -136,37 +136,31 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
             {{-- Kolom Kiri: Teks --}}
-            <div x-data="{ show: false }" x-init="setTimeout(() => show = true, 100)">
-                <div x-show="show" 
-                     x-transition:enter="transition-all ease-out duration-1000"
-                     x-transition:enter-start="opacity-0 translate-y-8"
-                     x-transition:enter-end="opacity-100 translate-y-0"
-                     x-cloak>
-                    <div class="flex items-center gap-3 mb-8">
-                        <div class="h-px w-12 bg-emerald-500"></div>
-                        <span class="text-emerald-400 text-xs font-black uppercase tracking-[0.3em]">Portal Resmi Pemerintah Desa</span>
-                    </div>
-                    <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.05] mb-8">
-                        Desa<br><span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
-                    </h1>
-                    <p class="text-lg md:text-xl text-slate-300 mb-4 font-medium leading-relaxed">
-                        Kecamatan {{ \Illuminate\Support\Str::title($site_settings['district_name'] ?? '...') }},
-                        Kabupaten {{ \Illuminate\Support\Str::title(preg_replace('/^Kabupaten\s+/i', '', $site_settings['regency_name'] ?? '...')) }},
-                        Provinsi {{ \Illuminate\Support\Str::title($site_settings['province_name'] ?? '...') }}
-                    </p>
-                    <p class="text-slate-400 text-base mb-12 max-w-lg">
-                        Pemerintahan yang transparan, akuntabel, dan berbasis data presisi untuk kemajuan seluruh warga desa.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all duration-300 hover:-translate-y-1">
-                            <i class="fa-solid fa-chart-pie group-hover:rotate-12 transition-transform"></i>
-                            Dashboard Statistik
-                        </a>
-                        <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl border border-white/20 transition-all duration-300 hover:-translate-y-1">
-                            <i class="fa-solid fa-file-signature"></i>
-                            Layanan Mandiri
-                        </a>
-                    </div>
+            <div>
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="h-px w-12 bg-emerald-500"></div>
+                    <span class="text-emerald-400 text-xs font-black uppercase tracking-[0.3em]">Portal Resmi Pemerintah Desa</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.05] mb-8">
+                    Desa<br><span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-300 mb-4 font-medium leading-relaxed">
+                    Kecamatan {{ \Illuminate\Support\Str::title($site_settings['district_name'] ?? '...') }},
+                    Kabupaten {{ \Illuminate\Support\Str::title(preg_replace('/^Kabupaten\s+/i', '', $site_settings['regency_name'] ?? '...')) }},
+                    Provinsi {{ \Illuminate\Support\Str::title($site_settings['province_name'] ?? '...') }}
+                </p>
+                <p class="text-slate-400 text-base mb-12 max-w-lg">
+                    Pemerintahan yang transparan, akuntabel, dan berbasis data presisi untuk kemajuan seluruh warga desa.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-xl shadow-emerald-900/40 transition duration-300 hover:-translate-y-0.5">
+                        <i class="fa-solid fa-chart-pie group-hover:rotate-12 transition-transform"></i>
+                        Dashboard Statistik
+                    </a>
+                    <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl border border-white/20 transition duration-300 hover:-translate-y-0.5">
+                        <i class="fa-solid fa-file-signature"></i>
+                        Layanan Mandiri
+                    </a>
                 </div>
             </div>
 
@@ -213,8 +207,8 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
 
         {{-- Penduduk --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-400 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-500 ease-out cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300 flex-shrink-0 mx-auto sm:mx-0 group-hover:scale-110">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-400 hover:-translate-y-1 transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-users text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -225,8 +219,8 @@
         </div>
 
         {{-- Keluarga --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-sky-400 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20 transition-all duration-500 ease-out cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300 flex-shrink-0 mx-auto sm:mx-0 group-hover:scale-110">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-sky-400 hover:-translate-y-1 transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-house-chimney text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -237,8 +231,8 @@
         </div>
 
         {{-- Dusun --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-amber-400 hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-500 ease-out cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300 flex-shrink-0 mx-auto sm:mx-0 group-hover:scale-110">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-amber-400 hover:-translate-y-1 transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-map-location-dot text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -249,8 +243,8 @@
         </div>
 
         {{-- Luas Wilayah --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-violet-400 hover:-translate-y-2 hover:shadow-2xl hover:shadow-violet-500/20 transition-all duration-500 ease-out cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-50 flex items-center justify-center text-violet-600 group-hover:bg-violet-600 group-hover:text-white transition-all duration-300 flex-shrink-0 mx-auto sm:mx-0 group-hover:scale-110">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-violet-400 hover:-translate-y-1 transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-50 flex items-center justify-center text-violet-600 group-hover:bg-violet-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-ruler-combined text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
