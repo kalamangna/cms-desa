@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\HasSlug;
+use App\Traits\Auditable;
 
 class Announcement extends Model
 {
-    use SoftDeletes, HasSlug;
+    use SoftDeletes, HasSlug, Auditable;
 
     protected $fillable = ['title', 'slug', 'photo', 'content', 'published_at'];
 

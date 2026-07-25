@@ -18,8 +18,8 @@ class PopupInfographicResource extends Resource
 {
     protected static ?string $model = PopupInfographic::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
-    protected static ?int $navigationSort = 2;
+    protected static string|\UnitEnum|null $navigationGroup = 'Informasi';
+    protected static ?int $navigationSort = 5;
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-photo';
 
     public static function getModelLabel(): string

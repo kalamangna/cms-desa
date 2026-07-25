@@ -172,16 +172,16 @@ class FamilyForm
                                                     ])->searchable(),
                                                 Select::make('closet_type')->label('Jenis Kloset')
                                                     ->options([
-                                                        'Leher angsa' => 'Leher Angsa',
-                                                        'Plengsengan dengan tutup' => 'Plengsengan dengan Tutup',
-                                                        'Cemplung/cubluk' => 'Cemplung / Cubluk',
+                                                        'Leher Angsa' => 'Leher Angsa',
+                                                        'Plengsengan dengan Tutup' => 'Plengsengan dengan Tutup',
+                                                        'Cemplung / Cubluk' => 'Cemplung / Cubluk',
                                                         'Tidak Ada' => 'Tidak Ada',
                                                     ])->searchable(),
                                                 Select::make('feces_disposal')->label('Tempat Pembuangan Akhir Tinja')
                                                     ->options([
                                                         'Tangki Septik' => 'Tangki Septik',
                                                         'Kolam / Sawah / Sungai / Danau' => 'Kolam / Sawah / Sungai / Danau',
-                                                        'Lubang tanah' => 'Lubang Tanah',
+                                                        'Lubang Tanah' => 'Lubang Tanah',
                                                         'Pantai / Tanah Lapang' => 'Pantai / Tanah Lapang',
                                                         'Lainnya' => 'Lainnya',
                                                     ])->searchable(),

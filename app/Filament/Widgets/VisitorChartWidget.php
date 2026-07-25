@@ -9,6 +9,8 @@ class VisitorChartWidget extends ChartWidget
 {
     protected ?string $heading = 'Statistik Pengunjung Website';
 
+    protected static bool $isDiscovered = false;
+
     protected static ?int $sort = 2;
 
     protected int | string | array $columnSpan = 'full';

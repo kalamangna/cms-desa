@@ -87,6 +87,8 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                      ->label('Layanan'),
                 NavigationGroup::make()
+                     ->label('Peta'),
+                NavigationGroup::make()
                      ->label('Master'),
                 NavigationGroup::make()
                      ->label('Sistem'),
@@ -99,7 +101,6 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 \App\Filament\Widgets\VisitSiteWidget::class,
-                \App\Filament\Widgets\VisitorChartWidget::class,
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])

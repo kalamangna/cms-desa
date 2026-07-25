@@ -116,6 +116,7 @@ class CitizenForm
                                                 TextInput::make('job')->label('Profesi Pekerjaan Utama'),
                                                 Select::make('job_status')->label('Kedudukan dalam Pekerjaan Utama')
                                                     ->options([
+                                                        'Tidak Bekerja / Lainnya' => 'Tidak Bekerja / Lainnya',
                                                         'Berusaha Sendiri' => 'Berusaha Sendiri',
                                                         'Buruh / Karyawan / Pegawai Swasta' => 'Buruh / Karyawan / Pegawai Swasta',
                                                         'Pekerja Bebas' => 'Pekerja Bebas',
@@ -249,6 +250,7 @@ class CitizenForm
                                                 'Sesuai KK dan KTP' => 'Sesuai KK dan KTP',
                                                 'Hanya sesuai KK' => 'Hanya sesuai KK',
                                                 'Hanya sesuai KTP' => 'Hanya sesuai KTP',
+                                                'Tidak sesuai KK dan KTP' => 'Tidak sesuai KK dan KTP',
                                             ]),
                                     ]),
 
@@ -259,11 +261,14 @@ class CitizenForm
                                             ->schema([
                                                 Select::make('citizenship_status')->label('Keberadaan Anggota Keluarga')
                                                     ->options([
-                                                        'Tinggal di rumah/tempat tinggal ini' => 'Tinggal di rumah/tempat tinggal ini',
-                                                        'Pindah' => 'Pindah',
+                                                        'Tinggal di Rumah Ini' => 'Tinggal di Rumah Ini',
+                                                        'Sudah Pisah KK' => 'Sudah Pisah KK',
+                                                        'Pindah ke Daerah Lain (Indonesia)' => 'Pindah ke Daerah Lain (Indonesia)',
+                                                        'Pindah ke Luar Negeri' => 'Pindah ke Luar Negeri',
                                                         'Meninggal' => 'Meninggal',
-                                                        'Tidak tinggal di rumah ini' => 'Tidak tinggal di rumah ini',
-                                                    ]),
+                                                        'Pindah' => 'Pindah',
+                                                    ])
+                                                    ->searchable(),
                                                 Select::make('status')->label('Status Keaktifan')
                                                     ->options([
                                                         'Aktif' => 'Aktif',

@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 
 class VisitorStatsOverviewWidget extends BaseWidget
 {
+    protected static bool $isDiscovered = false;
     protected function getStats(): array
     {
         $todayStr = now()->toDateString();

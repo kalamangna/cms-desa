@@ -262,7 +262,7 @@ class ListCitizens extends ListRecords
                                 'date_of_birth' => $dob,
                                 'marital_status' => $colMarital !== false ? $this->parseMaritalStatus($row[$colMarital]) : null,
                                 'family_relation' => $colRelation !== false ? $this->parseFamilyRelation($row[$colRelation]) : null,
-                                'school_participation' => $colSchool !== false ? trim($row[$colSchool]) : null,
+                                'school_participation' => $colSchool !== false ? $this->parseSchoolParticipation($row[$colSchool]) : 'Tidak / Belum Pernah Sekolah',
                                 'education_level' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null,
                                 'education' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null, // legacy
                                 'bpjs_status' => $colBpjs !== false ? trim($row[$colBpjs]) : null,
@@ -518,6 +518,26 @@ class ListCitizens extends ListRecords
         }
 
         return 'Lainnya';
+    }
+
+    private function parseSchoolParticipation(?string $val): string
+    {
+        if (empty($val)) {
+            return 'Tidak / Belum Pernah Sekolah';
+        }
+
+        $clean = strtolower(trim($val));
+        if (strpos($clean, 'masih') !== false) {
+            return 'Masih Sekolah';
+        }
+        if (strpos($clean, 'lagi') !== false) {
+            return 'Tidak Bersekolah Lagi';
+        }
+        if (strpos($clean, 'tidak') !== false || strpos($clean, 'belum') !== false) {
+            return 'Tidak / Belum Pernah Sekolah';
+        }
+
+        return 'Tidak / Belum Pernah Sekolah';
     }
 
     private function parseJobStatus(?string $val): ?string

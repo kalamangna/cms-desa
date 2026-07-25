@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class TopPagesTableWidget extends BaseWidget
 {
+    protected static bool $isDiscovered = false;
     protected static ?string $heading = '10 Halaman Paling Sering Dikunjungi';
 
     protected int | string | array $columnSpan = 'full';

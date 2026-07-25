@@ -30,6 +30,35 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useTailwind();
 
+        // Audit Log Listeners for Auth
+        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Login::class, function ($event) {
+            try {
+                \App\Models\AuditLog::create([
+                    'user_id' => $event->user?->id,
+                    'user_name' => $event->user?->name ?? 'Sistem',
+                    'event' => 'login',
+                    'description' => "Pengguna {$event->user?->name} berhasil masuk (login) ke sistem",
+                    'ip_address' => request()->ip(),
+                    'user_agent' => request()->userAgent(),
+                ]);
+            } catch (\Throwable $e) {}
+        });
+
+        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Logout::class, function ($event) {
+            try {
+                if ($event->user) {
+                    \App\Models\AuditLog::create([
+                        'user_id' => $event->user->id,
+                        'user_name' => $event->user->name,
+                        'event' => 'logout',
+                        'description' => "Pengguna {$event->user->name} keluar (logout) dari sistem",
+                        'ip_address' => request()->ip(),
+                        'user_agent' => request()->userAgent(),
+                    ]);
+                }
+            } catch (\Throwable $e) {}
+        });
+
         // Cache Invalidation Observers
         $clearHomeCache = function () {
             Cache::forget('home_posts');

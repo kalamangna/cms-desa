@@ -2,6 +2,46 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.25.2] - 2026-07-26
+
+### Added
+- **Sistem Audit Log**: Menambahkan model `AuditLog`, trait `Auditable`, migrasi `create_audit_logs_table`, dan resource Filament `AuditLogResource` untuk mencatat setiap perubahan data secara otomatis.
+- **Kolom Dinamis Dataset**: Menambahkan kolom `dynamic_columns` pada tabel `datasets` melalui migrasi `add_dynamic_columns_to_datasets_table` untuk mendukung konfigurasi kolom yang fleksibel.
+- **Registrasi Menu AuditLog**: Mendaftarkan `AuditLogResource` ke dalam panel admin Filament (`AdminPanelProvider`).
+
+### Changed
+- **Peningkatan DatasetController**: Refactor besar pada `DatasetController` untuk mendukung tampilan dataset yang lebih dinamis dan fleksibel.
+- **Peningkatan DatasetForm**: Memperbarui skema form `DatasetForm.php` dengan field tambahan dan validasi yang lebih lengkap.
+- **Peningkatan Model Citizen & Family**: Menambahkan metode, relasi, dan accessor baru pada `Citizen.php` dan `Family.php` untuk mendukung fungsionalitas terbaru.
+- **Peningkatan Model Dataset**: Menambahkan cast, scope, dan accessor baru pada `Dataset.php`.
+- **PDF Penduduk & Keluarga**: Menyempurnakan template PDF `penduduk.blade.php` dan `keluarga.blade.php` dengan informasi yang lebih lengkap.
+- **Tampilan Dataset Publik**: Memperbarui `datasets/index.blade.php` untuk tampilan yang lebih informatif.
+- **AppServiceProvider**: Menambahkan konfigurasi dan binding baru pada `AppServiceProvider`.
+- **Versi Sistem**: Menaikkan versi dari `1.25.1` ke `1.25.2`.
+
+### Data Migration (Autofill & Standardisasi)
+- **Autofill Gender dari NIK**: Mengisi kolom `gender` yang kosong berdasarkan digit ke-7 NIK warga.
+- **Autofill Data Pendidikan**: Mengisi `education_level` dan `school_participation` yang kosong dengan nilai default.
+- **Standardisasi School Participation**: Menyeragamkan variasi penulisan status partisipasi sekolah.
+- **Autofill Status BPJS**: Mengisi `bpjs_status` yang kosong dengan nilai `'Tidak Terdaftar'`.
+- **Standardisasi Status Kewarganegaraan**: Menyeragamkan variasi penulisan `citizenship_status`.
+- **Standardisasi Tipe Bangunan**: Menyeragamkan variasi penulisan `building_type` pada keluarga.
+- **Standardisasi Sanitasi & Air**: Menyeragamkan variasi penulisan sumber air dan sanitasi.
+- **Autofill Tipe Closet**: Mengisi `closet_type` yang kosong dengan nilai `'Tidak Ada'`.
+- **Final Cleanup**: Migrasi pembersihan akhir massal pada tabel `citizens` dan `families` untuk memastikan konsistensi data.
+- **Hapus Kategori Status Pekerjaan Duplikat**: Menghapus kategori statistik `status-pekerjaan` yang redundan.
+
+### Fixed
+- **CitizensTable**: Menambahkan kolom tambahan pada tabel daftar penduduk di admin.
+- **FamiliesTable**: Menambahkan kolom tambahan pada tabel daftar keluarga di admin.
+- **VisitorStatistics**: Memperbaiki tipe properti `$view` pada halaman Statistik Pengunjung.
+- **VisitorChartWidget & VisitorStatsOverviewWidget**: Penyesuaian minor pada widget statistik pengunjung.
+- **TopPagesTableWidget**: Penyesuaian pada widget halaman terpopuler.
+- **PopupInfographicResource & PublicFacilityResource**: Perbaikan minor pada resource Filament.
+- **UserResource**: Perbaikan minor pada resource User.
+- **Model Announcement & Post**: Penyesuaian minor pada model.
+- **Migrasi Job Status (no-op)**: Mengamankan 4 migrasi job status yang duplikat/redundan (`165645`, `165746`, `165850`, `170627`) dengan mengosongkan logikanya agar tidak konflik dengan data yang sudah ada.
+
 ## [1.8.5] - 2026-07-26
 
 ### Added

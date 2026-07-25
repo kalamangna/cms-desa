@@ -108,6 +108,38 @@ class Family extends Model
         return $this->hasMany(Citizen::class);
     }
 
+    public function getBuildingTypeAttribute($value)
+    {
+        if (empty($value)) {
+            return 'Rumah Tinggal Tunggal';
+        }
+
+        $valLower = strtolower(trim($value));
+        if (str_contains($valLower, 'tunggal')) {
+            return 'Rumah Tinggal Tunggal';
+        }
+        if (str_contains($valLower, 'deret')) {
+            return 'Rumah Deret';
+        }
+        if (str_contains($valLower, 'rusun') || str_contains($valLower, 'apartemen')) {
+            return 'Apartemen / Rusun';
+        }
+        if (str_contains($valLower, 'ruko') || str_contains($valLower, 'toko') || str_contains($valLower, 'komersial')) {
+            return 'Bangunan Komersial / Ruko';
+        }
+
+        return $value;
+    }
+
+    public function getClosetTypeAttribute($value)
+    {
+        if (! empty($value)) {
+            return $value;
+        }
+
+        return 'Tidak Ada';
+    }
+
     protected static function booted()
     {
         static::saved(function () {

@@ -19,7 +19,7 @@ class PublicFacilityResource extends Resource
     protected static ?string $model = PublicFacility::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-map';
-    protected static string|\UnitEnum|null $navigationGroup = 'Master';
+    protected static string|\UnitEnum|null $navigationGroup = 'Peta';
     protected static ?string $navigationLabel = 'Fasilitas Umum';
     protected static ?int $navigationSort = 6;
 

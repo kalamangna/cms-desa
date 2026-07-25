@@ -75,39 +75,26 @@
                         </td>
                         <td class="px-8 md:px-12 py-8 md:py-10 text-right">
                             <div class="flex justify-end gap-2">
-                                @if($dataset->file_csv)
-                                    @php
-                                        $csvUrl = $dataset->file_csv === 'dynamic' 
-                                            ? route('datasets.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk' : 'keluarga')])
-                                            : asset('storage/' . $dataset->file_csv);
-                                    @endphp
-                                    <a href="{{ $csvUrl }}" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700 transition" title="Unduh CSV" download>
-                                        <i class="fa-solid fa-download"></i>
-                                        CSV
-                                    </a>
-                                @endif
-                                @if($dataset->file_xlsx)
-                                    @php
-                                        $xlsxUrl = $dataset->file_xlsx === 'dynamic' 
-                                            ? route('datasets.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk-xlsx' : 'keluarga-xlsx')])
-                                            : asset('storage/' . $dataset->file_xlsx);
-                                    @endphp
-                                    <a href="{{ $xlsxUrl }}" class="inline-flex items-center gap-2 bg-sky-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-sky-700 transition" title="Unduh XLSX" download>
-                                        <i class="fa-solid fa-download"></i>
-                                        XLSX
-                                    </a>
-                                @endif
-                                @if($dataset->file_pdf)
-                                    @php
-                                        $pdfUrl = $dataset->file_pdf === 'dynamic' 
-                                            ? route('datasets.download', ['type' => ($dataset->slug === 'data-penduduk' ? 'penduduk-pdf' : 'keluarga-pdf')])
-                                            : asset('storage/' . $dataset->file_pdf);
-                                    @endphp
-                                    <a href="{{ $pdfUrl }}" class="inline-flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-rose-700 transition" title="Unduh PDF" download>
-                                        <i class="fa-solid fa-download"></i>
-                                        PDF
-                                    </a>
-                                @endif
+                                @php
+                                    $key = $dataset->id ?: ($dataset->slug ?: 'penduduk');
+
+                                    $csvUrl = ($dataset->file_csv && $dataset->file_csv !== 'dynamic') 
+                                        ? asset('storage/' . $dataset->file_csv)
+                                        : route('datasets.download', ['type' => $key]);
+
+                                    $xlsxUrl = ($dataset->file_xlsx && $dataset->file_xlsx !== 'dynamic') 
+                                        ? asset('storage/' . $dataset->file_xlsx)
+                                        : route('datasets.download', ['type' => $key . '-xlsx']);
+                                @endphp
+
+                                <a href="{{ $csvUrl }}" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700 transition" title="Unduh CSV">
+                                    <i class="fa-solid fa-download"></i>
+                                    CSV
+                                </a>
+                                <a href="{{ $xlsxUrl }}" class="inline-flex items-center gap-2 bg-sky-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-sky-700 transition" title="Unduh XLSX">
+                                    <i class="fa-solid fa-download"></i>
+                                    XLSX
+                                </a>
                             </div>
                         </td>
                     </tr>

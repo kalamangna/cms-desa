@@ -109,6 +109,88 @@ class Citizen extends Model
         'illness_other' => 'integer',
     ];
 
+    public function getGenderAttribute($value)
+    {
+        if (! empty($value)) {
+            return $value;
+        }
+
+        if ($this->nik && strlen($this->nik) >= 12) {
+            $day = (int) substr($this->nik, 6, 2);
+            if ($day > 40) {
+                return 'Perempuan';
+            } elseif ($day >= 1 && $day <= 31) {
+                return 'Laki-laki';
+            }
+        }
+
+        return '-';
+    }
+
+    public function getEducationLevelAttribute($value)
+    {
+        if (! empty($value)) {
+            return $value;
+        }
+
+        return 'Tidak Punya Ijazah SD';
+    }
+
+    public function getSchoolParticipationAttribute($value)
+    {
+        if (empty($value)) {
+            return 'Tidak / Belum Pernah Sekolah';
+        }
+
+        $valLower = strtolower(trim($value));
+        if (str_contains($valLower, 'masih')) {
+            return 'Masih Sekolah';
+        }
+        if (str_contains($valLower, 'lagi')) {
+            return 'Tidak Bersekolah Lagi';
+        }
+        if (str_contains($valLower, 'tidak') || str_contains($valLower, 'belum')) {
+            return 'Tidak / Belum Pernah Sekolah';
+        }
+
+        return $value;
+    }
+
+    public function getBpjsStatusAttribute($value)
+    {
+        if (! empty($value)) {
+            return $value;
+        }
+
+        return 'Tidak Terdaftar';
+    }
+
+    public function getCitizenshipStatusAttribute($value)
+    {
+        if (empty($value)) {
+            return 'Tinggal di Rumah Ini';
+        }
+
+        $valLower = strtolower(trim($value));
+        if (str_contains($valLower, 'luar negeri')) {
+            return 'Pindah ke Luar Negeri';
+        }
+        if (str_contains($valLower, 'indonesia') || str_contains($valLower, 'wilayah') || str_contains($valLower, 'daerah')) {
+            return 'Pindah ke Daerah Lain (Indonesia)';
+        }
+        if (str_contains($valLower, 'pisah')) {
+            return 'Sudah Pisah KK';
+        }
+        if (str_contains($valLower, 'meninggal')) {
+            return 'Meninggal';
+        }
+        if (str_contains($valLower, 'tinggal') || str_contains($valLower, 'rumah')) {
+            return 'Tinggal di Rumah Ini';
+        }
+
+        return $value;
+    }
+
     protected static function boot()
     {
         parent::boot();
