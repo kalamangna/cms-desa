@@ -47,6 +47,9 @@ return new class extends Migration
                 $table->string('building_type')->nullable();
                 $table->string('ownership_status')->nullable();
                 $table->string('ownership_proof')->nullable();
+                $table->bigInteger('rental_estimate')->nullable();       // 203.a Perkiraan sewa sebulan
+                $table->bigInteger('rental_free_estimate')->nullable();  // 203.b Perkiraan sewa gratis
+                $table->bigInteger('rental_contract_value')->nullable(); // 203.c Nilai kontrak
                 $table->float('floor_area')->nullable();
                 $table->string('floor_material')->nullable();
                 $table->string('wall_material')->nullable();
@@ -61,7 +64,10 @@ return new class extends Migration
                 $table->string('feces_disposal')->nullable();
                 $table->string('water_source')->nullable();
                 $table->string('lighting_source')->nullable();
-                $table->string('electricity_power')->nullable();
+                $table->string('electricity_power')->nullable();         // Legacy: nilai lama (backward compat)
+                $table->string('electricity_power_meter_1')->nullable(); // Meteran 1
+                $table->string('electricity_power_meter_2')->nullable(); // Meteran 2
+                $table->string('electricity_power_meter_3')->nullable(); // Meteran 3
                 $table->string('electricity_id')->nullable();
                 $table->bigInteger('electricity_cost')->nullable();
                 $table->bigInteger('internet_cost')->nullable();
@@ -87,6 +93,9 @@ return new class extends Migration
                 $table->bigInteger('other_land_value')->default(0);
                 $table->integer('other_building_count')->default(0);
                 $table->bigInteger('other_building_value')->default(0);
+                $table->integer('cow_count')->default(0);      // Ternak Sapi
+                $table->integer('goat_count')->default(0);     // Ternak Kambing
+                $table->integer('buffalo_count')->default(0);  // Ternak Kerbau
                 
                 $table->text('notes')->nullable();
                 
@@ -116,8 +125,8 @@ return new class extends Migration
                 $table->string('blood_type')->nullable();
                 $table->string('marital_status')->nullable();
                 $table->text('address')->nullable();
-                $table->string('rt', 3)->nullable();
-                $table->string('rw', 3)->nullable();
+                $table->string('rt', 10)->nullable();
+                $table->string('rw', 10)->nullable();
                 $table->string('status')->default('Aktif'); // Aktif, Pindah, Meninggal
                 
                 // Relasi
@@ -126,6 +135,7 @@ return new class extends Migration
                 $table->integer('kk_order')->nullable();
                 $table->string('family_relation')->nullable();
                 $table->string('citizenship_status')->nullable();
+                $table->string('domicile_address_type')->nullable(); // 304: Status tempat tinggal saat ini
                 
                 // Pendidikan & Kesehatan
                 $table->string('school_participation')->nullable();
@@ -173,7 +183,7 @@ return new class extends Migration
                 $table->boolean('illness_other')->default(false);
                 
                 // Rekening & Dompet Digital
-                $table->boolean('has_digital_wallet')->default(false);
+                $table->string('has_digital_wallet')->nullable(); // Tidak ada, Ya untuk pribadi, Ya untuk usaha, dll.
                 
                 $table->timestamps();
                 $table->softDeletes();

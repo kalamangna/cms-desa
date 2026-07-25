@@ -11,6 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Guard: Pada fresh install, kolom ini sudah dibuat sebagai bigInteger di base CREATE migration.
+        // Migration ini hanya relevan untuk database existing yang dibuat sebelum perubahan base.
+        if (!Schema::hasTable('families')) {
+            return;
+        }
         Schema::table('families', function (Blueprint $table) {
             $table->bigInteger('motorcycle_value')->default(0)->change();
             $table->bigInteger('car_value')->default(0)->change();

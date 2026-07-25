@@ -48,6 +48,10 @@ class ListFamilies extends ListRecords
                         ->directory('temp'),
                 ])
                 ->action(function (array $data) {
+                    // BUG-C6 Fix: Proteksi memory untuk file Excel besar
+                    ini_set('memory_limit', '256M');
+                    set_time_limit(120);
+
                     $disk = config('filament.default_filesystem_disk', 'public');
                     $filePath = \Illuminate\Support\Facades\Storage::disk($disk)->path($data['excel_file']);
                     
@@ -401,10 +405,12 @@ class ListFamilies extends ListRecords
         return mb_strtoupper($name);
     }
 
-    private function cleanNumeric(string $val): int
+    private function cleanNumeric(?string $val): int
     {
+        // BUG-C4 Fix: handle null agar tidak crash saat kolom kosong di Excel
+        if ($val === null) return 0;
         $val = strtolower(trim($val));
-        if (empty($val) || in_array($val, ['tidak ada', 'none', '-', '?'])) return 0;
+        if (empty($val) || in_array($val, ['tidak ada', 'none', '-', '?', 'n/a'])) return 0;
 
         // Support shortcuts like "4,8jt" or "4.8 jt"
         if (strpos($val, 'jt') !== false) {
@@ -413,7 +419,7 @@ class ListFamilies extends ListRecords
             return intval(floatval($numPart) * 1000000);
         }
 
-        // Clean normal formatted currency like 3,000,000.00
+        // Clean normal formatted currency like 3,000,000.00 or 3.000.000
         $clean = preg_replace('/[^0-9]/', '', explode('.', $val)[0]);
         return empty($clean) ? 0 : intval($clean);
     }

@@ -2,8 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
-## [1.8.3] - 2026-07-24
+## [1.8.4] - 2026-07-25
 
+### Fixed
+- **Proteksi OOM Impor Excel**: Menambahkan pengaturan `memory_limit` (256M) pada rutin impor Excel Penduduk dan Keluarga (`ListCitizens.php` & `ListFamilies.php`) untuk mencegah aplikasi kehabisan memori (_Out of Memory crash_) saat memproses dokumen Excel dengan ribuan baris data.
+- **Galat Tipe Data (Crash) Kolom Kosong Impor Excel**: Memperbaiki fungsi pembaca numerik (`cleanNumeric`) yang sebelumnya mengalami galat fatal (`TypeError`) saat memproses kolom Excel yang dibiarkan kosong, kini aman memetakan data nihil menjadi nilai numerik standar (`0`).
+- **Akurasi Pemetaan Status Pekerjaan**: Menyempurnakan pencarian pola (_regex/keyword_) pada fungsi impor Pekerjaan dan Status Pekerjaan di `ListCitizens.php`. Memperbaiki anomali di mana kata "desa" pada alamat keliru ditangkap sebagai ASN, kata "art" tak sengaja merangkum kata "partai", dan penyebutan "ibu" keliru mengartikan "Ibu Rumah Tangga" sebagai relasi "Orang Tua".
+- **Skema Model Indikator Statistik**: Memperbaiki model `StatisticIndicator.php` dengan mendaftarkan bidang `order` dan `is_active` ke dalam perlindungan `$fillable`, sehingga pengurutan dan aktivasi kategori berhasil disimpan ke dalam pangkalan data.
+- **Integritas Berkas Migrasi**: Menambahkan fungsi pemeriksa ketersediaan kolom (`hasColumn`) ke dalam tahapan _rollback_ (metode `down()`) pada seluruh berkas migrasi penambahan _field_ baru, memastikan perintah `php artisan migrate:rollback` dapat berjalan idempotensi tanpa galat (crash) jika tabel termodifikasi.
+
+## [1.8.3] - 2026-07-24
 ### Documentation
 - **Penyelarasan Dokumentasi Lintas Modul**: Memperbarui dokumen spesifikasi, implementasi, basis data, panduan pengguna, dan pengujian (`1_INTRODUCTION.md`, `2_REQUIREMENTS_ANALYSIS.md`, `3_SYSTEM_DESIGN.md`, `4_IMPLEMENTATION.md`, `5_DATABASE.md`, `8_USER_GUIDE.md`, `9_TESTING.md`, dan `TECHNICAL_REPORT.md`) agar secara komprehensif memuat rincian fitur-fitur penting yang telah terbangun: Manajemen Konten/CMS, Spasial & Pemetaan GIS, Repositori Keterbukaan Publik, dan Layanan Mandiri.
 

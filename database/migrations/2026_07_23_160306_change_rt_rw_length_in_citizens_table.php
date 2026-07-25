@@ -11,6 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Guard: Pada fresh install, rt dan rw sudah dibuat sebagai varchar(10) di base CREATE migration.
+        // Migration ini hanya relevan untuk database existing yang masih menggunakan varchar(3).
+        if (!Schema::hasTable('citizens')) {
+            return;
+        }
         Schema::table('citizens', function (Blueprint $table) {
             $table->string('rt', 10)->nullable()->change();
             $table->string('rw', 10)->nullable()->change();

@@ -33,8 +33,16 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Guard: hanya drop kolom jika up() migration ini yang menambahkannya.
+        // Pada fresh install, kolom ini sudah ada dari base CREATE — jangan di-drop saat rollback migration ini.
         Schema::table('families', function (Blueprint $table) {
-            $table->dropColumn(['rental_estimate', 'rental_free_estimate', 'rental_contract_value']);
+            $cols = [];
+            if (Schema::hasColumn('families', 'rental_estimate')) $cols[] = 'rental_estimate';
+            if (Schema::hasColumn('families', 'rental_free_estimate')) $cols[] = 'rental_free_estimate';
+            if (Schema::hasColumn('families', 'rental_contract_value')) $cols[] = 'rental_contract_value';
+            if (!empty($cols)) {
+                $table->dropColumn($cols);
+            }
         });
     }
 };

@@ -18,8 +18,6 @@ return new class extends Migration
                 'description' => 'Statistik Penduduk Berdasarkan Status Kedudukan Pekerjaan Utama',
                 'mapping_table' => 'citizens',
                 'mapping_column' => 'job_status',
-                'chart_type' => 'bar',
-                'order' => 5,
                 'is_active' => true,
             ]
         );

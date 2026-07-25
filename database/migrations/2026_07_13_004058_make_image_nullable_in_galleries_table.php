@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasColumn('galleries', 'image')) {
+        // Guard: Pada fresh install, kolom sudah dibuat nullable di base CREATE migration.
+        // Migration ini hanya relevan untuk database existing yang dibuat sebelum perubahan base.
+        if (Schema::hasTable('galleries') && Schema::hasColumn('galleries', 'image')) {
             Schema::table('galleries', function (Blueprint $table) {
                 $table->string('image')->nullable()->change();
             });

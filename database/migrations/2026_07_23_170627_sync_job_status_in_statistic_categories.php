@@ -13,8 +13,9 @@ return new class extends Migration
     {
         $cat = \App\Models\StatisticCategory::where('slug', 'status-pekerjaan')->first();
         if (!$cat) {
-            $cat = \App\Models\StatisticCategory::whereJsonContains('mapping_column', 'job_status')
-                ->orWhere('mapping_column', 'job_status')
+            // Fallback: cari via mapping_column (tipe TEXT, gunakan LIKE bukan whereJsonContains)
+            $cat = \App\Models\StatisticCategory::where('mapping_column', 'job_status')
+                ->orWhere('mapping_column', 'LIKE', '%job_status%')
                 ->first();
         }
 

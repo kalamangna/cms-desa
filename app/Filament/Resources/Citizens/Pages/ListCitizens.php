@@ -49,6 +49,10 @@ class ListCitizens extends ListRecords
                         ->directory('temp'),
                 ])
                 ->action(function (array $data) {
+                    // BUG-C6 Fix: Proteksi memory untuk file Excel besar
+                    ini_set('memory_limit', '256M');
+                    set_time_limit(120);
+
                     $disk = config('filament.default_filesystem_disk', 'public');
                     $filePath = \Illuminate\Support\Facades\Storage::disk($disk)->path($data['excel_file']);
                     
@@ -415,7 +419,7 @@ class ListCitizens extends ListRecords
         $clean = strtolower(trim($val));
         if (empty($clean)) return null;
 
-        if (strpos($clean, 'kepala') !== false || strpos($clean, 'kk') !== false) {
+        if (strpos($clean, 'kepala') !== false || $clean === 'kk') {
             return 'Kepala Keluarga';
         } elseif (strpos($clean, 'istri') !== false || strpos($clean, 'suami') !== false) {
             return 'Istri';
@@ -423,10 +427,20 @@ class ListCitizens extends ListRecords
             return 'Anak';
         } elseif (strpos($clean, 'cucu') !== false) {
             return 'Cucu';
-        } elseif (strpos($clean, 'tua') !== false || strpos($clean, 'bapak') !== false || strpos($clean, 'ibu') !== false) {
-            return 'Orang Tua';
         } elseif (strpos($clean, 'mertua') !== false) {
             return 'Mertua';
+        } elseif (
+            // BUG-C3 Fix: 'ibu' saja terlalu lebar — bisa menangkap 'Ibu Rumah Tangga'.
+            // Gunakan 'orang tua', atau kata tunggal yang tepat.
+            strpos($clean, 'orang tua') !== false ||
+            strpos($clean, 'ortu') !== false ||
+            strpos($clean, 'bapak') !== false ||
+            $clean === 'ibu' ||
+            strpos($clean, 'ayah') !== false
+        ) {
+            return 'Orang Tua';
+        } elseif (strpos($clean, 'famili') !== false || strpos($clean, 'saudara') !== false || strpos($clean, 'keponakan') !== false) {
+            return 'Famili Lain';
         }
         return 'Lainnya';
     }
@@ -465,25 +479,37 @@ class ListCitizens extends ListRecords
         $clean = strtolower(trim($val));
         if (empty($clean)) return null;
 
-        if (strpos($clean, 'tidak bekerja') !== false || strpos($clean, 'menganggur') !== false) {
+        // Cek IRT/tidak bekerja DULU sebelum cek 'tani' (karena 'ibu' bisa overlap)
+        if (strpos($clean, 'tidak bekerja') !== false || strpos($clean, 'menganggur') !== false || $clean === 'belum bekerja') {
             return 'Belum / Tidak Bekerja';
-        } elseif (strpos($clean, 'irt') !== false || strpos($clean, 'ibu rumah tangga') !== false || strpos($clean, 'iry') !== false) {
+        } elseif ($clean === 'irt' || $clean === 'iry' || strpos($clean, 'ibu rumah tangga') !== false || strpos($clean, 'rumah tangga') !== false) {
             return 'Ibu Rumah Tangga';
-        } elseif (strpos($clean, 'tani') !== false || strpos($clean, 'kebun') !== false || strpos($clean, 'sawah') !== false || strpos($clean, 'peternak') !== false || strpos($clean, 'pertanian') !== false) {
+        } elseif (strpos($clean, 'tani') !== false || strpos($clean, 'kebun') !== false || strpos($clean, 'sawah') !== false || strpos($clean, 'peternak') !== false) {
             return 'Petani / Pekebun';
         } elseif (strpos($clean, 'pelajar') !== false || strpos($clean, 'mahasiswa') !== false || strpos($clean, 'mahasiswi') !== false) {
             return 'Pelajar / Mahasiswa';
-        } elseif (strpos($clean, 'wiraswasta') !== false || strpos($clean, 'wirausaha') !== false || strpos($clean, 'pengusaha') !== false || strpos($clean, 'bengkel') !== false || strpos($clean, 'warung') !== false || strpos($clean, 'kripik') !== false || strpos($clean, 'mua') !== false) {
-            return 'Wiraswasta / Pengusaha';
-        } elseif (strpos($clean, 'karyawan') !== false || strpos($clean, 'pelayaran') !== false || strpos($clean, 'batu bara') !== false || strpos($clean, 'bandara') !== false) {
-            return 'Karyawan Swasta';
         } elseif (strpos($clean, 'guru') !== false || strpos($clean, 'kepsek') !== false || strpos($clean, 'dosen') !== false || strpos($clean, 'operator sekolah') !== false || strpos($clean, 'operator tk') !== false) {
             return 'Tenaga Pendidikan';
         } elseif (strpos($clean, 'perawat') !== false || strpos($clean, 'bidan') !== false || strpos($clean, 'nakes') !== false || strpos($clean, 'kesehatan') !== false || strpos($clean, 'skm') !== false) {
             return 'Tenaga Kesehatan';
         } elseif (strpos($clean, 'pns') !== false || strpos($clean, 'asn') !== false || strpos($clean, 'pppk') !== false || strpos($clean, 'kades') !== false || strpos($clean, 'perangkat desa') !== false || strpos($clean, 'staf desa') !== false || strpos($clean, 'bpd') !== false || strpos($clean, 'satpol pp') !== false || strpos($clean, 'pejabat') !== false) {
             return 'PNS / Aparatur';
-        } elseif (strpos($clean, 'buruh') !== false || strpos($clean, 'konstruksi') !== false || strpos($clean, 'bangunan') !== false || strpos($clean, 'tukang') !== false || strpos($clean, 'art') !== false || strpos($clean, 'asisten rumah tangga') !== false || strpos($clean, 'pengasuh') !== false || strpos($clean, 'baby sister') !== false) {
+        } elseif (strpos($clean, 'wiraswasta') !== false || strpos($clean, 'wirausaha') !== false || strpos($clean, 'pengusaha') !== false || strpos($clean, 'bengkel') !== false || strpos($clean, 'warung') !== false || strpos($clean, 'kripik') !== false) {
+            return 'Wiraswasta / Pengusaha';
+        } elseif (strpos($clean, 'karyawan') !== false || strpos($clean, 'pelayaran') !== false || strpos($clean, 'batu bara') !== false || strpos($clean, 'bandara') !== false) {
+            return 'Karyawan Swasta';
+        } elseif (
+            strpos($clean, 'buruh') !== false ||
+            strpos($clean, 'konstruksi') !== false ||
+            strpos($clean, 'bangunan') !== false ||
+            strpos($clean, 'tukang') !== false ||
+            strpos($clean, 'pengasuh') !== false ||
+            strpos($clean, 'baby sitter') !== false ||
+            // BUG-C2 Fix: 'art' terlalu pendek (menangkap 'pertanian', 'partai', dll).
+            // Gunakan pencocokan kata utuh via regex, atau kata yang lebih spesifik.
+            strpos($clean, 'asisten rumah tangga') !== false ||
+            preg_match('/\bart\b/', $clean)
+        ) {
             return 'Buruh / Pekerja Harian';
         } elseif (strpos($clean, 'sopir') !== false || strpos($clean, 'kurir') !== false || strpos($clean, 'mbg') !== false) {
             return 'Pekerja Jasa & Transportasi';
@@ -500,18 +526,33 @@ class ListCitizens extends ListRecords
         $clean = strtolower(trim($val));
         if (empty($clean)) return null;
 
-        if (strpos($clean, 'berusaha sendiri') !== false || strpos($clean, 'berusah') !== false || strpos($clean, 'burusaha') !== false || strpos($clean, 'mandiri') !== false || strpos($clean, 'pedagang') !== false) {
+        if (strpos($clean, 'dibantu buruh') !== false || strpos($clean, 'pemberi kerja') !== false) {
+            return 'Berusaha Dibantu Buruh';
+        } elseif (strpos($clean, 'berusaha sendiri') !== false || strpos($clean, 'berusah') !== false || strpos($clean, 'burusaha') !== false || strpos($clean, 'mandiri') !== false || strpos($clean, 'pedagang') !== false) {
             return 'Berusaha Sendiri';
-        } elseif (strpos($clean, 'buruh') !== false || strpos($clean, 'karyawan') !== false || strpos($clean, 'swasta') !== false || strpos($clean, 'pembantu') !== false) {
-            return 'Buruh / Karyawan / Pegawai Swasta';
         } elseif (strpos($clean, 'pekerja bebas') !== false || strpos($clean, 'babas') !== false) {
             return 'Pekerja Bebas';
         } elseif (strpos($clean, 'pekerja keluarga') !== false || strpos($clean, 'keluaga') !== false || strpos($clean, 'tidak dibayar') !== false || strpos($clean, 'tak dibayar') !== false) {
             return 'Pekerja Keluarga / Tidak Dibayar';
-        } elseif (strpos($clean, 'asn') !== false || strpos($clean, 'tni') !== false || strpos($clean, 'polri') !== false || strpos($clean, 'bumn') !== false || strpos($clean, 'bumd') !== false || strpos($clean, 'pejabat') !== false || strpos($clean, 'kades') !== false || strpos($clean, 'kepala dusun') !== false || strpos($clean, 'pemerintahan') !== false || strpos($clean, 'pelayanan') !== false || strpos($clean, 'desa') !== false || strpos($clean, 'bpd') !== false) {
+        } elseif (strpos($clean, 'buruh') !== false || strpos($clean, 'karyawan') !== false || strpos($clean, 'swasta') !== false || strpos($clean, 'pembantu') !== false) {
+            return 'Buruh / Karyawan / Pegawai Swasta';
+        } elseif (
+            // BUG-C1 Fix: 'desa' terlalu umum — bisa menangkap nama desa di alamat.
+            // Gunakan frasa spesifik yang benar-benar menunjuk jabatan pemerintah.
+            strpos($clean, 'asn') !== false ||
+            strpos($clean, 'tni') !== false ||
+            strpos($clean, 'polri') !== false ||
+            strpos($clean, 'bumn') !== false ||
+            strpos($clean, 'bumd') !== false ||
+            strpos($clean, 'pejabat') !== false ||
+            strpos($clean, 'kades') !== false ||
+            strpos($clean, 'kepala dusun') !== false ||
+            strpos($clean, 'perangkat desa') !== false ||
+            strpos($clean, 'sekretaris desa') !== false ||
+            strpos($clean, 'staf desa') !== false ||
+            strpos($clean, 'bpd') !== false
+        ) {
             return 'ASN / TNI / Polri / BUMN / BUMD / Pejabat Negara';
-        } elseif (strpos($clean, 'dibantu buruh') !== false || strpos($clean, 'pemberi kerja') !== false) {
-            return 'Berusaha Dibantu Buruh';
         }
 
         return 'Lainnya';
@@ -542,10 +583,12 @@ class ListCitizens extends ListRecords
         return mb_strtoupper($name);
     }
 
-    private function cleanNumeric(string $val): int
+    private function cleanNumeric(?string $val): int
     {
+        // BUG-C4 Fix: handle null agar tidak crash saat kolom kosong di Excel
+        if ($val === null) return 0;
         $val = strtolower(trim($val));
-        if (empty($val) || in_array($val, ['tidak ada', 'none', '-', '?'])) return 0;
+        if (empty($val) || in_array($val, ['tidak ada', 'none', '-', '?', 'n/a'])) return 0;
 
         // Support shortcuts like "4,8jt" or "4.8 jt"
         if (strpos($val, 'jt') !== false) {
@@ -554,7 +597,7 @@ class ListCitizens extends ListRecords
             return intval(floatval($numPart) * 1000000);
         }
 
-        // Clean normal formatted currency like 3,000,000.00
+        // Clean normal formatted currency like 3,000,000.00 or 3.000.000
         $clean = preg_replace('/[^0-9]/', '', explode('.', $val)[0]);
         return empty($clean) ? 0 : intval($clean);
     }

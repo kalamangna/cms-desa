@@ -21,6 +21,12 @@ return new class extends Migration
                 $table->boolean('is_active')->default(true);
                 $table->string('mapping_table')->nullable();
                 $table->text('mapping_column')->nullable();
+                $table->json('secondary_columns')->nullable();   // Kolom sekunder (e.g. ['gender'])
+                $table->string('comparison_column')->nullable();  // Kolom untuk perbandingan
+                $table->string('comparison_value_a')->nullable();
+                $table->string('comparison_value_b')->nullable();
+                $table->string('comparison_label_a')->nullable();
+                $table->string('comparison_label_b')->nullable();
                 $table->timestamps();
             });
         }
@@ -46,6 +52,8 @@ return new class extends Migration
                 $table->foreignId('statistic_indicator_id')->constrained()->cascadeOnDelete();
                 $table->integer('year');
                 $table->integer('value');
+                $table->integer('value_male')->default(0);   // Nilai laki-laki
+                $table->integer('value_female')->default(0); // Nilai perempuan
                 $table->timestamps();
             });
         }

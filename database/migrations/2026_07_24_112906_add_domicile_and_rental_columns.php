@@ -37,8 +37,17 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Guard: hanya drop kolom yang benar-benar ada.
+        // domicile_province/city/country tidak ada di fresh install (tidak dibuat di base CREATE).
         Schema::table('citizens', function (Blueprint $table) {
-            $table->dropColumn(['domicile_address_type', 'domicile_province', 'domicile_city', 'domicile_country']);
+            $cols = [];
+            if (Schema::hasColumn('citizens', 'domicile_address_type')) $cols[] = 'domicile_address_type';
+            if (Schema::hasColumn('citizens', 'domicile_province')) $cols[] = 'domicile_province';
+            if (Schema::hasColumn('citizens', 'domicile_city')) $cols[] = 'domicile_city';
+            if (Schema::hasColumn('citizens', 'domicile_country')) $cols[] = 'domicile_country';
+            if (!empty($cols)) {
+                $table->dropColumn($cols);
+            }
         });
     }
 };
