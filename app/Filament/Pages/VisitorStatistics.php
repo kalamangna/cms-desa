@@ -15,7 +15,7 @@ class VisitorStatistics extends Page
     protected static ?string $navigationLabel = 'Statistik Pengunjung';
     protected static ?int $navigationSort = 99;
 
-    protected static string $view = 'filament.pages.visitor-statistics';
+    protected string $view = 'filament.pages.visitor-statistics';
 
     protected function getHeaderWidgets(): array
     {
