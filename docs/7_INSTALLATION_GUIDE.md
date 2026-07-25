@@ -27,7 +27,6 @@ composer install --no-dev --optimize-autoloader
 cp .env.example .env
 php artisan key:generate
 php artisan migrate:fresh --seed
-php artisan storage:link
 cd ..
 rm -rf public_html
 ln -s cms-desa/public public_html
@@ -35,6 +34,11 @@ cd cms-desa
 php artisan config:cache && php artisan route:cache && php artisan view:cache
 ```
 
-### Inisialisasi Media & Storage
-Setelah melakukan deployment dan login ke Admin Panel Filament:
-Buka alamat `https://domain-desa.id/init` di peramban (browser) untuk menyalin berkas media & aset bawaan (*dummy storage*) ke folder `public/storage`.
+> **Catatan `storage:link` pada Shared Hosting:**  
+> Jika perintah `php artisan storage:link` gagal dengan pesan *The symlink function is disabled by your PHP configuration*, langkah tersebut **aman untuk dilewati**.
+
+### Inisialisasi Media & Storage (`/init`)
+Setelah melakukan deployment di atas:
+1. Login ke Admin Panel Filament terlebih dahulu (`/admin`).
+2. Buka URL `https://domain-desa.id/init` di peramban (browser).
+3. Fitur `/init` akan otomatis membuat folder fisik `public/storage` dan menyalin seluruh berkas gambar/media secara rekursif dari `storage/app/public` tanpa membutuhkan fungsi *symlink*.

@@ -75,23 +75,23 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
     cp .env.example .env
     php artisan key:generate
     ```
-2. **Migrasi Database & Tautan Storage**:
+2. **Migrasi Database**:
     ```bash
     php artisan migrate:fresh --seed
-    php artisan storage:link
     ```
+    *(Catatan: Jika `php artisan storage:link` gagal karena fungsi `symlink()` dilarang oleh server shared hosting, hal ini aman untuk dilewati).*
 3. **Hubungkan `public_html` ke Folder Public**:
     ```bash
     cd ..
     rm -rf public_html
     ln -s cms-desa/public public_html
     ```
-4. **Optimasi Performa & Inisialisasi Media**:
+4. **Optimasi Performa & Inisialisasi Media (`/init`)**:
     ```bash
     cd cms-desa
     php artisan config:cache && php artisan route:cache && php artisan view:cache
     ```
-    *Setelah login ke Admin Panel Filament, akses URL `https://domain-desa.id/init` di browser untuk menyalin berkas aset/media bawaan (`dummy storage`) ke folder publik.*
+    *Setelah login ke Admin Panel Filament, buka URL `https://domain-desa.id/init` di browser. Fitur ini dibuat khusus untuk menyalin seluruh aset/media secara fisik dari storage ke folder publik tanpa membutuhkan fungsi symlink.*
 
 ---
 
