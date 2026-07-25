@@ -17,10 +17,9 @@ class TopPagesTableWidget extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->recordKey('url')
             ->query(
                 VisitorLog::query()
-                    ->select('url', DB::raw('count(*) as total_views'), DB::raw('count(distinct ip_hash) as unique_visitors'))
+                    ->select(DB::raw('min(id) as id'), 'url', DB::raw('count(*) as total_views'), DB::raw('count(distinct ip_hash) as unique_visitors'))
                     ->groupBy('url')
                     ->orderByDesc('total_views')
             )
