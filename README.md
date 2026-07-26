@@ -23,7 +23,8 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
     - **Pengaduan Online & Buku Tamu**: Mekanisme umpan balik (_feedback_) warga langsung ke antrean tinjauan dashboard operator desa.
 - **Konfigurasi Global & Keamanan (Tanpa Coding)**:
     - Manajemen identitas logo desa, kontak, tautan medsos, metadata SEO, serta **Pemilih Tema Warna Dinamis** dari pengaturan admin.
-    - Skema autentikasi kokoh berbasis _Role-Based Access Control_ (RBAC) dengan Spatie Permissions.
+    - Skema autentikasi kokoh berbasis _Role-Based Access Control_ (RBAC) dengan pemisahan hak akses tegas antara `super_admin` (Pengembang) dan `admin_desa` (Operator).
+    - **Sistem Cadangan (Backup)**: Pencadangan penuh (basis data dan berkas) yang terpusat di panel admin, beroperasi harian secara otomatis di latar belakang.
 
 ---
 
