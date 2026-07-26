@@ -31,7 +31,7 @@ class GalleryResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Galeri';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-camera';

@@ -30,7 +30,7 @@ class ServiceRequestResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Permohonan Layanan';
+        return static::getModelLabel();
     }
 
     public static function form(Schema $schema): Schema

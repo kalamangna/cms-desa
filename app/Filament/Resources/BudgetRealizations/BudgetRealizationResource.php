@@ -31,7 +31,7 @@ class BudgetRealizationResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'APBDes';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-banknotes';

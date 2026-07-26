@@ -31,7 +31,7 @@ class AnnouncementResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Pengumuman';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bell';

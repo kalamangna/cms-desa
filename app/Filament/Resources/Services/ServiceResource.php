@@ -29,7 +29,7 @@ class ServiceResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Layanan';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-queue-list';

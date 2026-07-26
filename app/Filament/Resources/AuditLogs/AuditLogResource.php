@@ -18,8 +18,8 @@ class AuditLogResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
     protected static ?string $navigationLabel = 'Audit Log';
-    protected static ?string $title = 'Audit Log';
-    protected static ?int $navigationSort = 4;
+    protected static ?string $modelLabel = 'Audit Log';
+        protected static ?int $navigationSort = 6;
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     public static function canViewAny(): bool
@@ -116,5 +116,10 @@ class AuditLogResource extends Resource
         return [
             'index' => ListAuditLogs::route('/'),
         ];
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return static::getModelLabel();
     }
 }

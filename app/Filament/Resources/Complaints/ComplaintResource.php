@@ -30,7 +30,7 @@ class ComplaintResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Pengaduan';
+        return static::getModelLabel();
     }
 
     public static function form(Schema $schema): Schema

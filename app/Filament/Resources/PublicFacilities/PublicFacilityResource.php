@@ -30,7 +30,7 @@ class PublicFacilityResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Fasilitas Umum';
+        return static::getModelLabel();
     }
 
     public static function form(Schema $schema): Schema

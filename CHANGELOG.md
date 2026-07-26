@@ -2,6 +2,21 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.0] - 2026-07-26
+
+### Added
+- **Modul Backup / Cadangan**: Mengintegrasikan `spatie/laravel-backup` dan `filament-spatie-laravel-backup` untuk memungkinkan pengunduhan dan pencadangan database beserta berkas CMS.
+- **Penjadwalan Backup Otomatis**: Mengonfigurasi `routes/console.php` agar melakukan tugas pencadangan sistem pada pukul 02:00 dini hari dan pembersihan cadangan pada pukul 01:00 dini hari setiap hari secara otomatis via *cron job* server (`artisan schedule:run`).
+
+### Changed
+- **Pembersihan Logika Penamaan Modul/Menu**: Menyelaraskan seluruh 24 modul (*Resources*) pada panel Admin agar menggunakan strategi penamaan jamak yang sama persis dengan nama tunggal secara dinamis (`return static::getModelLabel();`). Strategi ini menjaga keutuhan nama menu tanpa tambahan awalan "Daftar" (misal: "Fasilitas Umum" akan tetap konsisten menjadi "Fasilitas Umum").
+- **Pemolesan UX Widget Dasbor**: Menerapkan batas maksimal 10 baris (`limit(10)`) pada widget dasbor "10 Halaman Teratas".
+- **Standardisasi URL Statistik Pengunjung**: Memperbarui *middleware* `TrackVisitor` agar hanya merekam jalur (path) URL tanpa menyertakan *domain* ke tabel `visitor_logs` untuk mencegah pelaporan statistik ganda.
+
+### Security
+- **Penyederhanaan dan Pengamanan Peran (Role)**: Menghapus secara permanen peran usang (`agen_statistik`) dari basis data demi mengurangi potensi lubang kerentanan, menyisakan hanya peran esensial (`super_admin` dan `admin_desa`).
+- **Penguncian Akses Menu Inti**: Membatasi hak akses `admin_desa` secara presisi menggunakan migrasi. Peran ini kini tidak dapat lagi melihat atau memodifikasi menu-menu sistem inti (Pengguna, Peran, Audit Log, dan Cadangan), yang kini diisolasi eksklusif hanya untuk `super_admin`.
+
 ## [1.25.2] - 2026-07-26
 
 ### Added

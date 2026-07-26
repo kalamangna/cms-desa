@@ -17,7 +17,6 @@ class RolePermissionTest extends TestCase
 
         $this->assertDatabaseHas('roles', ['name' => 'super_admin']);
         $this->assertDatabaseHas('roles', ['name' => 'admin_desa']);
-        $this->assertDatabaseHas('roles', ['name' => 'agen_statistik']);
     }
 
     public function test_super_admin_user_has_super_admin_role(): void

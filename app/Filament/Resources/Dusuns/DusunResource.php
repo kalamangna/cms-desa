@@ -31,7 +31,7 @@ class DusunResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Dusun';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-map-pin';

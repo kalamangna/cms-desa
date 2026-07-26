@@ -20,7 +20,7 @@ class DefaultDataSeeder extends Seeder
 
         $superAdminRole = Role::firstOrCreate(['name' => 'super_admin']);
         Role::firstOrCreate(['name' => 'admin_desa']);
-        Role::firstOrCreate(['name' => 'agen_statistik']);
+
 
         $user = User::firstOrCreate(
             ['username' => 'kalamangna'],

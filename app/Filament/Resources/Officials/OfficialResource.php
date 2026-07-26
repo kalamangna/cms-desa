@@ -33,7 +33,7 @@ class OfficialResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Aparatur Desa';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-briefcase';

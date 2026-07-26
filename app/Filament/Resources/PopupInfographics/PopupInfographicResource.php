@@ -29,7 +29,7 @@ class PopupInfographicResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Infografis';
+        return static::getModelLabel();
     }
 
     public static function form(Schema $schema): Schema

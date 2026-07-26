@@ -31,7 +31,7 @@ class BudgetCategoryResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Kategori Anggaran';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-folder';

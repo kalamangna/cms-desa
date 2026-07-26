@@ -28,7 +28,7 @@ class VillagePotentialResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Potensi Desa';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-sparkles';

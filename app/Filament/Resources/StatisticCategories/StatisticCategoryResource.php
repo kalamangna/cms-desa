@@ -29,7 +29,7 @@ class StatisticCategoryResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Kategori Statistik';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-chart-pie';

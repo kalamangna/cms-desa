@@ -33,7 +33,7 @@ class UserResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Pengguna';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-users';

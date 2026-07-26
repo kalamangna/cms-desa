@@ -31,7 +31,7 @@ class DatasetResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Open Data';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-circle-stack';

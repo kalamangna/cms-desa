@@ -116,7 +116,16 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                FilamentShieldPlugin::make(),
+                FilamentShieldPlugin::make()
+                    ->navigationGroup('Sistem')
+                    ->navigationLabel('Peran')
+                    ->navigationSort(4),
+                \ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin::make()
+                    ->authorize(fn () => auth()->user()?->hasRole('super_admin') ?? false)
+                    ->navigationGroup('Sistem')
+                    ->navigationLabel('Cadangan')
+                    ->navigationSort(5)
+                    ->usingPage(\App\Filament\Pages\Cadangan::class),
             ])
             ->authMiddleware([
                 Authenticate::class,

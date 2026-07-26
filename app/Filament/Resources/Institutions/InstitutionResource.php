@@ -31,7 +31,7 @@ class InstitutionResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Lembaga Desa';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingLibrary;

@@ -23,6 +23,7 @@ class TopPagesTableWidget extends BaseWidget
                     ->select(DB::raw('min(id) as id'), 'url', DB::raw('count(*) as total_views'), DB::raw('count(distinct ip_hash) as unique_visitors'))
                     ->groupBy('url')
                     ->orderByDesc('total_views')
+                    ->limit(10)
             )
             ->columns([
                 Tables\Columns\TextColumn::make('url')

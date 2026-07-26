@@ -11,6 +11,8 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('statistics:cleanup-old --years=3')->yearly();
+Schedule::command('backup:clean')->daily()->at('01:00');
+Schedule::command('backup:run')->daily()->at('02:00');
 
 Artisan::command('app:compress-post-images', function () {
     $this->info('Memulai kompresi gambar berita di server...');

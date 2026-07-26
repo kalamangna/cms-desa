@@ -31,7 +31,7 @@ class PostResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Berita';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-newspaper';

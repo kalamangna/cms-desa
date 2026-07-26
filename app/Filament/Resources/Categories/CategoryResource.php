@@ -31,7 +31,7 @@ class CategoryResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Kategori Berita';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-tag';

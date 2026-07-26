@@ -31,7 +31,7 @@ class PublicationResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Publikasi Data';
+        return static::getModelLabel();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-check';

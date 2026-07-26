@@ -30,7 +30,7 @@ class GuestBookResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Buku Tamu';
+        return static::getModelLabel();
     }
 
     public static function form(Schema $schema): Schema

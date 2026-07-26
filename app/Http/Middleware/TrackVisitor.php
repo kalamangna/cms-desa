@@ -37,7 +37,7 @@ class TrackVisitor
 
                 VisitorLog::create([
                     'ip_hash' => $ipHash,
-                    'url' => $request->fullUrl(),
+                    'url' => '/' . ltrim($request->path(), '/'),
                     'user_agent' => substr($userAgent, 0, 255),
                     'visit_date' => now()->toDateString(),
                 ]);

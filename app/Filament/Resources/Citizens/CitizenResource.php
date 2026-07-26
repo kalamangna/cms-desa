@@ -22,8 +22,7 @@ class CitizenResource extends Resource
 
     protected static ?string $modelLabel = 'Penduduk';
 
-    protected static ?string $pluralModelLabel = 'Penduduk';
-
+    
     protected static ?string $navigationLabel = 'Penduduk';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Kependudukan';
@@ -64,5 +63,10 @@ class CitizenResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return static::getModelLabel();
     }
 }
