@@ -27,7 +27,17 @@ trait HasTelegramNotification
             $title = $isSuccess ? '🩺 <b>KONDISI SEHAT</b>' : '⚠️ <b>KONDISI KRITIS</b>';
         }
 
-        $appName = env('APP_NAME', 'Website Desa');
+        $villageName = 'Tidak Diketahui';
+        try {
+            $settings = \Illuminate\Support\Facades\DB::table('settings')->pluck('value', 'key')->toArray();
+            if (!empty($settings['village_name'])) {
+                $villageName = $settings['village_name'];
+            }
+        } catch (\Exception $e) {
+            // Abaikan jika database belum siap
+        }
+        
+        $appName = "Desa {$villageName}";
         $date = now()->setTimezone('Asia/Makassar')->format('d M Y, H:i');
 
         $content = "{$title}\n\n";
