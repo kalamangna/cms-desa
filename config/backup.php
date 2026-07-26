@@ -223,12 +223,12 @@ return [
      */
     'notifications' => [
         'notifications' => [
-            BackupHasFailedNotification::class => ['mail'],
-            UnhealthyBackupWasFoundNotification::class => ['mail'],
-            CleanupHasFailedNotification::class => ['mail'],
-            BackupWasSuccessfulNotification::class => ['mail'],
-            HealthyBackupWasFoundNotification::class => ['mail'],
-            CleanupWasSuccessfulNotification::class => ['mail'],
+            \App\Notifications\Backup\BackupHasFailedNotification::class => ['mail', 'telegram'],
+            \App\Notifications\Backup\UnhealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
+            \App\Notifications\Backup\CleanupHasFailedNotification::class => ['mail', 'telegram'],
+            \App\Notifications\Backup\BackupWasSuccessfulNotification::class => ['mail', 'telegram'],
+            \App\Notifications\Backup\HealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
+            \App\Notifications\Backup\CleanupWasSuccessfulNotification::class => ['mail', 'telegram'],
         ],
 
         /*
