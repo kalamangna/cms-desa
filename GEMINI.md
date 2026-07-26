@@ -39,6 +39,7 @@
 ### Security & Performance
 - **Security**: Periksa Authorization, Authentication, CSRF, XSS, Mass Assignment, File Upload, dan Validation. Jangan pernah menghapus middleware keamanan, menonaktifkan CSRF, atau menyimpan password tanpa hashing.
 - **Performance**: Prioritaskan eager loading, caching, pagination, dan lazy loading asset. Hindari N+1 Query.
+- **Google Drive Storage Adapter**: Saat mengonfigurasi `masbug/flysystem-google-drive-ext` pada Laravel Filesystem / Spatie Backup, ID folder target harus dipasangkan ke `$options['sharedFolderId']` dan parameter root diisi `null` agar berkas disimpan presisi di dalam folder target. Gunakan `GoogleDriveAdapterWrapper` untuk menangkap `UnableToReadFile` pada siklus pembuatan folder & pengecekan ketersediaan Spatie Backup.
 
 ---
 

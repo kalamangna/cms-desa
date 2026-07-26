@@ -24,7 +24,7 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 - **Konfigurasi Global & Keamanan (Tanpa Coding)**:
     - Manajemen identitas logo desa, kontak, tautan medsos, metadata SEO, serta **Pemilih Tema Warna Dinamis** dari pengaturan admin.
     - Skema autentikasi kokoh berbasis _Role-Based Access Control_ (RBAC) dengan pemisahan hak akses tegas antara `super_admin` (Pengembang) dan `admin_desa` (Operator).
-    - **Sistem Cadangan (Backup)**: Pencadangan penuh (basis data dan berkas) yang terpusat di panel admin, beroperasi harian secara otomatis di latar belakang.
+    - **Sistem Cadangan (Backup)**: Pencadangan penuh (basis data dan berkas) yang terpusat di panel admin, beroperasi harian secara otomatis di latar belakang dengan dukungan penyimpanan ganda (Server Lokal & Remote Google Drive).
 
 ---
 
@@ -106,6 +106,21 @@ Untuk mengelola instalasi di beberapa server sekaligus tanpa perlu SSH manual sa
     chmod +x deploy.sh
     ./deploy.sh
     ```
+
+---
+
+### ☁️ Konfigurasi Remote Backup (Google Drive - Opsional)
+
+Untuk mengaktifkan pencadangan otomatis ke Google Drive di luar server lokal, isi kredensial Google API pada berkas `.env`:
+
+```env
+GOOGLE_DRIVE_CLIENT_ID=XXXXX.apps.googleusercontent.com
+GOOGLE_DRIVE_CLIENT_SECRET=GOCSPX-XXXXX
+GOOGLE_DRIVE_REFRESH_TOKEN=1//04XXXXX
+GOOGLE_DRIVE_FOLDER_ID=1JRLzo8AP0B8ZeuJal2CEM2PRGJq83ZCc
+```
+
+*Sistem secara otomatis akan mendeteksi kredensial tersebut dan menyimpan berkas cadangan harian di server lokal DAN Google Drive Desa.*
 
 ---
 

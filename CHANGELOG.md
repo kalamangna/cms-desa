@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.9] - 2026-07-27
+
+### Added
+- **Integrasi Google Drive Remote Backup**: Menambahkan penggerak penyimpanan cloud Google Drive (`masbug/flysystem-google-drive-ext`) dengan pembungkus `GoogleDriveAdapterWrapper` untuk penanganan exception Flysystem v3.
+- **Subfolder Cadangan Berbasis Nama Desa**: Mengonfigurasi nama folder cadangan secara dinamis mengambil nama desa (`Setting::where('key', 'village_name')`) dan menyimpannya tepat di dalam target `sharedFolderId` Google Drive.
+- **Proteksi Akses Inisialisasi Route `/init`**: Membatasi route `/init` khusus untuk pengguna berhak akses `super_admin`.
+
 ## [1.26.8] - 2026-07-27
 
 ### Fixed

@@ -30,6 +30,33 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useTailwind();
 
+        // Register Google Drive Storage Driver
+        try {
+            \Illuminate\Support\Facades\Storage::extend('google', function ($app, $config) {
+                $options = [];
+                if (!empty($config['teamDriveId'] ?? null)) {
+                    $options['teamDriveId'] = $config['teamDriveId'];
+                }
+
+                $folderId = $config['folder'] ?? null;
+                if (!empty($folderId)) {
+                    $options['sharedFolderId'] = $folderId;
+                }
+
+                $client = new \Google\Client();
+                $client->setClientId($config['clientId']);
+                $client->setClientSecret($config['clientSecret']);
+                $client->refreshToken($config['refreshToken']);
+
+                $service    = new \Google\Service\Drive($client);
+                $rawAdapter = new \Masbug\Flysystem\GoogleDriveAdapter($service, null, $options);
+                $adapter    = new \App\Services\GoogleDriveAdapterWrapper($rawAdapter);
+                $driver     = new \League\Flysystem\Filesystem($adapter);
+
+                return new \Illuminate\Filesystem\FilesystemAdapter($driver, $adapter);
+            });
+        } catch (\Throwable $e) {}
+
         // Register custom Livewire backup list records component to prevent polling expiration
         \Livewire\Livewire::component('custom-backup-destination-list-records', \App\Filament\Components\CustomBackupDestinationListRecords::class);
 

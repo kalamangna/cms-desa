@@ -9,9 +9,17 @@ use Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification;
 use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification;
 use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
-use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
-
-$dynamicBackupName = \Illuminate\Support\Str::slug(env('APP_NAME', 'laravel-backup'));
+$villageName = 'desa';
+try {
+    if (class_exists(\App\Models\Setting::class) && \Illuminate\Support\Facades\Schema::hasTable('settings')) {
+        $villageName = \App\Models\Setting::where('key', 'village_name')->value('value') ?: env('APP_NAME', 'desa');
+    } else {
+        $villageName = env('APP_NAME', 'desa');
+    }
+} catch (\Throwable $e) {
+    $villageName = env('APP_NAME', 'desa');
+}
+$dynamicBackupName = \Illuminate\Support\Str::slug($villageName ?: 'desa');
 
 return [
 
@@ -160,14 +168,15 @@ return [
             /*
              * The filename prefix used for the backup zip file.
              */
-            'filename_prefix' => '',
+            'filename_prefix' => $dynamicBackupName ? $dynamicBackupName . '-' : '',
 
             /*
              * The disk names on which the backups will be stored.
              */
-            'disks' => [
+            'disks' => array_values(array_filter([
                 'local',
-            ],
+                env('GOOGLE_DRIVE_CLIENT_ID') ? 'google' : null,
+            ])),
 
             /*
              * Determines whether to allow backups to continue when some targets fail instead of failing completely.
@@ -299,7 +308,10 @@ return [
     'monitor_backups' => [
         [
             'name' => $dynamicBackupName,
-            'disks' => ['local'],
+            'disks' => array_values(array_filter([
+                'local',
+                env('GOOGLE_DRIVE_CLIENT_ID') ? 'google' : null,
+            ])),
             'health_checks' => [
                 MaximumAgeInDays::class => 1,
                 MaximumStorageInMegabytes::class => 5000,
