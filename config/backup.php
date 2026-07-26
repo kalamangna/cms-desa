@@ -15,10 +15,10 @@ $dynamicBackupName = (function() {
     try {
         if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
             $name = \Illuminate\Support\Facades\DB::table('settings')->where('key', 'village_name')->value('value');
-            if ($name) return 'Desa ' . \Illuminate\Support\Str::title($name);
+            if ($name) return \Illuminate\Support\Str::slug('website-desa-' . $name);
         }
     } catch (\Throwable $e) {}
-    return env('APP_NAME', 'Website Desa');
+    return \Illuminate\Support\Str::slug(env('APP_NAME', 'laravel-backup'));
 })();
 
 return [
