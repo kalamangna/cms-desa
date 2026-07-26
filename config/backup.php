@@ -18,7 +18,15 @@ return [
          * The name of this application. You can use this name to monitor
          * the backups.
          */
-        'name' => env('APP_NAME', 'laravel-backup'),
+        'name' => (function() {
+            try {
+                if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                    $name = \Illuminate\Support\Facades\DB::table('settings')->where('key', 'village_name')->value('value');
+                    if ($name) return \Illuminate\Support\Str::slug($name);
+                }
+            } catch (\Throwable $e) {}
+            return \Illuminate\Support\Str::slug(env('APP_NAME', 'laravel-backup'));
+        })(),
 
         'source' => [
             'files' => [
