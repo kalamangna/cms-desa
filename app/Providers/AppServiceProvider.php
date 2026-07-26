@@ -121,6 +121,15 @@ class AppServiceProvider extends ServiceProvider
                     config(['backup.backup.name' => $slug]);
                     config(['backup.backup.destination.filename_prefix' => $slug . '-']);
                     
+                    \Illuminate\Support\Facades\Event::listen(\Illuminate\Console\Events\CommandStarting::class, function ($event) use ($slug) {
+                        if ($event->command === 'backup:run' && $event->input->hasParameterOption('--filename')) {
+                            $current = $event->input->getParameterOption('--filename');
+                            if ($current && !str_starts_with($current, $slug)) {
+                                $event->input->setOption('filename', $slug . '-' . $current);
+                            }
+                        }
+                    });
+
                     $monitor = config('backup.monitor_backups');
                     if (is_array($monitor) && isset($monitor[0])) {
                         $monitor[0]['name'] = $slug;
