@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.10] - 2026-07-27
+
+### Fixed
+- **Pengembalian Import Class `MaximumStorageInMegabytes`**: Mengembalikan klausa import `use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;` di `config/backup.php` untuk menyelesaikan error pengawasan status kesehatan cadangan (`backup:monitor`).
+
 ## [1.26.9] - 2026-07-27
 
 ### Added
