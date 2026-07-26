@@ -119,6 +119,8 @@ class AppServiceProvider extends ServiceProvider
                 if (isset($settings['village_name']) && !empty($settings['village_name'])) {
                     $slug = \Illuminate\Support\Str::slug($settings['village_name']);
                     config(['backup.backup.name' => $slug]);
+                    config(['backup.backup.destination.filename_prefix' => $slug . '-']);
+                    
                     $monitor = config('backup.monitor_backups');
                     if (is_array($monitor) && isset($monitor[0])) {
                         $monitor[0]['name'] = $slug;
