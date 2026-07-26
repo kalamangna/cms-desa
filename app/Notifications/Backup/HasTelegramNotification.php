@@ -35,16 +35,15 @@ trait HasTelegramNotification
         $content .= "📌 <b>Tugas:</b> {$type}\n";
         $content .= "🕒 <b>Waktu:</b> {$date}\n";
         
-        $properties = collect($this->backupDestinationProperties()->toArray());
+        $diskName = $this->event->diskName ?? null;
+        $backupName = $this->event->backupName ?? null;
         
-        if ($properties->has('Nama cadangan') && $properties->get('Nama cadangan')) {
-            $content .= "📦 <b>File:</b> <code>" . $properties->get('Nama cadangan') . "</code>\n";
-        }
-        
-        if ($properties->has('Ukuran cadangan terbaru')) {
-            $size = $properties->get('Ukuran cadangan terbaru');
-            if (!str_contains(strtolower($size), 'belum ada')) {
-                $content .= "💾 <b>Ukuran:</b> {$size}\n";
+        if ($diskName && $backupName) {
+            $dest = \Spatie\Backup\BackupDestination\BackupDestination::create($diskName, $backupName);
+            $newest = $dest->newestBackup();
+            if ($newest) {
+                $content .= "📦 <b>File:</b> <code>" . basename($newest->path()) . "</code>\n";
+                $content .= "💾 <b>Ukuran:</b> " . \Spatie\Backup\Helpers\Format::humanReadableSize($newest->sizeInBytes()) . "\n";
             }
         }
         
