@@ -2,6 +2,17 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.2] - 2026-07-27
+
+### Added
+- **Pencatatan Geolocation Pengunjung**: Mengintegrasikan package `stevebauman/location` untuk mendeteksi Kota (*City*), Provinsi (*Region*), dan Negara (*Country*) asal pengunjung secara otomatis.
+- **Widget Sebaran Lokasi Pengunjung**: Menambahkan widget `TopLocationsTableWidget` pada halaman Statistik Pengunjung admin Filament untuk menampilkan 10 lokasi asal pengunjung terbanyak.
+
+### Changed
+- **Optimasi Indeks Tabel `visitor_logs`**: Menambahkan indeks pada kolom `url`, `city`, `region`, serta indeks komposit `['visit_date', 'url']` untuk mempercepat agregasi query laporan.
+- **Pembersihan Log Otomatis (Auto Pruning)**: Mengimplementasikan trait `Prunable` pada model `VisitorLog` untuk membersihkan log statistik di atas 365 hari secara otomatis via jadwal `Schedule::command('model:prune')->daily()->at('03:00')`.
+- **Penghematan Storage**: Menonaktifkan kolom `updated_at` pada `VisitorLog` (`const UPDATED_AT = null;`) karena data log bersifat *insert-only*.
+
 ## [1.26.1] - 2026-07-27
 
 ### Changed

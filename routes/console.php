@@ -13,6 +13,7 @@ Artisan::command('inspire', function () {
 Schedule::command('statistics:cleanup-old --years=3')->yearly();
 Schedule::command('backup:clean')->daily()->at('01:00');
 Schedule::command('backup:run')->daily()->at('02:00');
+Schedule::command('model:prune')->daily()->at('03:00');
 
 // Menjalankan antrean (queue) setiap menit untuk hosting yang tidak memiliki Supervisor (Daemon)
 Schedule::command('queue:work --stop-when-empty')

@@ -17,7 +17,8 @@
         "phpoffice/phpspreadsheet": "^5.8",
         "shuvroroy/filament-spatie-laravel-backup": "^3.4",
         "spatie/laravel-backup": "^10.3",
-        "spatie/laravel-permission": "^7.4"
+        "spatie/laravel-permission": "^7.4",
+        "stevebauman/location": "^7.6"
     },
     "require-dev": {
         "laravel/pail": "^1.2.2",

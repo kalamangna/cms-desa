@@ -6,6 +6,7 @@ use Filament\Pages\Page;
 use App\Filament\Widgets\VisitorStatsOverviewWidget;
 use App\Filament\Widgets\VisitorChartWidget;
 use App\Filament\Widgets\TopPagesTableWidget;
+use App\Filament\Widgets\TopLocationsTableWidget;
 
 class VisitorStatistics extends Page
 {
@@ -22,6 +23,7 @@ class VisitorStatistics extends Page
         return [
             VisitorStatsOverviewWidget::class,
             VisitorChartWidget::class,
+            TopLocationsTableWidget::class,
             TopPagesTableWidget::class,
         ];
     }

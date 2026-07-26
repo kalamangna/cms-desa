@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\VisitorLog;
+use Stevebauman\Location\Facades\Location;
 use Symfony\Component\HttpFoundation\Response;
 
 class TrackVisitor
@@ -35,10 +36,31 @@ class TrackVisitor
                 $userAgent = $request->userAgent() ?? '';
                 $ipHash = hash('sha256', $ip . '|' . $userAgent);
 
+                // Geolocation lookup
+                $city = null;
+                $region = null;
+                $country = null;
+
+                try {
+                    // Dapatkan lokasi dari IP pengunjung
+                    $position = Location::get($ip);
+
+                    if ($position) {
+                        $city = $position->cityName ?: null;
+                        $region = $position->regionName ?: null;
+                        $country = $position->countryName ?: null;
+                    }
+                } catch (\Throwable $e) {
+                    // Abaikan jika service geolocation tidak merespon / timeout
+                }
+
                 VisitorLog::create([
                     'ip_hash' => $ipHash,
                     'url' => '/' . ltrim($request->path(), '/'),
                     'user_agent' => substr($userAgent, 0, 255),
+                    'city' => $city,
+                    'region' => $region,
+                    'country' => $country,
                     'visit_date' => now()->toDateString(),
                 ]);
             }
