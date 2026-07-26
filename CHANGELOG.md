@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.12] - 2026-07-27
+
+### Fixed
+- **Penyelarasan & Penyederhanaan Dokumentasi Proyek**: Memperbarui dan menyelaraskan seluruh dokumen teknis proyek di `docs/` (`0_COVER_AND_PREFACE`, `2_REQUIREMENTS_ANALYSIS`, `4_IMPLEMENTATION`, `8_USER_GUIDE`, `10_MAINTENANCE`, `11_APPENDIX`) dan `README.md` agar konsisten dengan arsitektur sistem versi 1.26.12.
+
 ## [1.26.11] - 2026-07-27
 
 ### Fixed

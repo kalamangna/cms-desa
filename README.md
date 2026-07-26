@@ -34,6 +34,7 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 - **Admin Panel**: [Filament v4](https://filamentphp.com)
 - **CSS Engine**: [Tailwind CSS v4](https://tailwindcss.com)
 - **Interaktivitas**: Alpine.js, ApexCharts, Leaflet.js
+- **Cloud Storage**: Flysystem Google Drive (`masbug/flysystem-google-drive-ext`)
 - **Database**: MySQL / MariaDB / PostgreSQL / SQLite / SQL Server
 
 ---
