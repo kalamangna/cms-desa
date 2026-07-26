@@ -11,15 +11,7 @@ use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 
-$dynamicBackupName = (function() {
-    try {
-        if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
-            $name = \Illuminate\Support\Facades\DB::table('settings')->where('key', 'village_name')->value('value');
-            if ($name) return \Illuminate\Support\Str::slug('website-desa-' . $name);
-        }
-    } catch (\Throwable $e) {}
-    return \Illuminate\Support\Str::slug(env('APP_NAME', 'laravel-backup'));
-})();
+$dynamicBackupName = \Illuminate\Support\Str::slug(env('APP_NAME', 'laravel-backup'));
 
 return [
 

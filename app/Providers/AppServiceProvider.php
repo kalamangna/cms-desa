@@ -115,6 +115,16 @@ class AppServiceProvider extends ServiceProvider
                     }
                 }
                 View::share('site_settings', $settings);
+
+                if (isset($settings['village_name']) && !empty($settings['village_name'])) {
+                    $slug = \Illuminate\Support\Str::slug('website-desa-' . $settings['village_name']);
+                    config(['backup.backup.name' => $slug]);
+                    $monitor = config('backup.monitor_backups');
+                    if (is_array($monitor) && isset($monitor[0])) {
+                        $monitor[0]['name'] = $slug;
+                        config(['backup.monitor_backups' => $monitor]);
+                    }
+                }
             }
 
             if (Schema::hasTable('visitor_logs')) {
