@@ -5,7 +5,7 @@
 *   **Pencatatan Perubahan:** Setiap sebelum melakukan *push*, pastikan untuk mencatat semua perubahan yang telah dilakukan di dalam berkas `CHANGELOG.md` sesuai dengan format Keep a Changelog.
 *   **Pembaruan Dokumentasi:** Perbarui berkas [README.md](file:///Users/abedzul/Desktop/htdocs/desa-cms/README.md) jika terdapat perubahan atau penambahan fitur baru yang memerlukan instruksi/konfigurasi tambahan.
 *   **Kompilasi CSS (Tailwind 4 & Vite):** Jika terdapat perubahan pada berkas CSS, pastikan untuk melakukan proses *build* CSS (`npm run build`) sebelum melakukan *push*. Namun, karena pengguna saat ini menjalankan proses *watch* CSS (`npm run dev` atau `composer dev`) secara aktif, **tidak perlu menjalankan build CSS secara berulang-ulang** selama penulisan kode maupun sebelum melakukan *push*.
-*   **Dependensi Composer (Laravel 12 & Filament v4):** Jika terdapat perubahan pada berkas [composer.json](file:///Users/abedzul/Desktop/htdocs/desa-cms/composer.json) atau `composer.lock`, pastikan untuk menjalankan perintah `composer install --no-dev --optimize-autoloader` sebelum melakukan *push*.
+*   **Dependensi Composer (Laravel 12 & Filament v4):** Perintah `composer install --no-dev --optimize-autoloader` **hanya dijalankan di server production** (misal via script deployment `deploy.sh`), bukan di lingkungan lokal sebelum *push*.
 *   **Waktu Eksekusi Aturan:** Seluruh aturan di atas (kompilasi CSS jika diperlukan, pencatatan di CHANGELOG, pembaruan dokumentasi, dll.) **hanya dijalankan jika ada instruksi "push" eksplisit dari pengguna**, bukan secara otomatis di setiap perubahan kode individu.
 
 ---
