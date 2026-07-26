@@ -63,24 +63,6 @@ class TopLocationsTableWidget extends BaseWidget
                     ->badge()
                     ->color('success'),
             ])
-            ->filters([
-                Tables\Filters\SelectFilter::make('period')
-                    ->label('Periode Waktu')
-                    ->options([
-                        '7' => '7 Hari Terakhir',
-                        '30' => '30 Hari Terakhir',
-                        'all' => 'Semua Waktu',
-                    ])
-                    ->default('all')
-                    ->query(function ($query, array $data) {
-                        $period = $data['value'] ?? 'all';
-                        if ($period === '7') {
-                            $query->where('visit_date', '>=', now()->subDays(7)->toDateString());
-                        } elseif ($period === '30') {
-                            $query->where('visit_date', '>=', now()->subDays(30)->toDateString());
-                        }
-                    }),
-            ])
             ->paginated(false);
     }
 }

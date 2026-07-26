@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.6] - 2026-07-27
+
+### Fixed
+- **Perbaikan Properti `VisitorDeviceChartWidget`**: Memperbaiki modifier `$heading` dan `$maxHeight` menjadi non-static sesuai signature `ChartWidget` Filament v4.
+- **Tampilan Widget Perangkat Full Width**: Mengonfigurasi `columnSpan = 'full'` dan `maxHeight = '300px'` pada `VisitorDeviceChartWidget` agar memenuhi lebar halaman secara proporsional.
+- **Pembersihan Filter Tabel**: Menghapus filter periode waktu pada `TopPagesTableWidget` dan `TopLocationsTableWidget` agar tampilan tabel ringkas dan bersih.
+
 ## [1.26.5] - 2026-07-27
 
 ### Fixed

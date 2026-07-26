@@ -10,9 +10,13 @@ class VisitorDeviceChartWidget extends ChartWidget
 {
     protected static bool $isDiscovered = false;
 
-    protected static ?string $heading = 'Distribusi Perangkat Pengunjung';
+    protected ?string $heading = 'Distribusi Perangkat Pengunjung';
 
     protected static ?int $sort = 3;
+
+    protected int | string | array $columnSpan = 'full';
+
+    protected ?string $maxHeight = '300px';
 
     protected function getData(): array
     {
