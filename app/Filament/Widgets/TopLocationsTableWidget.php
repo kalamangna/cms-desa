@@ -17,13 +17,46 @@ class TopLocationsTableWidget extends BaseWidget
 
     public function table(Table $table): Table
     {
+        $regionSql = "
+            CASE region
+                WHEN 'South Sulawesi' THEN 'Sulawesi Selatan'
+                WHEN 'North Sulawesi' THEN 'Sulawesi Utara'
+                WHEN 'Central Sulawesi' THEN 'Sulawesi Tengah'
+                WHEN 'Southeast Sulawesi' THEN 'Sulawesi Tenggara'
+                WHEN 'West Sulawesi' THEN 'Sulawesi Barat'
+                WHEN 'Special Region of Yogyakarta' THEN 'DI Yogyakarta'
+                WHEN 'Yogyakarta' THEN 'DI Yogyakarta'
+                WHEN 'Jakarta' THEN 'DKI Jakarta'
+                WHEN 'Special Capital Region of Jakarta' THEN 'DKI Jakarta'
+                WHEN 'West Java' THEN 'Jawa Barat'
+                WHEN 'Central Java' THEN 'Jawa Tengah'
+                WHEN 'East Java' THEN 'Jawa Timur'
+                WHEN 'West Nusa Tenggara' THEN 'Nusa Tenggara Barat'
+                WHEN 'East Nusa Tenggara' THEN 'Nusa Tenggara Timur'
+                WHEN 'West Kalimantan' THEN 'Kalimantan Barat'
+                WHEN 'South Kalimantan' THEN 'Kalimantan Selatan'
+                WHEN 'Central Kalimantan' THEN 'Kalimantan Tengah'
+                WHEN 'East Kalimantan' THEN 'Kalimantan Timur'
+                WHEN 'North Kalimantan' THEN 'Kalimantan Utara'
+                WHEN 'North Sumatra' THEN 'Sumatera Utara'
+                WHEN 'West Sumatra' THEN 'Sumatera Barat'
+                WHEN 'South Sumatra' THEN 'Sumatera Selatan'
+                WHEN 'Riau Islands' THEN 'Kepulauan Riau'
+                WHEN 'Bangka Belitung' THEN 'Kepulauan Bangka Belitung'
+                WHEN 'Bangka-Belitung Islands' THEN 'Kepulauan Bangka Belitung'
+                WHEN 'North Maluku' THEN 'Maluku Utara'
+                WHEN 'West Papua' THEN 'Papua Barat'
+                ELSE COALESCE(region, '-')
+            END
+        ";
+
         return $table
             ->query(
                 VisitorLog::query()
                     ->select(
                         DB::raw('min(id) as id'),
                         DB::raw("COALESCE(city, 'Lokal / Tidak Terdeteksi') as city_name"),
-                        DB::raw("COALESCE(region, '-') as region_name"),
+                        DB::raw("{$regionSql} as region_name"),
                         DB::raw("COALESCE(country, 'Indonesia') as country_name"),
                         DB::raw('count(distinct ip_hash) as unique_visitors'),
                         DB::raw('count(*) as total_views')

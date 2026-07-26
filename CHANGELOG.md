@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.7] - 2026-07-27
+
+### Fixed
+- **Pembersihan & Pengonversian Nama Provinsi**: Menambahkan migrasi data `clean_english_region_names` dan pemetaan SQL `CASE WHEN` di `TopLocationsTableWidget` untuk secara otomatis mengonversi seluruh variasi nama provinsi Bahasa Inggris ke Bahasa Indonesia yang seragam.
+
 ## [1.26.6] - 2026-07-27
 
 ### Fixed
