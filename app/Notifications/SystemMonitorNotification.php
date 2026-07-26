@@ -41,8 +41,9 @@ class SystemMonitorNotification extends Notification
 
         $content = "{$emoji} <b>{$this->title}</b>\n\n";
         $content .= "🏢 <b>Website:</b> {$appName}\n";
-        $content .= "🕒 <b>Waktu:</b> {$date}\n\n";
         $content .= $this->message;
+        
+        $content .= "\n\n🕒 <i>Waktu: {$date}</i>";
 
         return TelegramMessage::create()
             ->to(config('services.telegram-bot-api.chat_id'))
