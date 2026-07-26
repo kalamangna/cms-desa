@@ -26,13 +26,15 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             try {
-                $msg = "🔥 <b>Error:</b> " . class_basename($e) . "\n";
-                $msg .= "📄 <b>File:</b> <code>" . basename($e->getFile()) . ":" . $e->getLine() . "</code>\n";
-                $msg .= "💬 <b>Pesan:</b> <pre>" . substr($e->getMessage(), 0, 500) . "</pre>\n";
-                $msg .= "🔗 <b>URL:</b> " . request()->fullUrl();
+                $method = request()->method();
+                $url    = request()->fullUrl();
+                $msg    = class_basename($e) . "\n"
+                        . "📄 " . basename($e->getFile()) . ":{$e->getLine()}\n"
+                        . "💬 <code>" . substr($e->getMessage(), 0, 300) . "</code>\n"
+                        . "\n🔗 {$method} {$url}";
 
                 \Illuminate\Support\Facades\Notification::route('telegram', 'system')
-                    ->notify(new \App\Notifications\SystemMonitorNotification('SYSTEM ERROR (500)', $msg, 'danger'));
+                    ->notify(new \App\Notifications\SystemMonitorNotification('SYSTEM ERROR', $msg, 'danger'));
             } catch (\Throwable $err) {
                 // Abaikan jika Telegram juga error agar tidak terjadi infinite loop
             }

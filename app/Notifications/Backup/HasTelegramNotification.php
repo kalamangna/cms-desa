@@ -2,66 +2,68 @@
 
 namespace App\Notifications\Backup;
 
+use App\Helpers\TelegramHelper;
 use NotificationChannels\Telegram\TelegramMessage;
 
 trait HasTelegramNotification
 {
-    public function toTelegram($notifiable)
+    public function toTelegram($notifiable): TelegramMessage
     {
-        $message = TelegramMessage::create()
-            ->to(config('services.telegram-bot-api.chat_id'))
-            ->options(['parse_mode' => 'HTML']);
-
         $className = class_basename($this);
         $isSuccess = str_contains($className, 'Successful') || str_contains($className, 'Healthy');
-        
-        $title = $isSuccess ? '✅ <b>BACKUP SUKSES</b>' : '❌ <b>BACKUP GAGAL</b>';
-        
-        if (str_contains($className, 'Backup')) {
-            $type = 'Backup Data';
-        } elseif (str_contains($className, 'Cleanup')) {
-            $type = 'Pembersihan Arsip (Cleanup)';
-            $title = $isSuccess ? '🧹 <b>PEMBERSIHAN SUKSES</b>' : '❌ <b>PEMBERSIHAN GAGAL</b>';
+
+        // Determine title & emoji based on notification class
+        if (str_contains($className, 'Cleanup')) {
+            $type  = 'Cleanup Arsip';
+            $emoji = $isSuccess ? '🧹' : '❌';
+            $title = $isSuccess ? 'CLEANUP SUKSES' : 'CLEANUP GAGAL';
+        } elseif (str_contains($className, 'Healthy') || str_contains($className, 'Unhealthy')) {
+            $type  = 'Health Check';
+            $emoji = $isSuccess ? '🩺' : '⚠️';
+            $title = $isSuccess ? 'BACKUP SEHAT' : 'BACKUP KRITIS';
         } else {
-            $type = 'Pemeriksaan Kesehatan (Health Check)';
-            $title = $isSuccess ? '🩺 <b>KONDISI SEHAT</b>' : '⚠️ <b>KONDISI KRITIS</b>';
+            $type  = 'Backup Data';
+            $emoji = $isSuccess ? '✅' : '❌';
+            $title = $isSuccess ? 'BACKUP SUKSES' : 'BACKUP GAGAL';
         }
 
-        $villageName = 'Tidak Diketahui';
-        try {
-            $settings = \Illuminate\Support\Facades\DB::table('settings')->pluck('value', 'key')->toArray();
-            if (!empty($settings['village_name'])) {
-                $villageName = $settings['village_name'];
-            }
-        } catch (\Exception $e) {
-            // Abaikan jika database belum siap
-        }
-        
-        $appName = "Desa {$villageName}";
-        $date = now()->setTimezone('Asia/Makassar')->format('d M Y, H:i');
+        // ── Header ────────────────────────────────────────────
+        $content = "{$emoji} <b>{$title}</b>\n\n";
 
-        $content = "{$title}\n\n";
-        $content .= "🏢 <b>Website:</b> {$appName}\n";
-        $content .= "📌 <b>Tugas:</b> {$type}\n";
-        
-        $diskName = $this->event->diskName ?? null;
+        // ── Konten ────────────────────────────────────────────
+        $content .= "📌 {$type}\n";
+
+        $diskName   = $this->event->diskName   ?? null;
         $backupName = $this->event->backupName ?? null;
-        
+
+        if ($diskName) {
+            $content .= "🗄 Disk: <code>{$diskName}</code>\n";
+        }
+
         if ($diskName && $backupName) {
-            $dest = \Spatie\Backup\BackupDestination\BackupDestination::create($diskName, $backupName);
-            $newest = $dest->newestBackup();
-            if ($newest) {
-                $content .= "📦 <b>File:</b> <code>" . basename($newest->path()) . "</code>\n";
-                $content .= "💾 <b>Ukuran:</b> " . \Spatie\Backup\Helpers\Format::humanReadableSize($newest->sizeInBytes()) . "\n";
+            try {
+                $dest   = \Spatie\Backup\BackupDestination\BackupDestination::create($diskName, $backupName);
+                $newest = $dest->newestBackup();
+                if ($newest) {
+                    $size     = \Spatie\Backup\Helpers\Format::humanReadableSize($newest->sizeInBytes());
+                    $content .= "📦 <code>" . basename($newest->path()) . "</code>\n";
+                    $content .= "💾 {$size}\n";
+                }
+            } catch (\Exception $e) {
+                // ignore if backup info unavailable
             }
         }
-        
-        if (!$isSuccess && isset($this->event->exception)) {
-            $content .= "\n⚠️ <b>Pesan Error:</b>\n<pre>" . $this->event->exception->getMessage() . "</pre>";
+
+        if (! $isSuccess && isset($this->event->exception)) {
+            $content .= "\n⚠️ <code>" . substr($this->event->exception->getMessage(), 0, 200) . "</code>";
         }
 
-        $content .= "\n🕒 <i>Waktu: {$date}</i>";
+        // ── Footer ────────────────────────────────────────────
+        $content = rtrim($content) . TelegramHelper::footer();
 
-        return $message->content($content);
+        return TelegramMessage::create()
+            ->to(config('services.telegram-bot-api.chat_id'))
+            ->options(['parse_mode' => 'HTML'])
+            ->content($content);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Helpers\TelegramHelper;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramMessage;
 
@@ -13,37 +14,28 @@ class SystemMonitorNotification extends Notification
         public string $type = 'info' // info, warning, danger, success
     ) {}
 
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['telegram'];
     }
 
-    public function toTelegram($notifiable)
+    public function toTelegram($notifiable): TelegramMessage
     {
-        $emoji = match($this->type) {
-            'danger' => '🚨',
+        $emoji = match ($this->type) {
+            'danger'  => '🚨',
             'warning' => '⚠️',
             'success' => '✅',
-            default => 'ℹ️',
+            default   => 'ℹ️',
         };
 
-        $appName = env('APP_NAME', 'Website Desa');
-        try {
-            $settings = \Illuminate\Support\Facades\DB::table('settings')->pluck('value', 'key')->toArray();
-            if (!empty($settings['village_name'])) {
-                $appName = "Desa " . $settings['village_name'];
-            }
-        } catch (\Exception $e) {
-            // Abaikan jika database belum siap
-        }
+        // ── Header ────────────────────────────────────────────
+        $content  = "{$emoji} <b>{$this->title}</b>\n\n";
 
-        $date = now()->setTimezone('Asia/Makassar')->format('d M Y, H:i');
-
-        $content = "{$emoji} <b>{$this->title}</b>\n\n";
-        $content .= "🏢 <b>Website:</b> {$appName}\n";
+        // ── Konten ────────────────────────────────────────────
         $content .= $this->message;
-        
-        $content .= "\n\n🕒 <i>Waktu: {$date}</i>";
+
+        // ── Footer ────────────────────────────────────────────
+        $content = rtrim($content) . TelegramHelper::footer();
 
         return TelegramMessage::create()
             ->to(config('services.telegram-bot-api.chat_id'))

@@ -62,17 +62,28 @@ class AppServiceProvider extends ServiceProvider
         // 1. Radar Keamanan Autentikasi (Logins) - Telegram Notification
         \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Login::class, function ($event) {
             try {
-                $ip = request()->ip();
-                $msg = "👤 <b>User:</b> {$event->user->name}\n🔑 <b>Username:</b> {$event->user->username}\n🌐 <b>IP Address:</b> {$ip}";
+                $ip      = request()->ip();
+                $ua      = request()->userAgent() ?? '-';
+                $browser = strlen($ua) > 60 ? substr($ua, 0, 60) . '…' : $ua;
+                $roles   = $event->user->getRoleNames()->implode(', ') ?: 'Tanpa role';
+                $msg     = "👤 {$event->user->name}\n"
+                         . "🔑 {$event->user->username}\n"
+                         . "🎭 {$roles}\n"
+                         . "🌐 {$ip}\n"
+                         . "🖥 <code>{$browser}</code>";
                 \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('LOGIN BERHASIL', $msg, 'success'));
             } catch (\Throwable $e) {}
         });
 
         \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Failed::class, function ($event) {
             try {
-                $ip = request()->ip();
-                $username = $event->credentials['username'] ?? 'Tidak diketahui';
-                $msg = "🔑 <b>Username:</b> {$username}\n🌐 <b>IP Address:</b> {$ip}";
+                $ip      = request()->ip();
+                $ua      = request()->userAgent() ?? '-';
+                $browser = strlen($ua) > 60 ? substr($ua, 0, 60) . '…' : $ua;
+                $username = $event->credentials['username'] ?? 'tidak diketahui';
+                $msg     = "🔑 {$username}\n"
+                         . "🌐 {$ip}\n"
+                         . "🖥 <code>{$browser}</code>";
                 \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('LOGIN GAGAL', $msg, 'danger'));
             } catch (\Throwable $e) {}
         });
@@ -80,14 +91,20 @@ class AppServiceProvider extends ServiceProvider
         // 2. Pengawasan Hak Akses (User Management)
         \App\Models\User::created(function (\App\Models\User $user) {
             try {
-                $msg = "👤 <b>User:</b> {$user->name}\n🔑 <b>Username:</b> {$user->username}";
+                $roles = $user->getRoleNames()->implode(', ') ?: 'Tanpa role';
+                $msg   = "👤 {$user->name}\n"
+                       . "🔑 {$user->username}\n"
+                       . "🎭 {$roles}";
                 \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('AKUN ADMIN DIBUAT', $msg, 'warning'));
             } catch (\Throwable $e) {}
         });
 
         \App\Models\User::deleted(function (\App\Models\User $user) {
             try {
-                $msg = "👤 <b>User:</b> {$user->name}\n🔑 <b>Username:</b> {$user->username}";
+                $roles = $user->getRoleNames()->implode(', ') ?: 'Tanpa role';
+                $msg   = "👤 {$user->name}\n"
+                       . "🔑 {$user->username}\n"
+                       . "🎭 {$roles}";
                 \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('AKUN ADMIN DIHAPUS', $msg, 'danger'));
             } catch (\Throwable $e) {}
         });
@@ -97,7 +114,15 @@ class AppServiceProvider extends ServiceProvider
             try {
                 if (in_array($setting->key, ['sejarah_desa', 'visi_misi', 'peta_desa'])) return;
 
-                $msg = "⚙️ <b>Kunci:</b> <code>{$setting->key}</code>";
+                $oldRaw = $setting->getOriginal('value') ?? '-';
+                $newRaw = $setting->value ?? '-';
+                // Potong jika terlalu panjang (misal JSON/teks panjang)
+                $old    = strlen($oldRaw) > 80 ? substr($oldRaw, 0, 80) . '…' : $oldRaw;
+                $new    = strlen($newRaw) > 80 ? substr($newRaw, 0, 80) . '…' : $newRaw;
+
+                $msg = "⚙️ <code>{$setting->key}</code>\n"
+                     . "📤 Lama: <code>{$old}</code>\n"
+                     . "📥 Baru: <code>{$new}</code>";
                 \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('PENGATURAN DIUBAH', $msg, 'info'));
             } catch (\Throwable $e) {}
         });

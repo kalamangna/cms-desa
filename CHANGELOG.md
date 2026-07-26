@@ -2,6 +2,19 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.1] - 2026-07-27
+
+### Changed
+- **Refactor Notifikasi Telegram**: Merestrukturisasi seluruh notifikasi Telegram dengan format standar tiga bagian: *Header* (emoji + judul), *Konten* (detail informatif), dan *Footer* (nama desa + timestamp italic).
+- **Helper Terpusat `TelegramHelper`**: Membuat kelas `App\Helpers\TelegramHelper` dengan method `getAppName()` dan `footer()` untuk menghilangkan duplikasi logika pengambilan nama desa di setiap kelas notifikasi.
+- **Peningkatan Konten Notifikasi Login**: Menambahkan informasi role pengguna dan potongan User-Agent (browser/device) pada notifikasi login berhasil maupun gagal.
+- **Peningkatan Konten Notifikasi Akun**: Menampilkan daftar role pada notifikasi pembuatan dan penghapusan akun admin.
+- **Peningkatan Notifikasi Pengaturan**: Menampilkan nilai lama dan nilai baru (dipotong maks. 80 karakter) saat pengaturan diubah.
+- **Peningkatan Notifikasi Backup**: Menampilkan nama disk, nama file, dan ukuran file backup pada notifikasi `HasTelegramNotification`.
+- **Peningkatan Notifikasi System Error**: Menampilkan nama kelas exception, file & baris, pesan error, serta HTTP method dan URL lengkap.
+- **Perbaikan `env()` → `config()`**: Mengganti penggunaan `env()` langsung di `SystemMonitorNotification` dengan `config()` agar kompatibel saat konfigurasi di-cache di production.
+- **Perbaikan Spasi Footer**: Menambahkan `rtrim()` pada konten sebelum penambahan footer untuk mencegah baris kosong ganda.
+
 ## [1.26.0] - 2026-07-26
 
 ### Added
