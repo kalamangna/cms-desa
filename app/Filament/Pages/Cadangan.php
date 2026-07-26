@@ -13,15 +13,4 @@ class Cadangan extends BaseBackups
     {
         return 'Cadangan';
     }
-
-    public function shouldDisplayStatusListRecords(): bool
-    {
-        $statusData = \ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackup::getBackupDestinationStatusData();
-        foreach ($statusData as $status) {
-            if ($status['amount'] > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

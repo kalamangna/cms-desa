@@ -88,7 +88,7 @@ return [
 
     'panel_user' => [
         'enabled' => true,
-        'name' => 'panel_user',
+        'name' => 'admin_desa',
     ],
 
     /*
