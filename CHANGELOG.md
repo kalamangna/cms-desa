@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.11] - 2026-07-27
+
+### Fixed
+- **Pengurutan Cadangan Paling Baru (Date Descending)**: Menambahkan `defaultSort('date', 'desc')` dan logika fallback `sortBy('date', 'desc')` pada `CustomBackupDestinationListRecords` untuk menampilkan daftar cadangan secara otomatis dari tanggal yang paling baru.
+
 ## [1.26.10] - 2026-07-27
 
 ### Fixed
