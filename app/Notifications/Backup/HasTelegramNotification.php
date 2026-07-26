@@ -43,7 +43,6 @@ trait HasTelegramNotification
         $content = "{$title}\n\n";
         $content .= "🏢 <b>Website:</b> {$appName}\n";
         $content .= "📌 <b>Tugas:</b> {$type}\n";
-        $content .= "🕒 <b>Waktu:</b> {$date}\n";
         
         $diskName = $this->event->diskName ?? null;
         $backupName = $this->event->backupName ?? null;
@@ -60,6 +59,8 @@ trait HasTelegramNotification
         if (!$isSuccess && isset($this->event->exception)) {
             $content .= "\n⚠️ <b>Pesan Error:</b>\n<pre>" . $this->event->exception->getMessage() . "</pre>";
         }
+
+        $content .= "\n🕒 <i>Waktu: {$date}</i>";
 
         return $message->content($content);
     }
