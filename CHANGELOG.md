@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.8] - 2026-07-27
+
+### Fixed
+- **Penyelarasan Timezone Halaman Cadangan**: Mengintegrasikan `CustomBackupDestinationListRecords` untuk mengonversi tanggal backup dari UTC ke `Asia/Makassar` (WITA) serta mendaftarkannya pada Livewire component registry untuk mencegah kesalahan 419 *Page Expired* saat polling otomatis.
+
 ## [1.26.7] - 2026-07-27
 
 ### Fixed

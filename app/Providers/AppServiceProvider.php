@@ -30,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useTailwind();
 
+        // Register custom Livewire backup list records component to prevent polling expiration
+        \Livewire\Livewire::component('custom-backup-destination-list-records', \App\Filament\Components\CustomBackupDestinationListRecords::class);
+
         // Audit Log Listeners for Auth
         \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Login::class, function ($event) {
             try {
