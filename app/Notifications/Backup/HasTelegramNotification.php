@@ -15,10 +15,10 @@ trait HasTelegramNotification
         $className = class_basename($this);
         $isSuccess = str_contains($className, 'Successful') || str_contains($className, 'Healthy');
         
-        $title = $isSuccess ? '✅ <b>PENCADANGAN SUKSES</b>' : '❌ <b>PENCADANGAN GAGAL</b>';
+        $title = $isSuccess ? '✅ <b>BACKUP SUKSES</b>' : '❌ <b>BACKUP GAGAL</b>';
         
         if (str_contains($className, 'Backup')) {
-            $type = 'Proses Pencadangan (Backup)';
+            $type = 'Backup Data';
         } elseif (str_contains($className, 'Cleanup')) {
             $type = 'Pembersihan Arsip (Cleanup)';
             $title = $isSuccess ? '🧹 <b>PEMBERSIHAN SUKSES</b>' : '❌ <b>PEMBERSIHAN GAGAL</b>';
