@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.3] - 2026-07-27
+
+### Changed
+- **Penyempurnaan Widget Halaman Terpopuler**: Menambahkan opsi `wrap()` pada kolom URL Halaman di `TopPagesTableWidget` agar teks URL yang panjang melipat ke bawah secara otomatis dan tidak memicu *scroll* horizontal pada tabel.
+
 ## [1.26.2] - 2026-07-27
 
 ### Added

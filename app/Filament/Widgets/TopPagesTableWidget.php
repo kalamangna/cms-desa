@@ -29,6 +29,7 @@ class TopPagesTableWidget extends BaseWidget
                 Tables\Columns\TextColumn::make('url')
                     ->label('URL Halaman')
                     ->searchable()
+                    ->wrap()
                     ->formatStateUsing(fn (string $state): string => parse_url($state, PHP_URL_PATH) ?: '/')
                     ->url(fn ($record) => $record->url, true),
 
