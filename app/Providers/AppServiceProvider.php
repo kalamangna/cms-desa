@@ -59,6 +59,50 @@ class AppServiceProvider extends ServiceProvider
             } catch (\Throwable $e) {}
         });
 
+        // 1. Radar Keamanan Autentikasi (Logins) - Telegram Notification
+        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Login::class, function ($event) {
+            try {
+                $ip = request()->ip();
+                $msg = "👤 <b>User:</b> {$event->user->name}\n📧 <b>Email:</b> {$event->user->email}\n🌐 <b>IP Address:</b> {$ip}\n\n<i>Login berhasil (Akses Dasbor)</i>";
+                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('LOGIN BERHASIL', $msg, 'success'));
+            } catch (\Throwable $e) {}
+        });
+
+        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Failed::class, function ($event) {
+            try {
+                $ip = request()->ip();
+                $email = $event->credentials['email'] ?? 'Tidak diketahui';
+                $msg = "📧 <b>Percobaan Email:</b> {$email}\n🌐 <b>IP Address:</b> {$ip}\n\n<i>Seseorang gagal mencoba masuk ke Dasbor! Potensi brute-force.</i>";
+                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('LOGIN GAGAL', $msg, 'danger'));
+            } catch (\Throwable $e) {}
+        });
+
+        // 2. Pengawasan Hak Akses (User Management)
+        \App\Models\User::created(function (\App\Models\User $user) {
+            try {
+                $msg = "👤 <b>User Baru:</b> {$user->name}\n📧 <b>Email:</b> {$user->email}\n\n<i>Akun admin baru telah ditambahkan ke sistem.</i>";
+                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('AKUN ADMIN DIBUAT', $msg, 'warning'));
+            } catch (\Throwable $e) {}
+        });
+
+        \App\Models\User::deleted(function (\App\Models\User $user) {
+            try {
+                $msg = "👤 <b>User Dihapus:</b> {$user->name}\n📧 <b>Email:</b> {$user->email}\n\n<i>Akun admin ini telah dihapus dari sistem.</i>";
+                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('AKUN ADMIN DIHAPUS', $msg, 'danger'));
+            } catch (\Throwable $e) {}
+        });
+
+        // 3. Perubahan Pengaturan Krusial
+        \App\Models\Setting::updated(function (\App\Models\Setting $setting) {
+            try {
+                // Jangan kirim notifikasi jika yang berubah hanyalah kolom internal panjang
+                if (in_array($setting->key, ['sejarah_desa', 'visi_misi', 'peta_desa'])) return;
+
+                $msg = "⚙️ <b>Pengaturan:</b> <code>{$setting->key}</code>\n🔄 <b>Telah diperbarui</b> oleh administrator.";
+                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('PENGATURAN SISTEM DIUBAH', $msg, 'info'));
+            } catch (\Throwable $e) {}
+        });
+
         // Cache Invalidation Observers
         $clearHomeCache = function () {
             Cache::forget('home_posts');
