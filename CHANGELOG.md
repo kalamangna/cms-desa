@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.4] - 2026-07-27
+
+### Added
+- **Widget Distribusi Perangkat Pengunjung**: Menambahkan `VisitorDeviceChartWidget` (Donut Chart) untuk mem visualisasikan persentase pengunjung berdasarkan jenis perangkat (**Mobile/HP**, **Desktop/Komputer**, dan **Tablet**).
+- **Deteksi & Penyaringan Bot Crawler**: Memperbarui middleware `TrackVisitor` dengan fitur deteksi bot/crawler mesin pencari (seperti Googlebot, Bingbot, Yandex, dll.) agar log pengunjung tidak tercampur dengan traffic mesin pencari.
+- **Normalisasi Nama Provinsi**: Menambahkan peta penormalan nama provinsi bahasa Inggris ke Bahasa Indonesia pada `TrackVisitor` (contoh: *South Sulawesi* -> *Sulawesi Selatan*).
+- **Filter Periode Waktu pada Tabel Statistik**: Menambahkan `SelectFilter` rentang waktu (7 Hari Terakhir, 30 Hari Terakhir, Semua Waktu) pada widget `TopPagesTableWidget` dan `TopLocationsTableWidget`.
+
 ## [1.26.3] - 2026-07-27
 
 ### Changed
