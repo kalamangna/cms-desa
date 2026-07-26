@@ -9,7 +9,7 @@ trait HasTelegramNotification
     public function toTelegram($notifiable)
     {
         $message = TelegramMessage::create()
-            ->to(env('TELEGRAM_CHAT_ID'));
+            ->to(config('services.telegram-bot-api.chat_id'));
 
         $className = class_basename($this);
         $isSuccess = str_contains($className, 'Successful') || str_contains($className, 'Healthy');
