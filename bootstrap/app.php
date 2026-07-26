@@ -18,6 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->reportable(function (\Throwable $e) {
+            // Jangan kirim notifikasi jika di lingkungan lokal / mode debug aktif
+            if (app()->environment('local') || config('app.debug')) {
+                return;
+            }
+
             // Jangan kirim notifikasi untuk error biasa (404, validasi, auth)
             if ($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException ||
                 $e instanceof \Illuminate\Validation\ValidationException ||

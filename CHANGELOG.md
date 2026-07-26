@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.5] - 2026-07-27
+
+### Fixed
+- **Penguncian Notifikasi Error Telegram di Lokal**: Membatasi pengiriman notifikasi `SYSTEM ERROR` di `bootstrap/app.php` agar **hanya aktif di lingkungan produksi** (`APP_ENV=production` dan `APP_DEBUG=false`), sehingga exception error saat koding/testing di lingkungan lokal (`APP_ENV=local`) tidak lagi terkirim ke Telegram.
+
 ## [1.26.4] - 2026-07-27
 
 ### Added
