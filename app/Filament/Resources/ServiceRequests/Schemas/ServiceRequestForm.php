@@ -15,35 +15,55 @@ class ServiceRequestForm
     {
         return $schema
             ->components([
+                \Filament\Forms\Components\Placeholder::make('ticket_badge')
+                    ->label('Nomor Tiket Permohonan')
+                    ->content(fn ($record) => $record?->ticket_number ? new HtmlString(
+                        "<div style='display: inline-flex; align-items: center; gap: 8px; background-color: #ecfdf5; border: 1px solid #a7f3d0; padding: 10px 18px; border-radius: 12px; font-family: monospace; font-size: 18px; font-weight: 800; color: #047857; letter-spacing: 1px;'>"
+                        . "<i class='fa-solid fa-ticket' style='font-size: 16px; color: #10b981;'></i> {$record->ticket_number}"
+                        . "</div>"
+                    ) : 'Belum Terbit (Di-generate Otomatis)')
+                    ->columnSpanFull(),
+
                 Section::make('Data Pemohon')
-                    ->description('Identitas dan kontak warga yang mengajukan permohonan')
+                    ->description('Identitas dan kontak pemohon.')
+                    ->columnSpanFull()
                     ->schema([
-                        Grid::make(2)
+                        Grid::make(3)
                             ->schema([
-                                TextInput::make('ticket_number')->label('Nomor Tiket')
-                                    ->disabled()
-                                    ->placeholder('Akan di-generate otomatis'),
                                 TextInput::make('nik')->label('NIK Pemohon')
-                                    ->required(),
+                                    ->placeholder('Contoh: 730601...')
+                                    ->helperText('Nomor Induk Kependudukan (16 digit).')
+                                    ->required()
+                                    ->columnSpan(1),
                                 TextInput::make('name')->label('Nama Lengkap')
-                                    ->required(),
+                                    ->placeholder('Contoh: Andi Muhammad')
+                                    ->helperText('Nama lengkap pemohon.')
+                                    ->required()
+                                    ->columnSpan(1),
                                 TextInput::make('phone')->label('Nomor WA Pemohon')
-                                    ->required(),
+                                    ->placeholder('Contoh: 081234567890')
+                                    ->helperText('Nomor WhatsApp aktif pemohon.')
+                                    ->required()
+                                    ->columnSpan(1),
                             ]),
                     ]),
 
                 Section::make('Detail Permohonan & Status')
-                    ->description('Jenis layanan yang dimohon dan status penanganan')
+                    ->description('Layanan dan status penanganan.')
+                    ->columnSpanFull()
                     ->schema([
-                        \Filament\Schemas\Components\Grid::make(2)
+                        Grid::make(2)
                             ->schema([
                                 Select::make('service_id')
                                     ->label('Jenis Layanan')
+                                    ->placeholder('Pilih Jenis Surat/Layanan')
+                                    ->helperText('Jenis permohonan surat yang diajukan warga.')
                                     ->relationship('service', 'title')
                                     ->searchable()
                                     ->preload()
                                     ->required(),
                                 Select::make('status')->label('Status Permohonan')
+                                    ->placeholder('Pilih Status')
                                     ->options([
                                         'Menunggu' => 'Menunggu',
                                         'Diproses' => 'Diproses',
@@ -53,7 +73,7 @@ class ServiceRequestForm
                                     ->required()
                                     ->helperText(function ($record) {
                                         if (! $record?->phone) {
-                                            return null;
+                                            return 'Status proses permohonan.';
                                         }
 
                                         $waNumber = preg_replace('/[^0-9]/', '', $record->phone);
@@ -79,8 +99,8 @@ class ServiceRequestForm
                                             default    => '#64748b',
                                         };
 
-                                        return new HtmlString(
-                                            "<a href='{$url}' target='_blank' rel='noopener' style='display: inline-flex; align-items: center; gap: 6px; background-color: {$btnColor}; color: white; font-weight: bold; padding: 6px 14px; border-radius: 8px; font-size: 11px; margin-top: 8px; text-decoration: none;'>"
+                                        return new \Illuminate\Support\HtmlString(
+                                            "Status proses permohonan.<br><a href='{$url}' target='_blank' rel='noopener' style='display: inline-flex; align-items: center; gap: 6px; background-color: {$btnColor}; color: white; font-weight: bold; padding: 6px 14px; border-radius: 8px; font-size: 11px; margin-top: 4px; text-decoration: none;'>"
                                             . "<i class='fa-brands fa-whatsapp' style='font-size: 14px;'></i> Kirim Notifikasi WA ke Pemohon</a>"
                                         );
                                     }),

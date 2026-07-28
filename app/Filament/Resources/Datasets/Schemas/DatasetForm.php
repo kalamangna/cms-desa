@@ -19,12 +19,14 @@ class DatasetForm
             ->columns(12)
             ->components([
                 Section::make('Informasi Utama & Sumber Data')
-                    ->description('Atur judul dataset dan tentukan sumber data yang ingin dipublikasikan')
+                    ->description('Judul dan sumber data dataset.')
                     ->columnSpanFull()
                     ->columns(12)
                     ->schema([
                         Select::make('source_table')
                             ->label('Sumber Data Utama')
+                            ->placeholder('Pilih Sumber Data')
+                            ->helperText('Pilih asal basis data.')
                             ->options([
                                 'citizens' => 'Data Penduduk',
                                 'families' => 'Data Keluarga',
@@ -37,10 +39,13 @@ class DatasetForm
 
                         TextInput::make('title')->label('Judul Dataset')
                             ->placeholder('Contoh: Data Sebaran Pendidikan Warga Desa')
+                            ->helperText('Nama resmi kelompok data terbuka.')
                             ->required()
                             ->columnSpanFull(),
 
                         TextInput::make('year')->label('Tahun Data')
+                            ->placeholder('Contoh: 2026')
+                            ->helperText('Tahun data ini diterbitkan.')
                             ->default(2026)
                             ->readOnly()
                             ->dehydrated()
@@ -49,25 +54,29 @@ class DatasetForm
                             ->columnSpan(6),
 
                         TextInput::make('source')->label('Instansi / Sumber Data')
+                            ->placeholder('Contoh: Pemerintah Desa')
+                            ->helperText('Nama instansi penyedia/pemilik data.')
                             ->default('Pemerintah Desa')
                             ->columnSpan(6),
 
                         Textarea::make('description')->label('Deskripsi Ringkas Dataset')
                             ->placeholder('Jelaskan cakupan dan peruntukan dataset ini...')
+                            ->helperText('Tujuan dan cakupan publikasi data.')
                             ->rows(3)
                             ->columnSpanFull(),
                     ]),
 
                 Section::make('Pilih Kolom Data yang Ingin Dipublikasikan')
-                    ->description('Centang kolom mana saja yang akan dimasukkan ke dalam file unduhan publik (NIK & No. KK rahasia otomatis dikunci demi privasi UU PDP)')
+                    ->description('Pilih kolom yang dipublikasikan. Data rahasia (NIK/KK) otomatis terlindungi.')
                     ->columnSpanFull()
                     ->columns(12)
                     ->visible(fn ($get) => in_array($get('source_table'), ['citizens', 'families'], true))
                     ->schema([
                         CheckboxList::make('selected_columns')
                             ->label('Pilihan Kolom Publik')
+                            ->helperText('Centang atribut aman untuk publik.')
                             ->columnSpanFull()
-                            ->columns(2)
+                            ->columns(3)
                             ->options(function ($get) {
                                 $source = $get('source_table');
                                 if ($source === 'citizens') {
@@ -109,20 +118,23 @@ class DatasetForm
                     ]),
 
                 Section::make('Berkas Unduhan Manual (Opsional)')
-                    ->description('Isi bagian ini HANYA jika Anda memilih Tipe Upload Manual')
+                    ->description('Isi hanya untuk tipe Upload Manual.')
                     ->columnSpanFull()
                     ->columns(12)
                     ->visible(fn ($get) => $get('source_table') === 'manual')
                     ->schema([
                         FileUpload::make('file_csv')->label('File CSV (Custom)')
+                            ->helperText('Unggah berkas data CSV.')
                             ->directory('datasets/csv')
                             ->acceptedFileTypes(['text/csv', 'text/plain'])
                             ->columnSpan(4),
                         FileUpload::make('file_xlsx')->label('File XLSX (Custom)')
+                            ->helperText('Unggah berkas spreadsheet Excel.')
                             ->directory('datasets/xlsx')
                             ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
                             ->columnSpan(4),
                         FileUpload::make('file_pdf')->label('File PDF (Custom)')
+                            ->helperText('Unggah dokumen cetak PDF.')
                             ->directory('datasets/pdf')
                             ->acceptedFileTypes(['application/pdf'])
                             ->columnSpan(4),

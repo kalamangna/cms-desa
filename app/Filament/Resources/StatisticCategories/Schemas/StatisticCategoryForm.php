@@ -17,16 +17,19 @@ class StatisticCategoryForm
         return $schema
             ->components([
                 Section::make('Informasi Kategori')
-                    ->description('Tentukan nama kategori, sumber kuesioner data, kolom pemetaan utama (jika hanya 1 kolom), dan deskripsi kategori.')
+                    ->description('Pengaturan nama, sumber data, kolom pemetaan, dan deskripsi.')
                     ->schema([
                         \Filament\Schemas\Components\Grid::make(2)
                             ->schema([
                                 TextInput::make('name')
                                     ->label('Nama Kategori')
                                     ->required()
-                                    ->placeholder('Contoh: Pendidikan / Pekerjaan'),
+                                    ->placeholder('Contoh: Pendidikan / Pekerjaan')
+                                    ->helperText('Nama unik kategori statistik desa.'),
                                 Select::make('mapping_table')
                                     ->label('Sumber Data Kuesioner')
+                                    ->placeholder('Pilih Sumber Data')
+                                    ->helperText('Tabel sumber data kuesioner.')
                                     ->options([
                                         'citizens' => 'Data Penduduk (Individu)',
                                         'families' => 'Data Keluarga',
@@ -36,7 +39,7 @@ class StatisticCategoryForm
                             ]),
                         CheckboxList::make('mapping_column')
                             ->label('Kolom Pemetaan (Excel / Database)')
-                            ->helperText('Pilih satu atau beberapa kolom kuesioner Excel yang ingin Anda kelompokkan dalam kategori statistik ini. Jika kolom berupa Ya/Tidak (boolean), indikator tunggal "Ya" akan dibuat otomatis. Jika berupa kategori, semua nilai unik di kolom tersebut akan dibuatkan indikator.')
+                            ->helperText('Centang kolom kuesioner untuk statistik.')
                             ->options(function (callable $get) {
                                 $table = $get('mapping_table');
                                 if ($table === 'citizens') {
@@ -82,7 +85,7 @@ class StatisticCategoryForm
                             ->minItems(1),
                         CheckboxList::make('secondary_columns')
                             ->label('Opsi Pembanding Grafik & Tabel (Sumbu Ke-2)')
-                            ->helperText('Pilih satu atau beberapa kolom untuk mengizinkan pengunjung di halaman publik memecah/membandingkan grafik dan tabel berdasarkan opsi ini (misal: memecah data Pekerjaan berdasarkan Gender, Pendidikan, atau Status Perkawinan).')
+                            ->helperText('Centang kolom pembanding untuk grafik.')
                             ->options(function (callable $get) {
                                 $table = $get('mapping_table');
                                  if ($table === 'citizens') {
@@ -109,13 +112,10 @@ class StatisticCategoryForm
                             })
                             ->reactive()
                             ->columns(3),
-                        Toggle::make('is_active')
-                            ->label('Tampilkan di Halaman Publik')
-                            ->default(true)
-                            ->inline(false),
                         Textarea::make('description')
                             ->label('Deskripsi')
                             ->placeholder('Tuliskan deskripsi singkat mengenai kategori statistik ini...')
+                            ->helperText('Keterangan tambahan mengenai kategori ini.')
                             ->rows(3),
                     ])
                     ->columns(1),

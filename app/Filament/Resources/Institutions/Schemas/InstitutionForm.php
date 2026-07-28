@@ -14,9 +14,12 @@ class InstitutionForm
             ->components([
                 TextInput::make('name')
                     ->label('Nama Lembaga')
+                    ->placeholder('Contoh: BPD (Badan Permusyawaratan Desa) atau Karang Taruna')
+                    ->helperText('Nama resmi lembaga kemasyarakatan desa.')
                     ->required(),
                 FileUpload::make('logo')
                     ->label('Logo Lembaga')
+                    ->helperText('Unggah logo resmi lembaga (PNG/JPG).')
                     ->image()
                     ->imageResizeTargetWidth(400)
                     ->nullable()

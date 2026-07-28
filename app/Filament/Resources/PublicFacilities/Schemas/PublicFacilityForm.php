@@ -16,8 +16,12 @@ class PublicFacilityForm
                 \Filament\Schemas\Components\Grid::make(2)
                     ->schema([
                         TextInput::make('name')->label('Nama Fasilitas')
+                            ->placeholder('Contoh: Puskesmas Pembantu Dusun Karawa')
+                            ->helperText('Nama resmi fasilitas umum desa.')
                             ->required(),
                         Select::make('type')->label('Kategori Fasilitas')
+                            ->placeholder('Pilih Kategori')
+                            ->helperText('Jenis fasilitas sarana & prasarana.')
                             ->options([
                                 'Pendidikan' => 'Pendidikan',
                                 'Ibadah' => 'Ibadah',
@@ -60,7 +64,7 @@ class PublicFacilityForm
                                 'min_value' => 'Latitude tidak boleh kurang dari -90.',
                                 'max_value' => 'Latitude tidak boleh lebih dari 90.',
                             ])
-                            ->helperText('Contoh: -5.1010335. Bisa tempel link/koordinat Maps.'),
+                            ->helperText('Contoh: -5.1010335. Bisa tempel link Maps.'),
                         TextInput::make('longitude')
                             ->label('Longitude')
                             ->live(onBlur: true)
@@ -90,8 +94,12 @@ class PublicFacilityForm
                     ])
                     ->columnSpanFull(),
                 TextInput::make('address')->label('Alamat')
+                    ->placeholder('Contoh: Dusun Karawa, RT 003/RW 001')
+                    ->helperText('Alamat lengkap lokasi fasilitas.')
                     ->columnSpanFull(),
                 Textarea::make('description')->label('Deskripsi / Catatan')
+                    ->placeholder('Contoh: Gedung dua lantai, beroperasi setiap hari kerja...')
+                    ->helperText('Catatan atau keterangan tambahan fasilitas.')
                     ->rows(3)
                     ->columnSpanFull(),
             ]);

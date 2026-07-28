@@ -23,8 +23,7 @@ class VillagePotentialsTable
                     ->sortable()
                     ->searchable(),
                 ImageColumn::make('image')->label('Foto'),
-                IconColumn::make('is_active')->label('Aktif')
-                    ->boolean()
+                \Filament\Tables\Columns\ToggleColumn::make('is_active')->label('Aktif')
                     ->sortable(),
                 TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()

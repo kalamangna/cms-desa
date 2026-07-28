@@ -57,17 +57,25 @@ class ManageSettings extends Page implements HasForms
                             ->icon('heroicon-o-building-library')
                             ->columns(2)
                             ->components([
-                                TextInput::make('village_name')->label('Nama Desa')->columnSpanFull(),
+                                TextInput::make('village_name')
+                                    ->label('Nama Desa')
+                                    ->placeholder('Contoh: Tompobulu')
+                                    ->helperText('Nama resmi desa, tanpa kata "Desa".')
+                                    ->columnSpanFull(),
                                 \Filament\Schemas\Components\Grid::make(3)
                                     ->schema([
                                         Select::make('province_name')
                                             ->label('Provinsi')
+                                            ->placeholder('Pilih Provinsi')
+                                            ->helperText('Pilih lokasi provinsi desa.')
                                             ->options(fn() => self::getProvinces())
                                             ->searchable()
                                             ->preload()
                                             ->live(),
                                         Select::make('regency_name')
                                             ->label('Kabupaten/Kota')
+                                            ->placeholder('Pilih Kabupaten/Kota')
+                                            ->helperText('Pilih kabupaten/kota desa.')
                                             ->options(fn($get) => $get('province_name') ? self::getRegencies($get('province_name')) : [])
                                             ->disabled(fn($get) => !$get('province_name'))
                                             ->searchable()
@@ -75,6 +83,8 @@ class ManageSettings extends Page implements HasForms
                                             ->live(),
                                         Select::make('district_name')
                                             ->label('Kecamatan')
+                                            ->placeholder('Pilih Kecamatan')
+                                            ->helperText('Pilih kecamatan desa.')
                                             ->options(fn($get) => $get('regency_name') ? self::getDistricts($get('regency_name')) : [])
                                             ->disabled(fn($get) => !$get('regency_name'))
                                             ->searchable()
@@ -86,54 +96,37 @@ class ManageSettings extends Page implements HasForms
                             ->icon('heroicon-o-map-pin')
                             ->columns(2)
                             ->components([
-                                TextInput::make('village_email')->label('Email Desa')->email(),
-                                TextInput::make('village_phone')->label('Nomor Telepon'),
-                                TextInput::make('village_address')->label('Alamat Kantor')->columnSpanFull(),
-                                TextInput::make('village_latitude')
-                                    ->label('Latitude Kantor Desa')
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(function ($state, $set) {
-                                        if (empty($state)) return;
-                                        if (str_contains($state, ',')) {
-                                            $parts = explode(',', $state);
-                                            $lat = trim($parts[0]);
-                                            $lng = trim($parts[1]);
-                                            if (is_numeric($lat) && is_numeric($lng)) {
-                                                $set('village_latitude', $lat);
-                                                $set('village_longitude', $lng);
-                                            }
-                                        } elseif (str_contains($state, 'google.com/maps') || str_contains($state, 'goo.gl/maps')) {
-                                            if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $state, $matches)) {
-                                                $set('village_latitude', $matches[1]);
-                                                $set('village_longitude', $matches[2]);
-                                            }
-                                        }
-                                    })
-                                    ->helperText('Garis lintang Kantor Desa (contoh: -5.230000). Bisa juga langsung tempel koordinat Google Maps (misal: -5.23, 120.21) di sini.'),
-                                TextInput::make('village_longitude')
-                                    ->label('Longitude Kantor Desa')
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(function ($state, $set) {
-                                        if (empty($state)) return;
-                                        if (str_contains($state, ',')) {
-                                            $parts = explode(',', $state);
-                                            $lat = trim($parts[0]);
-                                            $lng = trim($parts[1]);
-                                            if (is_numeric($lat) && is_numeric($lng)) {
-                                                $set('village_latitude', $lat);
-                                                $set('village_longitude', $lng);
-                                            }
-                                        }
-                                    })
-                                    ->helperText('Garis bujur Kantor Desa (contoh: 120.210000).'),
+                                TextInput::make('village_email')
+                                    ->label('Email Desa')
+                                    ->placeholder('Contoh: kontak@tompobulu.desa.id')
+                                    ->helperText('Email resmi kantor desa.')
+                                    ->email(),
+                                TextInput::make('village_phone')
+                                    ->label('Nomor Telepon')
+                                    ->placeholder('Contoh: 081234567890 atau 0411123456')
+                                    ->helperText('Nomor kontak resmi / WhatsApp kantor desa.'),
+                                TextInput::make('village_address')
+                                    ->label('Alamat Kantor')
+                                    ->placeholder('Contoh: Jl. Poros Desa No. 1, Desa Tompobulu')
+                                    ->helperText('Alamat lengkap lokasi Kantor Desa.')
+                                    ->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Media Sosial')
                             ->icon('heroicon-o-share')
                             ->columns(3)
                             ->components([
-                                TextInput::make('social_facebook')->label('Facebook URL'),
-                                TextInput::make('social_instagram')->label('Instagram URL'),
-                                TextInput::make('social_youtube')->label('YouTube URL'),
+                                TextInput::make('social_facebook')
+                                    ->label('Facebook URL')
+                                    ->placeholder('https://facebook.com/pemdes.tompobulu')
+                                    ->helperText('Tautan halaman Facebook resmi desa.'),
+                                TextInput::make('social_instagram')
+                                    ->label('Instagram URL')
+                                    ->placeholder('https://instagram.com/pemdes.tompobulu')
+                                    ->helperText('Tautan akun Instagram resmi desa.'),
+                                TextInput::make('social_youtube')
+                                    ->label('YouTube URL')
+                                    ->placeholder('https://youtube.com/@pemdes.tompobulu')
+                                    ->helperText('Tautan channel YouTube resmi desa.'),
                             ]),
                         Tabs\Tab::make('Tampilan & Tema')
                             ->icon('heroicon-o-paint-brush')
@@ -157,7 +150,8 @@ class ManageSettings extends Page implements HasForms
                                     ->required(),
                                 TextInput::make('userway_widget_id')
                                     ->label('UserWay Widget ID')
-                                    ->helperText('Masukkan Widget ID UserWay Anda (jika scriptnya adalah https://cdn.userway.org/widget.js?id=ID, masukkan ID tersebut).'),
+                                    ->placeholder('Contoh: xYz12345')
+                                    ->helperText('ID unik dari widget aksesibilitas UserWay.'),
                             ]),
                     ])->columnSpanFull()
             ])

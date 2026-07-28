@@ -2,6 +2,17 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.15] - 2026-07-28
+
+### Added
+- **Standardisasi Empty State**: Menambahkan dan menyeragamkan desain ilustrasi UI *empty state* (saat data kosong) di seluruh halaman publik (APBDes, Dokumen, Berita, Pengumuman, Profil, dll.) menggunakan komponen blade `<x-empty-state>`.
+
+### Changed
+- **Penyempurnaan Tampilan Publik Berita**: Merapikan *badge* kategori pada card berita (menghapus *badge* "Utama", menghapus ikon, dan menyeragamkan warna latar menjadi *emerald*).
+- **Standarisasi Dropdown Filament**: Mengatur komponen *Select* Filament agar menggunakan UI dropdown interaktif standar `native(false)` secara global (diatur dari `AppServiceProvider`).
+- **Penyempurnaan Teks Bantuan Form**: Menyingkat teks bantuan (*helper text*) pada berbagai Form Admin (misal: Keluarga, Dusun) agar lebih ringkas dan langsung pada intinya, serta menghilangkan kata 'Dusun' pada *placeholder* Dusun.
+- **Izin Hak Akses Admin Desa**: Menyempurnakan logika `DefaultDataSeeder` untuk *Role & Permissions*. `super_admin` diberikan seluruh izin secara dinamis, sementara `admin_desa` mendapatkan akses penuh *kecuali* untuk manajemen pengguna, peran, log audit, dan *backup*.
+
 ## [1.26.14] - 2026-07-28
 
 ### Fixed

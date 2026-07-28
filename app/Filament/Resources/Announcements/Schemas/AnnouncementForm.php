@@ -16,13 +16,18 @@ class AnnouncementForm
         return $schema
             ->components([
                 TextInput::make('title')->label('Judul')
+                    ->placeholder('Contoh: Himbauan Kebersihan Lingkungan dan Kerja Bakti Desa')
+                    ->helperText('Judul ringkas pengumuman resmi.')
                     ->required()
                     ->columnSpanFull(),
                 RichEditor::make('content')->label('Konten')
+                    ->placeholder('Tuliskan rincian isi pengumuman secara lengkap di sini...')
+                    ->helperText('Uraian isi pengumuman atau instruksi resmi.')
                     ->required()
                     ->columnSpanFull(),
                 DateTimePicker::make('published_at')->label('Tanggal Publikasi')
-                    ->helperText('Kosongkan untuk langsung terbitkan sekarang, atau atur tanggal/waktu di masa depan untuk menjadwalkan penayangan')
+                    ->placeholder('Kosongkan untuk terbit sekarang')
+                    ->helperText('Isi untuk menjadwalkan publikasi.')
                     ->columnSpanFull(),
             ]);
     }

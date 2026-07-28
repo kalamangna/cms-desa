@@ -49,13 +49,14 @@
         </div>
         <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-8">Sejarah Desa</h2>
         <div class="prose prose-emerald max-w-none text-slate-600 leading-relaxed font-medium">
-            @if(!empty($site_settings['village_history']))
+            @if(!empty(trim(strip_tags($site_settings['village_history'] ?? ''))))
                 {!! $site_settings['village_history'] !!}
             @else
-                <div class="text-center py-10">
-                    <i class="fa-solid fa-clock-rotate-left text-slate-300 text-3xl mb-3 block"></i>
-                    <h3 class="text-slate-400 font-bold text-sm">Sejarah Belum Tersedia</h3>
-                </div>
+                <x-empty-state 
+                    icon="fa-solid fa-clock-rotate-left" 
+                    title="Sejarah Belum Tersedia" 
+                    description="Informasi sejarah desa belum diisi oleh pengelola." 
+                />
             @endif
         </div>
     </div>
@@ -72,6 +73,7 @@
         <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-12 text-center">Visi &amp; Misi</h2>
 
         {{-- Visi Card --}}
+        @if(!empty(trim(strip_tags($site_settings['village_vision'] ?? ''))))
         <div class="relative bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-[40px] p-10 md:p-16 text-white mb-10 shadow-2xl shadow-emerald-200/60 overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none"></div>
             <div class="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl pointer-events-none"></div>
@@ -83,10 +85,25 @@
                     <span class="text-emerald-200 font-black text-[11px] uppercase tracking-[0.3em]">Visi</span>
                 </div>
                 <p class="text-xl md:text-2xl font-heading font-bold italic leading-relaxed">
-                    "{{ $site_settings['village_vision'] ?? 'Visi desa belum diisi.' }}"
+                    "{{ $site_settings['village_vision'] }}"
                 </p>
             </div>
         </div>
+        @else
+        <div class="bg-white rounded-[40px] p-10 md:p-16 border border-slate-100 shadow-sm mb-10">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+                <span class="text-slate-500 font-black text-[11px] uppercase tracking-[0.3em]">Visi</span>
+            </div>
+            <x-empty-state 
+                icon="fa-solid fa-eye" 
+                title="Visi Belum Tersedia" 
+                description="Informasi visi desa belum diisi oleh pengelola." 
+            />
+        </div>
+        @endif
 
         {{-- Misi Card --}}
         <div class="bg-white rounded-[40px] p-10 md:p-16 border border-slate-100 shadow-sm">
@@ -97,13 +114,14 @@
                 <span class="text-slate-500 font-black text-[11px] uppercase tracking-[0.3em]">Misi</span>
             </div>
             <div class="prose prose-emerald max-w-none text-slate-600 font-medium">
-                @if(!empty($site_settings['village_mission']))
+                @if(!empty(trim(strip_tags($site_settings['village_mission'] ?? ''))))
                     {!! $site_settings['village_mission'] !!}
                 @else
-                    <div class="text-center py-10">
-                        <i class="fa-solid fa-list-check text-slate-300 text-3xl mb-3 block"></i>
-                        <h3 class="text-slate-400 font-bold text-sm">Misi Belum Tersedia</h3>
-                    </div>
+                    <x-empty-state 
+                        icon="fa-solid fa-list-check" 
+                        title="Misi Belum Tersedia" 
+                        description="Informasi misi desa belum diisi oleh pengelola." 
+                    />
                 @endif
             </div>
         </div>

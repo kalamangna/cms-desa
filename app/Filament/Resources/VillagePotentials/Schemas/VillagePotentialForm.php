@@ -18,9 +18,13 @@ class VillagePotentialForm
                 \Filament\Schemas\Components\Grid::make(2)
                     ->schema([
                         TextInput::make('title')->label('Judul Potensi')
+                            ->placeholder('Contoh: Wisata Alam Air Terjun Karawa')
+                            ->helperText('Nama potensi keunggulan desa.')
                             ->required()
                             ->maxLength(255),
                         Select::make('category')->label('Kategori')
+                            ->placeholder('Pilih Kategori')
+                            ->helperText('Kelompok sektor potensi desa.')
                             ->options([
                                 'Pariwisata' => 'Pariwisata',
                                 'Pertanian & Perkebunan' => 'Pertanian & Perkebunan',
@@ -32,16 +36,16 @@ class VillagePotentialForm
                     ])
                     ->columnSpanFull(),
                 RichEditor::make('description')->label('Deskripsi')
+                    ->placeholder('Uraikan keunggulan dan daya tarik potensi desa ini...')
+                    ->helperText('Penjelasan rinci mengenai potensi desa.')
                     ->required()
                     ->columnSpanFull(),
                 FileUpload::make('image')->label('Foto Pendukung')
+                    ->helperText('Unggah foto potensi desa (JPG/PNG).')
                     ->image()
                     ->imageResizeTargetWidth(1000)
                     ->nullable()
                     ->directory('potentials')
-                    ->columnSpanFull(),
-                Toggle::make('is_active')->label('Status Aktif')
-                    ->default(true)
                     ->columnSpanFull(),
             ]);
     }

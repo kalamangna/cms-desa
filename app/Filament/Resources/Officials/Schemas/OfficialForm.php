@@ -17,13 +17,19 @@ class OfficialForm
                 \Filament\Schemas\Components\Grid::make(2)
                     ->schema([
                         TextInput::make('name')->label('Nama Lengkap')
+                            ->placeholder('Contoh: Andi Muhammad S.Pd')
+                            ->helperText('Nama lengkap aparatur beserta gelar resmi.')
                             ->required(),
                         TextInput::make('position')->label('Jabatan')
+                            ->placeholder('Contoh: Kepala Desa atau Sekretaris Desa')
+                            ->helperText('Nama jabatan resmi dalam struktur desa.')
                             ->required(),
                     ])
                     ->columnSpanFull(),
                 Select::make('parent_id')
                     ->label('Atasan Langsung')
+                    ->placeholder('Pilih Atasan Langsung')
+                    ->helperText('Atasan langsung dalam bagan struktur organisasi.')
                     ->relationship('parent', 'name')
                     ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->name} ({$record->position})")
                     ->searchable()
@@ -34,6 +40,8 @@ class OfficialForm
                     ->schema([
                         Select::make('level')
                             ->label('Tingkat Jabatan')
+                            ->placeholder('Pilih Tingkat Jabatan')
+                            ->helperText('Tingkat hierarki jabatan dalam struktur organisasi.')
                             ->options([
                                 1 => 'Kepala Desa (Tingkat 1)',
                                 2 => 'Sekretaris Desa (Tingkat 2)',
@@ -45,12 +53,15 @@ class OfficialForm
                             ->required(),
                         TextInput::make('order')
                             ->label('Urutan Tampilan')
+                            ->placeholder('Contoh: 1')
+                            ->helperText('Nomor urut pada bagan struktur.')
                             ->numeric()
                             ->default(0)
                             ->required(),
                     ])
                     ->columnSpanFull(),
                 FileUpload::make('photo')->label('Foto')
+                    ->helperText('Unggah pasfoto resmi aparatur (JPG/PNG).')
                     ->image()
                     ->imageResizeTargetWidth(600)
                     ->nullable()

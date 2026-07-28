@@ -13,7 +13,9 @@ class BudgetCategoryForm
     {
         return $schema
             ->components([
-                TextInput::make('name')->label('Nama')
+                TextInput::make('name')->label('Nama Kategori')
+                    ->placeholder('Contoh: Pendapatan, Belanja, atau Pembiayaan')
+                    ->helperText('Nama kelompok utama transaksi APBDes.')
                     ->required()
                     ->columnSpanFull(),
             ]);

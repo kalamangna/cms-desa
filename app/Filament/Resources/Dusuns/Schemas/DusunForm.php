@@ -17,17 +17,25 @@ class DusunForm
                     ->schema([
                         TextInput::make('name')
                             ->label('Nama Dusun')
+                            ->placeholder('Contoh: Karawa')
+                            ->helperText('Tulis nama tanpa kata "Dusun".')
                             ->required()
                             ->unique(ignoreRecord: true),
                         TextInput::make('head_name')
-                            ->label('Nama Kepala Dusun'),
+                            ->label('Nama Kepala Dusun')
+                            ->placeholder('Contoh: Andi Amran')
+                            ->helperText('Nama pejabat Kepala Dusun.'),
                         TextInput::make('total_rt')
                             ->label('Jumlah RT')
+                            ->placeholder('Contoh: 4')
+                            ->helperText('Jumlah RT di dusun ini.')
                             ->numeric()
                             ->default(0)
                             ->required(),
                         TextInput::make('total_rw')
                             ->label('Jumlah RW')
+                            ->placeholder('Contoh: 2')
+                            ->helperText('Jumlah RW di dusun ini.')
                             ->numeric()
                             ->default(0)
                             ->required(),
@@ -35,11 +43,12 @@ class DusunForm
                     ->columns(2),
 
                 Section::make('Peta Spasial (Batas Wilayah)')
-                    ->description('Masukkan data koordinat batas wilayah dusun dalam format GeoJSON. Sistem akan mengacak warna tampilan area masing-masing dusun secara otomatis di halaman publik.')
+                    ->description('Masukkan koordinat GeoJSON (warna area akan diacak otomatis).')
                     ->schema([
                         Textarea::make('geojson')
                             ->label('Data GeoJSON Poligon')
                             ->placeholder('{"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [...]}}')
+                            ->helperText('Tempel data GeoJSON polygon batas dusun.')
                             ->rows(6)
                             ->nullable(),
                     ])

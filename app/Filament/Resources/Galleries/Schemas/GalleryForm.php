@@ -17,8 +17,12 @@ class GalleryForm
                 \Filament\Schemas\Components\Grid::make(2)
                     ->schema([
                         TextInput::make('title')->label('Judul')
+                            ->placeholder('Contoh: Pelaksanaan Kerja Bakti Dusun')
+                            ->helperText('Judul atau nama kegiatan galeri.')
                             ->required(),
                         Select::make('type')->label('Tipe Galeri')
+                            ->placeholder('Pilih Tipe Galeri')
+                            ->helperText('Tipe media galeri kegiatan.')
                             ->options([
                                 'foto' => 'Foto',
                                 'video' => 'Video',
@@ -29,6 +33,7 @@ class GalleryForm
                     ])
                     ->columnSpanFull(),
                 FileUpload::make('image')->label('Foto')
+                    ->helperText('Unggah foto dokumentasi kegiatan (JPG/PNG).')
                     ->image()
                     ->imageResizeTargetWidth(1200)
                     ->directory('galleries')
@@ -36,12 +41,15 @@ class GalleryForm
                     ->required(fn ($get) => $get('type') === 'foto')
                     ->columnSpanFull(),
                 TextInput::make('youtube_url')->label('Tautan Video YouTube')
-                    ->helperText('Contoh: https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+                    ->placeholder('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+                    ->helperText('Tautan video YouTube kegiatan.')
                     ->url()
                     ->visible(fn ($get) => $get('type') === 'video')
                     ->required(fn ($get) => $get('type') === 'video')
                     ->columnSpanFull(),
                 Textarea::make('description')->label('Deskripsi')
+                    ->placeholder('Contoh: Dokumentasi foto kegiatan gotong royong warga desa...')
+                    ->helperText('Keterangan singkat mengenai dokumentasi ini.')
                     ->columnSpanFull(),
             ]);
     }

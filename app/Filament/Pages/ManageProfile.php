@@ -46,11 +46,26 @@ class ManageProfile extends Page implements HasForms
                             ->icon('heroicon-o-book-open')
                             ->columns(2)
                             ->components([
-                                RichEditor::make('village_history')->label('Sejarah Desa')->columnSpanFull(),
-                                TextInput::make('village_vision')->label('Visi Desa')->columnSpanFull(),
-                                RichEditor::make('village_mission')->label('Misi Desa')->columnSpanFull(),
-                                TextInput::make('village_head_greeting_title')->label('Judul Sambutan Kades')->columnSpanFull(),
-                                RichEditor::make('village_head_greeting')->label('Isi Sambutan Kades')->columnSpanFull(),
+                                RichEditor::make('village_history')->label('Sejarah Desa')
+                                    ->placeholder('Tuliskan naskah sejarah asal-usul terbentuknya desa...')
+                                    ->helperText('Uraian riwayat terbentuknya desa.')
+                                    ->columnSpanFull(),
+                                TextInput::make('village_vision')->label('Visi Desa')
+                                    ->placeholder('Contoh: Terwujudnya Desa Tompobulu yang Mandiri, Sejahtera, dan Berbudaya')
+                                    ->helperText('Rumusan cita-cita utama pembangunan desa.')
+                                    ->columnSpanFull(),
+                                RichEditor::make('village_mission')->label('Misi Desa')
+                                    ->placeholder('Tuliskan poin-poin misi pembangunan desa...')
+                                    ->helperText('Langkah-langkah strategis pencapaian visi.')
+                                    ->columnSpanFull(),
+                                TextInput::make('village_head_greeting_title')->label('Judul Sambutan Kades')
+                                    ->placeholder('Contoh: Sambutan Kepala Desa Tompobulu')
+                                    ->helperText('Judul pembuka pesan Kepala Desa.')
+                                    ->columnSpanFull(),
+                                RichEditor::make('village_head_greeting')->label('Isi Sambutan Kades')
+                                    ->placeholder('Tuliskan naskah lengkap sambutan hangat Kepala Desa...')
+                                    ->helperText('Pesan Kepala Desa kepada warga.')
+                                    ->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Karakteristik & Wilayah')
                             ->icon('heroicon-o-globe-asia-australia')
@@ -58,18 +73,22 @@ class ManageProfile extends Page implements HasForms
                             ->components([
                                 TextInput::make('village_area')
                                     ->label('Luas Wilayah')
-                                    ->placeholder('Contoh: 12,5 atau 12500'),
+                                    ->placeholder('Contoh: 12,5')
+                                    ->helperText('Luas total wilayah desa.'),
                                 Select::make('village_area_unit')
                                     ->label('Satuan Luas')
+                                    ->placeholder('Pilih Satuan')
+                                    ->helperText('Satuan pengukuran luas wilayah.')
                                     ->options([
                                         'km²' => 'km² (Kilometer Persegi)',
-                                        'm²' => 'm² (Meter Persegi)',
-                                        'Ha' => 'Ha (Hektar)',
+                                        'Ha'  => 'Ha (Hektar)',
                                     ])
                                     ->default('km²')
                                     ->required(),
                                 Select::make('village_topography')
                                     ->label('Topografi Wilayah')
+                                    ->placeholder('Pilih Topografi')
+                                    ->helperText('Bentuk bentang alam wilayah desa.')
                                     ->options([
                                         'Dataran Rendah'  => 'Dataran Rendah',
                                         'Dataran Tinggi'  => 'Dataran Tinggi',
@@ -81,8 +100,7 @@ class ManageProfile extends Page implements HasForms
                                         'Kepulauan'       => 'Kepulauan',
                                     ])
                                     ->searchable()
-                                    ->native(false)
-                                    ->placeholder('Pilih topografi wilayah desa'),
+                                    ->native(false),
                             ]),
                     ])->columnSpanFull()
             ])

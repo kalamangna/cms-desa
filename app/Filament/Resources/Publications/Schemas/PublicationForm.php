@@ -15,19 +15,25 @@ class PublicationForm
     {
         return $schema
             ->components([
-                TextInput::make('title')->label('Judul')
+                TextInput::make('title')->label('Judul Publikasi')
+                    ->placeholder('Contoh: Kecamatan Dalam Angka 2026')
+                    ->helperText('Nama resmi buku publikasi statistik.')
                     ->required()
                     ->columnSpanFull(),
                 \Filament\Schemas\Components\Grid::make(2)
                     ->schema([
-                        Select::make('type')->label('Tipe')
+                        Select::make('type')->label('Tipe Publikasi')
+                            ->placeholder('Pilih Tipe')
+                            ->helperText('Kelompok tipe buku data.')
                             ->options([
                                 'Desa Dalam Angka' => 'Desa Dalam Angka',
                                 'Profil Statistik Desa' => 'Profil Statistik Desa',
                                 'Infografis' => 'Infografis',
                             ])
                             ->required(),
-                        TextInput::make('year')->label('Tahun')
+                        TextInput::make('year')->label('Tahun Diterbitkan')
+                            ->placeholder('Contoh: 2026')
+                            ->helperText('Tahun rilis buku.')
                             ->numeric()
                             ->default(date('Y'))
                             ->required(),
@@ -35,12 +41,14 @@ class PublicationForm
                     ->columnSpanFull(),
                 FileUpload::make('cover')
                     ->label('Sampul (Cover)')
+                    ->helperText('Unggah gambar sampul buku (JPG/PNG).')
                     ->image()
                     ->imageResizeTargetWidth(600)
                     ->nullable()
                     ->directory('publications/covers')
                     ->columnSpanFull(),
-                FileUpload::make('pdf_file')->label('File PDF')
+                FileUpload::make('pdf_file')->label('File Buku PDF')
+                    ->helperText('Unggah berkas dokumen PDF publikasi.')
                     ->directory('publications/pdfs')
                     ->acceptedFileTypes(['application/pdf'])
                     ->required()

@@ -89,13 +89,10 @@
                             {{-- Overlay --}}
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/40 to-transparent"></div>
 
-                            {{-- Featured badge --}}
+                            {{-- Category badge --}}
                             <div class="absolute top-5 left-5 flex gap-2">
-                                <span class="bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow">
-                                    <i class="fa-solid fa-star mr-1"></i> Utama
-                                </span>
                                 @if($post->category)
-                                <span class="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full border border-white/20">
+                                <span class="bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-md">
                                     {{ $post->category->name }}
                                 </span>
                                 @endif
@@ -138,7 +135,7 @@
                                  onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
 
                             @if($post->category)
-                            <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-emerald-700 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">
+                            <span class="absolute top-4 left-4 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">
                                 {{ $post->category->name }}
                             </span>
                             @endif

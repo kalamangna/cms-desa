@@ -263,5 +263,10 @@ class AppServiceProvider extends ServiceProvider
         } catch (\Throwable $e) {
             // Database not ready or migrations not run yet, safe to ignore during boot
         }
+
+        // Globally configure all Select components to use custom/searchable dropdown (Choices.js) instead of native
+        \Filament\Forms\Components\Select::configureUsing(function (\Filament\Forms\Components\Select $select): void {
+            $select->native(false);
+        });
     }
 }

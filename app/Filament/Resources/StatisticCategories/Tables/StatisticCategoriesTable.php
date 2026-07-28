@@ -34,9 +34,8 @@ class StatisticCategoriesTable
                         'families' => 'warning',
                         default => 'gray',
                     }),
-                IconColumn::make('is_active')
-                    ->label('Publik')
-                    ->boolean()
+                \Filament\Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Status Publik')
                     ->sortable(),
                 TextColumn::make('indicators_count')
                     ->label('Jumlah Indikator')

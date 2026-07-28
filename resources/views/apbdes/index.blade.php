@@ -260,9 +260,19 @@
                         <h4 class="text-center font-heading font-bold text-slate-900 mb-6 relative z-10 text-sm">
                             Distribusi Dana
                         </h4>
+                        @if($category->realizations->sum('realization_amount') > 0)
                         <div class="h-56 relative z-10">
                             <div id="chart-{{ $category->id }}"></div>
                         </div>
+                        @else
+                        <div class="h-56 relative z-10 flex flex-col items-center justify-center text-center p-4">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-300 mb-3">
+                                <i class="fa-solid fa-chart-pie text-xl"></i>
+                            </div>
+                            <p class="text-xs font-bold text-slate-400">Grafik Tidak Tersedia</p>
+                            <p class="text-[10px] text-slate-300 mt-1">Belum ada realisasi dana diisi</p>
+                        </div>
+                        @endif
                     </div>
                 </div>
 
@@ -275,15 +285,17 @@
                             <i class="fa-solid fa-list-ul mr-2 text-emerald-500"></i>
                             {{ $category->realizations->count() }} Pos Anggaran
                         </span>
+                        @if($category->realizations->count() > 0)
                         <button @click="open = !open"
                                 class="text-xs font-bold text-slate-400 hover:text-emerald-600 transition flex items-center gap-1">
                             <span x-text="open ? 'Sembunyikan' : 'Tampilkan'"></span>
                             <i class="fa-solid fa-chevron-up transition-transform duration-300"
                                :class="open ? '' : 'rotate-180'"></i>
                         </button>
+                        @endif
                     </div>
 
-                    @foreach($category->realizations as $realization)
+                    @forelse($category->realizations as $realization)
                     @php
                         $rPct = $realization->budget_amount > 0
                             ? ($realization->realization_amount / $realization->budget_amount) * 100
@@ -357,7 +369,16 @@
                             </div>
                         </div>
                     </div>
-                    @endforeach
+                    @empty
+                    <div class="bg-white rounded-[28px] border border-slate-100 p-4">
+                        <x-empty-state 
+                            icon="fa-solid fa-coins" 
+                            title="Belum Ada Rincian Pos Anggaran" 
+                            description="Pos rincian anggaran untuk {{ strtolower($category->name) }} belum diinput." 
+                            compact="true"
+                        />
+                    </div>
+                    @endforelse
 
                 </div>{{-- /realization cards --}}
             </div>

@@ -13,7 +13,9 @@ class CategoryForm
     {
         return $schema
             ->components([
-                TextInput::make('name')->label('Nama')
+                TextInput::make('name')->label('Nama Kategori')
+                    ->placeholder('Contoh: Berita Utama atau Program Desa')
+                    ->helperText('Nama kelompok kategori artikel berita.')
                     ->required()
                     ->columnSpanFull(),
             ]);

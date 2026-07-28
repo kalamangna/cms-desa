@@ -12,6 +12,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\CheckboxList;
 
 class CitizenForm
 {
@@ -31,14 +32,19 @@ class CitizenForm
                                         Grid::make(3)
                                             ->schema([
                                                 TextInput::make('nik')->label('NIK')
+                                                    ->placeholder('Contoh: 7306010506800001')
+                                                    ->helperText('Nomor Induk Kependudukan 16 digit.')
                                                     ->required()
                                                     ->unique(ignoreRecord: true),
                                                 Select::make('family_id')->label('Kartu Keluarga (KK)')
+                                                    ->placeholder('Pilih Kartu Keluarga')
                                                     ->relationship('family', 'kk_number')
                                                     ->searchable()
                                                     ->preload()
-                                                    ->helperText('Hubungkan dengan KK yang ada di database'),
+                                                    ->helperText('Hubungkan dengan database KK.'),
                                                 TextInput::make('kk_order')->label('Nomor Urut Anggota (dari KK)')
+                                                    ->placeholder('Contoh: 1')
+                                                    ->helperText('Nomor urut posisi warga di KK.')
                                                     ->numeric(),
                                             ]),
                                     ]),
@@ -49,14 +55,22 @@ class CitizenForm
                                         Grid::make(2)
                                             ->schema([
                                                 TextInput::make('name')->label('Nama Lengkap')
+                                                    ->placeholder('Contoh: Andi Muhammad')
+                                                    ->helperText('Nama lengkap warga sesuai dokumen kependudukan.')
                                                     ->required(),
                                                 Select::make('gender')->label('Jenis Kelamin')
+                                                    ->placeholder('Pilih Jenis Kelamin')
+                                                    ->helperText('Jenis kelamin warga.')
                                                     ->options([
                                                         'Laki-laki' => 'Laki-laki',
                                                         'Perempuan' => 'Perempuan',
                                                     ]),
-                                                DatePicker::make('date_of_birth')->label('Tanggal Lahir'),
+                                                DatePicker::make('date_of_birth')->label('Tanggal Lahir')
+                                                    ->placeholder('Pilih Tanggal Lahir')
+                                                    ->helperText('Tanggal lahir warga.'),
                                                 Select::make('marital_status')->label('Status Perkawinan')
+                                                    ->placeholder('Pilih Status Perkawinan')
+                                                    ->helperText('Status hubungan perkawinan saat ini.')
                                                     ->options([
                                                         'Belum Kawin' => 'Belum Kawin',
                                                         'Kawin' => 'Kawin',
@@ -64,6 +78,8 @@ class CitizenForm
                                                         'Cerai Mati' => 'Cerai Mati',
                                                     ]),
                                                 Select::make('family_relation')->label('Hubungan dengan Kepala Keluarga')
+                                                    ->placeholder('Pilih Hubungan Keluarga')
+                                                    ->helperText('Status posisi hubungan dalam susunan KK.')
                                                     ->options([
                                                         'Kepala Keluarga' => 'Kepala Keluarga',
                                                         'Istri' => 'Istri',
@@ -89,12 +105,16 @@ class CitizenForm
                                         Grid::make(2)
                                             ->schema([
                                                 Select::make('school_participation')->label('Partisipasi Sekolah')
+                                                    ->placeholder('Pilih Partisipasi Sekolah')
+                                                    ->helperText('Status keikutsertaan dalam pendidikan formal.')
                                                     ->options([
                                                         'Tidak / Belum Pernah Sekolah' => 'Tidak / Belum Pernah Sekolah',
                                                         'Masih Sekolah' => 'Masih Sekolah',
                                                         'Tidak Bersekolah Lagi' => 'Tidak Bersekolah Lagi',
                                                     ]),
                                                 Select::make('education_level')->label('Ijazah Tertinggi yang Dimiliki')
+                                                    ->placeholder('Pilih Ijazah Tertinggi')
+                                                    ->helperText('Tingkat pendidikan/ijazah resmi terakhir.')
                                                     ->options([
                                                         'Tidak Punya Ijazah SD' => 'Tidak Punya Ijazah SD',
                                                         'SD / Sederajat' => 'SD / Sederajat',
@@ -113,8 +133,12 @@ class CitizenForm
                                     ->schema([
                                         Grid::make(2)
                                             ->schema([
-                                                TextInput::make('job')->label('Profesi Pekerjaan Utama'),
+                                                TextInput::make('job')->label('Profesi Pekerjaan Utama')
+                                                    ->placeholder('Contoh: Petani, Pedagang, atau PNS')
+                                                    ->helperText('Profesi atau mata pencaharian utama.'),
                                                 Select::make('job_status')->label('Kedudukan dalam Pekerjaan Utama')
+                                                    ->placeholder('Pilih Kedudukan Pekerjaan')
+                                                    ->helperText('Status hubungan kerja dalam profesi utama.')
                                                     ->options([
                                                         'Tidak Bekerja / Lainnya' => 'Tidak Bekerja / Lainnya',
                                                         'Berusaha Sendiri' => 'Berusaha Sendiri',
@@ -139,8 +163,12 @@ class CitizenForm
                                         Grid::make(2)
                                             ->schema([
                                                 Select::make('has_income')->label('Apakah Memiliki Pendapatan?')
+                                                    ->placeholder('Pilih Kepemilikan Pendapatan')
+                                                    ->helperText('Apakah warga memiliki sumber penghasilan rutin.')
                                                     ->options([1 => 'Ya', 0 => 'Tidak']),
                                                 Select::make('has_digital_wallet')->label('Rekening / Dompet Digital Aktif')
+                                                    ->placeholder('Pilih Akses Perbankan/E-Wallet')
+                                                    ->helperText('Kepemilikan rekening bank atau dompet digital.')
                                                     ->options([
                                                         'Tidak ada' => 'Tidak Ada',
                                                         'Ya untuk pribadi' => 'Ya untuk Pribadi',
@@ -151,18 +179,42 @@ class CitizenForm
                                     ]),
 
                                 Section::make('Rincian Pendapatan Sebulan')
-                                    ->description('Semua sumber pendapatan dalam satu bulan (Rp)')
+                                    ->description('Sumber pendapatan per bulan (Rp).')
                                     ->schema([
-                                        Grid::make(2)
+                                        Grid::make(4)
                                             ->schema([
-                                                TextInput::make('income_salary')->label('Gaji / Upah (Rp)')->numeric()->default(0),
-                                                TextInput::make('income_allowance')->label('Tunjangan (Rp)')->numeric()->default(0),
-                                                TextInput::make('income_food')->label('Uang Makan (Rp)')->numeric()->default(0),
-                                                TextInput::make('income_honor')->label('Honor (Rp)')->numeric()->default(0),
-                                                TextInput::make('income_overtime')->label('Lembur (Rp)')->numeric()->default(0),
-                                                TextInput::make('income_business')->label('Pendapatan Usaha (Rp)')->numeric()->default(0),
-                                                TextInput::make('income_passive')->label('Passive Income / Lainnya (Rp)')->numeric()->default(0),
-                                                TextInput::make('income_other')->label('Pendapatan Lainnya (Rp)')->numeric()->default(0),
+                                                TextInput::make('income_salary')->label('Gaji / Upah (Rp)')
+                                                    ->placeholder('Contoh: 2500000')
+                                                    ->helperText('Penghasilan rutin per bulan.')
+                                                    ->numeric()->default(0),
+                                                TextInput::make('income_allowance')->label('Tunjangan (Rp)')
+                                                    ->placeholder('Contoh: 500000')
+                                                    ->helperText('Tunjangan pekerjaan.')
+                                                    ->numeric()->default(0),
+                                                TextInput::make('income_food')->label('Uang Makan (Rp)')
+                                                    ->placeholder('Contoh: 300000')
+                                                    ->helperText('Uang konsumsi/makan.')
+                                                    ->numeric()->default(0),
+                                                TextInput::make('income_honor')->label('Honor (Rp)')
+                                                    ->placeholder('Contoh: 200000')
+                                                    ->helperText('Honorarium kegiatan.')
+                                                    ->numeric()->default(0),
+                                                TextInput::make('income_overtime')->label('Lembur (Rp)')
+                                                    ->placeholder('Contoh: 150000')
+                                                    ->helperText('Upah kerja lembur.')
+                                                    ->numeric()->default(0),
+                                                TextInput::make('income_business')->label('Pendapatan Usaha (Rp)')
+                                                    ->placeholder('Contoh: 1000000')
+                                                    ->helperText('Keuntungan usaha mandiri.')
+                                                    ->numeric()->default(0),
+                                                TextInput::make('income_passive')->label('Passive Income (Rp)')
+                                                    ->placeholder('Contoh: 0')
+                                                    ->helperText('Hasil sewa/investasi.')
+                                                    ->numeric()->default(0),
+                                                TextInput::make('income_other')->label('Pendapatan Lainnya (Rp)')
+                                                    ->placeholder('Contoh: 0')
+                                                    ->helperText('Sumber pendapatan lain.')
+                                                    ->numeric()->default(0),
                                             ]),
                                     ]),
                             ]),
@@ -176,6 +228,8 @@ class CitizenForm
                                         Grid::make(2)
                                             ->schema([
                                                 Select::make('bpjs_status')->label('Kepesertaan JKN KIS (BPJS)')
+                                                    ->placeholder('Pilih Status BPJS')
+                                                    ->helperText('Jenis kepesertaan jaminan kesehatan nasional.')
                                                     ->options([
                                                         'BPJS PBI Pemda' => 'BPJS PBI Pemda',
                                                         'BPJS Mandiri' => 'BPJS Mandiri',
@@ -184,46 +238,66 @@ class CitizenForm
                                                     ])
                                                     ->searchable(),
                                                 Select::make('pip_status')->label('Menerima Bantuan PIP?')
+                                                    ->placeholder('Pilih Status PIP')
+                                                    ->helperText('Status kepesertaan Program Indonesia Pintar.')
                                                     ->options([1 => 'Ya', 0 => 'Tidak']),
                                             ]),
                                     ]),
 
                                 Section::make('Disabilitas')
-                                    ->description('Kondisi disabilitas yang dialami warga')
+                                    ->description('Ragam disabilitas warga (jika ada).')
                                     ->schema([
-                                        Grid::make(3)
-                                            ->schema([
-                                                Select::make('disability_physical')->label('Disabilitas Fisik')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('disability_mental')->label('Disabilitas Mental')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('disability_intellectual')->label('Disabilitas Intelektual')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('disability_blind')->label('Disabilitas Sensorik Netra')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('disability_deaf')->label('Disabilitas Sensorik Rungu')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('disability_speech')->label('Disabilitas Sensorik Wicara')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                            ]),
+                                        CheckboxList::make('disabilities')
+                                            ->label('Ragam Penyandang Disabilitas')
+                                            ->helperText('Centang ragam disabilitas (jika ada).')
+                                            ->options([
+                                                'physical' => 'Disabilitas Fisik',
+                                                'mental' => 'Disabilitas Mental',
+                                                'intellectual' => 'Disabilitas Intelektual',
+                                                'blind' => 'Disabilitas Sensorik Netra',
+                                                'deaf' => 'Disabilitas Sensorik Rungu',
+                                                'speech' => 'Disabilitas Sensorik Wicara',
+                                            ])
+                                            ->formatStateUsing(function ($record) {
+                                                if (! $record) return [];
+                                                $selected = [];
+                                                if ($record->disability_physical) $selected[] = 'physical';
+                                                if ($record->disability_mental) $selected[] = 'mental';
+                                                if ($record->disability_intellectual) $selected[] = 'intellectual';
+                                                if ($record->disability_blind) $selected[] = 'blind';
+                                                if ($record->disability_deaf) $selected[] = 'deaf';
+                                                if ($record->disability_speech) $selected[] = 'speech';
+                                                return $selected;
+                                            })
+                                            ->dehydrateStateUsing(function ($state, $record) {
+                                                // Handling dehydration directly in mutator or via form state logic if needed
+                                            })
+                                            ->columns(3)
+                                            ->columnSpanFull(),
                                     ]),
 
                                 Section::make('Keluhan Penyakit Kronis')
-                                    ->description('Riwayat penyakit kronis yang diderita')
+                                    ->description('Penyakit kronis yang diderita warga.')
                                     ->schema([
                                         Grid::make(3)
                                             ->schema([
-                                                Select::make('illness_hypertension')->label('Hipertensi')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_rheumatic')->label('Rematik')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_asthma')->label('Asma')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_heart')->label('Masalah Jantung')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_diabetes')->label('Diabetes')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_tbc')->label('TBC')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_stroke')->label('Stroke')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_cancer')->label('Kanker')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_kidney')->label('Gagal Ginjal')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_hemophilia')->label('Hemofilia')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_hiv')->label('HIV/AIDS')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_cholesterol')->label('Kolesterol')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_liver')->label('Sirosis Hati')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_thalassemia')->label('Talasemia')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_leukemia')->label('Leukemia')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_alzheimer')->label('Alzheimer')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
-                                                Select::make('illness_other')->label('Penyakit Kronis Lainnya')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_hypertension')->label('Hipertensi')->placeholder('Pilih Status')->helperText('Tekanan darah tinggi.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_rheumatic')->label('Rematik')->placeholder('Pilih Status')->helperText('Rematik/nyeri sendi.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_asthma')->label('Asma')->placeholder('Pilih Status')->helperText('Sesak napas/asma.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_heart')->label('Masalah Jantung')->placeholder('Pilih Status')->helperText('Penyakit jantung.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_diabetes')->label('Diabetes')->placeholder('Pilih Status')->helperText('Gula darah/kencing manis.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_tbc')->label('TBC')->placeholder('Pilih Status')->helperText('Tuberkulosis.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_stroke')->label('Stroke')->placeholder('Pilih Status')->helperText('Penyakit stroke.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_cancer')->label('Kanker')->placeholder('Pilih Status')->helperText('Penyakit kanker/tumor.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_kidney')->label('Gagal Ginjal')->placeholder('Pilih Status')->helperText('Gangguan ginjal kronis.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_hemophilia')->label('Hemofilia')->placeholder('Pilih Status')->helperText('Kelainan pembekuan darah.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_hiv')->label('HIV/AIDS')->placeholder('Pilih Status')->helperText('Infeksi HIV/AIDS.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_cholesterol')->label('Kolesterol')->placeholder('Pilih Status')->helperText('Kadar kolesterol tinggi.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_liver')->label('Sirosis Hati')->placeholder('Pilih Status')->helperText('Gangguan fungsi hati.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_thalassemia')->label('Talasemia')->placeholder('Pilih Status')->helperText('Kelainan sel darah merah.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_leukemia')->label('Leukemia')->placeholder('Pilih Status')->helperText('Kanker darah.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_alzheimer')->label('Alzheimer')->placeholder('Pilih Status')->helperText('Penurunan fungsi otak/pikun.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
+                                                Select::make('illness_other')->label('Penyakit Kronis Lainnya')->placeholder('Pilih Status')->helperText('Penyakit menahun lainnya.')->options([1 => 'Ya', 0 => 'Tidak'])->default(0),
                                             ]),
                                     ]),
                             ]),
@@ -237,12 +311,20 @@ class CitizenForm
                                         Grid::make(4)
                                             ->schema([
                                                 Select::make('dusun_id')->label('Dusun')
+                                                    ->placeholder('Pilih Dusun')
+                                                    ->helperText('Wilayah dusun domisili.')
                                                     ->relationship('dusun', 'name')
                                                     ->searchable()
                                                     ->preload(),
-                                                TextInput::make('rt')->label('RT'),
-                                                TextInput::make('rw')->label('RW'),
+                                                TextInput::make('rt')->label('RT')
+                                                    ->placeholder('Contoh: 001')
+                                                    ->helperText('Nomor RT.'),
+                                                TextInput::make('rw')->label('RW')
+                                                    ->placeholder('Contoh: 002')
+                                                    ->helperText('Nomor RW.'),
                                                 Select::make('domicile_address_type')->label('Status Kecocokan Domisili')
+                                                    ->placeholder('Pilih Kesesuaian Domisili')
+                                                    ->helperText('Kesesuaian alamat domisili dengan KK/KTP.')
                                                     ->options([
                                                         'Sesuai KK dan KTP' => 'Sesuai KK dan KTP',
                                                         'Hanya sesuai KK' => 'Hanya sesuai KK',
@@ -251,6 +333,8 @@ class CitizenForm
                                                     ]),
                                             ]),
                                         Textarea::make('address')->label('Alamat Domisili')
+                                            ->placeholder('Contoh: Jl. Poros Desa No. 12, Dusun Karawa')
+                                            ->helperText('Alamat domisili lengkap warga saat ini.')
                                             ->columnSpanFull(),
                                     ]),
 
@@ -260,6 +344,8 @@ class CitizenForm
                                         Grid::make(2)
                                             ->schema([
                                                 Select::make('citizenship_status')->label('Keberadaan Anggota Keluarga')
+                                                    ->placeholder('Pilih Keberadaan Warga')
+                                                    ->helperText('Status tempat tinggal fisik anggota keluarga.')
                                                     ->options([
                                                         'Tinggal di Rumah Ini' => 'Tinggal di Rumah Ini',
                                                         'Sudah Pisah KK' => 'Sudah Pisah KK',
@@ -270,6 +356,8 @@ class CitizenForm
                                                     ])
                                                     ->searchable(),
                                                 Select::make('status')->label('Status Keaktifan')
+                                                    ->placeholder('Pilih Status Keaktifan')
+                                                    ->helperText('Status keaktifan dalam database desa.')
                                                     ->options([
                                                         'Aktif' => 'Aktif',
                                                         'Pindah' => 'Pindah',

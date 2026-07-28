@@ -16,37 +16,58 @@ class ComplaintForm
     {
         return $schema
             ->components([
+                \Filament\Forms\Components\Placeholder::make('ticket_badge')
+                    ->label('Nomor Tiket Pengaduan')
+                    ->content(fn ($record) => $record?->ticket_number ? new HtmlString(
+                        "<div style='display: inline-flex; align-items: center; gap: 8px; background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px 18px; border-radius: 12px; font-family: monospace; font-size: 18px; font-weight: 800; color: #15803d; letter-spacing: 1px;'>"
+                        . "<i class='fa-solid fa-receipt' style='font-size: 16px; color: #16a34a;'></i> {$record->ticket_number}"
+                        . "</div>"
+                    ) : 'Belum Terbit (Di-generate Otomatis)')
+                    ->columnSpanFull(),
+
                 Section::make('Data Pelapor')
                     ->description('Informasi identitas dan kontak pengirim pengaduan')
+                    ->columnSpanFull()
                     ->schema([
                         Grid::make(2)
                             ->schema([
-                                TextInput::make('ticket_number')->label('Nomor Tiket')
-                                    ->disabled()
-                                    ->placeholder('Akan di-generate otomatis'),
                                 TextInput::make('name')->label('Nama Pengirim')
-                                    ->required(),
+                                    ->placeholder('Contoh: Andi Muhammad')
+                                    ->helperText('Nama lengkap pengirim pengaduan.')
+                                    ->required()
+                                    ->columnSpan(1),
                                 TextInput::make('phone')->label('Nomor WA Pengirim')
-                                    ->required(),
+                                    ->placeholder('Contoh: 081234567890')
+                                    ->helperText('Nomor WhatsApp aktif pengirim.')
+                                    ->required()
+                                    ->columnSpan(1),
                             ]),
                     ]),
 
                 Section::make('Isi Pengaduan')
                     ->description('Judul dan detail laporan pengaduan')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('title')->label('Judul Pengaduan')
+                            ->placeholder('Contoh: Kerusakan Lampu Penerangan Jalan Desa')
+                            ->helperText('Ringkasan judul keluhan atau aspirasi.')
                             ->required()
                             ->columnSpanFull(),
                         Textarea::make('content')->label('Isi Laporan / Pengaduan')
+                            ->placeholder('Tuliskan rincian kronologi atau detail pengaduan...')
+                            ->helperText('Penjelasan detail mengenai keluhan atau aduan.')
                             ->rows(4)
                             ->required()
                             ->columnSpanFull(),
                     ]),
 
                 Section::make('Tanggapan Admin')
-                    ->description('Status penanganan dan balasan resmi dari admin')
+                    ->description('Status penanganan dan tanggapan admin.')
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('status')->label('Status Pengaduan')
+                            ->placeholder('Pilih Status Penanganan')
+                            ->helperText('Pilih status proses penanganan pengaduan.')
                             ->options([
                                 'Menunggu' => 'Menunggu',
                                 'Diproses' => 'Diproses',
@@ -55,10 +76,11 @@ class ComplaintForm
                             ->default('Menunggu')
                             ->required(),
                         Textarea::make('response')->label('Tanggapan / Tindak Lanjut Admin')
+                            ->placeholder('Tuliskan balasan resmi atau laporan tindak lanjut dari pemerintah desa...')
                             ->rows(3)
                             ->helperText(function ($record) {
                                 if (! $record?->phone) {
-                                    return null;
+                                    return 'Balasan untuk pelapor.';
                                 }
 
                                 $waNumber = preg_replace('/[^0-9]/', '', $record->phone);
@@ -84,8 +106,8 @@ class ComplaintForm
                                     default    => '#64748b',
                                 };
 
-                                return new HtmlString(
-                                    "<a href='{$url}' target='_blank' rel='noopener' style='display: inline-flex; align-items: center; gap: 6px; background-color: {$btnColor}; color: white; font-weight: bold; padding: 6px 14px; border-radius: 8px; font-size: 11px; margin-top: 8px; text-decoration: none;'>"
+                                return new \Illuminate\Support\HtmlString(
+                                    "Balasan untuk pelapor.<br><a href='{$url}' target='_blank' rel='noopener' style='display: inline-flex; align-items: center; gap: 6px; background-color: {$btnColor}; color: white; font-weight: bold; padding: 6px 14px; border-radius: 8px; font-size: 11px; margin-top: 4px; text-decoration: none;'>"
                                     . "<i class='fa-brands fa-whatsapp' style='font-size: 14px;'></i> Kirim Notifikasi WA ke Pelapor</a>"
                                 );
                             }),
