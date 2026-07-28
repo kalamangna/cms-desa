@@ -17,11 +17,8 @@ class ServiceForm
         return $schema
             ->components([
                 TextInput::make('title')->label('Nama Layanan')
-                    ->required(),
-                TextInput::make('icon')->label('Ikon (FontAwesome)')
-                    ->helperText('Contoh: fa-users, fa-id-card, fa-baby, fa-heart, fa-house-user, fa-hand-holding-heart')
-                    ->default('fa-circle-info')
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
                 Textarea::make('description')->label('Deskripsi Singkat')
                     ->required()
                     ->columnSpanFull(),

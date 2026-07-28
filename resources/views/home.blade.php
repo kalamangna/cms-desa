@@ -250,7 +250,7 @@
             <div class="min-w-0 w-full">
                 <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
                 <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ $site_settings['village_area'] ?? '—' }}</h3>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">km²</p>
+                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
             </div>
         </div>
 
@@ -448,10 +448,11 @@
                     </a>
                     @empty
                         @if(!$featuredPost)
-                        <div class="text-center py-10 px-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                            <i class="fa-solid fa-newspaper text-slate-300 text-2xl mb-2 block"></i>
-                            <h4 class="text-slate-400 font-bold text-xs">Belum Ada Berita</h4>
-                        </div>
+                        <x-empty-state
+                            icon="fa-solid fa-newspaper"
+                            title="Belum Ada Berita"
+                            :compact="true"
+                        />
                         @endif
                     @endforelse
                 </div>
@@ -477,10 +478,11 @@
                             </div>
                         </a>
                         @empty
-                        <div class="text-center py-10 px-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                            <i class="fa-solid fa-bullhorn text-slate-300 text-2xl mb-2 block"></i>
-                            <h4 class="text-slate-400 font-bold text-xs">Belum Ada Pengumuman</h4>
-                        </div>
+                        <x-empty-state
+                            icon="fa-solid fa-bullhorn"
+                            title="Belum Ada Pengumuman"
+                            :compact="true"
+                        />
                         @endforelse
                     </div>
                 </div>
@@ -524,10 +526,11 @@
             {{-- Galeri Masonry --}}
             <div class="lg:col-span-7">
                 @if($galleries->isEmpty())
-                <div class="text-center py-10 px-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                    <i class="fa-solid fa-images text-slate-300 text-2xl mb-2 block"></i>
-                    <h4 class="text-slate-400 font-bold text-xs">Belum Ada Dokumentasi</h4>
-                </div>
+                <x-empty-state
+                    icon="fa-solid fa-images"
+                    title="Belum Ada Dokumentasi"
+                    :compact="true"
+                />
                 @else
                 <div class="columns-2 gap-4 space-y-4">
                     @foreach($galleries as $gallery)
@@ -589,10 +592,11 @@
                         </div>
                     </div>
                      @empty
-                     <div class="text-center py-10 px-4 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                         <i class="fa-solid fa-book-open text-slate-300 text-2xl mb-2 block"></i>
-                         <h4 class="text-slate-400 font-bold text-xs">Belum Ada Publikasi</h4>
-                     </div>
+                     <x-empty-state
+                         icon="fa-solid fa-book-open"
+                         title="Belum Ada Publikasi"
+                         :compact="true"
+                     />
                      @endforelse
                 </div>
             </div>

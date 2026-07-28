@@ -29,10 +29,8 @@ class PopupInfographicForm
                     ->label('Urutan Muncul')
                     ->numeric()
                     ->default(fn () => (\App\Models\PopupInfographic::max('sort_order') ?? 0) + 1)
-                    ->required(),
-                Toggle::make('is_active')
-                    ->label('Aktif')
-                    ->default(true),
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 }

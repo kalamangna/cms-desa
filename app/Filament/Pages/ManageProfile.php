@@ -56,7 +56,18 @@ class ManageProfile extends Page implements HasForms
                             ->icon('heroicon-o-globe-asia-australia')
                             ->columns(2)
                             ->components([
-                                TextInput::make('village_area')->label('Luas Wilayah (km²)'),
+                                TextInput::make('village_area')
+                                    ->label('Luas Wilayah')
+                                    ->placeholder('Contoh: 12,5 atau 12500'),
+                                Select::make('village_area_unit')
+                                    ->label('Satuan Luas')
+                                    ->options([
+                                        'km²' => 'km² (Kilometer Persegi)',
+                                        'm²' => 'm² (Meter Persegi)',
+                                        'Ha' => 'Ha (Hektar)',
+                                    ])
+                                    ->default('km²')
+                                    ->required(),
                                 Select::make('village_topography')
                                     ->label('Topografi Wilayah')
                                     ->options([

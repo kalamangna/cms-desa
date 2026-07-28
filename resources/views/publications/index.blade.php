@@ -154,9 +154,12 @@
             </div>
         </div>
         @empty
-        <div class="col-span-full text-center py-16">
-            <i class="fa-solid fa-book-open text-slate-300 text-3xl mb-3 block"></i>
-            <h3 class="text-slate-400 font-bold text-sm">Belum Ada Publikasi</h3>
+        <div class="col-span-full">
+            <x-empty-state
+                icon="fa-solid fa-book-open"
+                title="Belum Ada Dokumen Publikasi"
+                description="Belum ada dokumen publikasi yang tersedia."
+            />
         </div>
         @endforelse
     </div>

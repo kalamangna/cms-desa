@@ -73,9 +73,12 @@
 ═══════════════════════════════════════════════════════ --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 md:-mt-16 mb-20 md:mb-28 relative z-10">
     @if($categories->isEmpty())
-        <div class="text-center py-16 bg-white rounded-[32px] border border-slate-100 shadow-sm">
-            <i class="fa-solid fa-scale-balanced text-slate-300 text-3xl mb-3 block"></i>
-            <h3 class="text-slate-400 font-bold text-sm">Belum Ada Data Realisasi APBDes</h3>
+        <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm">
+            <x-empty-state
+                icon="fa-solid fa-scale-balanced"
+                title="Data APBDes Belum Tersedia"
+                description="Belum ada data anggaran yang diinput."
+            />
         </div>
     @else
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">

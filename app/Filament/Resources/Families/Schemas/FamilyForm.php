@@ -46,7 +46,7 @@ class FamilyForm
                                 Section::make('Lokasi Keluarga')
                                     ->description('Domisili dan alamat tempat tinggal keluarga')
                                     ->schema([
-                                        Grid::make(3)
+                                        Grid::make(4)
                                             ->schema([
                                                 Select::make('dusun_id')->label('Dusun')
                                                     ->relationship('dusun', 'name')
@@ -54,13 +54,13 @@ class FamilyForm
                                                     ->preload(),
                                                 TextInput::make('rt')->label('RT'),
                                                 TextInput::make('rw')->label('RW'),
+                                                Select::make('address_matches_kk')->label('Alamat Sesuai KK?')
+                                                    ->options([
+                                                        1 => 'Ya Sesuai KK',
+                                                        0 => 'Tidak Sesuai KK',
+                                                    ])
+                                                    ->formatStateUsing(fn ($state) => $state ? 1 : 0),
                                             ]),
-                                        Select::make('address_matches_kk')->label('Alamat Sesuai KK?')
-                                            ->options([
-                                                1 => 'Ya Sesuai KK',
-                                                0 => 'Tidak Sesuai KK',
-                                            ])
-                                            ->formatStateUsing(fn ($state) => $state ? 1 : 0),
                                         Textarea::make('address')->label('Alamat Lengkap')
                                             ->columnSpanFull(),
                                     ]),
@@ -72,7 +72,7 @@ class FamilyForm
                                 Section::make('Info Bangunan')
                                     ->description('Jenis, kepemilikan, dan luas bangunan')
                                     ->schema([
-                                        Grid::make(3)
+                                        Grid::make(4)
                                             ->schema([
                                                 Select::make('building_type')->label('Jenis Bangunan Tempat Tinggal')
                                                     ->options([

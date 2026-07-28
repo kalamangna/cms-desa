@@ -164,9 +164,11 @@
         <div class="max-w-3xl">
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">Aparatur <span class="text-emerald-500 italic">Desa</span></h1>
             <p class="text-slate-300 text-lg mt-2 mb-6">Jajaran pelayan masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.</p>
+            @if($officials->isNotEmpty())
             <button type="button" @click="open()" class="sotk-trigger-btn" aria-haspopup="dialog">
                 <i class="fa-solid fa-sitemap text-sm"></i> Struktur Organisasi
             </button>
+            @endif
         </div>
     </div>
 </div>
@@ -175,10 +177,11 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
 
     @if($officials->isEmpty())
-    <div class="text-center py-16">
-        <i class="fa-solid fa-users text-slate-300 text-3xl mb-3 block"></i>
-        <h3 class="text-slate-400 font-bold text-sm">Belum Ada Aparatur</h3>
-    </div>
+    <x-empty-state
+        icon="fa-solid fa-users"
+        title="Data Aparatur Belum Diisi"
+        description="Belum ada data aparatur yang diinput."
+    />
     @else
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">

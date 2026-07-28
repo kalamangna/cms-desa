@@ -145,18 +145,24 @@
                  </div>
             </div>
         @empty
-            <div class="col-span-full text-center py-16">
-                <i class="fa-solid fa-box-open text-slate-300 text-3xl mb-3 block"></i>
-                <h3 class="text-slate-400 font-bold text-sm">Belum Ada Potensi Desa</h3>
+            <div class="col-span-full">
+                <x-empty-state
+                    icon="fa-solid fa-box-open"
+                    title="Belum Ada Potensi Desa"
+                    description="Belum ada data potensi yang diinput."
+                />
             </div>
         @endforelse
 
          <!-- Empty category state -->
          <div x-show="activeCategory !== 'Semua' && !categoriesWithData.includes(activeCategory)"
-              class="col-span-full text-center py-16"
+              class="col-span-full"
               x-cloak>
-             <i class="fa-solid fa-box-open text-slate-300 text-3xl mb-3 block"></i>
-             <h3 class="text-slate-400 font-bold text-sm">Belum Ada Potensi Desa</h3>
+             <x-empty-state
+                 icon="fa-solid fa-box-open"
+                 title="Tidak Ada di Kategori Ini"
+                 description="Belum ada data untuk kategori ini."
+             />
          </div>
      </div>
 

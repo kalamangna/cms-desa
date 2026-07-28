@@ -16,11 +16,13 @@ class DocumentForm
         return $schema
             ->components([
                 TextInput::make('title')->label('Judul')
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
                 FileUpload::make('file')->label('Berkas')
                     ->directory('documents')
                     ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
                 Textarea::make('description')->label('Deskripsi')
                     ->columnSpanFull(),
             ]);

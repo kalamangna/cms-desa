@@ -35,7 +35,7 @@
                 Arsip <span class="text-emerald-500 italic">Dokumen</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2">
-                Unduh regulasi, dokumen resmi, dan formulir layanan Desa {{ $site_settings['village_name'] ?? '' }}.
+                Unduh regulasi dan dokumen resmi Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
@@ -131,10 +131,11 @@
         </div>
     </div>
     @empty
-    <div class="col-span-full text-center py-16">
-        <i class="fa-solid fa-folder-open text-slate-300 text-3xl mb-3 block"></i>
-        <h3 class="text-slate-400 font-bold text-sm">Belum Ada Dokumen</h3>
-    </div>
+    <x-empty-state
+        icon="fa-solid fa-folder-open"
+        title="Arsip Dokumen Masih Kosong"
+        description="Belum ada dokumen yang diunggah."
+    />
     @endforelse
 
     {{-- ─── Paginasi ─── --}}

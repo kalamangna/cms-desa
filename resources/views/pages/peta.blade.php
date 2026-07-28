@@ -126,10 +126,11 @@
                                 @endif
                             </button>
                         @empty
-                            <div class="text-center py-6">
-                                <i class="fa-solid fa-map-pin text-slate-300 text-3xl mb-2 block"></i>
-                                <h3 class="text-slate-400 text-[10px] font-bold">Tidak ada data wilayah.</h3>
-                            </div>
+                            <x-empty-state
+                                icon="fa-solid fa-map-pin"
+                                title="Data Wilayah Belum Tersedia"
+                                :compact="true"
+                            />
                         @endforelse
                     </div>
                 </div>
@@ -187,10 +188,13 @@
                             </button>
                         </template>
                         <div x-show="filteredFacilities.length === 0" 
-                             class="text-center py-6"
+                             class="col-span-full"
                              x-cloak>
-                            <i class="fa-solid fa-location-dot text-slate-300 text-3xl mb-2 block"></i>
-                            <h3 class="text-slate-400 text-[10px] font-bold">Tidak ada fasilitas ditemukan.</h3>
+                            <x-empty-state
+                                icon="fa-solid fa-location-dot"
+                                title="Fasilitas Tidak Ditemukan"
+                                :compact="true"
+                            />
                         </div>
                     </div>
                 </div>

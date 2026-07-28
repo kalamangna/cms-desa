@@ -16,27 +16,35 @@ class PublicationForm
         return $schema
             ->components([
                 TextInput::make('title')->label('Judul')
-                    ->required(),
-                Select::make('type')->label('Tipe')
-                    ->options([
-                        'Desa Dalam Angka' => 'Desa Dalam Angka',
-                        'Profil Statistik Desa' => 'Profil Statistik Desa',
-                        'Infografis' => 'Infografis',
+                    ->required()
+                    ->columnSpanFull(),
+                \Filament\Schemas\Components\Grid::make(2)
+                    ->schema([
+                        Select::make('type')->label('Tipe')
+                            ->options([
+                                'Desa Dalam Angka' => 'Desa Dalam Angka',
+                                'Profil Statistik Desa' => 'Profil Statistik Desa',
+                                'Infografis' => 'Infografis',
+                            ])
+                            ->required(),
+                        TextInput::make('year')->label('Tahun')
+                            ->numeric()
+                            ->default(date('Y'))
+                            ->required(),
                     ])
-                    ->required(),
-                TextInput::make('year')->label('Tahun')
-                    ->numeric()
-                    ->required(),
+                    ->columnSpanFull(),
                 FileUpload::make('cover')
                     ->label('Sampul (Cover)')
                     ->image()
                     ->imageResizeTargetWidth(600)
                     ->nullable()
-                    ->directory('publications/covers'),
+                    ->directory('publications/covers')
+                    ->columnSpanFull(),
                 FileUpload::make('pdf_file')->label('File PDF')
                     ->directory('publications/pdfs')
                     ->acceptedFileTypes(['application/pdf'])
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 }

@@ -12,24 +12,34 @@ class BudgetRealizationForm
     {
         return $schema
             ->components([
-                Select::make('budget_category_id')->label('Kategori')
-                    ->relationship('category', 'name')
+                TextInput::make('title')->label('Judul / Uraian')
                     ->required()
-                    ->searchable()
-                    ->preload(),
-                TextInput::make('title')->label('Judul')
-                    ->required(),
-                TextInput::make('year')->label('Tahun')
-                    ->numeric()
-                    ->required(),
-                TextInput::make('budget_amount')->label('Anggaran')
-                    ->numeric()
-                    ->prefix('Rp')
-                    ->required(),
-                TextInput::make('realization_amount')->label('Realisasi')
-                    ->numeric()
-                    ->prefix('Rp')
-                    ->required(),
+                    ->columnSpanFull(),
+                \Filament\Schemas\Components\Grid::make(2)
+                    ->schema([
+                        Select::make('budget_category_id')->label('Kategori Anggaran')
+                            ->relationship('category', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                        TextInput::make('year')->label('Tahun')
+                            ->numeric()
+                            ->default(date('Y'))
+                            ->required(),
+                    ])
+                    ->columnSpanFull(),
+                \Filament\Schemas\Components\Grid::make(2)
+                    ->schema([
+                        TextInput::make('budget_amount')->label('Anggaran')
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->required(),
+                        TextInput::make('realization_amount')->label('Realisasi')
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->required(),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }

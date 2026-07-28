@@ -34,7 +34,7 @@ class HomeController extends Controller
         });
 
         $villageHead = Cache::remember('home_village_head', $ttl * 24, function () {
-            return Official::where('position', 'LIKE', '%Kepala Desa%')->first();
+            return Official::where('level', 1)->orderBy('order')->first();
         });
 
         $latestYear = Cache::remember('home_latest_year', $ttl, function () {

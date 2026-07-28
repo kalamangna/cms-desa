@@ -12,19 +12,27 @@ class UserForm
     {
         return $schema
             ->components([
-                TextInput::make('name')->label('Nama')
-                    ->required(),
-                TextInput::make('username')->label('Username')
-                    ->required(),
-                \Filament\Forms\Components\Select::make('roles')->label('Peran (Role)')
-                    ->relationship('roles', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->required(),
-                TextInput::make('password')->label('Kata Sandi')
-                    ->password()
-                    ->dehydrated(fn (?string $state) => filled($state))
-                    ->required(fn (string $context): bool => $context === 'create'),
+                \Filament\Schemas\Components\Grid::make(2)
+                    ->schema([
+                        TextInput::make('name')->label('Nama')
+                            ->required(),
+                        TextInput::make('username')->label('Username')
+                            ->required(),
+                    ])
+                    ->columnSpanFull(),
+                \Filament\Schemas\Components\Grid::make(2)
+                    ->schema([
+                        \Filament\Forms\Components\Select::make('roles')->label('Peran (Role)')
+                            ->relationship('roles', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->required(),
+                        TextInput::make('password')->label('Kata Sandi')
+                            ->password()
+                            ->dehydrated(fn (?string $state) => filled($state))
+                            ->required(fn (string $context): bool => $context === 'create'),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }

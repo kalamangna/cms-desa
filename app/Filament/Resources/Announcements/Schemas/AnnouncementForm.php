@@ -16,11 +16,14 @@ class AnnouncementForm
         return $schema
             ->components([
                 TextInput::make('title')->label('Judul')
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
                 RichEditor::make('content')->label('Konten')
                     ->required()
                     ->columnSpanFull(),
-                DateTimePicker::make('published_at')->label('Tanggal Publikasi'),
+                DateTimePicker::make('published_at')->label('Tanggal Publikasi')
+                    ->helperText('Kosongkan untuk langsung terbitkan sekarang, atau atur tanggal/waktu di masa depan untuk menjadwalkan penayangan')
+                    ->columnSpanFull(),
             ]);
     }
 }

@@ -39,6 +39,7 @@ class ComplaintsTable
                     ->dateTime()
                     ->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('status')
                     ->label('Status')
@@ -49,6 +50,8 @@ class ComplaintsTable
                     ]),
             ])
             ->recordActions([
+                EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
                 Action::make('whatsapp')
                     ->label('Kirim WA')
                     ->icon('heroicon-o-chat-bubble-left-ellipsis')
@@ -69,7 +72,6 @@ class ComplaintsTable
                     })
                     ->openUrlInNewTab()
                     ->visible(fn ($record): bool => ! empty($record->phone)),
-                EditAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

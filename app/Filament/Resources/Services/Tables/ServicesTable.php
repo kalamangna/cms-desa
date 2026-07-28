@@ -16,8 +16,7 @@ class ServicesTable
         return $table
             ->columns([
                 TextColumn::make('title')->label('Nama Layanan')->searchable()->sortable(),
-                TextColumn::make('slug')->label('Slug')->searchable(),
-                TextColumn::make('icon')->label('Ikon'),
+                TextColumn::make('slug')->label('Slug')->searchable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('description')->label('Deskripsi')->limit(50),
                 TextColumn::make('created_at')->label('Dibuat')->dateTime()->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -26,6 +25,7 @@ class ServicesTable
             ])
             ->recordActions([
                 EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

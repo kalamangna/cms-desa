@@ -128,7 +128,7 @@
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Luas Wilayah</p>
                 <p class="text-3xl font-heading font-extrabold text-slate-900">{{ $site_settings['village_area'] ?? '—' }}</p>
-                <p class="text-slate-400 font-bold text-sm mt-1">km²</p>
+                <p class="text-slate-400 font-bold text-sm mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
             </div>
 
             {{-- Populasi --}}

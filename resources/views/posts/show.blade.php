@@ -171,12 +171,7 @@
                                title="Bagikan ke WhatsApp">
                                 <i class="fa-brands fa-whatsapp text-base"></i>
                             </a>
-                            <a href="https://www.tiktok.com/"
-                               target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-black hover:text-white hover:border-black transition-all duration-200 shadow-sm"
-                               title="Bagikan ke TikTok">
-                                <i class="fa-brands fa-tiktok text-sm"></i>
-                            </a>
+
                             <button onclick="navigator.clipboard.writeText(window.location.href); this.innerHTML='<i class=\'fa-solid fa-check\'></i>'; setTimeout(()=>{ this.innerHTML='<i class=\'fa-solid fa-link\'></i>'; }, 2000)"
                                class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 transition-all duration-200 shadow-sm"
                                title="Salin tautan">

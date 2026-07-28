@@ -234,7 +234,7 @@ class CitizenForm
                                 Section::make('Lokasi Domisili')
                                     ->description('Tempat tinggal warga saat ini')
                                     ->schema([
-                                        Grid::make(3)
+                                        Grid::make(4)
                                             ->schema([
                                                 Select::make('dusun_id')->label('Dusun')
                                                     ->relationship('dusun', 'name')
@@ -242,16 +242,16 @@ class CitizenForm
                                                     ->preload(),
                                                 TextInput::make('rt')->label('RT'),
                                                 TextInput::make('rw')->label('RW'),
+                                                Select::make('domicile_address_type')->label('Status Kecocokan Domisili')
+                                                    ->options([
+                                                        'Sesuai KK dan KTP' => 'Sesuai KK dan KTP',
+                                                        'Hanya sesuai KK' => 'Hanya sesuai KK',
+                                                        'Hanya sesuai KTP' => 'Hanya sesuai KTP',
+                                                        'Tidak sesuai KK dan KTP' => 'Tidak sesuai KK dan KTP',
+                                                    ]),
                                             ]),
                                         Textarea::make('address')->label('Alamat Domisili')
                                             ->columnSpanFull(),
-                                        Select::make('domicile_address_type')->label('Status Kecocokan Domisili')
-                                            ->options([
-                                                'Sesuai KK dan KTP' => 'Sesuai KK dan KTP',
-                                                'Hanya sesuai KK' => 'Hanya sesuai KK',
-                                                'Hanya sesuai KTP' => 'Hanya sesuai KTP',
-                                                'Tidak sesuai KK dan KTP' => 'Tidak sesuai KK dan KTP',
-                                            ]),
                                     ]),
 
                                 Section::make('Status Kependudukan')

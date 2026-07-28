@@ -14,27 +14,33 @@ class GalleryForm
     {
         return $schema
             ->components([
-                TextInput::make('title')->label('Judul')
-                    ->required(),
-                Select::make('type')->label('Tipe Galeri')
-                    ->options([
-                        'foto' => 'Foto',
-                        'video' => 'Video',
+                \Filament\Schemas\Components\Grid::make(2)
+                    ->schema([
+                        TextInput::make('title')->label('Judul')
+                            ->required(),
+                        Select::make('type')->label('Tipe Galeri')
+                            ->options([
+                                'foto' => 'Foto',
+                                'video' => 'Video',
+                            ])
+                            ->default('foto')
+                            ->required()
+                            ->live(),
                     ])
-                    ->default('foto')
-                    ->required()
-                    ->live(),
+                    ->columnSpanFull(),
                 FileUpload::make('image')->label('Foto')
                     ->image()
                     ->imageResizeTargetWidth(1200)
                     ->directory('galleries')
                     ->visible(fn ($get) => $get('type') === 'foto')
-                    ->required(fn ($get) => $get('type') === 'foto'),
+                    ->required(fn ($get) => $get('type') === 'foto')
+                    ->columnSpanFull(),
                 TextInput::make('youtube_url')->label('Tautan Video YouTube')
                     ->helperText('Contoh: https://www.youtube.com/watch?v=dQw4w9WgXcQ')
                     ->url()
                     ->visible(fn ($get) => $get('type') === 'video')
-                    ->required(fn ($get) => $get('type') === 'video'),
+                    ->required(fn ($get) => $get('type') === 'video')
+                    ->columnSpanFull(),
                 Textarea::make('description')->label('Deskripsi')
                     ->columnSpanFull(),
             ]);

@@ -15,18 +15,22 @@ class VillagePotentialForm
     {
         return $schema
             ->components([
-                TextInput::make('title')->label('Judul Potensi')
-                    ->required()
-                    ->maxLength(255),
-                Select::make('category')->label('Kategori')
-                    ->options([
-                        'Pariwisata' => 'Pariwisata',
-                        'Pertanian & Perkebunan' => 'Pertanian & Perkebunan',
-                        'Peternakan' => 'Peternakan',
-                        'Industri Kreatif' => 'Industri Kreatif',
-                        'Seni & Budaya' => 'Seni & Budaya',
+                \Filament\Schemas\Components\Grid::make(2)
+                    ->schema([
+                        TextInput::make('title')->label('Judul Potensi')
+                            ->required()
+                            ->maxLength(255),
+                        Select::make('category')->label('Kategori')
+                            ->options([
+                                'Pariwisata' => 'Pariwisata',
+                                'Pertanian & Perkebunan' => 'Pertanian & Perkebunan',
+                                'Peternakan' => 'Peternakan',
+                                'Industri Kreatif' => 'Industri Kreatif',
+                                'Seni & Budaya' => 'Seni & Budaya',
+                            ])
+                            ->required(),
                     ])
-                    ->required(),
+                    ->columnSpanFull(),
                 RichEditor::make('description')->label('Deskripsi')
                     ->required()
                     ->columnSpanFull(),
@@ -34,9 +38,11 @@ class VillagePotentialForm
                     ->image()
                     ->imageResizeTargetWidth(1000)
                     ->nullable()
-                    ->directory('potentials'),
+                    ->directory('potentials')
+                    ->columnSpanFull(),
                 Toggle::make('is_active')->label('Status Aktif')
-                    ->default(true),
+                    ->default(true)
+                    ->columnSpanFull(),
             ]);
     }
 }

@@ -19,18 +19,21 @@ class StatisticCategoryForm
                 Section::make('Informasi Kategori')
                     ->description('Tentukan nama kategori, sumber kuesioner data, kolom pemetaan utama (jika hanya 1 kolom), dan deskripsi kategori.')
                     ->schema([
-                        TextInput::make('name')
-                            ->label('Nama Kategori')
-                            ->required()
-                            ->placeholder('Contoh: Pendidikan / Pekerjaan'),
-                        Select::make('mapping_table')
-                            ->label('Sumber Data Kuesioner')
-                            ->options([
-                                'citizens' => 'Data Penduduk (Individu)',
-                                'families' => 'Data Keluarga',
-                            ])
-                            ->required()
-                            ->live(),
+                        \Filament\Schemas\Components\Grid::make(2)
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label('Nama Kategori')
+                                    ->required()
+                                    ->placeholder('Contoh: Pendidikan / Pekerjaan'),
+                                Select::make('mapping_table')
+                                    ->label('Sumber Data Kuesioner')
+                                    ->options([
+                                        'citizens' => 'Data Penduduk (Individu)',
+                                        'families' => 'Data Keluarga',
+                                    ])
+                                    ->required()
+                                    ->live(),
+                            ]),
                         CheckboxList::make('mapping_column')
                             ->label('Kolom Pemetaan (Excel / Database)')
                             ->helperText('Pilih satu atau beberapa kolom kuesioner Excel yang ingin Anda kelompokkan dalam kategori statistik ini. Jika kolom berupa Ya/Tidak (boolean), indikator tunggal "Ya" akan dibuat otomatis. Jika berupa kategori, semua nilai unik di kolom tersebut akan dibuatkan indikator.')

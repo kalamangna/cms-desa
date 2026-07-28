@@ -20,7 +20,8 @@ class CategoriesTable
                 TextColumn::make('name')->label('Nama')
                     ->searchable(),
                 TextColumn::make('slug')->label('Slug')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
                     ->sortable()
@@ -39,6 +40,7 @@ class CategoriesTable
             ])
             ->recordActions([
                 EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

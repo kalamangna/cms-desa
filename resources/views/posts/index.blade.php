@@ -171,10 +171,11 @@
 
                 @empty
                 {{-- Empty state --}}
-                <div class="col-span-full text-center py-16">
-                    <i class="fa-solid fa-newspaper text-slate-300 text-3xl mb-3 block"></i>
-                    <h3 class="text-slate-400 font-bold text-sm">Belum Ada Berita</h3>
-                </div>
+                <x-empty-state
+                    icon="fa-solid fa-newspaper"
+                    title="Belum Ada Artikel Berita"
+                    description="Belum ada berita yang diterbitkan."
+                />
                 @endforelse
 
                 {{-- ─── Pagination ──────────────────────────────────────── --}}

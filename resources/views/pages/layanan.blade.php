@@ -40,7 +40,40 @@
         activeService: null,
         showApplyModal: false,
         applyServiceId: null,
-        applyServiceTitle: ''
+        applyServiceTitle: '',
+        showLacak: {{ isset($serviceRequest) || isset($searched_ticket) ? 'true' : 'false' }},
+        ticket: '{{ $searched_ticket ?? '' }}',
+        loading: false,
+        searched: {{ isset($searched_ticket) ? 'true' : 'false' }},
+        result: {{ isset($serviceRequest) ? json_encode([
+            'found' => true,
+            'ticket_number' => $serviceRequest->ticket_number,
+            'name' => $serviceRequest->name,
+            'nik_masked' => substr($serviceRequest->nik, 0, 4) . '**********',
+            'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
+            'status' => $serviceRequest->status,
+            'created_at' => $serviceRequest->created_at->translatedFormat('d M Y, H:i'),
+        ]) : 'null' }},
+        async fetchStatus(ticketNum = null) {
+            if (ticketNum) this.ticket = ticketNum;
+            if (!this.ticket.trim()) return;
+            this.loading = true;
+            this.searched = true;
+            try {
+                const res = await fetch('{{ route('service-requests.track') }}?ticket_number=' + encodeURIComponent(this.ticket.trim()), {
+                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                if (res.ok) {
+                    this.result = await res.json();
+                } else {
+                    this.result = null;
+                }
+            } catch (e) {
+                this.result = null;
+            } finally {
+                this.loading = false;
+            }
+        }
      }" 
      class="relative"
 >
@@ -80,18 +113,58 @@
     </div>
 
     {{-- ===================== SERVICES GRID ===================== --}}
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28" x-data="{ showLacak: {{ isset($serviceRequest) || isset($searched_ticket) ? 'true' : 'false' }} }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
 
-        {{-- Success Message when applying --}}
+        {{-- Success Modal Popup & Ticket Display --}}
         @if(session('success') && session('ticket_number'))
-        <div class="max-w-3xl mx-auto mb-12 bg-emerald-50 border border-emerald-200 rounded-3xl p-6 flex gap-4 items-start text-slate-700 animate-in fade-in duration-300">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                <i class="fa-solid fa-circle-check text-lg"></i>
-            </div>
-            <div class="flex-grow">
-                <h4 class="font-bold text-slate-900 mb-1">{{ session('success') }}</h4>
-                <p class="text-sm text-slate-600">Nomor tiket permohonan Anda: <strong class="text-emerald-700 font-mono text-base select-all ml-1">{{ session('ticket_number') }}</strong></p>
-                <p class="text-xs text-slate-500 mt-1">Gunakan nomor tiket ini untuk melacak status pengajuan surat Anda secara berkala di kolom pelacakan.</p>
+        <div x-data="{ showSuccessModal: true, copied: false }"
+             x-show="showSuccessModal"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md"
+             style="display: none;"
+             @click.self="showSuccessModal = false">
+            
+            <div class="bg-white rounded-[40px] shadow-2xl p-8 md:p-10 max-w-lg w-full border border-slate-100 relative text-center animate-in zoom-in-95 duration-300">
+                <button @click="showSuccessModal = false" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+
+                <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-6 shadow-sm">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <h3 class="font-heading font-extrabold text-slate-900 text-2xl mb-2">{{ session('success') }}</h3>
+                <p class="text-xs text-slate-500 mb-6 leading-relaxed">Permohonan surat Anda telah berhasil dikirim ke pihak desa. Catat & simpan nomor tiket berikut untuk melacak status proses pengajuan.</p>
+
+                <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 mb-6 text-center">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-1">Nomor Tiket Permohonan Surat</span>
+                    <h4 class="text-2xl font-mono font-black text-emerald-600 select-all tracking-wide mb-4">{{ session('ticket_number') }}</h4>
+
+                    <button @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2500);"
+                            class="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3.5 rounded-xl text-sm transition shadow-md shadow-emerald-200">
+                        <template x-if="!copied">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-copy"></i> Salin Nomor Tiket</span>
+                        </template>
+                        <template x-if="copied">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-check"></i> Berhasil Disalin!</span>
+                        </template>
+                    </button>
+                </div>
+
+                <div class="flex gap-3">
+                    <button @click="showLacak = true; fetchStatus('{{ session('ticket_number') }}'); showSuccessModal = false;"
+                            class="flex-1 bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-2xl font-bold text-xs transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> Lacak Status Sekarang
+                    </button>
+                    <button @click="showSuccessModal = false" class="px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 py-3.5 rounded-2xl font-bold text-xs transition">
+                        Tutup
+                    </button>
+                </div>
             </div>
         </div>
         @endif
@@ -130,7 +203,7 @@
                 <div class="p-8 md:p-10 flex-1">
                     {{-- Icon --}}
                     <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-8 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                        <i class="fa-solid {{ $service->icon ?? 'fa-file-alt' }}"></i>
+                        <i class="fa-solid {{ $service->icon }}"></i>
                     </div>
 
                     {{-- Title --}}
@@ -183,9 +256,14 @@
                 </div>
             </div>
             @empty
-            <div class="col-span-full text-center py-16">
-                <i class="fa-solid fa-clipboard-list text-slate-300 text-3xl mb-3 block"></i>
-                <h3 class="text-slate-400 font-bold text-sm">Belum Ada Layanan</h3>
+            <div class="col-span-full">
+                <x-empty-state
+                    icon="fa-solid fa-clipboard-list"
+                    title="Layanan Mandiri Belum Tersedia"
+                    description="Hubungi petugas desa untuk informasi layanan."
+                    action-label="Hubungi Kami"
+                    action-href="/kontak"
+                />
             </div>
             @endforelse
         </div>
@@ -193,35 +271,44 @@
         {{-- PANEL: LACAK PERMOHONAN --}}
         <div x-show="showLacak" class="space-y-8 animate-in fade-in duration-300" x-cloak>
             <div class="bg-white rounded-[32px] p-8 border border-slate-100 shadow-xl max-w-2xl mx-auto">
-                <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Lacak Status Permohonan Surat</h3>
-                <p class="text-slate-400 text-xs mb-6">Masukkan nomor tiket permohonan Anda (contoh: SRV-YYYYMMDD-XXXX).</p>
-                <form action="{{ route('service-requests.track') }}" method="GET" class="flex flex-col sm:flex-row gap-4">
+                <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Lacak Status Permohonan Surat Real-time</h3>
+                <p class="text-slate-400 text-xs mb-6">Masukkan nomor tiket permohonan Anda di bawah ini untuk melihat perkembangan proses tanpa perlu memuat ulang halaman.</p>
+                <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-4">
                     <div class="flex-grow">
-                        <input type="text" name="ticket_number" value="{{ $searched_ticket ?? '' }}" placeholder="SRV-XXXXXXXX-XXXX" required
+                        <input type="text" x-model="ticket" placeholder="SRV-XXXXXXXX-XXXX" required
                                class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 font-mono font-bold text-slate-800 placeholder-slate-300 outline-none text-sm transition">
                     </div>
-                    <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-3.5 rounded-2xl font-bold transition text-sm flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-magnifying-glass"></i> Lacak
+                    <button type="submit" :disabled="loading" class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-8 py-3.5 rounded-2xl font-bold transition text-sm flex items-center justify-center gap-2">
+                        <template x-if="loading">
+                            <i class="fa-solid fa-spinner animate-spin"></i>
+                        </template>
+                        <template x-if="!loading">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </template>
+                        <span x-text="loading ? 'Memuat...' : 'Lacak'"></span>
                     </button>
                 </form>
             </div>
 
-            @if(isset($searched_ticket))
-                @if($serviceRequest)
-                    <div class="bg-white rounded-[40px] border border-slate-100 shadow-2xl p-8 md:p-12 space-y-6 max-w-2xl mx-auto animate-in fade-in duration-300">
+            {{-- Tracking Results (Real-time Rendered) --}}
+            <div x-show="searched" x-transition:enter="transition ease-out duration-300">
+                <template x-if="result && result.found">
+                    <div class="bg-white rounded-[40px] border border-slate-100 shadow-2xl p-8 md:p-12 space-y-6 max-w-2xl mx-auto">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-slate-100">
                             <div>
                                 <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Nomor Tiket</span>
-                                <h4 class="text-lg font-mono font-black text-slate-900 mt-0.5">{{ $serviceRequest->ticket_number }}</h4>
+                                <h4 class="text-lg font-mono font-black text-slate-900 mt-0.5" x-text="result.ticket_number"></h4>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="text-slate-400 text-xs font-semibold">Status:</span>
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider
-                                    @if($serviceRequest->status === 'Menunggu') bg-slate-100 text-slate-600
-                                    @elseif($serviceRequest->status === 'Diproses') bg-amber-50 border border-amber-200 text-amber-700
-                                    @else bg-emerald-50 border border-emerald-200 text-emerald-700 @endif"
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider"
+                                      :class="{
+                                          'bg-slate-100 text-slate-600': result.status === 'Menunggu',
+                                          'bg-amber-50 border border-amber-200 text-amber-700': result.status === 'Diproses',
+                                          'bg-emerald-50 border border-emerald-200 text-emerald-700': result.status === 'Selesai'
+                                      }"
                                 >
-                                    {{ $serviceRequest->status }}
+                                    <span x-text="result.status"></span>
                                 </span>
                             </div>
                         </div>
@@ -229,35 +316,38 @@
                         <div class="grid grid-cols-2 gap-4 text-xs font-medium">
                             <div class="bg-slate-50 p-4 rounded-xl">
                                 <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 block mb-0.5">Nama Pemohon</span>
-                                <span class="text-slate-800 font-bold">{{ $serviceRequest->name }}</span>
+                                <span class="text-slate-800 font-bold" x-text="result.name"></span>
                             </div>
                             <div class="bg-slate-50 p-4 rounded-xl">
                                 <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 block mb-0.5">NIK Pemohon</span>
-                                <span class="text-slate-800 font-mono font-bold">{{ substr($serviceRequest->nik, 0, 4) }}**********</span>
+                                <span class="text-slate-800 font-mono font-bold" x-text="result.nik_masked"></span>
                             </div>
                         </div>
 
                         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
                             <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 block mb-1">Layanan Pengajuan</span>
-                            <h4 class="font-bold text-slate-900 text-base">{{ $serviceRequest->service?->title }}</h4>
-                            <p class="text-xs text-slate-500 mt-2"><i class="fa-regular fa-clock mr-1"></i> Diajukan pada {{ $serviceRequest->created_at->translatedFormat('d M Y, H:i') }}</p>
+                            <h4 class="font-bold text-slate-900 text-base" x-text="result.service_title"></h4>
+                            <p class="text-xs text-slate-500 mt-2">
+                                <i class="fa-regular fa-clock mr-1"></i> Diajukan pada <span x-text="result.created_at"></span>
+                            </p>
                         </div>
 
-                        @if($serviceRequest->status === 'Selesai')
-                        <div class="bg-emerald-50 border border-emerald-200 p-5 rounded-2xl text-slate-700 text-sm">
-                            <h5 class="font-bold text-emerald-800 mb-1"><i class="fa-solid fa-circle-check"></i> Pengajuan Selesai Diproses</h5>
-                            <p class="text-xs leading-relaxed text-slate-600">Surat keterangan / berkas fisik administrasi Anda telah selesai diproses oleh Pemerintah Desa. Silakan mengambil berkas fisik tersebut di **Kantor Desa** pada jam operasional kerja dengan membawa dokumen persyaratan terkait.</p>
-                        </div>
-                        @endif
+                        <template x-if="result.status === 'Selesai'">
+                            <div class="bg-emerald-50 border border-emerald-200 p-5 rounded-2xl text-slate-700 text-sm">
+                                <h5 class="font-bold text-emerald-800 mb-1"><i class="fa-solid fa-circle-check"></i> Pengajuan Selesai Diproses</h5>
+                                <p class="text-xs leading-relaxed text-slate-600">Surat keterangan / berkas fisik administrasi Anda telah selesai diproses oleh Pemerintah Desa. Silakan mengambil berkas fisik tersebut di <strong>Kantor Desa</strong> pada jam operasional kerja dengan membawa dokumen persyaratan terkait.</p>
+                            </div>
+                        </template>
                     </div>
-                @else
-                    {{-- Ticket Not Found --}}
+                </template>
+
+                <template x-if="!loading && searched && (!result || !result.found)">
                     <div class="text-center py-16 animate-in fade-in duration-300">
                         <i class="fa-solid fa-circle-xmark text-rose-400 text-3xl mb-3 block"></i>
-                        <h3 class="text-slate-400 font-bold text-sm">Tiket Tidak Ditemukan</h3>
+                        <h3 class="text-slate-400 font-bold text-sm">Nomor Tiket Tidak Ditemukan</h3>
                     </div>
-                @endif
-            @endif
+                </template>
+            </div>
         </div>
 
         {{-- ===================== INFO BANNER ===================== --}}

@@ -64,9 +64,12 @@
          id="statistik-main">
 
         @if($isEmptyDb)
-            <div class="text-center py-16 bg-white rounded-[32px] border border-slate-100 shadow-sm max-w-2xl mx-auto">
-                <i class="fa-solid fa-users-slash text-slate-300 text-3xl mb-3 block"></i>
-                <h3 class="text-slate-400 font-bold text-sm">Data Kependudukan Belum Tersedia</h3>
+            <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm max-w-2xl mx-auto">
+                <x-empty-state
+                    icon="fa-solid fa-users-slash"
+                    title="Data Kependudukan Belum Tersedia"
+                    description="Impor data warga via panel admin untuk mengaktifkan statistik."
+                />
             </div>
         @else
             {{-- ─── SUMMARY CARDS ─────────────────────────────────────────── --}}

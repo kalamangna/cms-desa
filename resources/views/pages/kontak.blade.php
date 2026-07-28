@@ -189,27 +189,7 @@
                     </span>
                     @endif
 
-                    @if(!empty($site_settings['social_tiktok']))
-                    <a href="{{ $site_settings['social_tiktok'] }}" target="_blank" rel="noopener"
-                       class="flex items-center gap-2 bg-white/10 hover:bg-black border border-white/10 hover:border-black text-white px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200">
-                        <i class="fa-brands fa-tiktok"></i> TikTok
-                    </a>
-                    @else
-                    <span class="flex items-center gap-2 bg-white/5 border border-white/5 text-slate-500 px-4 py-2.5 rounded-xl font-bold text-sm cursor-not-allowed opacity-40 select-none" title="Belum diatur">
-                        <i class="fa-brands fa-tiktok"></i> TikTok
-                    </span>
-                    @endif
 
-                    @if(!empty($phone))
-                    <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
-                       class="flex items-center gap-2 bg-white/10 hover:bg-[#25D366] border border-white/10 hover:border-[#25D366] text-white px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                    </a>
-                    @else
-                    <span class="flex items-center gap-2 bg-white/5 border border-white/5 text-slate-500 px-4 py-2.5 rounded-xl font-bold text-sm cursor-not-allowed opacity-40 select-none" title="Belum diatur">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                    </span>
-                    @endif
                 </div>
             </div>
 

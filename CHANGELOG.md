@@ -2,6 +2,25 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.13] - 2026-07-28
+
+### Added
+- **CategorySeeder**: Menambahkan seeder otomatis untuk kategori berita (`Berita Utama`, `Program Desa`) dan kategori APBDes (`Pendapatan`, `Belanja`).
+- **Pelacakan Status Real-time**: Mengintegrasikan Alpine.js & Fetch API (AJAX) pada tab Lacak Pengaduan Warga dan Layanan Mandiri untuk memeriksa status permohonan secara instan tanpa *page reload*.
+- **Modal Popup Konfirmasi & Salin Tiket**: Menampilkan modal popup konfirmasi sukses secara interaktif setelah pengajuan pengaduan/layanan dilengkapi tombol *Salin Tiket* (clipboard) dan tombol *Lacak Status Sekarang*.
+- **Opsi Satuan Luas Wilayah Dinamis**: Menambahkan field `village_area_unit` pada menu Profil Desa di Filament Admin (pilihan `km²`, `m²`, `Ha`) yang secara otomatis mengubah satuan luas di Beranda dan Halaman Profil.
+
+### Changed
+- **Peningkatan Presisi Penentuan Kepala Desa**: Mengubah pencarian Kepala Desa di beranda dari teks jabatan (`position LIKE %Kepala Desa%`) menjadi kolom baku `level = 1`.
+- **Pengurutan Otomatis Data Terbaru**: Menambahkan `defaultSort('created_at', 'desc')` pada tabel Filament Permohonan Layanan dan Pengaduan Warga agar pengajuan terbaru otomatis berada di paling atas.
+- **Pembersihan Media Sosial**: Menghapus referensi dan tombol TikTok & WhatsApp dari bagian media sosial di Halaman Kontak dan Footer Website.
+- **Penyempurnaan Deskripsi & Form**:
+  - Menyempurnakan deskripsi header Halaman Publik Dokumen (menghapus kata "formulir layanan").
+  - Mengubah placeholder luas wilayah di Filament Admin menggunakan koma (`12,5`).
+  - Mengubah skema form di Filament Admin (Berita, Layanan, Dokumen, Pengumuman, Aparatur, Publikasi, Fasilitas Umum, Potensi, Pengguna, Buku Tamu, Kategori Statistik, Penduduk, Keluarga, dll.) menjadi tata letak *Grid multi-kolom* yang simetris.
+  - Mengonfigurasi seluruh tabel di Filament Admin (23 modul) untuk menampilkan aksi baris **Edit** (`EditAction`) dan **Hapus** (`DeleteAction`) serta menyembunyikan kolom `slug` secara default.
+- **Standarisasi Komponen Empty State Publik**: Menerapkan komponen Blade `<x-empty-state>` pada 13 halaman publik dan 4 widget beranda.
+
 ## [1.26.12] - 2026-07-27
 
 ### Fixed

@@ -70,10 +70,11 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
 
     @if($institutions->isEmpty())
-    <div class="text-center py-16">
-        <i class="fa-solid fa-building-columns text-slate-300 text-3xl mb-3 block"></i>
-        <h3 class="text-slate-400 font-bold text-sm">Belum Ada Lembaga</h3>
-    </div>
+    <x-empty-state
+        icon="fa-solid fa-building-columns"
+        title="Data Lembaga Belum Diisi"
+        description="Belum ada data lembaga yang diinput."
+    />
     @else
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
         @foreach($institutions as $institution)

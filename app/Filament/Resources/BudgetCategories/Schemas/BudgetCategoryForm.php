@@ -14,7 +14,8 @@ class BudgetCategoryForm
         return $schema
             ->components([
                 TextInput::make('name')->label('Nama')
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 }

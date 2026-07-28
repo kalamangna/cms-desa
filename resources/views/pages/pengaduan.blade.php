@@ -40,7 +40,45 @@
 </div>
 
 {{-- ===================== TABS WRAPPER ===================== --}}
-<div class="max-w-4xl mx-auto px-4 py-16 md:py-24" x-data="{ activeTab: '{{ isset($complaint) || isset($searched_ticket) ? 'lacak' : 'kirim' }}' }">
+{{-- ===================== TABS WRAPPER ===================== --}}
+<div class="max-w-4xl mx-auto px-4 py-16 md:py-24"
+     x-data="{
+         activeTab: '{{ isset($complaint) || isset($searched_ticket) ? 'lacak' : 'kirim' }}',
+         ticket: '{{ $searched_ticket ?? '' }}',
+         loading: false,
+         searched: {{ isset($searched_ticket) ? 'true' : 'false' }},
+         result: {{ isset($complaint) ? json_encode([
+             'found' => true,
+             'ticket_number' => $complaint->ticket_number,
+             'title' => $complaint->title,
+             'content' => $complaint->content,
+             'status' => $complaint->status,
+             'response' => $complaint->response,
+             'created_at' => $complaint->created_at->translatedFormat('d M Y, H:i'),
+             'updated_at' => $complaint->updated_at->translatedFormat('d M Y, H:i'),
+         ]) : 'null' }},
+         async fetchStatus(ticketNum = null) {
+             if (ticketNum) this.ticket = ticketNum;
+             if (!this.ticket.trim()) return;
+             this.loading = true;
+             this.searched = true;
+             try {
+                 const res = await fetch('{{ route('complaints.track') }}?ticket_number=' + encodeURIComponent(this.ticket.trim()), {
+                     headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                 });
+                 if (res.ok) {
+                     this.result = await res.json();
+                 } else {
+                     this.result = null;
+                 }
+             } catch (e) {
+                 this.result = null;
+             } finally {
+                 this.loading = false;
+             }
+         }
+     }"
+>
     
     {{-- Tab Buttons --}}
     <div class="flex border-b border-slate-200 mb-12 gap-6">
@@ -64,31 +102,56 @@
     <div x-show="activeTab === 'kirim'" x-transition:enter="transition ease-out duration-300" x-cloak>
         <div class="bg-white rounded-[40px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50">
             
-            {{-- Success Notification & Ticket Display --}}
+            {{-- Success Modal Popup & Ticket Display --}}
             @if(session('success') && session('ticket_number'))
-            <div class="mb-10 bg-emerald-50 border border-emerald-200 rounded-3xl p-8 text-slate-700 animate-in fade-in duration-300">
-                <div class="flex gap-4 items-start mb-6">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-circle-check text-xl"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-heading font-extrabold text-slate-900 text-lg mb-1">{{ session('success') }}</h4>
-                        <p class="text-sm text-slate-500">Laporan Anda telah terdaftar. Catat nomor tiket berikut untuk melacak status tanggapan admin secara berkala.</p>
-                    </div>
-                </div>
+            <div x-data="{ showSuccessModal: true, copied: false }"
+                 x-show="showSuccessModal"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md"
+                 style="display: none;"
+                 @click.self="showSuccessModal = false">
                 
-                {{-- Ticket Number Box --}}
-                <div class="bg-white border border-emerald-200/60 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div class="text-center sm:text-left">
-                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-400">Nomor Tiket Anda</span>
-                        <h3 class="text-2xl font-mono font-black text-emerald-600 mt-1 select-all">{{ session('ticket_number') }}</h3>
-                    </div>
-                    <button 
-                        onclick="navigator.clipboard.writeText('{{ session('ticket_number') }}'); alert('Nomor tiket berhasil disalin!');"
-                        class="w-full sm:w-auto flex items-center justify-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold px-5 py-3 rounded-xl text-sm transition"
-                    >
-                        <i class="fa-solid fa-copy"></i> Salin Tiket
+                <div class="bg-white rounded-[40px] shadow-2xl p-8 md:p-10 max-w-lg w-full border border-slate-100 relative text-center animate-in zoom-in-95 duration-300">
+                    <button @click="showSuccessModal = false" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center">
+                        <i class="fa-solid fa-xmark text-lg"></i>
                     </button>
+
+                    <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-6 shadow-sm">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+
+                    <h3 class="font-heading font-extrabold text-slate-900 text-2xl mb-2">{{ session('success') }}</h3>
+                    <p class="text-xs text-slate-500 mb-6 leading-relaxed">Pengaduan Anda telah terdaftar dalam sistem. Harap simpan nomor tiket di bawah ini untuk melacak tanggapan admin.</p>
+
+                    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 mb-6 text-center">
+                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-1">Nomor Tiket Pengaduan Anda</span>
+                        <h4 class="text-2xl font-mono font-black text-emerald-600 select-all tracking-wide mb-4">{{ session('ticket_number') }}</h4>
+
+                        <button @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2500);"
+                                class="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3.5 rounded-xl text-sm transition shadow-md shadow-emerald-200">
+                            <template x-if="!copied">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-copy"></i> Salin Nomor Tiket</span>
+                            </template>
+                            <template x-if="copied">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-check"></i> Berhasil Disalin!</span>
+                            </template>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button @click="activeTab = 'lacak'; fetchStatus('{{ session('ticket_number') }}'); showSuccessModal = false;"
+                                class="flex-1 bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-2xl font-bold text-xs transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i> Lacak Status Sekarang
+                        </button>
+                        <button @click="showSuccessModal = false" class="px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 py-3.5 rounded-2xl font-bold text-xs transition">
+                            Tutup
+                        </button>
+                    </div>
                 </div>
             </div>
             @endif
@@ -143,52 +206,64 @@
     <div x-show="activeTab === 'lacak'" x-transition:enter="transition ease-out duration-300" x-cloak>
         <div class="bg-white rounded-[40px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50 mb-8">
             <div class="mb-8">
-                <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Pelacakan Status Pengaduan</h3>
-                <p class="text-slate-400 text-sm">Masukkan nomor tiket pengaduan yang Anda miliki.</p>
+                <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Pelacakan Status Pengaduan Real-time</h3>
+                <p class="text-slate-400 text-sm">Masukkan nomor tiket pengaduan Anda di bawah ini untuk melihat perkembangan laporan tanpa perlu memuat ulang halaman.</p>
             </div>
 
-            <form action="{{ route('complaints.track') }}" method="GET" class="flex flex-col sm:flex-row gap-4">
-                <div class="flex-grow">
-                    <input type="text" name="ticket_number" value="{{ $searched_ticket ?? '' }}" placeholder="Contoh: ADV-20260716-XXXX" required
+            <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-4">
+                <div class="flex-grow relative">
+                    <input type="text" x-model="ticket" placeholder="Contoh: ADV-20260716-XXXX" required
                            class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 font-mono font-bold text-slate-800 placeholder-slate-300 outline-none transition">
                 </div>
-                <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-4.5 rounded-2xl font-bold transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-magnifying-glass"></i> Lacak
+                <button type="submit" :disabled="loading" class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-8 py-4.5 rounded-2xl font-bold transition flex items-center justify-center gap-2">
+                    <template x-if="loading">
+                        <i class="fa-solid fa-spinner animate-spin"></i>
+                    </template>
+                    <template x-if="!loading">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </template>
+                    <span x-text="loading ? 'Memuat...' : 'Lacak'"></span>
                 </button>
             </form>
         </div>
 
-        {{-- Tracking Results --}}
-        @if(isset($searched_ticket))
-            @if($complaint)
-                <div class="bg-white rounded-[40px] border border-slate-100 shadow-2xl shadow-slate-200/50 p-8 md:p-12 space-y-8 animate-in fade-in duration-300">
+        {{-- Tracking Results (Real-time Rendered) --}}
+        <div x-show="searched" x-transition:enter="transition ease-out duration-300">
+            <template x-if="result && result.found">
+                <div class="bg-white rounded-[40px] border border-slate-100 shadow-2xl shadow-slate-200/50 p-8 md:p-12 space-y-8">
                     
                     {{-- Status Header --}}
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-slate-100">
                         <div>
                             <span class="text-[10px] font-black uppercase tracking-wider text-slate-400">Nomor Tiket</span>
-                            <h4 class="text-xl font-mono font-black text-slate-900 mt-0.5">{{ $complaint->ticket_number }}</h4>
+                            <h4 class="text-xl font-mono font-black text-slate-900 mt-0.5" x-text="result.ticket_number"></h4>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-slate-400 text-xs font-semibold">Status:</span>
-                            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider
-                                @if($complaint->status === 'Menunggu') bg-slate-100 text-slate-600
-                                @elseif($complaint->status === 'Diproses') bg-amber-50 border border-amber-200 text-amber-700
-                                @else bg-emerald-50 border border-emerald-200 text-emerald-700 @endif"
+                            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider"
+                                  :class="{
+                                      'bg-slate-100 text-slate-600': result.status === 'Menunggu',
+                                      'bg-amber-50 border border-amber-200 text-amber-700': result.status === 'Diproses',
+                                      'bg-emerald-50 border border-emerald-200 text-emerald-700': result.status === 'Selesai'
+                                  }"
                             >
                                 <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75
-                                        @if($complaint->status === 'Menunggu') bg-slate-400
-                                        @elseif($complaint->status === 'Diproses') bg-amber-400
-                                        @else bg-emerald-400 @endif"
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                                          :class="{
+                                              'bg-slate-400': result.status === 'Menunggu',
+                                              'bg-amber-400': result.status === 'Diproses',
+                                              'bg-emerald-400': result.status === 'Selesai'
+                                          }"
                                     ></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2
-                                        @if($complaint->status === 'Menunggu') bg-slate-500
-                                        @elseif($complaint->status === 'Diproses') bg-amber-500
-                                        @else bg-emerald-500 @endif"
+                                    <span class="relative inline-flex rounded-full h-2 w-2"
+                                          :class="{
+                                              'bg-slate-500': result.status === 'Menunggu',
+                                              'bg-amber-500': result.status === 'Diproses',
+                                              'bg-emerald-500': result.status === 'Selesai'
+                                          }"
                                     ></span>
                                 </span>
-                                {{ $complaint->status }}
+                                <span x-text="result.status"></span>
                             </span>
                         </div>
                     </div>
@@ -197,9 +272,11 @@
                     <div>
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2">Laporan / Pengaduan Anda</span>
                         <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100/50">
-                            <h4 class="font-bold text-slate-900 mb-2">{{ $complaint->title }}</h4>
-                            <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">{{ $complaint->content }}</p>
-                            <span class="text-[10px] text-slate-400 font-medium block mt-4"><i class="fa-regular fa-clock mr-1"></i> Dikirim pada {{ $complaint->created_at->translatedFormat('d M Y, H:i') }}</span>
+                            <h4 class="font-bold text-slate-900 mb-2" x-text="result.title"></h4>
+                            <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-line" x-text="result.content"></p>
+                            <span class="text-[10px] text-slate-400 font-medium block mt-4">
+                                <i class="fa-regular fa-clock mr-1"></i> Dikirim pada <span x-text="result.created_at"></span>
+                            </span>
                         </div>
                     </div>
 
@@ -207,24 +284,30 @@
                     <div>
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2">Tanggapan / Tindak Lanjut dari Admin</span>
                         <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-100">
-                            @if($complaint->response)
-                                <p class="text-slate-700 text-sm leading-relaxed whitespace-pre-line">{{ $complaint->response }}</p>
-                                <span class="text-[10px] text-emerald-600/70 font-semibold block mt-4"><i class="fa-regular fa-clock mr-1"></i> Ditanggapi pada {{ $complaint->updated_at->translatedFormat('d M Y, H:i') }}</span>
-                            @else
+                            <template x-if="result.response">
+                                <div>
+                                    <p class="text-slate-700 text-sm leading-relaxed whitespace-pre-line" x-text="result.response"></p>
+                                    <span class="text-[10px] text-emerald-600/70 font-semibold block mt-4">
+                                        <i class="fa-regular fa-clock mr-1"></i> Ditanggapi pada <span x-text="result.updated_at"></span>
+                                    </span>
+                                </div>
+                            </template>
+                            <template x-if="!result.response">
                                 <p class="text-slate-400 italic text-sm">Laporan Anda sedang dikaji dan belum mendapatkan tanggapan tertulis dari petugas admin desa. Harap periksa kembali secara berkala.</p>
-                            @endif
+                            </template>
                         </div>
                     </div>
 
                 </div>
-            @else
-                {{-- Ticket Not Found --}}
+            </template>
+
+            <template x-if="!loading && searched && (!result || !result.found)">
                 <div class="text-center py-16 animate-in fade-in duration-300">
                     <i class="fa-solid fa-circle-xmark text-rose-400 text-3xl mb-3 block"></i>
-                    <h3 class="text-slate-400 font-bold text-sm">Tiket Tidak Ditemukan</h3>
+                    <h3 class="text-slate-400 font-bold text-sm">Nomor Tiket Tidak Ditemukan</h3>
                 </div>
-            @endif
-        @endif
+            </template>
+        </div>
     </div>
 </div>
 @endsection

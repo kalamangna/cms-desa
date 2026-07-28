@@ -20,7 +20,8 @@ class DocumentsTable
                 TextColumn::make('title')->label('Judul')
                     ->searchable(),
                 TextColumn::make('slug')->label('Slug')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('file')->label('Berkas')
                     ->searchable(),
                 TextColumn::make('created_at')->label('Dibuat')
@@ -41,6 +42,7 @@ class DocumentsTable
             ])
             ->recordActions([
                 EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -20,7 +20,8 @@ class AnnouncementsTable
                 TextColumn::make('title')->label('Judul')
                     ->searchable(),
                 TextColumn::make('slug')->label('Slug')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('published_at')->label('Tanggal Publikasi')
                     ->dateTime()
                     ->sortable(),
@@ -42,6 +43,7 @@ class AnnouncementsTable
             ])
             ->recordActions([
                 EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -39,6 +39,7 @@ class ServiceRequestsTable
                     ->dateTime()
                     ->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('status')
                     ->label('Status')
@@ -75,6 +76,7 @@ class ServiceRequestsTable
                     ->openUrlInNewTab()
                     ->visible(fn ($record): bool => ! empty($record->phone)),
                 EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

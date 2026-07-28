@@ -19,23 +19,23 @@ class PostForm
             ->components([
                 Section::make('Konten Berita')
                     ->description('Judul, kategori, dan isi artikel berita')
+                    ->columnSpanFull()
                     ->schema([
-                        Grid::make(2)
-                            ->schema([
-                                TextInput::make('title')->label('Judul')
-                                    ->required()
-                                    ->columnSpanFull(),
-                                Select::make('category_id')->label('Kategori')
-                                    ->relationship('category', 'name')
-                                    ->required()
-                                    ->searchable()
-                                    ->preload(),
-                                FileUpload::make('featured_image')->label('Gambar Utama')
-                                    ->image()
-                                    ->imageResizeTargetWidth(1200)
-                                    ->nullable()
-                                    ->directory('posts'),
-                            ]),
+                        TextInput::make('title')->label('Judul')
+                            ->required()
+                            ->columnSpanFull(),
+                        Select::make('category_id')->label('Kategori')
+                            ->relationship('category', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->columnSpanFull(),
+                        FileUpload::make('featured_image')->label('Gambar Utama')
+                            ->image()
+                            ->imageResizeTargetWidth(1200)
+                            ->nullable()
+                            ->directory('posts')
+                            ->columnSpanFull(),
                         RichEditor::make('content')->label('Konten')
                             ->required()
                             ->columnSpanFull(),
@@ -43,9 +43,11 @@ class PostForm
 
                 Section::make('Pengaturan Publikasi')
                     ->description('Waktu tayang artikel di halaman publik')
+                    ->columnSpanFull()
                     ->schema([
                         DateTimePicker::make('published_at')->label('Tanggal Publikasi')
-                            ->helperText('Kosongkan jika belum ingin dipublikasikan'),
+                            ->helperText('Kosongkan untuk langsung terbitkan sekarang, atau atur tanggal/waktu di masa depan untuk menjadwalkan penayangan')
+                            ->columnSpanFull(),
                     ]),
             ]);
     }

@@ -12,15 +12,20 @@ class GuestBookForm
     {
         return $schema
             ->components([
-                TextInput::make('name')->label('Nama Lengkap')
-                    ->required(),
-                TextInput::make('institution_address')->label('Instansi / Alamat')
-                    ->required(),
-                TextInput::make('phone')->label('Nomor Kontak (WhatsApp)')
-                    ->required(),
+                \Filament\Schemas\Components\Grid::make(3)
+                    ->schema([
+                        TextInput::make('name')->label('Nama Lengkap')
+                            ->required(),
+                        TextInput::make('institution_address')->label('Instansi / Alamat')
+                            ->required(),
+                        TextInput::make('phone')->label('Nomor Kontak (WhatsApp)')
+                            ->required(),
+                    ])
+                    ->columnSpanFull(),
                 Textarea::make('purpose')->label('Keperluan / Pesan')
                     ->rows(4)
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 }

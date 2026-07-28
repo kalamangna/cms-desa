@@ -96,10 +96,11 @@
 
     {{-- ─── Masonry Grid ─── --}}
     @if($galleries->isEmpty())
-        <div class="text-center py-16">
-            <i class="fa-solid fa-images text-slate-300 text-3xl mb-3 block"></i>
-            <h3 class="text-slate-400 font-bold text-sm">Belum Ada Dokumentasi</h3>
-        </div>
+        <x-empty-state
+            icon="fa-solid fa-images"
+            title="Galeri Foto & Video Belum Tersedia"
+            description="Belum ada foto atau video yang diunggah."
+        />
     @else
         <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
             @foreach($galleries as $item)
@@ -175,10 +176,13 @@
 
          <!-- Empty category state -->
          <div x-show="activeFilter !== 'semua' && !filtersWithData.includes(activeFilter)"
-              class="col-span-full text-center py-16"
+              class="col-span-full"
               x-cloak>
-             <i class="fa-solid fa-images text-slate-300 text-3xl mb-3 block"></i>
-             <h3 class="text-slate-400 font-bold text-sm">Belum Ada Dokumentasi</h3>
+             <x-empty-state
+                 icon="fa-solid fa-images"
+                 title="Tidak Ada di Kategori Ini"
+                 description="Belum ada konten untuk filter ini."
+             />
          </div>
     @endif
 
