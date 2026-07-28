@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.14] - 2026-07-28
+
+### Fixed
+- **Pengaturan Tautan Login & Dashboard Admin**: Menambahkan atribut `target="_blank" rel="noopener"` pada tautan **Dashboard** dan **Login Admin** di *topbar desktop* maupun *mobile menu* agar selalu membuka di tab baru secara aman.
+
 ## [1.26.13] - 2026-07-28
 
 ### Added

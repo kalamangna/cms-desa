@@ -212,7 +212,7 @@
             </div>
             <div class="flex gap-4 items-center">
                 @auth
-                <a href="/admin" class="hover:text-emerald-400 transition flex items-center gap-1.5">
+                <a href="/admin" target="_blank" rel="noopener" class="hover:text-emerald-400 transition flex items-center gap-1.5">
                     <i class="fa-solid fa-gauge text-[9px]"></i> Dashboard
                 </a>
                 <span class="opacity-30">|</span>
@@ -223,7 +223,7 @@
                     </button>
                 </form>
                 @else
-                <a href="/admin/login" class="hover:text-emerald-400 transition flex items-center gap-1.5">
+                <a href="/admin/login" target="_blank" rel="noopener" class="hover:text-emerald-400 transition flex items-center gap-1.5">
                     <i class="fa-solid fa-lock text-[9px]"></i> Login Admin
                 </a>
                 @endauth
@@ -410,7 +410,7 @@
                 <div class="pt-6 border-t border-slate-100 mt-4">
                     @auth
                     <div class="flex flex-col gap-3">
-                        <a href="/admin" target="_blank" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
+                        <a href="/admin" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white text-center shadow-lg shadow-emerald-200">
                             <i class="fa-solid fa-table-cells-large"></i>
                             Panel Admin
                         </a>
@@ -423,7 +423,7 @@
                         </form>
                     </div>
                     @else
-                    <a href="/admin/login" target="_blank" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
+                    <a href="/admin/login" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
                         <i class="fa-solid fa-user"></i>
                         Login Sistem
                     </a>
