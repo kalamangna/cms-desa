@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.26] - 2026-07-29
+
+### Fixed
+- **Perbaikan Aksesibilitas Rasio Kontras Warna (WCAG AA)**:
+  - Memperbaiki warna tombol Dashboard Statistik (`bg-emerald-700` hover `bg-emerald-800`) dan badge Berita Utama pada [home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php).
+  - Memperbaiki tingkat keterbacaan teks kredensial/footer KALAMANGNA pada [layouts/app.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/layouts/app.blade.php) (`text-slate-300` dan penambahan `underline` pada tautan).
+
 ## [1.26.25] - 2026-07-29
 
 ### Fixed

@@ -572,8 +572,8 @@
                 <p class="text-slate-400 text-xs font-semibold">
                     &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}.
                 </p>
-                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.15em]">
-                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-emerald-400 hover:text-emerald-300 transition">kalamangna</a> &bull; v{{ config('app.version', '1.8.5') }}
+                <p class="text-slate-300 text-[10px] font-bold uppercase tracking-[0.15em]">
+                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-emerald-400 hover:text-emerald-300 underline underline-offset-2 transition">kalamangna</a> &bull; v{{ config('app.version', '1.8.5') }}
                 </p>
             </div>
         </div>

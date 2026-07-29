@@ -1,25 +1,25 @@
-97
+# Accessibility
 
-# Accessibility — Contrast
+These checks highlight opportunities to improve the accessibility of your web app. Automatic detection can only detect a subset of issues and does not guarantee the accessibility of your web app, so manual testing is also encouraged.
 
-These checks highlight opportunities to improve the accessibility of your web app. Automatic detection can only detect a subset of issues and does not guarantee accessibility; manual testing is encouraged.
+## Contrast
 
-Issue: Background and foreground colors do not have a sufficient contrast ratio.
+Background and foreground colors do not have a sufficient contrast ratio.
 
 Low-contrast text is difficult or impossible for many users to read. Learn how to provide sufficient color contrast.
 
-Failing elements (cleaned):
+## Failing Elements
 
-- INFOGRAFIS DESA TOMPO BULU
-- Dashboard Statistik (link: /statistik)
-- LUAS WILAYAH 2780,68 Ha
-- SAMBUTAN KEPALA DESA — "Sambutan Kepala Desa" ASRI S., S.P
-- Perbandingan jumlah laki-laki dan perempuan aktif (Demografi Penduduk)
-- APBDes 2026 — Target: Rp 1.322.941.029 (realisasi informasi presentasi)
-- APBDes 2026 — Target: Rp 0
-- BERITA UTAMA
-- © 2026 Pemerintah Desa Tompo Bulu.
-- Tompo Bulu — PORTAL RESMI DESA
-- DIKEMBANGKAN OLEH KALAMANGNA • V1.26.23
+### Dashboard Statistik
 
-Notes: multiple inline HTML classes and repetitive footer blocks were consolidated for readability. Review each listed element in the UI to adjust color contrast.
+- `<a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-emerald-600 hover:b…">`
+- `BERITA UTAMA`
+- `<span class="bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest…">`
+- Links rely on color to be distinguishable.
+- Low-contrast text is difficult or impossible for many users to read. Link text that is discernible improves the experience for users with low vision. Learn how to make links distinguishable.
+
+### KALAMANGNA
+
+- `<a href="https://github.com/kalamangna" target="_blank" class="text-emerald-400 hover:text-emerald-300 transition">`
+- `DIKEMBANGKAN OLEH KALAMANGNA • V1.26.25`
+- `<p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.15em]">`
