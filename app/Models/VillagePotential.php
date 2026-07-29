@@ -26,11 +26,17 @@ class VillagePotential extends Model
             if (empty($potential->slug)) {
                 $potential->slug = Str::slug($potential->title);
             }
+            if ($potential->image) {
+                $potential->image = \App\Helpers\ImageHelper::convertToWebp($potential->image, 'potentials');
+            }
         });
 
         static::updating(function ($potential) {
             if (empty($potential->slug)) {
                 $potential->slug = Str::slug($potential->title);
+            }
+            if ($potential->isDirty('image') && $potential->image) {
+                $potential->image = \App\Helpers\ImageHelper::convertToWebp($potential->image, 'potentials');
             }
         });
     }

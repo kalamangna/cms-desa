@@ -185,8 +185,9 @@
                @click="closeModal()"></div>
 
           <!-- Modal Box -->
-          <div class="relative bg-white rounded-[40px] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto z-10 flex flex-col border border-slate-100"
+          <div class="relative bg-white rounded-[28px] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto z-10 flex flex-col border border-slate-100 cursor-default"
                x-show="selectedPotential !== null"
+               @click.stop
                x-transition:enter="transition ease-out duration-300"
                x-transition:enter-start="opacity-0 scale-95 translate-y-4"
                x-transition:enter-end="opacity-100 scale-100 translate-y-0"

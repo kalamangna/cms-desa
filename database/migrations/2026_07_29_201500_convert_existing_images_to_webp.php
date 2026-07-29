@@ -77,8 +77,12 @@ return new class extends Migration
                     $img = $newImg;
                 }
 
-                @imagewebp($img, $webpPath, 82);
-                imagedestroy($img);
+                if (@imagewebp($img, $webpPath, 82)) {
+                    imagedestroy($img);
+                    if ($path !== $webpPath && file_exists($webpPath)) {
+                        @unlink($path);
+                    }
+                }
             }
         } catch (\Throwable $e) {
             Log::error('Gagal mengonversi gambar fisik di migrasi WebP: ' . $e->getMessage());
@@ -184,6 +188,12 @@ return new class extends Migration
                     Log::warning("Gagal memperbarui tabel {$table} kolom {$column} pada migrasi WebP: " . $e->getMessage());
                 }
             }
+        }
+
+        try {
+            \Illuminate\Support\Facades\Cache::flush();
+        } catch (\Throwable $e) {
+            // Ignore cache error if cache driver fails
         }
     }
 

@@ -2,6 +2,15 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.44] - 2026-07-29
+
+### Added & Fixed
+- **Fitur Konversi Otomatis ke WebP untuk Berkas Baru & Lama**:
+  - Membuat helper `App\Helpers\ImageHelper` untuk menangani konversi otomatis gambar diunggah (`.jpg`, `.jpeg`, `.png`) ke format WebP terkompresi hemat ruang (kualitas 80%).
+  - Memasang event listener `saving`/`creating`/`updating` pada seluruh Model utama (`Post`, `Gallery`, `Official`, `PopupInfographic`, `VillagePotential`, `Institution`, `Publication`).
+  - Menyempurnakan migrasi database `2026_07_29_201500_convert_existing_images_to_webp.php` agar secara otomatis mengonversi gambar fisik lama di production, memperbarui tautan database, menghapus gambar asli non-webp, dan membersihkan cache secara aman.
+  - Memperbarui kelengkungan modal Potensi Desa ([pages/potensi.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/pages/potensi.blade.php)) menjadi `rounded-[28px]` dan menyelaraskan seluruh modal publik.
+
 ## [1.26.43] - 2026-07-29
 
 ### Added & Changed

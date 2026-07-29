@@ -32,6 +32,12 @@ class Official extends Model
 
     protected static function booted()
     {
+        static::saving(function ($official) {
+            if ($official->isDirty('photo') && $official->photo) {
+                $official->photo = \App\Helpers\ImageHelper::convertToWebp($official->photo, 'officials');
+            }
+        });
+
         static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_village_head'));
         static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_village_head'));
     }

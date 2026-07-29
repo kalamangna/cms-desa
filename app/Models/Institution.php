@@ -29,11 +29,17 @@ class Institution extends Model
             if (empty($institution->slug)) {
                 $institution->slug = Str::slug($institution->name);
             }
+            if ($institution->logo) {
+                $institution->logo = \App\Helpers\ImageHelper::convertToWebp($institution->logo, 'institutions');
+            }
         });
 
         static::updating(function ($institution) {
             if ($institution->isDirty('name') && empty($institution->slug)) {
                 $institution->slug = Str::slug($institution->name);
+            }
+            if ($institution->isDirty('logo') && $institution->logo) {
+                $institution->logo = \App\Helpers\ImageHelper::convertToWebp($institution->logo, 'institutions');
             }
         });
     }

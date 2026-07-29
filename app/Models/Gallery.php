@@ -32,6 +32,12 @@ class Gallery extends Model
 
     protected static function booted()
     {
+        static::saving(function ($gallery) {
+            if ($gallery->isDirty('image') && $gallery->image) {
+                $gallery->image = \App\Helpers\ImageHelper::convertToWebp($gallery->image, 'galleries');
+            }
+        });
+
         static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_galleries'));
         static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_galleries'));
     }

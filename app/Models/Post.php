@@ -31,6 +31,10 @@ class Post extends Model
             if (empty($post->published_at)) {
                 $post->published_at = now();
             }
+
+            if ($post->isDirty('featured_image') && $post->featured_image) {
+                $post->featured_image = \App\Helpers\ImageHelper::convertToWebp($post->featured_image, 'posts');
+            }
         });
 
         static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_posts'));
