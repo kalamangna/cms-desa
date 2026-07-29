@@ -2,10 +2,10 @@
 
 @section('title', 'Beranda | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk publikasi berita pembangunan, struktur aparatur, transparansi anggaran APBDes, dan data statistik kependudukan resmi.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @push('head')
-    <link rel="preload" as="image" href="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.png') }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.webp') }}" fetchpriority="high">
 @endpush
 
 @section('content')
@@ -176,14 +176,14 @@
 
                     {{-- Frame foto --}}
                     <div class="relative w-[270px] h-[324px] sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-[40px] overflow-hidden border-2 border-white/10 shadow-2xl">
-                        <img src="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.png') }}"
+                        <img src="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover object-top"
                              alt="Foto {{ $villageHead?->name ?? 'Kepala Desa' }}"
                              width="384"
                              height="480"
                              loading="eager"
                              fetchpriority="high"
-                             onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                             onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                         {{-- Overlay gradient bawah --}}
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
                     </div>
@@ -421,11 +421,11 @@
                 @if($featuredPost)
                 <a href="/berita/{{ $featuredPost->slug }}" class="block group">
                     <div class="relative rounded-3xl overflow-hidden aspect-[16/9] mb-6 shadow-xl">
-                        <img src="{{ $featuredPost->featured_image ? asset('storage/' . $featuredPost->featured_image) : asset('img/meta.png') }}"
+                        <img src="{{ $featuredPost->featured_image ? asset('storage/' . $featuredPost->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                              alt="{{ $featuredPost->title }}"
                              loading="lazy"
-                             onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                             onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                         <div class="absolute top-6 left-6">
                             <span class="bg-emerald-700 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">Berita Utama</span>
@@ -442,11 +442,11 @@
                     @forelse($recentPosts as $post)
                     <a href="/berita/{{ $post->slug }}" class="flex gap-5 group items-center p-4 rounded-2xl hover:bg-slate-50 transition-all duration-200 -mx-4">
                         <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-slate-100">
-                            <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
+                            <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                  alt="{{ $post->title }}"
                                  loading="lazy"
-                                 onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                                 onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
                         </div>
                         <div class="flex-1 min-w-0">
@@ -548,7 +548,7 @@
                              class="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
                              alt="{{ $gallery->title }}"
                              loading="lazy"
-                             onerror="this.src='{{ asset('img/meta.png') }}'">
+                             onerror="this.src='{{ asset('img/meta.webp') }}'">
                         @if($gallery->type === 'video')
                         <div class="absolute top-3 right-3 w-8 h-8 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
                             <i class="fa-brands fa-youtube text-white text-xs"></i>
@@ -579,11 +579,11 @@
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-200 overflow-hidden group">
                         <div class="flex items-center gap-5 p-5">
                             <div class="w-16 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100">
-                                <img src="{{ $pub->cover ? asset('storage/' . $pub->cover) : asset('img/meta.png') }}"
+                                <img src="{{ $pub->cover ? asset('storage/' . $pub->cover) : asset('img/meta.webp') }}"
                                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                      alt="{{ $pub->title }}"
                                      loading="lazy"
-                                     onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                                     onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
                             </div>
                             <div class="flex-1 min-w-0">

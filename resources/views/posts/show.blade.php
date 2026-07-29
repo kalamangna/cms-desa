@@ -3,7 +3,7 @@
 @section('title', $post->title . ' | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('og_type', 'article')
 @section('meta_description', Str::limit(strip_tags($post->content), 160))
-@section('meta_image', $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png'))
+@section('meta_image', $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp'))
 @section('canonical', route('posts.show', $post->slug))
 @section('meta_keywords', $post->title . ', berita desa, ' . ($site_settings['village_name'] ?? '') . ', ' . ($site_settings['district_name'] ?? ''))
 
@@ -24,7 +24,7 @@
     "url": "{{ route('posts.show', $post->slug) }}",
     "datePublished": "{{ $post->published_at?->toIso8601String() }}",
     "dateModified": "{{ $post->updated_at->toIso8601String() }}",
-    "image": "{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}",
+    "image": "{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}",
     "author": {
         "@type": "Organization",
         "@id": "{{ url('/') }}/#organization",
@@ -49,10 +49,10 @@
 <div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     {{-- Blurred featured image as background --}}
     <div class="absolute inset-0 z-0">
-        <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
+        <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
              class="absolute inset-0 w-full h-full object-cover opacity-25 blur-sm scale-110"
              alt="Background"
-             onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+             onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
         <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/80 to-slate-900"></div>
         <div class="absolute inset-0 opacity-[0.06]"
@@ -127,12 +127,12 @@
 
             {{-- ─── Featured Image ──────────────────────────────────── --}}
             <div class="w-full overflow-hidden" style="aspect-ratio:21/9;">
-                <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
+                <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                      class="w-full h-full object-cover"
                      alt="{{ $post->title }}"
                      loading="eager"
                      fetchpriority="high"
-                     onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                     onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
             </div>
 
 
@@ -242,10 +242,10 @@
                 @foreach($relatedPosts as $related)
                 <a href="/berita/{{ $related->slug }}" class="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-200 flex flex-col">
                     <div class="aspect-[16/9] overflow-hidden bg-slate-100">
-                        <img src="{{ $related->featured_image ? asset('storage/' . $related->featured_image) : asset('img/meta.png') }}"
+                        <img src="{{ $related->featured_image ? asset('storage/' . $related->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                              alt="{{ $related->title }}"
-                             onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                             onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
                     </div>
                     <div class="p-4 flex flex-col flex-grow">

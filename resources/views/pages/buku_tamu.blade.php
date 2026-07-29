@@ -2,7 +2,7 @@
 
 @section('title', 'Buku Tamu | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Formulir pencatatan kunjungan resmi dan tamu umum pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @section('content')
 {{-- ===================== HERO ===================== --}}

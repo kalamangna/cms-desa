@@ -2,7 +2,7 @@
 
 @section('title', 'Kontak | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Informasi kontak pelayanan publik dan alamat kantor sekretariat Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk pengaduan dan koordinasi.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @push('head')
 <script type="application/ld+json">
@@ -14,9 +14,9 @@
     "url": "{{ url('/kontak') }}",
     "logo": {
         "@@type": "ImageObject",
-        "url": "{{ asset('img/sinjai.png') }}"
+        "url": "{{ asset('img/sinjai.webp') }}"
     },
-    "image": "{{ asset('img/meta.png') }}",
+    "image": "{{ asset('img/meta.webp') }}",
     "description": "Kantor pelayanan publik dan administrasi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}.",
     "telephone": {!! json_encode($site_settings['village_phone'] ?? '') !!},
     "email": {!! json_encode($site_settings['village_email'] ?? '') !!},

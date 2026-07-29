@@ -2,7 +2,7 @@
 
 @section('title', 'Statistik | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Penyajian visualisasi data statistik sektoral kependudukan, pekerjaan, pendidikan, dan kesehatan mikro yang dikelola Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @section('content')
 

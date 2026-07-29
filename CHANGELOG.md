@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.36] - 2026-07-29
+
+### Fixed
+- **Validasi Ganda Jalur Physical Storage pada Migrasi WebP**:
+  - Memperbarui `2026_07_29_201500_convert_existing_images_to_webp.php` agar memeriksa keberadaan file `.webp` baik pada `public/storage/` (direktori fisik hosting) maupun `storage/app/public/`.
+
 ## [1.26.35] - 2026-07-29
 
 ### Fixed

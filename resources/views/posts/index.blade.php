@@ -2,7 +2,7 @@
 
 @section('title', (request('search') ? 'Hasil Pencarian: "' . request('search') . '"' : ($selectedCategory ? 'Kategori: ' . $selectedCategory->name : 'Berita')) . ' | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', request('search') ? 'Menampilkan hasil pencarian berita dengan kata kunci "' . request('search') . '" pada portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' : ($selectedCategory ? 'Kumpulan berita resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk kategori ' . $selectedCategory->name . '.' : 'Warta berita resmi dan siaran pers mengenai program pembangunan serta kegiatan pelayanan publik Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.'))
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @section('content')
 
@@ -78,12 +78,12 @@
                         <div class="relative rounded-3xl overflow-hidden shadow-xl shadow-slate-200 border border-white">
                             {{-- Image --}}
                             <div class="aspect-[16/8] w-full overflow-hidden bg-slate-200">
-                                <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
+                                <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                      alt="{{ $post->title }}"
                                      loading="eager"
                                      fetchpriority="high"
-                                     onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                                     onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
                             </div>
 
@@ -129,11 +129,11 @@
                     <article class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 flex flex-col">
                         {{-- Thumbnail --}}
                         <a href="/berita/{{ $post->slug }}" class="block relative overflow-hidden aspect-[16/10] bg-slate-100 flex-shrink-0">
-                            <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
+                            <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                  alt="{{ $post->title }}"
                                  loading="lazy"
-                                 onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                                 onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
                             @if($post->category)
                             <span class="absolute top-4 left-4 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">

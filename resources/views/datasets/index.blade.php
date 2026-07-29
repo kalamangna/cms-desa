@@ -2,7 +2,7 @@
 
 @section('title', 'Open Data | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Portal data terbuka (Open Data) resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' menyajikan kumpulan dataset publik untuk analisis, transparansi, dan kebutuhan akademis.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @section('content')
 <!-- Standardized Dark Hero -->

@@ -2,7 +2,7 @@
 
 @section('title', 'Pengaduan | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Portal pengaduan dan aspirasi warga Desa ' . ($site_settings['village_name'] ?? '') . ' secara aman, cepat, dan transparan.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @section('content')
 {{-- ===================== HERO ===================== --}}

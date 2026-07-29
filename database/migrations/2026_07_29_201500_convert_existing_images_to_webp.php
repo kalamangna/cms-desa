@@ -123,8 +123,9 @@ return new class extends Migration
                         $newValue = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $oldValue);
                         if ($newValue !== $oldValue) {
                             $fullWebpPath = storage_path('app/public/' . ltrim($newValue, '/'));
-                            // Pastikan file .webp fisiknya memang tersedia di server sebelum mengupdate DB
-                            if (file_exists($fullWebpPath)) {
+                            $publicWebpPath = public_path('storage/' . ltrim($newValue, '/'));
+                            // Pastikan file .webp fisiknya memang tersedia di storage_path atau public_path sebelum mengupdate DB
+                            if (file_exists($fullWebpPath) || file_exists($publicWebpPath)) {
                                 DB::table($table)
                                     ->where('id', $row->id)
                                     ->update([$column => $newValue]);

@@ -2,7 +2,7 @@
 
 @section('title', 'Galeri | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Galeri dokumentasi kegiatan pembangunan, pembinaan kemasyarakatan, dan aktivitas kedinasan Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @section('content')
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
@@ -117,11 +117,11 @@
                 {{-- Thumbnail --}}
                 <div class="relative overflow-hidden">
                     <img
-                        src="{{ $item->image_url ? $item->image_url : asset('img/meta.png') }}"
+                        src="{{ $item->image_url ? $item->image_url : asset('img/meta.webp') }}"
                         class="w-full object-cover group-hover:scale-105 transition duration-700"
                         alt="{{ $item->title }}"
                         loading="lazy"
-                        onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'"
+                        onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
                     >
 
 

@@ -2,7 +2,7 @@
 
 @section('title', 'Publikasi Data | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Katalog berkas publikasi resmi, laporan berkala, dan dokumen infografis dari Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @section('content')
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
@@ -81,11 +81,11 @@
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         alt="{{ $pub->title }}"
                         loading="lazy"
-                        onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'"
+                        onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
                     >
                 @else
                     <img
-                        src="{{ asset('img/meta.png') }}"
+                        src="{{ asset('img/meta.webp') }}"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         alt="{{ $pub->title }}"
                         loading="lazy"

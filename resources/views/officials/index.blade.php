@@ -2,7 +2,7 @@
 
 @section('title', 'Aparatur | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Susunan jajaran aparatur dan perangkat desa yang bertugas dalam penyelenggaraan urusan pemerintahan di bawah Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @push('head')
 <script type="application/ld+json">
@@ -13,13 +13,13 @@
             "@@id": "{{ url('/aparatur') }}#organization",
             "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}",
             "url": "{{ url('/') }}",
-            "logo": "{{ asset('img/sinjai.png') }}",
+            "logo": "{{ asset('img/sinjai.webp') }}",
             "employee": [
                 @foreach($officials as $idx => $official) {
                     "@@type": "Person",
                     "name": "{{ $official->name }}",
                     "jobTitle": "{{ $official->position }}",
-                    "image": "{{ $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.png') }}"
+                    "image": "{{ $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp') }}"
                 }{{ $idx < count($officials) - 1 ? ',' : '' }}
                 @endforeach
             ]
@@ -189,7 +189,7 @@
         <div class="group flex flex-col items-center bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300">
             <div class="relative mb-6">
                 <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 group-hover:ring-emerald-200 transition-all duration-300">
-                    <img src="{{ $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                    <img src="{{ $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp') }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                 </div>
                 <div class="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-md"></div>
             </div>
@@ -491,7 +491,7 @@ document.addEventListener('alpine:init', function () {
 (function () {
     var treeData    = {!! json_encode($tree) !!};
     var storageBase = '/storage';
-    var defaultPhoto = '/img/meta.png';
+    var defaultPhoto = '/img/meta.webp';
 
 
     function buildNode(node) {

@@ -2,7 +2,7 @@
 
 @section('title', 'Dokumen | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Pusat arsip dokumen hukum, peraturan desa, keputusan kepala desa, dan berkas administrasi resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @section('content')
 {{-- ═══════════════════════════════════════════════════════════════════ --}}

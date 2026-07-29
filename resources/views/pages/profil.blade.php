@@ -2,7 +2,7 @@
 
 @section('title', 'Profil | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Profil lengkap sejarah pembentukan, letak geografis, visi dan misi penyelenggaraan pemerintahan Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @section('content')
 

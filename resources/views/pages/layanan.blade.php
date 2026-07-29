@@ -2,7 +2,7 @@
 
 @section('title', 'Layanan Mandiri | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Panduan standar operasional prosedur, persyaratan berkas, dan jenis layanan administrasi kependudukan pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @push('head')
 @if(!$services->isEmpty())

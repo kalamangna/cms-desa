@@ -48,7 +48,7 @@
                 "url": "{{ url('/') }}",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "{{ asset('img/sinjai.png') }}"
+                    "url": "{{ asset('img/sinjai.webp') }}"
                 },
                 "address": {
                     "@type": "PostalAddress",

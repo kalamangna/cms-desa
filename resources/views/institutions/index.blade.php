@@ -2,7 +2,7 @@
 
 @section('title', 'Lembaga | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Profil dan direktori lembaga kemasyarakatan di wilayah Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' yang bermitra dalam pembangunan daerah.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @push('head')
 <script type="application/ld+json">
@@ -14,13 +14,13 @@
             "@id": "{{ url('/lembaga') }}#organization",
             "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}",
             "url": "{{ url('/') }}",
-            "logo": "{{ asset('img/sinjai.png') }}",
+            "logo": "{{ asset('img/sinjai.webp') }}",
             "subOrganization": [
                 @foreach($institutions as $idx => $institution)
                 {
                     "@type": "Organization",
                     "name": "{{ $institution->name }}",
-                    "logo": "{{ $institution->logo ? asset('storage/' . $institution->logo) : asset('img/meta.png') }}"
+                    "logo": "{{ $institution->logo ? asset('storage/' . $institution->logo) : asset('img/meta.webp') }}"
                 }{{ $idx < count($institutions) - 1 ? ',' : '' }}
                 @endforeach
             ]
@@ -84,11 +84,11 @@
             <div class="relative mb-6">
                 <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 group-hover:ring-emerald-200 transition-all duration-300">
                     <img
-                        src="{{ $institution->logo ? asset('storage/' . $institution->logo) : asset('img/meta.png') }}"
+                        src="{{ $institution->logo ? asset('storage/' . $institution->logo) : asset('img/meta.webp') }}"
                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                         alt="{{ $institution->name }}"
                         loading="lazy"
-                        onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                        onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                 </div>
                 {{-- Active indicator dot --}}
                 <div class="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-md"></div>

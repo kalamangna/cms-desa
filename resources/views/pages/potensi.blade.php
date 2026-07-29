@@ -2,7 +2,7 @@
 
 @section('title', 'Potensi | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Katalog potensi unggulan, komoditas, kebudayaan, dan pariwisata pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
-@section('meta_image', asset('img/meta.png'))
+@section('meta_image', asset('img/meta.webp'))
 
 @push('head')
 @if(!$potentials->isEmpty())
@@ -16,7 +16,7 @@
             "@@id": "{{ url('/potensi') }}#potensi-{{ $pot->id }}",
             "name": {!! json_encode($pot->title) !!},
             "description": {!! json_encode(strip_tags($pot->description)) !!},
-            "image": "{{ $pot->image ? asset('storage/' . $pot->image) : asset('img/meta.png') }}",
+            "image": "{{ $pot->image ? asset('storage/' . $pot->image) : asset('img/meta.webp') }}",
             "location": {
                 "@@type": "Place",
                 "name": "Desa {{ $site_settings['village_name'] ?? '' }}"
@@ -104,10 +104,10 @@
                  
                  <!-- Image Header -->
                  <div class="relative aspect-video w-full overflow-hidden bg-slate-100 flex-shrink-0">
-                    <img src="{{ $pot->image ? asset('storage/' . $pot->image) : asset('img/meta.png') }}"
+                    <img src="{{ $pot->image ? asset('storage/' . $pot->image) : asset('img/meta.webp') }}"
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                          alt="{{ $pot->title }}"
-                         onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
+                         onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                     
                     <!-- Floating category badge -->
                     <span class="absolute top-4 left-4 inline-flex items-center text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-xl border backdrop-blur-md shadow-sm
@@ -136,7 +136,7 @@
                             @click="openModal({
                                 title: {{ json_encode($pot->title) }},
                                 category: {{ json_encode($pot->category) }},
-                                image: {{ json_encode($pot->image ? asset('storage/' . $pot->image) : asset('img/meta.png')) }},
+                                image: {{ json_encode($pot->image ? asset('storage/' . $pot->image) : asset('img/meta.webp')) }},
                                 description: {{ json_encode($pot->description) }}
                             })"
                             class="w-full inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 py-3.5 rounded-2xl text-xs font-bold border border-slate-100 hover:border-emerald-100 transition-all duration-300 cursor-pointer">
