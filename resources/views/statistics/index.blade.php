@@ -129,13 +129,14 @@
 
     {{-- Mobile: Dropdown Category Selector --}}
     <div class="md:hidden mb-6">
-        <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Pilih Kategori</label>
+        <label for="stat-category-select" class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Pilih Kategori</label>
         <div class="relative">
             <select
                 x-model="activeTab"
                 @change="onCategoryChange($event.target.value)"
                 class="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-5 py-3.5 pr-10 text-sm font-bold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                id="stat-category-select">
+                id="stat-category-select"
+                aria-label="Pilih Kategori Statistik">
                 @foreach($categories as $category)
                 <option value="{{ $category->slug }}">{{ $category->name }} ({{ $category->indicators->count() }} indikator)</option>
                 @endforeach
@@ -188,11 +189,13 @@
                         @if($dusuns->count() > 0)
                         {{-- Filter Dusun --}}
                         <div class="mb-4">
-                            <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 flex items-center gap-1.5">
+                            <label for="filter-dusun-select" class="block text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 flex items-center gap-1.5">
                                 <i class="fa-solid fa-location-dot text-emerald-500"></i> Filter Dusun
                             </label>
                             <div class="relative">
                                 <select
+                                    id="filter-dusun-select"
+                                    aria-label="Filter Dusun"
                                     name="dusun_id"
                                     @change="onFilterChange()"
                                     x-model="selectedDusun"
@@ -281,7 +284,10 @@
                             {{-- Compare Year --}}
                             @if($allYears->count() > 1)
                             <div class="relative">
-                                <select x-model="compareYear"
+                                <label :for="'compare-year-' + '{{ $category->slug }}'" class="sr-only">Bandingkan Tahun</label>
+                                <select :id="'compare-year-' + '{{ $category->slug }}'"
+                                        aria-label="Bandingkan Tahun"
+                                        x-model="compareYear"
                                         @change="renderChart()"
                                         class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
                                     <option value="none">Bandingkan...</option>
@@ -305,7 +311,10 @@
 
                             {{-- Dropdown Pembanding Dinamis (Sumbu Ke-2) --}}
                             <div class="relative" x-show="compareYear === 'none' && Object.keys(categoryData['{{ $category->slug }}']?.secondaryConfigs || {}).length > 0">
-                                <select x-model="activeSecondaryKey"
+                                <label :for="'secondary-key-' + '{{ $category->slug }}'" class="sr-only">Pembanding Dinamis</label>
+                                <select :id="'secondary-key-' + '{{ $category->slug }}'"
+                                        aria-label="Pembanding Dinamis"
+                                        x-model="activeSecondaryKey"
                                         @change="if (activeSecondaryKey !== 'none') currentType = 'bar'; renderChart()"
                                         class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
                                     <option value="none">Tanpa Pembanding</option>

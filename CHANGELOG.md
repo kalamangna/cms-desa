@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.18] - 2026-07-29
+
+### Fixed
+- **Peningkatan Aksesibilitas (PageSpeed Audit 90+)**:
+  - Menambahkan tag `<label>` & atribut `aria-label` pada elemen pemilih `<select>` di Beranda (`home.blade.php`) dan Halaman Statistik (`statistics/index.blade.php`) untuk mendukung pembaca layar (*screen reader*).
+  - Meningkatkan kontras warna teks footer dari `text-emerald-500` menjadi `text-emerald-400` pada latar belakang gelap (`layouts/app.blade.php`) sesuai standar WCAG AA.
+  - Merapikan hierarki judul footer (`layouts/app.blade.php`) dari `<h4>` menjadi `<h2>` agar navigasi dokumen berurutan secara konsisten.
+
 ## [1.26.17] - 2026-07-29
 
 ### Changed

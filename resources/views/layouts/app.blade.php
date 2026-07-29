@@ -502,33 +502,33 @@
 
                 <!-- Kontak -->
                 <div class="lg:col-span-2">
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-500">Kontak Kami</h4>
+                    <h2 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Kontak Kami</h2>
                     <ul class="space-y-4 text-sm text-slate-400 font-medium">
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-location-dot text-emerald-500 text-xs"></i>
+                                <i class="fa-solid fa-location-dot text-emerald-400 text-xs"></i>
                             </span>
                             <span>{{ $site_settings['village_address'] ?? '-' }}</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-envelope text-emerald-500 text-xs"></i>
+                                <i class="fa-solid fa-envelope text-emerald-400 text-xs"></i>
                             </span>
                             <span class="truncate">{{ $site_settings['village_email'] ?? '-' }}</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-phone text-emerald-500 text-xs"></i>
+                                <i class="fa-solid fa-phone text-emerald-400 text-xs"></i>
                             </span>
                             <span>{{ $site_settings['village_phone'] ?? '-' }}</span>
                         </li>
                         <li class="mt-5 pt-5 border-t border-white/5">
                             <div class="flex items-start gap-3">
                                 <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <i class="fa-regular fa-clock text-emerald-500 text-xs"></i>
+                                    <i class="fa-regular fa-clock text-emerald-400 text-xs"></i>
                                 </span>
                                 <div>
-                                    <span class="block text-xs font-black uppercase tracking-widest text-emerald-500 mb-1">Jam Operasional</span>
+                                    <span class="block text-xs font-black uppercase tracking-widest text-emerald-400 mb-1">Jam Operasional</span>
                                     <span class="text-slate-300 text-sm font-semibold">Senin – Jumat</span><br>
                                     <span class="text-slate-400 text-sm font-medium">08.00 – 16.00 WITA</span>
                                 </div>
@@ -539,7 +539,7 @@
 
                 <!-- Statistik Pengunjung -->
                 <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-500">Statistik Pengunjung</h4>
+                    <h2 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Statistik Pengunjung</h2>
                     @if(isset($visitor_stats))
                     <ul class="space-y-4 text-sm text-slate-400 font-medium">
                         <li class="flex items-center gap-3">
