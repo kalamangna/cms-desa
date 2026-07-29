@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.20] - 2026-07-29
+
+### Fixed
+- **Optimasi Kontras Warna WCAG AA (Target Skor Aksesibilitas 100)**:
+  - Mengubah seluruh aksen teks hijau pada navigasi header (`layouts/app.blade.php`) dan bagian publik beranda (`home.blade.php`) dari `text-emerald-600` menjadi `text-emerald-700` untuk memenuhi standar rasio kontras warna tinggi di atas latar terang.
+
 ## [1.26.19] - 2026-07-29
 
 ### Fixed

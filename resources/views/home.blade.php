@@ -299,11 +299,11 @@
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-emerald-500"></div>
-                    <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
+                    <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Data & <span class="text-emerald-600">Anggaran</span> Desa</h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Data & <span class="text-emerald-700">Anggaran</span> Desa</h2>
             </div>
-            <a href="/statistik" class="inline-flex items-center gap-2 font-bold text-emerald-600 hover:text-emerald-700 transition text-sm group">
+            <a href="/statistik" class="inline-flex items-center gap-2 font-bold text-emerald-700 hover:text-emerald-800 transition text-sm group">
                 Lihat Statistik Lengkap <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
             </a>
         </div>
@@ -328,7 +328,7 @@
                                 <i class="fa-solid fa-chevron-down text-[8px]"></i>
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">{{ date('Y') }}</span>
+                        <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">{{ date('Y') }}</span>
                     </div>
                 </div>                <div class="p-8">
                     @if($lakiLakiCount == 0 && $perempuanCount == 0)
@@ -340,7 +340,7 @@
                     @else
                         <div class="h-72"><div id="populationChart"></div></div>
                     @endif
-                    <a href="/statistik" class="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200">
+                    <a href="/statistik" class="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-200">
                         <i class="fa-solid fa-chart-line"></i> Statistik Lengkap
                     </a>
                 </div>
@@ -401,11 +401,11 @@
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-emerald-500"></div>
-                    <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
+                    <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Kabar & <span class="text-emerald-600">Pengumuman</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Kabar & <span class="text-emerald-700">Pengumuman</span></h2>
             </div>
-            <a href="/berita" class="text-sm font-bold text-slate-600 hover:text-emerald-600 transition flex items-center gap-2 group">
+            <a href="/berita" class="text-sm font-bold text-slate-600 hover:text-emerald-700 transition flex items-center gap-2 group">
                 Semua Berita <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
             </a>
         </div>
@@ -444,10 +444,10 @@
 
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-emerald-600 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
-                            <h4 class="font-heading font-bold text-slate-900 text-base leading-snug group-hover:text-emerald-600 transition line-clamp-2">{{ $post->title }}</h4>
+                            <p class="text-emerald-700 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
+                            <h4 class="font-heading font-bold text-slate-900 text-base leading-snug group-hover:text-emerald-700 transition line-clamp-2">{{ $post->title }}</h4>
                         </div>
-                        <i class="fa-solid fa-arrow-right text-slate-200 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all flex-shrink-0 hidden md:block"></i>
+                        <i class="fa-solid fa-arrow-right text-slate-200 group-hover:text-emerald-700 group-hover:translate-x-1 transition-all flex-shrink-0 hidden md:block"></i>
                     </a>
                     @empty
                         @if(!$featuredPost)
@@ -465,7 +465,7 @@
                 <div class="bg-slate-50 border border-slate-200 rounded-3xl p-7 h-full">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="font-heading font-extrabold text-lg text-slate-900">Pengumuman</h3>
-                        <a href="/pengumuman" class="text-[10px] font-bold text-emerald-600 hover:underline uppercase tracking-widest">Semua</a>
+                        <a href="/pengumuman" class="text-[10px] font-bold text-emerald-700 hover:underline uppercase tracking-widest">Semua</a>
                     </div>
                     <div class="space-y-4">
                         @forelse($announcements as $ann)
@@ -514,14 +514,14 @@
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-emerald-500"></div>
-                    <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi & Arsip</span>
+                    <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi & Arsip</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri & <span class="text-emerald-600">Publikasi</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri & <span class="text-emerald-700">Publikasi</span></h2>
             </div>
             <div class="flex gap-4 items-center">
-                <a href="/galeri" class="text-sm font-bold text-slate-600 hover:text-emerald-600 transition flex items-center gap-2 group">Galeri <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></a>
+                <a href="/galeri" class="text-sm font-bold text-slate-600 hover:text-emerald-700 transition flex items-center gap-2 group">Galeri <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></a>
                 <span class="text-slate-300">|</span>
-                <a href="/publikasi" class="text-sm font-bold text-slate-600 hover:text-emerald-600 transition flex items-center gap-2 group">Publikasi <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></a>
+                <a href="/publikasi" class="text-sm font-bold text-slate-600 hover:text-emerald-700 transition flex items-center gap-2 group">Publikasi <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></a>
             </div>
         </div>
 
@@ -581,8 +581,8 @@
 
                             </div>
                             <div class="flex-1 min-w-0">
-                                <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{{ $pub->type }} · {{ $pub->year }}</span>
-                                <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2 mt-1 mb-3 group-hover:text-emerald-600 transition">{{ $pub->title }}</h4>
+                                <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">{{ $pub->type }} · {{ $pub->year }}</span>
+                                <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2 mt-1 mb-3 group-hover:text-emerald-700 transition">{{ $pub->title }}</h4>
                                 @if($pub->pdf_file)
                                     <a href="{{ asset('storage/' . $pub->pdf_file) }}" target="_blank"
                                        class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-emerald-600 transition">
