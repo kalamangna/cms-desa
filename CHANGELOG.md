@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.49] - 2026-07-29
+
+### Fixed & Configured
+- **Konfigurasi Header Content-Security-Policy (CSP) Web Server LiteSpeed (.htaccess)**:
+  - Menyisipkan aturan `Header set Content-Security-Policy` pada berkas [public/.htaccess](file:///Users/abedzul/Desktop/htdocs/desa-cms/public/.htaccess) dengan direktif `'unsafe-eval'` & `'unsafe-inline'` agar server LiteSpeed/Apache di hosting tidak lagi menimpa atau memblokir eksekusi skrip Alpine.js v3.
+
 ## [1.26.48] - 2026-07-29
 
 ### Optimized & Fixed
