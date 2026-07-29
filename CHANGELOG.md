@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.48] - 2026-07-29
+
+### Optimized & Fixed
+- **Pemuatan Dinamis Embed Player YouTube (`Conditional Iframe Rendering`)**:
+  - Mengubah pemuatan `<iframe>` YouTube pada modal Lightbox Galeri Beranda ([home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php)) dan Galeri Utama ([galleries/index.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/galleries/index.blade.php)) menggunakan kondisi reaktif `x-if="lightboxOpen && currentItem.type === 'video'"`.
+  - Mengeliminasi *request* koneksi latar belakang dan *third-party cookie issues* pada muatan awal (*initial page load*), mempercepat kecepatan muat halaman, dan menghilangkan peringatan Chrome DevTools.
+
 ## [1.26.47] - 2026-07-29
 
 ### Added & Fixed

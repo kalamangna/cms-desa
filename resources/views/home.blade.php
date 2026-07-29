@@ -679,7 +679,7 @@
         >
             {{-- Slider Content --}}
             <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-[200px]">
-                <template x-if="currentItem.type === 'video'">
+                <template x-if="lightboxOpen && currentItem.type === 'video'">
                     <div class="w-[80vw] max-w-4xl aspect-video bg-black relative overflow-hidden">
                         <iframe
                             class="w-full h-full"
