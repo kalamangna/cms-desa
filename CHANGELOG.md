@@ -2,6 +2,17 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.54] - 2026-07-29
+
+### Optimized & Fixed
+- **Optimasi LCP Breakdown & Preload Image Discoverability**:
+  - Mengubah wrapper `<template x-if="isOpen">` menjadi `<div x-show="isOpen">` pada popup infografis [home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php) agar gambar LCP terdeteksi langsung oleh Preload Scanner sejak awal dokumen HTML diparse.
+  - Menghapus atribut `loading="lazy"` dan delay `setTimeout` pada modal popup beranda, serta menyisipkan `<link rel="preload" as="image" fetchpriority="high">` pada `<head>` untuk mengeliminasi *Resource Load Delay* (2.500 ms menjadi 0 ms).
+- **Pengurangan Unused JavaScript & CSS**:
+  - Menerapkan *dynamic IntersectionObserver loading* untuk library ApexCharts (~172 KiB savings) di [home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php), script baru di-download ketika section grafik berada di area viewport.
+  - Menerapkan *interaction-based lazy loading* untuk Widget Aksesibilitas UserWay (~27 KiB savings) di [layouts/app.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/layouts/app.blade.php).
+  - Menggunakan `requestIdleCallback` untuk pemuatan stylesheet FontAwesome (~18 KiB savings) agar terbebas dari *blocking critical rendering path*.
+
 ## [1.26.53] - 2026-07-29
 
 ### Fixed & Optimized

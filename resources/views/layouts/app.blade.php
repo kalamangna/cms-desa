@@ -160,21 +160,48 @@
     <noscript>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     </noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" media="print" onload="this.media='all'">
+    <script>
+        (function() {
+            function loadFA() {
+                var l = document.createElement('link');
+                l.rel = 'stylesheet';
+                l.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css';
+                document.head.appendChild(l);
+            }
+            if (window.requestIdleCallback) {
+                requestIdleCallback(loadFA);
+            } else {
+                setTimeout(loadFA, 1500);
+            }
+        })();
+    </script>
     <noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     </noscript>
+    @if(app()->environment('production') && file_exists(public_path('build/manifest.json')))
+        @php
+            $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+            $cssFile = $manifest['resources/css/app.css']['file'] ?? null;
+        @endphp
+        @if($cssFile)
+            <link rel="preload" as="style" href="{{ asset('build/' . $cssFile) }}" fetchpriority="high">
+        @endif
+    @endif
 
     <!-- Scripts & Styles -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         @font-face {
             font-family: 'Font Awesome 6 Free';
-            font-display: swap;
+            font-display: swap !important;
         }
         @font-face {
             font-family: 'Font Awesome 6 Brands';
-            font-display: swap;
+            font-display: swap !important;
+        }
+        @font-face {
+            font-family: 'Font Awesome 6 Regular';
+            font-display: swap !important;
         }
 
         [x-cloak] {
@@ -594,8 +621,25 @@
     </footer>
 
     @if(!empty($site_settings['userway_widget_id']))
-    <!-- UserWay Accessibility Widget -->
-    <script>(function(d){var s = d.createElement("script");s.setAttribute("data-account", "{{ $site_settings['userway_widget_id'] }}");s.setAttribute("src", "https://cdn.userway.org/widget.js");(d.body || d.head).appendChild(s);})(document);</script>
+    <!-- UserWay Accessibility Widget (Lazy Loaded on User Interaction) -->
+    <script>
+    (function() {
+        let loaded = false;
+        function loadUserWay() {
+            if (loaded) return;
+            loaded = true;
+            var s = document.createElement("script");
+            s.setAttribute("data-account", "{{ $site_settings['userway_widget_id'] }}");
+            s.setAttribute("src", "https://cdn.userway.org/widget.js");
+            (document.body || document.head).appendChild(s);
+        }
+        const events = ['mousemove', 'touchstart', 'keydown', 'scroll'];
+        events.forEach(function(e) {
+            window.addEventListener(e, loadUserWay, { once: true, passive: true });
+        });
+        setTimeout(loadUserWay, 4000);
+    })();
+    </script>
     @endif
 
     @stack('scripts')

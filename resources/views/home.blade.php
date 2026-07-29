@@ -18,6 +18,10 @@
 @endphp
 
 @if(!empty($popups))
+@push('head')
+    <link rel="preload" as="image" href="{{ asset('storage/' . $popups[0]['image']) }}" fetchpriority="high">
+@endpush
+
 <div x-data="{ 
         isOpen: false,
         activeSlide: 0,
@@ -29,10 +33,8 @@
         init() {
             const hasShown = sessionStorage.getItem('home_popup_shown_session');
             if (!hasShown) {
-                setTimeout(() => {
-                    this.isOpen = true;
-                    document.body.classList.add('sotk-modal-open');
-                }, 1000);
+                this.isOpen = true;
+                document.body.classList.add('sotk-modal-open');
             }
         },
         closePopup() {
@@ -81,20 +83,19 @@
 
         <!-- Slides Wrapper -->
         <div class="relative overflow-hidden bg-slate-950 select-none flex items-center justify-center">
-            <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
-                 :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
-                
-                @foreach($popups as $popup)
-                <div class="w-full flex-shrink-0 flex items-center justify-center min-w-full">
-                    <img src="{{ asset('storage/' . $popup['image']) }}" 
-                         class="w-full h-auto max-h-[65vh] md:max-h-[70vh] object-contain"
-                         alt="{{ $popup['title'] ?? 'Infografis Beranda' }}"
-                         width="600"
-                         height="800"
-                         loading="lazy">
+                <div x-show="isOpen" class="relative flex transition-transform duration-500 ease-out h-full w-full"
+                     :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
+                    @foreach($popups as $index => $popup)
+                    <div class="w-full flex-shrink-0 flex items-center justify-center min-w-full">
+                        <img src="{{ asset('storage/' . $popup['image']) }}" 
+                             class="w-full h-auto max-h-[65vh] md:max-h-[70vh] object-contain"
+                             alt="{{ $popup['title'] ?? 'Infografis Beranda' }}"
+                             width="600"
+                             height="800"
+                             @if($loop->first) fetchpriority="high" decoding="async" @else loading="lazy" @endif>
+                    </div>
+                    @endforeach
                 </div>
-                @endforeach
-            </div>
 
             @if(count($popups) > 1)
             <!-- Navigation Arrow Left -->
@@ -714,9 +715,12 @@
 @endsection
 
 @push('scripts')
-<script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    let apexChartsLoaded = false;
+    let currentPopChart = null;
+    let chartBudget = null;
+
     // Data demografi terenkripsi dari server
     const genderData = [
         { label: 'Laki-laki', value: {{ (int)($lakiLakiCount ?? 0) }} },
@@ -725,6 +729,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const jobData = {!! json_encode($jobData->map(fn($item) => ['label' => $item->name ?: 'Tidak Diketahui', 'value' => (int)$item->total])->toArray()) !!};
     const eduData = {!! json_encode($eduData->map(fn($item) => ['label' => $item->name ?: 'Tidak Diketahui', 'value' => (int)$item->total])->toArray()) !!};
+
+    function loadApexCharts(callback) {
+        if (window.ApexCharts) {
+            callback();
+            return;
+        }
+        if (apexChartsLoaded) return;
+        apexChartsLoaded = true;
+
+        const script = document.createElement('script');
+        script.src = "https://cdn.jsdelivr.net/npm/apexcharts";
+        script.async = true;
+        script.onload = callback;
+        document.head.appendChild(script);
+    }
+
+    function initCharts() {
+        loadApexCharts(function() {
+            renderDemografiChart('gender');
+            renderBudgetChart();
+        });
+    }
+
+    // Lazy load charts using IntersectionObserver
+    const chartTarget = document.getElementById('populationChart') || document.getElementById('budgetChart');
+    if (chartTarget) {
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        initCharts();
+                        obs.disconnect();
+                    }
+                });
+            }, { rootMargin: '200px 0px' });
+            observer.observe(chartTarget);
+        } else {
+            initCharts();
+        }
+    }
 
     // Urutkan data descending
     jobData.sort((a, b) => b.value - a.value);
@@ -839,20 +883,12 @@ document.addEventListener('DOMContentLoaded', function () {
         currentPopChart.render();
     }
 
-    // Inisialisasi awal
-    renderDemografiChart('gender');
+    let elBudget = null;
 
-    // Listener switch dropdown
-    const selectHomeChart = document.getElementById('homeChartType');
-    if (selectHomeChart) {
-        selectHomeChart.addEventListener('change', function(e) {
-            renderDemografiChart(e.target.value);
-        });
-    }
+    function renderBudgetChart() {
+        elBudget = document.getElementById('budgetRingChart');
+        if (!elBudget || !window.ApexCharts) return;
 
-    // Budget Donut
-    const elBudget = document.getElementById('budgetRingChart');
-    if (elBudget) {
         const optionsBudget = {
             chart: {
                 type: 'donut',
@@ -912,8 +948,25 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
 
-        const chartBudget = new ApexCharts(elBudget, optionsBudget);
+        if (chartBudget) {
+            chartBudget.destroy();
+        }
+        chartBudget = new ApexCharts(elBudget, optionsBudget);
         chartBudget.render();
+    }
+
+    // Listener switch dropdown
+    const selectHomeChart = document.getElementById('homeChartType');
+    if (selectHomeChart) {
+        selectHomeChart.addEventListener('change', function(e) {
+            if (window.ApexCharts) {
+                renderDemografiChart(e.target.value);
+            } else {
+                loadApexCharts(function() {
+                    renderDemografiChart(e.target.value);
+                });
+            }
+        });
     }
 });
 </script>
