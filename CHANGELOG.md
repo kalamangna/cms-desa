@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.21] - 2026-07-29
+
+### Changed
+- **Kompilasi Aset Frontend & Panduan Gemini Agent**:
+  - Menjalankan `npm run build` (Vite) untuk menghasilkan bundle kompilasi CSS & JS produksi terbaru (`public/build/assets`).
+  - Memperbarui aturan kerja `GEMINI.md` terkait kewajiban kompilasi CSS sebelum melakukan `git push`.
+
 ## [1.26.20] - 2026-07-29
 
 ### Fixed
