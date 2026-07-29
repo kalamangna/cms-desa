@@ -58,7 +58,7 @@
      @keydown.escape.window="closePopup()"
      @click="closePopup()"
      class="fixed inset-0 z-[9999] bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
-     role="dialog" aria-modal="true">
+     role="dialog" aria-modal="true" aria-labelledby="popup-infographic-title">
     
     <!-- Modal Container -->
     <div @click.stop
@@ -122,7 +122,7 @@
         <!-- Modal Footer -->
         <div class="p-5 text-center bg-white border-t border-slate-100 flex items-center justify-between gap-4">
             <div class="flex flex-col text-left min-w-0">
-                <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
+                <span id="popup-infographic-title" class="text-[10px] font-black uppercase tracking-wider text-emerald-700">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
                 <span class="text-sm font-bold text-slate-800 mt-0.5 line-clamp-1" x-show="activeSlideTitle" x-text="activeSlideTitle"></span>
             </div>
             <button type="button" @click="closePopup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl border border-slate-200 transition flex-shrink-0 focus:outline-none cursor-pointer">

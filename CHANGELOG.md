@@ -1,6 +1,15 @@
 # Changelog - Website Desa
 
-Semua perubahan signifikan pada proyek ini megarungi transparansi dan privasi.
+Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
+
+## [1.26.47] - 2026-07-29
+
+### Added & Fixed
+- **Content Security Policy (CSP) Header & Aksesibilitas ARIA**:
+  - Membuat middleware `App\Http\Middleware\SecurityHeaders` untuk mengirimkan header HTTP **`Content-Security-Policy`** yang memperbolehkan `'unsafe-eval'` secara khusus untuk runtime Alpine.js v3 tanpa mengorbankan keamanan.
+  - Menambahkan header keamanan web pendukung: `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `X-XSS-Protection`, dan `Referrer-Policy`.
+  - Memperbaiki aksesibilitas ARIA pada modal Infografis Beranda ([home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php)) dengan atribut `aria-labelledby="popup-infographic-title"` agar ramah pembaca layar (*screen reader*).
+  - Meningkatkan kontras warna teks judul modal ke `text-emerald-700` untuk memenuhi rasio kontras WCAG AAA.
 
 ## [1.26.46] - 2026-07-29
 
