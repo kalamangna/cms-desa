@@ -255,15 +255,17 @@
 
         {{-- PANEL: LACAK PERMOHONAN --}}
         <div x-show="showLacak" class="space-y-8 animate-in fade-in duration-300" x-cloak>
-            <div class="bg-white rounded-[32px] p-8 border border-slate-100 shadow-xl max-w-2xl mx-auto">
-                <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Lacak Status Permohonan</h3>
-                <p class="text-slate-400 text-xs mb-6">Masukkan nomor tiket Anda di bawah ini.</p>
+            <div class="bg-white rounded-[40px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50 mb-8 max-w-4xl mx-auto">
+                <div class="mb-8">
+                    <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Lacak Status Permohonan</h3>
+                    <p class="text-slate-400 text-sm">Masukkan nomor tiket Anda di bawah ini.</p>
+                </div>
                 <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-4">
-                    <div class="flex-grow">
+                    <div class="flex-grow relative">
                         <input type="text" x-model="ticket" placeholder="SRV-XXXXXXXX-XXXX" required
-                               class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 font-mono font-bold text-slate-800 placeholder-slate-300 outline-none text-sm transition">
+                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 font-mono font-bold text-slate-800 placeholder-slate-300 outline-none transition">
                     </div>
-                    <button type="submit" :disabled="loading" class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-8 py-3.5 rounded-2xl font-bold transition text-sm flex items-center justify-center gap-2">
+                    <button type="submit" :disabled="loading" class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-8 py-4.5 rounded-2xl font-bold transition flex items-center justify-center gap-2">
                         <template x-if="loading">
                             <i class="fa-solid fa-spinner animate-spin"></i>
                         </template>
@@ -278,7 +280,7 @@
             {{-- Tracking Results (Real-time Rendered) --}}
             <div x-show="searched" x-transition:enter="transition ease-out duration-300">
                 <template x-if="result && result.found">
-                    <div class="bg-white rounded-[40px] border border-slate-100 shadow-2xl p-8 md:p-12 space-y-6 max-w-2xl mx-auto">
+                    <div class="bg-white rounded-[40px] border border-slate-100 shadow-2xl shadow-slate-200/50 p-8 md:p-12 space-y-6 max-w-4xl mx-auto">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-slate-100">
                             <div>
                                 <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Nomor Tiket</span>

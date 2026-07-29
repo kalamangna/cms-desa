@@ -43,11 +43,9 @@
 {{-- ===================== SECTION 1: SEJARAH DESA ===================== --}}
 <section class="bg-white py-16 md:py-20 lg:py-28">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center gap-3 mb-4">
-            <div class="h-px w-8 bg-emerald-500"></div>
-            <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Asal Usul</span>
+        <div class="mb-8">
+            <h2 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Sejarah Desa</h2>
         </div>
-        <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-8">Sejarah Desa</h2>
         <div class="prose prose-emerald max-w-none text-slate-600 leading-relaxed font-medium">
             @if(!empty(trim(strip_tags($site_settings['village_history'] ?? ''))))
                 {!! $site_settings['village_history'] !!}
@@ -65,12 +63,9 @@
 {{-- ===================== SECTION 2: VISI & MISI ===================== --}}
 <section class="bg-slate-50 py-16 md:py-20 lg:py-28 border-y border-slate-100">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center gap-3 mb-4 justify-center">
-            <div class="h-px w-8 bg-emerald-500"></div>
-            <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Arah Pembangunan</span>
-            <div class="h-px w-8 bg-emerald-500"></div>
+        <div class="mb-12 text-center">
+            <h2 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Visi &amp; Misi</h2>
         </div>
-        <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-12 text-center">Visi &amp; Misi</h2>
 
         {{-- Visi Card --}}
         @if(!empty(trim(strip_tags($site_settings['village_vision'] ?? ''))))
@@ -131,12 +126,9 @@
 {{-- ===================== SECTION 3: KARAKTERISTIK WILAYAH ===================== --}}
 <section class="bg-white py-16 md:py-20 lg:py-28">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center gap-3 mb-4 justify-center">
-            <div class="h-px w-8 bg-emerald-500"></div>
-            <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Data Wilayah</span>
-            <div class="h-px w-8 bg-emerald-500"></div>
+        <div class="mb-12 text-center">
+            <h2 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Karakteristik Wilayah</h2>
         </div>
-        <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-12 text-center">Karakteristik Wilayah</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {{-- Luas Wilayah --}}
@@ -180,19 +172,7 @@
             </div>
         </div>
 
-        {{-- CTA to Statistik --}}
-        <div class="bg-slate-900 rounded-[40px] p-10 md:p-16 text-white text-center relative overflow-hidden shadow-2xl shadow-slate-900/20">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none"></div>
-            <div class="relative z-10">
-                <i class="fa-solid fa-chart-bar text-emerald-400 text-4xl mb-6"></i>
-                <h3 class="text-2xl md:text-3xl font-heading font-extrabold mb-4">Data Statistik Lengkap</h3>
-                <p class="text-slate-400 leading-relaxed mb-8 max-w-xl mx-auto">Lihat data kependudukan, ekonomi, dan pembangunan desa yang lebih komprehensif di halaman statistik kami.</p>
-                <a href="/statistik" class="inline-flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-2xl transition shadow-xl shadow-emerald-900/40">
-                    <i class="fa-solid fa-chart-line"></i>
-                    Lihat Statistik Detail
-                </a>
-            </div>
-        </div>
+
     </div>
 </section>
 

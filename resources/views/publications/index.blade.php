@@ -49,12 +49,9 @@
     {{-- ─── Header Statistik ─── --}}
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-14">
         <div>
-            <div class="flex items-center gap-3 mb-4"><div class="h-px w-8 bg-emerald-500"></div><span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Perpustakaan Digital</span></div>
-            <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900">
-                Semua Publikasi
-            </h2>
-            <p class="text-slate-500 font-medium mt-2">
-                Tersedia <span class="text-emerald-600 font-bold">{{ $publications->total() }}</span> dokumen publikasi
+            <h3 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Semua Publikasi</h3>
+            <p class="text-slate-500 text-sm">
+                Tersedia <span class="text-emerald-600 font-bold">{{ $publications->total() }}</span> dokumen publikasi.
             </p>
         </div>
         <div class="flex-shrink-0 hidden sm:flex items-center gap-3 bg-emerald-50 border border-emerald-100 rounded-2xl px-6 py-4">

@@ -49,12 +49,9 @@
     {{-- ─── Header Statistik ─── --}}
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
         <div>
-            <div class="flex items-center gap-3 mb-4"><div class="h-px w-8 bg-emerald-500"></div><span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Arsip Resmi</span></div>
-            <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900">
-                Daftar Dokumen
-            </h2>
-            <p class="text-slate-500 font-medium mt-2">
-                Ditemukan <span class="text-emerald-600 font-bold">{{ $documents->total() }}</span> dokumen tersedia
+            <h3 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Semua Dokumen</h3>
+            <p class="text-slate-500 text-sm">
+                Ditemukan <span class="text-emerald-600 font-bold">{{ $documents->total() }}</span> dokumen tersedia.
             </p>
         </div>
         {{-- Stat Badge --}}

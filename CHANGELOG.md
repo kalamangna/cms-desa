@@ -2,7 +2,18 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
-## [1.26.57] - 2026-07-30
+## [1.26.58] - 2026-07-30
+
+### Changed
+- **Penyederhanaan UI & Penghapusan CTA Publik**:
+  - Mengubah judul "Daftar Dokumen" menjadi "Semua Dokumen" di halaman Dokumen.
+  - Menghapus 3 sub-heading penjelas di halaman Profil Desa.
+  - Menambahkan cuplikan (snippet) potongan isi berita di card berita pada halaman Beranda.
+  - Menghapus card/banner CTA "Data Statistik Lengkap" di halaman Profil Desa.
+  - Menghapus card/banner CTA "Profesional, Akuntabel, dan Transparan" di halaman Aparatur.
+  - Menghapus card/banner CTA "Bersama Membangun Desa" di halaman Lembaga.
+  - Menghapus card/banner CTA "Punya Pertanyaan Mengenai Anggaran?" di halaman APBDes.
+  - Menyesuaikan proporsi ukuran form pencarian pada fitur Lacak Layanan agar seragam dan konsisten dengan form Lacak Pengaduan (lebar maksimal proporsional).
 
 ### Changed
 - **Penyederhanaan UI Halaman Layanan, Pengaduan, dan Buku Tamu**:

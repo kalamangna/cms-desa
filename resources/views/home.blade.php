@@ -474,7 +474,8 @@
                         </div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <p class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">{{ $featuredPost->published_at->translatedFormat('d M Y') }}</p>
-                            <h3 class="text-white font-heading font-extrabold text-xl md:text-2xl leading-snug line-clamp-2 group-hover:text-emerald-300 transition">{{ $featuredPost->title }}</h3>
+                            <h3 class="text-white font-heading font-extrabold text-xl md:text-2xl leading-snug line-clamp-2 group-hover:text-emerald-300 transition mb-2">{{ $featuredPost->title }}</h3>
+                            <p class="text-white/80 text-sm line-clamp-2 hidden md:block">{!! Str::limit(strip_tags($featuredPost->content), 120) !!}</p>
                         </div>
                     </div>
                 </a>
@@ -493,7 +494,8 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-emerald-700 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
-                            <h4 class="font-heading font-bold text-slate-900 text-base leading-snug group-hover:text-emerald-700 transition line-clamp-2">{{ $post->title }}</h4>
+                            <h4 class="font-heading font-bold text-slate-900 text-base leading-snug group-hover:text-emerald-700 transition line-clamp-2 mb-1.5">{{ $post->title }}</h4>
+                            <p class="text-slate-500 text-xs line-clamp-2">{!! Str::limit(strip_tags($post->content), 100) !!}</p>
                         </div>
                         <i class="fa-solid fa-arrow-right text-slate-200 group-hover:text-emerald-700 group-hover:translate-x-1 transition-all flex-shrink-0 hidden md:block"></i>
                     </a>

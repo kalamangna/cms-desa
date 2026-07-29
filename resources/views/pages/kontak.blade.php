@@ -80,10 +80,7 @@
 
         {{-- ========== LEFT: Info Kontak + Sosmed ========== --}}
         <div class="space-y-6">
-            <div>
-                <div class="flex items-center gap-3 mb-4"><div class="h-px w-8 bg-emerald-500"></div><span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Informasi Kontak</span></div>
-                <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-8">Saluran Layanan</h2>
-            </div>
+
 
             {{-- Alamat --}}
             <div class="flex items-start gap-5 bg-white rounded-[24px] p-6 border border-slate-100 shadow-md shadow-slate-200/40 hover:shadow-emerald-100/40 hover:border-emerald-200 transition-all duration-300">

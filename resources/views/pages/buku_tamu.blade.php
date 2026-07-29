@@ -40,7 +40,7 @@
 </div>
 
 {{-- ===================== FORM SECTION ===================== --}}
-<div class="max-w-4xl mx-auto px-4 py-16 md:py-24">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
     <div class="bg-white rounded-[40px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50">
         
         {{-- Success Modal Popup --}}

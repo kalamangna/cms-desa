@@ -104,32 +104,7 @@
     </div>
     @endif
 
-    {{-- ===================== MOTTO BANNER ===================== --}}
-    <div class="mt-24 md:mt-32 bg-emerald-600 rounded-[48px] md:rounded-[60px] p-12 md:p-24 text-white text-center relative overflow-hidden shadow-2xl shadow-emerald-200/50">
-        <div class="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 w-64 h-64 bg-emerald-800/30 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl pointer-events-none"></div>
-        <div class="relative z-10">
-            <div class="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center text-2xl mx-auto mb-8">
-                <i class="fa-solid fa-people-group"></i>
-            </div>
-            <h2 class="text-3xl md:text-5xl font-heading font-extrabold mb-6 italic">
-                "Bersama Membangun Desa"
-            </h2>
-            <p class="text-emerald-100 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-                Lembaga kemasyarakatan desa adalah mitra strategis pemerintah desa dalam mewujudkan pembangunan yang partisipatif, transparan, dan berkelanjutan.
-            </p>
-            <div class="mt-10 flex flex-wrap gap-4 justify-center">
-                <a href="/aparatur" class="inline-flex items-center gap-2 bg-white text-emerald-700 px-8 py-4 rounded-2xl font-bold text-sm hover:bg-emerald-50 transition shadow-xl shadow-emerald-800/20">
-                    <i class="fa-solid fa-users"></i>
-                    Aparatur Desa
-                </a>
-                <a href="/kontak" class="inline-flex items-center gap-2 bg-emerald-700/60 border border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-sm hover:bg-emerald-700 transition">
-                    <i class="fa-solid fa-phone"></i>
-                    Hubungi Kami
-                </a>
-            </div>
-        </div>
-    </div>
+
 
 </div>
 @endsection

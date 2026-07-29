@@ -390,33 +390,7 @@
     @endif
 </div>
 
-{{-- ═══════════════════════════════════════════════════════
-     INFO BANNER CTA
-═══════════════════════════════════════════════════════ --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
-    <div class="bg-slate-900 rounded-[60px] p-12 md:p-20 text-white relative overflow-hidden
-                text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-12
-                shadow-2xl shadow-slate-900/40">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <div class="absolute bottom-0 left-20 w-64 h-64 bg-sky-500/5 rounded-full blur-3xl translate-y-1/2"></div>
-        <div class="relative z-10 max-w-2xl">
-            <h3 class="text-3xl md:text-4xl font-heading font-extrabold mb-6">
-                Punya Pertanyaan Mengenai Anggaran?
-            </h3>
-            <p class="text-slate-400 text-lg leading-relaxed">
-                Kami sangat menghargai partisipasi warga dalam mengawasi pembangunan desa.
-                Sampaikan masukan atau pertanyaan Anda melalui kanal aspirasi kami.
-            </p>
-        </div>
-        <a href="/kontak"
-           class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-2xl
-                  transition relative z-10 shadow-xl shadow-emerald-900/20
-                  flex-shrink-0 flex items-center gap-3">
-            <i class="fa-solid fa-paper-plane"></i>
-            Hubungi Kami
-        </a>
-    </div>
-</div>
+
 @endsection
 
 @push('scripts')

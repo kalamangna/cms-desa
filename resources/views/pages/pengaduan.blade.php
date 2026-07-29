@@ -41,7 +41,7 @@
 
 {{-- ===================== TABS WRAPPER ===================== --}}
 {{-- ===================== TABS WRAPPER ===================== --}}
-<div class="max-w-4xl mx-auto px-4 py-16 md:py-24"
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28"
      x-data="{
          activeTab: '{{ isset($complaint) || isset($searched_ticket) ? 'lacak' : 'kirim' }}',
          ticket: '{{ $searched_ticket ?? '' }}',
