@@ -130,6 +130,8 @@
                 <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.png') }}"
                      class="w-full h-full object-cover"
                      alt="{{ $post->title }}"
+                     loading="eager"
+                     fetchpriority="high"
                      onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
             </div>
 

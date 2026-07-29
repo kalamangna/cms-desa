@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.17] - 2026-07-29
+
+### Changed
+- **Optimasi Performa PageSpeed & Cache Header**:
+  - Menambahkan aturan `Cache-Control: max-age=31536000, public` pada `public/.htaccess` untuk mempercepat pemuatan aset statis (gambar, CSS, JS, font) di browser pengunjung.
+  - Menambahkan `loading="eager"` dan `fetchpriority="high"` pada foto Kepala Desa di Beranda Hero (`home.blade.php`), featured image artikel (`posts/show.blade.php`), dan berita utama (`posts/index.blade.php`) untuk menurunkan skor LCP (*Largest Contentful Paint*).
+
 ## [1.26.16] - 2026-07-29
 
 ### Added

@@ -175,6 +175,8 @@
                         <img src="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.png') }}"
                              class="w-full h-full object-cover object-top"
                              alt="Foto {{ $villageHead?->name ?? 'Kepala Desa' }}"
+                             loading="eager"
+                             fetchpriority="high"
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
                         {{-- Overlay gradient bawah --}}
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
