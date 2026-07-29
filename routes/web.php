@@ -91,8 +91,5 @@ Route::get('/init', function () {
     
     $copyRecursive($src, $dst);
     
-    // Jalankan kompresi foto otomatis untuk foto lama
-    \Illuminate\Support\Facades\Artisan::call('media:optimize-images');
-    
-    return "Berhasil menyalin data dummy & media ke folder fisik public/storage serta mengompresi foto lama!";
+    return "Berhasil menyalin data dummy & media ke folder fisik public/storage!";
 })->middleware('auth');

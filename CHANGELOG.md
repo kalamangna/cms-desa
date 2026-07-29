@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.24] - 2026-07-29
+
+### Removed
+- **Pembersihan Perintah Kompresi Gambar Redundan**:
+  - Menghapus perintah `media:optimize-images` dan pemanggilannya dari `deploy.sh` serta rute `/init` (`web.php`) karena proses kompresi & *resize* gambar sudah secara otomatis dan efisien ditangani oleh komponen Filament Upload (`imageResizeTargetWidth` & `maxSize`) pada saat berkas diunggah.
+
 ## [1.26.23] - 2026-07-29
 
 ### Fixed
