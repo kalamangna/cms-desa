@@ -118,7 +118,7 @@
     /* ─── Node Card ─── */
     .oc-card { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; background: #fff; border: 2px solid #e2e8f0; border-radius: 20px; padding: 14px 10px 10px; width: 148px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: box-shadow 0.2s, transform 0.2s; cursor: default; }
     .oc-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
-    .oc-photo { width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid #e2e8f0; flex-shrink: 0; background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .oc-photo { width: 60px; height: 60px; border-radius: 12px; overflow: hidden; border: 2px solid #e2e8f0; flex-shrink: 0; background-size: cover; background-position: center; background-repeat: no-repeat; }
 
     .oc-name { font-size: 13px; font-weight: 700; color: #0f172a; line-height: 1.15; font-family: 'Poppins', sans-serif; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; }
     .oc-pos { font-size: 11px; font-weight: 600; color: #475569; line-height: 1.15; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; }
@@ -188,7 +188,7 @@
         @foreach($officials as $official)
         <div class="group flex flex-col items-center bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300">
             <div class="relative mb-6">
-                <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 group-hover:ring-emerald-200 transition-all duration-300">
+                <div class="w-28 h-28 md:w-36 md:h-36 rounded-2xl overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 group-hover:ring-emerald-200 transition-all duration-300">
                     <img src="{{ $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp') }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                 </div>
                 <div class="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-md"></div>

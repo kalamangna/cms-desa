@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.38] - 2026-07-29
+
+### Changed
+- **Pembaruan Desain Frame Foto Aparatur Desa**:
+  - Mengubah bentuk frame foto aparatur pada grid kartu utama dan diagram SOTK ([officials/index.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/officials/index.blade.php)) dari bundar (`rounded-full`) menjadi kotak melengkung (`rounded-2xl` / `12px`).
+
 ## [1.26.37] - 2026-07-29
 
 ### Removed
