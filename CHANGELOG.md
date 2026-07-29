@@ -1,6 +1,15 @@
 # Changelog - Website Desa
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
+
+## [1.26.42] - 2026-07-29
+
+### Fixed
+- **Perbaikan Garis Penghubung Diagram SOTK**:
+  - Menghapus properti `overflow: hidden` pada elemen kartu `.oc-card` agar garis vertikal penghubung (`::before` & `::after`) tidak terpotong.
+  - Memindahkan `overflow: hidden` ke elemen pembungkus foto (`.oc-photo`) dengan kelengkungan sudut atas (`rounded-t-2xl` / `16px`).
+  - Memperbarui skrip `renderOcTree` agar merender seluruh node tingkat teratas (root nodes) secara dinamis.
+
 ## [1.26.41] - 2026-07-29
 
 ### Added & Fixed
