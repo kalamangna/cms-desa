@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.56] - 2026-07-30
+
+### Optimized
+- **Peningkatan Umur Cache (Cache TTL) pada CDN**:
+  - Mengunci versi Alpine.js ke spesifik versi `@3.14.1` (dari sebelumnya dinamis `@3.x.x`) pada file `layouts/app.blade.php`. Hal ini memungkinkan CDN jsDelivr memberikan kebijakan *Cache-Control* maksimal selama 1 tahun (sebelumnya hanya 7 hari karena penggunaan tag dinamis), sehingga menyelesaikan peringatan Lighthouse *"Use efficient cache lifetimes"*.
+
 ## [1.26.55] - 2026-07-29
 
 ### Fixed & Optimized

@@ -207,7 +207,7 @@
     @endif
 
     <!-- Scripts & Styles -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
     <style>
         /*
          * Override FontAwesome CDN font-display:block → swap
