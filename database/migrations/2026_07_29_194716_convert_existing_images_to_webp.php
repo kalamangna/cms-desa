@@ -107,7 +107,7 @@ return new class extends Migration
                 }
 
                 try {
-                    // Ganti ekstensi .jpg, .jpeg, .png di database ke .webp jika berkas webp fisiknya ada atau diganti
+                    // Hanya ganti ekstensi .jpg, .jpeg, .png di database ke .webp JIKA file .webp fisiknya benar-benar ada di storage
                     DB::table($table)
                         ->where($column, 'LIKE', '%.jpg')
                         ->orWhere($column, 'LIKE', '%.jpeg')
@@ -119,9 +119,13 @@ return new class extends Migration
 
                                 $newValue = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $oldValue);
                                 if ($newValue !== $oldValue) {
-                                    DB::table($table)
-                                        ->where('id', $row->id)
-                                        ->update([$column => $newValue]);
+                                    $fullWebpPath = storage_path('app/public/' . ltrim($newValue, '/'));
+                                    // Pastikan file .webp fisiknya memang tersedia di server sebelum mengupdate DB
+                                    if (file_exists($fullWebpPath)) {
+                                        DB::table($table)
+                                            ->where('id', $row->id)
+                                            ->update([$column => $newValue]);
+                                    }
                                 }
                             }
                         });

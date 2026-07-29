@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.30] - 2026-07-29
+
+### Fixed
+- **Validasi Keberadaan Berkas Fisik & Sinkronisasi Storage (Pencegahan 404)**:
+  - Menambahkan pengondisian `file_exists` pada migrasi `2026_07_29_194716_convert_existing_images_to_webp.php` sehingga nama berkas di database **hanya diubah ke .webp jika file fisiknya benar-benar tersedia** di server.
+  - Memperbarui `deploy.sh` dengan perintah penyalinan otomatis dari `storage/app/public/` ke `public/storage/` fisik hosting untuk memastikan ketersediaan berkas WebP baru di production.
+
 ## [1.26.29] - 2026-07-29
 
 ### Added & Optimized
