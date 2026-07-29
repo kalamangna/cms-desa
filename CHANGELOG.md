@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.16] - 2026-07-29
+
+### Added
+- **Normalisasi Otomatis Import Excel (Keluarga & Penduduk)**: Menambahkan method parser normalisasi pada `ListFamilies` dan `ListCitizens` untuk merapikan seluruh isi teks pilihan *dropdown* (misal: jenis bangunan, bahan atap/dinding/lantai, kondisi fisik, fasilitas toilet, sumber air/listrik, daya listrik, BPJS, domisili, keberadaan, dll.) sebelum disimpan ke database agar konsisten dengan Filament Form Select options.
+- **Migration Data Cleanup (Batch Normalization)**: Menambahkan berkas migrasi `2026_07_29_170000_batch_normalize_existing_families_and_citizens_data.php` untuk merapikan dan menyeragamkan data lama yang sudah terlanjur diunggah di database tanpa perlu mengunggah ulang berkas Excel.
+
 ## [1.26.15] - 2026-07-28
 
 ### Added

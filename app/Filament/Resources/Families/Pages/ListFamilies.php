@@ -239,25 +239,25 @@ class ListFamilies extends ListRecords
                                 'family_member_count' => $colMemberCount !== false && isset($row[$colMemberCount]) && trim($row[$colMemberCount]) !== ''
                                     ? (trim($row[$colMemberCount]) === '>1' ? 2 : max(1, intval(trim($row[$colMemberCount]))))
                                     : 1,
-                                'building_type' => $colBuildingType !== false ? trim($row[$colBuildingType]) : null,
+                                'building_type' => $colBuildingType !== false ? $this->parseBuildingType($row[$colBuildingType]) : null,
                                 'ownership_status' => $colOwnership !== false ? $this->parseOwnershipStatus($row[$colOwnership]) : null,
-                                'ownership_proof' => $colProof !== false ? trim($row[$colProof]) : null,
+                                'ownership_proof' => $colProof !== false ? $this->parseOwnershipProof($row[$colProof]) : null,
                                 'floor_area' => $colFloorArea !== false ? floatval(trim($row[$colFloorArea])) : null,
-                                'floor_material' => $colFloorMat !== false ? trim($row[$colFloorMat]) : null,
-                                'wall_material' => $colWallMat !== false ? trim($row[$colWallMat]) : null,
-                                'roof_material' => $colRoofMat !== false ? trim($row[$colRoofMat]) : null,
-                                'floor_condition' => $colFloorCond !== false ? trim($row[$colFloorCond]) : null,
-                                'wall_condition' => $colWallCond !== false ? trim($row[$colWallCond]) : null,
-                                'roof_condition' => $colRoofCond !== false ? trim($row[$colRoofCond]) : null,
-                                'toilet_facility' => $colToilet !== false ? trim($row[$colToilet]) : null,
-                                'closet_type' => $colCloset !== false ? trim($row[$colCloset]) : null,
-                                'feces_disposal' => $colFeces !== false ? trim($row[$colFeces]) : null,
-                                'water_source' => $colWater !== false ? trim($row[$colWater]) : null,
-                                'lighting_source' => $colLight !== false ? trim($row[$colLight]) : null,
+                                'floor_material' => $colFloorMat !== false ? $this->parseFloorMaterial($row[$colFloorMat]) : null,
+                                'wall_material' => $colWallMat !== false ? $this->parseWallMaterial($row[$colWallMat]) : null,
+                                'roof_material' => $colRoofMat !== false ? $this->parseRoofMaterial($row[$colRoofMat]) : null,
+                                'floor_condition' => $colFloorCond !== false ? $this->parseCondition($row[$colFloorCond]) : null,
+                                'wall_condition' => $colWallCond !== false ? $this->parseCondition($row[$colWallCond]) : null,
+                                'roof_condition' => $colRoofCond !== false ? $this->parseCondition($row[$colRoofCond]) : null,
+                                'toilet_facility' => $colToilet !== false ? $this->parseToiletFacility($row[$colToilet]) : null,
+                                'closet_type' => $colCloset !== false ? $this->parseClosetType($row[$colCloset]) : null,
+                                'feces_disposal' => $colFeces !== false ? $this->parseFecesDisposal($row[$colFeces]) : null,
+                                'water_source' => $colWater !== false ? $this->parseWaterSource($row[$colWater]) : null,
+                                'lighting_source' => $colLight !== false ? $this->parseLightingSource($row[$colLight]) : null,
                                 'electricity_power' => $electricityPower,
-                                'electricity_power_meter_1' => $power1,
-                                'electricity_power_meter_2' => $power2,
-                                'electricity_power_meter_3' => $power3,
+                                'electricity_power_meter_1' => $this->parseElectricityPower($power1),
+                                'electricity_power_meter_2' => $this->parseElectricityPower($power2),
+                                'electricity_power_meter_3' => $this->parseElectricityPower($power3),
                                 'electricity_id' => $colPlnId !== false ? trim($row[$colPlnId]) : null,
                                 'electricity_cost' => $colPlnCost !== false ? $this->cleanNumeric(trim($row[$colPlnCost])) : 0,
                                 'internet_cost' => $colNetCost !== false ? $this->cleanNumeric(trim($row[$colNetCost])) : 0,
@@ -341,6 +341,205 @@ class ListFamilies extends ListRecords
                         ->send();
                 }),
         ];
+    }
+
+    private function parseBuildingType(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'tunggal')) return 'Rumah Tinggal Tunggal';
+        if (str_contains($clean, 'deret')) return 'Rumah Tinggal Tunggal'; // tidak ada opsi 'deret' di form, fallback
+        if (str_contains($clean, 'rusun') || str_contains($clean, 'apartemen')) return 'Lainnya';
+        if (str_contains($clean, 'ruko') || str_contains($clean, 'komersial')) return 'Lainnya';
+
+        return 'Rumah Tinggal Tunggal'; // default
+    }
+
+    private function parseOwnershipProof(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'shm') || str_contains($clean, 'sertifikat hak milik')) return 'SHM';
+        if (str_contains($clean, 'tidak') || str_contains($clean, 'belum') || str_contains($clean, 'none') || $clean === '-') return 'Tidak Punya';
+
+        return 'Tidak Punya'; // default
+    }
+
+    private function parseFloorMaterial(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'keramik') || str_contains($clean, 'kramik')) return 'Keramik';
+        if (str_contains($clean, 'ubin') || str_contains($clean, 'tegel') || str_contains($clean, 'teraso')) return 'Ubin / Tegel / Teraso';
+        if (str_contains($clean, 'parket') || str_contains($clean, 'vinil') || str_contains($clean, 'karpet')) return 'Parket / Vinil / Karpet';
+        if (str_contains($clean, 'kayu') || str_contains($clean, 'papan') || str_contains($clean, 'bambu')) return 'Kayu / Papan';
+        if (str_contains($clean, 'tanah')) return 'Tanah';
+        if (str_contains($clean, 'semen') || str_contains($clean, 'bata') || str_contains($clean, 'plester') || str_contains($clean, 'cor')) return 'Semen / Bata Merah';
+
+        return trim($val);
+    }
+
+    private function parseWallMaterial(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'tembok') || str_contains($clean, 'bata') || str_contains($clean, 'beton')) return 'Tembok';
+        if (str_contains($clean, 'seng') || str_contains($clean, 'zink')) return 'Seng';
+        if (
+            str_contains($clean, 'kayu') || str_contains($clean, 'papan') ||
+            str_contains($clean, 'gipsum') || str_contains($clean, 'grc') ||
+            str_contains($clean, 'calci') || str_contains($clean, 'triplek') ||
+            str_contains($clean, 'bambu')
+        ) return 'Kayu / Papan / Gipsum / GRC / Calciboard';
+
+        return trim($val);
+    }
+
+    private function parseRoofMaterial(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'genteng') || str_contains($clean, 'keramik atap')) return 'Genteng';
+        if (str_contains($clean, 'seng') || str_contains($clean, 'zink') || str_contains($clean, 'spandek')) return 'Seng';
+        if (str_contains($clean, 'asbes') || str_contains($clean, 'asb')) return 'Asbes';
+
+        return trim($val);
+    }
+
+    private function parseCondition(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'rusak berat') || str_contains($clean, 'parah')) return 'Rusak Berat';
+        if (str_contains($clean, 'rusak sedang') || str_contains($clean, 'sedang')) return 'Rusak Sedang';
+        if (str_contains($clean, 'rusak ringan') || str_contains($clean, 'ringan')) return 'Rusak Ringan';
+        if (str_contains($clean, 'baik') || str_contains($clean, 'bagus') || str_contains($clean, 'layak')) return 'Baik';
+        // Cek kata 'rusak' generic terakhir
+        if (str_contains($clean, 'rusak')) return 'Rusak Ringan';
+
+        return 'Baik'; // default
+    }
+
+    private function parseToiletFacility(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'tidak') || str_contains($clean, 'tidak ada')) return 'Tidak Ada';
+        if (str_contains($clean, 'bersama') || str_contains($clean, 'beberapa rumah')) {
+            return 'Ada, digunakan bersama oleh anggota keluarga dari beberapa rumah';
+        }
+        // default: ada dan digunakan sendiri
+        return 'Ada, digunakan oleh anggota keluarga dalam satu rumah';
+    }
+
+    private function parseClosetType(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'leher angsa') || str_contains($clean, 'angsa')) return 'Leher Angsa';
+        if (str_contains($clean, 'plengsengan') || str_contains($clean, 'tutup')) return 'Plengsengan dengan Tutup';
+        if (str_contains($clean, 'cemplung') || str_contains($clean, 'cubluk')) return 'Cemplung / Cubluk';
+        if (str_contains($clean, 'tidak') || str_contains($clean, 'tidak ada') || $clean === '-') return 'Tidak Ada';
+
+        return 'Tidak Ada'; // default
+    }
+
+    private function parseFecesDisposal(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'tangki') || str_contains($clean, 'septik') || str_contains($clean, 'septic')) return 'Tangki Septik';
+        if (str_contains($clean, 'kolam') || str_contains($clean, 'sawah') || str_contains($clean, 'sungai') || str_contains($clean, 'danau')) return 'Kolam / Sawah / Sungai / Danau';
+        if (str_contains($clean, 'lubang') || str_contains($clean, 'tanah')) return 'Lubang Tanah';
+        if (str_contains($clean, 'pantai') || str_contains($clean, 'lapang')) return 'Pantai / Tanah Lapang';
+
+        return 'Lainnya';
+    }
+
+    private function parseWaterSource(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'kemasan') || str_contains($clean, 'galon') || str_contains($clean, 'aqua') || str_contains($clean, 'bermerek')) return 'Air kemasan bermerek';
+        if (str_contains($clean, 'leding') || str_contains($clean, 'ledeng') || str_contains($clean, 'pdam') || str_contains($clean, 'pam')) return 'Leding';
+        if (str_contains($clean, 'bor') || str_contains($clean, 'pompa') || str_contains($clean, 'artesis')) return 'Sumur Bor / Pompa';
+        if (str_contains($clean, 'terlindung') || str_contains($clean, 'terlindungi')) return 'Sumur Terlindung';
+        if (str_contains($clean, 'mata air')) return 'Mata Air';
+        if (str_contains($clean, 'sumur')) return 'Sumur Terlindung'; // fallback sumur tanpa keterangan
+
+        return 'Lainnya';
+    }
+
+    private function parseLightingSource(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'non-pln') || str_contains($clean, 'non pln') || str_contains($clean, 'bukan pln') || str_contains($clean, 'genset') || str_contains($clean, 'solar sel')) return 'Listrik Non-PLN';
+        if (str_contains($clean, 'tanpa meteran') || str_contains($clean, 'numpang') || str_contains($clean, 'tanpa meter')) return 'Listrik PLN Tanpa Meteran';
+        if (str_contains($clean, 'pln') || str_contains($clean, 'meteran') || str_contains($clean, 'meter')) return 'Listrik PLN Dengan Meteran';
+        if (str_contains($clean, 'bukan listrik') || str_contains($clean, 'tidak ada listrik') || str_contains($clean, 'lampu minyak') || str_contains($clean, 'lilin')) return 'Bukan Listrik';
+        if (str_contains($clean, 'listrik')) return 'Listrik PLN Dengan Meteran'; // fallback listrik generic
+
+        return 'Bukan Listrik';
+    }
+
+    private function parseElectricityPower(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        // Normalize numeric-only values (e.g. "900" → "900 Watt")
+        $numClean = preg_replace('/[^0-9]/', '', $clean);
+        $validWatts = ['450', '900', '1300', '2200', '3500', '4400', '5500', '6600'];
+        $formattedMap = [
+            '450'  => '450 Watt',
+            '900'  => '900 Watt',
+            '1300' => '1.300 Watt',
+            '2200' => '2.200 Watt',
+            '3500' => '3.500 Watt',
+            '4400' => '4.400 Watt',
+            '5500' => '5.500 Watt',
+            '6600' => '6.600 Watt',
+        ];
+
+        if (isset($formattedMap[$numClean])) {
+            return $formattedMap[$numClean];
+        }
+
+        // Handle existing formatted values like "1.300 Watt"
+        $numNoDots = str_replace(['.', ','], '', $numClean);
+        if (isset($formattedMap[$numNoDots])) {
+            return $formattedMap[$numNoDots];
+        }
+
+        if (str_contains($clean, '>') || str_contains($clean, 'lebih') || (is_numeric($numClean) && intval($numClean) > 6600)) {
+            return '> 6.600 Watt';
+        }
+
+        return 'Lainnya';
     }
 
     private function parseYesNo(?string $val): int

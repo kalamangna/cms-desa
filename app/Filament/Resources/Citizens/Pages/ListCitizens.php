@@ -201,7 +201,7 @@ class ListCitizens extends ListRecords
                             // Simpan ke domicile_address_type, bukan ke address.
                             $domicileEnumValues = ['sesuai kk dan ktp', 'hanya sesuai kk', 'hanya sesuai ktp'];
                             $rawDomicileType = $colDomicileType !== false ? trim($row[$colDomicileType]) : '';
-                            $domicileAddressType = $rawDomicileType !== '' ? $rawDomicileType : null;
+                            $domicileAddressType = $rawDomicileType !== '' ? $this->parseDomicileAddressType($rawDomicileType) : null;
                             // address akan diisi dari data keluarga (family->address)
                             $address = '';
 
@@ -256,7 +256,6 @@ class ListCitizens extends ListRecords
                                 'rt' => $rt,
                                 'rw' => $rw,
                                 'address' => $address,
-                                'citizenship_status' => $colStatus !== false ? trim($row[$colStatus]) : 'Tinggal di rumah/tempat tinggal ini',
                                 'domicile_address_type' => $domicileAddressType,
                                 'gender' => $colGender !== false && !empty(trim($row[$colGender])) ? (strpos(strtolower(trim($row[$colGender])), 'perempuan') !== false || strtolower(trim($row[$colGender])) === 'p' ? 'Perempuan' : 'Laki-laki') : null,
                                 'date_of_birth' => $dob,
@@ -265,7 +264,7 @@ class ListCitizens extends ListRecords
                                 'school_participation' => $colSchool !== false ? $this->parseSchoolParticipation($row[$colSchool]) : 'Tidak / Belum Pernah Sekolah',
                                 'education_level' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null,
                                 'education' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null, // legacy
-                                'bpjs_status' => $colBpjs !== false ? trim($row[$colBpjs]) : null,
+                                'bpjs_status' => $colBpjs !== false ? $this->parseBpjsStatus($row[$colBpjs]) : null,
                                 'pip_status' => $colPip !== false ? $this->parseYesNo($row[$colPip]) : 0,
                                 'has_income' => $colHasIncome !== false ? $this->parseYesNo($row[$colHasIncome]) : 0,
                                 'job' => $colJob !== false ? $this->parseJob($row[$colJob]) : null,
@@ -308,10 +307,10 @@ class ListCitizens extends ListRecords
                                 'illness_alzheimer' => $colIllAlz !== false ? $this->parseYesNo($row[$colIllAlz]) : 0,
                                 'illness_other' => $colIllOther !== false ? $this->parseYesNo($row[$colIllOther]) : 0,
                                 
-                                'has_digital_wallet' => $colWallet !== false ? trim($row[$colWallet]) : null,
+                                'has_digital_wallet' => $colWallet !== false ? $this->parseHasDigitalWallet($row[$colWallet]) : null,
+                                'citizenship_status' => $colStatus !== false ? $this->parseCitizenshipStatus($row[$colStatus]) : 'Tinggal di Rumah Ini',
                                 'status' => 'Aktif',
                             ];
-
                             $citizen = Citizen::withTrashed()->where('nik', $nik)->first();
                             if ($citizen) {
                                 $updateData = [];
@@ -423,6 +422,10 @@ class ListCitizens extends ListRecords
             return 'Kepala Keluarga';
         } elseif (strpos($clean, 'istri') !== false || strpos($clean, 'suami') !== false) {
             return 'Istri';
+        } elseif (strpos($clean, 'menantu') !== false) {
+            return 'Menantu';
+        } elseif (strpos($clean, 'pembantu') !== false || strpos($clean, 'asisten') !== false) {
+            return 'Pembantu';
         } elseif (strpos($clean, 'anak') !== false) {
             return 'Anak';
         } elseif (strpos($clean, 'cucu') !== false) {
@@ -538,6 +541,73 @@ class ListCitizens extends ListRecords
         }
 
         return 'Tidak / Belum Pernah Sekolah';
+    }
+
+    private function parseDomicileAddressType(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'kk dan ktp') || str_contains($clean, 'ktp dan kk') || str_contains($clean, 'keduanya')) return 'Sesuai KK dan KTP';
+        if (str_contains($clean, 'hanya') && str_contains($clean, 'kk')) return 'Hanya sesuai KK';
+        if (str_contains($clean, 'hanya') && str_contains($clean, 'ktp')) return 'Hanya sesuai KTP';
+        if (str_contains($clean, 'tidak sesuai') || str_contains($clean, 'tidak cocok')) return 'Tidak sesuai KK dan KTP';
+        if (str_contains($clean, 'kk')) return 'Sesuai KK dan KTP'; // fallback
+
+        return 'Sesuai KK dan KTP';
+    }
+
+    private function parseHasDigitalWallet(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean) || in_array($clean, ['tidak', 'tidak ada', 'none', '-'])) return 'Tidak ada';
+
+        if (str_contains($clean, 'usaha dan pribadi') || str_contains($clean, 'pribadi dan usaha')) return 'Ya untuk usaha dan pribadi';
+        if (str_contains($clean, 'usaha')) return 'Ya untuk usaha';
+        if (str_contains($clean, 'pribadi')) return 'Ya untuk pribadi';
+        if (str_contains($clean, 'ya')) return 'Ya untuk pribadi'; // fallback ya tanpa keterangan
+
+        return 'Tidak ada';
+    }
+
+    private function parseCitizenshipStatus(?string $val): string
+    {
+        if ($val === null) return 'Tinggal di Rumah Ini';
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return 'Tinggal di Rumah Ini';
+
+        if (str_contains($clean, 'luar negeri')) return 'Pindah ke Luar Negeri';
+        if (str_contains($clean, 'daerah lain') || str_contains($clean, 'indonesia')) return 'Pindah ke Daerah Lain (Indonesia)';
+        if (str_contains($clean, 'pisah kk') || str_contains($clean, 'pisah')) return 'Sudah Pisah KK';
+        if (str_contains($clean, 'meninggal')) return 'Meninggal';
+        if (str_contains($clean, 'pindah')) return 'Pindah';
+        if (str_contains($clean, 'tinggal') || str_contains($clean, 'rumah ini')) return 'Tinggal di Rumah Ini';
+
+        return 'Tinggal di Rumah Ini';
+    }
+
+    private function parseBpjsStatus(?string $val): ?string
+    {
+        if ($val === null) return null;
+        $clean = strtolower(trim($val));
+        if (empty($clean)) return null;
+
+        if (str_contains($clean, 'tidak') || str_contains($clean, 'non bpjs') || $clean === '-') return 'Tidak Terdaftar';
+        if (str_contains($clean, 'pbi') && (str_contains($clean, 'pusat') || str_contains($clean, 'tunjangan') || str_contains($clean, 'apbd') === false)) {
+            // Prioritaskan PBI Pusat dulu, karena lebih spesifik
+            if (str_contains($clean, 'pusat') || str_contains($clean, 'kemensos') || str_contains($clean, 'iuran pemerintah')) {
+                return 'BPJS PBI Tunjangan Pemerintah Pusat';
+            }
+            return 'BPJS PBI Pemda';
+        }
+        if (str_contains($clean, 'pemda') || str_contains($clean, 'daerah') || str_contains($clean, 'apbd')) return 'BPJS PBI Pemda';
+        if (str_contains($clean, 'mandiri') || str_contains($clean, 'bayar sendiri') || str_contains($clean, 'non pbi')) return 'BPJS Mandiri';
+        if (str_contains($clean, 'pbi')) return 'BPJS PBI Pemda'; // fallback PBI generic
+        if (str_contains($clean, 'bpjs') || str_contains($clean, 'jkn') || str_contains($clean, 'kis')) return 'BPJS Mandiri'; // fallback BPJS generic
+
+        return 'Tidak Terdaftar';
     }
 
     private function parseJobStatus(?string $val): ?string
