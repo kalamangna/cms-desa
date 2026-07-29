@@ -132,7 +132,7 @@ return new class extends Migration
                         }
                     }
 
-                    // 2b. Kembalikan .webp ke .jpg/.png jika file .webp fisiknya TIDAK ADA di storage server production
+                    // 2b. Jika tautan di DB sudah .webp tapi file .webp fisiknya TIDAK ADA di storage
                     $rowsFromWebp = DB::table($table)
                         ->where($column, 'LIKE', '%.webp')
                         ->get();
@@ -144,13 +144,38 @@ return new class extends Migration
                         $fullWebpPath = storage_path('app/public/' . ltrim($val, '/'));
                         if (!file_exists($fullWebpPath)) {
                             $basePathWithoutExt = preg_replace('/\.webp$/i', '', $val);
-                            foreach (['.jpg', '.jpeg', '.png'] as $testExt) {
-                                if (file_exists(storage_path('app/public/' . ltrim($basePathWithoutExt . $testExt, '/')))) {
-                                    DB::table($table)
-                                        ->where('id', $row->id)
-                                        ->update([$column => $basePathWithoutExt . $testExt]);
-                                    break;
+                            $foundExt = null;
+
+                            // Coba konversi file asli jika ada
+                            foreach (['.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'] as $testExt) {
+                                $origFile = storage_path('app/public/' . ltrim($basePathWithoutExt . $testExt, '/'));
+                                if (file_exists($origFile)) {
+                                    $img = null;
+                                    $lowerExt = strtolower($testExt);
+                                    if (in_array($lowerExt, ['.jpg', '.jpeg']) && function_exists('imagecreatefromjpeg')) {
+                                        $img = @imagecreatefromjpeg($origFile);
+                                    } elseif ($lowerExt === '.png' && function_exists('imagecreatefrompng')) {
+                                        $img = @imagecreatefrompng($origFile);
+                                    }
+
+                                    if ($img) {
+                                        @imagewebp($img, $fullWebpPath, 82);
+                                        imagedestroy($img);
+                                        $foundExt = 'converted_to_webp';
+                                        break;
+                                    } else {
+                                        $foundExt = $basePathWithoutExt . $testExt;
+                                        break;
+                                    }
                                 }
+                            }
+
+                            // Jika gagal/tidak ada file fisik WebP dan konversi gagal, kembalikan tautan DB
+                            if ($foundExt !== 'converted_to_webp') {
+                                $targetValue = $foundExt ?: ($basePathWithoutExt . '.jpg');
+                                DB::table($table)
+                                    ->where('id', $row->id)
+                                    ->update([$column => $targetValue]);
                             }
                         }
                     }

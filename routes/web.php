@@ -118,21 +118,43 @@ Route::get('/init', function () {
                 if (!$val) continue;
 
                 $fullWebpPath = storage_path('app/public/' . ltrim($val, '/'));
+                // Jika file .webp fisiknya tidak ada di disk server
                 if (!file_exists($fullWebpPath)) {
-                    // Cari file alternatif .jpg, .jpeg, atau .png di storage
                     $basePathWithoutExt = preg_replace('/\.webp$/i', '', $val);
-                    $foundOriginalExt = null;
-                    foreach (['.jpg', '.jpeg', '.png'] as $testExt) {
-                        if (file_exists(storage_path('app/public/' . ltrim($basePathWithoutExt . $testExt, '/')))) {
-                            $foundOriginalExt = $basePathWithoutExt . $testExt;
-                            break;
+                    $foundExt = null;
+
+                    // 1. Coba konversi file asli (.jpg/.jpeg/.png) ke .webp di tempat jika file fisiknya ada
+                    foreach (['.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'] as $testExt) {
+                        $origFile = storage_path('app/public/' . ltrim($basePathWithoutExt . $testExt, '/'));
+                        if (file_exists($origFile)) {
+                            // Konversi file ini ke .webp
+                            $img = null;
+                            $lowerExt = strtolower($testExt);
+                            if (in_array($lowerExt, ['.jpg', '.jpeg']) && function_exists('imagecreatefromjpeg')) {
+                                $img = @imagecreatefromjpeg($origFile);
+                            } elseif ($lowerExt === '.png' && function_exists('imagecreatefrompng')) {
+                                $img = @imagecreatefrompng($origFile);
+                            }
+
+                            if ($img) {
+                                @imagewebp($img, $fullWebpPath, 82);
+                                imagedestroy($img);
+                                @copy($fullWebpPath, public_path('storage/' . ltrim($val, '/')));
+                                $foundExt = 'converted_to_webp';
+                                break;
+                            } else {
+                                $foundExt = $basePathWithoutExt . $testExt;
+                                break;
+                            }
                         }
                     }
 
-                    if ($foundOriginalExt) {
+                    // 2. Jika gagal/tidak bisa di-konversi ke webp, kembalikan tautan DB ke ekstensi asli atau .jpg/.png
+                    if ($foundExt !== 'converted_to_webp') {
+                        $targetValue = $foundExt ?: ($basePathWithoutExt . '.jpg');
                         \Illuminate\Support\Facades\DB::table($table)
                             ->where('id', $row->id)
-                            ->update([$column => $foundOriginalExt]);
+                            ->update([$column => $targetValue]);
                         $revertedCount++;
                     }
                 }
@@ -140,5 +162,5 @@ Route::get('/init', function () {
         }
     }
 
-    return "Berhasil menyalin data media ke folder fisik public/storage! (Memperbaiki {$revertedCount} tautan gambar 404 ke format asli)";
+    return "Berhasil menyalin data media & memulihkan {$revertedCount} tautan gambar 404!";
 })->middleware('auth');

@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.34] - 2026-07-29
+
+### Fixed
+- **Pengoptimalan Fitur Konversi & Pemulihan Tautan Gambar 404 (Auto Convert & Force Revert)**:
+  - Memperbarui rute `/init` (`web.php`) dan migrasi `2026_07_29_201000_convert_existing_images_to_webp.php` agar secara aktif mengonversi berkas fisik asli (`.jpg`/`.png`) ke WebP jika ditemukan di server production, atau memaksa mengembalikan tautan DB ke ekstensi asli jika berkas `.webp` gagal dibuat.
+
 ## [1.26.33] - 2026-07-29
 
 ### Fixed
