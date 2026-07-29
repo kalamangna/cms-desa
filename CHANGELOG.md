@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.25] - 2026-07-29
+
+### Fixed
+- **Perbaikan Presisi Kontras Aksesibilitas WCAG AA (Target Skor 100)**:
+  - Memperbaiki rasio kontras warna pada seluruh elemen UI yang terdaftar dalam `SPEED.md` (Infografis label, Sambutan Kepala Desa, Luas Wilayah, Subtitle Demografi, Target APBDes, Berita Utama badge, dan Teks Footer/Copyright) agar memenuhi standar kontras tinggi WCAG AA.
+
 ## [1.26.24] - 2026-07-29
 
 ### Removed

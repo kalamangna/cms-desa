@@ -112,7 +112,7 @@
         <!-- Modal Footer -->
         <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
             <div class="flex flex-col pr-4">
-                <span class="text-[10px] font-black uppercase tracking-wider text-slate-400">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
                 <span class="text-sm font-bold text-slate-700 mt-0.5 line-clamp-1" x-show="activeSlideTitle" x-text="activeSlideTitle"></span>
             </div>
             <button @click="closePopup()" class="bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl border border-slate-200 transition flex-shrink-0 focus:outline-none">
@@ -254,7 +254,7 @@
             <div class="min-w-0 w-full">
                 <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
                 <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ $site_settings['village_area'] ?? '—' }}</p>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
             </div>
         </div>
 
@@ -271,9 +271,9 @@
 
         <div class="p-8 md:p-16 lg:p-20 relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
             <div class="flex items-center gap-3 mb-6 justify-center">
-                <div class="h-px w-8 bg-emerald-500"></div>
-                <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
-                <div class="h-px w-8 bg-emerald-500"></div>
+                <div class="h-px w-8 bg-emerald-600"></div>
+                <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
+                <div class="h-px w-8 bg-emerald-600"></div>
             </div>
             <h2 class="text-2xl md:text-4xl font-heading font-extrabold text-slate-900 mb-10 leading-tight">
                 "{{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}"
@@ -316,7 +316,7 @@
                 <div class="p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                         <h3 class="font-heading font-extrabold text-xl text-slate-900" id="chartCardTitle">Demografi Penduduk</h3>
-                        <p class="text-slate-400 text-sm mt-1" id="chartCardSubtitle">Perbandingan jumlah laki-laki dan perempuan aktif</p>
+                        <p class="text-slate-500 text-sm mt-1" id="chartCardSubtitle">Perbandingan jumlah laki-laki dan perempuan aktif</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="relative">
@@ -368,7 +368,7 @@
                         <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
                             <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
                         </div>
-                        <p class="text-xs text-slate-500 mt-2">Target: Rp {{ number_format($budgetSummary['pendapatan']['budget'], 0, ',', '.') }}</p>
+                        <p class="text-xs text-slate-300 font-medium mt-2">Target: Rp {{ number_format($budgetSummary['pendapatan']['budget'], 0, ',', '.') }}</p>
                     </div>
                     <div class="mb-8">
                         <div class="flex justify-between items-center mb-2">
@@ -378,7 +378,7 @@
                         <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
                             <div class="h-full bg-sky-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
                         </div>
-                        <p class="text-xs text-slate-500 mt-2">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
+                        <p class="text-xs text-slate-300 font-medium mt-2">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
                     </div>
                     <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
                         <p class="text-xs font-black uppercase tracking-wider text-slate-400 mb-4 text-center">Alokasi Belanja Desa</p>
@@ -424,7 +424,7 @@
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                         <div class="absolute top-6 left-6">
-                            <span class="bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full">Berita Utama</span>
+                            <span class="bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">Berita Utama</span>
                         </div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <p class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">{{ $featuredPost->published_at->translatedFormat('d M Y') }}</p>
