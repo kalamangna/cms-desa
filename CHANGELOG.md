@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.51] - 2026-07-29
+
+### Optimized
+- **Optimasi Resource Hints & Preload Prioritas Font**:
+  - Menambahkan atribut `fetchpriority="high"` pada preloading Font Google (`Inter` & `Poppins`) serta menambahkan `preconnect` ke CDN FontAwesome/Google Static di [layouts/app.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/layouts/app.blade.php) untuk mempercepat waktu render awal (*First Contentful Paint* & *LCP*).
+
 ## [1.26.50] - 2026-07-29
 
 ### Fixed & Whitelisted
