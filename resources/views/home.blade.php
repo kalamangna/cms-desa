@@ -214,9 +214,9 @@
                 <i class="fa-solid fa-users text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Penduduk</p>
-                <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalPenduduk, 0, ',', '.') }}</h3>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Jiwa</p>
+                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Penduduk</p>
+                <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalPenduduk, 0, ',', '.') }}</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">Jiwa</p>
             </div>
         </div>
 
@@ -226,9 +226,9 @@
                 <i class="fa-solid fa-house-chimney text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Keluarga</p>
-                <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalKeluarga, 0, ',', '.') }}</h3>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Kepala Keluarga</p>
+                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Keluarga</p>
+                <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalKeluarga, 0, ',', '.') }}</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">Kepala Keluarga</p>
             </div>
         </div>
 
@@ -238,9 +238,9 @@
                 <i class="fa-solid fa-map-location-dot text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Dusun</p>
-                <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalDusun, 0, ',', '.') }}</h3>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ $totalRT }} RT / {{ $totalRW }} RW</p>
+                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Dusun</p>
+                <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalDusun, 0, ',', '.') }}</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">{{ $totalRT }} RT / {{ $totalRW }} RW</p>
             </div>
         </div>
 
@@ -250,8 +250,8 @@
                 <i class="fa-solid fa-ruler-combined text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
-                <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ $site_settings['village_area'] ?? '—' }}</h3>
+                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
+                <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ $site_settings['village_area'] ?? '—' }}</p>
                 <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
             </div>
         </div>

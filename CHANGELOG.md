@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.19] - 2026-07-29
+
+### Fixed
+- **Penyempurnaan Lanjutan Aksesibilitas (Skor 95+)**:
+  - Mengubah tag judul kartu statistik beranda (`home.blade.php`) dari `<h3>` menjadi `<p>` agar susunan hierarki heading linier dan tidak melompat.
+  - Meningkatkan kontras teks deskripsi & item kontak footer (`layouts/app.blade.php`) dari `text-slate-400` ke `text-slate-300` untuk keterbacaan tinggi di atas latar gelap.
+
 ## [1.26.18] - 2026-07-29
 
 ### Fixed

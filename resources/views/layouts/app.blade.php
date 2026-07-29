@@ -462,40 +462,39 @@
                             <p class="text-[10px] uppercase tracking-widest text-emerald-500 font-bold">Portal Resmi Desa</p>
                         </div>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-8 font-medium max-w-sm">
+                    <p class="text-slate-300 text-sm leading-relaxed mb-8 font-medium max-w-sm">
                         Portal resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} untuk keterbukaan informasi dan pelayanan publik.
                     </p>
                     <div class="flex gap-3">
                         @if(!empty($site_settings['social_facebook']))
-                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Facebook">
+                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-300 hover:text-white" title="Facebook">
                             <i class="fa-brands fa-facebook-f text-sm"></i>
                         </a>
                         @else
-                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-600 opacity-40 cursor-not-allowed select-none" title="Facebook (Belum diatur)">
+                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 opacity-40 cursor-not-allowed select-none" title="Facebook (Belum diatur)">
                             <i class="fa-brands fa-facebook-f text-sm"></i>
                         </span>
                         @endif
 
                         @if(!empty($site_settings['social_instagram']))
-                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="Instagram">
+                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-300 hover:text-white" title="Instagram">
                             <i class="fa-brands fa-instagram text-sm"></i>
                         </a>
                         @else
-                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-600 opacity-40 cursor-not-allowed select-none" title="Instagram (Belum diatur)">
+                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 opacity-40 cursor-not-allowed select-none" title="Instagram (Belum diatur)">
                             <i class="fa-brands fa-instagram text-sm"></i>
                         </span>
                         @endif
 
                         @if(!empty($site_settings['social_youtube']))
-                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-400 hover:text-white" title="YouTube">
+                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-200 text-slate-300 hover:text-white" title="YouTube">
                             <i class="fa-brands fa-youtube text-sm"></i>
                         </a>
                         @else
-                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-600 opacity-40 cursor-not-allowed select-none" title="YouTube (Belum diatur)">
+                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 opacity-40 cursor-not-allowed select-none" title="YouTube (Belum diatur)">
                             <i class="fa-brands fa-youtube text-sm"></i>
                         </span>
                         @endif
-
 
                     </div>
                 </div>
@@ -503,7 +502,7 @@
                 <!-- Kontak -->
                 <div class="lg:col-span-2">
                     <h2 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Kontak Kami</h2>
-                    <ul class="space-y-4 text-sm text-slate-400 font-medium">
+                    <ul class="space-y-4 text-sm text-slate-300 font-medium">
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-location-dot text-emerald-400 text-xs"></i>
@@ -530,7 +529,7 @@
                                 <div>
                                     <span class="block text-xs font-black uppercase tracking-widest text-emerald-400 mb-1">Jam Operasional</span>
                                     <span class="text-slate-300 text-sm font-semibold">Senin – Jumat</span><br>
-                                    <span class="text-slate-400 text-sm font-medium">08.00 – 16.00 WITA</span>
+                                    <span class="text-slate-300 text-sm font-medium">08.00 – 16.00 WITA</span>
                                 </div>
                             </div>
                         </li>
@@ -541,7 +540,7 @@
                 <div>
                     <h2 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-emerald-400">Statistik Pengunjung</h2>
                     @if(isset($visitor_stats))
-                    <ul class="space-y-4 text-sm text-slate-400 font-medium">
+                    <ul class="space-y-4 text-sm text-slate-300 font-medium">
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-users text-emerald-500 text-xs animate-pulse"></i>
