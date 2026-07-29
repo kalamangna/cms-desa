@@ -86,6 +86,31 @@ class ImageHelper
 
         $targetFullPath = $targetDir . '/' . $filename;
 
+        // Resize image if width exceeds 800px to optimize mobile LCP image loading
+        $origWidth = imagesx($image);
+        $origHeight = imagesy($image);
+        $maxDimension = 800;
+
+        if ($origWidth > $maxDimension || $origHeight > $maxDimension) {
+            if ($origWidth >= $origHeight) {
+                $newWidth = $maxDimension;
+                $newHeight = (int) round(($origHeight / $origWidth) * $maxDimension);
+            } else {
+                $newHeight = $maxDimension;
+                $newWidth = (int) round(($origWidth / $origHeight) * $maxDimension);
+            }
+
+            $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
+            if ($extension === 'png') {
+                imagealphablending($resizedImage, false);
+                imagesavealpha($resizedImage, true);
+            }
+
+            imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+            imagedestroy($image);
+            $image = $resizedImage;
+        }
+
         // Convert and save image to WebP
         $saved = @imagewebp($image, $targetFullPath, $quality);
         imagedestroy($image);

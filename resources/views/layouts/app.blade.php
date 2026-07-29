@@ -366,7 +366,8 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="flex items-center lg:hidden">
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-slate-600 hover:text-emerald-600 p-2 focus:outline-none transition-transform duration-200" :class="mobileMenuOpen ? 'rotate-90' : ''">
+                    <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu Utama" title="Menu Utama" class="text-slate-600 hover:text-emerald-600 p-2 focus:outline-none transition-transform duration-200" :class="mobileMenuOpen ? 'rotate-90' : ''">
+                        <span class="sr-only">Menu Utama Navigasi</span>
                         <i class="fa-solid fa-bars text-xl" x-show="!mobileMenuOpen"></i>
                         <i class="fa-solid fa-xmark text-xl" x-show="mobileMenuOpen" x-cloak></i>
                     </button>

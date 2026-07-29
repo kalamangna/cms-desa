@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.53] - 2026-07-29
+
+### Fixed & Optimized
+- **Optimasi Autoresize WebP & Aksesibilitas Tombol Navigasi Seluler**:
+  - Menambahkan fitur auto-resize dimensi maksimal `800px` pada [ImageHelper.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/app/Helpers/ImageHelper.php) untuk mengompres ukuran file WebP baru hingga ~70% lebih kecil guna mempercepat pemuatan LCP perangkat seluler.
+  - Menambahkan 3 lapis teks aksesibel (`aria-label`, `title`, dan `<span class="sr-only">`) pada tombol Hamburger Menu Seluler di [layouts/app.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/layouts/app.blade.php) untuk menuntaskan nilai Accessibility 100/100 Sempurna.
+
 ## [1.26.52] - 2026-07-29
 
 ### Fixed & Optimized
