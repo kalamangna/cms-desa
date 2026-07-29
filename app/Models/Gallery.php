@@ -22,12 +22,12 @@ class Gallery extends Model
             }
         }
         
-        if ($this->image && !str_contains($this->image, 'gallery_dummy.jpg')) {
+        if ($this->image) {
             return asset('storage/' . $this->image);
         }
         
-        // Local meta.png image as placeholder fallback
-        return asset('img/meta.png');
+        // Local meta.webp image as placeholder fallback
+        return asset('img/meta.webp');
     }
 
     protected static function booted()

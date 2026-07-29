@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.37] - 2026-07-29
+
+### Removed
+- **Pembersihan Berkas & Rujukan Gambar Dummy (`gallery_dummy`)**:
+  - Membuat migrasi `2026_07_29_201854_remove_gallery_dummy_references.php` untuk mereset seluruh rujukan `gallery_dummy` di tabel `galleries` menjadi `null` dan menghapus berkas fisiknya.
+  - Memperbarui model [Gallery.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/app/Models/Gallery.php) agar menggunakan `meta.webp` sebagai fallback placeholder tanpa lagi bergantung pada `gallery_dummy.jpg`.
+
 ## [1.26.36] - 2026-07-29
 
 ### Fixed
