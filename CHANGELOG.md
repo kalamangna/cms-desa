@@ -2,6 +2,20 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.55] - 2026-07-29
+
+### Fixed & Optimized
+- **Optimasi Lanjutan Lighthouse & PageSpeed Insights**:
+  - Mengubah pemuatan CSS utama kembali ke render-blocking (`<link rel="stylesheet">`) namun tetap menyertakan `<link rel="preload">` untuk menghindari FOUC (Flash of Unstyled Content) saat pertama kali halaman dimuat, dengan menambahkan header cache 1 tahun pada `.htaccess` untuk mengimbangi dampaknya.
+  - Menambahkan deklarasi eksplisit `@font-face` dengan `font-display: swap` untuk FontAwesome di inline CSS guna membatalkan deklarasi `font-display: block` bawaan dari CDN, menghemat FCP latency ~60ms.
+  - Memecah rantai dependensi sekuensial (Network dependency tree) dengan me-preload langsung tiga berkas `woff2` milik FontAwesome dari CDN Cloudflare di `<head>` halaman.
+- **Perbaikan Dimensi & Skalabilitas WebP**:
+  - Menambahkan dukungan per-konteks (`$maxDimension` opsional) pada `ImageHelper::convertToWebp` agar gambar bisa di-resize mendekati ukuran sebenarnya.
+  - Mengatur target lebar ukuran file foto aparatur menjadi maksimal 500px dan gambar infografis maksimal 700px.
+  - Membuat dan menjalankan script migrasi (`2026_07_29_233200_resize_existing_images_to_display_dimensions.php`) untuk melakukan proses crop/resize ulang terhadap file `.webp` lama agar lebih optimal.
+- **Perbaikan Bug Variabel JS**:
+  - Memperbaiki error ganda pendefinisian peubah `let currentPopChart` di `home.blade.php` yang mengakibatkan `Uncaught SyntaxError`.
+
 ## [1.26.54] - 2026-07-29
 
 ### Optimized & Fixed

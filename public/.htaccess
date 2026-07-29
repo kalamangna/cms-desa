@@ -51,6 +51,10 @@
     ExpiresByType font/otf "access plus 1 year"
     ExpiresByType font/woff "access plus 1 year"
     ExpiresByType font/woff2 "access plus 1 year"
+    # Vite build assets use content-hash filenames — safe to cache 1 year
+    <FilesMatch "^app-[a-zA-Z0-9]+\.(css|js)$">
+        ExpiresDefault "access plus 1 year"
+    </FilesMatch>
 </IfModule>
 
 <IfModule mod_headers.c>

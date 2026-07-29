@@ -34,7 +34,7 @@ class Official extends Model
     {
         static::saving(function ($official) {
             if ($official->isDirty('photo') && $official->photo) {
-                $official->photo = \App\Helpers\ImageHelper::convertToWebp($official->photo, 'officials');
+                $official->photo = \App\Helpers\ImageHelper::convertToWebp($official->photo, 'officials', 80, 500);
             }
         });
 

@@ -160,6 +160,14 @@
     <noscript>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     </noscript>
+    {{-- Preload FontAwesome woff2 fonts agar browser download paralel sejak awal --}}
+    {{-- tanpa ini, browser baru tahu setelah all.min.css selesai diparse (~1000ms) --}}
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-brands-400.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-regular-400.woff2">
     <script>
         (function() {
             function loadFA() {
@@ -178,30 +186,54 @@
     <noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     </noscript>
-    @if(app()->environment('production') && file_exists(public_path('build/manifest.json')))
-        @php
-            $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
-            $cssFile = $manifest['resources/css/app.css']['file'] ?? null;
-        @endphp
-        @if($cssFile)
-            <link rel="preload" as="style" href="{{ asset('build/' . $cssFile) }}" fetchpriority="high">
-        @endif
+    @php
+        $manifest = [];
+        $manifestPath = public_path('build/manifest.json');
+        if (file_exists($manifestPath)) {
+            $manifest = json_decode(file_get_contents($manifestPath), true) ?? [];
+        }
+        $cssFile = $manifest['resources/css/app.css']['file'] ?? null;
+        $jsFile  = $manifest['resources/js/app.js']['file'] ?? null;
+    @endphp
+
+    @if($cssFile)
+        {{-- Preload hint agar browser segera ambil CSS --}}
+        <link rel="preload" as="style" href="{{ asset('build/' . $cssFile) }}" fetchpriority="high">
+        {{-- Render-blocking (mencegah FOUC) --}}
+        <link rel="stylesheet" href="{{ asset('build/' . $cssFile) }}">
+    @else
+        {{-- Fallback dev (Vite dev server) --}}
+        @vite(['resources/css/app.css'])
     @endif
 
     <!-- Scripts & Styles -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
+        /*
+         * Override FontAwesome CDN font-display:block → swap
+         * Deklarasi lengkap (dengan src) diperlukan agar override bekerja.
+         * Referensi: https://developer.chrome.com/docs/lighthouse/performance/font-display
+         */
         @font-face {
             font-family: 'Font Awesome 6 Free';
-            font-display: swap !important;
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-solid-900.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Font Awesome 6 Free';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-regular-400.woff2') format('woff2');
         }
         @font-face {
             font-family: 'Font Awesome 6 Brands';
-            font-display: swap !important;
-        }
-        @font-face {
-            font-family: 'Font Awesome 6 Regular';
-            font-display: swap !important;
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-brands-400.woff2') format('woff2');
         }
 
         [x-cloak] {
@@ -220,7 +252,11 @@
             font-family: 'Inter', sans-serif;
         }
     </style>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if($jsFile)
+        <script type="module" src="{{ asset('build/' . $jsFile) }}"></script>
+    @else
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
 
     <!-- Dynamic Primary Color Theme Styles -->
     @if(isset($site_settings['primary_color']))

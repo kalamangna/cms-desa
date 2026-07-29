@@ -16,7 +16,7 @@ class ImageHelper
      * @param int $quality WebP quality (default: 80)
      * @return string|null Relative storage path of converted WebP file or original path if failed
      */
-    public static function convertToWebp(mixed $file, string $directory = 'uploads', int $quality = 80): ?string
+    public static function convertToWebp(mixed $file, string $directory = 'uploads', int $quality = 80, int $maxDimension = 800): ?string
     {
         if (!$file) {
             return null;
@@ -86,10 +86,9 @@ class ImageHelper
 
         $targetFullPath = $targetDir . '/' . $filename;
 
-        // Resize image if width exceeds 800px to optimize mobile LCP image loading
+        // Resize image if any dimension exceeds $maxDimension to optimize image delivery
         $origWidth = imagesx($image);
         $origHeight = imagesy($image);
-        $maxDimension = 800;
 
         if ($origWidth > $maxDimension || $origHeight > $maxDimension) {
             if ($origWidth >= $origHeight) {

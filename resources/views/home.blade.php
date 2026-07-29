@@ -774,8 +774,6 @@ document.addEventListener('DOMContentLoaded', function () {
     jobData.sort((a, b) => b.value - a.value);
     eduData.sort((a, b) => b.value - a.value);
 
-    let currentPopChart = null;
-
     function renderDemografiChart(type) {
         const elPop = document.getElementById('populationChart');
         if (!elPop) return;

@@ -64,7 +64,7 @@ class OfficialForm
                     ->helperText('Unggah pasfoto resmi aparatur (Otomatis dioptimalkan WebP, maks 2MB).')
                     ->image()
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->imageResizeTargetWidth(600)
+                    ->imageResizeTargetWidth(500)
                     ->maxSize(2048)
                     ->nullable()
                     ->directory('officials')

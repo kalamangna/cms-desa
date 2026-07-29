@@ -25,7 +25,7 @@ class PopupInfographicForm
                     ->helperText('Unggah gambar poster/infografis (Otomatis dioptimalkan WebP, maks 2MB).')
                     ->image()
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->imageResizeTargetWidth(1200)
+                    ->imageResizeTargetWidth(700)
                     ->maxSize(2048)
                     ->required()
                     ->directory('settings')

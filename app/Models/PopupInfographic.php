@@ -12,7 +12,7 @@ class PopupInfographic extends Model
     {
         static::saving(function ($infographic) {
             if ($infographic->isDirty('image') && $infographic->image) {
-                $infographic->image = \App\Helpers\ImageHelper::convertToWebp($infographic->image, 'popup-infographics');
+                $infographic->image = \App\Helpers\ImageHelper::convertToWebp($infographic->image, 'popup-infographics', 82, 700);
             }
         });
     }
