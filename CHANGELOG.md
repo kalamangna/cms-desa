@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.39] - 2026-07-29
+
+### Added & Fixed
+- **Pengaturan Posisi Foto (`object-top`) & Pratinjau Fullscreen**:
+  - Menambahkan properti CSS `object-top` pada gambar foto aparatur agar wajah/kepala aparatur sejajar di posisi atas tanpa terpotong.
+  - Menambahkan fitur interaktif modal pratinjau foto *fullscreen* (lengkap dengan nama & posisi) ketika kartu foto aparatur diklik oleh pengunjung.
+
 ## [1.26.38] - 2026-07-29
 
 ### Changed
