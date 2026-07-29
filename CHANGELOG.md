@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.23] - 2026-07-29
+
+### Fixed
+- **Otorisasi Hak Akses Panel Filament Admin**:
+  - Mengimplementasikan antarmuka `FilamentUser` dan method `canAccessPanel()` pada model `User.php` untuk memastikan pengguna dengan peran `super_admin` maupun `admin_desa` mendapatkan otorisasi resmi masuk ke panel admin tanpa kendala `403 Forbidden`.
+
 ## [1.26.22] - 2026-07-29
 
 ### Added

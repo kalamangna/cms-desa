@@ -11,10 +11,18 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Auditable;
 
-class User extends Authenticatable
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasRoles, SoftDeletes, Auditable;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasRole(['super_admin', 'admin_desa']);
+    }
 
     /**
      * The attributes that are mass assignable.
