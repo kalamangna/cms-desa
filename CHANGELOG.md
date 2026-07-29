@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.45] - 2026-07-29
+
+### Added
+- **Migrasi Penanganan Gambar Terlanjur Upload di Production**:
+  - Membuat berkas migrasi baru `2026_07_29_220500_force_batch_convert_images_to_webp.php` agar saat `php artisan migrate` dijalankan di server Production, sistem langsung mengonversi seluruh gambar fisik lama (`.jpg`, `.jpeg`, `.png`) ke format WebP, memperbarui record database, dan membersihkan cache secara otomatis.
+
 ## [1.26.44] - 2026-07-29
 
 ### Added & Fixed
