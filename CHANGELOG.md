@@ -1,13 +1,18 @@
 # Changelog - Website Desa
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
-
-## [1.26.39] - 2026-07-29
+## [1.26.41] - 2026-07-29
 
 ### Added & Fixed
 - **Pengaturan Posisi Foto (`object-top`) & Pratinjau Fullscreen**:
   - Menambahkan properti CSS `object-top` pada gambar foto aparatur agar wajah/kepala aparatur sejajar di posisi atas tanpa terpotong.
   - Menambahkan fitur interaktif modal pratinjau foto *fullscreen* (lengkap dengan nama & posisi) ketika kartu foto aparatur diklik oleh pengunjung.
+
+## [1.26.40] - 2026-07-29
+
+### Changed
+- **Pembaruan Desain Frame Foto Aparatur Desa**:
+  - Mengubah bentuk frame foto aparatur pada grid kartu utama dan diagram SOTK ([officials/index.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/officials/index.blade.php)) dari bundar (`rounded-full`) menjadi kotak melengkung (`rounded-2xl` / `12px`).
 
 ## [1.26.38] - 2026-07-29
 

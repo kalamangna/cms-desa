@@ -116,9 +116,9 @@
 
 
     /* ─── Node Card ─── */
-    .oc-card { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; background: #fff; border: 2px solid #e2e8f0; border-radius: 20px; padding: 14px 10px 10px; width: 148px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: box-shadow 0.2s, transform 0.2s; cursor: default; }
-    .oc-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
-    .oc-photo { width: 60px; height: 60px; border-radius: 12px; overflow: hidden; border: 2px solid #e2e8f0; flex-shrink: 0; background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .oc-card { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fff; border: 2px solid #e2e8f0; border-radius: 18px; padding: 0 0 10px 0; width: 148px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: box-shadow 0.2s, transform 0.2s; cursor: default; overflow: hidden; }
+    .oc-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.12); transform: translateY(-2px); }
+    .oc-photo { width: 100%; height: 110px; border-radius: 0; overflow: hidden; border: none; border-bottom: 2px solid #e2e8f0; flex-shrink: 0; background-size: cover; background-position: top center; background-repeat: no-repeat; }
 
     .oc-name { font-size: 13px; font-weight: 700; color: #0f172a; line-height: 1.15; font-family: 'Poppins', sans-serif; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; }
     .oc-pos { font-size: 11px; font-weight: 600; color: #475569; line-height: 1.15; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; }
@@ -205,23 +205,23 @@
         @php
             $photoUrl = $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp');
         @endphp
-        <div class="group flex flex-col items-center bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300">
-            <div class="relative mb-6">
+        <div class="group flex flex-col bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200 hover:-translate-y-1.5 transition-all duration-300">
+            <div class="relative w-full aspect-[4/5] overflow-hidden bg-slate-100">
                 <button type="button"
                         @click="openPreview('{{ $photoUrl }}', '{{ e($official->name) }}', '{{ e($official->position) }}')"
-                        class="w-28 h-28 md:w-36 md:h-36 rounded-2xl overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 group-hover:ring-emerald-300 transition-all duration-300 cursor-pointer block relative group/btn"
+                        class="w-full h-full block cursor-pointer relative group/btn text-left"
                         title="Klik untuk memperbesar foto">
-                    <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-110 transition duration-500" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
-                    <div class="absolute inset-0 bg-slate-900/30 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-lg">
-                        <i class="fa-solid fa-expand"></i>
+                    <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4 text-white">
+                        <span class="inline-flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                            <i class="fa-solid fa-expand text-[10px]"></i> Perbesar Foto
+                        </span>
                     </div>
                 </button>
-                <div class="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-md"></div>
             </div>
-            <div class="text-center flex-1 flex flex-col items-center">
-                <h3 class="text-base md:text-lg font-heading font-bold text-slate-900 mb-3 leading-tight">{{ $official->name }}</h3>
-                <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full px-3 py-1 text-xs font-black uppercase tracking-wide">
-                    <i class="fa-solid fa-shield-halved text-[10px]"></i>
+            <div class="p-5 md:p-6 text-center flex-1 flex flex-col items-center justify-between bg-white">
+                <h3 class="text-base md:text-lg font-heading font-extrabold text-slate-900 mb-3 leading-snug group-hover:text-emerald-600 transition-colors">{{ $official->name }}</h3>
+                <span class="inline-flex items-center bg-emerald-50 text-emerald-700 border border-emerald-200/80 rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wide">
                     {{ $official->position }}
                 </span>
             </div>
@@ -234,16 +234,17 @@
          @keydown.escape.window="closePreview()"
          @click.self="closePreview()"
          class="sotk-modal-backdrop" role="dialog" aria-modal="true">
-        <div class="relative bg-slate-900/90 rounded-3xl p-4 md:p-6 max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center overflow-hidden border border-slate-700 shadow-2xl" @click.stop>
-            <button type="button" @click="closePreview()" class="absolute top-4 right-4 text-white/80 hover:text-white bg-slate-800/80 hover:bg-slate-700 w-10 h-10 rounded-full flex items-center justify-center transition z-10">
+        <div class="relative bg-slate-900 rounded-3xl max-w-sm sm:max-w-md w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl" @click.stop>
+            <button type="button" @click="closePreview()" class="absolute top-4 right-4 text-white/90 hover:text-white bg-slate-900/60 hover:bg-slate-900 w-10 h-10 rounded-full flex items-center justify-center transition z-20 backdrop-blur-md border border-white/10">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <div class="flex-1 w-full h-full flex items-center justify-center p-2 min-h-0 overflow-hidden">
-                <img :src="previewImage" :alt="previewName" class="max-w-full max-h-[75vh] object-contain rounded-2xl shadow-2xl">
+            <div class="w-full aspect-[4/5] bg-slate-800 relative overflow-hidden">
+                <img :src="previewImage" :alt="previewName" class="w-full h-full object-cover object-top">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80"></div>
             </div>
-            <div class="mt-4 text-center">
-                <h3 class="text-lg md:text-xl font-heading font-bold text-white mb-1" x-text="previewName"></h3>
-                <span class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wide" x-text="previewPosition"></span>
+            <div class="p-6 text-center -mt-10 relative z-10 bg-slate-900">
+                <h3 class="text-xl md:text-2xl font-heading font-extrabold text-white mb-2" x-text="previewName"></h3>
+                <span class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full px-4 py-1.5 text-xs font-extrabold uppercase tracking-wide" x-text="previewPosition"></span>
             </div>
         </div>
     </div>
