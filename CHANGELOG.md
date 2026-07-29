@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.33] - 2026-07-29
+
+### Fixed
+- **Fitur Pemulihan Otomatis Tautan Gambar 404 (Auto Revert & Init Route)**:
+  - Mengubah migrasi `2026_07_29_200500_convert_existing_images_to_webp.php` agar secara otomatis mengembalikan tautan database dari `.webp` ke format asli (`.jpg`/`.jpeg`/`.png`) apabila file `.webp` fisiknya tidak ditemukan di server production.
+  - Memperbarui rute `/init` pada `routes/web.php` untuk memindai dan memperbaiki seluruh tautan 404 yang terlanjur berubah ke WebP saat diakses oleh Super Admin.
+
 ## [1.26.32] - 2026-07-29
 
 ### Fixed

@@ -91,5 +91,54 @@ Route::get('/init', function () {
     
     $copyRecursive($src, $dst);
     
-    return "Berhasil menyalin data dummy & media ke folder fisik public/storage!";
+    // Perbaiki tautan 404 di DB jika file .webp fisik tidak ada tetapi tautan di DB sudah terlanjur ber-ekstensi .webp
+    $tablesAndColumns = [
+        'posts' => ['featured_image'],
+        'officials' => ['photo'],
+        'popup_infographics' => ['image'],
+        'galleries' => ['image'],
+        'village_potentials' => ['image'],
+        'institutions' => ['logo'],
+        'publications' => ['cover'],
+        'site_settings' => ['value'],
+    ];
+
+    $revertedCount = 0;
+    foreach ($tablesAndColumns as $table => $columns) {
+        if (!\Illuminate\Support\Facades\Schema::hasTable($table)) continue;
+        foreach ($columns as $column) {
+            if (!\Illuminate\Support\Facades\Schema::hasColumn($table, $column)) continue;
+
+            $rows = \Illuminate\Support\Facades\DB::table($table)
+                ->where($column, 'LIKE', '%.webp')
+                ->get();
+
+            foreach ($rows as $row) {
+                $val = $row->{$column};
+                if (!$val) continue;
+
+                $fullWebpPath = storage_path('app/public/' . ltrim($val, '/'));
+                if (!file_exists($fullWebpPath)) {
+                    // Cari file alternatif .jpg, .jpeg, atau .png di storage
+                    $basePathWithoutExt = preg_replace('/\.webp$/i', '', $val);
+                    $foundOriginalExt = null;
+                    foreach (['.jpg', '.jpeg', '.png'] as $testExt) {
+                        if (file_exists(storage_path('app/public/' . ltrim($basePathWithoutExt . $testExt, '/')))) {
+                            $foundOriginalExt = $basePathWithoutExt . $testExt;
+                            break;
+                        }
+                    }
+
+                    if ($foundOriginalExt) {
+                        \Illuminate\Support\Facades\DB::table($table)
+                            ->where('id', $row->id)
+                            ->update([$column => $foundOriginalExt]);
+                        $revertedCount++;
+                    }
+                }
+            }
+        }
+    }
+
+    return "Berhasil menyalin data media ke folder fisik public/storage! (Memperbaiki {$revertedCount} tautan gambar 404 ke format asli)";
 })->middleware('auth');

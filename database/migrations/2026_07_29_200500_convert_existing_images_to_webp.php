@@ -107,8 +107,8 @@ return new class extends Migration
                 }
 
                 try {
-                    // Hanya ganti ekstensi .jpg, .jpeg, .png di database ke .webp JIKA file .webp fisiknya benar-benar ada di storage
-                    $rows = DB::table($table)
+                    // 2a. Ganti ekstensi .jpg, .jpeg, .png di database ke .webp JIKA file .webp fisiknya benar-benar ada di storage
+                    $rowsToWebp = DB::table($table)
                         ->where(function ($q) use ($column) {
                             $q->where($column, 'LIKE', '%.jpg')
                               ->orWhere($column, 'LIKE', '%.jpeg')
@@ -116,7 +116,7 @@ return new class extends Migration
                         })
                         ->get();
 
-                    foreach ($rows as $row) {
+                    foreach ($rowsToWebp as $row) {
                         $oldValue = $row->{$column};
                         if (!$oldValue) continue;
 
@@ -128,6 +128,29 @@ return new class extends Migration
                                 DB::table($table)
                                     ->where('id', $row->id)
                                     ->update([$column => $newValue]);
+                            }
+                        }
+                    }
+
+                    // 2b. Kembalikan .webp ke .jpg/.png jika file .webp fisiknya TIDAK ADA di storage server production
+                    $rowsFromWebp = DB::table($table)
+                        ->where($column, 'LIKE', '%.webp')
+                        ->get();
+
+                    foreach ($rowsFromWebp as $row) {
+                        $val = $row->{$column};
+                        if (!$val) continue;
+
+                        $fullWebpPath = storage_path('app/public/' . ltrim($val, '/'));
+                        if (!file_exists($fullWebpPath)) {
+                            $basePathWithoutExt = preg_replace('/\.webp$/i', '', $val);
+                            foreach (['.jpg', '.jpeg', '.png'] as $testExt) {
+                                if (file_exists(storage_path('app/public/' . ltrim($basePathWithoutExt . $testExt, '/')))) {
+                                    DB::table($table)
+                                        ->where('id', $row->id)
+                                        ->update([$column => $basePathWithoutExt . $testExt]);
+                                    break;
+                                }
                             }
                         }
                     }
