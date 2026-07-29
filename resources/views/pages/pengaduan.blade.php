@@ -106,17 +106,19 @@
             @if(session('success') && session('ticket_number'))
             <div x-data="{ showSuccessModal: true, copied: false }"
                  x-show="showSuccessModal"
+                 x-cloak
                  x-transition:enter="transition ease-out duration-300"
                  x-transition:enter-start="opacity-0"
                  x-transition:enter-end="opacity-100"
                  x-transition:leave="transition ease-in duration-200"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
-                 class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md"
+                 class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md cursor-pointer select-none"
                  style="display: none;"
-                 @click.self="showSuccessModal = false">
+                 @keydown.escape.window="showSuccessModal = false"
+                 @click="showSuccessModal = false">
                 
-                <div class="bg-white rounded-[40px] shadow-2xl p-8 md:p-10 max-w-lg w-full border border-slate-100 relative text-center animate-in zoom-in-95 duration-300">
+                <div @click.stop class="bg-white rounded-[28px] shadow-2xl p-8 md:p-10 max-w-lg w-full border border-slate-100 relative text-center cursor-default">
                     <button @click="showSuccessModal = false" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center">
                         <i class="fa-solid fa-xmark text-lg"></i>
                     </button>

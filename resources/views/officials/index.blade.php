@@ -129,9 +129,9 @@
 
 
     /* ─── Node Card ─── */
-    .oc-card { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fff; border: 2px solid #e2e8f0; border-radius: 18px; padding: 0 0 10px 0; width: 148px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: box-shadow 0.2s, transform 0.2s; cursor: default; }
+    .oc-card { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fff; border: 2px solid #e2e8f0; border-radius: 18px; padding: 0 0 12px 0; width: 160px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: box-shadow 0.2s, transform 0.2s; cursor: default; }
     .oc-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.12); transform: translateY(-2px); }
-    .oc-photo { width: 100%; height: 110px; border-radius: 16px 16px 0 0; overflow: hidden; border: none; border-bottom: 2px solid #e2e8f0; flex-shrink: 0; background-size: cover; background-position: top center; background-repeat: no-repeat; }
+    .oc-photo { width: 100%; height: 170px; border-radius: 16px 16px 0 0; overflow: hidden; border: none; border-bottom: 2px solid #e2e8f0; flex-shrink: 0; background-size: cover; background-position: top center; background-repeat: no-repeat; }
 
     .oc-name { font-size: 13px; font-weight: 700; color: #0f172a; line-height: 1.15; font-family: 'Poppins', sans-serif; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; }
     .oc-pos { font-size: 11px; font-weight: 600; color: #475569; line-height: 1.15; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; }
@@ -197,31 +197,50 @@
     />
     @else
 
+    @php
+        $officialItems = $officials->map(fn($o) => [
+            'id' => $o->id,
+            'name' => $o->name,
+            'position' => $o->position,
+            'photo' => $o->photo ? asset('storage/' . $o->photo) : asset('img/meta.webp')
+        ])->values()->toArray();
+    @endphp
+
     <div x-data="{
-        previewImage: null,
-        previewName: '',
-        previewPosition: '',
-        openPreview(src, name, pos) {
-            this.previewImage = src;
-            this.previewName = name;
-            this.previewPosition = pos;
+        officialItems: @js($officialItems),
+        currentIndex: 0,
+        previewOpen: false,
+        get currentOfficial() {
+            return this.officialItems[this.currentIndex] || {};
+        },
+        openPreviewByIndex(index) {
+            this.currentIndex = index;
+            this.previewOpen = true;
             document.body.classList.add('sotk-modal-open');
         },
         closePreview() {
-            this.previewImage = null;
+            this.previewOpen = false;
             document.body.classList.remove('sotk-modal-open');
+        },
+        nextSlide() {
+            if (this.officialItems.length === 0) return;
+            this.currentIndex = (this.currentIndex + 1) % this.officialItems.length;
+        },
+        prevSlide() {
+            if (this.officialItems.length === 0) return;
+            this.currentIndex = (this.currentIndex - 1 + this.officialItems.length) % this.officialItems.length;
         }
     }">
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-        @foreach($officials as $official)
+        @foreach($officials as $idx => $official)
         @php
             $photoUrl = $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp');
         @endphp
         <div class="group flex flex-col bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200 hover:-translate-y-1.5 transition-all duration-300">
             <div class="relative w-full aspect-[4/5] overflow-hidden bg-slate-100">
                 <button type="button"
-                        @click="openPreview('{{ $photoUrl }}', '{{ e($official->name) }}', '{{ e($official->position) }}')"
+                        @click="openPreviewByIndex({{ $idx }})"
                         class="w-full h-full block cursor-pointer relative group/btn text-left"
                         title="Klik untuk memperbesar foto">
                     <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
@@ -242,22 +261,73 @@
         @endforeach
     </div>
 
-    {{-- Modal Preview Foto Fullscreen --}}
-    <div x-show="previewImage" x-cloak
+    {{-- Modal Preview Foto Fullscreen With Slider --}}
+    <div x-show="previewOpen" x-cloak
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
          @keydown.escape.window="closePreview()"
-         @click.self="closePreview()"
-         class="sotk-modal-backdrop" role="dialog" aria-modal="true">
-        <div class="relative bg-slate-900 rounded-3xl max-w-sm sm:max-w-md w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl" @click.stop>
-            <button type="button" @click="closePreview()" class="absolute top-4 right-4 text-white/90 hover:text-white bg-slate-900/60 hover:bg-slate-900 w-10 h-10 rounded-full flex items-center justify-center transition z-20 backdrop-blur-md border border-white/10">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="w-full aspect-[4/5] bg-slate-800 relative overflow-hidden">
-                <img :src="previewImage" :alt="previewName" class="w-full h-full object-cover object-top">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80"></div>
+         @keydown.arrow-left.window="prevSlide()"
+         @keydown.arrow-right.window="nextSlide()"
+         @click="closePreview()"
+         class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+         role="dialog" aria-modal="true">
+        
+        {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
+        <template x-if="officialItems.length > 1">
+            <div class="fixed top-5 left-5 sm:top-8 sm:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full shadow-2xl">
+                <span x-text="(currentIndex + 1) + ' / ' + officialItems.length"></span>
             </div>
-            <div class="p-6 text-center -mt-10 relative z-10 bg-slate-900">
-                <h3 class="text-xl md:text-2xl font-heading font-extrabold text-white mb-2" x-text="previewName"></h3>
-                <span class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full px-4 py-1.5 text-xs font-extrabold uppercase tracking-wide" x-text="previewPosition"></span>
+        </template>
+
+        {{-- Tombol Tutup (Di Luar Modal, Kanan Atas Layar) --}}
+        <button
+            type="button"
+            @click.stop="closePreview()"
+            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+            title="Tutup (Esc)"
+        >
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+
+        {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
+        <template x-if="officialItems.length > 1">
+            <button type="button" @click.stop="prevSlide()" 
+                    class="fixed left-3 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    title="Sebelumnya (Tombol Panah Kiri)">
+                <i class="fa-solid fa-chevron-left text-lg"></i>
+            </button>
+        </template>
+
+        {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
+        <template x-if="officialItems.length > 1">
+            <button type="button" @click.stop="nextSlide()" 
+                    class="fixed right-3 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    title="Selanjutnya (Tombol Panah Kanan)">
+                <i class="fa-solid fa-chevron-right text-lg"></i>
+            </button>
+        </template>
+
+        <div class="relative bg-slate-900 rounded-[28px] max-w-sm sm:max-w-md w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default" @click.stop
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-95 translate-y-4">
+            
+            <div class="w-full aspect-[4/5] bg-slate-800 relative overflow-hidden flex items-center justify-center">
+                <img :src="currentOfficial.photo" :alt="currentOfficial.name" class="w-full h-full object-cover object-top transition-all duration-300">
+            </div>
+            
+            <div class="p-5 text-center relative z-10 bg-white border-t border-slate-100 flex flex-col items-center justify-center">
+                <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900 mb-1.5" x-text="currentOfficial.name"></h3>
+                <div class="flex items-center justify-center gap-3 w-full">
+                    <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200/80 rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wide" x-text="currentOfficial.position"></span>
+                </div>
             </div>
         </div>
     </div>
@@ -265,11 +335,23 @@
     <div class="mt-12 text-center">
 
         <div x-show="isOpen" x-cloak
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
              @keydown.escape.window="close()"
-             @click.self="close()"
-             class="sotk-modal-backdrop"
+             @click="close()"
+             class="sotk-modal-backdrop cursor-pointer"
              role="dialog" aria-modal="true" aria-labelledby="sotk-modal-title">
-            <div x-ref="modal" class="sotk-modal" @click.stop>
+            <div x-ref="modal" class="sotk-modal cursor-default" @click.stop
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-95 translate-y-4">
 
                 {{-- Header --}}
 

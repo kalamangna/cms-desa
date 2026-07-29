@@ -372,30 +372,33 @@
         </div>
     </div>
 
-    {{-- ===================== DETAIL MODAL OVERLAY ===================== --}}
+    {{-- ===================== DETAIL SERVICE MODAL ===================== --}}
     <div x-show="activeService"
+         x-cloak
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md"
+         class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md cursor-pointer select-none"
          style="display: none;"
-         @click.self="activeService = null">
+         @keydown.escape.window="activeService = null"
+         @click="activeService = null">
 
         {{-- Modal Card --}}
         <div x-show="activeService"
+             @click.stop
              x-transition:enter="transition ease-out duration-300 transform"
              x-transition:enter-start="opacity-0 translate-y-8 scale-95"
              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
              x-transition:leave="transition ease-in duration-200 transform"
              x-transition:leave-start="opacity-100 translate-y-0 scale-100"
              x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-             class="bg-white rounded-[40px] shadow-2xl p-8 md:p-12 max-w-2xl w-full max-h-[85vh] overflow-y-auto border border-slate-100 relative">
+             class="bg-white rounded-[28px] shadow-2xl p-8 md:p-12 max-w-2xl w-full max-h-[85vh] overflow-y-auto border border-slate-100 relative cursor-default">
 
             {{-- Close Button --}}
-            <button @click="activeService = null" class="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center">
+            <button @click="activeService = null" class="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center cursor-pointer">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
 
@@ -422,12 +425,12 @@
             <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
                 <button 
                     @click="applyServiceId = activeService.id; applyServiceTitle = activeService.title; activeService = null; showApplyModal = true;"
-                    class="flex-1 flex items-center justify-center gap-2 bg-emerald-600 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-emerald-700 transition shadow-lg shadow-emerald-200"
+                    class="flex-1 flex items-center justify-center gap-2 bg-emerald-600 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-emerald-700 transition shadow-lg shadow-emerald-200 cursor-pointer"
                 >
                     <i class="fa-solid fa-paper-plane"></i>
                     Ajukan Layanan Ini
                 </button>
-                <button @click="activeService = null" class="flex-1 flex items-center justify-center gap-2 bg-slate-100 text-slate-700 px-6 py-3.5 rounded-full font-bold text-sm hover:bg-slate-200 transition">
+                <button @click="activeService = null" class="flex-1 flex items-center justify-center gap-2 bg-slate-100 text-slate-700 px-6 py-3.5 rounded-full font-bold text-sm hover:bg-slate-200 transition cursor-pointer">
                     <i class="fa-solid fa-xmark"></i>
                     Tutup
                 </button>
@@ -437,24 +440,27 @@
 
     {{-- ===================== APPLY LAYANAN MODAL ===================== --}}
     <div x-show="showApplyModal"
+         x-cloak
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md"
+         class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md cursor-pointer select-none"
          style="display: none;"
-         @click.self="showApplyModal = false">
+         @keydown.escape.window="showApplyModal = false"
+         @click="showApplyModal = false">
 
         <div x-show="showApplyModal"
+             @click.stop
              x-transition:enter="transition ease-out duration-300 transform"
              x-transition:enter-start="opacity-0 translate-y-8 scale-95"
              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
              x-transition:leave="transition ease-in duration-200 transform"
              x-transition:leave-start="opacity-100 translate-y-0 scale-100"
              x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-             class="bg-white rounded-[40px] shadow-2xl p-8 md:p-10 max-w-lg w-full border border-slate-100 relative">
+             class="bg-white rounded-[28px] shadow-2xl p-8 md:p-10 max-w-lg w-full border border-slate-100 relative cursor-default">
 
             <button @click="showApplyModal = false" class="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center">
                 <i class="fa-solid fa-xmark text-lg"></i>

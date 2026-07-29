@@ -31,11 +31,13 @@
             if (!hasShown) {
                 setTimeout(() => {
                     this.isOpen = true;
+                    document.body.classList.add('sotk-modal-open');
                 }, 1000);
             }
         },
         closePopup() {
             this.isOpen = false;
+            document.body.classList.remove('sotk-modal-open');
             sessionStorage.setItem('home_popup_shown_session', 'true');
         },
         nextSlide() {
@@ -46,44 +48,46 @@
         }
      }"
      x-show="isOpen"
+     x-cloak
      x-transition:enter="transition ease-out duration-300"
      x-transition:enter-start="opacity-0"
      x-transition:enter-end="opacity-100"
      x-transition:leave="transition ease-in duration-200"
      x-transition:leave-start="opacity-100"
      x-transition:leave-end="opacity-0"
-     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
-     x-cloak>
+     @keydown.escape.window="closePopup()"
+     @click="closePopup()"
+     class="fixed inset-0 z-[9999] bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+     role="dialog" aria-modal="true">
     
     <!-- Modal Container -->
-    <div @click.away="closePopup()"
+    <div @click.stop
          x-show="isOpen"
-         x-transition:enter="transition ease-out duration-300 transform"
+         x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0 scale-95 translate-y-4"
          x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-         x-transition:leave="transition ease-in duration-200 transform"
+         x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 scale-100 translate-y-0"
          x-transition:leave-end="opacity-0 scale-95 translate-y-4"
-         class="relative w-full max-w-lg md:max-w-2xl bg-white rounded-[32px] overflow-hidden shadow-2xl border border-slate-100">
+         class="relative bg-slate-900 rounded-[28px] max-w-xl md:max-w-2xl w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default">
         
         <!-- Header / Close button -->
-        <div class="absolute top-4 right-4 z-20">
-            <button @click="closePopup()"
-                    class="w-10 h-10 rounded-full bg-slate-950/50 hover:bg-slate-950 text-white flex items-center justify-center transition focus:outline-none"
-                    aria-label="Close modal">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-        </div>
+        <button type="button"
+                @click="closePopup()"
+                class="absolute top-4 right-4 text-white/90 hover:text-white bg-slate-900/60 hover:bg-slate-900 w-10 h-10 rounded-full flex items-center justify-center transition z-20 backdrop-blur-md border border-white/10 cursor-pointer"
+                title="Tutup">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
 
         <!-- Slides Wrapper -->
-        <div class="relative overflow-hidden bg-slate-950 select-none">
-            <div class="relative flex transition-transform duration-500 ease-out"
+        <div class="relative overflow-hidden bg-slate-950 select-none flex items-center justify-center">
+            <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
                  :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
                 
                 @foreach($popups as $popup)
                 <div class="w-full flex-shrink-0 flex items-center justify-center min-w-full">
                     <img src="{{ asset('storage/' . $popup['image']) }}" 
-                         class="w-full h-auto object-contain max-h-[65vh] md:max-h-[70vh]"
+                         class="w-full h-auto max-h-[65vh] md:max-h-[70vh] object-contain"
                          alt="{{ $popup['title'] ?? 'Infografis Beranda' }}">
                 </div>
                 @endforeach
@@ -91,35 +95,37 @@
 
             @if(count($popups) > 1)
             <!-- Navigation Arrow Left -->
-            <button @click="prevSlide()" 
-                    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition z-10 focus:outline-none">
+            <button type="button" @click="prevSlide()" 
+                    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center transition z-10 focus:outline-none backdrop-blur-md border border-white/10 cursor-pointer"
+                    title="Sebelumnya">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
 
             <!-- Navigation Arrow Right -->
-            <button @click="nextSlide()" 
-                    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition z-10 focus:outline-none">
+            <button type="button" @click="nextSlide()" 
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center transition z-10 focus:outline-none backdrop-blur-md border border-white/10 cursor-pointer"
+                    title="Selanjutnya">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
 
             <!-- Indicators (Dots) -->
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
                 @foreach($popups as $index => $popup)
-                <button @click="activeSlide = {{ $index }}" 
+                <button type="button" @click="activeSlide = {{ $index }}" 
                         :class="activeSlide === {{ $index }} ? 'bg-emerald-500 w-6' : 'bg-white/50 hover:bg-white w-2'"
-                        class="h-2 rounded-full transition-all duration-300 focus:outline-none"></button>
+                        class="h-2 rounded-full transition-all duration-300 focus:outline-none cursor-pointer"></button>
                 @endforeach
             </div>
             @endif
         </div>
 
         <!-- Modal Footer -->
-        <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-            <div class="flex flex-col pr-4">
-                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
-                <span class="text-sm font-bold text-slate-700 mt-0.5 line-clamp-1" x-show="activeSlideTitle" x-text="activeSlideTitle"></span>
+        <div class="p-5 text-center bg-white border-t border-slate-100 flex items-center justify-between gap-4">
+            <div class="flex flex-col text-left min-w-0">
+                <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
+                <span class="text-sm font-bold text-slate-800 mt-0.5 line-clamp-1" x-show="activeSlideTitle" x-text="activeSlideTitle"></span>
             </div>
-            <button @click="closePopup()" class="bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl border border-slate-200 transition flex-shrink-0 focus:outline-none">
+            <button type="button" @click="closePopup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl border border-slate-200 transition flex-shrink-0 focus:outline-none cursor-pointer">
                 Tutup
             </button>
         </div>
@@ -500,14 +506,44 @@
     </div>
 </div>
 
+@php
+    $homeGalleryItems = $galleries->map(fn($g) => [
+        'id' => $g->id,
+        'type' => $g->type === 'video' ? 'video' : 'photo',
+        'image_url' => $g->image_url ? $g->image_url : asset('img/meta.webp'),
+        'title' => $g->title,
+        'youtube_url' => $g->type === 'video' ? $g->youtube_url : '',
+        'created_at' => $g->created_at->translatedFormat('d M Y')
+    ])->values()->toArray();
+@endphp
+
 {{-- 6. GALERI & PUBLIKASI --}}
 <div 
     class="bg-slate-50 py-16 md:py-20 lg:py-28"
     x-data="{
+        galleryItems: @js($homeGalleryItems),
+        currentIndex: 0,
         lightboxOpen: false,
-        lightboxImage: '',
-        lightboxTitle: '',
-        lightboxVideo: '',
+        get currentItem() {
+            return this.galleryItems[this.currentIndex] || {};
+        },
+        openLightboxByIndex(index) {
+            this.currentIndex = index;
+            this.lightboxOpen = true;
+            document.body.classList.add('sotk-modal-open');
+        },
+        closeLightbox() {
+            this.lightboxOpen = false;
+            document.body.classList.remove('sotk-modal-open');
+        },
+        nextSlide() {
+            if (this.galleryItems.length === 0) return;
+            this.currentIndex = (this.currentIndex + 1) % this.galleryItems.length;
+        },
+        prevSlide() {
+            if (this.galleryItems.length === 0) return;
+            this.currentIndex = (this.currentIndex - 1 + this.galleryItems.length) % this.galleryItems.length;
+        },
         getYoutubeEmbed(url) {
             if (!url) return '';
             const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
@@ -516,150 +552,161 @@
     }"
 >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-emerald-500"></div>
-                    <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi & Arsip</span>
+                    <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi Desa</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri & <span class="text-emerald-700">Publikasi</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri <span class="text-emerald-700">Foto & Video</span></h2>
             </div>
-            <div class="flex gap-4 items-center">
-                <a href="/galeri" class="text-sm font-bold text-slate-600 hover:text-emerald-700 transition flex items-center gap-2 group">Galeri <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></a>
-                <span class="text-slate-300">|</span>
-                <a href="/publikasi" class="text-sm font-bold text-slate-600 hover:text-emerald-700 transition flex items-center gap-2 group">Publikasi <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></a>
+            <div>
+                <a href="/galeri" class="text-sm font-bold text-slate-600 hover:text-emerald-700 transition flex items-center gap-2 group">Lihat Semua Galeri <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></a>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {{-- Galeri Masonry --}}
-            <div class="lg:col-span-7">
-                @if($galleries->isEmpty())
-                <x-empty-state
-                    icon="fa-solid fa-images"
-                    title="Belum Ada Dokumentasi"
-                    :compact="true"
-                />
-                @else
-                <div class="columns-2 gap-4 space-y-4">
-                    @foreach($galleries as $gallery)
-                    <div class="relative group overflow-hidden rounded-3xl shadow-md break-inside-avoid hover:-translate-y-1 transition-transform duration-300">
-                        <img src="{{ $gallery->image_url }}"
-                             class="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
-                             alt="{{ $gallery->title }}"
-                             loading="lazy"
-                             onerror="this.src='{{ asset('img/meta.webp') }}'">
-                        @if($gallery->type === 'video')
-                        <div class="absolute top-3 right-3 w-8 h-8 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
-                            <i class="fa-brands fa-youtube text-white text-xs"></i>
-                        </div>
-                        @endif
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <div class="flex items-center justify-between gap-2">
-                                <p class="text-white font-bold text-sm line-clamp-1">{{ $gallery->title }}</p>
-                                <button 
-                                    @click="lightboxOpen = true; lightboxImage = '{{ $gallery->image_url }}'; lightboxTitle = '{{ addslashes($gallery->title) }}'; lightboxVideo = '{{ $gallery->type === 'video' ? $gallery->youtube_url : '' }}'"
-                                    class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-sm transition cursor-pointer flex-shrink-0"
-                                    title="Perbesar"
-                                >
-                                    <i class="fa-solid fa-expand text-xs"></i>
-                                </button>
-                            </div>
+        {{-- Galeri Full Width Grid (4 Kolom Layout Rapi) --}}
+        @if($galleries->isEmpty())
+        <x-empty-state
+            icon="fa-solid fa-images"
+            title="Belum Ada Dokumentasi"
+            :compact="true"
+        />
+        @else
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach($galleries as $idx => $gallery)
+            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-md aspect-[4/3] cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl"
+                 @click="openLightboxByIndex({{ $idx }})">
+                <img src="{{ $gallery->image_url }}"
+                     class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
+                     alt="{{ $gallery->title }}"
+                     loading="lazy"
+                     onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
+                
+                @if($gallery->type === 'video')
+                    <div class="absolute top-3 left-3 z-20">
+                        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-lg shadow-red-600/40">
+                            <i class="fa-brands fa-youtube text-[10px]"></i>
+                            YouTube
+                        </span>
+                    </div>
+                    <div class="absolute inset-0 bg-slate-950/30 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
+                        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center shadow-xl shadow-red-950/40 text-white text-sm">
+                            <i class="fa-solid fa-play ml-0.5"></i>
                         </div>
                     </div>
-                    @endforeach
-                </div>
                 @endif
-            </div>
 
-            {{-- Publikasi --}}
-            <div class="lg:col-span-5">
-                <div class="space-y-4">
-                    @forelse($publications as $pub)
-                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-200 overflow-hidden group">
-                        <div class="flex items-center gap-5 p-5">
-                            <div class="w-16 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100">
-                                <img src="{{ $pub->cover ? asset('storage/' . $pub->cover) : asset('img/meta.webp') }}"
-                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                     alt="{{ $pub->title }}"
-                                     loading="lazy"
-                                     onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
-
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">{{ $pub->type }} · {{ $pub->year }}</span>
-                                <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2 mt-1 mb-3 group-hover:text-emerald-700 transition">{{ $pub->title }}</h4>
-                                @if($pub->pdf_file)
-                                    <a href="{{ asset('storage/' . $pub->pdf_file) }}" target="_blank"
-                                       class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-emerald-600 transition">
-                                        <i class="fa-solid fa-download text-[10px]"></i> Unduh PDF
-                                    </a>
-                                @else
-                                    <span class="text-xs text-slate-400 italic">File tidak tersedia</span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                     @empty
-                     <x-empty-state
-                         icon="fa-solid fa-book-open"
-                         title="Belum Ada Publikasi"
-                         :compact="true"
-                     />
-                     @endforelse
+                {{-- Hover Overlay Gradient & Info --}}
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-4 sm:p-5 text-white">
+                    <span class="text-[9px] font-black uppercase tracking-widest text-emerald-400 mb-0.5">
+                        {{ $gallery->created_at->translatedFormat('d M Y') }}
+                    </span>
+                    <h3 class="text-xs sm:text-sm font-heading font-extrabold text-white leading-snug line-clamp-2">
+                        {{ $gallery->title }}
+                    </h3>
                 </div>
             </div>
+            @endforeach
         </div>
+        @endif
     </div>
 
     {{-- ═══════════════════════════════════════════════════════════════════ --}}
-    {{-- LIGHTBOX MODAL --}}
+    {{-- LIGHTBOX MODAL WITH SLIDER --}}
     {{-- ═══════════════════════════════════════════════════════════════════ --}}
     <div
         x-show="lightboxOpen"
-        class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/95 backdrop-blur-sm"
         x-cloak
-        @keydown.escape.window="lightboxOpen = false; lightboxVideo = ''"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @keydown.escape.window="closeLightbox()"
+        @keydown.arrow-left.window="prevSlide()"
+        @keydown.arrow-right.window="nextSlide()"
+        @click="closeLightbox()"
+        class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+        role="dialog" aria-modal="true"
     >
-        {{-- Tombol tutup --}}
+        {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
+        <template x-if="galleryItems.length > 1">
+            <div class="fixed top-5 left-5 sm:top-8 sm:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full shadow-2xl">
+                <span x-text="(currentIndex + 1) + ' / ' + galleryItems.length"></span>
+            </div>
+        </template>
+
+        {{-- Tombol Tutup (Di Luar Modal, Kanan Atas Layar) --}}
         <button
-            @click="lightboxOpen = false; lightboxVideo = ''"
-            class="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-white focus:outline-none transition z-50 cursor-pointer"
+            type="button"
+            @click.stop="closeLightbox()"
+            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+            title="Tutup (Esc)"
         >
-            <i class="fa-solid fa-xmark text-4xl"></i>
+            <i class="fa-solid fa-xmark text-xl"></i>
         </button>
 
-        <div
-            @click.away="lightboxOpen = false; lightboxVideo = ''"
-            class="relative max-w-4xl w-full mx-4 flex flex-col items-center justify-center"
-            x-show="lightboxOpen"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-95"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 scale-100"
-            x-transition:leave-end="opacity-0 scale-95"
-        >
-            <template x-if="lightboxVideo">
-                <div class="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-white/10">
-                    <iframe
-                        class="w-full h-full"
-                        :src="getYoutubeEmbed(lightboxVideo)"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen
-                    ></iframe>
-                </div>
-            </template>
-            <template x-if="!lightboxVideo">
-                <img :src="lightboxImage" :alt="lightboxTitle" class="w-full h-auto max-h-[85vh] object-contain rounded-xl shadow-2xl">
-            </template>
+        {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
+        <template x-if="galleryItems.length > 1">
+            <button type="button" @click.stop="prevSlide()" 
+                    class="fixed left-3 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    title="Sebelumnya (Tombol Panah Kiri)">
+                <i class="fa-solid fa-chevron-left text-lg"></i>
+            </button>
+        </template>
 
-            <h3 x-text="lightboxTitle" class="text-white text-center mt-6 font-heading font-bold text-xl md:text-2xl"></h3>
+        {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
+        <template x-if="galleryItems.length > 1">
+            <button type="button" @click.stop="nextSlide()" 
+                    class="fixed right-3 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    title="Selanjutnya (Tombol Panah Kanan)">
+                <i class="fa-solid fa-chevron-right text-lg"></i>
+            </button>
+        </template>
+
+        {{-- Container Modal Konten --}}
+        <div
+            class="relative bg-slate-900 rounded-[28px] max-w-[85vw] md:max-w-[75vw] w-auto flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
+            @click.stop
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+            x-transition:leave-end="opacity-0 scale-95 translate-y-4"
+        >
+            {{-- Slider Content --}}
+            <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-[200px]">
+                <template x-if="currentItem.type === 'video'">
+                    <div class="w-[80vw] max-w-4xl aspect-video bg-black relative overflow-hidden">
+                        <iframe
+                            class="w-full h-full"
+                            :src="getYoutubeEmbed(currentItem.youtube_url)"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </template>
+                <template x-if="currentItem.type !== 'video'">
+                    <div class="relative overflow-hidden flex items-center justify-center bg-slate-950">
+                        <img :src="currentItem.image_url" :alt="currentItem.title" class="w-auto h-auto max-w-[80vw] max-h-[75vh] object-contain transition-all duration-300">
+                    </div>
+                </template>
+            </div>
+
+            {{-- Footer Info --}}
+            <div class="p-5 bg-white border-t border-slate-100 flex items-center justify-between gap-4 relative z-10">
+                <div class="flex flex-col text-left min-w-0">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600" x-text="currentItem.created_at || ''"></span>
+                    <h3 class="text-base md:text-xl font-heading font-extrabold text-slate-800 leading-snug line-clamp-1 mt-0.5" x-text="currentItem.title || ''"></h3>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 
 @endsection
 

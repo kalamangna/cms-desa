@@ -2,6 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.43] - 2026-07-29
+
+### Added & Changed
+- **Harmonisasi Desain Modal & Fitur Slider Lightbox**:
+  - Menambahkan fitur slider karusel pada modal Lightbox Galeri Beranda, Galeri Utama, dan Aparatur Desa lengkap dengan navigasi panah melayang (`Prev`/`Next`/`Close`) di luar area modal, dukungan tombol keyboard `←`/`→`, serta indikator counter (`1 / N`) di kiri atas layar.
+  - Memperbarui grid galeri di Halaman Utama menjadi layout **Rapi Simetris 16:10 (`aspect-[16/10]`)** tanpa border kartu dan efek info pada hover overlay.
+  - Menghapus seksi Publikasi dari Beranda dan mengubah seksi Galeri Beranda menjadi grid 4-kolom *full-width* dengan judul **"Galeri Foto & Video"**.
+  - Mengembalikan rasio pasfoto aparatur pada modal ke `aspect-[4/5]` dengan `object-cover object-top`.
+  - Memperbarui kepekatan backdrop overlay (`bg-slate-950/90 backdrop-blur-md z-[9999]`) dan kelengkungan kartu modal (`rounded-[28px]`) secara seragam pada halaman Layanan Surat Online & Pengaduan Warga.
+
 ## [1.26.42] - 2026-07-29
 
 ### Fixed

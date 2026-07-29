@@ -42,17 +42,49 @@
 </div>
 
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
-{{-- KONTEN UTAMA --}}
-{{-- ═══════════════════════════════════════════════════════════════════ --}}
+@php
+    $galleryItems = $galleries->map(fn($g) => [
+        'id' => $g->id,
+        'type' => $g->type === 'video' ? 'video' : 'photo',
+        'image_url' => $g->image_url ? $g->image_url : asset('img/meta.webp'),
+        'title' => $g->title,
+        'youtube_url' => $g->type === 'video' ? $g->youtube_url : '',
+        'created_at' => $g->created_at->translatedFormat('d M Y')
+    ])->values()->toArray();
+@endphp
+
 <div
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28"
     x-data="{
         activeFilter: 'semua',
         filtersWithData: {{ json_encode($galleries->map(fn($g) => $g->type === 'video' ? 'video' : 'photo')->unique()->values()->toArray()) }},
+        galleryItems: @js($galleryItems),
+        currentIndex: 0,
         lightboxOpen: false,
-        lightboxImage: '',
-        lightboxTitle: '',
-        lightboxVideo: '',
+        get filteredItems() {
+            if (this.activeFilter === 'semua') return this.galleryItems;
+            return this.galleryItems.filter(item => item.type === this.activeFilter);
+        },
+        get currentItem() {
+            return this.filteredItems[this.currentIndex] || {};
+        },
+        openLightboxByIndex(index) {
+            this.currentIndex = index;
+            this.lightboxOpen = true;
+            document.body.classList.add('sotk-modal-open');
+        },
+        closeLightbox() {
+            this.lightboxOpen = false;
+            document.body.classList.remove('sotk-modal-open');
+        },
+        nextSlide() {
+            if (this.filteredItems.length === 0) return;
+            this.currentIndex = (this.currentIndex + 1) % this.filteredItems.length;
+        },
+        prevSlide() {
+            if (this.filteredItems.length === 0) return;
+            this.currentIndex = (this.currentIndex - 1 + this.filteredItems.length) % this.filteredItems.length;
+        },
         getYoutubeEmbed(url) {
             if (!url) return '';
             const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
@@ -94,7 +126,7 @@
         </button>
     </div>
 
-    {{-- ─── Masonry Grid ─── --}}
+    {{-- ─── Grid Galeri Rapi (Aspect Ratio 16:10) ─── --}}
     @if($galleries->isEmpty())
         <x-empty-state
             icon="fa-solid fa-images"
@@ -102,10 +134,10 @@
             description="Belum ada foto atau video yang diunggah."
         />
     @else
-        <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
-            @foreach($galleries as $item)
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            @foreach($galleries as $index => $item)
             <div
-                class="break-inside-avoid group relative bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-emerald-200"
+                class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-md aspect-[16/10] cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl"
                 x-show="activeFilter === 'semua' || activeFilter === '{{ $item->type === 'video' ? 'video' : 'photo' }}'"
                 x-transition:enter="transition ease-out duration-400"
                 x-transition:enter-start="opacity-0 scale-95"
@@ -113,63 +145,44 @@
                 x-transition:leave="transition ease-in duration-200"
                 x-transition:leave-start="opacity-100 scale-100"
                 x-transition:leave-end="opacity-0 scale-95"
+                @click="openLightboxByIndex(filteredItems.findIndex(i => i.id === {{ $item->id }}))"
             >
-                {{-- Thumbnail --}}
-                <div class="relative overflow-hidden">
-                    <img
-                        src="{{ $item->image_url ? $item->image_url : asset('img/meta.webp') }}"
-                        class="w-full object-cover group-hover:scale-105 transition duration-700"
-                        alt="{{ $item->title }}"
-                        loading="lazy"
-                        onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
-                    >
+                {{-- Foto Full Background --}}
+                <img
+                    src="{{ $item->image_url ? $item->image_url : asset('img/meta.webp') }}"
+                    class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
+                    alt="{{ $item->title }}"
+                    loading="lazy"
+                    onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
+                >
 
-
-                    {{-- Badge: Video (merah YouTube) --}}
-                    @if($item->type === 'video')
-                        <div class="absolute top-4 left-4">
-                            <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg shadow-red-600/40">
-                                <i class="fa-brands fa-youtube text-xs"></i>
-                                YouTube
-                            </span>
-                        </div>
-                        <div class="absolute inset-0 bg-slate-950/30 flex items-center justify-center group-hover:bg-slate-950/10 transition duration-300">
-                            <div class="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shadow-xl shadow-red-950/40 text-white text-lg group-hover:scale-110 transition duration-300">
-                                <i class="fa-solid fa-play ml-1"></i>
-                            </div>
-                        </div>
-                    @else
-                        {{-- Overlay hover untuk foto --}}
-                        <div class="absolute inset-0 bg-emerald-900/0 group-hover:bg-emerald-900/20 transition duration-500"></div>
-                    @endif
-                </div>
-
-                {{-- Card Body --}}
-                <div class="p-6 md:p-8">
-                    <div class="flex items-start justify-between gap-3 mb-3">
-                        <h3 class="text-base md:text-lg font-heading font-bold text-slate-900 group-hover:text-emerald-600 transition leading-tight line-clamp-2">
-                            {{ $item->title }}
-                        </h3>
-                    </div>
-                    @if($item->description)
-                        <p class="text-slate-500 text-sm leading-relaxed line-clamp-2 font-medium mb-4">{{ $item->description }}</p>
-                    @endif
-                    <div class="flex justify-between items-center pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                            {{ $item->created_at->translatedFormat('d M Y') }}
+                {{-- Badge Video (YouTube) --}}
+                @if($item->type === 'video')
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg shadow-red-600/40">
+                            <i class="fa-brands fa-youtube text-xs"></i>
+                            YouTube
                         </span>
-                        <button
-                            @click="lightboxOpen = true; lightboxImage = '{{ $item->image_url }}'; lightboxTitle = '{{ addslashes($item->title) }}'; lightboxVideo = '{{ $item->type === 'video' ? $item->youtube_url : '' }}'"
-                            class="inline-flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-widest hover:text-emerald-700 transition cursor-pointer"
-                        >
-                            <i class="fa-solid fa-expand text-xs"></i>
-                            Perbesar
-                        </button>
                     </div>
-                </div>
+                    <div class="absolute inset-0 bg-slate-950/30 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
+                        <div class="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shadow-xl shadow-red-950/40 text-white text-lg">
+                            <i class="fa-solid fa-play ml-1"></i>
+                        </div>
+                    </div>
+                @endif
 
-                {{-- Hover glow --}}
-                <div class="absolute inset-0 bg-emerald-600/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-3xl"></div>
+                {{-- Hover Overlay Gradient & Info --}}
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-6 md:p-7 text-white">
+                    <span class="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-1">
+                        {{ $item->created_at->translatedFormat('d M Y') }}
+                    </span>
+                    <h3 class="text-base md:text-lg font-heading font-extrabold text-white leading-snug line-clamp-2">
+                        {{ $item->title }}
+                    </h3>
+                    @if($item->description)
+                        <p class="text-slate-300 text-xs leading-relaxed line-clamp-2 font-medium mt-1.5">{{ $item->description }}</p>
+                    @endif
+                </div>
             </div>
             @endforeach
         </div>
@@ -194,49 +207,97 @@
     @endif
 
     {{-- ═══════════════════════════════════════════════════════════════════ --}}
-    {{-- LIGHTBOX MODAL --}}
+    {{-- LIGHTBOX MODAL WITH SLIDER --}}
     {{-- ═══════════════════════════════════════════════════════════════════ --}}
     <div
         x-show="lightboxOpen"
-        class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/95 backdrop-blur-sm"
         x-cloak
-        @keydown.escape.window="lightboxOpen = false; lightboxVideo = ''"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @keydown.escape.window="closeLightbox()"
+        @keydown.arrow-left.window="prevSlide()"
+        @keydown.arrow-right.window="nextSlide()"
+        @click="closeLightbox()"
+        class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+        role="dialog" aria-modal="true"
     >
-        {{-- Tombol tutup --}}
+        {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
+        <template x-if="filteredItems.length > 1">
+            <div class="fixed top-5 left-5 sm:top-8 sm:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full shadow-2xl">
+                <span x-text="(currentIndex + 1) + ' / ' + filteredItems.length"></span>
+            </div>
+        </template>
+
+        {{-- Tombol Tutup (Di Luar Modal, Kanan Atas Layar) --}}
         <button
-            @click="lightboxOpen = false; lightboxVideo = ''"
-            class="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-white focus:outline-none transition z-50 cursor-pointer"
+            type="button"
+            @click.stop="closeLightbox()"
+            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+            title="Tutup (Esc)"
         >
-            <i class="fa-solid fa-xmark text-4xl"></i>
+            <i class="fa-solid fa-xmark text-xl"></i>
         </button>
 
-        <div
-            @click.away="lightboxOpen = false; lightboxVideo = ''"
-            class="relative max-w-4xl w-full mx-4 flex flex-col items-center justify-center"
-            x-show="lightboxOpen"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-95"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 scale-100"
-            x-transition:leave-end="opacity-0 scale-95"
-        >
-            <template x-if="lightboxVideo">
-                <div class="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-white/10">
-                    <iframe
-                        class="w-full h-full"
-                        :src="getYoutubeEmbed(lightboxVideo)"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen
-                    ></iframe>
-                </div>
-            </template>
-            <template x-if="!lightboxVideo">
-                <img :src="lightboxImage" :alt="lightboxTitle" class="w-full h-auto max-h-[85vh] object-contain rounded-xl shadow-2xl">
-            </template>
+        {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
+        <template x-if="filteredItems.length > 1">
+            <button type="button" @click.stop="prevSlide()" 
+                    class="fixed left-3 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    title="Sebelumnya (Tombol Panah Kiri)">
+                <i class="fa-solid fa-chevron-left text-lg"></i>
+            </button>
+        </template>
 
-            <h3 x-text="lightboxTitle" class="text-white text-center mt-6 font-heading font-bold text-xl md:text-2xl"></h3>
+        {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
+        <template x-if="filteredItems.length > 1">
+            <button type="button" @click.stop="nextSlide()" 
+                    class="fixed right-3 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    title="Selanjutnya (Tombol Panah Kanan)">
+                <i class="fa-solid fa-chevron-right text-lg"></i>
+            </button>
+        </template>
+
+        {{-- Container Modal Konten --}}
+        <div
+            class="relative bg-slate-900 rounded-[28px] max-w-[85vw] md:max-w-[75vw] w-auto flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
+            @click.stop
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+            x-transition:leave-end="opacity-0 scale-95 translate-y-4"
+        >
+            {{-- Slider Content --}}
+            <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-[200px]">
+                <template x-if="currentItem.type === 'video'">
+                    <div class="w-[80vw] max-w-4xl aspect-video bg-black relative overflow-hidden">
+                        <iframe
+                            class="w-full h-full"
+                            :src="getYoutubeEmbed(currentItem.youtube_url)"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </template>
+                <template x-if="currentItem.type !== 'video'">
+                    <div class="relative overflow-hidden flex items-center justify-center bg-slate-950">
+                        <img :src="currentItem.image_url" :alt="currentItem.title" class="w-auto h-auto max-w-[80vw] max-h-[75vh] object-contain transition-all duration-300">
+                    </div>
+                </template>
+            </div>
+
+            {{-- Footer Info --}}
+            <div class="p-5 bg-white border-t border-slate-100 flex items-center justify-between gap-4 relative z-10">
+                <div class="flex flex-col text-left min-w-0">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600" x-text="currentItem.created_at || ''"></span>
+                    <h3 class="text-base md:text-xl font-heading font-extrabold text-slate-800 leading-snug line-clamp-1 mt-0.5" x-text="currentItem.title || ''"></h3>
+                </div>
+            </div>
         </div>
     </div>
 </div>
