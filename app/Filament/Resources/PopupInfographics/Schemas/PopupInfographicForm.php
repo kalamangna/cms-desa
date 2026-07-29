@@ -22,8 +22,10 @@ class PopupInfographicForm
                     ->columnSpanFull(),
                 FileUpload::make('image')
                     ->label('Gambar Poster / Infografis')
-                    ->helperText('Unggah gambar poster/infografis (JPG/PNG).')
+                    ->helperText('Unggah gambar poster/infografis (Otomatis dioptimalkan, maks 2MB).')
                     ->image()
+                    ->imageResizeTargetWidth(1200)
+                    ->maxSize(2048)
                     ->required()
                     ->directory('settings')
                     ->columnSpanFull(),

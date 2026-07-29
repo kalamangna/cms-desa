@@ -35,9 +35,10 @@ class PostForm
                             ->preload()
                             ->columnSpanFull(),
                         FileUpload::make('featured_image')->label('Gambar Utama')
-                            ->helperText('Foto sampul artikel (JPG/PNG, 1200x630px).')
+                            ->helperText('Foto sampul artikel (Otomatis dioptimalkan, maks 2MB).')
                             ->image()
                             ->imageResizeTargetWidth(1200)
+                            ->maxSize(2048)
                             ->nullable()
                             ->directory('posts')
                             ->columnSpanFull(),

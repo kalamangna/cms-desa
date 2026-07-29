@@ -61,9 +61,10 @@ class OfficialForm
                     ])
                     ->columnSpanFull(),
                 FileUpload::make('photo')->label('Foto')
-                    ->helperText('Unggah pasfoto resmi aparatur (JPG/PNG).')
+                    ->helperText('Unggah pasfoto resmi aparatur (Otomatis dioptimalkan, maks 2MB).')
                     ->image()
                     ->imageResizeTargetWidth(600)
+                    ->maxSize(2048)
                     ->nullable()
                     ->directory('officials')
                     ->columnSpanFull(),

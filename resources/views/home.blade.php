@@ -175,6 +175,8 @@
                         <img src="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.png') }}"
                              class="w-full h-full object-cover object-top"
                              alt="Foto {{ $villageHead?->name ?? 'Kepala Desa' }}"
+                             width="384"
+                             height="480"
                              loading="eager"
                              fetchpriority="high"
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.png') }}'">

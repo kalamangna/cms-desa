@@ -33,9 +33,10 @@ class GalleryForm
                     ])
                     ->columnSpanFull(),
                 FileUpload::make('image')->label('Foto')
-                    ->helperText('Unggah foto dokumentasi kegiatan (JPG/PNG).')
+                    ->helperText('Unggah foto dokumentasi kegiatan (Otomatis dioptimalkan, maks 2MB).')
                     ->image()
                     ->imageResizeTargetWidth(1200)
+                    ->maxSize(2048)
                     ->directory('galleries')
                     ->visible(fn ($get) => $get('type') === 'foto')
                     ->required(fn ($get) => $get('type') === 'foto')

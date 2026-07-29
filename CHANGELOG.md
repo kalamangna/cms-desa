@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.22] - 2026-07-29
+
+### Added
+- **Fitur Kompresi Foto Lama & Pengaturan FileUpload**:
+  - Menambahkan perintah Artisan `php artisan media:optimize-images` untuk mengompresi dan melakukan *resize* otomatis pada foto-foto lama yang sudah terlanjur berada di folder `storage/app/public`.
+  - Mengintegrasikan perintah kompresi foto otomatis pada rute `/init` untuk kemudahan eksekusi di server produksi.
+  - Memperbarui seluruh skema `FileUpload` pada Admin Panel Filament (Berita, Aparatur, Galeri, Infografis Popup, Publikasi, Potensi Desa) dengan opsi `maxSize(2048)` dan petunjuk kompresi otomatis.
+
 ## [1.26.21] - 2026-07-29
 
 ### Changed
