@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.35] - 2026-07-29
+
+### Fixed
+- **Pengoptimalan Rute Init & Pembersihan Cache Otomatis**:
+  - Memperbarui rute `/init` (`web.php`) untuk memeriksa keberadaan file gambar fisik di `public/storage/` maupun `storage/app/public/`.
+  - Mengintegrasikan `Cache::flush()` pada rute `/init` agar data beranda/slider yang ter-cache segera diperbarui dengan tautan gambar yang telah dipulihkan.
+
 ## [1.26.34] - 2026-07-29
 
 ### Fixed
