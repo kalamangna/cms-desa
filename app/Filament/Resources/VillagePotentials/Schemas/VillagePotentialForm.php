@@ -41,8 +41,9 @@ class VillagePotentialForm
                     ->required()
                     ->columnSpanFull(),
                 FileUpload::make('image')->label('Foto Pendukung')
-                    ->helperText('Unggah foto potensi desa (Otomatis dioptimalkan, maks 2MB).')
+                    ->helperText('Unggah foto potensi desa (Otomatis dioptimalkan WebP, maks 2MB).')
                     ->image()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->imageResizeTargetWidth(1000)
                     ->maxSize(2048)
                     ->nullable()

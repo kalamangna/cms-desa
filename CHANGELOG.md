@@ -2,6 +2,21 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.29] - 2026-07-29
+
+### Added & Optimized
+- **Penyeragaman Pengaturan Upload Gambar WebP & Pemetaan Migrasi**:
+  - Menyesuaikan seluruh skema formulir `FileUpload` pada Filament Admin (Berita, Galeri, Aparatur, Infografis Popup, Lembaga Desa, Publikasi Data, Potensi Desa) dengan batasan format `acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])` dan ukuran maksimal 2MB.
+  - Memperbarui pemetaan kolom gambar di migrasi `2026_07_29_194716_convert_existing_images_to_webp.php` agar mencakup seluruh modul gambar secara presisi (termasuk kolom `cover` pada publikasi).
+
+## [1.26.28] - 2026-07-29
+
+### Added & Optimized
+- **Migrasi Otomatis Konversi Berkas Gambar ke Format WebP**:
+  - Membuat migrasi `2026_07_29_194716_convert_existing_images_to_webp.php` untuk mengonversi seluruh berkas gambar `.jpg`/`.png` lama di storage ke format `.webp` yang lebih hemat ukuran dan memperbarui tautan path di database secara aman.
+  - Memperbarui gambar statis sistem (`meta.webp` dan `sinjai.webp`) di `public/img/` dengan penghematan hingga >89%.
+  - Menyesuaikan pengaturan `FileUpload` pada `PostForm.php` untuk menerima tipe file WebP.
+
 ## [1.26.27] - 2026-07-29
 
 ### Optimized

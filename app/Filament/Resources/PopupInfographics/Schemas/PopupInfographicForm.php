@@ -22,8 +22,9 @@ class PopupInfographicForm
                     ->columnSpanFull(),
                 FileUpload::make('image')
                     ->label('Gambar Poster / Infografis')
-                    ->helperText('Unggah gambar poster/infografis (Otomatis dioptimalkan, maks 2MB).')
+                    ->helperText('Unggah gambar poster/infografis (Otomatis dioptimalkan WebP, maks 2MB).')
                     ->image()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->imageResizeTargetWidth(1200)
                     ->maxSize(2048)
                     ->required()

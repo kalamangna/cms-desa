@@ -19,9 +19,11 @@ class InstitutionForm
                     ->required(),
                 FileUpload::make('logo')
                     ->label('Logo Lembaga')
-                    ->helperText('Unggah logo resmi lembaga (PNG/JPG).')
+                    ->helperText('Unggah logo resmi lembaga (Otomatis dioptimalkan WebP, maks 2MB).')
                     ->image()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->imageResizeTargetWidth(400)
+                    ->maxSize(2048)
                     ->nullable()
                     ->directory('institutions')
                     ->columnSpanFull(),

@@ -25,7 +25,7 @@
     <meta property="og:url" content="@yield('canonical', url()->current())">
     <meta property="og:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
     <meta property="og:description" content="@yield('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')">
-    <meta property="og:image" content="@yield('meta_image', asset('img/meta.png'))">
+    <meta property="og:image" content="@yield('meta_image', asset('img/meta.webp'))">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     @stack('og_extra')
@@ -34,7 +34,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
     <meta name="twitter:description" content="@yield('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')">
-    <meta name="twitter:image" content="@yield('meta_image', asset('img/meta.png'))">
+    <meta name="twitter:image" content="@yield('meta_image', asset('img/meta.webp'))">
 
     <!-- JSON-LD: Organization + WebSite (global) -->
     <script type="application/ld+json">
@@ -256,7 +256,7 @@
             <div class="flex justify-between items-center h-16 transition-all duration-300">
                 <div class="flex items-center">
                     <a href="/" class="flex-shrink-0 flex items-center gap-3">
-                        <img class="h-10 w-auto transition-all duration-300" :class="scrolled ? 'h-9' : 'h-11'" src="{{ asset('img/sinjai.png') }}" alt="Logo" width="44" height="44">
+                        <img class="h-10 w-auto transition-all duration-300" :class="scrolled ? 'h-9' : 'h-11'" src="{{ asset('img/sinjai.webp') }}" alt="Logo" width="44" height="44">
                         <div class="flex flex-col">
                             <span class="font-heading font-bold text-lg leading-tight text-emerald-700">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
                             <span class="text-[9px] uppercase tracking-widest text-slate-500 font-bold">Portal Resmi Desa</span>
@@ -466,7 +466,7 @@
                 <div class="lg:col-span-2">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-12 h-12 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center">
-                            <img class="h-8 w-auto" src="{{ asset('img/sinjai.png') }}" alt="Logo" width="32" height="32">
+                            <img class="h-8 w-auto" src="{{ asset('img/sinjai.webp') }}" alt="Logo" width="32" height="32">
                         </div>
                         <div>
                             <h3 class="text-lg font-heading font-bold tracking-tight">{{ $site_settings['village_name'] ?? 'Website Desa' }}</h3>
