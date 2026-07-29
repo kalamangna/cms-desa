@@ -4,6 +4,10 @@
 @section('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk publikasi berita pembangunan, struktur aparatur, transparansi anggaran APBDes, dan data statistik kependudukan resmi.')
 @section('meta_image', asset('img/meta.png'))
 
+@push('head')
+    <link rel="preload" as="image" href="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.png') }}" fetchpriority="high">
+@endpush
+
 @section('content')
 
 @php
@@ -660,7 +664,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Data demografi terenkripsi dari server

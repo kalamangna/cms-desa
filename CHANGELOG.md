@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.27] - 2026-07-29
+
+### Optimized
+- **Optimalisasi Performa & Kecepatan Muat (SPEED.md)**:
+  - Mengimplementasikan `font-display: swap` untuk font FontAwesome di [layouts/app.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/layouts/app.blade.php) guna mencegah *render-blocking font delay*.
+  - Menambahkan `<link rel="preload" as="image" fetchpriority="high">` untuk gambar LCP (foto Kepala Desa) di [home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php).
+  - Menambahkan `preconnect` dan `dns-prefetch` untuk `cdn.jsdelivr.net` serta atribut `defer` pada skrip ApexCharts.
+
 ## [1.26.26] - 2026-07-29
 
 ### Fixed
