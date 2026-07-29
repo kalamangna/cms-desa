@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.31] - 2026-07-29
+
+### Fixed
+- **Optimasi Query Migrasi WebP (Pencegahan Respon 404)**:
+  - Mengubah query pembaruan tabel di migrasi `2026_07_29_194716_convert_existing_images_to_webp.php` menggunakan `get()` dengan pembungkusan klausa `WHERE` yang aman.
+  - Memastikan tautan database tetap utuh pada format asal (`.jpg`/`.png`) apabila berkas fisik `.webp` belum ada di storage server, sehingga mengeliminasi potensi error 404 pada antarmuka publik.
+
 ## [1.26.30] - 2026-07-29
 
 ### Fixed

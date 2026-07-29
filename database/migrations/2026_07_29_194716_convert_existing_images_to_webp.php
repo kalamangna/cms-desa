@@ -108,27 +108,29 @@ return new class extends Migration
 
                 try {
                     // Hanya ganti ekstensi .jpg, .jpeg, .png di database ke .webp JIKA file .webp fisiknya benar-benar ada di storage
-                    DB::table($table)
-                        ->where($column, 'LIKE', '%.jpg')
-                        ->orWhere($column, 'LIKE', '%.jpeg')
-                        ->orWhere($column, 'LIKE', '%.png')
-                        ->chunkById(100, function ($rows) use ($table, $column) {
-                            foreach ($rows as $row) {
-                                $oldValue = $row->{$column};
-                                if (!$oldValue) continue;
+                    $rows = DB::table($table)
+                        ->where(function ($q) use ($column) {
+                            $q->where($column, 'LIKE', '%.jpg')
+                              ->orWhere($column, 'LIKE', '%.jpeg')
+                              ->orWhere($column, 'LIKE', '%.png');
+                        })
+                        ->get();
 
-                                $newValue = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $oldValue);
-                                if ($newValue !== $oldValue) {
-                                    $fullWebpPath = storage_path('app/public/' . ltrim($newValue, '/'));
-                                    // Pastikan file .webp fisiknya memang tersedia di server sebelum mengupdate DB
-                                    if (file_exists($fullWebpPath)) {
-                                        DB::table($table)
-                                            ->where('id', $row->id)
-                                            ->update([$column => $newValue]);
-                                    }
-                                }
+                    foreach ($rows as $row) {
+                        $oldValue = $row->{$column};
+                        if (!$oldValue) continue;
+
+                        $newValue = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $oldValue);
+                        if ($newValue !== $oldValue) {
+                            $fullWebpPath = storage_path('app/public/' . ltrim($newValue, '/'));
+                            // Pastikan file .webp fisiknya memang tersedia di server sebelum mengupdate DB
+                            if (file_exists($fullWebpPath)) {
+                                DB::table($table)
+                                    ->where('id', $row->id)
+                                    ->update([$column => $newValue]);
                             }
-                        });
+                        }
+                    }
                 } catch (\Throwable $e) {
                     Log::warning("Gagal memperbarui tabel {$table} kolom {$column} pada migrasi WebP: " . $e->getMessage());
                 }
