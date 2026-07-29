@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.52] - 2026-07-29
+
+### Fixed & Optimized
+- **Pembaruan Sintaks Content Security Policy (CSP) untuk Vite Dev Server & Aksesibilitas ARIA**:
+  - Memperbarui format direktif CSP pada [SecurityHeaders.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/app/Http/Middleware/SecurityHeaders.php) dan [.htaccess](file:///Users/abedzul/Desktop/htdocs/desa-cms/public/.htaccess) menggunakan aturan `http://*:5173` & `ws://*:5173` agar kompatibel dengan Vite Dev Server tanpa menimbulkan peringatan sintaks *invalid IPv6 source* di browser.
+  - Menambahkan relasi `aria-labelledby` dan atribut dimensi eksplisit gambar infografis pada [home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php) & [galleries/index.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/galleries/index.blade.php) untuk mengoptimalkan skor Lighthouse Mobile.
+
 ## [1.26.51] - 2026-07-29
 
 ### Optimized

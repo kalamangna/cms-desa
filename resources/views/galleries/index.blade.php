@@ -223,7 +223,7 @@
         @keydown.arrow-right.window="nextSlide()"
         @click="closeLightbox()"
         class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
-        role="dialog" aria-modal="true"
+        role="dialog" aria-modal="true" aria-labelledby="gallery-lightbox-title"
     >
         {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
         <template x-if="filteredItems.length > 1">
@@ -295,7 +295,7 @@
             <div class="p-5 bg-white border-t border-slate-100 flex items-center justify-between gap-4 relative z-10">
                 <div class="flex flex-col text-left min-w-0">
                     <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600" x-text="currentItem.created_at || ''"></span>
-                    <h3 class="text-base md:text-xl font-heading font-extrabold text-slate-800 leading-snug line-clamp-1 mt-0.5" x-text="currentItem.title || ''"></h3>
+                    <h3 id="gallery-lightbox-title" class="text-base md:text-xl font-heading font-extrabold text-slate-800 leading-snug line-clamp-1 mt-0.5" x-text="currentItem.title || ''"></h3>
                 </div>
             </div>
         </div>
