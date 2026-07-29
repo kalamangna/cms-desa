@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.32] - 2026-07-29
+
+### Fixed
+- **Pembaruan Timestamp File Migrasi WebP**:
+  - Mengubah timestamp migrasi menjadi `2026_07_29_200000_convert_existing_images_to_webp.php` agar otomatis terdeteksi dan dieksekusi ulang saat proses deployment di server production.
+
 ## [1.26.31] - 2026-07-29
 
 ### Fixed
