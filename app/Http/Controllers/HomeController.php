@@ -154,11 +154,6 @@ class HomeController extends Controller
             ? min(($budgetSummary['belanja']['realization'] / $budgetSummary['belanja']['budget']) * 100, 100)
             : 0;
 
-        // Preparasi data Chart.js (aman dengan json_encode, dipindahkan dari Blade)
-        $donutPalette = ['#10b981','#0ea5e9','#f59e0b','#6366f1','#ec4899','#8b5cf6','#06b6d4','#14b8a6','#f97316','#3b82f6'];
-        $belanjaChartLabels = $belanjaDetails->map(fn ($d) => Str::limit($d->title, 20))->values();
-        $belanjaChartData   = $belanjaDetails->pluck('realization_amount')->values();
-        $belanjaChartColors = $belanjaDetails->keys()->map(fn ($i) => $donutPalette[$i % count($donutPalette)])->values();
 
         $publications = Cache::remember('home_publications', $ttl, function () {
             return Publication::latest()->take(4)->get();
@@ -187,9 +182,7 @@ class HomeController extends Controller
             'belanjaDetails',
             'pendapatanPct',
             'belanjaPct',
-            'belanjaChartLabels',
-            'belanjaChartData',
-            'belanjaChartColors',
+
             'publications',
             'galleries',
             'lakiLakiCount',

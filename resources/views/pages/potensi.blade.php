@@ -70,13 +70,15 @@
      x-data="{ 
         activeCategory: 'Semua',
         selectedPotential: null,
+        modalOpen: false,
         categoriesWithData: {{ json_encode($potentials->pluck('category')->unique()->values()->toArray()) }},
         openModal(potential) {
             this.selectedPotential = potential;
+            this.modalOpen = true;
             document.body.classList.add('overflow-hidden');
         },
         closeModal() {
-            this.selectedPotential = null;
+            this.modalOpen = false;
             document.body.classList.remove('overflow-hidden');
         }
      }">
@@ -166,26 +168,32 @@
          </div>
      </div>
 
-     <!-- ===================== DETAIL MODAL (Alpine.js Overlay) ===================== -->
-     <div x-show="selectedPotential !== null"
+     <!-- ===================== DETAIL MODAL (Dark Lightbox Style) ===================== -->
+     <div x-show="modalOpen"
           x-cloak
-          class="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          @keydown.escape.window="closeModal()"
+          @click="closeModal()"
+          class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
           role="dialog"
           aria-modal="true">
           
-          <!-- Backdrop blur -->
-          <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
-               x-show="selectedPotential !== null"
-               x-transition:enter="transition ease-out duration-300"
-               x-transition:enter-start="opacity-0"
-               x-transition:enter-end="opacity-100"
-               x-transition:leave="transition ease-in duration-200"
-               x-transition:leave-start="opacity-100"
-               x-transition:leave-end="opacity-0"
-               @click="closeModal()"></div>
+          <!-- Tombol Tutup (Di Luar Modal) -->
+          <button
+              type="button"
+              @click.stop="closeModal()"
+              class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+              title="Tutup (Esc)">
+              <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
 
           <!-- Modal Box -->
-          <div class="relative bg-white rounded-[28px] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto z-10 flex flex-col border border-slate-100 cursor-default"
+          <div class="relative w-[92vw] sm:w-[85vw] md:w-[75vw] lg:w-[60vw] max-w-4xl bg-white rounded-2xl md:rounded-[28px] overflow-hidden shadow-2xl border border-slate-100 flex flex-col max-h-[90vh] cursor-default"
                x-show="selectedPotential !== null"
                @click.stop
                x-transition:enter="transition ease-out duration-300"
@@ -195,22 +203,15 @@
                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                x-transition:leave-end="opacity-0 scale-95 translate-y-4">
                
-               <!-- Close Button -->
-               <button type="button"
-                       @click="closeModal()"
-                       class="absolute top-5 right-5 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-all duration-200 z-20 cursor-pointer">
-                   <i class="fa-solid fa-xmark"></i>
-               </button>
-
-               <!-- Modal Image Header -->
-               <div class="relative aspect-video w-full bg-slate-100 flex-shrink-0">
+               <!-- Modal Image -->
+               <div class="relative w-full h-48 sm:h-64 md:h-80 bg-slate-100 flex-shrink-0 flex items-center justify-center overflow-hidden">
                    <img :src="selectedPotential?.image"
                         :alt="selectedPotential?.title"
                         class="w-full h-full object-cover">
                </div>
 
                <!-- Modal Content -->
-               <div class="p-8">
+               <div class="p-6 sm:p-8 bg-white border-t border-slate-100 overflow-y-auto custom-scrollbar">
                    <span class="inline-flex items-center text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-xl border mb-4"
                          :class="{
                             'bg-blue-50 text-blue-700 border-blue-100': selectedPotential?.category === 'Pariwisata',
@@ -221,10 +222,10 @@
                          }"
                          x-text="selectedPotential?.category">
                    </span>
-                   <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 mb-5 leading-tight"
+                   <h2 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 mb-4 sm:mb-5 leading-tight"
                        x-text="selectedPotential?.title"></h2>
                    
-                   <div class="prose prose-sm prose-emerald max-w-none text-slate-600 leading-relaxed"
+                   <div class="prose prose-sm sm:prose-base prose-emerald max-w-none text-slate-600 leading-relaxed"
                         x-html="selectedPotential?.description">
                    </div>
                </div>

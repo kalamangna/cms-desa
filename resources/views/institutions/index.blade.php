@@ -76,13 +76,13 @@
         description="Belum ada data lembaga yang diinput."
     />
     @else
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
         @foreach($institutions as $institution)
-        <div class="group flex flex-col items-center bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300">
+        <div class="group flex flex-col items-center bg-white rounded-3xl p-4 sm:p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300">
 
             {{-- Logo --}}
-            <div class="relative mb-6">
-                <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 group-hover:ring-emerald-200 transition-all duration-300">
+            <div class="relative mb-4 sm:mb-6">
+                <div class="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 group-hover:ring-emerald-200 transition-all duration-300">
                     <img
                         src="{{ $institution->logo ? asset('storage/' . $institution->logo) : asset('img/meta.webp') }}"
                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
@@ -90,20 +90,13 @@
                         loading="lazy"
                         onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                 </div>
-                {{-- Active indicator dot --}}
-                <div class="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-md"></div>
             </div>
 
             {{-- Info --}}
             <div class="text-center flex-1 flex flex-col items-center">
-                <h3 class="text-base md:text-lg font-heading font-bold text-slate-900 mb-3 leading-tight">{{ $institution->name }}</h3>
+                <h3 class="text-sm sm:text-base md:text-lg font-heading font-bold text-slate-900 mb-2 sm:mb-3 leading-tight group-hover:text-emerald-600 transition-colors">{{ $institution->name }}</h3>
                 @if($institution->description)
-                <p class="text-slate-500 text-sm leading-relaxed line-clamp-3">{{ $institution->description }}</p>
-                @else
-                <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full px-3 py-1 text-xs font-black uppercase tracking-wide">
-                    <i class="fa-solid fa-landmark text-[10px]"></i>
-                    Lembaga Desa
-                </span>
+                <p class="text-slate-500 text-xs sm:text-sm leading-relaxed line-clamp-3 sm:line-clamp-4">{{ $institution->description }}</p>
                 @endif
             </div>
         </div>

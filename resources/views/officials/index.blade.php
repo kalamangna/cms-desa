@@ -232,7 +232,7 @@
         }
     }">
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
         @foreach($officials as $idx => $official)
         @php
             $photoUrl = $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp');
@@ -244,16 +244,16 @@
                         class="w-full h-full block cursor-pointer relative group/btn text-left"
                         title="Klik untuk memperbesar foto">
                     <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4 text-white">
-                        <span class="inline-flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold shadow-lg">
-                            <i class="fa-solid fa-expand text-[10px]"></i> Perbesar Foto
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3 sm:p-4 text-white">
+                        <span class="inline-flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-md px-2.5 sm:px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold shadow-lg">
+                            <i class="fa-solid fa-expand text-[10px]"></i> <span class="hidden sm:inline">Perbesar Foto</span><span class="sm:hidden">Perbesar</span>
                         </span>
                     </div>
                 </button>
             </div>
-            <div class="p-5 md:p-6 text-center flex-1 flex flex-col items-center justify-between bg-white">
-                <h3 class="text-base md:text-lg font-heading font-extrabold text-slate-900 mb-3 leading-snug group-hover:text-emerald-600 transition-colors">{{ $official->name }}</h3>
-                <span class="inline-flex items-center bg-emerald-50 text-emerald-700 border border-emerald-200/80 rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wide">
+            <div class="p-3.5 sm:p-5 md:p-6 text-center flex-1 flex flex-col items-center justify-between bg-white">
+                <h3 class="text-sm sm:text-base md:text-lg font-heading font-extrabold text-slate-900 mb-2 sm:mb-3 leading-snug group-hover:text-emerald-600 transition-colors">{{ $official->name }}</h3>
+                <span class="inline-flex items-center bg-emerald-50 text-emerald-700 border border-emerald-200/80 rounded-full px-2.5 sm:px-3.5 py-1 text-[10px] sm:text-xs font-black uppercase tracking-wide">
                     {{ $official->position }}
                 </span>
             </div>
@@ -296,18 +296,18 @@
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="officialItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-3 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
                     title="Sebelumnya (Tombol Panah Kiri)">
-                <i class="fa-solid fa-chevron-left text-lg"></i>
+                <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>
             </button>
         </template>
 
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="officialItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-3 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
                     title="Selanjutnya (Tombol Panah Kanan)">
-                <i class="fa-solid fa-chevron-right text-lg"></i>
+                <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>
             </button>
         </template>
 

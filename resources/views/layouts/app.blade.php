@@ -187,9 +187,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     </noscript>
     @php
+        $isViteHot = file_exists(public_path('hot'));
         $manifest = [];
         $manifestPath = public_path('build/manifest.json');
-        if (file_exists($manifestPath)) {
+        if (!$isViteHot && file_exists($manifestPath)) {
             $manifest = json_decode(file_get_contents($manifestPath), true) ?? [];
         }
         $cssFile = $manifest['resources/css/app.css']['file'] ?? null;
@@ -207,6 +208,7 @@
     @endif
 
     <!-- Scripts & Styles -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
     <style>
         /*

@@ -23,6 +23,6 @@ class GuestBookController extends Controller
 
         GuestBook::create($validated);
 
-        return redirect()->back()->with('success', 'Terima kasih! Data kunjungan Anda berhasil disimpan ke dalam Buku Tamu.');
+        return redirect()->back()->with('success', 'Terkirim!');
     }
 }

@@ -125,69 +125,60 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
-             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md"
+             class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md cursor-pointer select-none"
              style="display: none;"
              @click.self="showSuccessModal = false">
             
-            <div class="bg-white rounded-[40px] shadow-2xl p-8 md:p-10 max-w-lg w-full border border-slate-100 relative text-center animate-in zoom-in-95 duration-300">
-                <button @click="showSuccessModal = false" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark text-lg"></i>
+            <!-- Tombol Tutup (Di Luar Modal) -->
+            <button
+                type="button"
+                @click.stop="showSuccessModal = false"
+                class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                title="Tutup (Esc)">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="bg-white rounded-[32px] shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default">
+                
+                <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-5">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+                <h3 class="font-heading font-extrabold text-slate-900 text-xl mb-2">{{ session('success') }}</h3>
+                <p class="text-sm text-slate-500 mb-6">Pengajuan layanan Anda telah terkirim.</p>
+
+                <div class="mb-8">
+                    <span class="text-xs font-bold text-slate-400 block mb-1">Nomor Tiket Anda:</span>
+                    <div class="flex items-center justify-center gap-3">
+                        <h4 class="text-xl font-mono font-black text-slate-800 select-all">{{ session('ticket_number') }}</h4>
+                        <button @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2000);"
+                                class="text-slate-400 hover:text-emerald-600 transition p-2" title="Salin Nomor">
+                            <i class="fa-solid" :class="copied ? 'fa-check text-emerald-500' : 'fa-copy'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button @click="showSuccessModal = false" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-2xl font-bold text-sm transition">
+                    Tutup
                 </button>
-
-                <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-6 shadow-sm">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
-
-                <h3 class="font-heading font-extrabold text-slate-900 text-2xl mb-2">{{ session('success') }}</h3>
-                <p class="text-xs text-slate-500 mb-6 leading-relaxed">Permohonan surat Anda telah berhasil dikirim ke pihak desa. Catat & simpan nomor tiket berikut untuk melacak status proses pengajuan.</p>
-
-                <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 mb-6 text-center">
-                    <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-1">Nomor Tiket Permohonan Surat</span>
-                    <h4 class="text-2xl font-mono font-black text-emerald-600 select-all tracking-wide mb-4">{{ session('ticket_number') }}</h4>
-
-                    <button @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2500);"
-                            class="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3.5 rounded-xl text-sm transition shadow-md shadow-emerald-200">
-                        <template x-if="!copied">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-copy"></i> Salin Nomor Tiket</span>
-                        </template>
-                        <template x-if="copied">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-check"></i> Berhasil Disalin!</span>
-                        </template>
-                    </button>
-                </div>
-
-                <div class="flex gap-3">
-                    <button @click="showLacak = true; fetchStatus('{{ session('ticket_number') }}'); showSuccessModal = false;"
-                            class="flex-1 bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-2xl font-bold text-xs transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-magnifying-glass"></i> Lacak Status Sekarang
-                    </button>
-                    <button @click="showSuccessModal = false" class="px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 py-3.5 rounded-2xl font-bold text-xs transition">
-                        Tutup
-                    </button>
-                </div>
             </div>
         </div>
         @endif
 
-        {{-- Header & Toggle --}}
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16">
-            <div>
-                <div class="flex items-center gap-3 mb-4"><div class="h-px w-8 bg-emerald-500"></div><span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Layanan Surat Online</span></div>
-                <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900">Persyaratan & Pengajuan Mandiri</h2>
-            </div>
-            
-            <div class="flex gap-4">
+        {{-- Tabs Navigation --}}
+        <div class="flex justify-center mb-12 md:mb-16">
+            <div class="flex space-x-8 border-b border-slate-200">
                 <button 
                     @click="showLacak = false"
-                    :class="!showLacak ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' : 'bg-white text-slate-600 border border-slate-200 hover:border-emerald-300'"
-                    class="px-6 py-3 rounded-full text-xs font-bold transition duration-300 flex items-center gap-2 whitespace-nowrap"
+                    :class="!showLacak ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'"
+                    class="pb-4 px-2 font-bold text-sm border-b-2 transition-colors duration-300 flex items-center gap-2"
                 >
                     <i class="fa-solid fa-list-check"></i> Daftar Layanan
                 </button>
                 <button 
                     @click="showLacak = true"
-                    :class="showLacak ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' : 'bg-white text-slate-600 border border-slate-200 hover:border-emerald-300'"
-                    class="px-6 py-3 rounded-full text-xs font-bold transition duration-300 flex items-center gap-2 whitespace-nowrap"
+                    :class="showLacak ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'"
+                    class="pb-4 px-2 font-bold text-sm border-b-2 transition-colors duration-300 flex items-center gap-2"
                 >
                     <i class="fa-solid fa-magnifying-glass"></i> Lacak Pengajuan
                 </button>
@@ -240,18 +231,12 @@
                 </div>
 
                 {{-- Card Footer --}}
-                <div class="border-t border-slate-100 px-8 md:px-10 py-5 flex items-center justify-between gap-4 bg-slate-50/50">
-                    <button
-                        @click="activeService = {{ json_encode($service) }}"
-                        class="text-sm font-bold text-slate-500 hover:text-emerald-600 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-circle-info text-xs"></i>
-                        Detail
-                    </button>
+                <div class="border-t border-slate-100 px-8 md:px-10 py-5 flex items-center justify-center bg-slate-50/50">
                     <button
                         @click="showApplyModal = true; applyServiceId = {{ $service->id }}; applyServiceTitle = '{{ addslashes($service->title) }}'"
-                        class="inline-flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-full font-bold text-xs hover:bg-emerald-700 transition shadow-md shadow-emerald-200">
-                        <i class="fa-solid fa-paper-plane text-[10px]"></i>
-                        Ajukan
+                        class="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 text-white px-5 py-3 rounded-full font-bold text-sm hover:bg-emerald-700 transition shadow-md shadow-emerald-200">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Ajukan Layanan
                     </button>
                 </div>
             </div>
@@ -271,8 +256,8 @@
         {{-- PANEL: LACAK PERMOHONAN --}}
         <div x-show="showLacak" class="space-y-8 animate-in fade-in duration-300" x-cloak>
             <div class="bg-white rounded-[32px] p-8 border border-slate-100 shadow-xl max-w-2xl mx-auto">
-                <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Lacak Status Permohonan Surat Real-time</h3>
-                <p class="text-slate-400 text-xs mb-6">Masukkan nomor tiket permohonan Anda di bawah ini untuk melihat perkembangan proses tanpa perlu memuat ulang halaman.</p>
+                <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Lacak Status Permohonan</h3>
+                <p class="text-slate-400 text-xs mb-6">Masukkan nomor tiket Anda di bawah ini.</p>
                 <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-4">
                     <div class="flex-grow">
                         <input type="text" x-model="ticket" placeholder="SRV-XXXXXXXX-XXXX" required
@@ -373,70 +358,7 @@
     </div>
 
     {{-- ===================== DETAIL SERVICE MODAL ===================== --}}
-    <div x-show="activeService"
-         x-cloak
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md cursor-pointer select-none"
-         style="display: none;"
-         @keydown.escape.window="activeService = null"
-         @click="activeService = null">
 
-        {{-- Modal Card --}}
-        <div x-show="activeService"
-             @click.stop
-             x-transition:enter="transition ease-out duration-300 transform"
-             x-transition:enter-start="opacity-0 translate-y-8 scale-95"
-             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-             x-transition:leave="transition ease-in duration-200 transform"
-             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-             x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-             class="bg-white rounded-[28px] shadow-2xl p-8 md:p-12 max-w-2xl w-full max-h-[85vh] overflow-y-auto border border-slate-100 relative cursor-default">
-
-            {{-- Close Button --}}
-            <button @click="activeService = null" class="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center cursor-pointer">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            {{-- Icon & Title --}}
-            <div class="flex items-center gap-6 mb-8 pr-12">
-                <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
-                    <i :class="'fa-solid ' + (activeService ? (activeService.icon ?? 'fa-file-alt') : '')"></i>
-                </div>
-                <div>
-                    <h3 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900" x-text="activeService ? activeService.title : ''"></h3>
-                    <p class="text-slate-400 text-xs mt-1 uppercase tracking-wider font-bold">Persyaratan &amp; Prosedur</p>
-                </div>
-            </div>
-
-            {{-- Description --}}
-            <p class="text-slate-500 text-sm leading-relaxed font-medium mb-6 pb-6 border-b border-slate-100" x-text="activeService ? activeService.description : ''"></p>
-
-            {{-- Requirements --}}
-            <div class="prose prose-emerald max-w-none text-slate-600 leading-relaxed font-medium mb-10 text-sm md:text-base">
-                <div x-html="activeService ? (activeService.requirements || '<p class=\'text-slate-400 italic\'>Persyaratan belum diisi.</p>') : ''"></div>
-            </div>
-
-            {{-- Modal Actions --}}
-            <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
-                <button 
-                    @click="applyServiceId = activeService.id; applyServiceTitle = activeService.title; activeService = null; showApplyModal = true;"
-                    class="flex-1 flex items-center justify-center gap-2 bg-emerald-600 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-emerald-700 transition shadow-lg shadow-emerald-200 cursor-pointer"
-                >
-                    <i class="fa-solid fa-paper-plane"></i>
-                    Ajukan Layanan Ini
-                </button>
-                <button @click="activeService = null" class="flex-1 flex items-center justify-center gap-2 bg-slate-100 text-slate-700 px-6 py-3.5 rounded-full font-bold text-sm hover:bg-slate-200 transition cursor-pointer">
-                    <i class="fa-solid fa-xmark"></i>
-                    Tutup
-                </button>
-            </div>
-        </div>
-    </div>
 
     {{-- ===================== APPLY LAYANAN MODAL ===================== --}}
     <div x-show="showApplyModal"
@@ -452,6 +374,15 @@
          @keydown.escape.window="showApplyModal = false"
          @click="showApplyModal = false">
 
+        <!-- Tombol Tutup (Di Luar Modal) -->
+        <button
+            type="button"
+            @click.stop="showApplyModal = false"
+            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+            title="Tutup (Esc)">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+
         <div x-show="showApplyModal"
              @click.stop
              x-transition:enter="transition ease-out duration-300 transform"
@@ -460,11 +391,7 @@
              x-transition:leave="transition ease-in duration-200 transform"
              x-transition:leave-start="opacity-100 translate-y-0 scale-100"
              x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-             class="bg-white rounded-[28px] shadow-2xl p-8 md:p-10 max-w-lg w-full border border-slate-100 relative cursor-default">
-
-            <button @click="showApplyModal = false" class="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
+             class="bg-white rounded-[28px] shadow-2xl p-8 md:p-10 max-w-lg w-full max-h-[85vh] overflow-y-auto border border-slate-100 relative cursor-default">
 
             <div class="mb-8">
                 <span class="text-xs font-black uppercase tracking-wider text-slate-400">Pengajuan Layanan</span>

@@ -24,7 +24,7 @@ class ComplaintController extends Controller
         $complaint = Complaint::create($validated);
 
         return redirect()->route('complaints.index')
-            ->with('success', 'Pengaduan Anda berhasil dikirim!')
+            ->with('success', 'Terkirim!')
             ->with('ticket_number', $complaint->ticket_number);
     }
 

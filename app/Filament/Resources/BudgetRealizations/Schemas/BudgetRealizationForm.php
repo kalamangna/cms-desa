@@ -40,12 +40,16 @@ class BudgetRealizationForm
                             ->placeholder('Contoh: 150000000')
                             ->helperText('Jumlah alokasi anggaran yang ditetapkan (Rupiah).')
                             ->numeric()
+                            ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
+                            ->stripCharacters('.')
                             ->prefix('Rp')
                             ->required(),
                         TextInput::make('realization_amount')->label('Realisasi')
                             ->placeholder('Contoh: 120000000')
                             ->helperText('Total realisasi serapan anggaran (Rupiah).')
                             ->numeric()
+                            ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
+                            ->stripCharacters('.')
                             ->prefix('Rp')
                             ->required(),
                     ])

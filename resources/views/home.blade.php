@@ -222,7 +222,7 @@
 
 {{-- 2. STAT CARDS --}}
 <div class="relative z-20 mt-16 lg:-mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 
         {{-- Penduduk --}}
         <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-400 hover:-translate-y-1 transition duration-300 cursor-default">
@@ -275,6 +275,51 @@
     </div>
 </div>
 
+{{-- 2.5 MENU LAYANAN CEPAT --}}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-20">
+    <div class="text-center mb-10">
+        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Akses <span class="text-emerald-700">Layanan Cepat</span></h2>
+        <p class="text-slate-500 text-sm mt-2">Pilih layanan yang Anda butuhkan di bawah ini</p>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-emerald-100/50 hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:border-emerald-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-emerald-500/30">
+                <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-emerald-600 group-hover:text-white transition-colors"></i>
+            </div>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Layanan Mandiri</h3>
+            <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Panduan dan pengajuan administrasi kependudukan</p>
+        </a>
+        
+        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-rose-100/50 hover:border-rose-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-rose-500 group-hover:border-rose-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-rose-500/30">
+                <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-rose-600 group-hover:text-white transition-colors"></i>
+            </div>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-rose-700 transition-colors">Lapor & Pengaduan</h3>
+            <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Sampaikan aspirasi atau laporan masalah warga</p>
+        </a>
+        
+        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-sky-100/50 hover:border-sky-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-sky-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-sky-500 group-hover:border-sky-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-sky-500/30">
+                <i class="fa-solid fa-address-book text-2xl md:text-3xl text-sky-600 group-hover:text-white transition-colors"></i>
+            </div>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-sky-700 transition-colors">Buku Tamu</h3>
+            <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Tinggalkan pesan, kesan, atau saran untuk desa</p>
+        </a>
+        
+        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-amber-100/50 hover:border-amber-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-amber-500 group-hover:border-amber-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-amber-500/30">
+                <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-amber-600 group-hover:text-white transition-colors"></i>
+            </div>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-amber-700 transition-colors">Potensi Desa</h3>
+            <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Eksplorasi pariwisata, budaya, dan komoditas lokal</p>
+        </a>
+    </div>
+</div>
+
 {{-- 3. SAMBUTAN KEPALA DESA --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
     <div class="bg-white rounded-[40px] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100 relative">
@@ -317,16 +362,13 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Data & <span class="text-emerald-700">Anggaran</span> Desa</h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Statistik & <span class="text-emerald-700">APBDes</span></h2>
             </div>
-            <a href="/statistik" class="inline-flex items-center gap-2 font-bold text-emerald-700 hover:text-emerald-800 transition text-sm group">
-                Lihat Statistik Lengkap <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-            </a>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {{-- Grafik Demografi Penduduk --}}
-            <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+            <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                         <h3 class="font-heading font-extrabold text-xl text-slate-900" id="chartCardTitle">Demografi Penduduk</h3>
@@ -356,54 +398,47 @@
                     @else
                         <div class="h-72"><div id="populationChart"></div></div>
                     @endif
-                    <a href="/statistik" class="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-200">
+                    <a href="/statistik" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-200">
                         <i class="fa-solid fa-chart-line"></i> Statistik Lengkap
                     </a>
                 </div>
             </div>
 
             {{-- APBDes --}}
-            <div class="bg-slate-900 rounded-3xl text-white overflow-hidden">
+            <div class="lg:col-span-5 bg-slate-900 rounded-3xl text-white overflow-hidden flex flex-col">
                 <div class="p-8 border-b border-white/10 flex justify-between items-center">
                     <div>
                         <h3 class="font-heading font-extrabold text-xl text-white">APBDes {{ date('Y') }}</h3>
                         <p class="text-slate-400 text-sm mt-1">Realisasi anggaran desa berjalan</p>
                     </div>
-                    <a href="/apbdes" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1">
-                        Detail <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                    </a>
                 </div>
-                <div class="p-8">
-                    <div class="mb-8">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-bold text-emerald-400 text-sm">Total Pendapatan</span>
-                            <span class="text-sm font-bold text-white">{{ number_format($pendapatanPct, 1, ',', '.') }}%</span>
-                        </div>
-                        <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
-                        </div>
-                        <p class="text-xs text-slate-300 font-medium mt-2">Target: Rp {{ number_format($budgetSummary['pendapatan']['budget'], 0, ',', '.') }}</p>
-                    </div>
-                    <div class="mb-8">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-bold text-sky-400 text-sm">Total Belanja</span>
-                            <span class="text-sm font-bold text-white">{{ number_format($belanjaPct, 1, ',', '.') }}%</span>
-                        </div>
-                        <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full bg-sky-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
-                        </div>
-                        <p class="text-xs text-slate-300 font-medium mt-2">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
-                    </div>
-                    <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
-                        <p class="text-xs font-black uppercase tracking-wider text-slate-400 mb-4 text-center">Alokasi Belanja Desa</p>
-                        @if($belanjaDetails->isEmpty())
-                            <div class="h-52 flex flex-col items-center justify-center text-center p-4">
-                                <i class="fa-solid fa-chart-pie text-slate-500 text-3xl mb-2"></i>
-                                <p class="text-slate-400 text-xs">Belum ada data alokasi belanja untuk tahun ini.</p>
+                <div class="p-8 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="mb-10">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="font-bold text-emerald-400 text-sm">Total Pendapatan</span>
+                                <span class="text-sm font-bold text-white">{{ number_format($pendapatanPct, 1, ',', '.') }}%</span>
                             </div>
-                        @else
-                            <div class="h-52"><div id="budgetRingChart"></div></div>
-                        @endif
+                            <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
+                                <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
+                            </div>
+                            <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['pendapatan']['budget'], 0, ',', '.') }}</p>
+                        </div>
+                        <div class="mb-8">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="font-bold text-sky-400 text-sm">Total Belanja</span>
+                                <span class="text-sm font-bold text-white">{{ number_format($belanjaPct, 1, ',', '.') }}%</span>
+                            </div>
+                            <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
+                                <div class="h-full bg-sky-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
+                            </div>
+                            <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
+                        </div>
+                    </div>
+                    
+                    <a href="/apbdes" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold text-slate-300 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> Detail Transparansi
+                    </a>
                 </div>
             </div>
         </div>
@@ -419,11 +454,8 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Kabar & <span class="text-emerald-700">Pengumuman</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Berita & <span class="text-emerald-700">Pengumuman</span></h2>
             </div>
-            <a href="/berita" class="text-sm font-bold text-slate-600 hover:text-emerald-700 transition flex items-center gap-2 group">
-                Semua Berita <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-            </a>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -475,15 +507,18 @@
                         @endif
                     @endforelse
                 </div>
+
+                <a href="/berita" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-200">
+                    Semua Berita <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
 
             <div class="lg:col-span-4">
-                <div class="bg-slate-50 border border-slate-200 rounded-3xl p-7 h-full">
+                <div class="bg-slate-50 border border-slate-200 rounded-3xl p-7 h-full flex flex-col">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="font-heading font-extrabold text-lg text-slate-900">Pengumuman</h3>
-                        <a href="/pengumuman" class="text-[10px] font-bold text-emerald-700 hover:underline uppercase tracking-widest">Semua</a>
                     </div>
-                    <div class="space-y-4">
+                    <div class="space-y-4 flex-1">
                         @forelse($announcements as $ann)
                         <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-emerald-300 hover:-translate-y-0.5 transition-all duration-200">
                             <div class="flex items-start gap-3">
@@ -504,6 +539,10 @@
                         />
                         @endforelse
                     </div>
+
+                    <a href="/pengumuman" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-200">
+                        Semua Pengumuman <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -564,9 +603,6 @@
                 </div>
                 <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri <span class="text-emerald-700">Foto & Video</span></h2>
             </div>
-            <div>
-                <a href="/galeri" class="text-sm font-bold text-slate-600 hover:text-emerald-700 transition flex items-center gap-2 group">Lihat Semua Galeri <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></a>
-            </div>
         </div>
 
         {{-- Galeri Full Width Grid (4 Kolom Layout Rapi) --}}
@@ -613,6 +649,10 @@
             </div>
             @endforeach
         </div>
+
+        <a href="/galeri" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-300 shadow-sm">
+            Semua Galeri <i class="fa-solid fa-arrow-right"></i>
+        </a>
         @endif
     </div>
 
@@ -655,24 +695,24 @@
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="galleryItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-3 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
                     title="Sebelumnya (Tombol Panah Kiri)">
-                <i class="fa-solid fa-chevron-left text-lg"></i>
+                <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>
             </button>
         </template>
 
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="galleryItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-3 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
                     title="Selanjutnya (Tombol Panah Kanan)">
-                <i class="fa-solid fa-chevron-right text-lg"></i>
+                <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>
             </button>
         </template>
 
         {{-- Container Modal Konten --}}
         <div
-            class="relative bg-slate-900 rounded-[28px] max-w-[85vw] md:max-w-[75vw] w-auto flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
+            class="relative bg-slate-900 rounded-[28px] w-[92vw] sm:w-auto sm:max-w-[85vw] md:max-w-[75vw] flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
             @click.stop
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
@@ -682,9 +722,9 @@
             x-transition:leave-end="opacity-0 scale-95 translate-y-4"
         >
             {{-- Slider Content --}}
-            <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-[200px]">
+            <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-[200px] w-full">
                 <template x-if="lightboxOpen && currentItem.type === 'video'">
-                    <div class="w-[80vw] max-w-4xl aspect-video bg-black relative overflow-hidden">
+                    <div class="w-full sm:w-[80vw] max-w-4xl aspect-video bg-black relative overflow-hidden">
                         <iframe
                             class="w-full h-full"
                             :src="getYoutubeEmbed(currentItem.youtube_url)"
@@ -695,8 +735,8 @@
                     </div>
                 </template>
                 <template x-if="currentItem.type !== 'video'">
-                    <div class="relative overflow-hidden flex items-center justify-center bg-slate-950">
-                        <img :src="currentItem.image_url" :alt="currentItem.title" class="w-auto h-auto max-w-[80vw] max-h-[75vh] object-contain transition-all duration-300">
+                    <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 w-full">
+                        <img :src="currentItem.image_url" :alt="currentItem.title" class="w-full sm:w-auto h-auto max-h-[65vh] sm:max-h-[75vh] object-contain transition-all duration-300">
                     </div>
                 </template>
             </div>
@@ -719,7 +759,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     let apexChartsLoaded = false;
     let currentPopChart = null;
-    let chartBudget = null;
+
 
     // Data demografi terenkripsi dari server
     const genderData = [
@@ -748,7 +788,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function initCharts() {
         loadApexCharts(function() {
             renderDemografiChart('gender');
-            renderBudgetChart();
+
         });
     }
 
@@ -881,77 +921,7 @@ document.addEventListener('DOMContentLoaded', function () {
         currentPopChart.render();
     }
 
-    let elBudget = null;
 
-    function renderBudgetChart() {
-        elBudget = document.getElementById('budgetRingChart');
-        if (!elBudget || !window.ApexCharts) return;
-
-        const optionsBudget = {
-            chart: {
-                type: 'donut',
-                height: '100%',
-                fontFamily: 'Inter, sans-serif'
-            },
-            dataLabels: {
-                enabled: false
-            },
-            series: {!! json_encode($belanjaChartData->map(fn($v) => (float)$v)->toArray()) !!},
-            labels: {!! json_encode($belanjaChartLabels) !!},
-            colors: {!! json_encode($belanjaChartColors) !!},
-            stroke: { show: false },
-            plotOptions: {
-                pie: {
-                    donut: {
-                        size: '72%',
-                        labels: {
-                            show: true,
-                            name: {
-                                show: false
-                            },
-                            value: {
-                                show: true,
-                                fontFamily: 'Inter, sans-serif',
-                                fontWeight: 800,
-                                fontSize: '15px',
-                                color: '#ffffff',
-                                formatter: function(val) {
-                                    if (val >= 1000000000) {
-                                        return 'Rp ' + parseFloat((val / 1000000000).toFixed(1)) + ' M';
-                                    } else if (val >= 1000000) {
-                                        return 'Rp ' + parseFloat((val / 1000000).toFixed(1)) + ' Jt';
-                                    }
-                                    return 'Rp ' + parseInt(val).toLocaleString('id-ID');
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            legend: {
-                position: 'bottom',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 500,
-                fontSize: '10px',
-                labels: { colors: '#94a3b8' },
-                markers: { width: 8, height: 8, radius: 8, offsetY: -1 }
-            },
-            tooltip: {
-                theme: 'dark',
-                y: {
-                    formatter: function(val) {
-                        return 'Rp ' + val.toLocaleString('id-ID');
-                    }
-                }
-            }
-        };
-
-        if (chartBudget) {
-            chartBudget.destroy();
-        }
-        chartBudget = new ApexCharts(elBudget, optionsBudget);
-        chartBudget.render();
-    }
 
     // Listener switch dropdown
     const selectHomeChart = document.getElementById('homeChartType');

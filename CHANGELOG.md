@@ -2,6 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.57] - 2026-07-30
+
+### Changed
+- **Penyederhanaan UI Halaman Layanan, Pengaduan, dan Buku Tamu**:
+  - Mengubah desain navigasi tab pada form pelacakan & pengajuan menjadi model klasik (*border-bottom*) yang di-tengah (centered) agar lebih rapi.
+  - Mengurangi keramaian visual dengan menghapus teks sub-judul dan peringatan deskriptif berlebihan.
+  - Mengubah notifikasi berhasil (inline success alert) menjadi Modal Pop-up bergaya elegan dan konsisten pada halaman Buku Tamu.
+  - Mempersingkat *Flash Session* notifikasi sukses dari controller menjadi satu kata kunci tegas (`"Terkirim!"`) demi menghindari judul modal yang kepanjangan.
+  - Menyesuaikan lebar kotak modal konfirmasi (`w-fit` dan `max-w-md`) pada ketiga halaman tersebut agar lebih proporsional mengikuti teks konten di dalamnya.
+
 ## [1.26.56] - 2026-07-30
 
 ### Optimized

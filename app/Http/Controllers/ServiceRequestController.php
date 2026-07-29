@@ -20,7 +20,7 @@ class ServiceRequestController extends Controller
         $serviceRequest = ServiceRequest::create($validated);
 
         return redirect()->route('layanan')
-            ->with('success', 'Permohonan layanan berhasil diajukan!')
+            ->with('success', 'Terkirim!')
             ->with('ticket_number', $serviceRequest->ticket_number);
     }
 

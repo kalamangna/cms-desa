@@ -43,15 +43,32 @@
 <div class="max-w-4xl mx-auto px-4 py-16 md:py-24">
     <div class="bg-white rounded-[40px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50">
         
-        {{-- Success Notification --}}
+        {{-- Success Modal Popup --}}
         @if(session('success'))
-        <div class="mb-10 bg-emerald-50 border border-emerald-200 rounded-3xl p-6 flex gap-4 items-start text-slate-700 animate-in fade-in duration-300">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                <i class="fa-solid fa-circle-check text-lg"></i>
-            </div>
-            <div>
-                <h4 class="font-bold text-slate-900 mb-1">Berhasil Terkirim</h4>
-                <p class="text-sm text-slate-600">{{ session('success') }}</p>
+        <div x-data="{ showSuccessModal: true }"
+             x-show="showSuccessModal"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md cursor-pointer select-none"
+             style="display: none;"
+             @keydown.escape.window="showSuccessModal = false"
+             @click.self="showSuccessModal = false">
+            
+            <div @click.stop class="bg-white rounded-[32px] shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default animate-in zoom-in-95 duration-300">
+                <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-5">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+                <h3 class="font-heading font-extrabold text-slate-900 text-xl mb-2">{{ session('success') }}</h3>
+                <p class="text-sm text-slate-500 mb-8">Data kunjungan Anda telah dicatat.</p>
+
+                <button @click="showSuccessModal = false" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-2xl font-bold text-sm transition">
+                    Tutup
+                </button>
             </div>
         </div>
         @endif
@@ -73,13 +90,9 @@
         </div>
         @endif
 
-        <div class="mb-10">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="h-px w-8 bg-emerald-500"></div>
-                <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Formulir Digital</span>
-            </div>
-            <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Catat Kunjungan</h2>
-            <p class="text-slate-400 text-sm mt-1">Isi formulir berikut dengan data yang valid.</p>
+        <div class="mb-8">
+            <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Catat Kunjungan</h3>
+            <p class="text-slate-400 text-sm">Isi formulir berikut dengan data yang valid.</p>
         </div>
 
         <form action="{{ route('guest-book.store') }}" method="POST" class="space-y-6">

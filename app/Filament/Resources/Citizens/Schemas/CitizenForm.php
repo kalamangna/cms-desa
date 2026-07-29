@@ -186,35 +186,35 @@ class CitizenForm
                                                 TextInput::make('income_salary')->label('Gaji / Upah (Rp)')
                                                     ->placeholder('Contoh: 2500000')
                                                     ->helperText('Penghasilan rutin per bulan.')
-                                                    ->numeric()->default(0),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_allowance')->label('Tunjangan (Rp)')
                                                     ->placeholder('Contoh: 500000')
                                                     ->helperText('Tunjangan pekerjaan.')
-                                                    ->numeric()->default(0),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_food')->label('Uang Makan (Rp)')
                                                     ->placeholder('Contoh: 300000')
                                                     ->helperText('Uang konsumsi/makan.')
-                                                    ->numeric()->default(0),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_honor')->label('Honor (Rp)')
                                                     ->placeholder('Contoh: 200000')
                                                     ->helperText('Honorarium kegiatan.')
-                                                    ->numeric()->default(0),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_overtime')->label('Lembur (Rp)')
                                                     ->placeholder('Contoh: 150000')
                                                     ->helperText('Upah kerja lembur.')
-                                                    ->numeric()->default(0),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_business')->label('Pendapatan Usaha (Rp)')
                                                     ->placeholder('Contoh: 1000000')
                                                     ->helperText('Keuntungan usaha mandiri.')
-                                                    ->numeric()->default(0),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_passive')->label('Passive Income (Rp)')
                                                     ->placeholder('Contoh: 0')
                                                     ->helperText('Hasil sewa/investasi.')
-                                                    ->numeric()->default(0),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_other')->label('Pendapatan Lainnya (Rp)')
                                                     ->placeholder('Contoh: 0')
                                                     ->helperText('Sumber pendapatan lain.')
-                                                    ->numeric()->default(0),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                             ]),
                                     ]),
                             ]),

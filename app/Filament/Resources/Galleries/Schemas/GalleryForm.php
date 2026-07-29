@@ -33,7 +33,7 @@ class GalleryForm
                     ])
                     ->columnSpanFull(),
                 FileUpload::make('image')->label('Foto')
-                    ->helperText('Unggah foto dokumentasi kegiatan (Otomatis dioptimalkan WebP, maks 2MB).')
+                    ->helperText('Unggah foto dokumentasi kegiatan (Maksimal 2MB).')
                     ->image()
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->imageResizeTargetWidth(1200)

@@ -245,24 +245,24 @@
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="filteredItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-3 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
                     title="Sebelumnya (Tombol Panah Kiri)">
-                <i class="fa-solid fa-chevron-left text-lg"></i>
+                <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>
             </button>
         </template>
 
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="filteredItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-3 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
                     title="Selanjutnya (Tombol Panah Kanan)">
-                <i class="fa-solid fa-chevron-right text-lg"></i>
+                <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>
             </button>
         </template>
 
         {{-- Container Modal Konten --}}
         <div
-            class="relative bg-slate-900 rounded-[28px] max-w-[85vw] md:max-w-[75vw] w-auto flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
+            class="relative bg-slate-900 rounded-[28px] w-[92vw] sm:w-auto sm:max-w-[85vw] md:max-w-[75vw] flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
             @click.stop
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
@@ -272,9 +272,9 @@
             x-transition:leave-end="opacity-0 scale-95 translate-y-4"
         >
             {{-- Slider Content --}}
-            <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-[200px]">
+            <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-[200px] w-full">
                 <template x-if="lightboxOpen && currentItem.type === 'video'">
-                    <div class="w-[80vw] max-w-4xl aspect-video bg-black relative overflow-hidden">
+                    <div class="w-full sm:w-[80vw] max-w-4xl aspect-video bg-black relative overflow-hidden">
                         <iframe
                             class="w-full h-full"
                             :src="getYoutubeEmbed(currentItem.youtube_url)"
@@ -285,8 +285,8 @@
                     </div>
                 </template>
                 <template x-if="currentItem.type !== 'video'">
-                    <div class="relative overflow-hidden flex items-center justify-center bg-slate-950">
-                        <img :src="currentItem.image_url" :alt="currentItem.title" class="w-auto h-auto max-w-[80vw] max-h-[75vh] object-contain transition-all duration-300">
+                    <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 w-full">
+                        <img :src="currentItem.image_url" :alt="currentItem.title" class="w-full sm:w-auto h-auto max-h-[65vh] sm:max-h-[75vh] object-contain transition-all duration-300">
                     </div>
                 </template>
             </div>

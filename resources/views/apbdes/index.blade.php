@@ -277,7 +277,7 @@
                 </div>
 
                 {{-- RIGHT: realization cards --}}
-                <div class="flex-1 w-full space-y-4" x-show="open" x-transition>
+                <div class="flex-1 w-full">
 
                     {{-- Section subheader with toggle --}}
                     <div class="flex items-center justify-between mb-4">
@@ -295,90 +295,92 @@
                         @endif
                     </div>
 
-                    @forelse($category->realizations as $realization)
-                    @php
-                        $rPct = $realization->budget_amount > 0
-                            ? ($realization->realization_amount / $realization->budget_amount) * 100
-                            : 0;
-                        $status = $rPct >= 90
-                            ? ['label' => 'Sangat Baik', 'cls' => 'bg-emerald-50 text-emerald-700 border-emerald-100']
-                            : ($rPct >= 60
-                                ? ['label' => 'Sedang', 'cls' => 'bg-amber-50 text-amber-700 border-amber-100']
-                                : ['label' => 'Rendah', 'cls' => 'bg-rose-50 text-rose-700 border-rose-100']);
-                    @endphp
-                    <div class="bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200 transition duration-500 group overflow-hidden">
-                        {{-- Progress accent top --}}
-                        <div class="h-1 w-full bg-slate-100">
-                            <div class="{{ $theme['bar'] }} h-full transition-all duration-700 rounded-full"
-                                 style="width: {{ min($rPct, 100) }}%"></div>
-                        </div>
+                    <div class="space-y-4" x-show="open" x-transition>
+                        @forelse($category->realizations as $realization)
+                        @php
+                            $rPct = $realization->budget_amount > 0
+                                ? ($realization->realization_amount / $realization->budget_amount) * 100
+                                : 0;
+                            $status = $rPct >= 90
+                                ? ['label' => 'Sangat Baik', 'cls' => 'bg-emerald-50 text-emerald-700 border-emerald-100']
+                                : ($rPct >= 60
+                                    ? ['label' => 'Sedang', 'cls' => 'bg-amber-50 text-amber-700 border-amber-100']
+                                    : ['label' => 'Rendah', 'cls' => 'bg-rose-50 text-rose-700 border-rose-100']);
+                        @endphp
+                        <div class="bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200 transition duration-500 group overflow-hidden">
+                            {{-- Progress accent top --}}
+                            <div class="h-1 w-full bg-slate-100">
+                                <div class="{{ $theme['bar'] }} h-full transition-all duration-700 rounded-full"
+                                     style="width: {{ min($rPct, 100) }}%"></div>
+                            </div>
 
-                        <div class="p-6 md:p-8">
-                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                                {{-- Left: title + amounts --}}
-                                <div class="flex-grow">
-                                    <div class="flex items-start gap-4 mb-5">
-                                        <div class="w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-emerald-100 flex items-center justify-center flex-shrink-0 transition">
-                                            <i class="fa-solid fa-file-invoice-dollar text-slate-400 group-hover:text-emerald-600 text-xs transition"></i>
+                            <div class="p-6 md:p-8">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                    {{-- Left: title + amounts --}}
+                                    <div class="flex-grow">
+                                        <div class="flex items-start gap-4 mb-5">
+                                            <div class="w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-emerald-100 flex items-center justify-center flex-shrink-0 transition">
+                                                <i class="fa-solid fa-file-invoice-dollar text-slate-400 group-hover:text-emerald-600 text-xs transition"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="text-base md:text-lg font-heading font-bold text-slate-900 group-hover:text-emerald-700 transition leading-snug">
+                                                    {{ $realization->title }}
+                                                </h5>
+                                                <span class="mt-1 inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border {{ $status['cls'] }}">
+                                                    {{ $status['label'] }}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h5 class="text-base md:text-lg font-heading font-bold text-slate-900 group-hover:text-emerald-700 transition leading-snug">
-                                                {{ $realization->title }}
-                                            </h5>
-                                            <span class="mt-1 inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border {{ $status['cls'] }}">
-                                                {{ $status['label'] }}
-                                            </span>
+
+                                        {{-- Budget vs realization row --}}
+                                        <div class="grid grid-cols-2 gap-4 bg-slate-50 rounded-2xl p-4">
+                                            <div>
+                                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Anggaran</p>
+                                                <p class="font-bold text-slate-700 text-sm md:text-base">
+                                                    Rp {{ number_format($realization->budget_amount, 0, ',', '.') }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Realisasi</p>
+                                                <p class="font-extrabold {{ $theme['text'] }} text-sm md:text-base">
+                                                    Rp {{ number_format($realization->realization_amount, 0, ',', '.') }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    {{-- Budget vs realization row --}}
-                                    <div class="grid grid-cols-2 gap-4 bg-slate-50 rounded-2xl p-4">
-                                        <div>
-                                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Anggaran</p>
-                                            <p class="font-bold text-slate-700 text-sm md:text-base">
-                                                Rp {{ number_format($realization->budget_amount, 0, ',', '.') }}
-                                            </p>
+                                    {{-- Right: percentage ring --}}
+                                    <div class="flex-shrink-0 flex flex-col items-center gap-2 border-t md:border-t-0 md:border-l border-slate-100 pt-6 md:pt-0 md:pl-8">
+                                        <div class="relative w-20 h-20">
+                                            <svg class="w-full h-full -rotate-90" viewBox="0 0 80 80">
+                                                <circle cx="40" cy="40" r="34" fill="none" stroke="#f1f5f9" stroke-width="8"/>
+                                                <circle cx="40" cy="40" r="34" fill="none"
+                                                        stroke="{{ $theme['chart'] }}"
+                                                        stroke-width="8"
+                                                        stroke-linecap="round"
+                                                        stroke-dasharray="{{ $rPct * 2.136 }}, 213.6"
+                                                        style="transition: stroke-dasharray 1s ease;"/>
+                                            </svg>
+                                            <div class="absolute inset-0 flex items-center justify-center">
+                                                <span class="text-sm font-black text-slate-900">{{ round($rPct) }}%</span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Realisasi</p>
-                                            <p class="font-extrabold {{ $theme['text'] }} text-sm md:text-base">
-                                                Rp {{ number_format($realization->realization_amount, 0, ',', '.') }}
-                                            </p>
-                                        </div>
+                                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Capaian</span>
                                     </div>
-                                </div>
-
-                                {{-- Right: percentage ring --}}
-                                <div class="flex-shrink-0 flex flex-col items-center gap-2 border-t md:border-t-0 md:border-l border-slate-100 pt-6 md:pt-0 md:pl-8">
-                                    <div class="relative w-20 h-20">
-                                        <svg class="w-full h-full -rotate-90" viewBox="0 0 80 80">
-                                            <circle cx="40" cy="40" r="34" fill="none" stroke="#f1f5f9" stroke-width="8"/>
-                                            <circle cx="40" cy="40" r="34" fill="none"
-                                                    stroke="{{ $theme['chart'] }}"
-                                                    stroke-width="8"
-                                                    stroke-linecap="round"
-                                                    stroke-dasharray="{{ $rPct * 2.136 }}, 213.6"
-                                                    style="transition: stroke-dasharray 1s ease;"/>
-                                        </svg>
-                                        <div class="absolute inset-0 flex items-center justify-center">
-                                            <span class="text-sm font-black text-slate-900">{{ round($rPct) }}%</span>
-                                        </div>
-                                    </div>
-                                    <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Capaian</span>
                                 </div>
                             </div>
                         </div>
+                        @empty
+                        <div class="bg-white rounded-[28px] border border-slate-100 p-4">
+                            <x-empty-state 
+                                icon="fa-solid fa-coins" 
+                                title="Belum Ada Rincian Pos Anggaran" 
+                                description="Pos rincian anggaran untuk {{ strtolower($category->name) }} belum diinput." 
+                                compact="true"
+                            />
+                        </div>
+                        @endforelse
                     </div>
-                    @empty
-                    <div class="bg-white rounded-[28px] border border-slate-100 p-4">
-                        <x-empty-state 
-                            icon="fa-solid fa-coins" 
-                            title="Belum Ada Rincian Pos Anggaran" 
-                            description="Pos rincian anggaran untuk {{ strtolower($category->name) }} belum diinput." 
-                            compact="true"
-                        />
-                    </div>
-                    @endforelse
 
                 </div>{{-- /realization cards --}}
             </div>
@@ -457,6 +459,20 @@
                                     color: '#0f172a',
                                     offsetY: 5,
                                     formatter: function(val) {
+                                        if (val >= 1000000000) {
+                                            return 'Rp ' + parseFloat((val / 1000000000).toFixed(1)) + ' M';
+                                        } else if (val >= 1000000) {
+                                            return 'Rp ' + parseFloat((val / 1000000).toFixed(1)) + ' Jt';
+                                        }
+                                        return 'Rp ' + parseInt(val).toLocaleString('id-ID');
+                                    }
+                                },
+                                total: {
+                                    show: true,
+                                    showAlways: true,
+                                    label: 'Total',
+                                    formatter: function (w) {
+                                        let val = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
                                         if (val >= 1000000000) {
                                             return 'Rp ' + parseFloat((val / 1000000000).toFixed(1)) + ' M';
                                         } else if (val >= 1000000) {

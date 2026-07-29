@@ -132,15 +132,15 @@ class FamilyForm
                                                 TextInput::make('rental_estimate')->label('Perkiraan Sewa Sebulan (Rp)')
                                                     ->placeholder('Contoh: 500000')
                                                     ->helperText('Biaya estimasi sewa per bulan.')
-                                                    ->numeric(),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                                 TextInput::make('rental_free_estimate')->label('Estimasi Bebas Sewa / Lainnya (Rp)')
                                                     ->placeholder('Contoh: 0')
                                                     ->helperText('Estimasi nilai jika berstatus bebas sewa.')
-                                                    ->numeric(),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                                 TextInput::make('rental_contract_value')->label('Nilai Kontrak Total (Rp)')
                                                     ->placeholder('Contoh: 6000000')
                                                     ->helperText('Nilai total kesepakatan kontrak.')
-                                                    ->numeric(),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                             ]),
                                     ]),
 
@@ -325,11 +325,11 @@ class FamilyForm
                                                 TextInput::make('electricity_cost')->label('Pengeluaran Listrik Sebulan (Rp)')
                                                     ->placeholder('Contoh: 150000')
                                                     ->helperText('Tagihan/token listrik rata-rata sebulan.')
-                                                    ->numeric(),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                                 TextInput::make('internet_cost')->label('Pengeluaran Pulsa / Internet Sebulan (Rp)')
                                                     ->placeholder('Contoh: 100000')
                                                     ->helperText('Pulsa dan kuota internet rata-rata sebulan.')
-                                                    ->numeric(),
+                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                             ]),
                                     ]),
                             ]),
@@ -357,9 +357,9 @@ class FamilyForm
                                         Grid::make(2)
                                             ->schema([
                                                 TextInput::make('motorcycle_count')->label('Sepeda Motor (Jumlah)')->placeholder('0')->helperText('Jumlah unit sepeda motor.')->numeric()->default(0),
-                                                TextInput::make('motorcycle_value')->label('Total Nilai Aset Motor (Rp)')->placeholder('Contoh: 15000000')->helperText('Estimasi nilai taksiran motor.')->numeric()->default(0),
+                                                TextInput::make('motorcycle_value')->label('Total Nilai Aset Motor (Rp)')->placeholder('Contoh: 15000000')->helperText('Estimasi nilai taksiran motor.')->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('car_count')->label('Mobil (Jumlah)')->placeholder('0')->helperText('Jumlah unit mobil.')->numeric()->default(0),
-                                                TextInput::make('car_value')->label('Total Nilai Aset Mobil (Rp)')->placeholder('Contoh: 100000000')->helperText('Estimasi nilai taksiran mobil.')->numeric()->default(0),
+                                                TextInput::make('car_value')->label('Total Nilai Aset Mobil (Rp)')->placeholder('Contoh: 100000000')->helperText('Estimasi nilai taksiran mobil.')->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                             ]),
                                     ]),
 
@@ -369,9 +369,9 @@ class FamilyForm
                                         Grid::make(2)
                                             ->schema([
                                                 TextInput::make('other_land_count')->label('Tanah Lain Dimiliki (Jumlah)')->placeholder('0')->helperText('Jumlah bidang tanah lain.')->numeric()->default(0),
-                                                TextInput::make('other_land_value')->label('Total Nilai Jual Tanah (Rp)')->placeholder('Contoh: 50000000')->helperText('Estimasi nilai jual tanah.')->numeric()->default(0),
+                                                TextInput::make('other_land_value')->label('Total Nilai Jual Tanah (Rp)')->placeholder('Contoh: 50000000')->helperText('Estimasi nilai jual tanah.')->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('other_building_count')->label('Bangunan Lain Dimiliki (Jumlah)')->placeholder('0')->helperText('Jumlah unit bangunan lain.')->numeric()->default(0),
-                                                TextInput::make('other_building_value')->label('Total Nilai Jual Bangunan (Rp)')->placeholder('Contoh: 75000000')->helperText('Estimasi nilai jual bangunan.')->numeric()->default(0),
+                                                TextInput::make('other_building_value')->label('Total Nilai Jual Bangunan (Rp)')->placeholder('Contoh: 75000000')->helperText('Estimasi nilai jual bangunan.')->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                             ]),
                                     ]),
 

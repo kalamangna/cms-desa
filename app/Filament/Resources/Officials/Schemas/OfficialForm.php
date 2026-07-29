@@ -61,7 +61,7 @@ class OfficialForm
                     ])
                     ->columnSpanFull(),
                 FileUpload::make('photo')->label('Foto')
-                    ->helperText('Unggah pasfoto resmi aparatur (Otomatis dioptimalkan WebP, maks 2MB).')
+                    ->helperText('Unggah pasfoto resmi aparatur (Maksimal 2MB).')
                     ->image()
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->imageResizeTargetWidth(500)

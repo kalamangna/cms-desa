@@ -81,21 +81,23 @@
 >
     
     {{-- Tab Buttons --}}
-    <div class="flex border-b border-slate-200 mb-12 gap-6">
-        <button 
-            @click="activeTab = 'kirim'" 
-            :class="activeTab === 'kirim' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-600'"
-            class="pb-4 font-heading font-bold text-lg border-b-2 transition duration-300 focus:outline-none flex items-center gap-2"
-        >
-            <i class="fa-solid fa-bullhorn text-sm"></i> Kirim Laporan
-        </button>
-        <button 
-            @click="activeTab = 'lacak'" 
-            :class="activeTab === 'lacak' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-600'"
-            class="pb-4 font-heading font-bold text-lg border-b-2 transition duration-300 focus:outline-none flex items-center gap-2"
-        >
-            <i class="fa-solid fa-magnifying-glass text-sm"></i> Lacak Pengaduan
-        </button>
+    <div class="flex justify-center mb-12 md:mb-16">
+        <div class="flex space-x-8 border-b border-slate-200">
+            <button 
+                @click="activeTab = 'kirim'" 
+                :class="activeTab === 'kirim' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'"
+                class="pb-4 px-2 font-bold text-sm border-b-2 transition-colors duration-300 flex items-center gap-2"
+            >
+                <i class="fa-solid fa-bullhorn"></i> Kirim Laporan
+            </button>
+            <button 
+                @click="activeTab = 'lacak'" 
+                :class="activeTab === 'lacak' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'"
+                class="pb-4 px-2 font-bold text-sm border-b-2 transition-colors duration-300 flex items-center gap-2"
+            >
+                <i class="fa-solid fa-magnifying-glass"></i> Lacak Pengaduan
+            </button>
+        </div>
     </div>
 
     {{-- ===================== TAB: KIRIM PENGADUAN ===================== --}}
@@ -118,54 +120,36 @@
                  @keydown.escape.window="showSuccessModal = false"
                  @click="showSuccessModal = false">
                 
-                <div @click.stop class="bg-white rounded-[28px] shadow-2xl p-8 md:p-10 max-w-lg w-full border border-slate-100 relative text-center cursor-default">
-                    <button @click="showSuccessModal = false" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition duration-300 w-10 h-10 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center">
-                        <i class="fa-solid fa-xmark text-lg"></i>
+                <div @click.stop class="bg-white rounded-[32px] shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default">
+                    <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-5">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+
+                    <h3 class="font-heading font-extrabold text-slate-900 text-xl mb-2">{{ session('success') }}</h3>
+                    <p class="text-sm text-slate-500 mb-6">Pengaduan Anda telah terdaftar dalam sistem.</p>
+
+                    <div class="mb-8">
+                        <span class="text-xs font-bold text-slate-400 block mb-1">Nomor Tiket Anda:</span>
+                        <div class="flex items-center justify-center gap-3">
+                            <h4 class="text-xl font-mono font-black text-slate-800 select-all">{{ session('ticket_number') }}</h4>
+                            <button @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2000);"
+                                    class="text-slate-400 hover:text-emerald-600 transition p-2" title="Salin Nomor">
+                                <i class="fa-solid" :class="copied ? 'fa-check text-emerald-500' : 'fa-copy'"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button @click="showSuccessModal = false" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-2xl font-bold text-sm transition">
+                        Tutup
                     </button>
-
-                    <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-6 shadow-sm">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-
-                    <h3 class="font-heading font-extrabold text-slate-900 text-2xl mb-2">{{ session('success') }}</h3>
-                    <p class="text-xs text-slate-500 mb-6 leading-relaxed">Pengaduan Anda telah terdaftar dalam sistem. Harap simpan nomor tiket di bawah ini untuk melacak tanggapan admin.</p>
-
-                    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 mb-6 text-center">
-                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-1">Nomor Tiket Pengaduan Anda</span>
-                        <h4 class="text-2xl font-mono font-black text-emerald-600 select-all tracking-wide mb-4">{{ session('ticket_number') }}</h4>
-
-                        <button @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2500);"
-                                class="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3.5 rounded-xl text-sm transition shadow-md shadow-emerald-200">
-                            <template x-if="!copied">
-                                <span class="flex items-center gap-2"><i class="fa-solid fa-copy"></i> Salin Nomor Tiket</span>
-                            </template>
-                            <template x-if="copied">
-                                <span class="flex items-center gap-2"><i class="fa-solid fa-check"></i> Berhasil Disalin!</span>
-                            </template>
-                        </button>
-                    </div>
-
-                    <div class="flex gap-3">
-                        <button @click="activeTab = 'lacak'; fetchStatus('{{ session('ticket_number') }}'); showSuccessModal = false;"
-                                class="flex-1 bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-2xl font-bold text-xs transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-magnifying-glass"></i> Lacak Status Sekarang
-                        </button>
-                        <button @click="showSuccessModal = false" class="px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 py-3.5 rounded-2xl font-bold text-xs transition">
-                            Tutup
-                        </button>
-                    </div>
                 </div>
             </div>
             @endif
 
             {{-- Form Header --}}
-            <div class="mb-10">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="h-px w-8 bg-emerald-500"></div>
-                    <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.25em]">Saluran Aspirasi</span>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Buat Laporan Baru</h2>
-                <p class="text-slate-400 text-sm mt-1">Laporan Anda akan ditinjau dan ditindaklanjuti secara privat oleh pihak desa.</p>
+            <div class="mb-8">
+                <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Buat Laporan Baru</h3>
+                <p class="text-slate-400 text-sm">Laporan Anda akan ditindaklanjuti oleh pihak desa.</p>
             </div>
 
             <form action="{{ route('complaints.store') }}" method="POST" class="space-y-6">
@@ -208,8 +192,8 @@
     <div x-show="activeTab === 'lacak'" x-transition:enter="transition ease-out duration-300" x-cloak>
         <div class="bg-white rounded-[40px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50 mb-8">
             <div class="mb-8">
-                <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Pelacakan Status Pengaduan Real-time</h3>
-                <p class="text-slate-400 text-sm">Masukkan nomor tiket pengaduan Anda di bawah ini untuk melihat perkembangan laporan tanpa perlu memuat ulang halaman.</p>
+                <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Lacak Status Pengaduan</h3>
+                <p class="text-slate-400 text-sm">Masukkan nomor tiket Anda di bawah ini.</p>
             </div>
 
             <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-4">

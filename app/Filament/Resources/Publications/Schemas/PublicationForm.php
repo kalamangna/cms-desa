@@ -41,7 +41,7 @@ class PublicationForm
                     ->columnSpanFull(),
                 FileUpload::make('cover')
                     ->label('Sampul (Cover)')
-                    ->helperText('Unggah gambar sampul buku (Otomatis dioptimalkan WebP, maks 2MB).')
+                    ->helperText('Unggah gambar sampul buku (Maksimal 2MB).')
                     ->image()
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->imageResizeTargetWidth(600)
