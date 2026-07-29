@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.50] - 2026-07-29
+
+### Fixed & Whitelisted
+- **Penambahan Domain UserWay Widget pada Content Security Policy (CSP)**:
+  - Mendaftarkan `https://cdn.userway.org` dan `https://api.userway.org` ke dalam direktif CSP (`script-src`, `style-src`, `font-src`, `img-src`, `frame-src`, `connect-src`) pada middleware `SecurityHeaders` ([SecurityHeaders.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/app/Http/Middleware/SecurityHeaders.php)) dan konfigurasi web server ([.htaccess](file:///Users/abedzul/Desktop/htdocs/desa-cms/public/.htaccess)).
+  - Mencegah pemblokiran skrip Widget Aksesibilitas UserWay oleh aturan keamanan browser.
+
 ## [1.26.49] - 2026-07-29
 
 ### Fixed & Configured

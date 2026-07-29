@@ -24,12 +24,12 @@ class SecurityHeaders
 
         // Terapkan Content Security Policy (CSP) modern yang memperbolehkan 'unsafe-eval' untuk Alpine.js
         $csp = "default-src 'self'; " .
-               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://www.youtube.com https://www.youtube-nocookie.com; " .
-               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; " .
-               "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " .
-               "img-src 'self' data: blob: https: http:; " .
-               "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com; " .
-               "connect-src 'self' https: http:; " .
+               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://www.youtube.com https://www.youtube-nocookie.com https://cdn.userway.org https://api.userway.org; " .
+               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com https://cdn.userway.org; " .
+               "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.userway.org; " .
+               "img-src 'self' data: blob: https: http: https://cdn.userway.org; " .
+               "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com https://cdn.userway.org; " .
+               "connect-src 'self' https: http: https://cdn.userway.org https://api.userway.org; " .
                "object-src 'none'; " .
                "base-uri 'self';";
 
