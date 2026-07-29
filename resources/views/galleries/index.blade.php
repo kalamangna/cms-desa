@@ -88,7 +88,7 @@
         getYoutubeEmbed(url) {
             if (!url) return '';
             const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
-            return (match && match[2].length === 11) ? 'https://www.youtube.com/embed/' + match[2] : '';
+            return (match && match[2].length === 11) ? 'https://www.youtube-nocookie.com/embed/' + match[2] : '';
         }
     }"
 >

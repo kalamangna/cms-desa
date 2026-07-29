@@ -1,6 +1,13 @@
 # Changelog - Website Desa
 
-Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
+Semua perubahan signifikan pada proyek ini megarungi transparansi dan privasi.
+
+## [1.26.46] - 2026-07-29
+
+### Fixed & Optimized
+- **Optimasi Privasi & Performa Embed YouTube (`youtube-nocookie.com`)**:
+  - Memperbarui domain iframe embed video YouTube pada Halaman Utama Galeri ([galleries/index.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/galleries/index.blade.php)) dan Beranda ([home.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/home.blade.php)) dari `www.youtube.com` menjadi `www.youtube-nocookie.com`.
+  - Menghilangkan *third-party cookies* pelacak YouTube, meningkatkan skor Lighthouse/Speed Best Practices, dan memastikan keamanan data pengunjung.
 
 ## [1.26.45] - 2026-07-29
 
