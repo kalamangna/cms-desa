@@ -514,15 +514,26 @@ document.addEventListener('alpine:init', function () {
                 clone.style.transformOrigin = 'top center';
                 offscreenContainer.appendChild(clone);
                 
-                // Konversi semua gambar di dalam klon menjadi Base64 menggunakan Fetch API
-                var images = clone.querySelectorAll('img');
-                var convertPromises = Array.from(images).map(function(img) {
-                    if (img.src.startsWith('data:')) return Promise.resolve();
-                    return fetch(img.src)
+                // Konversi semua background-image di dalam klon menjadi Base64 menggunakan Fetch API
+                var photoNodes = clone.querySelectorAll('.oc-photo');
+                var convertPromises = Array.from(photoNodes).map(function(node) {
+                    var bgImage = node.style.backgroundImage;
+                    if (!bgImage || bgImage === 'none') return Promise.resolve();
+                    
+                    var match = bgImage.match(/url\(["']?(.*?)["']?\)/);
+                    if (!match || !match[1]) return Promise.resolve();
+                    
+                    var url = match[1];
+                    if (url.startsWith('data:')) return Promise.resolve();
+                    
+                    return fetch(url)
                         .then(res => res.blob())
-                        .then(blob => new Promise((resolve, reject) => {
+                        .then(blob => new Promise((resolve) => {
                             var reader = new FileReader();
-                            reader.onloadend = () => { img.src = reader.result; resolve(); };
+                            reader.onloadend = () => {
+                                node.style.backgroundImage = 'url("' + reader.result + '")';
+                                resolve();
+                            };
                             reader.onerror = resolve; // Abaikan jika error
                             reader.readAsDataURL(blob);
                         }))
@@ -644,23 +655,10 @@ document.addEventListener('alpine:init', function () {
 
         var imgWrap = document.createElement('div');
         imgWrap.className = 'oc-photo';
-        imgWrap.style.overflow = 'hidden'; // Ensure rounded corners apply to the img inside
-        
-        var imgTag = document.createElement('img');
-        imgTag.src = photo;
-        imgTag.style.width = '100%';
-        imgTag.style.height = '100%';
-        imgTag.style.objectFit = 'cover';
-        imgTag.style.display = 'block';
-        
-        imgTag.onerror = function () {
-            imgTag.src = defaultPhoto;
-        };
-        
-        imgWrap.appendChild(imgTag);
-
-
-
+        imgWrap.style.backgroundImage = 'url("' + photo + '")';
+        imgWrap.style.backgroundSize = 'cover';
+        imgWrap.style.backgroundPosition = 'center';
+        imgWrap.style.backgroundColor = '#f1f5f9';
         var nameEl = document.createElement('div');
         nameEl.className = 'oc-name';
         nameEl.title = node.name;
