@@ -693,7 +693,11 @@ document.addEventListener('alpine:init', function () {
                     }).then(function (canvas) {
                         // Kembalikan semua stylesheet
                         detachedSheets.forEach(function (item) {
-                            head.insertBefore(item.element, item.nextSibling);
+                            if (item.nextSibling && item.nextSibling.parentNode === head) {
+                                head.insertBefore(item.element, item.nextSibling);
+                            } else {
+                                head.appendChild(item.element);
+                            }
                         });
                         offscreenContainer.remove();
 
@@ -721,7 +725,11 @@ document.addEventListener('alpine:init', function () {
                     if (pdfWindow) pdfWindow.close();
                 }.bind(this)).catch(function(err) {
                     detachedSheets.forEach(function (item) {
-                        head.insertBefore(item.element, item.nextSibling);
+                            if (item.nextSibling && item.nextSibling.parentNode === head) {
+                                head.insertBefore(item.element, item.nextSibling);
+                            } else {
+                                head.appendChild(item.element);
+                            }
                     });
                     if (offscreenContainer.parentNode) offscreenContainer.remove();
                     if (pdfWindow) pdfWindow.close();
