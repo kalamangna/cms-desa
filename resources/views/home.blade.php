@@ -139,11 +139,12 @@
 @endif
 
 {{-- 1. HERO --}}
-<div class="relative bg-zinc-950 min-h-[90vh] flex items-center overflow-hidden">
-    {{-- Dark background --}}
+<div class="relative bg-slate-900 min-h-[90vh] flex items-center overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-zinc-950"></div>
-        <div class="absolute -top-32 right-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[100px]"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-28 md:pt-24 md:pb-32 lg:py-28 w-full">
@@ -155,7 +156,7 @@
                     <div class="h-px w-12 bg-emerald-500"></div>
                     <span class="text-emerald-400 text-xs font-black uppercase tracking-[0.3em]">Portal Resmi Pemerintah Desa</span>
                 </div>
-                <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.05] tracking-tight mb-8">
+                <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.05] mb-8">
                     Desa<br><span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
                 </h1>
                 <p class="text-lg md:text-xl text-slate-300 mb-4 font-medium leading-relaxed">
@@ -167,11 +168,11 @@
                     Pemerintahan yang transparan, akuntabel, dan berbasis data presisi untuk kemajuan seluruh warga desa.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base px-8 py-4 rounded-2xl transition duration-300" aria-label="Lihat Dashboard Statistik Desa">
+                    <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-xl shadow-emerald-900/40 transition duration-300 hover:-translate-y-0.5" aria-label="Lihat Dashboard Statistik Desa">
                         <i class="fa-solid fa-chart-pie group-hover:rotate-12 transition-transform"></i>
                         Dashboard Statistik
                     </a>
-                    <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-transparent hover:bg-white/5 text-white font-bold text-base px-8 py-4 rounded-2xl border border-slate-700 hover:border-slate-500 transition duration-300">
+                    <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl border border-white/20 transition duration-300 hover:-translate-y-0.5">
                         <i class="fa-solid fa-file-signature"></i>
                         Layanan Mandiri
                     </a>
@@ -181,30 +182,36 @@
             {{-- Kolom Kanan: Foto Kepala Desa --}}
             <div class="flex items-center justify-center mt-16 lg:mt-0">
                 <div class="relative">
+                    {{-- Glow background --}}
+                    <div class="absolute inset-0 bg-emerald-500/20 rounded-[32px] blur-3xl scale-110"></div>
+
                     {{-- Frame foto --}}
-                    <div class="relative w-[270px] h-[324px] sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-[32px] overflow-hidden bg-slate-800">
+                    <div class="relative w-[270px] h-[324px] sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-[32px] overflow-hidden border-2 border-white/10 shadow-2xl">
                         <img src="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.webp') }}"
-                             class="w-full h-full object-cover object-top opacity-90 hover:opacity-100 transition-opacity duration-500"
+                             class="w-full h-full object-cover object-top"
                              alt="Foto {{ $villageHead?->name ?? 'Kepala Desa' }}"
                              width="384"
                              height="480"
                              loading="eager"
                              fetchpriority="high"
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
+                        {{-- Overlay gradient bawah --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
                     </div>
 
-                    {{-- Badge nama kepala desa (Solid & Asymmetrical) --}}
-                    <div class="absolute -bottom-6 -left-6 sm:-left-8 max-w-xs bg-white border border-slate-100 rounded-2xl px-6 py-5 shadow-xl">
-                        <div class="flex items-center gap-3 mb-1">
-                            <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
-                            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">
-                                Kepala Desa
-                            </p>
-                        </div>
-                        <p class="text-slate-900 font-heading font-bold text-lg leading-tight">
-                            {{ $villageHead?->name ?? 'Nama Belum Diatur' }}
+                    {{-- Badge nama kepala desa --}}
+                    <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-5 py-4 text-center shadow-xl">
+                        <p class="text-white font-heading font-bold text-base leading-tight">
+                            {{ $villageHead?->name ?? 'Kepala Desa' }}
+                        </p>
+                        <p class="text-emerald-400 text-xs font-bold uppercase tracking-widest mt-1">
+                            Kepala Desa {{ $site_settings['village_name'] ?? '' }}
                         </p>
                     </div>
+
+                    {{-- Dekorasi sudut --}}
+                    <div class="absolute -top-4 -right-4 w-20 h-20 border-2 border-emerald-500/30 rounded-3xl"></div>
+                    <div class="absolute -bottom-4 -left-4 w-14 h-14 bg-emerald-500/10 rounded-2xl"></div>
                 </div>
             </div>
 
@@ -219,50 +226,50 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 
         {{-- Penduduk --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-500 transition-colors duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-400 hover:-translate-y-1 transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-users text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
                 <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Penduduk</p>
                 <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalPenduduk, 0, ',', '.') }}</p>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Jiwa</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">Jiwa</p>
             </div>
         </div>
 
         {{-- Keluarga --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-500 transition-colors duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-sky-400 hover:-translate-y-1 transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-house-chimney text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
                 <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Keluarga</p>
                 <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalKeluarga, 0, ',', '.') }}</p>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Kepala Keluarga</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">Kepala Keluarga</p>
             </div>
         </div>
 
         {{-- Dusun --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-500 transition-colors duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-amber-400 hover:-translate-y-1 transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-map-location-dot text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
                 <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Dusun</p>
                 <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalDusun, 0, ',', '.') }}</p>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ $totalRT }} RT / {{ $totalRW }} RW</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">{{ $totalRT }} RT / {{ $totalRW }} RW</p>
             </div>
         </div>
 
         {{-- Luas Wilayah --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-500 transition-colors duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-violet-400 hover:-translate-y-1 transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-50 flex items-center justify-center text-violet-600 group-hover:bg-violet-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-ruler-combined text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas</p>
+                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
                 <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ $site_settings['village_area'] ?? '—' }}</p>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
             </div>
         </div>
 
@@ -272,72 +279,75 @@
 {{-- 2.5 MENU LAYANAN CEPAT --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-20">
     <div class="text-center mb-10">
-        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 tracking-tight">Akses <span class="text-emerald-700">Layanan Cepat</span></h2>
+        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Akses <span class="text-emerald-700">Layanan Cepat</span></h2>
         <p class="text-slate-500 text-sm mt-2">Pilih layanan yang Anda butuhkan di bawah ini</p>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-emerald-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors duration-300">
-                <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
+        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-emerald-100/50 hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:border-emerald-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-emerald-500/30">
+                <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-emerald-600 group-hover:text-white transition-colors"></i>
             </div>
             <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Layanan Mandiri</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Panduan dan pengajuan administrasi kependudukan</p>
         </a>
         
-        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-emerald-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors duration-300">
-                <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
+        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-rose-100/50 hover:border-rose-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-rose-500 group-hover:border-rose-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-rose-500/30">
+                <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-rose-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Lapor & Pengaduan</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-rose-700 transition-colors">Lapor & Pengaduan</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Sampaikan aspirasi atau laporan masalah warga</p>
         </a>
         
-        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-emerald-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors duration-300">
-                <i class="fa-solid fa-address-book text-2xl md:text-3xl text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
+        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-sky-100/50 hover:border-sky-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-sky-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-sky-500 group-hover:border-sky-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-sky-500/30">
+                <i class="fa-solid fa-address-book text-2xl md:text-3xl text-sky-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Buku Tamu</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-sky-700 transition-colors">Buku Tamu</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Tinggalkan pesan, kesan, atau saran untuk desa</p>
         </a>
         
-        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-emerald-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors duration-300">
-                <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
+        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-amber-100/50 hover:border-amber-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-amber-500 group-hover:border-amber-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-amber-500/30">
+                <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-amber-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Potensi Desa</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-amber-700 transition-colors">Potensi Desa</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Eksplorasi pariwisata, budaya, dan komoditas lokal</p>
         </a>
     </div>
 </div>
 
 {{-- 3. SAMBUTAN KEPALA DESA --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32">
-    <div class="bg-white rounded-3xl border border-slate-200 relative overflow-hidden">
-        <div class="flex flex-col lg:flex-row">
-            <div class="p-8 md:p-12 lg:p-16 lg:w-2/3 relative z-10">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
-                    <span class="text-slate-500 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 tracking-tight mb-8 leading-tight max-w-xl">
-                    {{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}
-                </h2>
-                <div class="prose prose-slate prose-p:mb-5 prose-p:last:mb-0 text-slate-600 text-sm md:text-base leading-relaxed mb-10 max-w-2xl">
-                    {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' !!}
-                </div>
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
-                        <i class="fa-solid fa-signature text-lg"></i>
-                    </div>
-                    <div>
-                        <p class="font-heading font-bold text-base text-slate-900">{{ $villageHead?->name ?? 'Nama Kepala Desa' }}</p>
-                        <p class="text-slate-500 text-xs font-medium uppercase tracking-wider mt-0.5">Kepala Desa {{ $site_settings['village_name'] ?? '' }}</p>
-                    </div>
-                </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
+    <div class="bg-white rounded-[32px] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100 relative">
+        {{-- Decorative Quote Mark in Background --}}
+        <div class="absolute -top-12 -right-12 text-emerald-50/50 pointer-events-none z-0">
+            <i class="fa-solid fa-quote-right text-[200px] md:text-[300px]"></i>
+        </div>
+
+        <div class="p-8 md:p-16 lg:p-20 relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+            <div class="flex items-center gap-3 mb-6 justify-center">
+                <div class="h-px w-8 bg-emerald-600"></div>
+                <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
+                <div class="h-px w-8 bg-emerald-600"></div>
             </div>
-            <div class="hidden lg:block lg:w-1/3 bg-slate-50 border-l border-slate-100 relative">
-                <div class="absolute inset-0 flex items-center justify-center opacity-5">
-                    <i class="fa-solid fa-quote-right text-[150px]"></i>
+            <h2 class="text-2xl md:text-4xl font-heading font-extrabold text-slate-900 mb-10 leading-tight">
+                {{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}
+            </h2>
+            <div class="prose prose-slate prose-p:mb-6 prose-p:last:mb-0 text-slate-500 text-base md:text-lg leading-relaxed italic mb-12 max-w-3xl text-center mx-auto">
+                {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' !!}
+            </div>
+            <div class="flex flex-col items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+                    <i class="fa-solid fa-signature text-lg"></i>
+                </div>
+                <div>
+                    <p class="font-heading font-bold text-lg text-slate-900">{{ $villageHead?->name ?? 'Nama Kepala Desa' }}</p>
+                    <p class="text-slate-500 text-sm font-medium">Kepala Desa {{ $site_settings['village_name'] ?? '' }}</p>
                 </div>
             </div>
         </div>
@@ -345,7 +355,7 @@
 </div>
 
 {{-- 4. DATA DEMOGRAFI --}}
-<div class="bg-slate-50 py-20 md:py-28 lg:py-32">
+<div class="bg-slate-50 py-16 md:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
             <div>
@@ -353,7 +363,7 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
                 </div>
-                <h2 class="text-3xl md:text-5xl font-heading font-extrabold text-slate-900 tracking-tight">Statistik & <span class="text-emerald-700">APBDes</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Statistik & <span class="text-emerald-700">APBDes</span></h2>
             </div>
         </div>
 
@@ -407,11 +417,11 @@
                     <div>
                         <div class="mb-10">
                             <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-teal-400 text-sm">Total Pendapatan</span>
+                                <span class="font-bold text-emerald-400 text-sm">Total Pendapatan</span>
                                 <span class="text-sm font-bold text-white">{{ number_format($pendapatanPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-teal-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
+                                <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
                             </div>
                             <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['pendapatan']['budget'], 0, ',', '.') }}</p>
                         </div>
@@ -437,7 +447,7 @@
 </div>
 
 {{-- 5. BERITA & PENGUMUMAN --}}
-<div class="bg-white py-20 md:py-28 lg:py-32">
+<div class="bg-white py-16 md:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
             <div>
@@ -445,7 +455,7 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
                 </div>
-                <h2 class="text-3xl md:text-5xl font-heading font-extrabold text-slate-900 tracking-tight">Berita & <span class="text-emerald-700">Pengumuman</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Berita & <span class="text-emerald-700">Pengumuman</span></h2>
             </div>
         </div>
 
@@ -513,14 +523,14 @@
                     </div>
                     <div class="space-y-4 flex-1">
                         @forelse($announcements as $ann)
-                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 transition-colors duration-300 group">
+                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-emerald-300 hover:-translate-y-0.5 transition-all duration-200">
                             <div class="flex items-start gap-3">
-                                <div class="w-9 h-9 rounded-xl bg-slate-50 flex items-center justify-center flex-shrink-0 mt-0.5 border border-slate-100 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors">
-                                    <i class="fa-solid fa-bullhorn text-slate-400 text-xs group-hover:text-emerald-600 transition-colors"></i>
+                                <div class="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-bullhorn text-amber-600 text-xs"></i>
                                 </div>
                                 <div class="min-w-0">
                                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{{ $ann->published_at->translatedFormat('d M Y') }}</p>
-                                    <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2 group-hover:text-emerald-700 transition-colors">{{ $ann->title }}</h4>
+                                    <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2">{{ $ann->title }}</h4>
                                 </div>
                             </div>
                         </a>
@@ -555,7 +565,7 @@
 
 {{-- 6. GALERI & PUBLIKASI --}}
 <div 
-    class="bg-slate-50 py-20 md:py-28 lg:py-32"
+    class="bg-slate-50 py-16 md:py-20 lg:py-28"
     x-data="{
         galleryItems: @js($homeGalleryItems),
         currentIndex: 0,
@@ -594,7 +604,7 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi Desa</span>
                 </div>
-                <h2 class="text-3xl md:text-5xl font-heading font-extrabold text-slate-900 tracking-tight">Galeri <span class="text-emerald-700">Foto & Video</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri <span class="text-emerald-700">Foto & Video</span></h2>
             </div>
         </div>
 
@@ -608,7 +618,7 @@
         @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($galleries as $idx => $gallery)
-            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 aspect-[4/3] cursor-pointer transition-colors duration-300 hover:border-emerald-500"
+            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-md aspect-[4/3] cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl"
                  @click="openLightboxByIndex({{ $idx }})">
                 <img src="{{ $gallery->image_url }}"
                      class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
@@ -618,13 +628,13 @@
                 
                 @if($gallery->type === 'video')
                     <div class="absolute top-3 left-3 z-20">
-                        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full">
+                        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-lg shadow-red-600/40">
                             <i class="fa-brands fa-youtube text-[10px]"></i>
                             YouTube
                         </span>
                     </div>
                     <div class="absolute inset-0 bg-slate-950/30 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
-                        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white text-sm shadow-sm">
+                        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center shadow-xl shadow-red-950/40 text-white text-sm">
                             <i class="fa-solid fa-play ml-0.5"></i>
                         </div>
                     </div>
