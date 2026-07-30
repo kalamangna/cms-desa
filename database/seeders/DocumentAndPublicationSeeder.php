@@ -50,9 +50,15 @@ class DocumentAndPublicationSeeder extends Seeder
             ],
         ];
 
+        $dummyPdfContent = "%PDF-1.4\n1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\nendobj\n4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n5 0 obj\n<< /Length 44 >>\nstream\nBT /F1 24 Tf 100 700 Td (Dokumen Dummy) Tj ET\nendstream\nendobj\nxref\n0 6\n0000000000 65535 f \n0000000009 00000 n \n0000000058 00000 n \n0000000115 00000 n \n0000000223 00000 n \n0000000311 00000 n \ntrailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n405\n%%EOF";
+
         foreach ($documents as $doc) {
             $doc['slug'] = Str::slug($doc['title']);
             Document::create($doc);
+            
+            if (!Storage::disk('public')->exists($doc['file'])) {
+                Storage::disk('public')->put($doc['file'], $dummyPdfContent);
+            }
         }
 
         // Pastikan direktori publications ada
@@ -100,6 +106,10 @@ class DocumentAndPublicationSeeder extends Seeder
         foreach ($publications as $pub) {
             $pub['slug'] = Str::slug($pub['title']);
             Publication::create($pub);
+            
+            if (!Storage::disk('public')->exists($pub['pdf_file'])) {
+                Storage::disk('public')->put($pub['pdf_file'], $dummyPdfContent);
+            }
         }
 
         $this->command->info('Berhasil menyuntikkan 5 Dokumen Publik dan 4 Publikasi.');
