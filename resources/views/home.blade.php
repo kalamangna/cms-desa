@@ -193,14 +193,14 @@
                     </div>
 
                     {{-- Badge nama kepala desa (Solid & Asymmetrical) --}}
-                    <div class="absolute -bottom-6 -left-6 sm:-left-8 max-w-xs bg-slate-900 border border-slate-700 rounded-2xl px-6 py-5 shadow-lg">
+                    <div class="absolute -bottom-6 -left-6 sm:-left-8 max-w-xs bg-white border border-slate-100 rounded-2xl px-6 py-5 shadow-xl">
                         <div class="flex items-center gap-3 mb-1">
                             <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
-                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">
                                 Kepala Desa
                             </p>
                         </div>
-                        <p class="text-white font-heading font-bold text-lg leading-tight">
+                        <p class="text-slate-900 font-heading font-bold text-lg leading-tight">
                             {{ $villageHead?->name ?? 'Nama Belum Diatur' }}
                         </p>
                     </div>
