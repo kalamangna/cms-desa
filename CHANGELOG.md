@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.61] - 2026-07-30
+
+### Fixed
+- **Optimasi Download PDF SOTK**: Memperbaiki masalah unduhan PDF Struktur Organisasi yang *stuck* di lingkungan produksi dengan mengaktifkan opsi `useCORS` dan menerapkan `imageTimeout` maksimal 15 detik pada pustaka `html2canvas`.
+
 ## [1.26.60] - 2026-07-30
 
 ### Changed

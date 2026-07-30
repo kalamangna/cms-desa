@@ -506,7 +506,9 @@ document.addEventListener('alpine:init', function () {
                 html2canvas(clone, {
                     backgroundColor: '#ffffff',
                     scale: 1.5, // Mengurangi dari 3 ke 1.5 untuk mempercepat proses render secara signifikan tanpa kehilangan terlalu banyak ketajaman
-                    useCORS: false,
+                    useCORS: true,
+                    allowTaint: true,
+                    imageTimeout: 15000, // Batas waktu maksimal 15 detik agar tidak stuck
                     logging: false
                 }).then(function (canvas) {
                     // Kembalikan semua stylesheet segera setelah clone DOM html2canvas selesai
