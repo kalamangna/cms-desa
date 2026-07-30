@@ -552,14 +552,12 @@ document.addEventListener('alpine:init', function () {
                     // 3. Masukkan gambar bagan dengan offset padding (x: padding, y: 160)
                     doc.addImage(imgData, 'JPEG', padding, 160, imgWidth / 1.5, imgHeight / 1.5, undefined, 'FAST');
                     
-                    // Generate Blob URL untuk PDF
-                    var blobUrl = doc.output('bloburl');
+                    // Unduh PDF langsung ke perangkat (Lebih aman dari blokir navigasi Blob URL di browser modern)
+                    doc.save('Struktur_Organisasi_Desa_' + (this.villageName || 'Pemerintah').replace(/\s+/g, '_') + '.pdf');
                     
-                    // Buka Blob URL di tab yang sudah dibuka sebelumnya
+                    // Tutup tab loading
                     if (pdfWindow) {
-                        pdfWindow.location.href = blobUrl;
-                    } else {
-                        window.open(blobUrl, '_blank');
+                        pdfWindow.close();
                     }
                 }.bind(this)).catch(function (err) {
                     // Kembalikan semua stylesheet jika terjadi error
