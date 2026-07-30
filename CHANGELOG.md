@@ -2,6 +2,19 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.62] - 2026-07-31
+
+### Added
+- **Resiliensi Seeder & Anti Path-Traversal**: Mengimplementasikan logika *generator* PDF mandiri (*raw byte string*) dan modifikasi *copy* berkas gambar pada kelas Seeder, demi mencegah galat tautan terputus (404/403) dan blokade keamanan *Path Traversal* dari Flysystem saat `migrate:fresh --seed` dieksekusi pertama kali.
+
+### Changed
+- **Pembersihan Arsip Dokumentasi**: Menghapus seluruh folder `docs/` lama untuk dipersiapkan restrukturisasi ulang.
+- **Penyuntingan Aturan (*Rules*)**: Merapikan daftar pedoman `GEMINI.md` secara terpusat, mengapitalisasi secara otomatis, dan mengadopsi prinsip antarmuka (*Natural UI*) menjadi aturan global.
+- **Notifikasi Telegram**: Menonaktifkan pesan peringatan sukses *login* secara khusus bagi `super_admin` untuk mencegah *spam* di grup pemantauan (*System Monitor*).
+
+### Fixed
+- **Tautan Unduhan Publikasi**: Memperbaiki rujukan kolom dari yang sebelumnya `file_path` menjadi `pdf_file` pada halaman publikasi, sehingga fungsi unduh berjalan normal.
+
 ## [1.26.61] - 2026-07-30
 
 ### Fixed
