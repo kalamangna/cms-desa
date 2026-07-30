@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 use App\Filament\Pages\Auth\Login;
+use Spatie\Permission\Models\Role;
 
 class FilamentAccessTest extends TestCase
 {
@@ -30,6 +31,9 @@ class FilamentAccessTest extends TestCase
             'username' => 'kalamangna',
             'password' => Hash::make('Syazani'),
         ]);
+        
+        Role::create(['name' => 'super_admin']);
+        $user->assignRole('super_admin');
 
         Livewire::test(Login::class)
             ->fillForm([
