@@ -83,7 +83,7 @@
 
         <!-- Slides Wrapper -->
         <div class="relative overflow-hidden bg-slate-950 select-none flex items-center justify-center">
-                <div x-show="isOpen" class="relative flex transition-transform duration-500 ease-out h-full w-full"
+                <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
                      :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
                     @foreach($popups as $index => $popup)
                     <div class="w-full flex-shrink-0 flex items-center justify-center min-w-full">
