@@ -180,7 +180,10 @@
             <p class="text-slate-300 text-lg mt-2 mb-6">Jajaran pelayan masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.</p>
             @if($officials->isNotEmpty())
             <button type="button" @click="open()" class="sotk-trigger-btn" aria-haspopup="dialog">
-                <i class="fa-solid fa-sitemap text-sm"></i> Struktur Organisasi
+                Struktur Organisasi
+                @if(!empty($site_settings['village_period_start']) || !empty($site_settings['village_period_end']))
+                    <span class="opacity-75 font-normal ml-1">| Periode {{ $site_settings['village_period_start'] ?? '...' }} - {{ $site_settings['village_period_end'] ?? '...' }}</span>
+                @endif
             </button>
             @endif
         </div>
@@ -356,10 +359,13 @@
 
                 {{-- Header --}}
 
-                <div class="sotk-modal-header">
-                    <h2 id="sotk-modal-title" class="text-sm font-bold text-slate-700">
+                <div class="sotk-modal-header" @mousedown="isDragging = false">
+                    <h3 class="font-heading font-bold text-lg text-slate-800">
                         Struktur Organisasi
-                    </h2>
+                        @if(!empty($site_settings['village_period_start']) || !empty($site_settings['village_period_end']))
+                            <span class="text-slate-500 font-normal ml-2 text-sm">| Periode {{ $site_settings['village_period_start'] ?? '...' }} - {{ $site_settings['village_period_end'] ?? '...' }}</span>
+                        @endif
+                    </h3>
                     <div class="sotk-modal-actions">
                         <span class="text-xs font-bold text-slate-400 tabular-nums mr-1" x-text="Math.round(scale * 100) + '%'"></span>
                         <button type="button" class="sotk-modal-btn" @click="zoomOut()" title="Perkecil"><i class="fa-solid fa-minus"></i></button>
@@ -621,7 +627,7 @@ document.addEventListener('alpine:init', function () {
                 if (this.villagePeriodStart || this.villagePeriodEnd) {
                     var periodText = (this.villagePeriodStart || '...') + ' - ' + (this.villagePeriodEnd || '...');
                     var st3 = document.createElement('div');
-                    st3.textContent = 'MASA BHAKTI ' + periodText;
+                    st3.textContent = 'PERIODE ' + periodText;
                     st3.style.fontSize = '18px';
                     st3.style.fontWeight = 'bold';
                     st3.style.color = '#000';
@@ -697,7 +703,12 @@ document.addEventListener('alpine:init', function () {
                     
                     doc.addImage(imgData, 'JPEG', padding, padding, imgWidth / scale, imgHeight / scale, undefined, 'FAST');
                     
-                    doc.save('Struktur_Organisasi_Desa_' + (this.villageName || 'Pemerintah').replace(/\s+/g, '_') + '.pdf');
+                    var fileName = 'Struktur_Organisasi_' + (this.villageName ? this.villageName.replace(/\s+/g, '_') : 'Desa');
+                    if (this.villagePeriodStart || this.villagePeriodEnd) {
+                        fileName += '_Periode_' + (this.villagePeriodStart || '') + '-' + (this.villagePeriodEnd || '');
+                    }
+                    
+                    doc.save(fileName + '.pdf');
                     
                     if (pdfWindow) pdfWindow.close();
                 }.bind(this)).catch(function(err) {

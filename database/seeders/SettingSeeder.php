@@ -21,6 +21,10 @@ class SettingSeeder extends Seeder
             ['key' => 'regency_name', 'value' => 'Sinjai'],
             ['key' => 'district_name', 'value' => 'Bulupoddo'],
             
+            // Pemerintahan
+            ['key' => 'village_period_start', 'value' => '2022'],
+            ['key' => 'village_period_end', 'value' => '2028'],
+            
             // Kontak & Lokasi
             ['key' => 'village_email', 'value' => 'pemdes@tompobulu.desa.id'],
             ['key' => 'village_phone', 'value' => '0411123456'],

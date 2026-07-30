@@ -60,20 +60,7 @@ class ManageSettings extends Page implements HasForms
                                 TextInput::make('village_name')
                                     ->label('Nama Desa')
                                     ->placeholder('Contoh: Tompobulu')
-                                    ->helperText('Nama resmi desa, tanpa kata "Desa".'),
-                                \Filament\Schemas\Components\Grid::make(2)
-                                    ->schema([
-                                        TextInput::make('village_period_start')
-                                            ->label('Tahun Mulai Jabatan')
-                                            ->placeholder('Contoh: 2022')
-                                            ->helperText('Tahun awal masa bhakti pemerintahan.')
-                                            ->numeric(),
-                                        TextInput::make('village_period_end')
-                                            ->label('Tahun Akhir Jabatan')
-                                            ->placeholder('Contoh: 2028')
-                                            ->helperText('Tahun akhir masa bhakti pemerintahan.')
-                                            ->numeric(),
-                                    ])
+                                    ->helperText('Nama resmi desa, tanpa kata "Desa".')
                                     ->columnSpanFull(),
                                 \Filament\Schemas\Components\Grid::make(3)
                                     ->schema([
@@ -104,6 +91,21 @@ class ManageSettings extends Page implements HasForms
                                             ->preload(),
                                     ])
                                     ->columnSpanFull(),
+                            ]),
+                        Tabs\Tab::make('Pemerintahan')
+                            ->icon('heroicon-o-users')
+                            ->columns(2)
+                            ->components([
+                                TextInput::make('village_period_start')
+                                    ->label('Tahun Mulai Jabatan')
+                                    ->placeholder('Contoh: 2022')
+                                    ->helperText('Tahun awal masa bhakti pemerintahan.')
+                                    ->numeric(),
+                                TextInput::make('village_period_end')
+                                    ->label('Tahun Akhir Jabatan')
+                                    ->placeholder('Contoh: 2028')
+                                    ->helperText('Tahun akhir masa bhakti pemerintahan.')
+                                    ->numeric(),
                             ]),
                         Tabs\Tab::make('Kontak & Lokasi')
                             ->icon('heroicon-o-map-pin')
