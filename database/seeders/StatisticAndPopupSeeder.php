@@ -95,19 +95,19 @@ class StatisticAndPopupSeeder extends Seeder
         $popups = [
             [
                 'title' => 'Selamat Datang di Website Desa Tompobulu',
-                'image' => 'popup-infographics/selamat-datang-tompobulu.png',
+                'image' => '../img/meta.webp',
                 'sort_order' => 1,
                 'is_active' => true,
             ],
             [
                 'title' => 'Waspada Demam Berdarah',
-                'image' => 'popup-infographics/waspada-dbd-tompobulu.png',
+                'image' => '../img/meta.webp',
                 'sort_order' => 2,
                 'is_active' => false,
             ],
             [
                 'title' => 'Layanan Surat Online Kini Tersedia',
-                'image' => 'popup-infographics/layanan-surat-online.png',
+                'image' => '../img/meta.webp',
                 'sort_order' => 3,
                 'is_active' => true,
             ]

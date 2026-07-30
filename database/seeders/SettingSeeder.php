@@ -27,8 +27,8 @@ class SettingSeeder extends Seeder
             
             // Kontak & Lokasi
             ['key' => 'village_email', 'value' => 'pemdes@tompobulu.desa.id'],
-            ['key' => 'village_phone', 'value' => '0411123456'],
-            ['key' => 'village_address', 'value' => 'Jl. Poros Desa No. 1, Desa Tompobulu, Kec. Bulupoddo, Kab. Sinjai, 92653'],
+            ['key' => 'village_phone', 'value' => '081234567890'],
+            ['key' => 'village_address', 'value' => 'Jl. Poros Desa No. 1'],
             
             // Media Sosial
             ['key' => 'social_facebook', 'value' => 'https://facebook.com/desatompobulu'],
