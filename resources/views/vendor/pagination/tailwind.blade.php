@@ -8,13 +8,13 @@
                     <i class="fa-solid fa-arrow-left mr-2"></i> {!! __('Sebelumnya') !!}
                 </span>
             @else
-                <a href="{{ $paginator->previousPageUrl() }}" class="relative inline-flex items-center justify-center flex-1 px-4 py-3 text-sm font-bold text-slate-700 bg-white border border-slate-100 rounded-2xl shadow-sm hover:text-emerald-600 hover:border-emerald-200 hover:-translate-y-0.5 transition-all duration-300">
+                <a href="{{ $paginator->previousPageUrl() }}" class="relative inline-flex items-center justify-center flex-1 px-4 py-3 text-sm font-bold text-slate-700 bg-white border border-slate-200 rounded-2xl shadow-sm hover:text-primary-600 hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                     <i class="fa-solid fa-arrow-left mr-2"></i> {!! __('Sebelumnya') !!}
                 </a>
             @endif
 
             @if ($paginator->hasMorePages())
-                <a href="{{ $paginator->nextPageUrl() }}" class="relative inline-flex items-center justify-center flex-1 px-4 py-3 text-sm font-bold text-slate-700 bg-white border border-slate-100 rounded-2xl shadow-sm hover:text-emerald-600 hover:border-emerald-200 hover:-translate-y-0.5 transition-all duration-300">
+                <a href="{{ $paginator->nextPageUrl() }}" class="relative inline-flex items-center justify-center flex-1 px-4 py-3 text-sm font-bold text-slate-700 bg-white border border-slate-200 rounded-2xl shadow-sm hover:text-primary-600 hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                     {!! __('Selanjutnya') !!} <i class="fa-solid fa-arrow-right ml-2"></i>
                 </a>
             @else
@@ -51,7 +51,7 @@
                         </span>
                     </span>
                 @else
-                    <a href="{{ $paginator->previousPageUrl() }}" rel="prev" class="relative inline-flex items-center justify-center w-11 h-11 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 hover:-translate-y-0.5 transition-all duration-300 shadow-sm hover:shadow-md" aria-label="{{ __('pagination.previous') }}">
+                    <a href="{{ $paginator->previousPageUrl() }}" rel="prev" class="relative inline-flex items-center justify-center w-11 h-11 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-primary-50 hover:text-primary-600 hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" aria-label="{{ __('pagination.previous') }}">
                         <i class="fa-solid fa-chevron-left text-xs"></i>
                     </a>
                 @endif
@@ -71,10 +71,10 @@
                             @foreach ($element as $page => $url)
                                 @if ($page == $paginator->currentPage())
                                     <span aria-current="page">
-                                        <span class="relative inline-flex items-center justify-center w-11 h-11 text-sm font-black text-white bg-emerald-600 rounded-xl shadow-md shadow-emerald-600/30 cursor-default transform scale-105">{{ $page }}</span>
+                                        <span class="relative inline-flex items-center justify-center w-11 h-11 text-sm font-black text-white bg-primary-600 rounded-xl shadow-md shadow-primary-600/30 cursor-default transform scale-105">{{ $page }}</span>
                                     </span>
                                 @else
-                                    <a href="{{ $url }}" class="relative inline-flex items-center justify-center w-11 h-11 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 hover:-translate-y-0.5 transition-all duration-300 shadow-sm hover:shadow-md" aria-label="{{ __('Go to page :page', ['page' => $page]) }}">
+                                    <a href="{{ $url }}" class="relative inline-flex items-center justify-center w-11 h-11 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-primary-50 hover:text-primary-600 hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" aria-label="{{ __('Go to page :page', ['page' => $page]) }}">
                                         {{ $page }}
                                     </a>
                                 @endif
@@ -85,7 +85,7 @@
 
                 {{-- Next Page Link --}}
                 @if ($paginator->hasMorePages())
-                    <a href="{{ $paginator->nextPageUrl() }}" rel="next" class="relative inline-flex items-center justify-center w-11 h-11 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 hover:-translate-y-0.5 transition-all duration-300 shadow-sm hover:shadow-md" aria-label="{{ __('pagination.next') }}">
+                    <a href="{{ $paginator->nextPageUrl() }}" rel="next" class="relative inline-flex items-center justify-center w-11 h-11 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-primary-50 hover:text-primary-600 hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" aria-label="{{ __('pagination.next') }}">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </a>
                 @else
