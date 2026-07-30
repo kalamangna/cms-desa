@@ -408,7 +408,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image-more/3.3.0/dom-to-image-more.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 
@@ -464,118 +464,68 @@ document.addEventListener('alpine:init', function () {
                 var content = document.querySelector('.sotk-zoom-content');
                 if (!content) return;
 
-                // Buka tab kosong baru secara sinkron terlebih dahulu untuk menghindari blokir popup browser
                 var pdfWindow = window.open('', '_blank');
                 if (pdfWindow) {
                     pdfWindow.document.write('<title>Generating PDF...</title><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#f8fafc;font-family:sans-serif;color:#64748b;"><div style="text-align:center;"><div style="border: 4px solid #e2e8f0; border-top: 4px solid #f43f5e; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 16px;"></div><p style="font-size:14px;font-weight:600;">Membuat dokumen PDF...</p></div><style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style></body>');
                 }
 
-                // Cari dan lepas semua <link rel="stylesheet"> dan <style> selain style kustom SOTK kita
-                // Ini mencegah parser CSS html2canvas mengalami crash akibat fungsi warna "oklch" pada Tailwind v4
-                var detachedSheets = [];
-                var head = document.head;
-                var sheets = Array.from(head.querySelectorAll('link[rel="stylesheet"], style'));
-                
-                sheets.forEach(function (sheet) {
-                    if (sheet.id !== 'sotk-custom-css') {
-                        detachedSheets.push({
-                            element: sheet,
-                            nextSibling: sheet.nextSibling
-                        });
-                        sheet.remove(); // Lepas sementara dari DOM
-                    }
-                });
+                // Kita menggunakan dom-to-image-more, yang sangat stabil dan tidak crash pada oklch.
+                // Tidak perlu lagi mencabut stylesheet!
 
-                // Buat kontainer off-screen sementara agar proses rendering skala 1 terjadi di latar belakang (tanpa visual zoom kedip)
-                var offscreenContainer = document.createElement('div');
-                offscreenContainer.style.position = 'fixed';
-                offscreenContainer.style.left = '0px';
-                offscreenContainer.style.top = '0px';
-                offscreenContainer.style.zIndex = '-9999';
-                offscreenContainer.style.opacity = '0';
-                offscreenContainer.style.width = content.scrollWidth + 'px';
-                offscreenContainer.style.height = content.scrollHeight + 'px';
-                offscreenContainer.style.background = '#ffffff';
-                document.body.appendChild(offscreenContainer);
+                var scale = 1.5;
+                var style = {
+                    transform: 'scale(' + scale + ')',
+                    transformOrigin: 'top left',
+                    width: content.scrollWidth + 'px',
+                    height: content.scrollHeight + 'px'
+                };
 
-                // Kloning elemen konten bagan SOTK
-                var clone = content.cloneNode(true);
-                clone.style.transition = 'none';
-                clone.style.transform = 'scale(1)'; // Paksa skala klon ke 1 untuk capture tajam
-                clone.style.transformOrigin = 'top center';
-                offscreenContainer.appendChild(clone);
+                var param = {
+                    height: content.scrollHeight * scale,
+                    width: content.scrollWidth * scale,
+                    bgcolor: '#ffffff',
+                    style: style,
+                    imagePlaceholder: this.defaultPhoto || '/img/meta.webp'
+                };
 
-                html2canvas(clone, {
-                    backgroundColor: '#ffffff',
-                    scale: 1.5, // Mengurangi dari 3 ke 1.5 untuk mempercepat proses render secara signifikan tanpa kehilangan terlalu banyak ketajaman
-                    useCORS: true,
-                    imageTimeout: 15000, // Batas waktu maksimal 15 detik agar tidak stuck
-                    logging: false
-                }).then(function (canvas) {
-                    // Kembalikan semua stylesheet segera setelah clone DOM html2canvas selesai
-                    detachedSheets.forEach(function (item) {
-                        head.insertBefore(item.element, item.nextSibling);
-                    });
-
-                    // Hapus kontainer off-screen dari DOM
-                    offscreenContainer.remove();
-
-                    var imgData = canvas.toDataURL('image/jpeg', 0.95); // Kualitas 95% untuk hasil yang bersih dan minim kompresi
+                domtoimage.toJpeg(content, param)
+                .then(function (imgData) {
+                    // Ukuran asli canvas hasil dom-to-image
+                    var imgWidth = content.scrollWidth * scale;
+                    var imgHeight = content.scrollHeight * scale;
                     
-                    // Ukuran asli dalam piksel
-                    var imgWidth = canvas.width;
-                    var imgHeight = canvas.height;
-                    
-                    // Margin padding sekeliling PDF (dalam piksel)
                     var padding = 40;
-                    
-                    // Hitung dimensi 1x (bagi 1.5 karena scale:1.5 di html2canvas) + tambah padding kiri-kanan
-                    var pdfWidth = (imgWidth / 1.5) + (padding * 2);
-                    var pdfHeight = (imgHeight / 1.5) + 160 + padding; // Tambah tinggi 160px untuk judul + padding bawah
+                    var pdfWidth = (imgWidth / scale) + (padding * 2);
+                    var pdfHeight = (imgHeight / scale) + 160 + padding;
 
                     var { jsPDF } = window.jspdf;
-                    // Buat PDF lanskap dengan ukuran custom yang sudah ditinggikan
                     var doc = new jsPDF('l', 'px', [pdfWidth, pdfHeight]);
                     
-                    // 1. Tulis Judul Baris Pertama (Struktur Organisasi)
                     doc.setFont('Helvetica', 'bold');
-                    doc.setFontSize(48); // Ubah ke 48pt agar seimbang
-                    doc.setTextColor(15, 23, 42); // slate-900
+                    doc.setFontSize(48);
+                    doc.setTextColor(15, 23, 42);
                     doc.text('Struktur Organisasi', pdfWidth / 2, 60, { align: 'center' });
 
-                    // 2. Tulis Judul Baris Kedua (Pemerintah Desa ...)
                     doc.setFont('Helvetica', 'normal');
-                    doc.setFontSize(32); // Ubah ke 32pt
-                    doc.setTextColor(71, 85, 105); // slate-600
+                    doc.setFontSize(32);
+                    doc.setTextColor(71, 85, 105);
                     doc.text('Pemerintah Desa ' + this.villageName, pdfWidth / 2, 105, { align: 'center' });
 
-                    // 3. Masukkan gambar bagan dengan offset padding (x: padding, y: 160)
-                    doc.addImage(imgData, 'JPEG', padding, 160, imgWidth / 1.5, imgHeight / 1.5, undefined, 'FAST');
+                    doc.addImage(imgData, 'JPEG', padding, 160, imgWidth / scale, imgHeight / scale, undefined, 'FAST');
                     
-                    // Unduh PDF langsung ke perangkat (Lebih aman dari blokir navigasi Blob URL di browser modern)
                     doc.save('Struktur_Organisasi_Desa_' + (this.villageName || 'Pemerintah').replace(/\s+/g, '_') + '.pdf');
                     
-                    // Tutup tab loading
                     if (pdfWindow) {
                         pdfWindow.close();
                     }
-                }.bind(this)).catch(function (err) {
-                    // Kembalikan semua stylesheet jika terjadi error
-                    detachedSheets.forEach(function (item) {
-                        head.insertBefore(item.element, item.nextSibling);
-                    });
-                    
-                    if (offscreenContainer.parentNode) {
-                        offscreenContainer.remove();
-                    }
-
+                }.bind(this))
+                .catch(function (err) {
                     if (pdfWindow) {
                         pdfWindow.close();
                     }
-
                     console.error('Gagal membuat PDF:', err);
                     alert('Gagal mendownload PDF bagan SOTK: ' + (err.message || err));
-                }.bind(this));
+                });
             },
 
 
