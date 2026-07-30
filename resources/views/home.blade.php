@@ -168,11 +168,11 @@
                     Pemerintahan yang transparan, akuntabel, dan berbasis data presisi untuk kemajuan seluruh warga desa.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-primary-700 hover:bg-primary-800 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-xl shadow-primary-900/40 transition duration-300 hover:-translate-y-0.5 active:scale-95" aria-label="Lihat Dashboard Statistik Desa">
+                    <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-primary-700 hover:bg-primary-800 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-xl shadow-primary-900/40 transition duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-slate-900" aria-label="Lihat Dashboard Statistik Desa">
                         <i class="fa-solid fa-chart-pie group-hover:rotate-12 transition-transform"></i>
                         Dashboard Statistik
                     </a>
-                    <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl border border-white/20 transition duration-300 hover:-translate-y-0.5 active:scale-95">
+                    <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl border border-white/20 transition duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-slate-900">
                         <i class="fa-solid fa-file-signature"></i>
                         Layanan Mandiri
                     </a>
@@ -283,7 +283,7 @@
         <p class="text-slate-500 text-sm mt-2">Pilih layanan yang Anda butuhkan di bawah ini</p>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-primary-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
                 <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
@@ -292,7 +292,7 @@
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Panduan dan pengajuan administrasi kependudukan</p>
         </a>
         
-        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
                 <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
@@ -301,7 +301,7 @@
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Sampaikan aspirasi atau laporan masalah warga</p>
         </a>
         
-        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-sky-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
                 <i class="fa-solid fa-address-book text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
@@ -310,7 +310,7 @@
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Tinggalkan pesan, kesan, atau saran untuk desa</p>
         </a>
         
-        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
                 <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
@@ -399,7 +399,7 @@
                     @else
                         <div class="h-72"><div id="populationChart"></div></div>
                     @endif
-                    <a href="/statistik" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 transition-all duration-200">
+                    <a href="/statistik" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200">
                         <i class="fa-solid fa-chart-line"></i> Statistik Lengkap
                     </a>
                 </div>
@@ -437,7 +437,7 @@
                         </div>
                     </div>
                     
-                    <a href="/apbdes" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold text-slate-300 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all duration-200">
+                    <a href="/apbdes" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold text-slate-300 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200">
                         <i class="fa-solid fa-file-invoice-dollar"></i> Detail Transparansi
                     </a>
                 </div>
@@ -462,7 +462,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div class="lg:col-span-8 space-y-8">
                 @if($featuredPost)
-                <a href="/berita/{{ $featuredPost->slug }}" class="block group">
+                <a href="/berita/{{ $featuredPost->slug }}" class="block group focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-3xl">
                     <div class="relative rounded-3xl overflow-hidden aspect-[16/9] mb-6 shadow-xl">
                         <img src="{{ $featuredPost->featured_image ? asset('storage/' . $featuredPost->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -484,7 +484,7 @@
 
                 <div class="space-y-4">
                     @forelse($recentPosts as $post)
-                    <a href="/berita/{{ $post->slug }}" class="flex gap-5 group items-center p-4 rounded-2xl hover:bg-slate-50 transition-all duration-200 -mx-4">
+                    <a href="/berita/{{ $post->slug }}" class="flex gap-5 group items-center p-4 rounded-2xl hover:bg-slate-50 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 -mx-4">
                         <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-slate-100">
                             <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
@@ -511,7 +511,7 @@
                     @endforelse
                 </div>
 
-                <a href="/berita" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 transition-all duration-200">
+                <a href="/berita" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200">
                     Semua Berita <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
@@ -523,7 +523,7 @@
                     </div>
                     <div class="space-y-4 flex-1">
                         @forelse($announcements as $ann)
-                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-primary-300 hover:-translate-y-0.5 active:scale-95 transition-all duration-200">
+                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-primary-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200">
                             <div class="flex items-start gap-3">
                                 <div class="w-9 h-9 rounded-xl bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                                     <i class="fa-solid fa-bullhorn text-primary-600 text-xs"></i>
@@ -543,7 +543,7 @@
                         @endforelse
                     </div>
 
-                    <a href="/pengumuman" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 transition-all duration-200">
+                    <a href="/pengumuman" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200">
                         Semua Pengumuman <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -618,7 +618,7 @@
         @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($galleries as $idx => $gallery)
-            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-md aspect-[4/3] cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl"
+            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-md aspect-[4/3] cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" tabindex="0"
                  @click="openLightboxByIndex({{ $idx }})">
                 <img src="{{ $gallery->image_url }}"
                      class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
@@ -653,7 +653,7 @@
             @endforeach
         </div>
 
-        <a href="/galeri" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 transition-all duration-300 shadow-sm">
+        <a href="/galeri" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 shadow-sm">
             Semua Galeri <i class="fa-solid fa-arrow-right"></i>
         </a>
         @endif
