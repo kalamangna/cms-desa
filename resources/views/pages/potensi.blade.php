@@ -34,29 +34,29 @@
 {{-- ===================== HERO ===================== --}}
 <div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
-                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                    <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1">
                         <i class="fa-solid fa-house text-[10px]"></i> Beranda
                     </a>
                 </li>
                 <li class="flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <i class="fa-solid fa-chevron-right text-[9px] text-primary-500/40"></i>
                     <span class="text-white">Potensi Desa</span>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl">
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
-                Potensi <span class="text-emerald-500 italic">Desa</span>
+                Potensi <span class="text-primary-500 italic">Desa</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 font-medium">
                 Sektor unggulan, komoditas utama, pariwisata, dan seni budaya Desa {{ $site_settings['village_name'] ?? '' }}.
@@ -88,8 +88,8 @@
         <template x-for="cat in ['Semua', 'Pariwisata', 'Pertanian & Perkebunan', 'Peternakan', 'Industri Kreatif', 'UMKM', 'Seni & Budaya']">
             <button type="button"
                     @click="activeCategory = cat"
-                    :class="activeCategory === cat ? 'bg-emerald-600 text-white shadow-xl shadow-emerald-600/20' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-100'"
-                    class="px-5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 cursor-pointer"
+                    :class="activeCategory === cat ? 'bg-primary-600 text-white shadow-xl shadow-primary-600/20' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'"
+                    class="px-5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                     x-text="cat">
             </button>
         </template>
@@ -102,12 +102,12 @@
                  x-transition:enter="transition ease-out duration-300"
                  x-transition:enter-start="opacity-0 scale-95"
                  x-transition:enter-end="opacity-100 scale-100"
-                 class="group bg-white rounded-[32px] border border-slate-100 shadow-md shadow-slate-200/50 hover:shadow-xl hover:shadow-emerald-900/5 hover:border-emerald-100 overflow-hidden flex flex-col h-full transition-all duration-300">
+                 class="bg-white rounded-[32px] border border-slate-200 shadow-md shadow-slate-200/50 overflow-hidden flex flex-col h-full transition-all duration-300">
                  
                  <!-- Image Header -->
                  <div class="relative aspect-video w-full overflow-hidden bg-slate-100 flex-shrink-0">
                     <img src="{{ $pot->image ? asset('storage/' . $pot->image) : asset('img/meta.webp') }}"
-                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                         class="w-full h-full object-cover"
                          alt="{{ $pot->title }}"
                          onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                     
@@ -126,7 +126,7 @@
                  <!-- Content Body -->
                  <div class="p-6 flex-1 flex flex-col justify-between">
                     <div class="mb-5">
-                        <h3 class="text-lg font-heading font-extrabold text-slate-900 group-hover:text-emerald-600 transition-colors duration-200 line-clamp-2 leading-snug">
+                        <h3 class="text-lg font-heading font-extrabold text-slate-900 transition-colors duration-200 line-clamp-2 leading-snug">
                             {{ $pot->title }}
                         </h3>
                         <div class="text-slate-500 text-xs font-medium leading-relaxed mt-2.5 line-clamp-3">
@@ -142,7 +142,7 @@
                                 image: {{ json_encode($pot->image ? asset('storage/' . $pot->image) : asset('img/meta.webp')) }},
                                 description: {{ json_encode($pot->description) }}
                             })"
-                            class="w-full inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 py-3.5 rounded-2xl text-xs font-bold border border-slate-100 hover:border-emerald-100 transition-all duration-300 cursor-pointer">
+                            class="w-full inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-primary-50 text-slate-600 hover:text-primary-700 py-3.5 rounded-2xl text-xs font-bold border border-slate-200 hover:border-primary-100 transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                         <i class="fa-solid fa-circle-info"></i> Selengkapnya
                     </button>
                  </div>
@@ -188,13 +188,13 @@
           <button
               type="button"
               @click.stop="closeModal()"
-              class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+              class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
               title="Tutup (Esc)">
               <i class="fa-solid fa-xmark text-xl"></i>
           </button>
 
           <!-- Modal Box -->
-          <div class="relative w-[92vw] sm:w-[85vw] md:w-[75vw] lg:w-[60vw] max-w-4xl bg-white rounded-2xl md:rounded-[28px] overflow-hidden shadow-2xl border border-slate-100 flex flex-col max-h-[90vh] cursor-default"
+          <div class="relative w-[92vw] sm:w-[85vw] md:w-[75vw] lg:w-[60vw] max-w-4xl bg-white rounded-2xl md:rounded-[28px] overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] cursor-default"
                x-show="selectedPotential !== null"
                @click.stop
                x-transition:enter="transition ease-out duration-300"
@@ -212,7 +212,7 @@
                </div>
 
                <!-- Modal Content -->
-               <div class="p-6 sm:p-8 bg-white border-t border-slate-100 overflow-y-auto custom-scrollbar">
+               <div class="p-6 sm:p-8 bg-white border-t border-slate-200 overflow-y-auto custom-scrollbar">
                    <span class="inline-flex items-center text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-xl border mb-4"
                          :class="{
                             'bg-blue-50 text-blue-700 border-blue-100': selectedPotential?.category === 'Pariwisata',
@@ -227,7 +227,7 @@
                    <h2 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 mb-4 sm:mb-5 leading-tight"
                        x-text="selectedPotential?.title"></h2>
                    
-                   <div class="prose prose-sm sm:prose-base prose-emerald max-w-none text-slate-600 leading-relaxed"
+                   <div class="prose prose-sm sm:prose-base prose-slate max-w-none text-slate-600 leading-relaxed"
                         x-html="selectedPotential?.description">
                    </div>
                </div>
