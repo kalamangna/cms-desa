@@ -1,47 +1,46 @@
-# 🎨 Design System CMS Desa
+# 🎨 Panduan Universal Sistem Desain (Design System)
 
-Dokumen ini menjadi acuan dalam merancang antarmuka CMS Desa agar konsisten, mudah digunakan, responsif, dan mudah dipelihara.
+Dokumen ini menjadi acuan utama dalam merancang antarmuka pengguna (UI) agar konsisten, intuitif, responsif, dan mudah dipelihara pada berbagai skala dan jenis proyek perangkat lunak.
 
 ## 1. Filosofi & Prinsip Utama
-- **Fungsi di Atas Dekorasi:** Utamakan pengalaman pengguna (sederhana, konsisten, responsif, cepat, aksesibel).
-- **Mobile First:** Mulai rancangan dari ukuran layar kecil (*mobile*), lalu kembangkan untuk *tablet* dan *desktop*.
-- **Konsistensi:** Gunakan komponen yang sama di seluruh aplikasi. Jangan membuat variasi baru jika komponen serupa sudah ada.
-- **Hierarki Visual:** Gunakan ukuran, bobot *font*, warna, dan *whitespace* untuk mengarahkan fokus pengguna.
-- **Simplicity & Performance:** Hilangkan elemen visual tanpa fungsi. Optimalkan gambar, kurangi animasi/JS yang tidak perlu, dan gunakan *lazy loading*.
-- **Prinsip Akhir:** Desain yang baik adalah desain yang hampir tidak disadari pengguna. Fokus pada penyelesaian tugas dengan cepat.
+- **Fungsi di Atas Dekorasi:** Utamakan pengalaman pengguna (sederhana, konsisten, responsif, cepat, aksesibel). Estetika harus mendukung fungsi, bukan mengaburkannya.
+- **Mobile First:** Mulai rancangan dari pemikiran layar kecil (*mobile*), lalu perluas dan kembangkan untuk perangkat besar (*tablet*, *desktop*).
+- **Konsistensi Visual:** Gunakan komponen UI yang identik di seluruh bagian aplikasi. Jangan buat variasi turunan baru jika komponen dengan fungsi serupa sudah ada.
+- **Hierarki Visual:** Gunakan skala ukuran teks, bobot *font*, kontras warna, dan ruang kosong (*whitespace*) untuk memandu fokus mata pengguna secara naluriah.
+- **Simplicity & Performance:** Hilangkan pernak-pernik visual tanpa fungsi operasional. Optimalkan aset, hindari skrip JS berlebih, dan terapkan pemuatan tunda (*lazy loading*).
+- **Prinsip Akhir:** Desain terbaik adalah desain yang "transparan" di mata pengguna. Fokus antarmuka adalah membantu selesainya tugas tanpa paksaan berpikir (*don't make me think*).
 
 ## 2. Design Token & Pewarnaan
-- **Theme Color (Dinamis):** Gunakan kelas utilitas tema yang terhubung ke CSS Variable (contoh: `bg-primary`, `text-primary`, `--primary-hover`). ❌ Jangan *hardcode* warna Tailwind utama (seperti `bg-emerald-600`) agar aplikasi bisa mengikuti pergantian warna tema dari admin.
-- **Neutral Color (Statis):** Gunakan skala warna statis yang konsisten (seperti `slate-50` hingga `slate-900`). Warna netral tidak boleh terpengaruh tema.
-- **Semantic Color:** Gunakan warna statis khusus dan universal untuk umpan balik status (*Success, Warning, Danger, Info*).
-- **Dark Mode:** Seluruh komponen harus mendukung mode gelap melalui integrasi *Theme Token*, jangan pewarnaan gelap kaku.
+- **Warna Utama (Theme Color):** Gunakan variabel tema (contoh: *CSS Variable* `var(--color-primary)` atau utilitas `bg-primary`) alih-alih menyuntikkan nilai *hex/RGB* kaku (*hardcoded*). Ini memudahkan fitur penggantian tema secara masif.
+- **Warna Netral (Neutral Color):** Tetapkan skala abu-abu statis yang konsisten untuk digunakan pada teks, latar belakang, batas, dan pembagi.
+- **Warna Semantik:** Patuhi konvensi warna universal untuk umpan balik interaksi (*Success* = Hijau, *Warning* = Kuning/Jingga, *Danger* = Merah, *Info* = Biru).
+- **Dark Mode:** Ekosistem desain harus secara fundamental mendukung mode gelap melalui pemanggilan variabel terpusat, bukan pewarnaan statis.
 
 ## 3. Tipografi
-- Gunakan maksimal satu keluarga *font* modern yang mudah dibaca.
-- Jaga konsistensi hierarki ukuran (*Display, Heading, Subheading, Body, Caption*).
-- Gunakan *line-height* yang nyaman dan hindari paragraf yang membentang terlalu lebar.
+- Gunakan tak lebih dari dua varian keluarga *font* mumpuni (diutamakan jenis *sans-serif* untuk web).
+- Terapkan hierarki ketat berdasarkan perhitungan skala (*Display, Heading, Subheading, Body, Caption*).
+- Atur tinggi antar baris (*line-height*) secara harmonis dan batasi batas maksimal karakter per baris paragraf agar mata tidak letih saat membaca.
 
 ## 4. Sistem Layout & Spasial
-- **Layout & Grid responsif:** Konten harus beradaptasi terhadap layar. Dilarang ada *horizontal scroll*, elemen bertumpuk berantakan, teks terpotong, atau tombol kekecilan.
-- **Spacing Scale:** Gunakan skala *spacing* Tailwind yang baku (misal 4, 8, 12, 16, 24, 32, 48, 64). Dilarang menebak angka jarak secara acak.
-- **Whitespace:** Berikan ruang bernapas antar elemen. Jangan berdesak-desakan.
+- **Layout Responsif:** Layar harus elastis beradaptasi dengan batas tepi perangkat. Dilarang keras menimbulkan *horizontal scroll*, susunan tertumpuk acak, teks terpotong, atau tombol merapat.
+- **Spacing Scale:** Terapkan skala jarak/margin baku yang berpedoman pada sistem matematika tetap (contoh: kelipatan 4px atau 8px HANYA). Hindari penetapan spasi angka acak.
+- **Whitespace:** Biarkan ruang kosong mengambil alih sela antar blok elemen. Area yang saling berhimpit menciptakan kepadatan (*clutter*) yang fatal.
 
 ## 5. Visual Foundation
-- **Border & Radius:** Gunakan garis tepi (*border*) tipis berwarna netral murni sebagai pemisah. Konsisten menggunakan batas lengkungan (*border-radius*).
-- **Shadow & Surface:** Gunakan *shadow* ringan untuk membedakan kedalaman (elevasi). Hindari bayangan pekat yang tebal.
-- **Icon:** Seragam menggunakan 1 *library* ikon. Ukuran mengikuti teks, berfungsi sebagai pendukung informasi, bukan fokus utama.
-- **Animasi:** Gunakan animasi berdurasi singkat hanya untuk membantu pemahaman antarmuka, dilarang dipakai sekadar untuk dekorasi meriah.
+- **Garis Tepi (Border) & Radius:** Garis pembatas ditujukan murni sebagai pemilah wilayah dengan warna redup transparan. Standarisasikan rasio kelengkungan (*border-radius*) secara global.
+- **Bayangan (Shadow) & Elevasi:** Gunakan bayangan sangat halus (*subtle shadow*) untuk menandakan lapisan depan dan lapisan belakang layar (seperti kartu atau modal *pop-up*).
+- **Ikonografi:** Loyal pada satu jenis pustaka ikon (*icon pack*). Bobot guratan (*stroke*) dan dimensinya harus sinkron dengan tipografi penyertanya.
+- **Animasi (*Motion*):** Transisi dihalalkan semata-mata untuk menandai perpindahan *state* operasional, BUKAN demi unjuk efek meriah.
 
 ## 6. Komponen Interaktif (UI)
-- **Tombol (Button):** Wajib menggunakan struktur konsisten dengan 6 *state*: *Default, Hover, Focus, Active, Disabled, Loading*.
-- **Formulir (Form):** Wajib terstruktur (Label, Input, Placeholder) dan memiliki 3 indikator visual: *Focus, Error, Disabled*.
-- **Card:** Terdiri atas *Container* dan *Content* (serta opsional *Header/Footer*). Efek *hover* HANYA diberikan jika *card* bisa diklik.
-- **Feedback:** Wujud standar (Alert, Toast, Banner, Dialog) dengan pesan/status yang langsung bisa ditebak maknanya.
-- **Loading & Empty State:** Utamakan *Skeleton Loading* (spinner hanya untuk proses kilat). Layar kosong harus selalu diisi *Empty State* (ilustrasi, judul, deksripsi).
+- **Tombol (Button):** Wajib menaati struktur 6 kondisi mutlak: *Default, Hover, Focus, Active, Disabled, Loading*.
+- **Formulir (Form):** Tidak boleh ada kolom masuk yang buta; sertakan label, petunjuk (*placeholder*), dan responsivitas saat *Focus, Error, dan Disabled*.
+- **Kartu (Card):** Efek reaktif peninggi/animasi *(Hover effect)* **HANYA** ditoleransi apabila seluruh kotak tersebut berfungsi sebagai tautan atau tombol yang bisa diklik.
+- **Umpan Balik (Feedback):** Menggunakan instrumen universal (*Alert, Toast, Modal*) dengan indikasi sukses/gagal yang lugas.
+- **State Kosong & Pemuatan:** Halaman muat memakai *Skeleton Loader* atau pemutar (*Spinner*). Tampilan daftar kosong tak boleh hampa melainkan memajang *Empty State* (berisi grafis ringan + pesan).
 
-## 7. Aksesibilitas (a11y)
-Seluruh komponen harus:
-- Bisa digunakan/dinavigasi hanya menggunakan sistem *keyboard*.
-- Memiliki *focus indicator* yang terlihat jelas saat elemen aktif.
-- Kontras warna memadai antara teks dan latar belakang.
-- Memiliki bidang klik (area sentuh) yang cukup lebar.
+## 7. Aksesibilitas Mutlak (a11y)
+Setiap atom desain harus bersahabat dengan kaidah WCAG:
+- **Dukungan Keyboard:** Ramah tabulasi (tombol *Tab*, *Enter*, *Escape*).
+- **Fokus Visual:** Cincin penanda *Focus Ring* yang amat kontras harus muncul ketika elemen aktif.
+- **Titik Sentuh (*Touch Target*):** Seluruh elemen yang bisa ditekan oleh layar ponsel harus memiliki pijakan minimal seluas *44x44 pixel* agar ramah jemari.
