@@ -101,14 +101,14 @@
             @if(count($popups) > 1)
             <!-- Navigation Arrow Left -->
             <button type="button" @click="prevSlide()" 
-                    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center transition z-10 focus:outline-none backdrop-blur-md border border-white/10 cursor-pointer"
+                    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center transition z-10 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 backdrop-blur-md border border-white/10 cursor-pointer"
                     title="Sebelumnya">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
 
             <!-- Navigation Arrow Right -->
             <button type="button" @click="nextSlide()" 
-                    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center transition z-10 focus:outline-none backdrop-blur-md border border-white/10 cursor-pointer"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center transition z-10 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 backdrop-blur-md border border-white/10 cursor-pointer"
                     title="Selanjutnya">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
@@ -117,8 +117,8 @@
             <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
                 @foreach($popups as $index => $popup)
                 <button type="button" @click="activeSlide = {{ $index }}" 
-                        :class="activeSlide === {{ $index }} ? 'bg-emerald-500 w-6' : 'bg-white/50 hover:bg-white w-2'"
-                        class="h-2 rounded-full transition-all duration-300 focus:outline-none cursor-pointer"></button>
+                        :class="activeSlide === {{ $index }} ? 'bg-primary-500 w-6' : 'bg-white/50 hover:bg-white w-2'"
+                        class="h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 cursor-pointer"></button>
                 @endforeach
             </div>
             @endif
@@ -127,10 +127,10 @@
         <!-- Modal Footer -->
         <div class="p-5 text-center bg-white border-t border-slate-100 flex items-center justify-between gap-4">
             <div class="flex flex-col text-left min-w-0">
-                <span id="popup-infographic-title" class="text-[10px] font-black uppercase tracking-wider text-emerald-700">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
+                <span id="popup-infographic-title" class="text-[10px] font-black uppercase tracking-wider text-primary-700">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
                 <span class="text-sm font-bold text-slate-800 mt-0.5 line-clamp-1" x-show="activeSlideTitle" x-text="activeSlideTitle"></span>
             </div>
-            <button type="button" @click="closePopup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl border border-slate-200 transition flex-shrink-0 focus:outline-none cursor-pointer">
+            <button type="button" @click="closePopup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl border border-slate-200 transition flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 cursor-pointer">
                 Tutup
             </button>
         </div>
@@ -141,10 +141,10 @@
 {{-- 1. HERO --}}
 <div class="relative bg-slate-900 min-h-[90vh] flex items-center overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-28 md:pt-24 md:pb-32 lg:py-28 w-full">
@@ -153,11 +153,11 @@
             {{-- Kolom Kiri: Teks --}}
             <div>
                 <div class="flex items-center gap-3 mb-8">
-                    <div class="h-px w-12 bg-emerald-500"></div>
-                    <span class="text-emerald-400 text-xs font-black uppercase tracking-[0.3em]">Portal Resmi Pemerintah Desa</span>
+                    <div class="h-px w-12 bg-primary-500"></div>
+                    <span class="text-primary-400 text-xs font-black uppercase tracking-[0.3em]">Portal Resmi Pemerintah Desa</span>
                 </div>
                 <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.05] mb-8">
-                    Desa<br><span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
+                    Desa<br><span class="text-primary-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
                 </h1>
                 <p class="text-lg md:text-xl text-slate-300 mb-4 font-medium leading-relaxed">
                     Kecamatan {{ \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '...')) }},
@@ -168,11 +168,11 @@
                     Pemerintahan yang transparan, akuntabel, dan berbasis data presisi untuk kemajuan seluruh warga desa.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-xl shadow-emerald-900/40 transition duration-300 hover:-translate-y-0.5" aria-label="Lihat Dashboard Statistik Desa">
+                    <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-primary-700 hover:bg-primary-800 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-xl shadow-primary-900/40 transition duration-300 hover:-translate-y-0.5 active:scale-95" aria-label="Lihat Dashboard Statistik Desa">
                         <i class="fa-solid fa-chart-pie group-hover:rotate-12 transition-transform"></i>
                         Dashboard Statistik
                     </a>
-                    <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl border border-white/20 transition duration-300 hover:-translate-y-0.5">
+                    <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl border border-white/20 transition duration-300 hover:-translate-y-0.5 active:scale-95">
                         <i class="fa-solid fa-file-signature"></i>
                         Layanan Mandiri
                     </a>
@@ -183,7 +183,7 @@
             <div class="flex items-center justify-center mt-16 lg:mt-0">
                 <div class="relative">
                     {{-- Glow background --}}
-                    <div class="absolute inset-0 bg-emerald-500/20 rounded-[32px] blur-3xl scale-110"></div>
+                    <div class="absolute inset-0 bg-primary-500/20 rounded-[32px] blur-3xl scale-110"></div>
 
                     {{-- Frame foto --}}
                     <div class="relative w-[270px] h-[324px] sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-[32px] overflow-hidden border-2 border-white/10 shadow-2xl">
@@ -204,14 +204,14 @@
                         <p class="text-white font-heading font-bold text-base leading-tight">
                             {{ $villageHead?->name ?? 'Kepala Desa' }}
                         </p>
-                        <p class="text-emerald-400 text-xs font-bold uppercase tracking-widest mt-1">
+                        <p class="text-primary-400 text-xs font-bold uppercase tracking-widest mt-1">
                             Kepala Desa {{ $site_settings['village_name'] ?? '' }}
                         </p>
                     </div>
 
                     {{-- Dekorasi sudut --}}
-                    <div class="absolute -top-4 -right-4 w-20 h-20 border-2 border-emerald-500/30 rounded-3xl"></div>
-                    <div class="absolute -bottom-4 -left-4 w-14 h-14 bg-emerald-500/10 rounded-2xl"></div>
+                    <div class="absolute -top-4 -right-4 w-20 h-20 border-2 border-primary-500/30 rounded-3xl"></div>
+                    <div class="absolute -bottom-4 -left-4 w-14 h-14 bg-primary-500/10 rounded-2xl"></div>
                 </div>
             </div>
 
@@ -226,8 +226,8 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 
         {{-- Penduduk --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-400 hover:-translate-y-1 transition duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-users text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -238,7 +238,7 @@
         </div>
 
         {{-- Keluarga --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-sky-400 hover:-translate-y-1 transition duration-300 cursor-default">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-house-chimney text-lg sm:text-xl"></i>
             </div>
@@ -250,7 +250,7 @@
         </div>
 
         {{-- Dusun --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-amber-400 hover:-translate-y-1 transition duration-300 cursor-default">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-map-location-dot text-lg sm:text-xl"></i>
             </div>
@@ -279,16 +279,16 @@
 {{-- 2.5 MENU LAYANAN CEPAT --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-20">
     <div class="text-center mb-10">
-        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Akses <span class="text-emerald-700">Layanan Cepat</span></h2>
+        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Akses <span class="text-primary-700">Layanan Cepat</span></h2>
         <p class="text-slate-500 text-sm mt-2">Pilih layanan yang Anda butuhkan di bawah ini</p>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-emerald-100/50 hover:border-emerald-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:border-emerald-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-emerald-500/30">
-                <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-emerald-600 group-hover:text-white transition-colors"></i>
+        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
+                <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Layanan Mandiri</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-primary-700 transition-colors">Layanan Mandiri</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Panduan dan pengajuan administrasi kependudukan</p>
         </a>
         
@@ -325,15 +325,15 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
     <div class="bg-white rounded-[32px] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100 relative">
         {{-- Decorative Quote Mark in Background --}}
-        <div class="absolute -top-12 -right-12 text-emerald-50/50 pointer-events-none z-0">
+        <div class="absolute -top-12 -right-12 text-primary-50/50 pointer-events-none z-0">
             <i class="fa-solid fa-quote-right text-[200px] md:text-[300px]"></i>
         </div>
 
         <div class="p-8 md:p-16 lg:p-20 relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
             <div class="flex items-center gap-3 mb-6 justify-center">
-                <div class="h-px w-8 bg-emerald-600"></div>
-                <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
-                <div class="h-px w-8 bg-emerald-600"></div>
+                <div class="h-px w-8 bg-primary-600"></div>
+                <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
+                <div class="h-px w-8 bg-primary-600"></div>
             </div>
             <h2 class="text-2xl md:text-4xl font-heading font-extrabold text-slate-900 mb-10 leading-tight">
                 {{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}
@@ -342,7 +342,7 @@
                 {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' !!}
             </div>
             <div class="flex flex-col items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+                <div class="w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center text-primary-600">
                     <i class="fa-solid fa-signature text-lg"></i>
                 </div>
                 <div>
@@ -360,10 +360,10 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="h-px w-8 bg-emerald-500"></div>
-                    <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
+                    <div class="h-px w-8 bg-primary-500"></div>
+                    <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Statistik & <span class="text-emerald-700">APBDes</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Statistik & <span class="text-primary-700">APBDes</span></h2>
             </div>
         </div>
 
@@ -378,7 +378,7 @@
                     <div class="flex items-center gap-2">
                         <div class="relative">
                             <label for="homeChartType" class="sr-only">Tipe Grafik Demografi</label>
-                            <select id="homeChartType" aria-label="Tipe Grafik Demografi" class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
+                            <select id="homeChartType" aria-label="Tipe Grafik Demografi" class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-2 focus:ring-primary-400 cursor-pointer">
                                 <option value="gender">Jenis Kelamin</option>
                                 <option value="job">Status Pekerjaan</option>
                                 <option value="education">Pendidikan</option>
@@ -387,7 +387,7 @@
                                 <i class="fa-solid fa-chevron-down text-[8px]"></i>
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">{{ date('Y') }}</span>
+                        <span class="text-xs font-bold text-primary-700 bg-primary-50 px-3 py-1.5 rounded-full border border-primary-100">{{ date('Y') }}</span>
                     </div>
                 </div>                <div class="p-8">
                     @if($lakiLakiCount == 0 && $perempuanCount == 0)
@@ -399,7 +399,7 @@
                     @else
                         <div class="h-72"><div id="populationChart"></div></div>
                     @endif
-                    <a href="/statistik" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-200">
+                    <a href="/statistik" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 transition-all duration-200">
                         <i class="fa-solid fa-chart-line"></i> Statistik Lengkap
                     </a>
                 </div>
@@ -417,11 +417,11 @@
                     <div>
                         <div class="mb-10">
                             <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-emerald-400 text-sm">Total Pendapatan</span>
+                                <span class="font-bold text-primary-400 text-sm">Total Pendapatan</span>
                                 <span class="text-sm font-bold text-white">{{ number_format($pendapatanPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
+                                <div class="h-full bg-primary-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
                             </div>
                             <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['pendapatan']['budget'], 0, ',', '.') }}</p>
                         </div>
@@ -437,7 +437,7 @@
                         </div>
                     </div>
                     
-                    <a href="/apbdes" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold text-slate-300 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200">
+                    <a href="/apbdes" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold text-slate-300 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all duration-200">
                         <i class="fa-solid fa-file-invoice-dollar"></i> Detail Transparansi
                     </a>
                 </div>
@@ -452,10 +452,10 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="h-px w-8 bg-emerald-500"></div>
-                    <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
+                    <div class="h-px w-8 bg-primary-500"></div>
+                    <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Berita & <span class="text-emerald-700">Pengumuman</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Berita & <span class="text-primary-700">Pengumuman</span></h2>
             </div>
         </div>
 
@@ -471,11 +471,11 @@
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                         <div class="absolute top-6 left-6">
-                            <span class="bg-emerald-700 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">Berita Utama</span>
+                            <span class="bg-primary-700 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">Berita Utama</span>
                         </div>
                         <div class="absolute bottom-6 left-6 right-6">
-                            <p class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">{{ $featuredPost->published_at->translatedFormat('d M Y') }}</p>
-                            <h3 class="text-white font-heading font-extrabold text-xl md:text-2xl leading-snug line-clamp-2 group-hover:text-emerald-300 transition mb-2">{{ $featuredPost->title }}</h3>
+                            <p class="text-primary-400 text-xs font-bold uppercase tracking-widest mb-2">{{ $featuredPost->published_at->translatedFormat('d M Y') }}</p>
+                            <h3 class="text-white font-heading font-extrabold text-xl md:text-2xl leading-snug line-clamp-2 group-hover:text-primary-300 transition mb-2">{{ $featuredPost->title }}</h3>
                             <p class="text-white/80 text-sm line-clamp-2 hidden md:block">{!! Str::limit(strip_tags($featuredPost->content), 120) !!}</p>
                         </div>
                     </div>
@@ -494,11 +494,11 @@
 
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-emerald-700 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
-                            <h4 class="font-heading font-bold text-slate-900 text-base leading-snug group-hover:text-emerald-700 transition line-clamp-2 mb-1.5">{{ $post->title }}</h4>
+                            <p class="text-primary-700 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
+                            <h4 class="font-heading font-bold text-slate-900 text-base leading-snug group-hover:text-primary-700 transition line-clamp-2 mb-1.5">{{ $post->title }}</h4>
                             <p class="text-slate-500 text-xs line-clamp-2">{!! Str::limit(strip_tags($post->content), 100) !!}</p>
                         </div>
-                        <i class="fa-solid fa-arrow-right text-slate-200 group-hover:text-emerald-700 group-hover:translate-x-1 transition-all flex-shrink-0 hidden md:block"></i>
+                        <i class="fa-solid fa-arrow-right text-slate-200 group-hover:text-primary-700 group-hover:translate-x-1 transition-all flex-shrink-0 hidden md:block"></i>
                     </a>
                     @empty
                         @if(!$featuredPost)
@@ -511,7 +511,7 @@
                     @endforelse
                 </div>
 
-                <a href="/berita" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-200">
+                <a href="/berita" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 transition-all duration-200">
                     Semua Berita <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
@@ -523,7 +523,7 @@
                     </div>
                     <div class="space-y-4 flex-1">
                         @forelse($announcements as $ann)
-                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-emerald-300 hover:-translate-y-0.5 transition-all duration-200">
+                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-primary-300 hover:-translate-y-0.5 active:scale-95 transition-all duration-200">
                             <div class="flex items-start gap-3">
                                 <div class="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                                     <i class="fa-solid fa-bullhorn text-amber-600 text-xs"></i>
@@ -543,7 +543,7 @@
                         @endforelse
                     </div>
 
-                    <a href="/pengumuman" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-200">
+                    <a href="/pengumuman" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 transition-all duration-200">
                         Semua Pengumuman <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -601,10 +601,10 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="h-px w-8 bg-emerald-500"></div>
-                    <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi Desa</span>
+                    <div class="h-px w-8 bg-primary-500"></div>
+                    <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi Desa</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri <span class="text-emerald-700">Foto & Video</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri <span class="text-primary-700">Foto & Video</span></h2>
             </div>
         </div>
 
@@ -642,7 +642,7 @@
 
                 {{-- Hover Overlay Gradient & Info --}}
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-4 sm:p-5 text-white">
-                    <span class="text-[9px] font-black uppercase tracking-widest text-emerald-400 mb-0.5">
+                    <span class="text-[9px] font-black uppercase tracking-widest text-primary-400 mb-0.5">
                         {{ $gallery->created_at->translatedFormat('d M Y') }}
                     </span>
                     <h3 class="text-xs sm:text-sm font-heading font-extrabold text-white leading-snug line-clamp-2">
@@ -653,7 +653,7 @@
             @endforeach
         </div>
 
-        <a href="/galeri" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-emerald-700 hover:text-white hover:border-emerald-700 transition-all duration-300 shadow-sm">
+        <a href="/galeri" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 transition-all duration-300 shadow-sm">
             Semua Galeri <i class="fa-solid fa-arrow-right"></i>
         </a>
         @endif
@@ -698,7 +698,7 @@
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="galleryItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
                     title="Sebelumnya (Tombol Panah Kiri)">
                 <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>
             </button>
@@ -707,7 +707,7 @@
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="galleryItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
                     title="Selanjutnya (Tombol Panah Kanan)">
                 <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>
             </button>
@@ -747,7 +747,7 @@
             {{-- Footer Info --}}
             <div class="p-5 bg-white border-t border-slate-100 flex items-center justify-between gap-4 relative z-10">
                 <div class="flex flex-col text-left min-w-0">
-                    <span class="text-[10px] font-black uppercase tracking-wider text-emerald-600" x-text="currentItem.created_at || ''"></span>
+                    <span class="text-[10px] font-black uppercase tracking-wider text-primary-600" x-text="currentItem.created_at || ''"></span>
                     <h3 id="home-gallery-lightbox-title" class="text-base md:text-xl font-heading font-extrabold text-slate-800 leading-snug line-clamp-1 mt-0.5" x-text="currentItem.title || ''"></h3>
                 </div>
             </div>
