@@ -37,8 +37,9 @@
     .sotk-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; background: #fff; border-radius: 28px 28px 0 0; }
     .sotk-modal:fullscreen .sotk-modal-header, .sotk-modal:-webkit-full-screen .sotk-modal-header { border-radius: 0; }
     .sotk-modal-actions { display: flex; align-items: center; gap: 5px; }
-    .sotk-modal-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #64748b; font-size: 12px; flex-shrink: 0; transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s; }
+    .sotk-modal-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #64748b; font-size: 12px; flex-shrink: 0; transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s, transform 0.1s; }
     .sotk-modal-btn:hover { background: color-mix(in srgb, var(--color-primary-50) 100%, transparent); color: var(--color-primary-600); border-color: var(--color-primary-300); box-shadow: 0 4px 12px color-mix(in srgb, var(--color-primary-600) 15%, transparent); }
+    .sotk-modal-btn:active { transform: scale(0.92); }
     .sotk-modal-btn.btn-close:hover { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
     .sotk-modal-body { flex: 1; min-height: 0; padding: 16px 22px 22px; display: flex; flex-direction: column; gap: 10px; }
     .sotk-hint { font-size: 11px; color: #94a3b8; font-weight: 500; display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
