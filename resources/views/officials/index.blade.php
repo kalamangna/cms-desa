@@ -497,6 +497,18 @@ document.addEventListener('alpine:init', function () {
 
                 // Kloning elemen secara rahasia untuk diproses
                 var clone = content.cloneNode(true);
+                
+                // Bersihkan atribut Alpine.js (:style, x-data, dll) dari klon
+                // agar MutationObserver Alpine tidak error saat klon dimasukkan ke DOM
+                var allEls = [clone].concat(Array.from(clone.querySelectorAll('*')));
+                allEls.forEach(function(el) {
+                    Array.from(el.attributes).forEach(function(attr) {
+                        if (attr.name.startsWith('x-') || attr.name.startsWith(':') || attr.name.startsWith('@')) {
+                            el.removeAttribute(attr.name);
+                        }
+                    });
+                });
+
                 clone.style.transition = 'none';
                 clone.style.transform = 'scale(1)';
                 clone.style.transformOrigin = 'top center';
