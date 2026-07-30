@@ -92,6 +92,11 @@ class AppServiceProvider extends ServiceProvider
         // 1. Radar Keamanan Autentikasi (Logins) - Telegram Notification
         \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Login::class, function ($event) {
             try {
+                // Lewati notifikasi jika yang login adalah super admin agar tidak berisik
+                if ($event->user->hasRole('super_admin')) {
+                    return;
+                }
+                
                 $ip      = request()->ip();
                 $ua      = request()->userAgent() ?? '-';
                 $browser = strlen($ua) > 60 ? substr($ua, 0, 60) . '…' : $ua;
