@@ -218,8 +218,8 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 
         {{-- Penduduk --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-teal-500 transition-colors duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-teal-50 group-hover:text-teal-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-500 transition-colors duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-users text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -230,8 +230,8 @@
         </div>
 
         {{-- Keluarga --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-sky-500 transition-colors duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-sky-50 group-hover:text-sky-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-500 transition-colors duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-house-chimney text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -242,8 +242,8 @@
         </div>
 
         {{-- Dusun --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-amber-500 transition-colors duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-amber-50 group-hover:text-amber-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-500 transition-colors duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-map-location-dot text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -254,8 +254,8 @@
         </div>
 
         {{-- Luas Wilayah --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-violet-500 transition-colors duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-violet-50 group-hover:text-violet-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-emerald-500 transition-colors duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-ruler-combined text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -275,35 +275,35 @@
         <p class="text-slate-500 text-sm mt-2">Pilih layanan yang Anda butuhkan di bawah ini</p>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-teal-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-teal-50 group-hover:border-teal-200 transition-colors duration-300">
-                <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-slate-400 group-hover:text-teal-600 transition-colors"></i>
+        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-emerald-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors duration-300">
+                <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-teal-700 transition-colors">Layanan Mandiri</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Layanan Mandiri</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Panduan dan pengajuan administrasi kependudukan</p>
         </a>
         
-        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-rose-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-rose-50 group-hover:border-rose-200 transition-colors duration-300">
-                <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-slate-400 group-hover:text-rose-600 transition-colors"></i>
+        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-emerald-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors duration-300">
+                <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-rose-700 transition-colors">Lapor & Pengaduan</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Lapor & Pengaduan</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Sampaikan aspirasi atau laporan masalah warga</p>
         </a>
         
-        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-sky-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-sky-50 group-hover:border-sky-200 transition-colors duration-300">
-                <i class="fa-solid fa-address-book text-2xl md:text-3xl text-slate-400 group-hover:text-sky-600 transition-colors"></i>
+        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-emerald-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors duration-300">
+                <i class="fa-solid fa-address-book text-2xl md:text-3xl text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-sky-700 transition-colors">Buku Tamu</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Buku Tamu</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Tinggalkan pesan, kesan, atau saran untuk desa</p>
         </a>
         
-        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-amber-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-amber-50 group-hover:border-amber-200 transition-colors duration-300">
-                <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-slate-400 group-hover:text-amber-600 transition-colors"></i>
+        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 hover:border-emerald-500 transition-colors duration-300 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors duration-300">
+                <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-slate-400 group-hover:text-emerald-600 transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-amber-700 transition-colors">Potensi Desa</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-emerald-700 transition-colors">Potensi Desa</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Eksplorasi pariwisata, budaya, dan komoditas lokal</p>
         </a>
     </div>
