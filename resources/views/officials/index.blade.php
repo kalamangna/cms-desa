@@ -127,7 +127,40 @@
         z-index: 0 !important;
     }
 
-
+    /* ─── Vertical Layout for Many Children ─── */
+    .oc-children.is-vertical {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 32px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .oc-children.is-vertical > .oc-item {
+        padding-top: 0;
+        margin-bottom: 32px;
+    }
+    .oc-children.is-vertical > .oc-item:last-child {
+        margin-bottom: 0;
+    }
+    
+    .oc-children.is-vertical > .oc-item::before,
+    .oc-children.is-vertical > .oc-item > .oc-card::before {
+        display: none !important;
+    }
+    
+    .oc-children.is-vertical > .oc-item:not(:last-child) > .oc-card::after {
+        content: "" !important;
+        display: block !important;
+        position: absolute !important;
+        left: 50% !important;
+        top: 100% !important;
+        width: 2px !important;
+        height: 34px !important;
+        background-color: #cbd5e1 !important;
+        transform: translateX(-50%) !important;
+        z-index: 2 !important;
+    }
 
     /* ─── Node Card ─── */
     .oc-card { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fff; border: 2px solid #e2e8f0; border-radius: 18px; padding: 0 0 12px 0; width: 160px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: box-shadow 0.2s, transform 0.2s; cursor: default; }
@@ -824,6 +857,9 @@ document.addEventListener('alpine:init', function () {
         if (hasChildren) {
             var ul = document.createElement('ul');
             ul.className = 'oc-children';
+            if (node.children.length >= 4) {
+                ul.classList.add('is-vertical');
+            }
             node.children.forEach(function (child) {
                 ul.appendChild(buildNode(child));
             });
