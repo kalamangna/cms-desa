@@ -423,6 +423,7 @@ document.addEventListener('alpine:init', function () {
 
     Alpine.data('sotkModal', function () {
         return {
+            isOpen: false,
             searchQuery: '',
             isFullscreen: false,
             scale: 1,
