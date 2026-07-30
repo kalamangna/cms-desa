@@ -311,31 +311,32 @@
 
 {{-- 3. SAMBUTAN KEPALA DESA --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
-    <div class="bg-white rounded-[32px] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100 relative">
-        {{-- Decorative Quote Mark in Background --}}
-        <div class="absolute -top-12 -right-12 text-emerald-50/50 pointer-events-none z-0">
-            <i class="fa-solid fa-quote-right text-[200px] md:text-[300px]"></i>
-        </div>
-
-        <div class="p-8 md:p-16 lg:p-20 relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
-            <div class="flex items-center gap-3 mb-6 justify-center">
-                <div class="h-px w-8 bg-emerald-600"></div>
-                <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
-                <div class="h-px w-8 bg-emerald-600"></div>
-            </div>
-            <h2 class="text-2xl md:text-4xl font-heading font-extrabold text-slate-900 mb-10 leading-tight">
-                {{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}
-            </h2>
-            <div class="prose prose-slate prose-p:mb-6 prose-p:last:mb-0 text-slate-500 text-base md:text-lg leading-relaxed italic mb-12 max-w-3xl text-center mx-auto">
-                {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' !!}
-            </div>
-            <div class="flex flex-col items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
-                    <i class="fa-solid fa-signature text-lg"></i>
+    <div class="bg-white rounded-3xl border border-slate-200 relative overflow-hidden">
+        <div class="flex flex-col lg:flex-row">
+            <div class="p-8 md:p-12 lg:p-16 lg:w-2/3 relative z-10">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                    <span class="text-slate-500 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
                 </div>
-                <div>
-                    <p class="font-heading font-bold text-lg text-slate-900">{{ $villageHead?->name ?? 'Nama Kepala Desa' }}</p>
-                    <p class="text-slate-500 text-sm font-medium">Kepala Desa {{ $site_settings['village_name'] ?? '' }}</p>
+                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 mb-8 leading-tight max-w-xl">
+                    {{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}
+                </h2>
+                <div class="prose prose-slate prose-p:mb-5 prose-p:last:mb-0 text-slate-600 text-sm md:text-base leading-relaxed mb-10 max-w-2xl">
+                    {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' !!}
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                        <i class="fa-solid fa-signature text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="font-heading font-bold text-base text-slate-900">{{ $villageHead?->name ?? 'Nama Kepala Desa' }}</p>
+                        <p class="text-slate-500 text-xs font-medium uppercase tracking-wider mt-0.5">Kepala Desa {{ $site_settings['village_name'] ?? '' }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden lg:block lg:w-1/3 bg-slate-50 border-l border-slate-100 relative">
+                <div class="absolute inset-0 flex items-center justify-center opacity-5">
+                    <i class="fa-solid fa-quote-right text-[150px]"></i>
                 </div>
             </div>
         </div>
@@ -415,13 +416,13 @@
                         </div>
                         <div class="mb-8">
                             <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-sky-400 text-sm">Total Belanja</span>
+                                <span class="font-bold text-slate-300 text-sm">Total Belanja</span>
                                 <span class="text-sm font-bold text-white">{{ number_format($belanjaPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-sky-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
+                                <div class="h-full bg-slate-400 rounded-full" style="width: {{ $belanjaPct }}%"></div>
                             </div>
-                            <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
+                            <p class="text-xs text-slate-400 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
                         </div>
                     </div>
                     
@@ -511,14 +512,14 @@
                     </div>
                     <div class="space-y-4 flex-1">
                         @forelse($announcements as $ann)
-                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-emerald-300 hover:-translate-y-0.5 transition-all duration-200">
+                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-200 hover:border-emerald-500 transition-colors duration-300 group">
                             <div class="flex items-start gap-3">
-                                <div class="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <i class="fa-solid fa-bullhorn text-amber-600 text-xs"></i>
+                                <div class="w-9 h-9 rounded-xl bg-slate-50 flex items-center justify-center flex-shrink-0 mt-0.5 border border-slate-100 group-hover:bg-emerald-50 group-hover:border-emerald-200 transition-colors">
+                                    <i class="fa-solid fa-bullhorn text-slate-400 text-xs group-hover:text-emerald-600 transition-colors"></i>
                                 </div>
                                 <div class="min-w-0">
                                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{{ $ann->published_at->translatedFormat('d M Y') }}</p>
-                                    <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2">{{ $ann->title }}</h4>
+                                    <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2 group-hover:text-emerald-700 transition-colors">{{ $ann->title }}</h4>
                                 </div>
                             </div>
                         </a>
