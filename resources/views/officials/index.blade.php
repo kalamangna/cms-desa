@@ -477,7 +477,9 @@ document.addEventListener('alpine:init', function () {
                 var head = document.head;
                 var sheets = Array.from(head.querySelectorAll('link[rel="stylesheet"], style'));
                 sheets.forEach(function (sheet) {
-                    if (sheet.id !== 'sotk-custom-css') {
+                    var href = sheet.href || '';
+                    var isFont = href.indexOf('fonts.googleapis.com') > -1 || href.indexOf('cdnjs.cloudflare.com') > -1;
+                    if (sheet.id !== 'sotk-custom-css' && !isFont) {
                         detachedSheets.push({ element: sheet, nextSibling: sheet.nextSibling });
                         sheet.remove();
                     }
