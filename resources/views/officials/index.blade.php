@@ -568,7 +568,7 @@ document.addEventListener('alpine:init', function () {
                 t2.style.color = '#000';
                 
                 var t3 = document.createElement('div');
-                t3.textContent = 'KANTOR KEPALA DESA ' + (this.villageName || '...').toUpperCase();
+                t3.textContent = 'DESA ' + (this.villageName || '...').toUpperCase();
                 t3.style.fontSize = '34px';
                 t3.style.fontWeight = 'bold';
                 t3.style.color = '#000';
@@ -600,7 +600,7 @@ document.addEventListener('alpine:init', function () {
                 titleContent.style.marginBottom = '60px';
                 
                 var st1 = document.createElement('div');
-                st1.textContent = 'STRUKTUR ORGANISASI TATA KERJA (SOTK)';
+                st1.textContent = 'STRUKTUR ORGANISASI';
                 st1.style.fontSize = '24px';
                 st1.style.fontWeight = 'bold';
                 st1.style.textDecoration = 'underline';
