@@ -22,11 +22,11 @@ Proyek ini adalah CMS website desa berbasis Laravel 12 dengan Tailwind CSS v4, F
 
 Tujuan utamanya adalah membangun sistem yang:
 
-- mudah dipelihara
-- aman
-- cepat
-- responsif
-- ramah bagi operator desa
+- Mudah dipelihara
+- Aman
+- Cepat
+- Responsif
+- Ramah bagi operator desa
 
 ---
 
@@ -36,19 +36,19 @@ Tujuan utamanya adalah membangun sistem yang:
 
 Sebelum melakukan perubahan, pastikan Anda:
 
-1. memahami konteks masalah dengan baik
-2. menjelaskan masalah dan solusi yang akan diterapkan
-3. menyebutkan file yang akan diubah
-4. menjelaskan dampak perubahan yang akan terjadi
+1. Memahami konteks masalah dengan baik
+2. Menjelaskan masalah dan solusi yang akan diterapkan
+3. Menyebutkan file yang akan diubah
+4. Menjelaskan dampak perubahan yang akan terjadi
 
 ### Setelah selesai mengubah kode
 
 Berikan ringkasan yang mencakup:
 
-1. file yang diubah
-2. alasan perubahan
-3. dampak perubahan
-4. potensi risiko dan cara pengujiannya
+1. File yang diubah
+2. Alasan perubahan
+3. Dampak perubahan
+4. Potensi risiko dan cara pengujiannya
 
 ---
 
@@ -56,12 +56,12 @@ Berikan ringkasan yang mencakup:
 
 Sebelum melakukan push, pastikan hal-hal berikut terpenuhi:
 
-- naikkan versi aplikasi pada [config/app.php](config/app.php) jika ada perubahan kode yang berarti
-- catat perubahan pada [CHANGELOG.md](CHANGELOG.md) sesuai format Keep a Changelog
-- perbarui [README.md](README.md) jika fitur atau konfigurasi baru memerlukan dokumentasi tambahan
-- jalankan `npm run build` jika ada perubahan pada CSS, aset frontend, atau file yang memengaruhi build frontend
-- jangan menjalankan `composer install --no-dev --optimize-autoloader` di lingkungan lokal; perintah ini hanya sesuai untuk lingkungan production/server deployment
-- lakukan push hanya jika ada instruksi eksplisit dari pengguna; jangan melakukan push otomatis
+- Naikkan versi aplikasi pada [config/app.php](config/app.php) jika ada perubahan kode yang berarti
+- Catat perubahan pada [CHANGELOG.md](CHANGELOG.md) sesuai format Keep a Changelog
+- Perbarui [README.md](README.md) jika fitur atau konfigurasi baru memerlukan dokumentasi tambahan
+- Jalankan `npm run build` jika ada perubahan pada CSS, aset frontend, atau file yang memengaruhi build frontend
+- Jangan menjalankan `composer install --no-dev --optimize-autoloader` di lingkungan lokal; perintah ini hanya sesuai untuk lingkungan production/server deployment
+- Lakukan push hanya jika ada instruksi eksplisit dari pengguna; jangan melakukan push otomatis
 
 ---
 
@@ -69,34 +69,34 @@ Sebelum melakukan push, pastikan hal-hal berikut terpenuhi:
 
 ### Prinsip umum
 
-- pahami konteks terlebih dahulu sebelum mengubah kode
-- buat perubahan seminimal dan relevan
-- pertahankan struktur proyek yang sudah ada
-- hindari refactor besar kecuali memang diperlukan
+- Pahami konteks terlebih dahulu sebelum mengubah kode
+- Buat perubahan seminimal dan relevan
+- Pertahankan struktur proyek yang sudah ada
+- Hindari refactor besar kecuali memang diperlukan
 
 ### Kode dan arsitektur
 
-- ikuti PSR-12, Laravel Best Practices, SOLID, dan Clean Code
-- gunakan type hint dan return type jika memungkinkan
-- hindari fungsi yang terlalu panjang dan logika yang terlalu bersarang
-- hindari duplikasi kode
-- controller harus tetap tipis; logic bisnis sebaiknya ditempatkan di Service, Action, atau Helper
-- gunakan Form Request untuk validasi input
-- gunakan Migration, Seeder, Factory, dan Eloquent Relationship untuk perubahan database
-- hindari query database di Blade dan logika kompleks di view
-- gunakan Blade component dan layout yang sudah ada
+- Ikuti PSR-12, Laravel Best Practices, SOLID, dan Clean Code
+- Gunakan type hint dan return type jika memungkinkan
+- Hindari fungsi yang terlalu panjang dan logika yang terlalu bersarang
+- Hindari duplikasi kode
+- Controller harus tetap tipis; logic bisnis sebaiknya ditempatkan di Service, Action, atau Helper
+- Gunakan Form Request untuk validasi input
+- Gunakan Migration, Seeder, Factory, dan Eloquent Relationship untuk perubahan database
+- Hindari query database di Blade dan logika kompleks di view
+- Gunakan Blade component dan layout yang sudah ada
 
 ### Frontend
 
-- prioritaskan component yang reusable dan desain yang responsif
-- gunakan Alpine.js untuk interaksi ringan
-- pastikan perubahan frontend tetap konsisten dengan style proyek yang ada
+- Prioritaskan component yang reusable dan desain yang responsif
+- Gunakan Alpine.js untuk interaksi ringan
+- Pastikan perubahan frontend tetap konsisten dengan style proyek yang ada
 
 ### Kinerja
 
-- hindari N+1 query
-- gunakan eager loading, pagination, dan caching bila diperlukan
-- hindari query berulang dan loop yang tidak perlu
+- Hindari N+1 query
+- Gunakan eager loading, pagination, dan caching bila diperlukan
+- Hindari query berulang dan loop yang tidak perlu
 
 ---
 
@@ -106,31 +106,31 @@ Keamanan adalah prioritas utama. Jangan mengorbankan keamanan demi kemudahan imp
 
 ### Prinsip keamanan
 
-- validasi semua input dari user
-- jangan mempercayai data dari client secara mentah
-- gunakan whitelist untuk validasi, bukan blacklist
-- gunakan ORM, Query Builder, atau prepared statement untuk query database
-- aktifkan dan jaga CSRF protection
-- jangan menyimpan password dalam bentuk plaintext
-- gunakan hashing untuk password
-- lakukan pengecekan authorization dan authentication di server
-- jangan menampilkan stack trace atau informasi sensitif ke pengguna
-- simpan secret, token, dan credential di environment variable
+- Validasi semua input dari user
+- Jangan mempercayai data dari client secara mentah
+- Gunakan whitelist untuk validasi, bukan blacklist
+- Gunakan ORM, Query Builder, atau prepared statement untuk query database
+- Aktifkan dan jaga CSRF protection
+- Jangan menyimpan password dalam bentuk plaintext
+- Gunakan hashing untuk password
+- Lakukan pengecekan authorization dan authentication di server
+- Jangan menampilkan stack trace atau informasi sensitif ke pengguna
+- Simpan secret, token, dan credential di environment variable
 
 ### File upload
 
-- validasi MIME type, ekstensi, dan ukuran file
-- ganti nama file secara acak
-- simpan file upload di lokasi yang aman
-- tolak file executable
+- Validasi MIME type, ekstensi, dan ukuran file
+- Ganti nama file secara acak
+- Simpan file upload di lokasi yang aman
+- Tolak file executable
 
 ### Catatan teknis khusus
 
 Saat mengonfigurasi adapter Google Drive pada Laravel Filesystem atau Spatie Backup, pastikan:
 
 - ID folder target dipasangkan ke `$options['sharedFolderId']`
-- parameter root diisi `null`
-- gunakan `GoogleDriveAdapterWrapper` untuk menangani error pembacaan file selama proses pembuatan folder dan pengecekan backup
+- Parameter root diisi `null`
+- Gunakan `GoogleDriveAdapterWrapper` untuk menangani error pembacaan file selama proses pembuatan folder dan pengecekan backup
 
 ---
 
@@ -138,20 +138,20 @@ Saat mengonfigurasi adapter Google Drive pada Laravel Filesystem atau Spatie Bac
 
 Jangan pernah:
 
-- mengubah file `.env`
-- mengubah folder `vendor/`
-- menghapus migration lama tanpa alasan yang jelas
-- mengubah `composer.json` atau `package-lock.json` / `composer.lock` tanpa alasan yang kuat
-- menghapus atau mengubah fitur keamanan yang sudah ada tanpa pertimbangan
+- Mengubah file `.env`
+- Mengubah folder `vendor/`
+- Menghapus migration lama tanpa alasan yang jelas
+- Mengubah `composer.json` atau `package-lock.json` / `composer.lock` tanpa alasan yang kuat
+- Menghapus atau mengubah fitur keamanan yang sudah ada tanpa pertimbangan
 
 ---
 
 ## Gaya Respons dan Penulisan
 
-- gunakan bahasa Indonesia untuk penjelasan kepada developer atau user
-- gunakan bahasa Inggris untuk nama class, method, variabel, komentar teknis, dan commit message
-- tulis singkat, jelas, langsung ke inti, dan mudah dipahami
-- hindari kalimat promosi dan pengulangan informasi
+- Gunakan bahasa Indonesia untuk penjelasan kepada developer atau user
+- Gunakan bahasa Inggris untuk nama class, method, variabel, komentar teknis, dan commit message
+- Tulis singkat, jelas, langsung ke inti, dan mudah dipahami
+- Hindari kalimat promosi dan pengulangan informasi
 
 ---
 
@@ -159,11 +159,11 @@ Jangan pernah:
 
 Selalu prioritaskan:
 
-- keamanan
-- stabilitas
-- keterbacaan kode
-- kemudahan maintenance
-- performa
+- Keamanan
+- Stabilitas
+- Keterbacaan kode
+- Kemudahan maintenance
+- Performa
 
 Jika ada potensi kerentanan, perbaiki sebelum menyelesaikan tugas.
 
@@ -210,16 +210,214 @@ Tulis kode seolah-olah developer lain akan melakukan maintenance selama bertahun
 
 Prioritaskan:
 
-- sederhana
-- aman
-- mudah dipahami
-- mudah dirawat
-- konsisten
+- Sederhana
+- Aman
+- Mudah dipahami
+- Mudah dirawat
+- Konsisten
 
 Daripada:
 
-- pintar tetapi rumit
-- singkat tetapi membingungkan
-- abstrak tetapi sulit dipahami
+- Pintar tetapi rumit
+- Singkat tetapi membingungkan
+- Abstrak tetapi sulit dipahami
 
 Setiap perubahan harus memiliki alasan yang jelas.
+
+# Natural UI Guidelines
+
+## Tujuan
+
+Bangun antarmuka yang terasa dibuat oleh desainer profesional, bukan hasil generator AI.
+
+---
+
+## Prinsip Desain
+
+### 1. Hindari Simetri Berlebihan
+
+- Jangan membuat semua card memiliki ukuran yang sama.
+- Gunakan variasi spacing yang tetap konsisten.
+- Biarkan layout memiliki ritme visual.
+
+### 2. Gunakan White Space dengan Bijak
+
+- Berikan ruang bernapas.
+- Jangan memenuhi seluruh area layar.
+- Prioritaskan keterbacaan dibanding banyaknya informasi.
+
+### 3. Hierarki Visual Jelas
+
+- Satu fokus utama setiap halaman.
+- Heading harus dominan.
+- CTA harus mudah ditemukan.
+- Informasi sekunder dibuat lebih tenang.
+
+### 4. Warna
+
+- Maksimal 1 warna utama.
+- Gunakan abu-abu untuk sebagian besar elemen.
+- Hindari warna terlalu jenuh.
+- Gunakan aksen hanya pada elemen penting.
+
+### 5. Tipografi
+
+- Maksimal 2 jenis font.
+- Gunakan ukuran yang konsisten.
+- Hindari semua teks bold.
+- Gunakan variasi weight secara halus.
+
+### 6. Border Radius
+
+- Konsisten.
+- Jangan semua elemen dibuat sangat bulat.
+- Gunakan radius kecil hingga sedang.
+
+### 7. Shadow
+
+- Gunakan shadow tipis.
+- Hindari efek mengambang berlebihan.
+- Prioritaskan border dibanding shadow.
+
+### 8. Icon
+
+- Gunakan icon seperlunya.
+- Jangan semua judul memakai icon.
+- Pastikan ukuran icon proporsional.
+
+### 9. Card
+
+- Tidak semua informasi harus berada di dalam card.
+- Kombinasikan section biasa dengan card.
+- Variasikan padding.
+
+### 10. Animasi
+
+- Cepat.
+- Halus.
+- Tidak mengganggu.
+- Gunakan transform dan opacity.
+
+---
+
+## Layout
+
+- Jangan menempatkan semua elemen tepat di tengah.
+- Gunakan alignment alami.
+- Variasikan lebar section.
+- Hindari layout yang terlalu kotak.
+
+---
+
+## Komponen
+
+Setiap komponen harus memiliki:
+
+- Hover
+- Active
+- Focus
+- Disabled
+- Loading
+- Empty state
+- Error state
+
+---
+
+## Form
+
+- Label selalu di atas input.
+- Validasi muncul dekat field.
+- Gunakan helper text bila diperlukan.
+- Jangan hanya mengandalkan placeholder.
+
+---
+
+## Table
+
+- Mudah dipindai.
+- Header jelas.
+- Zebra row opsional.
+- Sticky header jika data panjang.
+
+---
+
+## Responsif
+
+Desktop adalah prioritas.
+
+Breakpoint:
+
+- Mobile
+- Tablet
+- Laptop
+- Desktop
+
+Setiap layout harus dioptimalkan pada semua ukuran layar.
+
+---
+
+## Accessibility
+
+- Kontras memenuhi WCAG.
+- Semua tombol memiliki focus state.
+- Keyboard friendly.
+- Gunakan semantic HTML.
+- Gunakan aria-label bila diperlukan.
+
+---
+
+## UX
+
+Selalu tanyakan:
+
+- Apakah pengguna tahu apa yang harus dilakukan?
+- Apakah aksi utama terlihat?
+- Apakah informasi penting muncul lebih dulu?
+- Bisakah halaman dipahami dalam 5 detik?
+
+---
+
+## Hindari Ciri UI AI
+
+Jangan membuat UI dengan pola seperti:
+
+- Semua card identik.
+- Semua sudut sangat bulat.
+- Terlalu banyak gradient.
+- Terlalu banyak icon.
+- Terlalu banyak warna.
+- Shadow besar di semua elemen.
+- Padding seragam di seluruh halaman.
+- Hero section terlalu tinggi.
+- CTA berlebihan.
+- Glassmorphism tanpa alasan.
+- Dashboard penuh widget.
+
+---
+
+## Preferensi
+
+Lebih baik:
+
+- Sederhana
+- Modern
+- Profesional
+- Minimalis
+- Fungsional
+- Mudah dipahami
+- Cepat digunakan
+
+dibanding:
+
+- Dekoratif
+- Ramai
+- Penuh animasi
+- Penuh efek visual
+
+---
+
+## Aturan Utama
+
+Jika ragu, pilih desain yang lebih sederhana.
+
+Desain harus terasa seperti dibuat oleh desainer produk berpengalaman, bukan hasil generator template AI.
