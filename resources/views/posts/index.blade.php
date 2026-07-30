@@ -211,7 +211,7 @@
                     <ul class="space-y-2.5">
                         <li>
                             <a href="/berita"
-                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ !request('category') ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ !request('category') ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
                                 <span class="font-medium text-sm flex items-center gap-2">
                                     <i class="fa-solid fa-layer-group text-[10px]"></i> Semua Berita
                                 </span>
@@ -223,7 +223,7 @@
                         @foreach($categories as $category)
                         <li>
                             <a href="/berita?category={{ $category->slug }}"
-                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ request('category') === $category->slug ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ request('category') === $category->slug ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
                                 <span class="font-medium text-sm flex items-center gap-2">
                                     <i class="fa-solid fa-circle text-[6px]"></i>
                                     {{ $category->name }}

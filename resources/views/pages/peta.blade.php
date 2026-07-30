@@ -23,31 +23,31 @@
 {{-- ===================== HERO ===================== --}}
 <div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
-                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                    <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1 py-0.5">
                         <i class="fa-solid fa-house text-[10px]"></i> Beranda
                     </a>
                 </li>
                 <li class="flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <i class="fa-solid fa-chevron-right text-[9px] text-primary-500/40"></i>
                     <span class="text-white">Peta Spasial</span>
                 </li>
             </ol>
         </nav>
         <div class="max-w-3xl">
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
-                Peta <span class="text-emerald-500 italic">Spasial</span>
+                Peta <span class="text-primary-500 italic">Spasial</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2 font-medium">
+            <p class="text-slate-300 text-lg mt-2 leading-relaxed">
                 Peta interaktif batas wilayah dusun, lokasi fasilitas umum, dan data kependudukan desa.
             </p>
         </div>
@@ -55,184 +55,186 @@
 </div>
 
 {{-- ===================== MAP SECTION ===================== --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {{-- Map View (Main Area) --}}
-        <div class="lg:col-span-2 flex flex-col gap-6">
-            <div class="bg-white rounded-[32px] p-2 border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden h-[500px] md:h-[600px] min-h-[450px] z-0">
-                <div id="spatialMap" class="w-full h-full rounded-[24px] absolute inset-0 z-0"></div>
-                
-                {{-- Legend Overlay --}}
-                <div class="absolute bottom-6 left-6 bg-white/95 backdrop-blur px-4 py-3 rounded-2xl shadow-xl border border-slate-100/50 z-[1000] hidden sm:block max-w-[220px]">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Legenda Dusun</p>
-                    <div class="space-y-1.5">
-                        @foreach($dusuns as $dusun)
-                            @if($dusun->geojson)
-                            <div class="flex items-center gap-2 text-xs font-bold text-slate-700">
-                                <span class="w-3.5 h-3.5 rounded-md border border-white shadow-sm flex-shrink-0" style="background-color: {{ $dusun->color ?? '#10b981' }}"></span>
-                                <span class="truncate">Dusun {{ $dusun->name }}</span>
-                            </div>
-                            @endif
-                        @endforeach
+<div class="bg-slate-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            {{-- Map View (Main Area) --}}
+            <div class="lg:col-span-2 flex flex-col gap-6">
+                <div class="bg-white rounded-[32px] p-2 border border-slate-200/80 shadow-lg shadow-slate-200/50 relative overflow-hidden h-[500px] md:h-[600px] min-h-[450px] z-0">
+                    <div id="spatialMap" class="w-full h-full rounded-[24px] absolute inset-0 z-0"></div>
+                    
+                    {{-- Legend Overlay --}}
+                    <div class="absolute bottom-6 left-6 bg-white/95 backdrop-blur px-4 py-3 rounded-2xl shadow-xl border border-slate-200/80 z-[1000] hidden sm:block max-w-[220px]">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Legenda Dusun</p>
+                        <div class="space-y-1.5">
+                            @foreach($dusuns as $dusun)
+                                @if($dusun->geojson)
+                                <div class="flex items-center gap-2 text-xs font-bold text-slate-700">
+                                    <span class="w-3.5 h-3.5 rounded-md border border-white shadow-xs flex-shrink-0" style="background-color: {{ $dusun->color ?? '#10b981' }}"></span>
+                                    <span class="truncate">Dusun {{ $dusun->name }}</span>
+                                </div>
+                                @endif
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- Sidebar (Dusun list & Information Card) --}}
-        <div class="lg:col-span-1 flex flex-col gap-6"
-             x-data="spatialMapSidebar">
-            
-            {{-- Tabbed Selector Card --}}
-            <div class="bg-white rounded-[32px] p-6 border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col gap-4">
-                <!-- Tab Buttons -->
-                <div class="flex border-b border-slate-100 pb-1">
-                    <button type="button" 
-                            @click="activeTab = 'dusun'"
-                            :class="activeTab === 'dusun' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-600'"
-                            class="flex-1 pb-3 text-center border-b-2 font-bold text-xs transition-all duration-200 flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-map-location-dot"></i>
-                        Wilayah
-                    </button>
-                    <button type="button" 
-                            @click="activeTab = 'fasilitas'"
-                            :class="activeTab === 'fasilitas' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-600'"
-                            class="flex-1 pb-3 text-center border-b-2 font-bold text-xs transition-all duration-200 flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-building-circle-check"></i>
-                        Fasilitas Umum
-                    </button>
-                </div>
-
-                <!-- Tab Content: Dusun -->
-                <div x-show="activeTab === 'dusun'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
-                    <div class="mb-4">
-                        <h3 class="text-sm font-heading font-extrabold text-slate-900 leading-tight">Daftar Wilayah</h3>
-                        <p class="text-slate-400 text-[10px] font-semibold mt-1">Pilih wilayah dusun untuk memfokuskan peta.</p>
+            {{-- Sidebar (Dusun list & Information Card) --}}
+            <div class="lg:col-span-1 flex flex-col gap-6"
+                 x-data="spatialMapSidebar">
+                
+                {{-- Tabbed Selector Card --}}
+                <div class="bg-white rounded-[32px] p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col gap-4">
+                    <!-- Tab Buttons -->
+                    <div class="flex border-b border-slate-100 pb-1">
+                        <button type="button" 
+                                @click="activeTab = 'dusun'"
+                                :class="activeTab === 'dusun' ? 'border-primary-600 text-primary-700 font-extrabold' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 font-semibold'"
+                                class="flex-1 pb-3 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            Wilayah
+                        </button>
+                        <button type="button" 
+                                @click="activeTab = 'fasilitas'"
+                                :class="activeTab === 'fasilitas' ? 'border-primary-600 text-primary-700 font-extrabold' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 font-semibold'"
+                                class="flex-1 pb-3 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
+                            <i class="fa-solid fa-building-circle-check"></i>
+                            Fasilitas Umum
+                        </button>
                     </div>
 
-                    <div class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
-                        @forelse($dusuns as $dusun)
-                            <button type="button"
-                                    onclick="focusDusun({{ $dusun->id }})"
-                                    id="btn-dusun-{{ $dusun->id }}"
-                                    class="w-full flex items-center justify-between p-3.5 rounded-2xl border text-left transition-all duration-300 font-bold text-sm @if($dusun->geojson) border-slate-100 bg-slate-50/50 hover:bg-slate-50 text-slate-700 hover:border-emerald-200 @else border-slate-100 bg-slate-50/30 text-slate-400 cursor-not-allowed opacity-60 @endif">
-                                <span class="flex items-center gap-2.5 truncate">
-                                    <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: {{ $dusun->color ?? '#cbd5e1' }}"></span>
-                                    <span class="truncate">Dusun {{ $dusun->name }}</span>
-                                </span>
-                                @if($dusun->geojson)
-                                <i class="fa-solid fa-location-crosshairs text-slate-400 text-xs transition"></i>
-                                @endif
-                            </button>
-                        @empty
-                            <x-empty-state
-                                icon="fa-solid fa-map-pin"
-                                title="Data Wilayah Belum Tersedia"
-                                :compact="true"
-                            />
-                        @endforelse
-                    </div>
-                </div>
-
-                <!-- Tab Content: Fasilitas Umum -->
-                <div x-show="activeTab === 'fasilitas'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-cloak>
-                    <div class="mb-3">
-                        <h3 class="text-sm font-heading font-extrabold text-slate-900 leading-tight">Cari Fasilitas</h3>
-                        <p class="text-slate-400 text-[10px] font-semibold mt-1">Gunakan pencarian dan filter kategori.</p>
-                    </div>
-
-                    <!-- Search & Filter Controls -->
-                    <div class="space-y-3 mb-3">
-                        <!-- Search Input -->
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <i class="fa-solid fa-magnifying-glass text-slate-400 text-[10px]"></i>
-                            </span>
-                            <input type="text" 
-                                   x-model="searchQuery" 
-                                   placeholder="Cari nama atau jenis..." 
-                                   class="w-full pl-8 pr-3 py-2 text-[11px] font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition">
+                    <!-- Tab Content: Dusun -->
+                    <div x-show="activeTab === 'dusun'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
+                        <div class="mb-4">
+                            <h3 class="text-sm font-heading font-extrabold text-slate-900 leading-tight">Daftar Wilayah</h3>
+                            <p class="text-slate-500 text-[10px] font-semibold mt-1">Pilih wilayah dusun untuk memfokuskan peta.</p>
                         </div>
 
-                        <!-- Category Pill Filter -->
-                        <div class="flex gap-1 overflow-x-auto pb-1 scrollbar-none">
-                            <template x-for="cat in ['Semua', 'Pendidikan', 'Ibadah', 'Kesehatan', 'Pemerintahan', 'Umum']">
+                        <div class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                            @forelse($dusuns as $dusun)
                                 <button type="button"
-                                        @click="selectedCategory = cat; filterMarkers();"
-                                        :class="selectedCategory === cat ? 'bg-emerald-500 text-white shadow-sm shadow-emerald-200/50' : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80'"
-                                        class="px-2.5 py-1 rounded-lg text-[9px] font-bold whitespace-nowrap transition-all duration-200"
-                                        x-text="cat === 'Umum' ? 'Umum/Lainnya' : cat">
+                                        onclick="focusDusun({{ $dusun->id }})"
+                                        id="btn-dusun-{{ $dusun->id }}"
+                                        class="w-full flex items-center justify-between p-3.5 rounded-2xl border text-left transition-all duration-200 font-bold text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 @if($dusun->geojson) border-slate-200/80 bg-slate-50/50 hover:bg-primary-50/50 text-slate-800 hover:border-primary-300 @else border-slate-100 bg-slate-50/30 text-slate-400 cursor-not-allowed opacity-60 @endif">
+                                    <span class="flex items-center gap-2.5 truncate">
+                                        <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: {{ $dusun->color ?? '#cbd5e1' }}"></span>
+                                        <span class="truncate">Dusun {{ $dusun->name }}</span>
+                                    </span>
+                                    @if($dusun->geojson)
+                                    <i class="fa-solid fa-location-crosshairs text-slate-400 text-xs transition"></i>
+                                    @endif
+                                </button>
+                            @empty
+                                <x-empty-state
+                                    icon="fa-solid fa-map-pin"
+                                    title="Data Wilayah Belum Tersedia"
+                                    :compact="true"
+                                />
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Fasilitas Umum -->
+                    <div x-show="activeTab === 'fasilitas'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-cloak>
+                        <div class="mb-3">
+                            <h3 class="text-sm font-heading font-extrabold text-slate-900 leading-tight">Cari Fasilitas</h3>
+                            <p class="text-slate-500 text-[10px] font-semibold mt-1">Gunakan pencarian dan filter kategori.</p>
+                        </div>
+
+                        <!-- Search & Filter Controls -->
+                        <div class="space-y-3 mb-3">
+                            <!-- Search Input -->
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fa-solid fa-magnifying-glass text-slate-400 text-[10px]"></i>
+                                </span>
+                                <input type="text" 
+                                       x-model="searchQuery" 
+                                       placeholder="Cari nama atau jenis..." 
+                                       class="w-full pl-8 pr-3 py-2 text-[11px] font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition">
+                            </div>
+
+                            <!-- Category Pill Filter -->
+                            <div class="flex gap-1 overflow-x-auto pb-1 scrollbar-none">
+                                <template x-for="cat in ['Semua', 'Pendidikan', 'Ibadah', 'Kesehatan', 'Pemerintahan', 'Umum']">
+                                    <button type="button"
+                                            @click="selectedCategory = cat; filterMarkers();"
+                                            :class="selectedCategory === cat ? 'bg-primary-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80'"
+                                            class="px-2.5 py-1 rounded-lg text-[9px] font-bold whitespace-nowrap transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
+                                            x-text="cat === 'Umum' ? 'Umum/Lainnya' : cat">
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Facility List -->
+                        <div class="space-y-2 max-h-[200px] overflow-y-auto pr-1">
+                            <template x-for="facility in filteredFacilities" :key="facility.id">
+                                <button type="button"
+                                        @click="focusFacility(facility)"
+                                        :id="'btn-facility-' + facility.id"
+                                        class="w-full flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200/80 bg-slate-50/50 hover:bg-primary-50/50 hover:border-primary-300 text-left transition-all duration-200 cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+                                    <!-- Icon based on type -->
+                                    <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-white shadow-xs"
+                                         :class="getFacilityColorClass(facility.type)">
+                                        <i :class="getFacilityIconClass(facility.type) + ' text-[9px]'"></i>
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <p class="text-slate-900 font-bold text-xs truncate" x-text="facility.name"></p>
+                                         <p class="text-slate-400 text-[9px] font-semibold mt-0.5" x-text="facility.type"></p>
+                                        <p class="text-slate-500 text-[9px] truncate mt-1 font-medium" x-show="facility.address" x-text="facility.address"></p>
+                                    </div>
                                 </button>
                             </template>
-                        </div>
-                    </div>
-
-                    <!-- Facility List -->
-                    <div class="space-y-2 max-h-[200px] overflow-y-auto pr-1">
-                        <template x-for="facility in filteredFacilities" :key="facility.id">
-                            <button type="button"
-                                    @click="focusFacility(facility)"
-                                    :id="'btn-facility-' + facility.id"
-                                    class="w-full flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 hover:border-emerald-200 text-left transition-all duration-300">
-                                <!-- Icon based on type -->
-                                <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-white"
-                                     :class="getFacilityColorClass(facility.type)">
-                                    <i :class="getFacilityIconClass(facility.type) + ' text-[9px]'"></i>
-                                </div>
-                                <div class="min-w-0 flex-1">
-                                    <p class="text-slate-900 font-bold text-xs truncate" x-text="facility.name"></p>
-                                     <p class="text-slate-400 text-[9px] font-semibold mt-0.5" x-text="facility.type"></p>
-                                    <p class="text-slate-400 text-[9px] truncate mt-1" x-show="facility.address" x-text="facility.address"></p>
-                                </div>
-                            </button>
-                        </template>
-                        <div x-show="filteredFacilities.length === 0" 
-                             class="col-span-full"
-                             x-cloak>
-                            <x-empty-state
-                                icon="fa-solid fa-location-dot"
-                                title="Fasilitas Tidak Ditemukan"
-                                :compact="true"
-                            />
+                            <div x-show="filteredFacilities.length === 0" 
+                                 class="col-span-full"
+                                 x-cloak>
+                                <x-empty-state
+                                    icon="fa-solid fa-location-dot"
+                                    title="Fasilitas Tidak Ditemukan"
+                                    :compact="true"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                {{-- Detail Information Card --}}
+                <div id="dusunInfoCard" class="bg-white rounded-[32px] p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col gap-5 transition-all duration-300 relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-slate-300" id="infoCardBorder"></div>
+                    
+                    <div class="pl-2">
+                        <span class="inline-flex items-center gap-1.5 bg-slate-100 text-slate-600 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider mb-2" id="infoBadge">
+                            <i class="fa-solid fa-map"></i> Klik Area Peta
+                        </span>
+                        <h4 class="text-xl font-heading font-extrabold text-slate-900 leading-tight" id="infoTitle">Detail Informasi</h4>
+                        <p class="text-slate-500 text-xs font-semibold mt-1" id="infoSubtitle">Pilih area Dusun atau marker Fasilitas Umum pada peta untuk melihat detail informasi.</p>
+                    </div>
+
+                    {{-- Stats grid, initially hidden --}}
+                    <div id="infoStatsGrid" class="hidden grid grid-cols-1 gap-3.5 pl-2">
+                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80">
+                            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Kepala Dusun</p>
+                            <p class="text-slate-800 font-bold text-sm" id="infoHead">-</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80">
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Penduduk</p>
+                                <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1" id="infoPopulation">0</p>
+                                <p class="text-slate-500 text-[10px] font-bold mt-1">Jiwa</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80">
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Keluarga</p>
+                                <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1" id="infoFamilies">0</p>
+                                <p class="text-slate-500 text-[10px] font-bold mt-1">KK</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            {{-- Detail Information Card --}}
-            <div id="dusunInfoCard" class="bg-white rounded-[32px] p-6 border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col gap-5 transition-all duration-500 relative overflow-hidden group">
-                <div class="absolute top-0 left-0 w-2 h-full bg-slate-300" id="infoCardBorder"></div>
-                
-                <div class="pl-2">
-                    <span class="inline-flex items-center gap-1.5 bg-slate-100 text-slate-500 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider mb-2" id="infoBadge">
-                        <i class="fa-solid fa-map"></i> Klik Area Peta
-                    </span>
-                    <h4 class="text-xl font-heading font-extrabold text-slate-900 leading-tight" id="infoTitle">Detail Informasi</h4>
-                    <p class="text-slate-400 text-xs font-semibold mt-1" id="infoSubtitle">Pilih area Dusun atau marker Fasilitas Umum pada peta untuk melihat detail informasi.</p>
-                </div>
-
-                {{-- Stats grid, initially hidden --}}
-                <div id="infoStatsGrid" class="hidden grid grid-cols-1 gap-3.5 pl-2">
-                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100/50">
-                        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Kepala Dusun</p>
-                        <p class="text-slate-800 font-bold text-sm" id="infoHead">-</p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100/50">
-                            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Penduduk</p>
-                            <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1" id="infoPopulation">0</p>
-                            <p class="text-slate-400 text-[10px] font-bold mt-1">Jiwa</p>
-                        </div>
-                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100/50">
-                            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Keluarga</p>
-                            <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1" id="infoFamilies">0</p>
-                            <p class="text-slate-400 text-[10px] font-bold mt-1">KK</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
@@ -356,9 +358,9 @@
                 // Bind Popup
                 const popupContent = `
                     <div class="p-2 text-slate-800 font-sans">
-                        <h5 class="font-heading font-black text-sm text-emerald-800 mb-1">Dusun ${dusun.name}</h5>
+                        <h5 class="font-heading font-black text-sm text-primary-700 mb-1">Dusun ${dusun.name}</h5>
                         <p class="text-xs font-semibold text-slate-500 mb-2">Kepala Dusun: <strong>${dusun.head_name || '-'}</strong></p>
-                        <div class="grid grid-cols-2 gap-2 text-center bg-slate-50 p-2 rounded-lg border border-slate-100">
+                        <div class="grid grid-cols-2 gap-2 text-center bg-slate-50 p-2 rounded-lg border border-slate-200/80">
                             <div>
                                 <p class="text-[9px] font-black uppercase text-slate-400">Penduduk</p>
                                 <p class="text-xs font-bold text-slate-900">${dusun.citizens_count} Jiwa</p>

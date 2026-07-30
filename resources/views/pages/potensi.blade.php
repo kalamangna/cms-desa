@@ -89,7 +89,7 @@
             <button type="button"
                     @click="activeCategory = cat"
                     :class="activeCategory === cat ? 'bg-primary-600 text-white shadow-xl shadow-primary-600/20' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'"
-                    class="px-5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                    class="px-5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
                     x-text="cat">
             </button>
         </template>

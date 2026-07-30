@@ -11,22 +11,22 @@
 ═══════════════════════════════════════════════════════ --}}
 <div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
-                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                    <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1 py-0.5">
                         <i class="fa-solid fa-house text-[10px]"></i> Beranda
                     </a>
                 </li>
                 <li class="flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <i class="fa-solid fa-chevron-right text-[9px] text-primary-500/40"></i>
                     <span class="text-white">Statistik</span>
                 </li>
             </ol>
@@ -35,19 +35,19 @@
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
                 <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
-                    Statistik <span class="text-emerald-500 italic">Desa</span>
+                    Statistik <span class="text-primary-500 italic">Desa</span>
                 </h1>
-                <p class="text-slate-300 text-lg mt-2">
+                <p class="text-slate-300 text-lg mt-2 leading-relaxed">
                     Data kependudukan, sosial, dan ekonomi Desa.
                 </p>
             </div>
             {{-- Live indicator --}}
             <div class="flex items-center gap-3 bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit mb-2">
                 <span class="relative flex h-3 w-3">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-primary-500"></span>
                 </span>
-                <span class="text-emerald-400 text-xs font-black uppercase tracking-widest">Live Data</span>
+                <span class="text-primary-400 text-xs font-black uppercase tracking-widest">Live Data</span>
                 <span class="text-slate-400 text-xs font-medium">{{ date('d M Y') }}</span>
             </div>
         </div>
@@ -75,50 +75,50 @@
             {{-- ─── SUMMARY CARDS ─────────────────────────────────────────── --}}
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
                 {{-- Total Penduduk --}}
-                <div class="bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl p-6 text-white shadow-xl shadow-emerald-600/30 flex flex-col justify-between min-h-[120px]">
-                    <span class="text-emerald-200 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                <div class="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-6 text-white shadow-lg shadow-primary-900/10 flex flex-col justify-between min-h-[120px]">
+                    <span class="text-primary-200 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
                         <i class="fa-solid fa-users text-xs"></i> Total Penduduk
                     </span>
                     <div>
                         <span class="text-3xl md:text-4xl font-extrabold block leading-none">{{ number_format($summaryCards['total_penduduk'], 0, ',', '.') }}</span>
-                        <span class="text-emerald-200 text-[10px] font-semibold mt-2 block">jiwa aktif {{ $summaryCards['latest_year'] }}</span>
+                        <span class="text-primary-200 text-[10px] font-semibold mt-2 block">jiwa aktif {{ $summaryCards['latest_year'] }}</span>
                     </div>
                 </div>
 
                 {{-- YoY Growth --}}
-                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between min-h-[120px]">
-                    <span class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
-                        <i class="fa-solid fa-chart-line text-emerald-500 text-xs"></i> Pertumbuhan YoY
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs flex flex-col justify-between min-h-[120px]">
+                    <span class="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                        <i class="fa-solid fa-chart-line text-primary-600 text-xs"></i> Pertumbuhan YoY
                     </span>
                     <div>
                         @if(!is_null($summaryCards['yoy_growth']))
                             @php $yoy = $summaryCards['yoy_growth']; @endphp
-                            <span class="text-3xl font-extrabold block leading-none {{ $yoy >= 0 ? 'text-emerald-600' : 'text-rose-500' }}">
+                            <span class="text-3xl font-extrabold block leading-none {{ $yoy >= 0 ? 'text-primary-700' : 'text-rose-600' }}">
                                 {{ $yoy >= 0 ? '+' : '' }}{{ number_format($yoy, 2, ',', '.') }}%
                             </span>
-                            <span class="text-slate-400 text-[10px] font-semibold mt-2 block">vs {{ $summaryCards['latest_year'] - 1 }}</span>
+                            <span class="text-slate-500 text-[10px] font-semibold mt-2 block">vs {{ $summaryCards['latest_year'] - 1 }}</span>
                         @else
                             <span class="text-2xl font-extrabold block leading-none text-slate-300">—</span>
-                            <span class="text-slate-400 text-[10px] font-semibold mt-2 block">data historis belum ada</span>
+                            <span class="text-slate-500 text-[10px] font-semibold mt-2 block">data historis belum ada</span>
                         @endif
                     </div>
                 </div>
 
                 {{-- Tahun Terkini --}}
-                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between min-h-[120px]">
-                    <span class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
-                        <i class="fa-regular fa-calendar text-emerald-500 text-xs"></i> Tahun Data
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs flex flex-col justify-between min-h-[120px]">
+                    <span class="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                        <i class="fa-regular fa-calendar text-primary-600 text-xs"></i> Tahun Data
                     </span>
                     <div>
                         <span class="text-3xl font-extrabold text-slate-900 block leading-none">{{ $summaryCards['latest_year'] }}</span>
-                        <span class="text-slate-400 text-[10px] font-semibold mt-2 block">data real-time</span>
+                        <span class="text-slate-500 text-[10px] font-semibold mt-2 block">data real-time</span>
                     </div>
                 </div>
 
                 {{-- Dusun Terbanyak --}}
-                <div class="bg-slate-900 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[120px]">
+                <div class="bg-slate-900 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[120px] shadow-xs">
                     <span class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
-                        <i class="fa-solid fa-location-dot text-emerald-400 text-xs"></i> Dusun Terbanyak
+                        <i class="fa-solid fa-location-dot text-primary-400 text-xs"></i> Dusun Terbanyak
                     </span>
                     <div>
                         <span class="text-lg font-extrabold block leading-snug">{{ $summaryCards['top_dusun'] }}</span>
@@ -134,7 +134,7 @@
             <select
                 x-model="activeTab"
                 @change="onCategoryChange($event.target.value)"
-                class="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-5 py-3.5 pr-10 text-sm font-bold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                class="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-5 py-3.5 pr-10 text-sm font-bold text-slate-800 shadow-xs focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 id="stat-category-select"
                 aria-label="Pilih Kategori Statistik">
                 @foreach($categories as $category)
@@ -152,10 +152,10 @@
 
         {{-- ── SIDEBAR (desktop only) ──────────────────────────────────── --}}
         <aside class="hidden md:block w-64 flex-shrink-0 sticky top-24 self-start">
-            <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
                 <div class="px-5 pt-5 pb-3">
-                    <span class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-400 flex items-center gap-1.5">
-                        <i class="fa-solid fa-layer-group text-emerald-500"></i> Kategori
+                    <span class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-500 flex items-center gap-1.5">
+                        <i class="fa-solid fa-layer-group text-primary-600"></i> Kategori
                     </span>
                 </div>
                 <nav class="pb-3">
@@ -163,18 +163,18 @@
                     <button
                         @click="onCategoryChange('{{ $category->slug }}')"
                         :class="activeTab === '{{ $category->slug }}'
-                            ? 'bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500'
-                            : 'text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900'"
-                        class="w-full text-left flex items-center justify-between gap-2 px-5 py-3 text-sm font-semibold transition-all duration-200"
+                            ? 'bg-primary-50/80 text-primary-700 font-extrabold border-l-4 border-primary-600'
+                            : 'text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900 font-semibold'"
+                        class="w-full text-left flex items-center justify-between gap-2 px-5 py-3 text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
                         id="sidebar-tab-{{ $category->slug }}">
-                        <span class="flex items-center gap-2 leading-snug">
-                            <i class="fa-solid fa-chart-bar text-[10px] flex-shrink-0"
-                               :class="activeTab === '{{ $category->slug }}' ? 'text-emerald-500' : 'text-slate-300'"></i>
+                        <span class="flex items-center gap-2.5 leading-snug">
+                            <i class="fa-solid fa-chart-bar text-[11px] flex-shrink-0"
+                               :class="activeTab === '{{ $category->slug }}' ? 'text-primary-600' : 'text-slate-400'"></i>
                             {{ $category->name }}
                         </span>
                         <span
-                            :class="activeTab === '{{ $category->slug }}' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'"
-                            class="text-[10px] font-black px-2 py-0.5 rounded-full flex-shrink-0 transition-all duration-200">
+                            :class="activeTab === '{{ $category->slug }}' ? 'bg-primary-100 text-primary-800 font-black' : 'bg-slate-100 text-slate-500 font-bold'"
+                            class="text-[10px] px-2 py-0.5 rounded-full flex-shrink-0 transition-all duration-200">
                             {{ $category->indicators->count() }}
                         </span>
                     </button>
@@ -189,8 +189,8 @@
                         @if($dusuns->count() > 0)
                         {{-- Filter Dusun --}}
                         <div class="mb-4">
-                            <label for="filter-dusun-select" class="block text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 flex items-center gap-1.5">
-                                <i class="fa-solid fa-location-dot text-emerald-500"></i> Filter Dusun
+                            <label for="filter-dusun-select" class="block text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-dot text-primary-600"></i> Filter Dusun
                             </label>
                             <div class="relative">
                                 <select
@@ -199,7 +199,7 @@
                                     name="dusun_id"
                                     @change="onFilterChange()"
                                     x-model="selectedDusun"
-                                    class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 pr-8 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                                    class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 pr-8 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
                                     <option value="">Semua Dusun</option>
                                     @foreach($dusuns as $dusun)
                                         <option value="{{ $dusun->id }}">{{ $dusun->name }}</option>
@@ -254,28 +254,28 @@
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8">
                     <div>
                         <div class="flex items-center gap-3 mb-2">
-                            <div class="h-px w-6 bg-emerald-500"></div>
-                            <span class="text-emerald-600 font-black text-[10px] uppercase tracking-[0.25em]">Visualisasi Data</span>
+                            <div class="h-px w-6 bg-primary-600"></div>
+                            <span class="text-primary-700 font-black text-[10px] uppercase tracking-[0.25em]">Visualisasi Data</span>
                         </div>
                         <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900" x-text="'{{ addslashes($category->name) }}' + getDusunTitleSuffix()">{{ $category->name }}</h2>
                         @if($category->description)
-                        <p class="text-slate-500 text-sm mt-1">{{ $category->description }}</p>
+                        <p class="text-slate-600 text-sm mt-1 leading-relaxed">{{ $category->description }}</p>
                         @endif
                     </div>
-                    <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
-                        <i class="fa-regular fa-calendar-check text-emerald-500"></i>
+                    <div class="flex items-center gap-2 text-slate-500 text-xs font-semibold">
+                        <i class="fa-regular fa-calendar-check text-primary-600"></i>
                         Diperbarui {{ date('d M Y') }}
                     </div>
                 </div>
 
                 {{-- ── CHART CONTAINER ───────────────────────────────────── --}}
-                <div class="bg-white rounded-[28px] border border-slate-100 shadow-sm overflow-hidden p-6 md:p-8 mb-6">
+                <div class="bg-white rounded-[28px] border border-slate-200 shadow-xs overflow-hidden p-6 md:p-8 mb-6">
 
                     {{-- Toolbar --}}
                     <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
                         <div>
                             <h3 class="text-base font-heading font-extrabold text-slate-900" x-text="'Grafik {{ addslashes($category->name) }}' + getDusunTitleSuffix()">Grafik {{ $category->name }}</h3>
-                            <p class="text-slate-400 text-xs font-medium mt-0.5">{{ $totalIndicators }} indikator &mdash; {{ $allYears->count() > 1 ? $allYears->first() . '–' . $allYears->last() : ($allYears->first() ?? date('Y')) }}</p>
+                            <p class="text-slate-500 text-xs font-medium mt-0.5">{{ $totalIndicators }} indikator &mdash; {{ $allYears->count() > 1 ? $allYears->first() . '–' . $allYears->last() : ($allYears->first() ?? date('Y')) }}</p>
                         </div>
 
                         {{-- Controls --}}
@@ -289,7 +289,7 @@
                                         aria-label="Bandingkan Tahun"
                                         x-model="compareYear"
                                         @change="renderChart()"
-                                        class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
+                                        class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer">
                                     <option value="none">Bandingkan...</option>
                                     @foreach($allYears as $yr)
                                     <option value="{{ $yr }}">vs {{ $yr }}</option>
@@ -303,8 +303,8 @@
 
                             {{-- Toggle Persentase --}}
                             <button @click="showPercent = !showPercent; renderChart()"
-                                    :class="showPercent ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-300'"
-                                    class="px-3 py-2 rounded-xl text-xs font-bold border transition-all duration-200 flex items-center gap-1.5">
+                                    :class="showPercent ? 'bg-primary-600 text-white border-primary-600 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:border-primary-400'"
+                                    class="px-3.5 py-2 rounded-xl text-xs font-bold border transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 flex items-center gap-1.5 cursor-pointer">
                                 <i class="fa-solid fa-percent text-[10px]"></i>
                                 <span x-text="showPercent ? 'Persentase' : 'Jumlah'"></span>
                             </button>
@@ -373,11 +373,11 @@
                         {{-- Tombol Ekspor --}}
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open" @click.outside="open = false"
-                                    class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 border border-slate-200 text-slate-600 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200">
-                                <i class="fa-solid fa-download text-[10px]"></i>
+                                    :aria-expanded="open"
+                                    class="inline-flex items-center gap-1.5 px-3.5 py-2.5 min-h-[40px] rounded-xl text-xs font-bold bg-slate-100 border border-slate-200 text-slate-700 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 cursor-pointer">
+                                <i class="fa-solid fa-download text-[11px]"></i>
                                 <span>Ekspor</span>
-                                <i class="fa-solid fa-chevron-down text-[8px]" :class="open ? 'rotate-180' : ''"
-                                   style="transition: transform .2s"></i>
+                                <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
                             </button>
                             <div x-show="open" x-transition
                                  class="absolute right-0 mt-1.5 w-40 bg-white rounded-2xl shadow-xl border border-slate-100 py-1.5 z-30">

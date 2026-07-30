@@ -2,6 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.63] - 2026-07-31
+
+### Changed
+- **Penyelarasan Total Sistem Desain (DESIGN.md)**:
+  - Merapikan dan menyelaraskan 15+ halaman publik (Beranda, Pengumuman, APBDes, Dataset, Dokumen, Galeri, Kontak, Layanan Mandiri, Pengaduan Warga, Peta Spasial, Potensi Desa, Berita, Publikasi Data, Statistik, dan Buku Tamu) mengacu pada pedoman `DESIGN.md`.
+  - Mengubah Hero Section, Breadcrumbs, dan aksen warna statis `emerald` di seluruh halaman publik menjadi token warna tema dinamis `primary` (`primary-500` / `primary-600` / `primary-400`).
+  - Menyelaraskan elevasi kontainer dan kartu statis menjadi `border border-slate-200/80 shadow-lg shadow-slate-200/50` atau `shadow-xs` tanpa efek melayang (*no floating hover on static cards*) sesuai Poin 6.3 DESIGN.md.
+  - Memastikan seluruh tombol aksi interaktif mendukung 6 kondisi antarmuka (`hover`, `focus-visible:ring-2`, `active:scale-95`, `disabled`, `loading`).
+  - Menyempurnakan Modal Popup Sukses (pada Layanan, Pengaduan, dan Buku Tamu) dengan tombol silang penutup (X) di luar modal.
+
 ## [1.26.62] - 2026-07-31
 
 ### Added

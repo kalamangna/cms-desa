@@ -168,11 +168,11 @@
                     Pemerintahan yang transparan, akuntabel, dan berbasis data presisi untuk kemajuan seluruh warga desa.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-primary-700 hover:bg-primary-800 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-xl shadow-primary-900/40 transition duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-slate-900" aria-label="Lihat Dashboard Statistik Desa">
+                    <a href="/statistik" class="group inline-flex items-center justify-center gap-3 bg-primary-600 hover:bg-primary-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 text-white font-bold text-base px-8 py-4 rounded-2xl shadow-lg shadow-primary-900/30 transition-all duration-200" aria-label="Lihat Dashboard Statistik Desa">
                         <i class="fa-solid fa-chart-pie group-hover:rotate-12 transition-transform"></i>
                         Dashboard Statistik
                     </a>
-                    <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl border border-white/20 transition duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-slate-900">
+                    <a href="/layanan" class="group inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md hover:bg-white/20 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 text-white font-bold text-base px-8 py-4 rounded-2xl border border-white/20 transition-all duration-200">
                         <i class="fa-solid fa-file-signature"></i>
                         Layanan Mandiri
                     </a>
@@ -222,54 +222,54 @@
 </div>
 
 {{-- 2. STAT CARDS --}}
-<div class="relative z-20 mt-16 lg:-mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="relative z-20 mt-12 lg:-mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 
         {{-- Penduduk --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-xs border border-slate-200/80 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 flex-shrink-0 mx-auto sm:mx-0 shadow-xs">
                 <i class="fa-solid fa-users text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Penduduk</p>
+                <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Penduduk</p>
                 <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalPenduduk, 0, ',', '.') }}</p>
-                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">Jiwa</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 font-medium mt-1">Jiwa</p>
             </div>
         </div>
 
         {{-- Keluarga --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-xs border border-slate-200/80 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 flex-shrink-0 mx-auto sm:mx-0 shadow-xs">
                 <i class="fa-solid fa-house-chimney text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Keluarga</p>
+                <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Keluarga</p>
                 <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalKeluarga, 0, ',', '.') }}</p>
-                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">Kepala Keluarga</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 font-medium mt-1">Kepala Keluarga</p>
             </div>
         </div>
 
         {{-- Dusun --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-xs border border-slate-200/80 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 flex-shrink-0 mx-auto sm:mx-0 shadow-xs">
                 <i class="fa-solid fa-map-location-dot text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Dusun</p>
+                <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Dusun</p>
                 <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ number_format($totalDusun, 0, ',', '.') }}</p>
-                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">{{ $totalRT }} RT / {{ $totalRW }} RW</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 font-medium mt-1">{{ $totalRT }} RT / {{ $totalRW }} RW</p>
             </div>
         </div>
 
         {{-- Luas Wilayah --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-xs border border-slate-200/80 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 flex-shrink-0 mx-auto sm:mx-0 shadow-xs">
                 <i class="fa-solid fa-ruler-combined text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
+                <p class="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
                 <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 leading-none">{{ $site_settings['village_area'] ?? '—' }}</p>
-                <p class="text-[10px] sm:text-xs text-slate-500 mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
+                <p class="text-[10px] sm:text-xs text-slate-500 font-medium mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
             </div>
         </div>
 
@@ -279,43 +279,39 @@
 {{-- 2.5 MENU LAYANAN CEPAT --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-20">
     <div class="text-center mb-10">
-        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Akses <span class="text-primary-700">Layanan Cepat</span></h2>
-        <p class="text-slate-500 text-sm mt-2">Pilih layanan yang Anda butuhkan di bawah ini</p>
+        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Akses <span class="text-primary-600">Layanan Cepat</span></h2>
+        <p class="text-slate-500 text-sm mt-2 font-medium">Pilih layanan yang Anda butuhkan di bawah ini</p>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-primary-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
+        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100/80 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 transition-all duration-300 shadow-xs">
                 <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-primary-700 transition-colors">Layanan Mandiri</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-900 text-base md:text-lg mb-2 group-hover:text-primary-600 transition-colors">Layanan Mandiri</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Panduan dan pengajuan administrasi kependudukan</p>
         </a>
         
-        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
+        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100/80 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 transition-all duration-300 shadow-xs">
                 <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-primary-700 transition-colors">Lapor & Pengaduan</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-900 text-base md:text-lg mb-2 group-hover:text-primary-600 transition-colors">Lapor & Pengaduan</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Sampaikan aspirasi atau laporan masalah warga</p>
         </a>
         
-        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-sky-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
+        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100/80 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 transition-all duration-300 shadow-xs">
                 <i class="fa-solid fa-address-book text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-primary-700 transition-colors">Buku Tamu</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-900 text-base md:text-lg mb-2 group-hover:text-primary-600 transition-colors">Buku Tamu</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Tinggalkan pesan, kesan, atau saran untuk desa</p>
         </a>
         
-        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
+        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100/80 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 transition-all duration-300 shadow-xs">
                 <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-primary-700 transition-colors">Potensi Desa</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-900 text-base md:text-lg mb-2 group-hover:text-primary-600 transition-colors">Potensi Desa</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Eksplorasi pariwisata, budaya, dan komoditas lokal</p>
         </a>
     </div>
@@ -323,30 +319,30 @@
 
 {{-- 3. SAMBUTAN KEPALA DESA --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
-    <div class="bg-white rounded-[32px] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100 relative">
+    <div class="bg-white rounded-[32px] shadow-lg shadow-slate-200/50 overflow-hidden border border-slate-200/80 relative">
         {{-- Decorative Quote Mark in Background --}}
-        <div class="absolute -top-12 -right-12 text-primary-50/50 pointer-events-none z-0">
+        <div class="absolute -top-12 -right-12 text-primary-50/60 pointer-events-none z-0">
             <i class="fa-solid fa-quote-right text-[200px] md:text-[300px]"></i>
         </div>
 
         <div class="p-8 md:p-16 lg:p-20 relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
             <div class="flex items-center gap-3 mb-6 justify-center">
                 <div class="h-px w-8 bg-primary-600"></div>
-                <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
+                <span class="text-primary-600 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
                 <div class="h-px w-8 bg-primary-600"></div>
             </div>
             <h2 class="text-2xl md:text-4xl font-heading font-extrabold text-slate-900 mb-10 leading-tight">
                 {{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}
             </h2>
-            <div class="prose prose-slate prose-p:mb-6 prose-p:last:mb-0 text-slate-500 text-base md:text-lg leading-relaxed italic mb-12 max-w-3xl text-center mx-auto">
+            <div class="prose prose-slate prose-p:mb-6 prose-p:last:mb-0 text-slate-600 text-base md:text-lg leading-relaxed italic mb-12 max-w-3xl text-center mx-auto font-medium">
                 {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' !!}
             </div>
             <div class="flex flex-col items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center text-primary-600">
+                <div class="w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shadow-xs">
                     <i class="fa-solid fa-signature text-lg"></i>
                 </div>
                 <div>
-                    <p class="font-heading font-bold text-lg text-slate-900">{{ $villageHead?->name ?? 'Nama Kepala Desa' }}</p>
+                    <p class="font-heading font-extrabold text-lg text-slate-900">{{ $villageHead?->name ?? 'Nama Kepala Desa' }}</p>
                     <p class="text-slate-500 text-sm font-medium">Kepala Desa {{ $site_settings['village_name'] ?? '' }}</p>
                 </div>
             </div>
@@ -357,28 +353,28 @@
 {{-- 4. DATA DEMOGRAFI --}}
 <div class="bg-slate-50 py-16 md:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-6">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="h-px w-8 bg-primary-500"></div>
-                    <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
+                    <div class="h-px w-8 bg-primary-600"></div>
+                    <span class="text-primary-600 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Statistik & <span class="text-primary-700">APBDes</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Statistik & <span class="text-primary-600">APBDes</span></h2>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {{-- Grafik Demografi Penduduk --}}
-            <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+            <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden">
                 <div class="p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                         <h3 class="font-heading font-extrabold text-xl text-slate-900" id="chartCardTitle">Demografi Penduduk</h3>
-                        <p class="text-slate-500 text-sm mt-1" id="chartCardSubtitle">Perbandingan jumlah laki-laki dan perempuan aktif</p>
+                        <p class="text-slate-500 text-sm mt-1 font-medium" id="chartCardSubtitle">Perbandingan jumlah laki-laki dan perempuan aktif</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="relative">
                             <label for="homeChartType" class="sr-only">Tipe Grafik Demografi</label>
-                            <select id="homeChartType" aria-label="Tipe Grafik Demografi" class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-2 focus:ring-primary-400 cursor-pointer">
+                            <select id="homeChartType" aria-label="Tipe Grafik Demografi" class="appearance-none bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all cursor-pointer">
                                 <option value="gender">Jenis Kelamin</option>
                                 <option value="job">Status Pekerjaan</option>
                                 <option value="education">Pendidikan</option>
@@ -387,9 +383,10 @@
                                 <i class="fa-solid fa-chevron-down text-[8px]"></i>
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-primary-700 bg-primary-50 px-3 py-1.5 rounded-full border border-primary-100">{{ date('Y') }}</span>
+                        <span class="text-xs font-bold text-primary-700 bg-primary-50 px-3 py-1.5 rounded-full border border-primary-100 shadow-xs">{{ date('Y') }}</span>
                     </div>
-                </div>                <div class="p-8">
+                </div>
+                <div class="p-8">
                     @if($lakiLakiCount == 0 && $perempuanCount == 0)
                         <div class="h-72 flex flex-col items-center justify-center text-center p-4">
                             <i class="fa-solid fa-users-slash text-slate-300 text-4xl mb-3"></i>
@@ -399,26 +396,26 @@
                     @else
                         <div class="h-72"><div id="populationChart"></div></div>
                     @endif
-                    <a href="/statistik" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200">
-                        <i class="fa-solid fa-chart-line"></i> Statistik Lengkap
+                    <a href="/statistik" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-700 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 cursor-pointer">
+                        <i class="fa-solid fa-chart-line text-xs"></i> Statistik Lengkap
                     </a>
                 </div>
             </div>
 
             {{-- APBDes --}}
-            <div class="lg:col-span-5 bg-slate-900 rounded-3xl text-white overflow-hidden flex flex-col">
+            <div class="lg:col-span-5 bg-slate-900 rounded-3xl text-white overflow-hidden flex flex-col shadow-xl">
                 <div class="p-8 border-b border-white/10 flex justify-between items-center">
                     <div>
                         <h3 class="font-heading font-extrabold text-xl text-white">APBDes {{ date('Y') }}</h3>
-                        <p class="text-slate-400 text-sm mt-1">Realisasi anggaran desa berjalan</p>
+                        <p class="text-slate-400 text-sm mt-1 font-medium">Realisasi anggaran desa berjalan</p>
                     </div>
                 </div>
                 <div class="p-8 flex-1 flex flex-col justify-between">
                     <div>
-                        <div class="mb-5">
+                        <div class="mb-6">
                             <div class="flex justify-between items-center mb-3">
                                 <span class="font-bold text-emerald-400 text-sm">Total Pendapatan</span>
-                                <span class="text-sm font-bold text-white">{{ number_format($pendapatanPct, 1, ',', '.') }}%</span>
+                                <span class="text-sm font-extrabold text-white">{{ number_format($pendapatanPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
                                 <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
@@ -428,7 +425,7 @@
                         <div class="mb-8">
                             <div class="flex justify-between items-center mb-3">
                                 <span class="font-bold text-sky-400 text-sm">Total Belanja</span>
-                                <span class="text-sm font-bold text-white">{{ number_format($belanjaPct, 1, ',', '.') }}%</span>
+                                <span class="text-sm font-extrabold text-white">{{ number_format($belanjaPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
                                 <div class="h-full bg-sky-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
@@ -437,8 +434,8 @@
                         </div>
                     </div>
                     
-                    <a href="/apbdes" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold text-slate-300 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200">
-                        <i class="fa-solid fa-file-invoice-dollar"></i> Detail Transparansi
+                    <a href="/apbdes" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-white/10 hover:bg-primary-600 border border-white/10 hover:border-primary-600 text-sm font-bold text-white active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-all duration-200 cursor-pointer">
+                        <i class="fa-solid fa-file-invoice-dollar text-xs"></i> Detail Transparansi
                     </a>
                 </div>
             </div>
@@ -449,21 +446,21 @@
 {{-- 5. BERITA & PENGUMUMAN --}}
 <div class="bg-white py-16 md:py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-6">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="h-px w-8 bg-primary-500"></div>
-                    <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
+                    <div class="h-px w-8 bg-primary-600"></div>
+                    <span class="text-primary-600 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Berita & <span class="text-primary-700">Pengumuman</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Berita & <span class="text-primary-600">Pengumuman</span></h2>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div class="lg:col-span-8 space-y-8">
                 @if($featuredPost)
-                <a href="/berita/{{ $featuredPost->slug }}" class="block group focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-3xl">
-                    <div class="relative rounded-3xl overflow-hidden aspect-[16/9] mb-6 shadow-xl">
+                <a href="/berita/{{ $featuredPost->slug }}" class="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 rounded-3xl cursor-pointer">
+                    <div class="relative rounded-3xl overflow-hidden aspect-[16/9] mb-6 shadow-lg border border-slate-200/80">
                         <img src="{{ $featuredPost->featured_image ? asset('storage/' . $featuredPost->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                              alt="{{ $featuredPost->title }}"
@@ -471,12 +468,12 @@
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                         <div class="absolute top-6 left-6">
-                            <span class="bg-primary-700 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">Berita Utama</span>
+                            <span class="bg-primary-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">Berita Utama</span>
                         </div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <p class="text-primary-400 text-xs font-bold uppercase tracking-widest mb-2">{{ $featuredPost->published_at->translatedFormat('d M Y') }}</p>
                             <h3 class="text-white font-heading font-extrabold text-xl md:text-2xl leading-snug line-clamp-2 group-hover:text-primary-300 transition mb-2">{{ $featuredPost->title }}</h3>
-                            <p class="text-white/80 text-sm line-clamp-2 hidden md:block">{!! Str::limit(strip_tags($featuredPost->content), 120) !!}</p>
+                            <p class="text-white/80 text-sm line-clamp-2 hidden md:block font-medium">{!! Str::limit(strip_tags($featuredPost->content), 120) !!}</p>
                         </div>
                     </div>
                 </a>
@@ -484,21 +481,20 @@
 
                 <div class="space-y-4">
                     @forelse($recentPosts as $post)
-                    <a href="/berita/{{ $post->slug }}" class="flex gap-5 group items-center p-4 rounded-2xl hover:bg-slate-50 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 -mx-4">
-                        <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-slate-100">
+                    <a href="/berita/{{ $post->slug }}" class="flex gap-5 group items-center p-4 rounded-2xl hover:bg-slate-50 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 -mx-4 cursor-pointer">
+                        <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200/80">
                             <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                  alt="{{ $post->title }}"
                                  loading="lazy"
                                  onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
-
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-primary-700 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
-                            <h4 class="font-heading font-bold text-slate-900 text-base leading-snug group-hover:text-primary-700 transition line-clamp-2 mb-1.5">{{ $post->title }}</h4>
-                            <p class="text-slate-500 text-xs line-clamp-2">{!! Str::limit(strip_tags($post->content), 100) !!}</p>
+                            <p class="text-primary-600 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
+                            <h4 class="font-heading font-extrabold text-slate-900 text-base leading-snug group-hover:text-primary-600 transition line-clamp-2 mb-1.5">{{ $post->title }}</h4>
+                            <p class="text-slate-500 text-xs line-clamp-2 font-medium">{!! Str::limit(strip_tags($post->content), 100) !!}</p>
                         </div>
-                        <i class="fa-solid fa-arrow-right text-slate-200 group-hover:text-primary-700 group-hover:translate-x-1 transition-all flex-shrink-0 hidden md:block"></i>
+                        <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-primary-600 group-hover:translate-x-1 transition-all flex-shrink-0 hidden md:block"></i>
                     </a>
                     @empty
                         @if(!$featuredPost)
@@ -511,26 +507,26 @@
                     @endforelse
                 </div>
 
-                <a href="/berita" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200">
-                    Semua Berita <i class="fa-solid fa-arrow-right"></i>
+                <a href="/berita" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-700 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 cursor-pointer">
+                    Semua Berita <i class="fa-solid fa-arrow-right text-xs"></i>
                 </a>
             </div>
 
             <div class="lg:col-span-4">
-                <div class="sticky top-24 bg-slate-50 border border-slate-200 rounded-3xl p-7 flex flex-col">
+                <div class="sticky top-24 bg-slate-50 border border-slate-200/80 rounded-3xl p-7 flex flex-col shadow-xs">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="font-heading font-extrabold text-lg text-slate-900">Pengumuman</h3>
                     </div>
                     <div class="space-y-4 flex-1">
                         @forelse($announcements as $ann)
-                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-primary-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200">
+                        <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:border-primary-300 hover:bg-primary-50/40 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 cursor-pointer">
                             <div class="flex items-start gap-3">
-                                <div class="w-9 h-9 rounded-xl bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <i class="fa-solid fa-bullhorn text-primary-600 text-xs"></i>
+                                <div class="w-9 h-9 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                                    <i class="fa-solid fa-bullhorn text-xs"></i>
                                 </div>
                                 <div class="min-w-0">
                                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{{ $ann->published_at->translatedFormat('d M Y') }}</p>
-                                    <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2">{{ $ann->title }}</h4>
+                                    <h4 class="font-extrabold text-slate-900 text-sm leading-snug line-clamp-2">{{ $ann->title }}</h4>
                                 </div>
                             </div>
                         </a>
@@ -543,8 +539,8 @@
                         @endforelse
                     </div>
 
-                    <a href="/pengumuman" class="mt-8 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200">
-                        Semua Pengumuman <i class="fa-solid fa-arrow-right"></i>
+                    <a href="/pengumuman" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-700 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 cursor-pointer">
+                        Semua Pengumuman <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
                 </div>
             </div>
@@ -601,10 +597,10 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="h-px w-8 bg-primary-500"></div>
-                    <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi Desa</span>
+                    <div class="h-px w-8 bg-primary-600"></div>
+                    <span class="text-primary-600 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi Desa</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri <span class="text-primary-700">Foto & Video</span></h2>
+                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri <span class="text-primary-600">Foto & Video</span></h2>
             </div>
         </div>
 
@@ -618,7 +614,7 @@
         @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($galleries as $idx => $gallery)
-            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-md aspect-[4/3] cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" tabindex="0"
+            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-sm aspect-[4/3] cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" tabindex="0"
                  @click="openLightboxByIndex({{ $idx }})">
                 <img src="{{ $gallery->image_url }}"
                      class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
@@ -653,8 +649,8 @@
             @endforeach
         </div>
 
-        <a href="/galeri" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-primary-700 hover:text-white hover:border-primary-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 shadow-sm">
-            Semua Galeri <i class="fa-solid fa-arrow-right"></i>
+        <a href="/galeri" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-white border border-slate-200 text-sm font-bold text-slate-700 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 shadow-xs cursor-pointer">
+            Semua Galeri <i class="fa-solid fa-arrow-right text-xs"></i>
         </a>
         @endif
     </div>
