@@ -141,9 +141,9 @@
 
 
     /* Level colors */
-    .oc-lv1 { border-color: var(--color-primary-600); background: linear-gradient(160deg, color-mix(in srgb, var(--color-primary-50) 100%, transparent) 0%, #fff 55%); }
-    .oc-lv1 .oc-name { color: var(--color-primary-600); }
-    .oc-lv1 .oc-photo { border-color: var(--color-primary-300); }
+    .oc-lv1 { border-color: #059669; background: linear-gradient(160deg, #ecfdf5 0%, #fff 55%); }
+    .oc-lv1 .oc-name { color: #059669; }
+    .oc-lv1 .oc-photo { border-color: #6ee7b7; }
     .oc-lv2 { border-color: #0ea5e9; background: linear-gradient(160deg, #f0f9ff 0%, #fff 55%); }
     .oc-lv2 .oc-name { color: #0369a1; }
     .oc-lv2 .oc-photo { border-color: #bae6fd; }
