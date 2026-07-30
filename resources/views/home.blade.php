@@ -607,7 +607,7 @@
         @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($galleries as $idx => $gallery)
-            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-md aspect-[4/3] cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl"
+            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 aspect-[4/3] cursor-pointer transition-colors duration-300 hover:border-emerald-500"
                  @click="openLightboxByIndex({{ $idx }})">
                 <img src="{{ $gallery->image_url }}"
                      class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
@@ -617,13 +617,13 @@
                 
                 @if($gallery->type === 'video')
                     <div class="absolute top-3 left-3 z-20">
-                        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-lg shadow-red-600/40">
+                        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full">
                             <i class="fa-brands fa-youtube text-[10px]"></i>
                             YouTube
                         </span>
                     </div>
                     <div class="absolute inset-0 bg-slate-950/30 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
-                        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center shadow-xl shadow-red-950/40 text-white text-sm">
+                        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white text-sm shadow-sm">
                             <i class="fa-solid fa-play ml-0.5"></i>
                         </div>
                     </div>
