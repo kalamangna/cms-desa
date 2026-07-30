@@ -416,13 +416,13 @@
                         </div>
                         <div class="mb-8">
                             <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-slate-300 text-sm">Total Belanja</span>
+                                <span class="font-bold text-sky-400 text-sm">Total Belanja</span>
                                 <span class="text-sm font-bold text-white">{{ number_format($belanjaPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-slate-400 rounded-full" style="width: {{ $belanjaPct }}%"></div>
+                                <div class="h-full bg-sky-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
                             </div>
-                            <p class="text-xs text-slate-400 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
+                            <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
                         </div>
                     </div>
                     
