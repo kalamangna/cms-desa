@@ -265,17 +265,17 @@
     <style>
         :root {
             --primary-base: {{ $site_settings['primary_color'] }};
-            --color-emerald-50: color-mix(in srgb, var(--primary-base) 5%, #ffffff);
-            --color-emerald-100: color-mix(in srgb, var(--primary-base) 10%, #ffffff);
-            --color-emerald-200: color-mix(in srgb, var(--primary-base) 20%, #ffffff);
-            --color-emerald-300: color-mix(in srgb, var(--primary-base) 30%, #ffffff);
-            --color-emerald-400: color-mix(in srgb, var(--primary-base) 50%, #ffffff);
-            --color-emerald-500: var(--primary-base);
-            --color-emerald-600: color-mix(in srgb, var(--primary-base) 85%, #000000);
-            --color-emerald-700: color-mix(in srgb, var(--primary-base) 70%, #000000);
-            --color-emerald-800: color-mix(in srgb, var(--primary-base) 55%, #000000);
-            --color-emerald-900: color-mix(in srgb, var(--primary-base) 40%, #000000);
-            --color-emerald-950: color-mix(in srgb, var(--primary-base) 25%, #000000);
+            --color-primary-50: color-mix(in srgb, var(--primary-base) 5%, #ffffff);
+            --color-primary-100: color-mix(in srgb, var(--primary-base) 10%, #ffffff);
+            --color-primary-200: color-mix(in srgb, var(--primary-base) 20%, #ffffff);
+            --color-primary-300: color-mix(in srgb, var(--primary-base) 30%, #ffffff);
+            --color-primary-400: color-mix(in srgb, var(--primary-base) 50%, #ffffff);
+            --color-primary-500: var(--primary-base);
+            --color-primary-600: color-mix(in srgb, var(--primary-base) 85%, #000000);
+            --color-primary-700: color-mix(in srgb, var(--primary-base) 70%, #000000);
+            --color-primary-800: color-mix(in srgb, var(--primary-base) 55%, #000000);
+            --color-primary-900: color-mix(in srgb, var(--primary-base) 40%, #000000);
+            --color-primary-950: color-mix(in srgb, var(--primary-base) 25%, #000000);
         }
     </style>
     @endif
