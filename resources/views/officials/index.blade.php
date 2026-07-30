@@ -38,7 +38,7 @@
     .sotk-modal:fullscreen .sotk-modal-header, .sotk-modal:-webkit-full-screen .sotk-modal-header { border-radius: 0; }
     .sotk-modal-actions { display: flex; align-items: center; gap: 5px; }
     .sotk-modal-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #64748b; font-size: 12px; flex-shrink: 0; transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s; }
-    .sotk-modal-btn:hover { background: #ecfdf5; color: #059669; border-color: #6ee7b7; box-shadow: 0 4px 12px rgba(5,150,105,0.15); }
+    .sotk-modal-btn:hover { background: color-mix(in srgb, var(--color-primary-50) 100%, transparent); color: var(--color-primary-600); border-color: var(--color-primary-300); box-shadow: 0 4px 12px color-mix(in srgb, var(--color-primary-600) 15%, transparent); }
     .sotk-modal-btn.btn-close:hover { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
     .sotk-modal-body { flex: 1; min-height: 0; padding: 16px 22px 22px; display: flex; flex-direction: column; gap: 10px; }
     .sotk-hint { font-size: 11px; color: #94a3b8; font-weight: 500; display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
@@ -46,8 +46,8 @@
 
     .sotk-zoom-wrapper:active { cursor: grabbing; }
     .sotk-zoom-content { transform-origin: top center; transition: transform 0.15s ease; }
-    .sotk-trigger-btn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: #059669; font-weight: 700; font-size: 13px; padding: 10px 22px; border-radius: 999px; border: 1.5px solid #059669; cursor: pointer; transition: background 0.2s, color 0.2s, box-shadow 0.2s; }
-    .sotk-trigger-btn:hover { background: #059669; color: #fff; box-shadow: 0 4px 16px rgba(5,150,105,0.25); }
+    .sotk-trigger-btn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: var(--color-primary-600); font-weight: 700; font-size: 13px; padding: 10px 22px; border-radius: 999px; border: 1.5px solid var(--color-primary-600); cursor: pointer; transition: background 0.2s, color 0.2s, box-shadow 0.2s; }
+    .sotk-trigger-btn:hover { background: var(--color-primary-600); color: #fff; box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary-600) 25%, transparent); }
     .sotk-trigger-btn:active { transform: scale(0.97); }
     @media (max-width: 767px) {
         .sotk-trigger-btn { display: none !important; }
@@ -142,9 +142,9 @@
 
 
     /* Level colors */
-    .oc-lv1 { border-color: #059669; background: linear-gradient(160deg, #ecfdf5 0%, #fff 55%); }
-    .oc-lv1 .oc-name { color: #059669; }
-    .oc-lv1 .oc-photo { border-color: #6ee7b7; }
+    .oc-lv1 { border-color: var(--color-primary-600); background: linear-gradient(160deg, color-mix(in srgb, var(--color-primary-50) 100%, transparent) 0%, #fff 55%); }
+    .oc-lv1 .oc-name { color: var(--color-primary-600); }
+    .oc-lv1 .oc-photo { border-color: var(--color-primary-300); }
     .oc-lv2 { border-color: #0ea5e9; background: linear-gradient(160deg, #f0f9ff 0%, #fff 55%); }
     .oc-lv2 .oc-name { color: #0369a1; }
     .oc-lv2 .oc-photo { border-color: #bae6fd; }
@@ -163,23 +163,23 @@
 
 <div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 rounded-full blur-3xl"></div>
     </div>
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
-                <li><a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5"><i class="fa-solid fa-house text-[10px]"></i> Beranda</a></li>
-                <li class="flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i><span class="text-white">Aparatur Desa</span></li>
+                <li><a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1"><i class="fa-solid fa-house text-[10px]"></i> Beranda</a></li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[9px] text-primary-500/40"></i><span class="text-white">Aparatur Desa</span></li>
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">Aparatur <span class="text-emerald-500 italic">Desa</span></h1>
+            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">Aparatur <span class="text-primary-500 italic">Desa</span></h1>
             <p class="text-slate-300 text-lg mt-2 mb-6">Jajaran pelayan masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.</p>
             @if($officials->isNotEmpty())
-            <button type="button" @click="open()" class="sotk-trigger-btn" aria-haspopup="dialog">
+            <button type="button" @click="open()" class="sotk-trigger-btn focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-slate-900" aria-haspopup="dialog">
                 Struktur Organisasi
                 @if(!empty($site_settings['village_period_start']) || !empty($site_settings['village_period_end']))
                     <span class="opacity-75 font-normal ml-1">| Periode {{ $site_settings['village_period_start'] ?? '...' }} - {{ $site_settings['village_period_end'] ?? '...' }}</span>
@@ -241,27 +241,24 @@
         @php
             $photoUrl = $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp');
         @endphp
-        <div class="group flex flex-col bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200 hover:-translate-y-1.5 transition-all duration-300">
+        <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group flex flex-col w-full text-left bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary-300 hover:-translate-y-1.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
             <div class="relative w-full aspect-[4/5] overflow-hidden bg-slate-100">
-                <button type="button"
-                        @click="openPreviewByIndex({{ $idx }})"
-                        class="w-full h-full block cursor-pointer relative group/btn text-left"
-                        title="Klik untuk memperbesar foto">
+                <div class="w-full h-full block relative group/btn">
                     <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3 sm:p-4 text-white">
                         <span class="inline-flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-md px-2.5 sm:px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold shadow-lg">
                             <i class="fa-solid fa-expand text-[10px]"></i> <span class="hidden sm:inline">Perbesar Foto</span><span class="sm:hidden">Perbesar</span>
                         </span>
                     </div>
-                </button>
+                </div>
             </div>
             <div class="p-3.5 sm:p-5 md:p-6 text-center flex-1 flex flex-col items-center justify-between bg-white">
-                <h3 class="text-sm sm:text-base md:text-lg font-heading font-extrabold text-slate-900 mb-2 sm:mb-3 leading-snug group-hover:text-emerald-600 transition-colors">{{ $official->name }}</h3>
-                <span class="inline-flex items-center bg-emerald-50 text-emerald-700 border border-emerald-200/80 rounded-full px-2.5 sm:px-3.5 py-1 text-[10px] sm:text-xs font-black uppercase tracking-wide">
+                <h3 class="text-sm sm:text-base md:text-lg font-heading font-extrabold text-slate-900 mb-2 sm:mb-3 leading-snug group-hover:text-primary-600 transition-colors">{{ $official->name }}</h3>
+                <span class="inline-flex items-center bg-primary-50 text-primary-700 border border-primary-200/80 rounded-full px-2.5 sm:px-3.5 py-1 text-[10px] sm:text-xs font-black uppercase tracking-wide">
                     {{ $official->position }}
                 </span>
             </div>
-        </div>
+        </button>
         @endforeach
     </div>
 
@@ -291,7 +288,7 @@
         <button
             type="button"
             @click.stop="closePreview()"
-            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
             title="Tutup (Esc)"
         >
             <i class="fa-solid fa-xmark text-xl"></i>
@@ -300,7 +297,7 @@
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="officialItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 active:scale-95 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
                     title="Sebelumnya (Tombol Panah Kiri)">
                 <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>
             </button>
@@ -309,7 +306,7 @@
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="officialItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-emerald-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 active:scale-95 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
                     title="Selanjutnya (Tombol Panah Kanan)">
                 <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>
             </button>
@@ -327,10 +324,10 @@
                 <img :src="currentOfficial.photo" :alt="currentOfficial.name" class="w-full h-full object-cover object-top transition-all duration-300">
             </div>
             
-            <div class="p-5 text-center relative z-10 bg-white border-t border-slate-100 flex flex-col items-center justify-center">
+            <div class="p-5 text-center relative z-10 bg-white border-t border-slate-200 flex flex-col items-center justify-center">
                 <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900 mb-1.5" x-text="currentOfficial.name"></h3>
                 <div class="flex items-center justify-center gap-3 w-full">
-                    <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200/80 rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wide" x-text="currentOfficial.position"></span>
+                    <span class="inline-flex items-center gap-1.5 bg-primary-50 text-primary-700 border border-primary-200/80 rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wide" x-text="currentOfficial.position"></span>
                 </div>
             </div>
         </div>
@@ -368,16 +365,16 @@
                     </h3>
                     <div class="sotk-modal-actions">
                         <span class="text-xs font-bold text-slate-400 tabular-nums mr-1" x-text="Math.round(scale * 100) + '%'"></span>
-                        <button type="button" class="sotk-modal-btn" @click="zoomOut()" title="Perkecil"><i class="fa-solid fa-minus"></i></button>
-                        <button type="button" class="sotk-modal-btn" @click="zoomIn()" title="Perbesar"><i class="fa-solid fa-plus"></i></button>
-                        <button type="button" class="sotk-modal-btn" @click="resetZoom()" title="Reset ukuran"><i class="fa-solid fa-arrows-to-circle"></i></button>
-                        <button type="button" class="sotk-modal-btn" @click="toggleFullscreen()" title="Layar penuh">
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="zoomOut()" title="Perkecil"><i class="fa-solid fa-minus"></i></button>
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="zoomIn()" title="Perbesar"><i class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="resetZoom()" title="Reset ukuran"><i class="fa-solid fa-arrows-to-circle"></i></button>
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="toggleFullscreen()" title="Layar penuh">
                             <i :class="isFullscreen ? 'fa-solid fa-compress' : 'fa-solid fa-expand'"></i>
                         </button>
-                        <button type="button" class="sotk-modal-btn text-rose-600 hover:text-rose-700 hover:bg-rose-50 hover:border-rose-300" @click="downloadChart()" title="Download PDF Struktur Organisasi">
+                        <button type="button" class="sotk-modal-btn text-rose-600 hover:text-rose-700 hover:bg-rose-50 hover:border-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-500" @click="downloadChart()" title="Download PDF Struktur Organisasi">
                             <i class="fa-solid fa-file-pdf text-sm"></i>
                         </button>
-                        <button type="button" class="sotk-modal-btn btn-close" @click="close()" title="Tutup">
+                        <button type="button" class="sotk-modal-btn btn-close focus:outline-none focus:ring-2 focus:ring-rose-500" @click="close()" title="Tutup">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
 
