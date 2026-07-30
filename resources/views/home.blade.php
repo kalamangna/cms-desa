@@ -139,9 +139,10 @@
 @endif
 
 {{-- 1. HERO --}}
-<div class="relative bg-slate-900 min-h-[90vh] flex items-center overflow-hidden">
+<div class="relative bg-zinc-950 min-h-[90vh] flex items-center overflow-hidden">
+    {{-- Dark background --}}
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-slate-900"></div>
+        <div class="absolute inset-0 bg-zinc-950"></div>
         <div class="absolute -top-32 right-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[100px]"></div>
     </div>
 
@@ -154,7 +155,7 @@
                     <div class="h-px w-12 bg-emerald-500"></div>
                     <span class="text-emerald-400 text-xs font-black uppercase tracking-[0.3em]">Portal Resmi Pemerintah Desa</span>
                 </div>
-                <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.05] mb-8">
+                <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.05] tracking-tight mb-8">
                     Desa<br><span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
                 </h1>
                 <p class="text-lg md:text-xl text-slate-300 mb-4 font-medium leading-relaxed">
@@ -271,7 +272,7 @@
 {{-- 2.5 MENU LAYANAN CEPAT --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-20">
     <div class="text-center mb-10">
-        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Akses <span class="text-emerald-700">Layanan Cepat</span></h2>
+        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 tracking-tight">Akses <span class="text-emerald-700">Layanan Cepat</span></h2>
         <p class="text-slate-500 text-sm mt-2">Pilih layanan yang Anda butuhkan di bawah ini</p>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -310,7 +311,7 @@
 </div>
 
 {{-- 3. SAMBUTAN KEPALA DESA --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32">
     <div class="bg-white rounded-3xl border border-slate-200 relative overflow-hidden">
         <div class="flex flex-col lg:flex-row">
             <div class="p-8 md:p-12 lg:p-16 lg:w-2/3 relative z-10">
@@ -318,7 +319,7 @@
                     <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
                     <span class="text-slate-500 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
                 </div>
-                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 mb-8 leading-tight max-w-xl">
+                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 tracking-tight mb-8 leading-tight max-w-xl">
                     {{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}
                 </h2>
                 <div class="prose prose-slate prose-p:mb-5 prose-p:last:mb-0 text-slate-600 text-sm md:text-base leading-relaxed mb-10 max-w-2xl">
@@ -344,7 +345,7 @@
 </div>
 
 {{-- 4. DATA DEMOGRAFI --}}
-<div class="bg-slate-50 py-16 md:py-20 lg:py-28">
+<div class="bg-slate-50 py-20 md:py-28 lg:py-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
             <div>
@@ -352,7 +353,7 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Statistik & <span class="text-emerald-700">APBDes</span></h2>
+                <h2 class="text-3xl md:text-5xl font-heading font-extrabold text-slate-900 tracking-tight">Statistik & <span class="text-emerald-700">APBDes</span></h2>
             </div>
         </div>
 
@@ -436,7 +437,7 @@
 </div>
 
 {{-- 5. BERITA & PENGUMUMAN --}}
-<div class="bg-white py-16 md:py-20 lg:py-28">
+<div class="bg-white py-20 md:py-28 lg:py-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
             <div>
@@ -444,7 +445,7 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Berita & <span class="text-emerald-700">Pengumuman</span></h2>
+                <h2 class="text-3xl md:text-5xl font-heading font-extrabold text-slate-900 tracking-tight">Berita & <span class="text-emerald-700">Pengumuman</span></h2>
             </div>
         </div>
 
@@ -554,7 +555,7 @@
 
 {{-- 6. GALERI & PUBLIKASI --}}
 <div 
-    class="bg-slate-50 py-16 md:py-20 lg:py-28"
+    class="bg-slate-50 py-20 md:py-28 lg:py-32"
     x-data="{
         galleryItems: @js($homeGalleryItems),
         currentIndex: 0,
@@ -593,7 +594,7 @@
                     <div class="h-px w-8 bg-emerald-500"></div>
                     <span class="text-emerald-700 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi Desa</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri <span class="text-emerald-700">Foto & Video</span></h2>
+                <h2 class="text-3xl md:text-5xl font-heading font-extrabold text-slate-900 tracking-tight">Galeri <span class="text-emerald-700">Foto & Video</span></h2>
             </div>
         </div>
 
