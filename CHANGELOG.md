@@ -2,9 +2,15 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
-## [1.26.63] - 2026-07-31
+## [1.26.64] - 2026-07-31
 
 ### Changed
+- **Notifikasi Telegram**: Menonaktifkan pesan peringatan saat akun admin baru dibuat, admin dihapus, atau pengaturan krusial diubah, jika aksi tersebut dilakukan oleh `super_admin`.
+
+### Fixed
+- **Konfigurasi CSS**: Memperbaiki *bug* variabel warna rekursif pada `--color-primary-500` ke atas di berkas `app.css`.
+
+## [1.26.63] - 2026-07-31
 - **Penyelarasan Total Sistem Desain (DESIGN.md)**:
   - Merapikan dan menyelaraskan 15+ halaman publik (Beranda, Pengumuman, APBDes, Dataset, Dokumen, Galeri, Kontak, Layanan Mandiri, Pengaduan Warga, Peta Spasial, Potensi Desa, Berita, Publikasi Data, Statistik, dan Buku Tamu) mengacu pada pedoman `DESIGN.md`.
   - Mengubah Hero Section, Breadcrumbs, dan aksen warna statis `emerald` di seluruh halaman publik menjadi token warna tema dinamis `primary` (`primary-500` / `primary-600` / `primary-400`).

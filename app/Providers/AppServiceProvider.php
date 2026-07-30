@@ -126,6 +126,8 @@ class AppServiceProvider extends ServiceProvider
         // 2. Pengawasan Hak Akses (User Management)
         \App\Models\User::created(function (\App\Models\User $user) {
             try {
+                if (auth()->check() && auth()->user()->hasRole('super_admin')) return;
+
                 $roles = $user->getRoleNames()->implode(', ') ?: 'Tanpa role';
                 $msg   = "👤 {$user->name}\n"
                        . "🔑 {$user->username}\n"
@@ -136,6 +138,8 @@ class AppServiceProvider extends ServiceProvider
 
         \App\Models\User::deleted(function (\App\Models\User $user) {
             try {
+                if (auth()->check() && auth()->user()->hasRole('super_admin')) return;
+
                 $roles = $user->getRoleNames()->implode(', ') ?: 'Tanpa role';
                 $msg   = "👤 {$user->name}\n"
                        . "🔑 {$user->username}\n"
@@ -147,6 +151,8 @@ class AppServiceProvider extends ServiceProvider
         // 3. Perubahan Pengaturan Krusial
         \App\Models\Setting::updated(function (\App\Models\Setting $setting) {
             try {
+                if (auth()->check() && auth()->user()->hasRole('super_admin')) return;
+                
                 if (in_array($setting->key, ['sejarah_desa', 'visi_misi', 'peta_desa'])) return;
 
                 $oldRaw = $setting->getOriginal('value') ?? '-';
