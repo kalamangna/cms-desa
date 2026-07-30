@@ -417,10 +417,21 @@ document.addEventListener('alpine:init', function () {
 
     Alpine.data('sotkModal', function () {
         return {
-            isOpen: false,
+            searchQuery: '',
             isFullscreen: false,
             scale: 1,
+            isDragging: false,
+            startX: 0,
+            startY: 0,
+            scrollLeft: 0,
+            scrollTop: 0,
             villageName: '{{ $site_settings["village_name"] ?? "" }}',
+            districtName: '{{ $site_settings["district_name"] ?? "" }}',
+            regencyName: '{{ $site_settings["regency_name"] ?? "" }}',
+            villageAddress: '{{ $site_settings["village_address"] ?? "" }}',
+            villagePhone: '{{ $site_settings["village_phone"] ?? "" }}',
+            villageEmail: '{{ $site_settings["village_email"] ?? "" }}',
+            villageWebsite: '{{ url("/") }}',
 
             open: function () {
                 this.isOpen = true;
@@ -516,33 +527,100 @@ document.addEventListener('alpine:init', function () {
                 clone.style.transform = 'scale(1)';
                 clone.style.transformOrigin = 'top center';
                 
-                // Injeksi elemen judul langsung ke dalam DOM clone
-                // agar html2canvas merendernya dengan font web asli (Inter/Poppins)
-                var titleContainer = document.createElement('div');
-                titleContainer.style.textAlign = 'center';
-                titleContainer.style.marginBottom = '60px';
-                titleContainer.style.paddingTop = '20px';
+                // Injeksi Kop Surat Resmi ke dalam DOM clone
+                var kopSurat = document.createElement('div');
+                kopSurat.style.display = 'flex';
+                kopSurat.style.alignItems = 'center';
+                kopSurat.style.justifyContent = 'space-between';
+                kopSurat.style.borderBottom = '3px solid #000';
+                kopSurat.style.paddingBottom = '15px';
+                kopSurat.style.marginBottom = '25px';
                 
-                var title1 = document.createElement('h1');
-                title1.textContent = 'Struktur Organisasi';
-                title1.style.fontFamily = "Arial, Helvetica, sans-serif";
-                title1.style.fontWeight = 'bold';
-                title1.style.fontSize = '48px';
-                title1.style.color = '#0f172a'; // slate-900
-                title1.style.margin = '0 0 10px 0';
+                var logoLeftWrap = document.createElement('div');
+                logoLeftWrap.style.width = '100px';
+                logoLeftWrap.style.flexShrink = '0';
                 
-                var title2 = document.createElement('h2');
-                title2.textContent = 'Pemerintah Desa ' + (this.villageName || '');
-                title2.style.fontFamily = "Arial, Helvetica, sans-serif";
-                title2.style.fontWeight = 'normal';
-                title2.style.fontSize = '32px';
-                title2.style.color = '#475569'; // slate-600
-                title2.style.margin = '0';
-
-                titleContainer.appendChild(title1);
-                titleContainer.appendChild(title2);
+                var logoLeft = document.createElement('div');
+                logoLeft.className = 'kop-logo';
+                logoLeft.style.width = '100px';
+                logoLeft.style.height = '110px';
+                logoLeft.style.backgroundImage = 'url("/img/sinjai.webp")';
+                logoLeft.style.backgroundSize = 'contain';
+                logoLeft.style.backgroundPosition = 'center';
+                logoLeft.style.backgroundRepeat = 'no-repeat';
+                logoLeftWrap.appendChild(logoLeft);
                 
-                clone.insertBefore(titleContainer, clone.firstChild);
+                var textWrap = document.createElement('div');
+                textWrap.style.flexGrow = '1';
+                textWrap.style.textAlign = 'center';
+                textWrap.style.padding = '0 20px';
+                
+                var t1 = document.createElement('div');
+                t1.textContent = 'PEMERINTAH KABUPATEN ' + (this.regencyName || 'SINJAI').toUpperCase();
+                t1.style.fontSize = '26px';
+                t1.style.fontWeight = 'bold';
+                t1.style.color = '#000';
+                
+                var t2 = document.createElement('div');
+                t2.textContent = 'KECAMATAN ' + (this.districtName || '...').toUpperCase();
+                t2.style.fontSize = '26px';
+                t2.style.fontWeight = 'bold';
+                t2.style.color = '#000';
+                
+                var t3 = document.createElement('div');
+                t3.textContent = 'KANTOR KEPALA DESA ' + (this.villageName || '...').toUpperCase();
+                t3.style.fontSize = '34px';
+                t3.style.fontWeight = 'bold';
+                t3.style.color = '#000';
+                
+                var t4 = document.createElement('div');
+                t4.textContent = (this.villageAddress || '') + ' - Telp: ' + (this.villagePhone || '-') + ' - Email: ' + (this.villageEmail || '-');
+                t4.style.fontSize = '14px';
+                t4.style.fontStyle = 'italic';
+                t4.style.color = '#000';
+                t4.style.marginTop = '8px';
+                
+                textWrap.appendChild(t1);
+                textWrap.appendChild(t2);
+                textWrap.appendChild(t3);
+                textWrap.appendChild(t4);
+                
+                var logoRightWrap = document.createElement('div');
+                logoRightWrap.style.width = '100px';
+                logoRightWrap.style.flexShrink = '0';
+                // Biarkan kosong untuk keseimbangan simetris
+                
+                kopSurat.appendChild(logoLeftWrap);
+                kopSurat.appendChild(textWrap);
+                kopSurat.appendChild(logoRightWrap);
+                
+                // Tambahkan judul SOTK di bawah Kop
+                var titleContent = document.createElement('div');
+                titleContent.style.textAlign = 'center';
+                titleContent.style.marginBottom = '60px';
+                
+                var st1 = document.createElement('div');
+                st1.textContent = 'STRUKTUR ORGANISASI TATA KERJA (SOTK)';
+                st1.style.fontSize = '24px';
+                st1.style.fontWeight = 'bold';
+                st1.style.textDecoration = 'underline';
+                st1.style.color = '#000';
+                st1.style.marginBottom = '8px';
+                
+                var st2 = document.createElement('div');
+                st2.textContent = 'PEMERINTAH DESA ' + (this.villageName || '').toUpperCase();
+                st2.style.fontSize = '20px';
+                st2.style.fontWeight = 'bold';
+                st2.style.color = '#000';
+                
+                titleContent.appendChild(st1);
+                titleContent.appendChild(st2);
+                
+                var headerContainer = document.createElement('div');
+                headerContainer.appendChild(kopSurat);
+                headerContainer.appendChild(titleContent);
+                
+                clone.insertBefore(headerContainer, clone.firstChild);
                 
                 // Paksa penggunaan web-safe font standar (Arial/Helvetica) pada seluruh elemen klon
                 // Hal ini menjamin html2canvas bisa merender font dengan sempurna tanpa tergantung koneksi atau CORS Google Fonts
@@ -553,8 +631,8 @@ document.addEventListener('alpine:init', function () {
                 
                 offscreenContainer.appendChild(clone);
                 
-                // Konversi semua background-image di dalam klon menjadi Base64 menggunakan Fetch API
-                var photoNodes = clone.querySelectorAll('.oc-photo');
+                // Konversi semua background-image (termasuk foto aparatur & logo kop surat) di dalam klon menjadi Base64 menggunakan Fetch API
+                var photoNodes = clone.querySelectorAll('.oc-photo, .kop-logo');
                 var convertPromises = Array.from(photoNodes).map(function(node) {
                     var bgImage = node.style.backgroundImage;
                     if (!bgImage || bgImage === 'none') return Promise.resolve();
