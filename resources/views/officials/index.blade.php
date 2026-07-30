@@ -488,9 +488,11 @@ document.addEventListener('alpine:init', function () {
 
                 // Buat kontainer off-screen sementara agar proses rendering skala 1 terjadi di latar belakang (tanpa visual zoom kedip)
                 var offscreenContainer = document.createElement('div');
-                offscreenContainer.style.position = 'absolute';
-                offscreenContainer.style.left = '-9999px';
-                offscreenContainer.style.top = '-9999px';
+                offscreenContainer.style.position = 'fixed';
+                offscreenContainer.style.left = '0px';
+                offscreenContainer.style.top = '0px';
+                offscreenContainer.style.zIndex = '-9999';
+                offscreenContainer.style.opacity = '0';
                 offscreenContainer.style.width = content.scrollWidth + 'px';
                 offscreenContainer.style.height = content.scrollHeight + 'px';
                 offscreenContainer.style.background = '#ffffff';
@@ -507,7 +509,6 @@ document.addEventListener('alpine:init', function () {
                     backgroundColor: '#ffffff',
                     scale: 1.5, // Mengurangi dari 3 ke 1.5 untuk mempercepat proses render secara signifikan tanpa kehilangan terlalu banyak ketajaman
                     useCORS: true,
-                    allowTaint: true,
                     imageTimeout: 15000, // Batas waktu maksimal 15 detik agar tidak stuck
                     logging: false
                 }).then(function (canvas) {
@@ -638,14 +639,21 @@ document.addEventListener('alpine:init', function () {
 
         var imgWrap = document.createElement('div');
         imgWrap.className = 'oc-photo';
-        imgWrap.style.backgroundImage = "url('" + photo + "')";
+        imgWrap.style.overflow = 'hidden'; // Ensure rounded corners apply to the img inside
         
-        // Penanganan error jika gambar gagal dimuat (fallback ke defaultPhoto)
-        var testImg = new Image();
-        testImg.src = photo;
-        testImg.onerror = function () {
-            imgWrap.style.backgroundImage = "url('" + defaultPhoto + "')";
+        var imgTag = document.createElement('img');
+        imgTag.src = photo;
+        imgTag.crossOrigin = 'anonymous';
+        imgTag.style.width = '100%';
+        imgTag.style.height = '100%';
+        imgTag.style.objectFit = 'cover';
+        imgTag.style.display = 'block';
+        
+        imgTag.onerror = function () {
+            imgTag.src = defaultPhoto;
         };
+        
+        imgWrap.appendChild(imgTag);
 
 
 
