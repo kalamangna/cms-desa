@@ -241,7 +241,7 @@
         @php
             $photoUrl = $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp');
         @endphp
-        <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group flex flex-col w-full text-left bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary-300 hover:-translate-y-1.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
+        <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group cursor-pointer flex flex-col w-full text-left bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary-300 hover:-translate-y-1.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
             <div class="relative w-full aspect-[4/5] overflow-hidden bg-slate-100">
                 <div class="w-full h-full block relative group/btn">
                     <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
