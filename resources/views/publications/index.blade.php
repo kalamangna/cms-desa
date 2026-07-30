@@ -139,7 +139,7 @@
 
                     {{-- Tombol Download PDF --}}
                     <a
-                        href="{{ asset('storage/' . $pub->file_path) }}"
+                        href="{{ asset('storage/' . $pub->pdf_file) }}"
                         class="group/dl inline-flex items-center gap-2 bg-emerald-600 text-white text-[11px] font-black uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-emerald-700 transition-all duration-300 shadow-md shadow-emerald-600/30 hover:shadow-lg hover:shadow-emerald-600/40 hover:-translate-y-0.5"
                         download
                         title="Unduh {{ $pub->title }}"
