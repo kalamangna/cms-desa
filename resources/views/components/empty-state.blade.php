@@ -46,7 +46,7 @@
     {{-- CTA Button (optional) --}}
     @if($actionLabel && $actionHref)
         <a href="{{ $actionHref }}"
-           class="mt-6 inline-flex items-center gap-2 bg-emerald-600 text-white text-sm font-bold px-6 py-3 rounded-xl hover:bg-emerald-700 transition-colors duration-200 shadow-sm shadow-emerald-600/20">
+           class="mt-6 inline-flex items-center gap-2 bg-primary-600 text-white text-sm font-bold px-6 py-3 rounded-xl hover:bg-primary-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 shadow-sm shadow-primary-600/20">
             {{ $actionLabel }}
         </a>
     @endif
