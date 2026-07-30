@@ -426,6 +426,7 @@ document.addEventListener('alpine:init', function () {
             scrollLeft: 0,
             scrollTop: 0,
             villageName: '{{ $site_settings["village_name"] ?? "" }}',
+            villagePeriod: '{{ $site_settings["village_period"] ?? "" }}',
             districtName: '{{ $site_settings["district_name"] ?? "" }}',
             regencyName: '{{ $site_settings["regency_name"] ?? "" }}',
             villageAddress: '{{ $site_settings["village_address"] ?? "" }}',
@@ -615,6 +616,16 @@ document.addEventListener('alpine:init', function () {
                 
                 titleContent.appendChild(st1);
                 titleContent.appendChild(st2);
+                
+                if (this.villagePeriod) {
+                    var st3 = document.createElement('div');
+                    st3.textContent = 'MASA BHAKTI ' + this.villagePeriod.toUpperCase();
+                    st3.style.fontSize = '18px';
+                    st3.style.fontWeight = 'bold';
+                    st3.style.color = '#000';
+                    st3.style.marginTop = '8px';
+                    titleContent.appendChild(st3);
+                }
                 
                 var headerContainer = document.createElement('div');
                 headerContainer.appendChild(kopSurat);

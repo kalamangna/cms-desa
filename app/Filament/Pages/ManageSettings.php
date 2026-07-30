@@ -60,8 +60,11 @@ class ManageSettings extends Page implements HasForms
                                 TextInput::make('village_name')
                                     ->label('Nama Desa')
                                     ->placeholder('Contoh: Tompobulu')
-                                    ->helperText('Nama resmi desa, tanpa kata "Desa".')
-                                    ->columnSpanFull(),
+                                    ->helperText('Nama resmi desa, tanpa kata "Desa".'),
+                                TextInput::make('village_period')
+                                    ->label('Periode Pemerintahan')
+                                    ->placeholder('Contoh: 2022 - 2028')
+                                    ->helperText('Periode masa bhakti pemerintahan (ditampilkan di struktur organisasi).'),
                                 \Filament\Schemas\Components\Grid::make(3)
                                     ->schema([
                                         Select::make('province_name')
