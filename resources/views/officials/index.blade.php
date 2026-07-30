@@ -484,12 +484,35 @@ document.addEventListener('alpine:init', function () {
                     height: content.scrollHeight * scale,
                     width: content.scrollWidth * scale,
                     bgcolor: '#ffffff',
-                    style: style,
-                    imagePlaceholder: this.defaultPhoto || '/img/meta.webp'
+                    style: style
                 };
 
-                domtoimage.toJpeg(content, param)
-                .then(function (imgData) {
+                // Kloning elemen secara rahasia untuk diproses
+                var clone = content.cloneNode(true);
+                
+                // Konversi semua gambar di dalam klon menjadi Base64 menggunakan Fetch API
+                // Ini mencegah dom-to-image-more dari melakukan network request yang rawan memicu CORS / Error Event
+                var images = clone.querySelectorAll('img');
+                var convertPromises = Array.from(images).map(function(img) {
+                    if (img.src.startsWith('data:')) return Promise.resolve();
+                    return fetch(img.src, { mode: 'cors' })
+                        .then(res => res.blob())
+                        .then(blob => new Promise((resolve, reject) => {
+                            var reader = new FileReader();
+                            reader.onloadend = () => {
+                                img.src = reader.result;
+                                resolve();
+                            };
+                            reader.onerror = resolve; // Abaikan jika error, biarkan apa adanya
+                            reader.readAsDataURL(blob);
+                        }))
+                        .catch(() => Promise.resolve()); // Abaikan error fetch
+                });
+
+                Promise.all(convertPromises).then(function() {
+                    // Semua gambar sudah Base64, aman untuk dirender
+                    domtoimage.toJpeg(clone, param)
+                    .then(function (imgData) {
                     // Ukuran asli canvas hasil dom-to-image
                     var imgWidth = content.scrollWidth * scale;
                     var imgHeight = content.scrollHeight * scale;
@@ -524,7 +547,11 @@ document.addEventListener('alpine:init', function () {
                         pdfWindow.close();
                     }
                     console.error('Gagal membuat PDF:', err);
-                    alert('Gagal mendownload PDF bagan SOTK: ' + (err.message || err));
+                    alert('Gagal mendownload PDF bagan SOTK. Pastikan ekstensi gambar didukung.');
+                });
+                }.bind(this)).catch(function(err) {
+                    if (pdfWindow) pdfWindow.close();
+                    console.error('Promise.all error:', err);
                 });
             },
 
