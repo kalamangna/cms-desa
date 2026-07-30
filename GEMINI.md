@@ -153,9 +153,8 @@ Jangan pernah:
 
 ## Gaya Respons dan Penulisan
 
-- Gunakan bahasa Indonesia untuk penjelasan kepada developer atau user
-- Gunakan bahasa Inggris untuk nama class, method, variabel, dan komentar teknis
-- Gunakan bahasa Indonesia secara konsisten untuk pesan commit dan catatan changelog
+- Gunakan bahasa Indonesia untuk penjelasan kepada developer, komentar teknis di dalam kode, pesan commit, dan catatan changelog
+- Gunakan bahasa Inggris murni untuk penamaan logis di dalam kode (nama class, method, variabel, dan tabel)
 - Terapkan standar *Conventional Commits* dengan bahasa Indonesia (contoh: `Fitur:`, `Perbaikan:`, `Dokumentasi:`, `Perombakan:`, `Penyelarasan:`)
 - Tulis singkat, jelas, langsung ke inti, dan mudah dipahami
 - Hindari kalimat promosi dan pengulangan informasi
