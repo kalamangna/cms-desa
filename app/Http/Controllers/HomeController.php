@@ -24,7 +24,7 @@ class HomeController extends Controller
         $ttl = 3600;
 
         $allPosts = Cache::remember('home_posts', $ttl, function () {
-            return Post::with('category')->latest()->where('published_at', '<=', now())->take(7)->get();
+            return Post::with('category')->latest()->where('published_at', '<=', now())->take(4)->get();
         });
         $featuredPost = $allPosts->first();
         $recentPosts = $allPosts->skip(1);
@@ -160,7 +160,7 @@ class HomeController extends Controller
         });
 
         $galleries = Cache::remember('home_galleries', $ttl, function () {
-            return Gallery::latest()->take(6)->get();
+            return Gallery::latest()->take(8)->get();
         });
 
         return view('home', compact(

@@ -85,7 +85,7 @@
      
      <!-- Category Tabs Filter -->
      <div class="flex flex-wrap items-center justify-center gap-2 mb-12">
-        <template x-for="cat in ['Semua', 'Pariwisata', 'Pertanian & Perkebunan', 'Peternakan', 'Industri Kreatif', 'Seni & Budaya']">
+        <template x-for="cat in ['Semua', 'Pariwisata', 'Pertanian & Perkebunan', 'Peternakan', 'Industri Kreatif', 'UMKM', 'Seni & Budaya']">
             <button type="button"
                     @click="activeCategory = cat"
                     :class="activeCategory === cat ? 'bg-emerald-600 text-white shadow-xl shadow-emerald-600/20' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-100'"
@@ -117,6 +117,7 @@
                         @elseif($pot->category === 'Pertanian & Perkebunan') bg-emerald-50/90 text-emerald-700 border-emerald-100
                         @elseif($pot->category === 'Peternakan') bg-amber-50/90 text-amber-700 border-amber-100
                         @elseif($pot->category === 'Industri Kreatif') bg-violet-50/90 text-violet-700 border-violet-100
+                        @elseif($pot->category === 'UMKM') bg-orange-50/90 text-orange-700 border-orange-100
                         @else bg-rose-50/90 text-rose-700 border-rose-100 @endif">
                         {{ $pot->category }}
                     </span>
@@ -218,7 +219,8 @@
                             'bg-emerald-50 text-emerald-700 border-emerald-100': selectedPotential?.category === 'Pertanian & Perkebunan',
                             'bg-amber-50 text-amber-700 border-amber-100': selectedPotential?.category === 'Peternakan',
                             'bg-violet-50 text-violet-700 border-violet-100': selectedPotential?.category === 'Industri Kreatif',
-                            'bg-rose-50 text-rose-700 border-rose-100': selectedPotential?.category !== 'Pariwisata' && selectedPotential?.category !== 'Pertanian & Perkebunan' && selectedPotential?.category !== 'Peternakan' && selectedPotential?.category !== 'Industri Kreatif'
+                            'bg-orange-50 text-orange-700 border-orange-100': selectedPotential?.category === 'UMKM',
+                            'bg-rose-50 text-rose-700 border-rose-100': selectedPotential?.category !== 'Pariwisata' && selectedPotential?.category !== 'Pertanian & Perkebunan' && selectedPotential?.category !== 'Peternakan' && selectedPotential?.category !== 'Industri Kreatif' && selectedPotential?.category !== 'UMKM'
                          }"
                          x-text="selectedPotential?.category">
                    </span>

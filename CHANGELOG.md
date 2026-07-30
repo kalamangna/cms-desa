@@ -2,6 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.59] - 2026-07-30
+
+### Changed
+- **Penyempurnaan Halaman Lembaga Desa & Seeder**:
+  - Mengubah struktur form dan database `Institutions` (menghapus `motto`, menggantinya dengan array JSON `management` menggunakan komponen `Repeater` pada Filament Admin).
+  - Merombak UI publik halaman Lembaga Desa menggunakan desain kartu simetris dengan Modal Lightbox beranimasi (identik dengan Potensi Desa) lengkap dengan badge ikon pintar berdasarkan jabatan.
+  - Memastikan *safe migration* untuk kolom `management` dan `motto` yang kompatibel jika dieksekusi di *production* tanpa risiko bentrok.
+  - Mengubah penamaan file gambar (PDF/PNG) seeder pada `DocumentAndPublicationSeeder` dan `StatisticAndPopupSeeder` agar sesuai dengan konteks lokal.
+  - Memperbaiki nama *class seeder* dari `AdditionalModuleSeeder` menjadi `GalleryAndFacilitySeeder` agar lebih semantik.
+
 ## [1.26.58] - 2026-07-30
 
 ### Changed

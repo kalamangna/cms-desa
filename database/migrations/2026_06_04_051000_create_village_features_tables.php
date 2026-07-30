@@ -97,7 +97,7 @@ return new class extends Migration
                 $table->string('name');
                 $table->string('logo')->nullable();
                 $table->text('description')->nullable();
-                $table->string('motto')->nullable();
+                $table->json('management')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });

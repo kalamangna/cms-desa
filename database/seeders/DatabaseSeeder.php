@@ -18,7 +18,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             DefaultDataSeeder::class,
-            CategorySeeder::class,
+            SettingSeeder::class,
+            ArticleSeeder::class,
+            VillageProfileSeeder::class,
+            PopulationSeeder::class,
+            GalleryAndFacilitySeeder::class,
+            DocumentAndPublicationSeeder::class,
+            ApbdesAndDatasetSeeder::class,
+            PublicServiceSeeder::class,
+            StatisticAndPopupSeeder::class,
         ]);
     }
 }

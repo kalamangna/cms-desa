@@ -27,7 +27,7 @@ class PostController extends Controller
             });
         }
 
-        $posts = $query->paginate(9)->withQueryString();
+        $posts = $query->paginate(7)->withQueryString();
         
         $categories = Category::withCount(['posts' => function ($query) {
             $query->where('published_at', '<=', now());

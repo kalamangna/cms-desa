@@ -85,7 +85,7 @@ class ManageSettings extends Page implements HasForms
                                             ->label('Kecamatan')
                                             ->placeholder('Pilih Kecamatan')
                                             ->helperText('Pilih kecamatan desa.')
-                                            ->options(fn($get) => $get('regency_name') ? self::getDistricts($get('regency_name')) : [])
+                                            ->options(fn($get) => $get('regency_name') && $get('province_name') ? self::getDistricts($get('province_name'), $get('regency_name')) : [])
                                             ->disabled(fn($get) => !$get('regency_name'))
                                             ->searchable()
                                             ->preload(),
@@ -254,15 +254,24 @@ class ManageSettings extends Page implements HasForms
         });
     }
 
-    public static function getDistricts(?string $regencyName): array
+    public static function getDistricts(?string $provinceName, ?string $regencyName): array
     {
-        if (empty($regencyName)) {
-            $regencyName = 'Sinjai';
-        }
-        return Cache::remember('districts_list_' . md5($regencyName), 86400, function () use ($regencyName) {
+        if (empty($regencyName) || empty($provinceName)) return [];
+        return Cache::remember('districts_list_' . md5($provinceName . '_' . $regencyName), 86400, function () use ($provinceName, $regencyName) {
             try {
-                $regResponse = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/regencies/73.json');
-                $regId = '7307'; // Default Sinjai
+                $provResponse = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+                $provId = '73'; 
+                if ($provResponse->successful()) {
+                    foreach ($provResponse->json() as $p) {
+                        if (strcasecmp($p['name'], $provinceName) === 0) {
+                            $provId = $p['id'];
+                            break;
+                        }
+                    }
+                }
+
+                $regResponse = Http::get("https://www.emsifa.com/api-wilayah-indonesia/api/regencies/{$provId}.json");
+                $regId = '7307';
                 if ($regResponse->successful()) {
                     foreach ($regResponse->json() as $r) {
                         $cleanedRegName = preg_replace('/^(kabupaten|kota)\s+/i', '', $regencyName);

@@ -28,7 +28,7 @@ class StatisticCategory extends Model
     const ALLOWED_COLUMNS = [
         'citizens' => [
             'gender', 'education_level', 'job', 'job_status', 'marital_status', 'family_relation',
-            'school_participation', 'disability_physical', 'disability_mental',
+            'religion', 'school_participation', 'disability_physical', 'disability_mental',
             'disability_intellectual', 'disability_blind', 'disability_deaf',
             'disability_speech', 'illness_hypertension', 'illness_rheumatic',
             'illness_asthma', 'illness_heart', 'illness_diabetes', 'illness_tbc',
@@ -39,7 +39,7 @@ class StatisticCategory extends Model
         ],
         'families' => [
             'assistance_type', 'ownership_status', 'building_type', 'ownership_proof',
-            'water_source', 'lighting_source', 'floor_material', 'wall_material',
+            'water_source', 'electricity_power', 'lighting_source', 'floor_material', 'wall_material',
             'roof_material', 'toilet_facility', 'closet_type', 'address_matches_kk',
         ],
     ];
@@ -245,6 +245,7 @@ class StatisticCategory extends Model
             'gender' => 'Jenis Kelamin',
             'education_level' => 'Tingkat Pendidikan Terakhir',
             'job' => 'Pekerjaan/Profesi',
+            'religion' => 'Agama',
             'disability_physical' => 'Disabilitas Fisik',
             'disability_mental' => 'Disabilitas Mental',
             'disability_intellectual' => 'Disabilitas Intelektual',
@@ -270,6 +271,7 @@ class StatisticCategory extends Model
             'building_type' => 'Jenis Bangunan',
             'ownership_proof' => 'Bukti Kepemilikan Rumah',
             'water_source' => 'Sumber Air Minum',
+            'electricity_power' => 'Kapasitas Listrik',
             'lighting_source' => 'Sumber Penerangan',
         ];
     }

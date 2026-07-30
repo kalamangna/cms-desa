@@ -30,6 +30,7 @@ class VillagePotentialForm
                                 'Pertanian & Perkebunan' => 'Pertanian & Perkebunan',
                                 'Peternakan' => 'Peternakan',
                                 'Industri Kreatif' => 'Industri Kreatif',
+                                'UMKM' => 'UMKM',
                                 'Seni & Budaya' => 'Seni & Budaya',
                             ])
                             ->required(),

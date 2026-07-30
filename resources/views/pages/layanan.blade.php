@@ -337,26 +337,6 @@
             </div>
         </div>
 
-        {{-- ===================== INFO BANNER ===================== --}}
-        <div class="mt-20 md:mt-28 bg-slate-900 rounded-[40px] md:rounded-[56px] p-10 md:p-20 text-white relative overflow-hidden shadow-2xl shadow-slate-900/20">
-            <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl pointer-events-none"></div>
-            <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-                <div class="max-w-2xl text-center md:text-left">
-                    <div class="w-14 h-14 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl mb-6 mx-auto md:mx-0">
-                        <i class="fa-solid fa-headset"></i>
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-heading font-extrabold mb-4">Butuh Bantuan Lainnya?</h2>
-                    <p class="text-slate-400 text-lg leading-relaxed">
-                        Jika layanan yang Anda cari tidak tersedia di atas, silakan hubungi petugas administrasi kami atau datang langsung ke Kantor Desa pada jam operasional.
-                    </p>
-                </div>
-                <a href="/kontak" class="flex-shrink-0 bg-emerald-600 text-white px-12 py-5 rounded-full font-bold text-lg hover:bg-emerald-700 transition shadow-xl shadow-emerald-900/40 whitespace-nowrap flex items-center gap-3">
-                    <i class="fa-solid fa-phone"></i>
-                    Hubungi Petugas
-                </a>
-            </div>
-        </div>
     </div>
 
     {{-- ===================== DETAIL SERVICE MODAL ===================== --}}

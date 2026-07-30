@@ -23,7 +23,8 @@ class CitizensTable
                     ->label('NIK')
                     ->searchable()
                     ->copyable()
-                    ->fontFamily('mono'),
+                    ->fontFamily('mono')
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null)),
 
                 TextColumn::make('name')
                     ->label('Nama Lengkap')
@@ -56,6 +57,7 @@ class CitizensTable
                     ->searchable()
                     ->copyable()
                     ->fontFamily('mono')
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null))
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('date_of_birth')

@@ -20,7 +20,8 @@ class ServiceRequestsTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('nik')->label('NIK')
-                    ->searchable(),
+                    ->searchable()
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null)),
                 TextColumn::make('name')->label('Nama Pemohon')
                     ->searchable()
                     ->sortable(),

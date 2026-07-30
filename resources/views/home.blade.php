@@ -92,6 +92,7 @@
                              alt="{{ $popup['title'] ?? 'Infografis Beranda' }}"
                              width="600"
                              height="800"
+                             onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
                              @if($loop->first) fetchpriority="high" decoding="async" @else loading="lazy" @endif>
                     </div>
                     @endforeach
@@ -159,9 +160,9 @@
                     Desa<br><span class="text-emerald-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
                 </h1>
                 <p class="text-lg md:text-xl text-slate-300 mb-4 font-medium leading-relaxed">
-                    Kecamatan {{ \Illuminate\Support\Str::title($site_settings['district_name'] ?? '...') }},
-                    Kabupaten {{ \Illuminate\Support\Str::title(preg_replace('/^Kabupaten\s+/i', '', $site_settings['regency_name'] ?? '...')) }},
-                    Provinsi {{ \Illuminate\Support\Str::title($site_settings['province_name'] ?? '...') }}
+                    Kecamatan {{ \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '...')) }},
+                    Kabupaten {{ \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '...')) }},
+                    Provinsi {{ \Illuminate\Support\Str::title(preg_replace('/^Provinsi\s+/i', '', $site_settings['province_name'] ?? '...')) }}
                 </p>
                 <p class="text-slate-400 text-base mb-12 max-w-lg">
                     Pemerintahan yang transparan, akuntabel, dan berbasis data presisi untuk kemajuan seluruh warga desa.
@@ -335,9 +336,9 @@
                 <div class="h-px w-8 bg-emerald-600"></div>
             </div>
             <h2 class="text-2xl md:text-4xl font-heading font-extrabold text-slate-900 mb-10 leading-tight">
-                "{{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}"
+                {{ $site_settings['village_head_greeting_title'] ?? 'Sambutan Kepala Desa' }}
             </h2>
-            <div class="text-slate-500 text-base md:text-lg leading-relaxed italic mb-12 max-w-3xl">
+            <div class="prose prose-slate prose-p:mb-6 prose-p:last:mb-0 text-slate-500 text-base md:text-lg leading-relaxed italic mb-12 max-w-3xl text-center mx-auto">
                 {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' !!}
             </div>
             <div class="flex flex-col items-center gap-3">
@@ -516,7 +517,7 @@
             </div>
 
             <div class="lg:col-span-4">
-                <div class="bg-slate-50 border border-slate-200 rounded-3xl p-7 h-full flex flex-col">
+                <div class="sticky top-24 bg-slate-50 border border-slate-200 rounded-3xl p-7 flex flex-col">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="font-heading font-extrabold text-lg text-slate-900">Pengumuman</h3>
                     </div>

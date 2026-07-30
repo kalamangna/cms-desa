@@ -15,7 +15,11 @@ class Institution extends Model
         'slug',
         'logo',
         'description',
-        'motto',
+        'management',
+    ];
+
+    protected $casts = [
+        'management' => 'array',
     ];
 
     /**

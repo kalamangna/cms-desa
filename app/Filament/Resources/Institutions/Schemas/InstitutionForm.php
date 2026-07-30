@@ -12,20 +12,47 @@ class InstitutionForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->label('Nama Lembaga')
-                    ->placeholder('Contoh: BPD (Badan Permusyawaratan Desa) atau Karang Taruna')
-                    ->helperText('Nama resmi lembaga kemasyarakatan desa.')
-                    ->required(),
-                FileUpload::make('logo')
-                    ->label('Logo Lembaga')
-                    ->helperText('Unggah logo resmi lembaga (Maksimal 2MB).')
-                    ->image()
-                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->imageResizeTargetWidth(400)
-                    ->maxSize(2048)
+                \Filament\Schemas\Components\Grid::make(2)
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Nama Lembaga')
+                            ->placeholder('Contoh: BPD (Badan Permusyawaratan Desa) atau Karang Taruna')
+                            ->helperText('Nama resmi lembaga kemasyarakatan desa.')
+                            ->required(),
+                        FileUpload::make('logo')
+                            ->label('Logo Lembaga')
+                            ->helperText('Unggah logo resmi lembaga (Maksimal 2MB).')
+                            ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->imageResizeTargetWidth(400)
+                            ->maxSize(2048)
+                            ->nullable()
+                            ->directory('institutions'),
+                    ])
+                    ->columnSpanFull(),
+                \Filament\Forms\Components\RichEditor::make('description')
+                    ->label('Deskripsi / Profil Lembaga')
+                    ->helperText('Jelaskan profil, visi, misi, atau peran lembaga ini di desa.')
                     ->nullable()
-                    ->directory('institutions')
+                    ->columnSpanFull(),
+                \Filament\Forms\Components\Repeater::make('management')
+                    ->label('Struktur Pengurus')
+                    ->helperText('Daftar pengurus lembaga.')
+                    ->schema([
+                        \Filament\Schemas\Components\Grid::make(2)
+                            ->schema([
+                                TextInput::make('position')
+                                    ->label('Jabatan')
+                                    ->placeholder('Contoh: Ketua')
+                                    ->required(),
+                                TextInput::make('name')
+                                    ->label('Nama Lengkap')
+                                    ->placeholder('Nama pengurus')
+                                    ->required(),
+                            ]),
+                    ])
+                    ->collapsible()
+                    ->defaultItems(0)
                     ->columnSpanFull(),
             ]);
     }

@@ -25,7 +25,8 @@ class FamiliesTable
                     ->searchable()
                     ->sortable()
                     ->copyable()
-                    ->fontFamily('mono'),
+                    ->fontFamily('mono')
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null)),
 
                 TextColumn::make('head_name')
                     ->label('Kepala Keluarga')
@@ -59,6 +60,7 @@ class FamiliesTable
                     ->placeholder('-')
                     ->copyable()
                     ->fontFamily('mono')
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null))
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('photo_front')
