@@ -406,11 +406,11 @@
                     <div>
                         <div class="mb-10">
                             <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-emerald-400 text-sm">Total Pendapatan</span>
+                                <span class="font-bold text-teal-400 text-sm">Total Pendapatan</span>
                                 <span class="text-sm font-bold text-white">{{ number_format($pendapatanPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
+                                <div class="h-full bg-teal-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
                             </div>
                             <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['pendapatan']['budget'], 0, ',', '.') }}</p>
                         </div>
