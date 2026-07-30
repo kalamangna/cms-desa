@@ -85,6 +85,7 @@ Sebelum melakukan push, pastikan hal-hal berikut terpenuhi:
 - Gunakan Migration, Seeder, Factory, dan Eloquent Relationship untuk perubahan database
 - Hindari query database di Blade dan logika kompleks di view
 - Gunakan Blade component dan layout yang sudah ada
+- Buat atau perbarui test (Pest/PHPUnit) setiap menambahkan fitur baru atau memperbaiki bug kritis untuk menghindari regresi
 
 ### Frontend
 
@@ -132,6 +133,10 @@ Saat mengonfigurasi adapter Google Drive pada Laravel Filesystem atau Spatie Bac
 - Parameter root diisi `null`
 - Gunakan `GoogleDriveAdapterWrapper` untuk menangani error pembacaan file selama proses pembuatan folder dan pengecekan backup
 
+### Pedoman Seeder & Anti-Path Traversal
+- Dilarang keras menggunakan *path traversal* (`../`) untuk memuat atau menyalin berkas. Hal ini akan memicu *error* pada *Flysystem*.
+- Gunakan utilitas salin lokal terdekat (misal `meta.webp`) atau hasilkan format dokumen mentah dinamis (*raw byte string PDF*) agar *seeder* kebal dari *broken link* (404/403) di lingkungan produksi.
+
 ---
 
 ## Larangan
@@ -151,6 +156,7 @@ Jangan pernah:
 - Gunakan bahasa Indonesia untuk penjelasan kepada developer atau user
 - Gunakan bahasa Inggris untuk nama class, method, variabel, dan komentar teknis
 - Gunakan bahasa Indonesia secara konsisten untuk pesan commit dan catatan changelog
+- Terapkan standar *Conventional Commits* dengan bahasa Indonesia (contoh: `Fitur:`, `Perbaikan:`, `Dokumentasi:`, `Perombakan:`, `Penyelarasan:`)
 - Tulis singkat, jelas, langsung ke inti, dan mudah dipahami
 - Hindari kalimat promosi dan pengulangan informasi
 
