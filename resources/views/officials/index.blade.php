@@ -408,7 +408,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image-more/3.3.0/dom-to-image-more.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 
@@ -472,50 +472,68 @@ document.addEventListener('alpine:init', function () {
                 // Kita menggunakan dom-to-image-more, yang sangat stabil dan tidak crash pada oklch.
                 // Tidak perlu lagi mencabut stylesheet!
 
-                var scale = 1.5;
-                var style = {
-                    transform: 'scale(' + scale + ')',
-                    transformOrigin: 'top left',
-                    width: content.scrollWidth + 'px',
-                    height: content.scrollHeight + 'px'
-                };
+                // Cabut semua stylesheet eksternal untuk mencegah html2canvas crash karena fungsi warna 'oklch' bawaan Tailwind v4
+                var detachedSheets = [];
+                var head = document.head;
+                var sheets = Array.from(head.querySelectorAll('link[rel="stylesheet"], style'));
+                sheets.forEach(function (sheet) {
+                    if (sheet.id !== 'sotk-custom-css') {
+                        detachedSheets.push({ element: sheet, nextSibling: sheet.nextSibling });
+                        sheet.remove();
+                    }
+                });
 
-                var param = {
-                    height: content.scrollHeight * scale,
-                    width: content.scrollWidth * scale,
-                    bgcolor: '#ffffff',
-                    style: style
-                };
+                // Buat offscreen container yang aman
+                var offscreenContainer = document.createElement('div');
+                offscreenContainer.style.position = 'fixed';
+                offscreenContainer.style.left = '0px';
+                offscreenContainer.style.top = '0px';
+                offscreenContainer.style.zIndex = '-9999';
+                offscreenContainer.style.opacity = '0';
+                offscreenContainer.style.width = content.scrollWidth + 'px';
+                offscreenContainer.style.height = content.scrollHeight + 'px';
+                offscreenContainer.style.background = '#ffffff';
+                document.body.appendChild(offscreenContainer);
 
                 // Kloning elemen secara rahasia untuk diproses
                 var clone = content.cloneNode(true);
+                clone.style.transition = 'none';
+                clone.style.transform = 'scale(1)';
+                clone.style.transformOrigin = 'top center';
+                offscreenContainer.appendChild(clone);
                 
                 // Konversi semua gambar di dalam klon menjadi Base64 menggunakan Fetch API
-                // Ini mencegah dom-to-image-more dari melakukan network request yang rawan memicu CORS / Error Event
                 var images = clone.querySelectorAll('img');
                 var convertPromises = Array.from(images).map(function(img) {
                     if (img.src.startsWith('data:')) return Promise.resolve();
-                    return fetch(img.src, { mode: 'cors' })
+                    return fetch(img.src)
                         .then(res => res.blob())
                         .then(blob => new Promise((resolve, reject) => {
                             var reader = new FileReader();
-                            reader.onloadend = () => {
-                                img.src = reader.result;
-                                resolve();
-                            };
-                            reader.onerror = resolve; // Abaikan jika error, biarkan apa adanya
+                            reader.onloadend = () => { img.src = reader.result; resolve(); };
+                            reader.onerror = resolve; // Abaikan jika error
                             reader.readAsDataURL(blob);
                         }))
                         .catch(() => Promise.resolve()); // Abaikan error fetch
                 });
 
                 Promise.all(convertPromises).then(function() {
-                    // Semua gambar sudah Base64, aman untuk dirender
-                    domtoimage.toJpeg(clone, param)
-                    .then(function (imgData) {
-                    // Ukuran asli canvas hasil dom-to-image
-                    var imgWidth = content.scrollWidth * scale;
-                    var imgHeight = content.scrollHeight * scale;
+                    html2canvas(clone, {
+                        backgroundColor: '#ffffff',
+                        scale: 1.5,
+                        logging: false,
+                        useCORS: true
+                    }).then(function (canvas) {
+                        // Kembalikan semua stylesheet
+                        detachedSheets.forEach(function (item) {
+                            head.insertBefore(item.element, item.nextSibling);
+                        });
+                        offscreenContainer.remove();
+
+                        var imgData = canvas.toDataURL('image/jpeg', 0.95);
+                        var scale = 1.5;
+                        var imgWidth = canvas.width;
+                        var imgHeight = canvas.height;
                     
                     var padding = 40;
                     var pdfWidth = (imgWidth / scale) + (padding * 2);
@@ -538,16 +556,16 @@ document.addEventListener('alpine:init', function () {
                     
                     doc.save('Struktur_Organisasi_Desa_' + (this.villageName || 'Pemerintah').replace(/\s+/g, '_') + '.pdf');
                     
-                    if (pdfWindow) {
-                        pdfWindow.close();
-                    }
-                }.bind(this))
-                .catch(function (err) {
-                    if (pdfWindow) {
-                        pdfWindow.close();
-                    }
+                    if (pdfWindow) pdfWindow.close();
+                }.bind(this)).catch(function(err) {
+                    detachedSheets.forEach(function (item) {
+                        head.insertBefore(item.element, item.nextSibling);
+                    });
+                    if (offscreenContainer.parentNode) offscreenContainer.remove();
+                    if (pdfWindow) pdfWindow.close();
+                    
                     console.error('Gagal membuat PDF:', err);
-                    alert('Gagal mendownload PDF bagan SOTK. Pastikan ekstensi gambar didukung.');
+                    alert('Gagal mendownload PDF bagan SOTK. ' + (err.message || err));
                 });
                 }.bind(this)).catch(function(err) {
                     if (pdfWindow) pdfWindow.close();
