@@ -415,23 +415,23 @@
                 </div>
                 <div class="p-8 flex-1 flex flex-col justify-between">
                     <div>
-                        <div class="mb-10">
+                        <div class="mb-5">
                             <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-primary-400 text-sm">Total Pendapatan</span>
+                                <span class="font-bold text-emerald-400 text-sm">Total Pendapatan</span>
                                 <span class="text-sm font-bold text-white">{{ number_format($pendapatanPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-primary-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
+                                <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $pendapatanPct }}%"></div>
                             </div>
                             <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['pendapatan']['budget'], 0, ',', '.') }}</p>
                         </div>
                         <div class="mb-8">
                             <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-slate-400 text-sm">Total Belanja</span>
+                                <span class="font-bold text-sky-400 text-sm">Total Belanja</span>
                                 <span class="text-sm font-bold text-white">{{ number_format($belanjaPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-slate-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
+                                <div class="h-full bg-sky-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
                             </div>
                             <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
                         </div>

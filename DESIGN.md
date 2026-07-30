@@ -13,6 +13,7 @@ Dokumen ini menjadi acuan utama dalam merancang antarmuka pengguna (UI) agar kon
 - **Warna Utama (Theme Color):** Gunakan kelas warna tema statis atau dinamis yang sudah terdefinisi di konfigurasi `tailwind.config.js` (contoh: `bg-primary`, `text-primary`). Hindari *hardcode* warna sembarangan (seperti `bg-[#1abc9c]`) secara *inline*.
 - **Warna Netral (Neutral Color):** Gunakan skala warna abu-abu bawaan Tailwind (disarankan `slate` atau `zinc`) untuk teks (`text-slate-900`), latar belakang (`bg-slate-50`), dan garis batas (`border-slate-200`).
 - **Warna Semantik:** Gunakan konvensi standar untuk umpan balik (*Success* = `emerald`/`green`, *Warning* = `amber`/`yellow`, *Danger* = `red`/`rose`, *Info* = `blue`/`sky`).
+- **Data Visualisasi (Grafik/Chart):** Pengecualian dari Warna Utama; grafik atau diagram wajib menggunakan rentetan warna statis (misal: `emerald` untuk pemasukan, `sky` untuk pengeluaran) agar identitas data konsisten dan tidak luntur terbawa pergantian warna tema (*theme color*).
 - **Dark Mode:** Gunakan utilitas bawaan *Dark Mode* dari Tailwind (`dark:bg-slate-900`, `dark:text-white`) pada setiap rancangan antarmuka visual.
 
 ## 3. Tipografi
