@@ -130,8 +130,7 @@
 
 
     /* ─── Node Card ─── */
-    .oc-card { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fff; border: 2px solid #e2e8f0; border-radius: 18px; padding: 0 0 12px 0; width: 160px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: box-shadow 0.2s, transform 0.2s; cursor: default; }
-    .oc-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.12); transform: translateY(-2px); }
+    .oc-card { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fff; border: 2px solid #e2e8f0; border-radius: 18px; padding: 0 0 12px 0; width: 160px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); cursor: default; }
     .oc-photo { width: 100%; height: 170px; border-radius: 16px 16px 0 0; overflow: hidden; border: none; border-bottom: 2px solid #e2e8f0; flex-shrink: 0; background-size: cover; background-position: top center; background-repeat: no-repeat; }
 
     .oc-name { font-size: 13px; font-weight: 700; color: #0f172a; line-height: 1.15; font-family: 'Poppins', sans-serif; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; }
