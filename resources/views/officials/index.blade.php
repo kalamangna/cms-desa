@@ -667,8 +667,15 @@ document.addEventListener('alpine:init', function () {
                         .then(res => res.blob())
                         .then(blob => new Promise((resolve) => {
                             var reader = new FileReader();
-                            reader.onloadend = () => {
+                            reader.onloadend = function() {
                                 node.style.backgroundImage = 'url("' + reader.result + '")';
+                                if (node.classList.contains('kop-logo')) {
+                                    node.style.backgroundSize = 'contain';
+                                    node.style.backgroundPosition = 'center';
+                                } else {
+                                    node.style.backgroundSize = 'cover';
+                                    node.style.backgroundPosition = 'top center';
+                                }
                                 resolve();
                             };
                             reader.onerror = resolve; // Abaikan jika error
