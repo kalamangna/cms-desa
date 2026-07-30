@@ -91,14 +91,14 @@
     @else
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         @foreach($institutions as $institution)
-        <div class="group flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm hover:border-primary-200 overflow-hidden transition-all duration-300 gap-6 h-full">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm overflow-hidden gap-6 h-full">
 
             {{-- Logo --}}
             <div class="flex-shrink-0">
-                <div class="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 group-hover:ring-primary-200 transition-all duration-300 mx-auto sm:mx-0">
+                <div class="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 mx-auto sm:mx-0">
                     <img
                         src="{{ $institution->logo ? asset('storage/' . $institution->logo) : asset('img/meta.webp') }}"
-                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                        class="w-full h-full object-cover"
                         alt="{{ $institution->name }}"
                         loading="lazy"
                         onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
@@ -108,7 +108,7 @@
             {{-- Info --}}
             <div class="flex-1 w-full flex flex-col justify-between h-full">
                 <div class="mb-5">
-                    <h3 class="text-xl md:text-2xl font-heading font-bold text-slate-900 mb-3 group-hover:text-primary-600 transition-colors">{{ $institution->name }}</h3>
+                    <h3 class="text-xl md:text-2xl font-heading font-bold text-slate-900 mb-3">{{ $institution->name }}</h3>
                     @if($institution->description)
                     <div class="prose prose-sm prose-slate max-w-none text-slate-500 text-sm leading-relaxed line-clamp-3">
                         {!! strip_tags($institution->description) !!}
@@ -193,7 +193,7 @@
                           </h4>
                           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <template x-for="member in selectedInstitution.management" :key="member.name + member.position">
-                                  <div class="flex flex-col p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-primary-200 hover:bg-primary-50/30 transition-colors">
+                                  <div class="flex flex-col p-4 rounded-2xl bg-slate-50 border border-slate-200">
                                       <span class="text-[10px] font-black uppercase tracking-wider text-primary-600/80 mb-1" x-text="member.position"></span>
                                       <span class="text-sm font-bold text-slate-800" x-text="member.name"></span>
                                   </div>
