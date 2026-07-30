@@ -525,7 +525,7 @@ document.addEventListener('alpine:init', function () {
                 
                 var title1 = document.createElement('h1');
                 title1.textContent = 'Struktur Organisasi';
-                title1.style.fontFamily = "'Inter', 'Poppins', sans-serif";
+                title1.style.fontFamily = "Arial, Helvetica, sans-serif";
                 title1.style.fontWeight = 'bold';
                 title1.style.fontSize = '48px';
                 title1.style.color = '#0f172a'; // slate-900
@@ -533,7 +533,7 @@ document.addEventListener('alpine:init', function () {
                 
                 var title2 = document.createElement('h2');
                 title2.textContent = 'Pemerintah Desa ' + (this.villageName || '');
-                title2.style.fontFamily = "'Inter', 'Poppins', sans-serif";
+                title2.style.fontFamily = "Arial, Helvetica, sans-serif";
                 title2.style.fontWeight = 'normal';
                 title2.style.fontSize = '32px';
                 title2.style.color = '#475569'; // slate-600
@@ -543,6 +543,13 @@ document.addEventListener('alpine:init', function () {
                 titleContainer.appendChild(title2);
                 
                 clone.insertBefore(titleContainer, clone.firstChild);
+                
+                // Paksa penggunaan web-safe font standar (Arial/Helvetica) pada seluruh elemen klon
+                // Hal ini menjamin html2canvas bisa merender font dengan sempurna tanpa tergantung koneksi atau CORS Google Fonts
+                var allNodes = [clone].concat(Array.from(clone.querySelectorAll('*')));
+                allNodes.forEach(function(el) {
+                    el.style.fontFamily = "Arial, Helvetica, sans-serif";
+                });
                 
                 offscreenContainer.appendChild(clone);
                 
