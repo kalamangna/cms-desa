@@ -262,8 +262,8 @@
         </div>
 
         {{-- Luas Wilayah --}}
-        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group hover:border-violet-400 hover:-translate-y-1 transition duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-50 flex items-center justify-center text-violet-600 group-hover:bg-violet-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-ruler-combined text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
