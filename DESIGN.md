@@ -14,6 +14,7 @@ Dokumen ini menjadi acuan utama dalam merancang antarmuka pengguna (UI) agar kon
 - **Warna Netral (Neutral Color):** Gunakan skala warna abu-abu bawaan Tailwind (disarankan `slate` atau `zinc`) untuk teks (`text-slate-900`), latar belakang (`bg-slate-50`), dan garis batas (`border-slate-200`).
 - **Warna Semantik:** Gunakan konvensi standar untuk umpan balik (*Success* = `emerald`/`green`, *Warning* = `amber`/`yellow`, *Danger* = `red`/`rose`, *Info* = `blue`/`sky`).
 - **Data Visualisasi (Grafik/Chart):** Pengecualian dari Warna Utama; grafik, diagram, atau batang progres mutlak wajib menggunakan set warna statis (misal: `emerald` untuk dataset A, `sky` untuk dataset B) agar identitas perbandingan data tetap konsisten dan tidak luntur karena perubahan warna tema (*theme color*).
+- **Merek & Sosial Media:** Pengecualian dari Warna Utama; elemen yang mewakili identitas pihak ketiga (seperti logo Facebook, YouTube, WhatsApp) wajib menggunakan palet warna asli merek tersebut secara statis (misal: `blue` untuk Facebook, `red` untuk YouTube) agar dapat langsung dikenali pengguna.
 - **Dark Mode:** Gunakan utilitas bawaan *Dark Mode* dari Tailwind (`dark:bg-slate-900`, `dark:text-white`) pada setiap rancangan antarmuka visual.
 
 ## 3. Tipografi
