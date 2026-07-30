@@ -68,7 +68,11 @@ class ManageSettings extends Page implements HasForms
                                             ->label('Provinsi')
                                             ->placeholder('Pilih Provinsi')
                                             ->helperText('Pilih lokasi provinsi desa.')
-                                            ->options(fn() => self::getProvinces())
+                                            ->options(function (\Filament\Schemas\Components\Utilities\Get $get) {
+                                                $opts = self::getProvinces();
+                                                if ($val = $get('province_name')) $opts[$val] = $val;
+                                                return $opts;
+                                            })
                                             ->searchable()
                                             ->preload()
                                             ->live(),
@@ -76,8 +80,12 @@ class ManageSettings extends Page implements HasForms
                                             ->label('Kabupaten/Kota')
                                             ->placeholder('Pilih Kabupaten/Kota')
                                             ->helperText('Pilih kabupaten/kota desa.')
-                                            ->options(fn($get) => $get('province_name') ? self::getRegencies($get('province_name')) : [])
-                                            ->disabled(fn($get) => !$get('province_name'))
+                                            ->options(function (\Filament\Schemas\Components\Utilities\Get $get) {
+                                                $opts = $get('province_name') ? self::getRegencies($get('province_name')) : [];
+                                                if ($val = $get('regency_name')) $opts[$val] = $val;
+                                                return $opts;
+                                            })
+                                            ->disabled(fn(\Filament\Schemas\Components\Utilities\Get $get) => !$get('province_name'))
                                             ->searchable()
                                             ->preload()
                                             ->live(),
@@ -85,8 +93,12 @@ class ManageSettings extends Page implements HasForms
                                             ->label('Kecamatan')
                                             ->placeholder('Pilih Kecamatan')
                                             ->helperText('Pilih kecamatan desa.')
-                                            ->options(fn($get) => $get('regency_name') && $get('province_name') ? self::getDistricts($get('province_name'), $get('regency_name')) : [])
-                                            ->disabled(fn($get) => !$get('regency_name'))
+                                            ->options(function (\Filament\Schemas\Components\Utilities\Get $get) {
+                                                $opts = $get('regency_name') && $get('province_name') ? self::getDistricts($get('province_name'), $get('regency_name')) : [];
+                                                if ($val = $get('district_name')) $opts[$val] = $val;
+                                                return $opts;
+                                            })
+                                            ->disabled(fn(\Filament\Schemas\Components\Utilities\Get $get) => !$get('regency_name'))
                                             ->searchable()
                                             ->preload(),
                                     ])

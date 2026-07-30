@@ -18,7 +18,7 @@ class SettingSeeder extends Seeder
             // Identitas Desa
             ['key' => 'village_name', 'value' => 'Tompobulu'],
             ['key' => 'province_name', 'value' => 'Sulawesi Selatan'],
-            ['key' => 'regency_name', 'value' => 'Sinjai'],
+            ['key' => 'regency_name', 'value' => 'Kabupaten Sinjai'],
             ['key' => 'district_name', 'value' => 'Bulupoddo'],
             
             // Pemerintahan
