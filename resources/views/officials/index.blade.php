@@ -591,7 +591,6 @@ document.addEventListener('alpine:init', function () {
         
         var imgTag = document.createElement('img');
         imgTag.src = photo;
-        imgTag.crossOrigin = 'anonymous';
         imgTag.style.width = '100%';
         imgTag.style.height = '100%';
         imgTag.style.objectFit = 'cover';
