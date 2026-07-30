@@ -514,6 +514,35 @@ document.addEventListener('alpine:init', function () {
                 clone.style.transition = 'none';
                 clone.style.transform = 'scale(1)';
                 clone.style.transformOrigin = 'top center';
+                
+                // Injeksi elemen judul langsung ke dalam DOM clone
+                // agar html2canvas merendernya dengan font web asli (Inter/Poppins)
+                var titleContainer = document.createElement('div');
+                titleContainer.style.textAlign = 'center';
+                titleContainer.style.marginBottom = '60px';
+                titleContainer.style.paddingTop = '20px';
+                
+                var title1 = document.createElement('h1');
+                title1.textContent = 'Struktur Organisasi';
+                title1.style.fontFamily = "'Inter', 'Poppins', sans-serif";
+                title1.style.fontWeight = 'bold';
+                title1.style.fontSize = '48px';
+                title1.style.color = '#0f172a'; // slate-900
+                title1.style.margin = '0 0 10px 0';
+                
+                var title2 = document.createElement('h2');
+                title2.textContent = 'Pemerintah Desa ' + (this.villageName || '');
+                title2.style.fontFamily = "'Inter', 'Poppins', sans-serif";
+                title2.style.fontWeight = 'normal';
+                title2.style.fontSize = '32px';
+                title2.style.color = '#475569'; // slate-600
+                title2.style.margin = '0';
+
+                titleContainer.appendChild(title1);
+                titleContainer.appendChild(title2);
+                
+                clone.insertBefore(titleContainer, clone.firstChild);
+                
                 offscreenContainer.appendChild(clone);
                 
                 // Konversi semua background-image di dalam klon menjadi Base64 menggunakan Fetch API
@@ -562,22 +591,12 @@ document.addEventListener('alpine:init', function () {
                     
                     var padding = 40;
                     var pdfWidth = (imgWidth / scale) + (padding * 2);
-                    var pdfHeight = (imgHeight / scale) + 160 + padding;
+                    var pdfHeight = (imgHeight / scale) + (padding * 2);
 
                     var { jsPDF } = window.jspdf;
                     var doc = new jsPDF('l', 'px', [pdfWidth, pdfHeight]);
                     
-                    doc.setFont('Helvetica', 'bold');
-                    doc.setFontSize(48);
-                    doc.setTextColor(15, 23, 42);
-                    doc.text('Struktur Organisasi', pdfWidth / 2, 60, { align: 'center' });
-
-                    doc.setFont('Helvetica', 'normal');
-                    doc.setFontSize(32);
-                    doc.setTextColor(71, 85, 105);
-                    doc.text('Pemerintah Desa ' + this.villageName, pdfWidth / 2, 105, { align: 'center' });
-
-                    doc.addImage(imgData, 'JPEG', padding, 160, imgWidth / scale, imgHeight / scale, undefined, 'FAST');
+                    doc.addImage(imgData, 'JPEG', padding, padding, imgWidth / scale, imgHeight / scale, undefined, 'FAST');
                     
                     doc.save('Struktur_Organisasi_Desa_' + (this.villageName || 'Pemerintah').replace(/\s+/g, '_') + '.pdf');
                     
