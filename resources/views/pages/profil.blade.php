@@ -46,7 +46,7 @@
         <div class="mb-8">
             <h2 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Sejarah Desa</h2>
         </div>
-        <div class="prose prose-primary max-w-none text-slate-600 leading-relaxed font-medium">
+        <div class="prose prose-slate max-w-none text-slate-600 leading-relaxed font-medium">
             @if(!empty(trim(strip_tags($site_settings['village_history'] ?? ''))))
                 {!! $site_settings['village_history'] !!}
             @else
@@ -61,7 +61,7 @@
 </section>
 
 {{-- ===================== SECTION 2: VISI & MISI ===================== --}}
-<section class="bg-slate-50 py-16 md:py-20 lg:py-28 border-y border-slate-100">
+<section class="bg-slate-50 py-16 md:py-20 lg:py-28 border-y border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-12 text-center">
             <h2 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Visi &amp; Misi</h2>
@@ -85,7 +85,7 @@
             </div>
         </div>
         @else
-        <div class="bg-white rounded-[32px] p-10 md:p-16 border border-slate-100 shadow-sm mb-10">
+        <div class="bg-white rounded-[32px] p-10 md:p-16 border border-slate-200 shadow-sm mb-10">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center">
                     <i class="fa-solid fa-eye"></i>
@@ -101,14 +101,14 @@
         @endif
 
         {{-- Misi Card --}}
-        <div class="bg-white rounded-[32px] p-10 md:p-16 border border-slate-100 shadow-sm">
+        <div class="bg-white rounded-[32px] p-10 md:p-16 border border-slate-200 shadow-sm">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center">
                     <i class="fa-solid fa-list-check"></i>
                 </div>
                 <span class="text-slate-500 font-black text-[11px] uppercase tracking-[0.3em]">Misi</span>
             </div>
-            <div class="prose prose-primary max-w-none text-slate-600 font-medium">
+            <div class="prose prose-slate max-w-none text-slate-600 font-medium">
                 @if(!empty(trim(strip_tags($site_settings['village_mission'] ?? ''))))
                     {!! $site_settings['village_mission'] !!}
                 @else
@@ -132,7 +132,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {{-- Luas Wilayah --}}
-            <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm text-center">
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
                 <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mx-auto mb-5">
                     <i class="fa-solid fa-map-location-dot"></i>
                 </div>
@@ -142,7 +142,7 @@
             </div>
 
             {{-- Populasi --}}
-            <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm text-center">
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
                 <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mx-auto mb-5">
                     <i class="fa-solid fa-users"></i>
                 </div>
@@ -152,7 +152,7 @@
             </div>
 
             {{-- Jumlah Dusun --}}
-            <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm text-center">
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
                 <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mx-auto mb-5">
                     <i class="fa-solid fa-map-pin"></i>
                 </div>
@@ -162,7 +162,7 @@
             </div>
 
             {{-- Topografi --}}
-            <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm text-center">
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
                 <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mx-auto mb-5">
                     <i class="fa-solid fa-mountain-sun"></i>
                 </div>
