@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\StatisticCategory;
 use App\Models\PopupInfographic;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class StatisticAndPopupSeeder extends Seeder
 {
@@ -91,23 +92,32 @@ class StatisticAndPopupSeeder extends Seeder
             StatisticCategory::create($stat);
         }
 
+        // Pastikan direktori popup-infographics ada
+        if (!Storage::disk('public')->exists('popup-infographics')) {
+            Storage::disk('public')->makeDirectory('popup-infographics');
+        }
+        // Salin meta.webp sebagai dummy jika belum ada
+        if (!Storage::disk('public')->exists('popup-infographics/meta.webp') && file_exists(public_path('img/meta.webp'))) {
+            Storage::disk('public')->put('popup-infographics/meta.webp', file_get_contents(public_path('img/meta.webp')));
+        }
+
         // 2. Popup Infografis
         $popups = [
             [
                 'title' => 'Selamat Datang di Website Desa Tompobulu',
-                'image' => '../img/meta.webp',
+                'image' => 'popup-infographics/meta.webp',
                 'sort_order' => 1,
                 'is_active' => true,
             ],
             [
                 'title' => 'Waspada Demam Berdarah',
-                'image' => '../img/meta.webp',
+                'image' => 'popup-infographics/meta.webp',
                 'sort_order' => 2,
                 'is_active' => false,
             ],
             [
                 'title' => 'Layanan Surat Online Kini Tersedia',
-                'image' => '../img/meta.webp',
+                'image' => 'popup-infographics/meta.webp',
                 'sort_order' => 3,
                 'is_active' => true,
             ]

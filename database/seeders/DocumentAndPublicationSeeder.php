@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Document;
 use App\Models\Publication;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentAndPublicationSeeder extends Seeder
 {
@@ -54,6 +55,15 @@ class DocumentAndPublicationSeeder extends Seeder
             Document::create($doc);
         }
 
+        // Pastikan direktori publications ada
+        if (!Storage::disk('public')->exists('publications')) {
+            Storage::disk('public')->makeDirectory('publications');
+        }
+        // Salin meta.webp sebagai dummy cover
+        if (!Storage::disk('public')->exists('publications/meta.webp') && file_exists(public_path('img/meta.webp'))) {
+            Storage::disk('public')->put('publications/meta.webp', file_get_contents(public_path('img/meta.webp')));
+        }
+
         // 2. Publikasi
         // Asumsi tipe publikasi: APBDes, RPJMDes, LPPD, LKPJ, dll.
         $publications = [
@@ -61,28 +71,28 @@ class DocumentAndPublicationSeeder extends Seeder
                 'title' => 'Infografis APBDes Tahun Anggaran 2024',
                 'type' => 'APBDes',
                 'year' => 2024,
-                'cover' => '../img/meta.webp',
+                'cover' => 'publications/meta.webp',
                 'pdf_file' => 'publications/infografis-apbdes-2024.pdf',
             ],
             [
                 'title' => 'Laporan Penyelenggaraan Pemerintahan Desa 2023',
                 'type' => 'LPPD',
                 'year' => 2023,
-                'cover' => '../img/meta.webp',
+                'cover' => 'publications/meta.webp',
                 'pdf_file' => 'publications/lppd-2023.pdf',
             ],
             [
                 'title' => 'RKPDes Tahun 2024',
                 'type' => 'RKPDes',
                 'year' => 2024,
-                'cover' => '../img/meta.webp',
+                'cover' => 'publications/meta.webp',
                 'pdf_file' => 'publications/rkpdes-2024.pdf',
             ],
             [
                 'title' => 'Buku Profil Desa Tompobulu',
                 'type' => 'Profil',
                 'year' => 2022,
-                'cover' => '../img/meta.webp',
+                'cover' => 'publications/meta.webp',
                 'pdf_file' => 'publications/profil-desa-2022.pdf',
             ],
         ];
