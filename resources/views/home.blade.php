@@ -623,12 +623,7 @@
                      onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                 
                 @if($gallery->type === 'video')
-                    <div class="absolute top-3 left-3 z-20">
-                        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-lg shadow-red-600/40">
-                            <i class="fa-brands fa-youtube text-[10px]"></i>
-                            YouTube
-                        </span>
-                    </div>
+
                     <div class="absolute inset-0 bg-slate-950/30 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
                         <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center shadow-xl shadow-red-950/40 text-white text-sm">
                             <i class="fa-solid fa-play ml-0.5"></i>

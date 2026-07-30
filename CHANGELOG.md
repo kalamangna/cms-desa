@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.65] - 2026-07-31
+
+### Changed
+- **Tampilan Galeri**: Menghapus *badge* logo YouTube pada antarmuka kartu galeri (video) di halaman beranda.
+
 ## [1.26.64] - 2026-07-31
 
 ### Changed
