@@ -239,7 +239,7 @@
 
         {{-- Keluarga --}}
         <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-house-chimney text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -251,7 +251,7 @@
 
         {{-- Dusun --}}
         <div class="bg-white p-4 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group transition duration-300 cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition duration-300 flex-shrink-0 mx-auto sm:mx-0">
                 <i class="fa-solid fa-map-location-dot text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
@@ -292,30 +292,30 @@
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Panduan dan pengajuan administrasi kependudukan</p>
         </a>
         
-        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-rose-100/50 hover:border-rose-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-rose-500 group-hover:border-rose-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-rose-500/30">
-                <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-rose-600 group-hover:text-white transition-colors"></i>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
+                <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-rose-700 transition-colors">Lapor & Pengaduan</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-primary-700 transition-colors">Lapor & Pengaduan</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Sampaikan aspirasi atau laporan masalah warga</p>
         </a>
         
-        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-sky-100/50 hover:border-sky-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-sky-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-sky-500 group-hover:border-sky-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-sky-500/30">
-                <i class="fa-solid fa-address-book text-2xl md:text-3xl text-sky-600 group-hover:text-white transition-colors"></i>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
+                <i class="fa-solid fa-address-book text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-sky-700 transition-colors">Buku Tamu</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-primary-700 transition-colors">Buku Tamu</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Tinggalkan pesan, kesan, atau saran untuk desa</p>
         </a>
         
-        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-amber-100/50 hover:border-amber-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
+        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-primary-100/50 hover:border-primary-300 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-amber-500 group-hover:border-amber-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-amber-500/30">
-                <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-amber-600 group-hover:text-white transition-colors"></i>
+            <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary-500 group-hover:border-primary-500 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/30">
+                <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-amber-700 transition-colors">Potensi Desa</h3>
+            <h3 class="relative z-10 font-heading font-extrabold text-slate-800 text-base md:text-lg mb-2 group-hover:text-primary-700 transition-colors">Potensi Desa</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Eksplorasi pariwisata, budaya, dan komoditas lokal</p>
         </a>
     </div>
@@ -427,11 +427,11 @@
                         </div>
                         <div class="mb-8">
                             <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-sky-400 text-sm">Total Belanja</span>
+                                <span class="font-bold text-slate-400 text-sm">Total Belanja</span>
                                 <span class="text-sm font-bold text-white">{{ number_format($belanjaPct, 1, ',', '.') }}%</span>
                             </div>
                             <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-sky-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
+                                <div class="h-full bg-slate-500 rounded-full" style="width: {{ $belanjaPct }}%"></div>
                             </div>
                             <p class="text-xs text-slate-300 font-medium mt-3">Target: Rp {{ number_format($budgetSummary['belanja']['budget'], 0, ',', '.') }}</p>
                         </div>
@@ -525,8 +525,8 @@
                         @forelse($announcements as $ann)
                         <a href="/pengumuman" class="block bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-primary-300 hover:-translate-y-0.5 active:scale-95 transition-all duration-200">
                             <div class="flex items-start gap-3">
-                                <div class="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <i class="fa-solid fa-bullhorn text-amber-600 text-xs"></i>
+                                <div class="w-9 h-9 rounded-xl bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-bullhorn text-primary-600 text-xs"></i>
                                 </div>
                                 <div class="min-w-0">
                                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{{ $ann->published_at->translatedFormat('d M Y') }}</p>
