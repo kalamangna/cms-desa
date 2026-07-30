@@ -11,23 +11,23 @@
      ========================================================= --}}
 <div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
-                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                    <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1">
                         <i class="fa-solid fa-house text-[10px]"></i> Beranda
                     </a>
                 </li>
                 <li class="flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <i class="fa-solid fa-chevron-right text-[9px] text-primary-500/40"></i>
                     <span class="text-white">Berita</span>
                 </li>
             </ol>
@@ -36,7 +36,7 @@
         {{-- Heading --}}
         <div class="max-w-3xl">
             <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
-                Berita <span class="text-emerald-500 italic">Terbaru</span>
+                Berita <span class="text-primary-500 italic">Terbaru</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2">
                 Kabar kegiatan, pembangunan, dan perkembangan Desa {{ $site_settings['village_name'] ?? '' }}.
@@ -58,7 +58,7 @@
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
                     <input type="text" name="search" value="{{ request('search') }}"
                            placeholder="Cari berita..."
-                           class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent font-medium text-slate-700 shadow-sm text-sm">
+                           class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 shadow-sm text-sm">
                 </div>
             </form>
         </div>
@@ -74,7 +74,7 @@
 
                     {{-- ─── Featured Card (first post) ──────────────────── --}}
                     @if($index === 0)
-                    <a href="/berita/{{ $post->slug }}" class="group block mb-10 md:mb-14">
+                    <a href="/berita/{{ $post->slug }}" class="group block mb-10 md:mb-14 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-3xl transition-transform duration-300">
                         <div class="relative rounded-3xl overflow-hidden shadow-xl shadow-slate-200 border border-white">
                             {{-- Image --}}
                             <div class="aspect-[16/8] w-full overflow-hidden bg-slate-200">
@@ -93,7 +93,7 @@
                             {{-- Category badge --}}
                             <div class="absolute top-5 left-5 flex gap-2">
                                 @if($post->category)
-                                <span class="bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-md">
+                                <span class="bg-primary-500 text-white text-[10px] font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-md">
                                     {{ $post->category->name }}
                                 </span>
                                 @endif
@@ -101,17 +101,17 @@
 
                             {{-- Content overlay --}}
                             <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                                <time class="text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-3 block">
+                                <time class="text-primary-400 text-[10px] font-black uppercase tracking-widest mb-3 block">
                                     <i class="fa-regular fa-calendar mr-1.5"></i>
                                     {{ $post->published_at->translatedFormat('d F Y') }}
                                 </time>
-                                <h2 class="text-xl md:text-2xl lg:text-3xl font-heading font-extrabold text-white leading-tight group-hover:text-emerald-300 transition-colors duration-300 line-clamp-2 mb-3">
+                                <h2 class="text-xl md:text-2xl lg:text-3xl font-heading font-extrabold text-white leading-tight group-hover:text-primary-300 transition-colors duration-300 line-clamp-2 mb-3">
                                     {{ $post->title }}
                                 </h2>
                                 <p class="text-slate-300 text-sm leading-relaxed line-clamp-2 hidden md:block">
                                     {{ Str::limit(strip_tags($post->content), 160) }}
                                 </p>
-                                <div class="mt-5 inline-flex items-center gap-2 text-emerald-400 font-bold text-sm group-hover:gap-3 transition-all">
+                                <div class="mt-5 inline-flex items-center gap-2 text-primary-400 font-bold text-sm group-hover:gap-3 transition-all">
                                     Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i>
                                 </div>
                             </div>
@@ -126,9 +126,9 @@
                     @endif
 
                     {{-- ─── Regular Post Card ────────────────────────────── --}}
-                    <article class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <a href="/berita/{{ $post->slug }}" class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg hover:border-primary-300 hover:-translate-y-1 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 flex flex-col">
                         {{-- Thumbnail --}}
-                        <a href="/berita/{{ $post->slug }}" class="block relative overflow-hidden aspect-[16/10] bg-slate-100 flex-shrink-0">
+                        <div class="block relative overflow-hidden aspect-[16/10] bg-slate-100 flex-shrink-0">
                             <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                  alt="{{ $post->title }}"
@@ -136,29 +136,28 @@
                                  onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
                             @if($post->category)
-                            <span class="absolute top-4 left-4 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">
+                            <span class="absolute top-4 left-4 bg-primary-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">
                                 {{ $post->category->name }}
                             </span>
                             @endif
-                        </a>
+                        </div>
 
                         {{-- Body --}}
                         <div class="p-5 flex flex-col flex-grow">
-                            <time class="text-emerald-600 font-bold text-[10px] uppercase tracking-widest mb-2.5 block">
+                            <time class="text-primary-600 font-bold text-[10px] uppercase tracking-widest mb-2.5 block">
                                 {{ $post->published_at->translatedFormat('d M Y') }}
                             </time>
-                            <h2 class="text-base font-heading font-bold text-slate-900 leading-snug mb-3 group-hover:text-emerald-600 transition-colors line-clamp-2 flex-grow">
-                                <a href="/berita/{{ $post->slug }}">{{ $post->title }}</a>
+                            <h2 class="text-base font-heading font-bold text-slate-900 leading-snug mb-3 group-hover:text-primary-600 transition-colors line-clamp-2 flex-grow">
+                                {{ $post->title }}
                             </h2>
                             <p class="text-slate-500 text-xs leading-relaxed line-clamp-2 mb-4">
                                 {{ Str::limit(strip_tags($post->content), 100) }}
                             </p>
-                            <a href="/berita/{{ $post->slug }}"
-                               class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-emerald-600 transition-colors group/link mt-auto">
+                            <div class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 group-hover:text-primary-600 transition-colors group/link mt-auto">
                                 Baca <i class="fa-solid fa-arrow-right text-[9px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </a>
+                            </div>
                         </div>
-                    </article>
+                    </a>
 
                     {{-- ─── Close grid wrapper after last post ──────────── --}}
                     @if($loop->last)
@@ -190,15 +189,15 @@
             <aside class="lg:w-1/3 xl:w-[32%] space-y-8">
 
                 {{-- Search (desktop) --}}
-                <div class="hidden lg:block bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-300">
+                <div class="hidden lg:block bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-primary-300 transition-all duration-300">
                     <h3 class="text-base font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-magnifying-glass text-emerald-500 text-sm"></i> Cari Berita
+                        <i class="fa-solid fa-magnifying-glass text-primary-500 text-sm"></i> Cari Berita
                     </h3>
                     <form action="/berita" method="GET">
                         <div class="relative">
                             <input type="text" name="search" value="{{ request('search') }}"
                                    placeholder="Kata kunci..."
-                                   class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent font-medium text-slate-700 text-sm">
+                                   class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 text-sm">
                             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                         </div>
                     </form>
@@ -206,17 +205,17 @@
 
                 {{-- Categories --}}
                 <div class="bg-slate-900 rounded-3xl p-6 shadow-xl shadow-slate-900/15">
-                    <h3 class="text-base font-heading font-bold text-emerald-400 mb-5 flex items-center gap-2 pb-4 border-b border-white/10">
+                    <h3 class="text-base font-heading font-bold text-primary-400 mb-5 flex items-center gap-2 pb-4 border-b border-white/10">
                         <i class="fa-solid fa-tags text-sm"></i> Kategori
                     </h3>
                     <ul class="space-y-2.5">
                         <li>
                             <a href="/berita"
-                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ !request('category') ? 'bg-emerald-500/20 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group">
+                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ !request('category') ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
                                 <span class="font-medium text-sm flex items-center gap-2">
                                     <i class="fa-solid fa-layer-group text-[10px]"></i> Semua Berita
                                 </span>
-                                <span class="bg-white/10 text-[10px] font-black px-2 py-0.5 rounded-md group-hover:bg-emerald-500 transition-colors">
+                                <span class="bg-white/10 text-[10px] font-black px-2 py-0.5 rounded-md group-hover:bg-primary-500 transition-colors">
                                     {{ $posts->total() }}
                                 </span>
                             </a>
@@ -224,12 +223,12 @@
                         @foreach($categories as $category)
                         <li>
                             <a href="/berita?category={{ $category->slug }}"
-                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ request('category') === $category->slug ? 'bg-emerald-500/20 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group">
+                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ request('category') === $category->slug ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
                                 <span class="font-medium text-sm flex items-center gap-2">
                                     <i class="fa-solid fa-circle text-[6px]"></i>
                                     {{ $category->name }}
                                 </span>
-                                <span class="bg-white/10 text-[10px] font-black px-2 py-0.5 rounded-md group-hover:bg-emerald-500 transition-colors">
+                                <span class="bg-white/10 text-[10px] font-black px-2 py-0.5 rounded-md group-hover:bg-primary-500 transition-colors">
                                     {{ $category->posts_count ?? '0' }}
                                 </span>
                             </a>
@@ -239,16 +238,16 @@
                 </div>
 
                 {{-- Info Box --}}
-                <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-3xl p-6 text-white shadow-xl shadow-emerald-500/20">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 rounded-3xl p-6 text-white shadow-xl shadow-primary-500/20">
                     <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
                         <i class="fa-solid fa-bullhorn text-xl"></i>
                     </div>
                     <h3 class="font-heading font-extrabold text-lg mb-2">Pengumuman Resmi</h3>
-                    <p class="text-emerald-100 text-sm leading-relaxed mb-4">
+                    <p class="text-primary-100 text-sm leading-relaxed mb-4">
                         Lihat edaran dan informasi penting dari pemerintah desa.
                     </p>
                     <a href="/pengumuman"
-                       class="inline-flex items-center gap-2 bg-white text-emerald-700 font-bold text-sm px-4 py-2.5 rounded-xl hover:bg-emerald-50 transition-colors">
+                       class="inline-flex items-center gap-2 bg-white text-primary-700 font-bold text-sm px-4 py-2.5 rounded-xl hover:bg-primary-50 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-500">
                         Lihat Pengumuman <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
                 </div>

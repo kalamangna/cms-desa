@@ -61,19 +61,19 @@
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex flex-wrap items-center gap-2">
                 <li>
-                    <a href="/" class="hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+                    <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1">
                         <i class="fa-solid fa-house text-[10px]"></i> Beranda
                     </a>
                 </li>
                 <li class="flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
-                    <a href="/berita" class="hover:text-emerald-400 transition-colors">Berita</a>
+                    <i class="fa-solid fa-chevron-right text-[9px] text-primary-500/40"></i>
+                    <a href="/berita" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 rounded-md px-1">Berita</a>
                 </li>
                 <li class="flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-right text-[9px] text-emerald-500/40"></i>
+                    <i class="fa-solid fa-chevron-right text-[9px] text-primary-500/40"></i>
                     <span class="text-white/70 truncate max-w-[180px] md:max-w-none normal-case tracking-normal font-medium">
                         {{ Str::limit($post->title, 40) }}
                     </span>
@@ -85,7 +85,7 @@
         @if($post->category)
         <div class="mb-5">
             <a href="/berita?category={{ $post->category->slug }}"
-               class="inline-flex items-center gap-2 bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full hover:bg-emerald-500/25 transition-colors">
+               class="inline-flex items-center gap-2 bg-primary-500/15 border border-primary-500/25 text-primary-400 text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full hover:bg-primary-500/25 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
                 <i class="fa-solid fa-tag text-[9px]"></i>
                 {{ $post->category->name }}
             </a>
@@ -100,17 +100,17 @@
         {{-- Meta --}}
         <div class="flex flex-wrap items-center gap-4 md:gap-6 text-slate-400 text-xs font-bold uppercase tracking-widest">
             <span class="flex items-center gap-2">
-                <i class="fa-regular fa-calendar text-emerald-400"></i>
+                <i class="fa-regular fa-calendar text-primary-400"></i>
                 {{ $post->published_at->translatedFormat('d F Y') }}
             </span>
             <span class="w-px h-4 bg-slate-700 hidden md:block"></span>
             <span class="flex items-center gap-2">
-                <i class="fa-solid fa-user text-emerald-400"></i>
+                <i class="fa-solid fa-user text-primary-400"></i>
                 Admin Desa
             </span>
             <span class="w-px h-4 bg-slate-700 hidden md:block"></span>
             <span class="flex items-center gap-2">
-                <i class="fa-regular fa-clock text-emerald-400"></i>
+                <i class="fa-regular fa-clock text-primary-400"></i>
                 {{ $post->published_at->diffForHumans() }}
             </span>
         </div>
@@ -139,13 +139,13 @@
             {{-- ─── Article Body ────────────────────────────────────── --}}
             <div class="px-6 md:px-12 lg:px-16 pt-10 md:pt-14 pb-8">
                 {{-- Prose content --}}
-                <div class="prose prose-lg md:prose-xl prose-emerald max-w-none
+                <div class="prose prose-lg md:prose-xl prose-slate max-w-none
                             prose-headings:font-heading prose-headings:text-slate-900 prose-headings:font-bold
                             prose-p:text-slate-600 prose-p:leading-relaxed prose-p:font-medium
-                            prose-a:text-emerald-600 prose-a:font-semibold hover:prose-a:text-emerald-700
+                            prose-a:text-primary-600 prose-a:font-semibold hover:prose-a:text-primary-700
                             prose-img:rounded-2xl prose-img:shadow-lg
-                            prose-blockquote:border-emerald-500 prose-blockquote:bg-emerald-50/50 prose-blockquote:rounded-r-2xl prose-blockquote:py-1
-                            prose-code:text-emerald-700 prose-code:bg-emerald-50 prose-code:rounded prose-code:px-1
+                            prose-blockquote:border-primary-500 prose-blockquote:bg-primary-50/50 prose-blockquote:rounded-r-2xl prose-blockquote:py-1
+                            prose-code:text-primary-700 prose-code:bg-primary-50 prose-code:rounded prose-code:px-1
                             prose-strong:text-slate-800">
                     {!! $post->content !!}
                 </div>
@@ -163,19 +163,19 @@
                         <div class="flex gap-2.5">
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
                                target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-200 shadow-sm"
+                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                title="Bagikan ke Facebook">
                                 <i class="fa-brands fa-facebook-f text-sm"></i>
                             </a>
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' - ' . request()->fullUrl()) }}"
                                target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-green-500 hover:text-white hover:border-green-500 transition-all duration-200 shadow-sm"
+                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-green-500 hover:text-white hover:border-green-500 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                                title="Bagikan ke WhatsApp">
                                 <i class="fa-brands fa-whatsapp text-base"></i>
                             </a>
 
                             <button onclick="navigator.clipboard.writeText(window.location.href); this.innerHTML='<i class=\'fa-solid fa-check\'></i>'; setTimeout(()=>{ this.innerHTML='<i class=\'fa-solid fa-link\'></i>'; }, 2000)"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 transition-all duration-200 shadow-sm"
+                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                                title="Salin tautan">
                                 <i class="fa-solid fa-link text-sm"></i>
                             </button>
@@ -184,7 +184,7 @@
 
                     {{-- Back button --}}
                     <a href="/berita"
-                       class="inline-flex items-center gap-2.5 bg-slate-900 text-white font-bold text-sm px-6 py-3 rounded-xl hover:bg-emerald-600 transition-all duration-200 shadow-lg shadow-slate-900/15 group">
+                       class="inline-flex items-center gap-2.5 bg-slate-900 text-white font-bold text-sm px-6 py-3 rounded-xl hover:bg-primary-600 transition-all duration-200 shadow-lg shadow-slate-900/15 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                         <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform duration-200"></i>
                         Kembali ke Berita
                     </a>
@@ -199,13 +199,13 @@
         <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
             @if(isset($prevPost))
             <a href="/berita/{{ $prevPost->slug }}"
-               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-100 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-emerald-200 hover:-translate-y-0.5 transition-all duration-200">
-                <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-all">
                     <i class="fa-solid fa-arrow-left text-sm text-slate-500 group-hover:text-white"></i>
                 </div>
                 <div class="min-w-0">
                     <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Sebelumnya</div>
-                    <div class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-emerald-600 transition-colors">
+                    <div class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-primary-600 transition-colors">
                         {{ $prevPost->title }}
                     </div>
                 </div>
@@ -216,13 +216,13 @@
 
             @if(isset($nextPost))
             <a href="/berita/{{ $nextPost->slug }}"
-               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-100 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-emerald-200 hover:-translate-y-0.5 transition-all duration-200 sm:flex-row-reverse sm:text-right">
-                <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:flex-row-reverse sm:text-right">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-all">
                     <i class="fa-solid fa-arrow-right text-sm text-slate-500 group-hover:text-white"></i>
                 </div>
                 <div class="min-w-0">
                     <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Selanjutnya</div>
-                    <div class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-emerald-600 transition-colors">
+                    <div class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-primary-600 transition-colors">
                         {{ $nextPost->title }}
                     </div>
                 </div>
@@ -240,7 +240,7 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                 @foreach($relatedPosts as $related)
-                <a href="/berita/{{ $related->slug }}" class="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-200 flex flex-col">
+                <a href="/berita/{{ $related->slug }}" class="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-1 transition-all duration-300 flex flex-col active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                     <div class="aspect-[16/9] overflow-hidden bg-slate-100">
                         <img src="{{ $related->featured_image ? asset('storage/' . $related->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -249,10 +249,10 @@
 
                     </div>
                     <div class="p-4 flex flex-col flex-grow">
-                        <time class="text-emerald-600 font-bold text-[9px] uppercase tracking-widest mb-1.5 block">
+                        <time class="text-primary-600 font-bold text-[9px] uppercase tracking-widest mb-1.5 block">
                             {{ $related->published_at->translatedFormat('d M Y') }}
                         </time>
-                        <h3 class="text-sm font-heading font-bold text-slate-800 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+                        <h3 class="text-sm font-heading font-bold text-slate-800 line-clamp-2 group-hover:text-primary-600 transition-colors">
                             {{ $related->title }}
                         </h3>
                     </div>
