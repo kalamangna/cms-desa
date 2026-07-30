@@ -204,7 +204,7 @@
 
         {{-- ========== RIGHT: Peta ========== --}}
         <div class="lg:sticky lg:top-24 self-start">
-            <div class="rounded-[40px] overflow-hidden shadow-2xl shadow-slate-300/40 border-4 border-white h-[520px] lg:h-[680px] relative bg-slate-100">
+            <div class="rounded-[32px] overflow-hidden shadow-2xl shadow-slate-300/40 border-4 border-white h-[520px] lg:h-[680px] relative bg-slate-100">
                 @if(!empty($site_settings['village_name']))
                 <iframe
                     class="w-full h-full absolute inset-0 z-0 border-0"

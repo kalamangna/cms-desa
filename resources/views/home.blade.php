@@ -34,12 +34,12 @@
             const hasShown = sessionStorage.getItem('home_popup_shown_session');
             if (!hasShown) {
                 this.isOpen = true;
-                document.body.classList.add('sotk-modal-open');
+                document.body.classList.add('overflow-hidden');
             }
         },
         closePopup() {
             this.isOpen = false;
-            document.body.classList.remove('sotk-modal-open');
+            document.body.classList.remove('overflow-hidden');
             sessionStorage.setItem('home_popup_shown_session', 'true');
         },
         nextSlide() {
@@ -59,7 +59,7 @@
      x-transition:leave-end="opacity-0"
      @keydown.escape.window="closePopup()"
      @click="closePopup()"
-     class="fixed inset-0 z-[9999] bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+     class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
      role="dialog" aria-modal="true" aria-labelledby="popup-infographic-title">
     
     <!-- Modal Container -->
@@ -183,10 +183,10 @@
             <div class="flex items-center justify-center mt-16 lg:mt-0">
                 <div class="relative">
                     {{-- Glow background --}}
-                    <div class="absolute inset-0 bg-emerald-500/20 rounded-[40px] blur-3xl scale-110"></div>
+                    <div class="absolute inset-0 bg-emerald-500/20 rounded-[32px] blur-3xl scale-110"></div>
 
                     {{-- Frame foto --}}
-                    <div class="relative w-[270px] h-[324px] sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-[40px] overflow-hidden border-2 border-white/10 shadow-2xl">
+                    <div class="relative w-[270px] h-[324px] sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-[32px] overflow-hidden border-2 border-white/10 shadow-2xl">
                         <img src="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover object-top"
                              alt="Foto {{ $villageHead?->name ?? 'Kepala Desa' }}"
@@ -323,7 +323,7 @@
 
 {{-- 3. SAMBUTAN KEPALA DESA --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
-    <div class="bg-white rounded-[40px] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100 relative">
+    <div class="bg-white rounded-[32px] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100 relative">
         {{-- Decorative Quote Mark in Background --}}
         <div class="absolute -top-12 -right-12 text-emerald-50/50 pointer-events-none z-0">
             <i class="fa-solid fa-quote-right text-[200px] md:text-[300px]"></i>
@@ -576,11 +576,11 @@
         openLightboxByIndex(index) {
             this.currentIndex = index;
             this.lightboxOpen = true;
-            document.body.classList.add('sotk-modal-open');
+            document.body.classList.add('overflow-hidden');
         },
         closeLightbox() {
             this.lightboxOpen = false;
-            document.body.classList.remove('sotk-modal-open');
+            document.body.classList.remove('overflow-hidden');
         },
         nextSlide() {
             if (this.galleryItems.length === 0) return;

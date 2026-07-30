@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.60] - 2026-07-30
+
+### Changed
+- **Standarisasi UI & Audit Keamanan**:
+  - Menyelaraskan kelengkungan desain antarmuka (*border-radius*) menjadi konsisten 100%: seluruh form/kontainer utama menggunakan `rounded-[32px]`, dan seluruh komponen modal/pop-up menggunakan `rounded-[28px]`.
+  - Merapikan pemformatan pedoman pengembangan internal dan instruksi pedoman keamanan (*Security Rules*) pada `GEMINI.md`.
+  - Kompilasi ulang aset CSS menggunakan Vite.
+
 ## [1.26.59] - 2026-07-30
 
 ### Changed

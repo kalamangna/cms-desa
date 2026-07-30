@@ -41,7 +41,7 @@
 
 {{-- ===================== FORM SECTION ===================== --}}
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
-    <div class="bg-white rounded-[40px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50">
+    <div class="bg-white rounded-[32px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50">
         
         {{-- Success Modal Popup --}}
         @if(session('success'))
@@ -58,7 +58,7 @@
              @keydown.escape.window="showSuccessModal = false"
              @click.self="showSuccessModal = false">
             
-            <div @click.stop class="bg-white rounded-[32px] shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default animate-in zoom-in-95 duration-300">
+            <div @click.stop class="bg-white rounded-[28px] shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default animate-in zoom-in-95 duration-300">
                 <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-5">
                     <i class="fa-solid fa-check"></i>
                 </div>

@@ -102,7 +102,7 @@
 
     {{-- ===================== TAB: KIRIM PENGADUAN ===================== --}}
     <div x-show="activeTab === 'kirim'" x-transition:enter="transition ease-out duration-300" x-cloak>
-        <div class="bg-white rounded-[40px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50">
+        <div class="bg-white rounded-[32px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50">
             
             {{-- Success Modal Popup & Ticket Display --}}
             @if(session('success') && session('ticket_number'))
@@ -120,7 +120,7 @@
                  @keydown.escape.window="showSuccessModal = false"
                  @click="showSuccessModal = false">
                 
-                <div @click.stop class="bg-white rounded-[32px] shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default">
+                <div @click.stop class="bg-white rounded-[28px] shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default">
                     <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-5">
                         <i class="fa-solid fa-check"></i>
                     </div>
@@ -190,7 +190,7 @@
 
     {{-- ===================== TAB: LACAK PENGADUAN ===================== --}}
     <div x-show="activeTab === 'lacak'" x-transition:enter="transition ease-out duration-300" x-cloak>
-        <div class="bg-white rounded-[40px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50 mb-8">
+        <div class="bg-white rounded-[32px] p-8 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50 mb-8">
             <div class="mb-8">
                 <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Lacak Status Pengaduan</h3>
                 <p class="text-slate-400 text-sm">Masukkan nomor tiket Anda di bawah ini.</p>
@@ -216,7 +216,7 @@
         {{-- Tracking Results (Real-time Rendered) --}}
         <div x-show="searched" x-transition:enter="transition ease-out duration-300">
             <template x-if="result && result.found">
-                <div class="bg-white rounded-[40px] border border-slate-100 shadow-2xl shadow-slate-200/50 p-8 md:p-12 space-y-8">
+                <div class="bg-white rounded-[32px] border border-slate-100 shadow-2xl shadow-slate-200/50 p-8 md:p-12 space-y-8">
                     
                     {{-- Status Header --}}
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-slate-100">

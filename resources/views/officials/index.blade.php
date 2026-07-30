@@ -30,7 +30,7 @@
 <style id="sotk-custom-css">
 
     /* ─── SOTK Modal ─── */
-    .sotk-modal-backdrop { position: fixed; inset: 0; z-index: 9999; background: rgba(15,23,42,0.8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .sotk-modal-backdrop { position: fixed; inset: 0; z-index: 9999; background: rgba(2,6,23,0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; padding: 16px; }
     .sotk-modal { background: #fff; border-radius: 28px; box-shadow: 0 40px 100px rgba(15,23,42,0.3); width: 100%; max-width: 1240px; height: 90vh; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
     .sotk-modal:fullscreen, .sotk-modal:-webkit-full-screen { border-radius: 0; max-height: 100vh; height: 100vh; }
     .sotk-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; background: #fff; border-radius: 28px 28px 0 0; }
@@ -311,7 +311,7 @@
             </button>
         </template>
 
-        <div class="relative bg-slate-900 rounded-[28px] max-w-sm sm:max-w-md w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default" @click.stop
+        <div class="relative bg-slate-900 rounded-[28px] max-w-xs sm:max-w-sm w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default" @click.stop
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 scale-95 translate-y-4"
              x-transition:enter-end="opacity-100 scale-100 translate-y-0"
@@ -356,8 +356,8 @@
                 {{-- Header --}}
 
                 <div class="sotk-modal-header">
-                    <h2 id="sotk-modal-title" class="flex items-center gap-2 text-sm font-bold text-slate-700">
-                        <i class="fa-solid fa-sitemap text-emerald-500"></i> Struktur Organisasi
+                    <h2 id="sotk-modal-title" class="text-sm font-bold text-slate-700">
+                        Struktur Organisasi
                     </h2>
                     <div class="sotk-modal-actions">
                         <span class="text-xs font-bold text-slate-400 tabular-nums mr-1" x-text="Math.round(scale * 100) + '%'"></span>
@@ -505,7 +505,7 @@ document.addEventListener('alpine:init', function () {
 
                 html2canvas(clone, {
                     backgroundColor: '#ffffff',
-                    scale: 3, // 3x density untuk resolusi ultra-tinggi yang sangat tajam
+                    scale: 1.5, // Mengurangi dari 3 ke 1.5 untuk mempercepat proses render secara signifikan tanpa kehilangan terlalu banyak ketajaman
                     useCORS: false,
                     logging: false
                 }).then(function (canvas) {
@@ -526,9 +526,9 @@ document.addEventListener('alpine:init', function () {
                     // Margin padding sekeliling PDF (dalam piksel)
                     var padding = 40;
                     
-                    // Hitung dimensi 1x (bagi 3 karena scale:3 di html2canvas) + tambah padding kiri-kanan
-                    var pdfWidth = (imgWidth / 3) + (padding * 2);
-                    var pdfHeight = (imgHeight / 3) + 160 + padding; // Tambah tinggi 160px untuk judul + padding bawah
+                    // Hitung dimensi 1x (bagi 1.5 karena scale:1.5 di html2canvas) + tambah padding kiri-kanan
+                    var pdfWidth = (imgWidth / 1.5) + (padding * 2);
+                    var pdfHeight = (imgHeight / 1.5) + 160 + padding; // Tambah tinggi 160px untuk judul + padding bawah
 
                     var { jsPDF } = window.jspdf;
                     // Buat PDF lanskap dengan ukuran custom yang sudah ditinggikan
@@ -547,7 +547,7 @@ document.addEventListener('alpine:init', function () {
                     doc.text('Pemerintah Desa ' + this.villageName, pdfWidth / 2, 105, { align: 'center' });
 
                     // 3. Masukkan gambar bagan dengan offset padding (x: padding, y: 160)
-                    doc.addImage(imgData, 'JPEG', padding, 160, imgWidth / 3, imgHeight / 3, undefined, 'FAST');
+                    doc.addImage(imgData, 'JPEG', padding, 160, imgWidth / 1.5, imgHeight / 1.5, undefined, 'FAST');
                     
                     // Generate Blob URL untuk PDF
                     var blobUrl = doc.output('bloburl');

@@ -69,7 +69,7 @@
 
         {{-- Visi Card --}}
         @if(!empty(trim(strip_tags($site_settings['village_vision'] ?? ''))))
-        <div class="relative bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-[40px] p-10 md:p-16 text-white mb-10 shadow-2xl shadow-emerald-200/60 overflow-hidden">
+        <div class="relative bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-[32px] p-10 md:p-16 text-white mb-10 shadow-2xl shadow-emerald-200/60 overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none"></div>
             <div class="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl pointer-events-none"></div>
             <div class="relative z-10">
@@ -85,7 +85,7 @@
             </div>
         </div>
         @else
-        <div class="bg-white rounded-[40px] p-10 md:p-16 border border-slate-100 shadow-sm mb-10">
+        <div class="bg-white rounded-[32px] p-10 md:p-16 border border-slate-100 shadow-sm mb-10">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                     <i class="fa-solid fa-eye"></i>
@@ -101,7 +101,7 @@
         @endif
 
         {{-- Misi Card --}}
-        <div class="bg-white rounded-[40px] p-10 md:p-16 border border-slate-100 shadow-sm">
+        <div class="bg-white rounded-[32px] p-10 md:p-16 border border-slate-100 shadow-sm">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                     <i class="fa-solid fa-list-check"></i>

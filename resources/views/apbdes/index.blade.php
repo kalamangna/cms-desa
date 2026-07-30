@@ -125,7 +125,7 @@
             };
         @endphp
 
-        <div class="bg-white rounded-[40px] shadow-2xl {{ $theme['shadow'] }} border border-slate-100
+        <div class="bg-white rounded-[32px] shadow-2xl {{ $theme['shadow'] }} border border-slate-100
                     hover:-translate-y-2 transition duration-500 overflow-hidden group">
             {{-- Coloured top accent bar --}}
             <div class="h-1.5 w-full bg-gradient-to-r {{ $theme['gradient'] }}"></div>
@@ -255,7 +255,7 @@
                     </div>
 
                     {{-- Doughnut Chart card --}}
-                    <div class="bg-white p-8 md:p-10 rounded-[40px] border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group">
+                    <div class="bg-white p-8 md:p-10 rounded-[32px] border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-150 transition duration-1000"></div>
                         <h4 class="text-center font-heading font-bold text-slate-900 mb-6 relative z-10 text-sm">
                             Distribusi Dana
