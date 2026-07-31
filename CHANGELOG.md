@@ -9,6 +9,9 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Tipografi Halaman Minor**: Memperbesar dan menebalkan ukuran seluruh teks judul (*heading*) dan *counter* data (*font-black tracking-tight*) pada halaman Statistik, Open Data, Layanan, Pengaduan, Buku Tamu, Peta, Profil, dan Potensi.
 - **Efek Kedalaman Global**: Menerapkan kelas utilitas pembungkus kartu `shadow-lg shadow-slate-200/50` secara konsisten pada setiap kotak informasi dan modal publik (termasuk halaman Kontak, Layanan, Pengaduan, Buku Tamu, dan Peta Spasial).
 - **Tipografi Modal Sukses**: Mempertegas notifikasi modal (*success alert popup*) pada halaman Layanan, Pengaduan, dan Buku Tamu.
+- **Cinematic Lightbox Infografis**: Merombak tampilan modal popup infografis di beranda dari kotak bergaris (*boxed modal*) menjadi antarmuka *borderless fullscreen* dengan teks melayang (persis seperti desain galeri).
+- **Responsivitas Perangkat Seluler (Mobile)**: Mengoptimalkan grid pada kartu Statistik dan Layanan Cepat, serta ukuran *font hero* di beranda agar tampil sempurna (*stacking* satu kolom) pada perangkat ponsel berlayar sempit tanpa memotong teks.
+- **Tipografi Hero Beranda**: Memperbaiki judul utama hero beranda agar mengalir lebih natural (*natural wrap*) tanpa paksaan baris baru, serta memberikan efek teks bergradasi emas (`bg-gradient-to-r from-primary-400 to-primary-600`) dan bayangan dramatis (`drop-shadow-2xl`) agar terasa lebih eksklusif.
 
 ## [1.26.69] - 2026-08-01
 

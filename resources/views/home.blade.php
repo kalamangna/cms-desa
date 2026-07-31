@@ -62,78 +62,64 @@
      class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
      role="dialog" aria-modal="true" aria-labelledby="popup-infographic-title">
     
-    <!-- Modal Container -->
-    <div @click.stop
-         x-show="isOpen"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-         x-transition:leave-end="opacity-0 scale-95 translate-y-4"
-         class="relative bg-slate-900 rounded-3xl max-w-xl md:max-w-2xl w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default">
-        
-        <!-- Header / Close button -->
-        <button type="button"
-                @click="closePopup()"
-                class="absolute top-4 right-4 text-white/90 hover:text-white bg-slate-900/60 hover:bg-slate-900 w-10 h-10 rounded-full flex items-center justify-center transition z-20 backdrop-blur-md border border-white/10 cursor-pointer"
-                title="Tutup">
-            <i class="fa-solid fa-xmark text-lg"></i>
+    {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
+    @if(count($popups) > 1)
+        <div class="fixed top-5 left-5 sm:top-8 sm:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full shadow-2xl pointer-events-none">
+            <span x-text="(activeSlide + 1) + ' / {{ count($popups) }}'"></span>
+        </div>
+    @endif
+
+    {{-- Tombol Tutup (Di Luar Modal, Kanan Atas Layar) --}}
+    <button
+        type="button"
+        @click.stop="closePopup()"
+        class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500"
+        title="Tutup (Esc)"
+    >
+        <i class="fa-solid fa-xmark text-xl"></i>
+    </button>
+
+    {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
+    @if(count($popups) > 1)
+        <button type="button" @click.stop="prevSlide()" 
+                class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                title="Sebelumnya (Tombol Panah Kiri)">
+            <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>
         </button>
 
-        <!-- Slides Wrapper -->
-        <div class="relative overflow-hidden bg-slate-950 select-none flex items-center justify-center">
-                <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
-                     :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
-                    @foreach($popups as $index => $popup)
-                    <div class="w-full flex-shrink-0 flex items-center justify-center min-w-full">
-                        <img src="{{ asset('storage/' . $popup['image']) }}" 
-                             class="w-full h-auto max-h-[65vh] md:max-h-[70vh] object-contain"
-                             alt="{{ $popup['title'] ?? 'Infografis Beranda' }}"
-                             width="600"
-                             height="800"
-                             onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
-                             @if($loop->first) fetchpriority="high" decoding="async" @else loading="lazy" @endif>
-                    </div>
-                    @endforeach
-                </div>
+        {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
+        <button type="button" @click.stop="nextSlide()" 
+                class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                title="Selanjutnya (Tombol Panah Kanan)">
+            <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>
+        </button>
+    @endif
 
-            @if(count($popups) > 1)
-            <!-- Navigation Arrow Left -->
-            <button type="button" @click="prevSlide()" 
-                    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center transition z-10 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 backdrop-blur-md border border-white/10 cursor-pointer"
-                    title="Sebelumnya">
-                <i class="fa-solid fa-chevron-left"></i>
-            </button>
-
-            <!-- Navigation Arrow Right -->
-            <button type="button" @click="nextSlide()" 
-                    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center transition z-10 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 backdrop-blur-md border border-white/10 cursor-pointer"
-                    title="Selanjutnya">
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
-
-            <!-- Indicators (Dots) -->
-            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-                @foreach($popups as $index => $popup)
-                <button type="button" @click="activeSlide = {{ $index }}" 
-                        :class="activeSlide === {{ $index }} ? 'bg-primary-500 w-6' : 'bg-white/50 hover:bg-white w-2'"
-                        class="h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 cursor-pointer"></button>
-                @endforeach
+    {{-- Container Modal Konten (Invisible Bounding Box) --}}
+    <div
+        class="relative w-full h-full flex flex-col items-center justify-center cursor-default p-4 sm:p-12 md:p-20 overflow-hidden"
+        @click.stop
+    >
+        <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
+             :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
+            @foreach($popups as $index => $popup)
+            <div class="w-full flex-shrink-0 flex items-center justify-center min-w-full h-full relative">
+                <img src="{{ asset('storage/' . $popup['image']) }}" 
+                     class="max-w-full max-h-full object-contain rounded-xl shadow-2xl ring-1 ring-white/20 transition-all duration-300"
+                     alt="{{ $popup['title'] ?? 'Infografis Beranda' }}"
+                     width="600"
+                     height="800"
+                     onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
+                     @if($loop->first) fetchpriority="high" decoding="async" @else loading="lazy" @endif>
             </div>
-            @endif
+            @endforeach
         </div>
+    </div>
 
-        <!-- Modal Footer -->
-        <div class="p-5 text-center bg-white border-t border-slate-100 flex items-center justify-between gap-4">
-            <div class="flex flex-col text-left min-w-0">
-                <span id="popup-infographic-title" class="text-[10px] font-black uppercase tracking-wider text-primary-700">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
-                <span class="text-base font-black tracking-tight text-slate-900 mt-0.5 line-clamp-1" x-show="activeSlideTitle" x-text="activeSlideTitle"></span>
-            </div>
-            <button type="button" @click="closePopup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl border border-slate-200 transition flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 cursor-pointer">
-                Tutup
-            </button>
-        </div>
+    {{-- Footer Info (Floating at viewport bottom) --}}
+    <div class="fixed bottom-0 inset-x-0 p-6 sm:p-8 md:p-12 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent flex flex-col items-center text-center pointer-events-none z-10">
+        <span class="text-[10px] md:text-xs font-black uppercase tracking-widest text-primary-400 drop-shadow-md">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
+        <h3 id="popup-infographic-title" class="text-base md:text-2xl font-heading font-black tracking-tight text-white leading-snug line-clamp-2 mt-2 drop-shadow-xl max-w-3xl" x-show="activeSlideTitle" x-text="activeSlideTitle"></h3>
     </div>
 </div>
 @endif
@@ -156,8 +142,8 @@
                     <div class="h-px w-12 bg-primary-500"></div>
                     <span class="text-primary-400 text-xs font-black uppercase tracking-widest">Portal Informasi & Layanan Digital</span>
                 </div>
-                <h1 class="text-5xl md:text-7xl font-heading font-black text-white leading-[1.1] tracking-tight mb-6">
-                    Desa<br><span class="text-primary-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black text-white leading-[1.1] tracking-tight mb-6 drop-shadow-2xl">
+                    Desa <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">{{ $site_settings['village_name'] ?? '' }}</span>
                 </h1>
                 <div class="flex flex-wrap items-center gap-2 text-slate-400 text-sm md:text-base font-medium tracking-wide mb-10">
                     Kec. {{ \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '...')) }} 
@@ -222,7 +208,7 @@
 
 {{-- 2. STAT CARDS --}}
 <div class="relative z-20 mt-10 lg:-mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 
         {{-- Penduduk --}}
         <div class="bg-white/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/80 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group cursor-default">
@@ -281,7 +267,7 @@
         <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Akses <span class="text-primary-600">Layanan Cepat</span></h2>
         <p class="text-slate-500 text-sm mt-2 font-medium">Pilih layanan yang Anda butuhkan di bawah ini</p>
     </div>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <a href="/layanan" class="group bg-white/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-200/80 hover:shadow-2xl hover:shadow-primary-500/10 hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100/80 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 group-hover:shadow-lg group-hover:shadow-primary-600/30 transition-all duration-300 shadow-sm">
                 <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
