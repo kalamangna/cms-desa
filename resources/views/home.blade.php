@@ -128,7 +128,7 @@
         <div class="p-5 text-center bg-white border-t border-slate-100 flex items-center justify-between gap-4">
             <div class="flex flex-col text-left min-w-0">
                 <span id="popup-infographic-title" class="text-[10px] font-black uppercase tracking-wider text-primary-700">Infografis Desa {{ $site_settings['village_name'] ?? '' }}</span>
-                <span class="text-sm font-bold text-slate-800 mt-0.5 line-clamp-1" x-show="activeSlideTitle" x-text="activeSlideTitle"></span>
+                <span class="text-base font-black tracking-tight text-slate-900 mt-0.5 line-clamp-1" x-show="activeSlideTitle" x-text="activeSlideTitle"></span>
             </div>
             <button type="button" @click="closePopup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl border border-slate-200 transition flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 cursor-pointer">
                 Tutup
@@ -156,7 +156,7 @@
                     <div class="h-px w-12 bg-primary-500"></div>
                     <span class="text-primary-400 text-xs font-black uppercase tracking-widest">Portal Informasi & Layanan Digital</span>
                 </div>
-                <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.1] tracking-tight mb-6">
+                <h1 class="text-5xl md:text-7xl font-heading font-black text-white leading-[1.1] tracking-tight mb-6">
                     Desa<br><span class="text-primary-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
                 </h1>
                 <div class="flex flex-wrap items-center gap-2 text-slate-400 text-sm md:text-base font-medium tracking-wide mb-10">
