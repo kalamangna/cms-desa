@@ -800,8 +800,17 @@ document.addEventListener('alpine:init', function () {
         imgWrap.className = 'oc-photo';
         imgWrap.style.backgroundImage = 'url("' + photo + '")';
         imgWrap.style.backgroundSize = 'cover';
-        imgWrap.style.backgroundPosition = 'center';
+        imgWrap.style.backgroundPosition = 'top center';
         imgWrap.style.backgroundColor = '#f1f5f9';
+
+        // Preload image to trigger fallback if file is missing/broken on server (HTTP 404)
+        if (node.photo) {
+            var imgCheck = new Image();
+            imgCheck.onerror = function() {
+                imgWrap.style.backgroundImage = 'url("' + defaultPhoto + '")';
+            };
+            imgCheck.src = photo;
+        }
         var nameEl = document.createElement('div');
         nameEl.className = 'oc-name';
         nameEl.title = node.name;
