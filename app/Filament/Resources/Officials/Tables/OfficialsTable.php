@@ -16,7 +16,8 @@ class OfficialsTable
         return $table
             ->columns([
                 ImageColumn::make('photo')->label('Foto')
-                    ->circular(),
+                    ->circular()
+                    ->defaultImageUrl(asset('img/meta.webp')),
                 TextColumn::make('name')->label('Nama')
                     ->searchable()
                     ->sortable(),

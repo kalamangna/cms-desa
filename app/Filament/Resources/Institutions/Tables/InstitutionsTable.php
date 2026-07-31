@@ -18,7 +18,8 @@ class InstitutionsTable
             ->columns([
                 ImageColumn::make('logo')
                     ->label('Logo')
-                    ->circular(),
+                    ->circular()
+                    ->defaultImageUrl(asset('img/meta.webp')),
                 TextColumn::make('name')
                     ->label('Nama Lembaga')
                     ->searchable()

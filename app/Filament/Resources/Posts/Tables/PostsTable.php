@@ -21,7 +21,7 @@ class PostsTable
             ->columns([
                 ImageColumn::make('featured_image')
                     ->label('Gambar')
-                    ->defaultImageUrl(null),
+                    ->defaultImageUrl(asset('img/meta.webp')),
                 TextColumn::make('title')
                     ->label('Judul')
                     ->searchable()

@@ -34,7 +34,8 @@ class GalleriesTable
                         'video' => '🎬 Video',
                         default => $state,
                     }),
-                ImageColumn::make('image')->label('Gambar'),
+                ImageColumn::make('image')->label('Gambar')
+                    ->defaultImageUrl(asset('img/meta.webp')),
                 TextColumn::make('slug')->label('Slug')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
