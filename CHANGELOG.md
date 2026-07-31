@@ -11,7 +11,11 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Tipografi Modal Sukses**: Mempertegas notifikasi modal (*success alert popup*) pada halaman Layanan, Pengaduan, dan Buku Tamu.
 - **Cinematic Lightbox Infografis**: Merombak tampilan modal popup infografis di beranda dari kotak bergaris (*boxed modal*) menjadi antarmuka *borderless fullscreen* dengan teks melayang (persis seperti desain galeri).
 - **Responsivitas Perangkat Seluler (Mobile)**: Mengoptimalkan grid pada kartu Statistik dan Layanan Cepat, serta ukuran *font hero* di beranda agar tampil sempurna (*stacking* satu kolom) pada perangkat ponsel berlayar sempit tanpa memotong teks.
-- **Tipografi Hero Beranda**: Memperbaiki judul utama hero beranda agar mengalir lebih natural (*natural wrap*) tanpa paksaan baris baru, serta memberikan efek teks bergradasi emas (`bg-gradient-to-r from-primary-400 to-primary-600`) dan bayangan dramatis (`drop-shadow-2xl`) agar terasa lebih eksklusif.
+- **Tipografi Hero Beranda**: Memperbaiki judul utama hero beranda agar mengalir lebih natural (*natural wrap*) tanpa paksaan baris baru (sebelum akhirnya dikembalikan menjadi dipisah baris sesuai instruksi), namun tetap mempertahankan efek teks bergradasi emas (`bg-gradient-to-r from-primary-400 to-primary-600`) tanpa *italic*, serta bayangan dramatis (`drop-shadow-2xl`) agar terasa lebih eksklusif.
+- **Penyelarasan Vertikal Lightbox Spesifik Modul**: Menerapkan pengaturan bantalan (*padding*) yang berbeda pada setiap modal Cinematic Lightbox agar ukuran media maksimal sesuai rasio masing-masing:
+  - **Beranda (Infografis)**: Bantalan bawah sangat luas (`pb-40`) untuk poster tinggi vertikal, dan bantalan atas ditekan seminimal mungkin (`pt-12`) agar visual tetap berukuran raksasa.
+  - **Galeri**: Mengurangi ketebalan bantalan atas (`pt-12`) dan bantalan samping (`px-16`) secara signifikan agar foto lanskap dan terutama pemutar video (YouTube) bisa memuai *ultra-lebar* mencapai batas maksimal layar.
+  - **Foto Aparatur**: Bantalan sedang dengan ruang atas cukup renggang (`pt-16`) dan bawah leluasa (`pb-32`) agar proporsi pas foto tegak (rasio *3:4* atau *4:5*) tampil penuh wibawa dan tidak berdesakan dengan bingkai.
 
 ## [1.26.69] - 2026-08-01
 

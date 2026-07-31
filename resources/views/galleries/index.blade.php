@@ -256,7 +256,7 @@
 
         {{-- Container Modal Konten (Invisible Bounding Box) --}}
         <div
-            class="relative w-full h-full flex flex-col items-center justify-center cursor-default p-4 sm:p-12 md:p-20"
+            class="relative w-full h-full flex flex-col items-center justify-center cursor-default px-4 pt-8 pb-24 sm:px-8 sm:pt-12 sm:pb-28 md:px-16 md:pt-12 md:pb-32"
             @click.stop
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95 translate-y-4"

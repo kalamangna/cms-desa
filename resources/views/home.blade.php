@@ -97,7 +97,7 @@
 
     {{-- Container Modal Konten (Invisible Bounding Box) --}}
     <div
-        class="relative w-full h-full flex flex-col items-center justify-center cursor-default p-4 sm:p-12 md:p-20 overflow-hidden"
+        class="relative w-full h-full flex flex-col items-center justify-center cursor-default px-4 pt-6 pb-24 sm:px-12 sm:pt-10 sm:pb-32 md:px-20 md:pt-12 md:pb-40 overflow-hidden"
         @click.stop
     >
         <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
@@ -143,7 +143,7 @@
                     <span class="text-primary-400 text-xs font-black uppercase tracking-widest">Portal Informasi & Layanan Digital</span>
                 </div>
                 <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black text-white leading-[1.1] tracking-tight mb-6 drop-shadow-2xl">
-                    Desa <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">{{ $site_settings['village_name'] ?? '' }}</span>
+                    Desa<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">{{ $site_settings['village_name'] ?? '' }}</span>
                 </h1>
                 <div class="flex flex-wrap items-center gap-2 text-slate-400 text-sm md:text-base font-medium tracking-wide mb-10">
                     Kec. {{ \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '...')) }} 
@@ -689,7 +689,7 @@
 
         {{-- Container Modal Konten (Invisible Bounding Box) --}}
         <div
-            class="relative w-full h-full flex flex-col items-center justify-center cursor-default p-4 sm:p-12 md:p-20"
+            class="relative w-full h-full flex flex-col items-center justify-center cursor-default px-4 pt-8 pb-24 sm:px-8 sm:pt-12 sm:pb-28 md:px-16 md:pt-12 md:pb-32"
             @click.stop
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
