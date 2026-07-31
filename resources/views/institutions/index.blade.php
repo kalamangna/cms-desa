@@ -56,7 +56,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Lembaga <span class="text-primary-500 italic">Desa</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2">
@@ -91,7 +91,7 @@
     @else
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         @foreach($institutions as $institution)
-        <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm overflow-hidden gap-6 h-full">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left bg-white rounded-3xl p-6 md:p-8 border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden gap-6 h-full">
 
             {{-- Logo --}}
             <div class="flex-shrink-0">
@@ -108,7 +108,7 @@
             {{-- Info --}}
             <div class="flex-1 w-full flex flex-col justify-between h-full">
                 <div class="mb-5">
-                    <h3 class="text-xl md:text-2xl font-heading font-bold text-slate-900 mb-3">{{ $institution->name }}</h3>
+                    <h3 class="text-2xl md:text-3xl font-heading font-extrabold tracking-tight text-slate-900 mb-3">{{ $institution->name }}</h3>
                     @if($institution->description)
                     <div class="prose prose-sm prose-slate max-w-none text-slate-500 text-sm leading-relaxed line-clamp-3">
                         {!! strip_tags($institution->description) !!}

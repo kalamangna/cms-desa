@@ -29,7 +29,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Buku <span class="text-primary-500 italic">Tamu</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -73,7 +73,7 @@
                         <i class="fa-solid fa-check"></i>
                     </div>
 
-                    <h3 class="font-heading font-extrabold text-slate-900 text-xl mb-2">{{ session('success') }}</h3>
+                    <h3 class="font-heading font-black tracking-tight text-slate-900 text-2xl mb-2">{{ session('success') }}</h3>
                     <p class="text-sm text-slate-500 mb-8 font-medium">Data kunjungan Anda telah dicatat.</p>
 
                     <button @click="showSuccessModal = false" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 text-white py-3.5 rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer">
@@ -101,7 +101,7 @@
             @endif
 
             <div class="mb-8">
-                <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Catat Kunjungan</h3>
+                <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 mb-2">Catat Kunjungan</h3>
                 <p class="text-slate-500 text-sm font-medium">Isi formulir berikut dengan data yang valid.</p>
             </div>
 

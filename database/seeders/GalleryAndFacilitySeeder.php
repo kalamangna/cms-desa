@@ -27,18 +27,18 @@ class GalleryAndFacilitySeeder extends Seeder
 
         // 1. Galeri
         $galleries = [
-            ['title' => 'Kegiatan Gotong Royong Warga', 'type' => 'photo', 'description' => 'Kegiatan rutin gotong royong membersihkan lingkungan desa setiap akhir pekan.'],
-            ['title' => 'Peresmian Balai Desa Baru', 'type' => 'photo', 'description' => 'Acara peresmian balai desa yang dihadiri oleh Bupati dan aparatur desa.'],
-            ['title' => 'Panen Raya Padi', 'type' => 'photo', 'description' => 'Masyarakat merayakan panen raya padi dengan hasil yang melimpah tahun ini.'],
+            ['title' => 'Kegiatan Gotong Royong Warga', 'type' => 'foto', 'description' => 'Kegiatan rutin gotong royong membersihkan lingkungan desa setiap akhir pekan.'],
+            ['title' => 'Peresmian Balai Desa Baru', 'type' => 'foto', 'description' => 'Acara peresmian balai desa yang dihadiri oleh Bupati dan aparatur desa.'],
+            ['title' => 'Panen Raya Padi', 'type' => 'foto', 'description' => 'Masyarakat merayakan panen raya padi dengan hasil yang melimpah tahun ini.'],
             ['title' => 'Profil Desa (Video)', 'type' => 'video', 'youtube_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'description' => 'Video dokumenter singkat mengenai profil dan potensi alam desa.'],
-            ['title' => 'Lomba 17 Agustus', 'type' => 'photo', 'description' => 'Kemeriahan peringatan hari kemerdekaan dengan berbagai lomba tradisional.'],
-            ['title' => 'Penyaluran Bantuan Sosial', 'type' => 'photo', 'description' => 'Pembagian sembako kepada warga kurang mampu di balai desa.'],
-            ['title' => 'Pelatihan UMKM Desa', 'type' => 'photo', 'description' => 'Workshop peningkatan kualitas produk lokal untuk ibu-ibu PKK.'],
-            ['title' => 'Posyandu Balita & Lansia', 'type' => 'photo', 'description' => 'Kegiatan cek kesehatan gratis yang diadakan setiap bulan di setiap dusun.'],
-            ['title' => 'Pembangunan Jalan Desa', 'type' => 'photo', 'description' => 'Proyek betonisasi jalan penghubung antardusun menggunakan dana desa.'],
-            ['title' => 'Pesta Panen Mappadendang', 'type' => 'photo', 'description' => 'Upacara adat syukuran atas hasil bumi yang dirayakan setiap tahun setelah panen.'],
+            ['title' => 'Lomba 17 Agustus', 'type' => 'foto', 'description' => 'Kemeriahan peringatan hari kemerdekaan dengan berbagai lomba tradisional.'],
+            ['title' => 'Penyaluran Bantuan Sosial', 'type' => 'foto', 'description' => 'Pembagian sembako kepada warga kurang mampu di balai desa.'],
+            ['title' => 'Pelatihan UMKM Desa', 'type' => 'foto', 'description' => 'Workshop peningkatan kualitas produk lokal untuk ibu-ibu PKK.'],
+            ['title' => 'Posyandu Balita & Lansia', 'type' => 'foto', 'description' => 'Kegiatan cek kesehatan gratis yang diadakan setiap bulan di setiap dusun.'],
+            ['title' => 'Pembangunan Jalan Desa', 'type' => 'foto', 'description' => 'Proyek betonisasi jalan penghubung antardusun menggunakan dana desa.'],
+            ['title' => 'Pesta Panen Mappadendang', 'type' => 'foto', 'description' => 'Upacara adat syukuran atas hasil bumi yang dirayakan setiap tahun setelah panen.'],
             ['title' => 'Wisata Air Terjun Batu Barae (Video)', 'type' => 'video', 'youtube_url' => 'https://www.youtube.com/watch?v=jNQXAC9IVRw', 'description' => 'Jelajah pesona keindahan air terjun dan alam sekitar desa.'],
-            ['title' => 'Pasar Tradisional Desa', 'type' => 'photo', 'description' => 'Aktivitas jual beli warga di pasar desa yang buka setiap hari Minggu.'],
+            ['title' => 'Pasar Tradisional Desa', 'type' => 'foto', 'description' => 'Aktivitas jual beli warga di pasar desa yang buka setiap hari Minggu.'],
         ];
 
         foreach ($galleries as $g) {

@@ -54,7 +54,7 @@
         </nav>
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
-                <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+                <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                     APBDes <span class="text-primary-500 italic">{{ date('Y') }}</span>
                 </h1>
                 <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -74,7 +74,7 @@
 ═══════════════════════════════════════════════════════ --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 md:-mt-16 mb-16 md:mb-24 relative z-10">
     @if($categories->isEmpty())
-        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-4">
+        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 p-4">
             <x-empty-state
                 icon="fa-solid fa-scale-balanced"
                 title="Data APBDes Belum Tersedia"
@@ -143,18 +143,18 @@
                     </span>
                 </div>
 
-                <h3 class="text-xl md:text-2xl font-heading font-bold text-slate-900 mb-6">{{ $category->name }}</h3>
+                <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 mb-6">{{ $category->name }}</h3>
 
                 <div class="space-y-5">
                     <div>
                         <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Anggaran</p>
-                        <p class="text-lg md:text-xl font-heading font-extrabold text-slate-900">
+                        <p class="text-xl md:text-2xl font-heading font-black tracking-tight text-slate-900">
                             Rp {{ number_format($totalBudget, 0, ',', '.') }}
                         </p>
                     </div>
                     <div>
                         <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Realisasi</p>
-                        <p class="text-2xl md:text-3xl font-heading font-extrabold {{ $theme['text'] }}">
+                        <p class="text-3xl md:text-4xl font-heading font-black tracking-tight {{ $theme['text'] }}">
                             Rp {{ number_format($totalRealization, 0, ',', '.') }}
                         </p>
                     </div>
@@ -193,7 +193,7 @@
                 <div class="h-px w-8 bg-primary-600"></div>
                 <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Rincian Anggaran</span>
             </div>
-            <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900">Detail Transparansi Dana</h2>
+            <h2 class="text-4xl md:text-5xl font-heading font-black tracking-tight text-slate-900">Detail Transparansi Dana</h2>
         </div>
 
         <div class="space-y-12 md:space-y-16">

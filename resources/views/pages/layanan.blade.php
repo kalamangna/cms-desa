@@ -102,7 +102,7 @@
                 </ol>
             </nav>
             <div class="max-w-3xl">
-                <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+                <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                     Layanan <span class="text-primary-500 italic">Mandiri</span>
                 </h1>
                 <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -145,7 +145,7 @@
                         <i class="fa-solid fa-check"></i>
                     </div>
 
-                    <h3 class="font-heading font-extrabold text-slate-900 text-xl mb-2">{{ session('success') }}</h3>
+                    <h3 class="font-heading font-black tracking-tight text-slate-900 text-2xl mb-2">{{ session('success') }}</h3>
                     <p class="text-sm text-slate-500 mb-6">Pengajuan layanan Anda telah terkirim.</p>
 
                     <div class="mb-8">
@@ -189,7 +189,7 @@
             {{-- PANEL: DAFTAR LAYANAN --}}
             <div x-show="!showLacak" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 @forelse($services as $service)
-                <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs flex flex-col overflow-hidden">
+                <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col overflow-hidden">
 
                     {{-- Card Top --}}
                     <div class="p-8 md:p-10 flex-1">
@@ -199,7 +199,7 @@
                         </div>
 
                         {{-- Title --}}
-                        <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-3">{{ $service->title }}</h3>
+                        <h3 class="text-2xl font-heading font-black tracking-tight text-slate-900 mb-3">{{ $service->title }}</h3>
 
                         {{-- Description --}}
                         <p class="text-slate-600 text-sm leading-relaxed font-medium mb-6">
@@ -259,7 +259,7 @@
             <div x-show="showLacak" class="space-y-8 animate-in fade-in duration-300" x-cloak>
                 <div class="bg-white rounded-3xl p-8 md:p-12 border border-slate-200/80 shadow-lg shadow-slate-200/50 mb-8 max-w-4xl mx-auto">
                     <div class="mb-8">
-                        <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Lacak Status Permohonan</h3>
+                        <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 mb-2">Lacak Status Permohonan</h3>
                         <p class="text-slate-500 text-sm font-medium">Masukkan nomor tiket pengajuan Anda di bawah ini.</p>
                     </div>
                     <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-4">

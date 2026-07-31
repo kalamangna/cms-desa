@@ -283,19 +283,19 @@
 
 <body class="bg-slate-50 flex flex-col min-h-screen font-sans text-slate-900">
     <!-- Top Bar -->
-    <div class="bg-primary-900 text-white py-2 hidden md:block">
+    <div class="bg-slate-950 text-slate-400 py-2 hidden md:block">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
             <div class="flex gap-8">
                 <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-location-dot text-primary-400"></i> {{ !empty($site_settings['village_address']) ? $site_settings['village_address'] : '-' }}
+                    <i class="fa-solid fa-location-dot text-primary-500"></i> {{ !empty($site_settings['village_address']) ? $site_settings['village_address'] : '-' }}
                 </span>
                 <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-phone text-primary-400"></i> {{ !empty($site_settings['village_phone']) ? $site_settings['village_phone'] : '-' }}
+                    <i class="fa-solid fa-phone text-primary-500"></i> {{ !empty($site_settings['village_phone']) ? $site_settings['village_phone'] : '-' }}
                 </span>
             </div>
             <div class="flex gap-4 items-center">
                 @auth
-                <a href="/admin" target="_blank" rel="noopener" class="hover:text-primary-400 transition flex items-center gap-1.5">
+                <a href="/admin" target="_blank" rel="noopener" class="hover:text-primary-400 transition flex items-center gap-1.5 active:scale-95">
                     <i class="fa-solid fa-gauge text-[9px]"></i> Dashboard
                 </a>
                 <span class="opacity-30">|</span>
@@ -306,7 +306,7 @@
                     </button>
                 </form>
                 @else
-                <a href="/admin/login" target="_blank" rel="noopener" class="hover:text-primary-400 transition flex items-center gap-1.5">
+                <a href="/admin/login" target="_blank" rel="noopener" class="hover:text-primary-400 transition flex items-center gap-1.5 active:scale-95">
                     <i class="fa-solid fa-lock text-[9px]"></i> Login Admin
                 </a>
                 @endauth
@@ -318,7 +318,7 @@
     <nav class="sticky top-0 z-50 transition-all duration-300 border-b border-slate-200/80"
         x-data="{ mobileMenuOpen: false, scrolled: false }"
         @scroll.window="scrolled = (window.pageYOffset > 10)"
-        :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-2' : 'bg-white py-4'">
+        :class="scrolled ? 'bg-white/90 backdrop-blur-xl shadow-lg shadow-slate-200/40 py-2' : 'bg-white/95 backdrop-blur-xl py-4'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 transition-all duration-300">
                 <div class="flex items-center">
@@ -351,11 +351,11 @@
                             x-transition:leave="transition ease-in duration-100"
                             x-transition:leave-start="opacity-100 translate-y-0"
                             x-transition:leave-end="opacity-0 translate-y-2"
-                            class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
-                            <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Profil Desa</a>
-                            <a href="/aparatur" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Aparatur Desa</a>
-                            <a href="/lembaga" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Lembaga Desa</a>
-                            <a href="/potensi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Potensi Desa</a>
+                            class="absolute top-full left-0 w-48 bg-white/95 backdrop-blur-xl border border-slate-200/50 shadow-2xl shadow-slate-200/50 rounded-2xl p-2 z-50" x-cloak>
+                            <a href="/profil" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Profil Desa</a>
+                            <a href="/aparatur" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Aparatur Desa</a>
+                            <a href="/lembaga" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Lembaga Desa</a>
+                            <a href="/potensi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Potensi Desa</a>
                         </div>
                     </div>
 
@@ -372,11 +372,11 @@
                             x-transition:leave="transition ease-in duration-100"
                             x-transition:leave-start="opacity-100 translate-y-0"
                             x-transition:leave-end="opacity-0 translate-y-2"
-                            class="absolute top-full left-0 w-48 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
-                            <a href="/berita" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Berita</a>
-                            <a href="/pengumuman" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Pengumuman</a>
-                            <a href="/galeri" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Galeri</a>
-                            <a href="/dokumen" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Dokumen</a>
+                            class="absolute top-full left-0 w-48 bg-white/95 backdrop-blur-xl border border-slate-200/50 shadow-2xl shadow-slate-200/50 rounded-2xl p-2 z-50" x-cloak>
+                            <a href="/berita" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Berita</a>
+                            <a href="/pengumuman" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Pengumuman</a>
+                            <a href="/galeri" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Galeri</a>
+                            <a href="/dokumen" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Dokumen</a>
                         </div>
                     </div>
 
@@ -393,11 +393,11 @@
                             x-transition:leave="transition ease-in duration-100"
                             x-transition:leave-start="opacity-100 translate-y-0"
                             x-transition:leave-end="opacity-0 translate-y-2"
-                            class="absolute top-full right-0 w-56 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
-                            <a href="/apbdes" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">APBDes</a>
-                            <a href="/statistik" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Statistik</a>
-                            <a href="/dataset" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Open Data</a>
-                            <a href="/publikasi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 transition">Publikasi Data</a>
+                            class="absolute top-full right-0 w-56 bg-white/95 backdrop-blur-xl border border-slate-200/50 shadow-2xl shadow-slate-200/50 rounded-2xl p-2 z-50" x-cloak>
+                            <a href="/apbdes" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">APBDes</a>
+                            <a href="/statistik" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Statistik</a>
+                            <a href="/dataset" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Open Data</a>
+                            <a href="/publikasi" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-700 active:scale-95 transition-all">Publikasi Data</a>
                         </div>
                     </div>
 
@@ -414,11 +414,11 @@
                             x-transition:leave="transition ease-in duration-100"
                             x-transition:leave-start="opacity-100 translate-y-0"
                             x-transition:leave-end="opacity-0 translate-y-2"
-                            class="absolute top-full right-0 w-52 bg-white border border-slate-100 shadow-2xl rounded-2xl p-2 z-50" x-cloak>
-                            <a href="/layanan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-600 transition">Layanan Mandiri</a>
-                            <a href="/pengaduan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-600 transition">Pengaduan</a>
-                            <a href="/buku-tamu" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-600 transition">Buku Tamu</a>
-                            <a href="/kontak" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-600 transition">Kontak</a>
+                            class="absolute top-full right-0 w-52 bg-white/95 backdrop-blur-xl border border-slate-200/50 shadow-2xl shadow-slate-200/50 rounded-2xl p-2 z-50" x-cloak>
+                            <a href="/layanan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-600 active:scale-95 transition-all">Layanan Mandiri</a>
+                            <a href="/pengaduan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-600 active:scale-95 transition-all">Pengaduan</a>
+                            <a href="/buku-tamu" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-600 active:scale-95 transition-all">Buku Tamu</a>
+                            <a href="/kontak" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-primary-50 hover:text-primary-600 active:scale-95 transition-all">Kontak</a>
                         </div>
                     </div>
 
@@ -507,7 +507,7 @@
                         </form>
                     </div>
                     @else
-                    <a href="/admin/login" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg">
+                    <a href="/admin/login" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg hover:shadow-xl active:scale-95 transition-all duration-300">
                         <i class="fa-solid fa-user"></i>
                         Login Sistem
                     </a>
@@ -546,7 +546,7 @@
                     </p>
                     <div class="flex gap-3">
                         @if(!empty($site_settings['social_facebook']))
-                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-500 border-white/10 hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all duration-200 hover:text-white" title="Facebook">
+                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-500 hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all duration-200 active:scale-95" title="Facebook">
                             <i class="fa-brands fa-facebook-f text-sm"></i>
                         </a>
                         @else
@@ -556,7 +556,7 @@
                         @endif
 
                         @if(!empty($site_settings['social_instagram']))
-                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-pink-500 border-white/10 hover:bg-pink-600 hover:border-pink-600 hover:text-white transition-all duration-200 hover:text-white" title="Instagram">
+                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-pink-500 hover:bg-pink-600 hover:border-pink-600 hover:text-white transition-all duration-200 active:scale-95" title="Instagram">
                             <i class="fa-brands fa-instagram text-sm"></i>
                         </a>
                         @else
@@ -566,7 +566,7 @@
                         @endif
 
                         @if(!empty($site_settings['social_youtube']))
-                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-red-500 border-white/10 hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-200 hover:text-white" title="YouTube">
+                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-red-500 hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-200 active:scale-95" title="YouTube">
                             <i class="fa-brands fa-youtube text-sm"></i>
                         </a>
                         @else

@@ -32,7 +32,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Galeri <span class="text-primary-500 italic">Kegiatan</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -137,8 +137,7 @@
     @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             @foreach($galleries as $index => $item)
-            <div
-                class="group relative bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-sm aspect-video cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            <div class="group relative bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 aspect-video cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-300/60"
                 x-show="activeFilter === 'semua' || activeFilter === '{{ $item->type === 'video' ? 'video' : 'photo' }}'"
                 x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 scale-95"
@@ -255,10 +254,9 @@
             </button>
         </template>
 
-        {{-- Container Modal Konten --}}
+        {{-- Container Modal Konten (Invisible Bounding Box) --}}
         <div
-            class="relative bg-slate-900 rounded-3xl flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
-            :class="currentItem.type === 'video' ? 'w-11/12 sm:w-5/6 max-w-4xl' : 'w-11/12 sm:w-auto sm:max-w-4xl md:max-w-5xl'"
+            class="relative w-full h-full flex flex-col items-center justify-center cursor-default p-4 sm:p-12 md:p-20"
             @click.stop
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
@@ -267,33 +265,26 @@
             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
             x-transition:leave-end="opacity-0 scale-95 translate-y-4"
         >
-            {{-- Slider Content --}}
-            <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-52 w-full">
-                <template x-if="lightboxOpen && currentItem.type === 'video'">
-                    <div class="w-full aspect-video bg-black relative overflow-hidden">
-                        <iframe
-                            class="w-full h-full"
-                            :src="getYoutubeEmbed(currentItem.youtube_url)"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen
-                        ></iframe>
-                    </div>
-                </template>
-                <template x-if="currentItem.type !== 'video'">
-                    <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 w-full">
-                        <img :src="currentItem.image_url" :alt="currentItem.title" class="w-full sm:w-auto h-auto max-h-[65vh] sm:max-h-[75vh] object-contain transition-all duration-300">
-                    </div>
-                </template>
-            </div>
-
-            {{-- Footer Info --}}
-            <div class="p-5 bg-white border-t border-slate-100 flex items-center justify-between gap-4 relative z-10">
-                <div class="flex flex-col text-left min-w-0">
-                    <span class="text-[10px] font-black uppercase tracking-wider text-primary-600" x-text="currentItem.created_at || ''"></span>
-                    <h3 id="gallery-lightbox-title" class="text-base md:text-xl font-heading font-extrabold text-slate-800 leading-snug line-clamp-1 mt-0.5" x-text="currentItem.title || ''"></h3>
+            <template x-if="lightboxOpen && currentItem.type === 'video'">
+                <div class="w-full max-w-5xl aspect-video bg-black relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/20">
+                    <iframe
+                        class="w-full h-full"
+                        :src="getYoutubeEmbed(currentItem.youtube_url)"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                    ></iframe>
                 </div>
-            </div>
+            </template>
+            <template x-if="currentItem.type !== 'video'">
+                <img :src="currentItem.image_url" :alt="currentItem.title" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl ring-1 ring-white/20 transition-all duration-300">
+            </template>
+        </div>
+
+        {{-- Footer Info (Floating at viewport bottom) --}}
+        <div class="fixed bottom-0 inset-x-0 p-6 sm:p-8 md:p-12 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent flex flex-col items-center text-center pointer-events-none z-10">
+            <span class="text-[10px] md:text-xs font-black uppercase tracking-widest text-primary-400 drop-shadow-md" x-text="currentItem.created_at || ''"></span>
+            <h3 id="gallery-lightbox-title" class="text-base md:text-2xl font-heading font-black tracking-tight text-white leading-snug line-clamp-2 mt-2 drop-shadow-xl max-w-3xl" x-text="currentItem.title || ''"></h3>
         </div>
     </div>
 </div>

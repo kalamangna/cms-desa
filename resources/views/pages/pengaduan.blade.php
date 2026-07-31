@@ -29,7 +29,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Pengaduan <span class="text-primary-500 italic">Warga</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -201,7 +201,7 @@
         <div x-show="activeTab === 'lacak'" x-transition:enter="transition ease-out duration-300" x-cloak>
             <div class="bg-white rounded-3xl p-8 md:p-12 border border-slate-200/80 shadow-lg shadow-slate-200/50 mb-8">
                 <div class="mb-8">
-                    <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Lacak Status Pengaduan</h3>
+                    <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 mb-2">Lacak Status Pengaduan</h3>
                     <p class="text-slate-500 text-sm font-medium">Masukkan nomor tiket pengaduan Anda di bawah ini.</p>
                 </div>
 

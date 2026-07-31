@@ -18,6 +18,10 @@ class GalleriesTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image')->label('Visual')
+                    ->defaultImageUrl(asset('img/meta.webp'))
+                    ->square()
+                    ->size(50),
                 TextColumn::make('title')->label('Judul')
                     ->searchable()
                     ->sortable()
@@ -25,17 +29,15 @@ class GalleriesTable
                 TextColumn::make('type')->label('Tipe')
                     ->badge()
                     ->color(fn ($state) => match ($state) {
-                        'photo' => 'success',
+                        'foto' => 'success',
                         'video' => 'danger',
                         default => 'gray',
                     })
                     ->formatStateUsing(fn ($state) => match ($state) {
-                        'photo' => '🖼️ Foto',
+                        'foto' => '🖼️ Foto',
                         'video' => '🎬 Video',
                         default => $state,
                     }),
-                ImageColumn::make('image')->label('Gambar')
-                    ->defaultImageUrl(asset('img/meta.webp')),
                 TextColumn::make('slug')->label('Slug')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),

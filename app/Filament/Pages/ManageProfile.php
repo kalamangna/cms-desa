@@ -58,14 +58,6 @@ class ManageProfile extends Page implements HasForms
                                     ->placeholder('Tuliskan poin-poin misi pembangunan desa...')
                                     ->helperText('Langkah-langkah strategis pencapaian visi.')
                                     ->columnSpanFull(),
-                                TextInput::make('village_head_greeting_title')->label('Judul Sambutan Kades')
-                                    ->placeholder('Contoh: Sambutan Kepala Desa Tompobulu')
-                                    ->helperText('Judul pembuka pesan Kepala Desa.')
-                                    ->columnSpanFull(),
-                                RichEditor::make('village_head_greeting')->label('Isi Sambutan Kades')
-                                    ->placeholder('Tuliskan naskah lengkap sambutan hangat Kepala Desa...')
-                                    ->helperText('Pesan Kepala Desa kepada warga.')
-                                    ->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Karakteristik & Wilayah')
                             ->icon('heroicon-o-globe-asia-australia')

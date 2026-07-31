@@ -35,11 +35,11 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Pengumuman <span class="text-primary-500 italic">Resmi</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 max-w-2xl leading-relaxed">
-                Informasi penting, surat keputusan, dan edaran resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}.
+                Informasi dan edaran resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
@@ -95,12 +95,11 @@
             </div>
 
             {{-- Card --}}
-            <div class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300 overflow-hidden p-6 md:p-7">
+            <div class="flex-1 bg-white rounded-2xl border border-slate-200/80 shadow-lg shadow-slate-200/50 hover:shadow-xl hover:shadow-slate-200 hover:-translate-y-1 transition-all duration-300 overflow-hidden p-6 md:p-7">
                 
                 {{-- Meta Info: Date Badge --}}
                 <div class="mb-4">
                     <span class="inline-flex items-center gap-1.5 bg-primary-600 text-white text-xs font-bold px-3 py-1 rounded-xl shadow-xs">
-                        <i class="fa-regular fa-calendar text-white/80 text-[12px]"></i>
                         {{ $announcement->published_at->translatedFormat('d F Y') }}
                     </span>
                 </div>

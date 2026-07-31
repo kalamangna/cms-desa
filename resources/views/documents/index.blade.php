@@ -32,7 +32,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Arsip <span class="text-primary-500 italic">Dokumen</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -57,7 +57,7 @@
                 </p>
             </div>
             {{-- Stat Badge --}}
-            <div class="flex-shrink-0 hidden sm:flex items-center gap-3.5 bg-white border border-slate-200/80 rounded-2xl px-6 py-4 shadow-sm">
+            <div class="flex-shrink-0 hidden sm:flex items-center gap-3.5 bg-white border border-slate-200/80 rounded-2xl px-6 py-4 shadow-lg shadow-slate-200/50">
                 <div class="w-11 h-11 rounded-xl bg-primary-600 flex items-center justify-center text-white shadow-xs">
                     <i class="fa-solid fa-folder-open text-base"></i>
                 </div>
@@ -84,7 +84,7 @@
             ];
             $fileStyle = $iconMap[$ext] ?? ['icon' => 'fa-file-lines', 'bg' => 'bg-slate-100', 'text' => 'text-slate-600', 'badge' => 'bg-slate-100 text-slate-700 border-slate-200'];
         @endphp
-        <div class="group flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-white rounded-2xl md:rounded-3xl p-6 md:p-7 mb-4 shadow-sm border border-slate-200 hover:border-primary-300 hover:shadow-md transition-all duration-300">
+        <div class="group flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-white rounded-2xl md:rounded-3xl p-6 md:p-7 mb-4 shadow-lg shadow-slate-200/50 border border-slate-200/80 hover:border-primary-300 hover:shadow-xl hover:shadow-slate-300/60 hover:-translate-y-1 transition-all duration-300">
 
             {{-- Ikon file --}}
             <div class="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-2xl {{ $fileStyle['bg'] }} {{ $fileStyle['text'] }} flex items-center justify-center text-2xl shadow-xs border border-black/5">
@@ -104,7 +104,7 @@
                         </span>
                     @endif
                 </div>
-                <h3 class="text-lg md:text-xl font-heading font-bold text-slate-900 group-hover:text-primary-700 transition-colors duration-200 leading-snug break-words mb-2">
+                <h3 class="text-xl md:text-2xl font-heading font-extrabold tracking-tight text-slate-900 group-hover:text-primary-700 transition-colors duration-200 leading-snug break-words mb-2">
                     {{ $doc->title }}
                 </h3>
                 @if($doc->description)

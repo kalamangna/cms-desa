@@ -34,7 +34,7 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Publikasi <span class="text-primary-500 italic">Statistik</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -53,7 +53,7 @@
         {{-- ─── Header Statistik ─── --}}
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
             <div>
-                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 mb-2">Semua Publikasi</h2>
+                <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 mb-2">Semua Publikasi</h2>
                 <p class="text-slate-600 text-sm font-medium">
                     Tersedia <span class="text-primary-700 font-extrabold">{{ $publications->total() }}</span> dokumen publikasi publik.
                 </p>
@@ -63,7 +63,7 @@
                     <i class="fa-solid fa-book-open text-sm"></i>
                 </div>
                 <div>
-                    <div class="text-xl font-heading font-extrabold text-slate-900">{{ $publications->total() }}</div>
+                    <div class="text-2xl font-heading font-black tracking-tight text-slate-900">{{ $publications->total() }}</div>
                     <div class="text-[10px] font-black uppercase tracking-widest text-slate-500">Total Publikasi</div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
         {{-- ─── Grid 4 Kolom ─── --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             @forelse($publications as $pub)
-            <div class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-xs border border-slate-200/80">
+            <div class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-200/80">
 
                 {{-- Cover Image (rasio buku: 3/4) --}}
                 <div class="relative aspect-[3/4] bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden flex-shrink-0">
@@ -119,7 +119,7 @@
                             </span>
                         @endif
                     </div>
-                    <h3 class="text-base font-heading font-bold text-slate-900 leading-snug mb-auto line-clamp-3">
+                    <h3 class="text-lg font-heading font-black tracking-tight text-slate-900 leading-snug mb-auto line-clamp-3">
                         {{ $pub->title }}
                     </h3>
 

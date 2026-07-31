@@ -2,6 +2,24 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.70] - 2026-08-01
+
+### Changed
+- **Penyempurnaan Antarmuka Premium (UI/UX)**: Menyelaraskan sisa 100% halaman publik statis (Statistik, Publikasi, Open Data, Layanan Mandiri, Pengaduan, Buku Tamu, Kontak, Peta, Profil, Potensi) untuk sepenuhnya mengadopsi standar desain Premium Enterprise.
+- **Tipografi Halaman Minor**: Memperbesar dan menebalkan ukuran seluruh teks judul (*heading*) dan *counter* data (*font-black tracking-tight*) pada halaman Statistik, Open Data, Layanan, Pengaduan, Buku Tamu, Peta, Profil, dan Potensi.
+- **Efek Kedalaman Global**: Menerapkan kelas utilitas pembungkus kartu `shadow-lg shadow-slate-200/50` secara konsisten pada setiap kotak informasi dan modal publik (termasuk halaman Kontak, Layanan, Pengaduan, Buku Tamu, dan Peta Spasial).
+- **Tipografi Modal Sukses**: Mempertegas notifikasi modal (*success alert popup*) pada halaman Layanan, Pengaduan, dan Buku Tamu.
+
+## [1.26.69] - 2026-08-01
+
+### Changed
+- **Desain UI Premium (Beranda & Tata Letak Utama)**: Melakukan perombakan total halaman Beranda (`home.blade.php`) dan tata letak utama (`app.blade.php`) menjadi desain kelas atas (Glassmorphism, tipografi tebal `font-black`, bayangan kedalaman `shadow-2xl`, dan animasi interaktif).
+- **Tipografi Hero Global**: Mengelevasi seluruh teks judul (`<h1>`) pada area pahlawan (*Hero Section*) di belasan halaman publik (Profil, Layanan, Kontak, Berita, APBDes, dst) menjadi `text-5xl md:text-7xl font-black tracking-tight drop-shadow-2xl` agar terlihat jauh lebih megah dan solid.
+- **Lightbox Sinematik**: Mengubah modal pratinjau Galeri menjadi antarmuka *borderless fullscreen* dengan resolusi kaku ganda (*video & photo locked canvas*) serta peletakan teks keterangan yang melayang secara absolut.
+- **Manajemen Galeri (Filament)**: Merapikan urutan kolom tabel Galeri (Thumbnail dipindah ke sisi terkiri dan diubah menjadi bentuk persegi besar), serta memperbaiki ketidakcocokan data Seeder `photo` menjadi `foto` agar lencana tabel berfungsi.
+- **Pengaturan Profil Desa**: Menghapus konfigurasi "Judul Sambutan Kepala Desa" (karena pendekatan minimalis) dan merelokasi "Isi Sambutan" ke tab *Pengaturan -> Pemerintahan*.
+- **Teks Seeder Default**: Menyingkat teks sambutan bawaan Kepala Desa pada berkas `SettingSeeder.php` agar tampil proporsional pada *layout* kartu yang padat.
+
 ## [1.26.68] - 2026-08-01
 
 ### Changed

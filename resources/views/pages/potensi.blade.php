@@ -55,7 +55,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Potensi <span class="text-primary-500 italic">Desa</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 font-medium">
@@ -102,7 +102,7 @@
                  x-transition:enter="transition ease-out duration-300"
                  x-transition:enter-start="opacity-0 scale-95"
                  x-transition:enter-end="opacity-100 scale-100"
-                 class="bg-white rounded-3xl border border-slate-200 shadow-md shadow-slate-200/50 overflow-hidden flex flex-col h-full transition-all duration-300">
+                 class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden flex flex-col h-full transition-all duration-300">
                  
                  <!-- Image Header -->
                  <div class="relative aspect-video w-full overflow-hidden bg-slate-100 flex-shrink-0">
@@ -126,7 +126,7 @@
                  <!-- Content Body -->
                  <div class="p-6 flex-1 flex flex-col justify-between">
                     <div class="mb-5">
-                        <h3 class="text-lg font-heading font-extrabold text-slate-900 transition-colors duration-200 line-clamp-2 leading-snug">
+                        <h3 class="text-xl font-heading font-black tracking-tight text-slate-900 transition-colors duration-200 line-clamp-2 leading-snug">
                             {{ $pot->title }}
                         </h3>
                         <div class="text-slate-500 text-xs font-medium leading-relaxed mt-2.5 line-clamp-3">

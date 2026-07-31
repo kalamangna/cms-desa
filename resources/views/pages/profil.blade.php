@@ -30,7 +30,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Profil <span class="text-primary-500 italic">Desa</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2">
@@ -44,7 +44,7 @@
 <section class="bg-white py-16 md:py-20 lg:py-28">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-8">
-            <h2 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Sejarah Desa</h2>
+            <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 mb-2">Sejarah Desa</h2>
         </div>
         <div class="prose prose-slate max-w-none text-slate-600 leading-relaxed font-medium">
             @if(!empty(trim(strip_tags($site_settings['village_history'] ?? ''))))
@@ -64,7 +64,7 @@
 <section class="bg-slate-50 py-16 md:py-20 lg:py-28 border-y border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-12 text-center">
-            <h2 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Visi &amp; Misi</h2>
+            <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 mb-2">Visi &amp; Misi</h2>
         </div>
 
         {{-- Visi Card --}}
@@ -79,13 +79,13 @@
                     </div>
                     <span class="text-primary-200 font-black text-[11px] uppercase tracking-widest">Visi</span>
                 </div>
-                <p class="text-xl md:text-2xl font-heading font-bold italic leading-relaxed">
+                <p class="text-2xl md:text-3xl font-heading font-extrabold italic leading-relaxed">
                     "{{ $site_settings['village_vision'] }}"
                 </p>
             </div>
         </div>
         @else
-        <div class="bg-white rounded-3xl p-10 md:p-16 border border-slate-200 shadow-sm mb-10">
+        <div class="bg-white rounded-3xl p-10 md:p-16 border border-slate-200/80 shadow-lg shadow-slate-200/50 mb-10">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center">
                     <i class="fa-solid fa-eye"></i>
@@ -101,7 +101,7 @@
         @endif
 
         {{-- Misi Card --}}
-        <div class="bg-white rounded-3xl p-10 md:p-16 border border-slate-200 shadow-sm">
+        <div class="bg-white rounded-3xl p-10 md:p-16 border border-slate-200/80 shadow-lg shadow-slate-200/50">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center">
                     <i class="fa-solid fa-list-check"></i>
@@ -127,47 +127,47 @@
 <section class="bg-white py-16 md:py-20 lg:py-28">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-12 text-center">
-            <h2 class="text-2xl font-heading font-extrabold text-slate-900 mb-2">Karakteristik Wilayah</h2>
+            <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 mb-2">Karakteristik Wilayah</h2>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {{-- Luas Wilayah --}}
-            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
+            <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 text-center">
                 <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mx-auto mb-5">
                     <i class="fa-solid fa-map-location-dot"></i>
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Luas Wilayah</p>
-                <p class="text-3xl font-heading font-extrabold text-slate-900">{{ $site_settings['village_area'] ?? '—' }}</p>
+                <p class="text-4xl font-heading font-black tracking-tight text-slate-900">{{ $site_settings['village_area'] ?? '—' }}</p>
                 <p class="text-slate-400 font-bold text-sm mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
             </div>
 
             {{-- Populasi --}}
-            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
+            <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 text-center">
                 <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mx-auto mb-5">
                     <i class="fa-solid fa-users"></i>
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Populasi</p>
-                <p class="text-3xl font-heading font-extrabold text-slate-900">{{ number_format($totalPenduduk ?? 0, 0, ',', '.') }}</p>
+                <p class="text-4xl font-heading font-black tracking-tight text-slate-900">{{ number_format($totalPenduduk ?? 0, 0, ',', '.') }}</p>
                 <p class="text-slate-400 font-bold text-sm mt-1">Jiwa</p>
             </div>
 
             {{-- Jumlah Dusun --}}
-            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
+            <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 text-center">
                 <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mx-auto mb-5">
                     <i class="fa-solid fa-map-pin"></i>
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Jumlah Dusun</p>
-                <p class="text-3xl font-heading font-extrabold text-slate-900">{{ number_format($totalDusun ?? 0, 0, ',', '.') }}</p>
+                <p class="text-4xl font-heading font-black tracking-tight text-slate-900">{{ number_format($totalDusun ?? 0, 0, ',', '.') }}</p>
                 <p class="text-slate-400 font-bold text-xs mt-1">{{ number_format($totalRw ?? 0, 0, ',', '.') }} RW / {{ number_format($totalRt ?? 0, 0, ',', '.') }} RT</p>
             </div>
 
             {{-- Topografi --}}
-            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
+            <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 text-center">
                 <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mx-auto mb-5">
                     <i class="fa-solid fa-mountain-sun"></i>
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Topografi</p>
-                <p class="text-lg font-heading font-extrabold text-slate-900 mt-2.5 line-clamp-1" title="{{ $site_settings['village_topography'] ?? '—' }}">{{ $site_settings['village_topography'] ?? '—' }}</p>
+                <p class="text-xl font-heading font-black tracking-tight text-slate-900 mt-2.5 line-clamp-1" title="{{ $site_settings['village_topography'] ?? '—' }}">{{ $site_settings['village_topography'] ?? '—' }}</p>
                 <p class="text-slate-400 font-bold text-sm mt-1">Wilayah</p>
             </div>
         </div>

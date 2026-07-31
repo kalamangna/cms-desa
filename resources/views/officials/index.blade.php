@@ -175,7 +175,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">Aparatur <span class="text-primary-500 italic">Desa</span></h1>
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">Aparatur <span class="text-primary-500 italic">Desa</span></h1>
             <p class="text-slate-300 text-lg mt-2 mb-6">Jajaran pelayan masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.</p>
             @if($officials->isNotEmpty())
             <button type="button" @click="open()" class="sotk-trigger-btn focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-slate-900" aria-haspopup="dialog">
@@ -240,7 +240,7 @@
         @php
             $photoUrl = $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp');
         @endphp
-        <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group cursor-pointer flex flex-col w-full text-left bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
+        <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group cursor-pointer flex flex-col w-full text-left bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/60 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
             <div class="relative w-full aspect-[4/5] overflow-hidden bg-slate-100">
                 <div class="w-full h-full block relative group/btn">
                     <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
@@ -311,24 +311,22 @@
             </button>
         </template>
 
-        <div class="relative bg-slate-900 rounded-3xl max-w-xs sm:max-w-sm w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default" @click.stop
+        {{-- Container Modal Konten (Invisible Bounding Box) --}}
+        <div class="relative w-full h-full flex flex-col items-center justify-center cursor-default p-4 sm:p-12 md:p-20" @click.stop
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 scale-95 translate-y-4"
              x-transition:enter-end="opacity-100 scale-100 translate-y-0"
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100 scale-100 translate-y-0"
              x-transition:leave-end="opacity-0 scale-95 translate-y-4">
-            
-            <div class="w-full aspect-[4/5] bg-slate-800 relative overflow-hidden flex items-center justify-center">
-                <img :src="currentOfficial.photo" :alt="currentOfficial.name" class="w-full h-full object-cover object-top transition-all duration-300">
-            </div>
-            
-            <div class="p-5 text-center relative z-10 bg-white border-t border-slate-200 flex flex-col items-center justify-center">
-                <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900 mb-1.5" x-text="currentOfficial.name"></h3>
-                <div class="flex items-center justify-center gap-3 w-full">
-                    <span class="inline-flex items-center gap-1.5 bg-primary-50 text-primary-700 border border-primary-200/80 rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wide" x-text="currentOfficial.position"></span>
-                </div>
-            </div>
+             
+            <img :src="currentOfficial.photo" :alt="currentOfficial.name" class="max-w-full max-h-full aspect-[4/5] object-cover object-top rounded-xl shadow-2xl ring-1 ring-white/20 transition-all duration-300">
+        </div>
+
+        {{-- Footer Info (Floating at viewport bottom) --}}
+        <div class="fixed bottom-0 inset-x-0 p-6 sm:p-8 md:p-12 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent flex flex-col items-center text-center pointer-events-none z-10">
+            <span class="text-[10px] md:text-xs font-black uppercase tracking-widest text-primary-400 drop-shadow-md" x-text="currentOfficial.position || ''"></span>
+            <h3 id="official-lightbox-title" class="text-base md:text-2xl font-heading font-black tracking-tight text-white leading-snug line-clamp-2 mt-2 drop-shadow-xl max-w-3xl" x-text="currentOfficial.name || ''"></h3>
         </div>
     </div>
 

@@ -34,7 +34,7 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Open <span class="text-primary-500 italic">Data</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -53,7 +53,7 @@
             {{-- Header Toolbar --}}
             <div class="p-8 md:p-12 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8 bg-slate-50/50 text-center md:text-left">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900">Katalog Dataset</h2>
+                    <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900">Katalog Dataset</h2>
                     <p class="text-slate-500 font-medium text-sm mt-1">Ditemukan {{ $datasets->total() }} dataset publik yang tersedia</p>
                 </div>
                 <form action="/dataset" method="GET" class="relative w-full md:w-96">
@@ -78,7 +78,7 @@
                         @forelse($datasets as $dataset)
                         <tr class="hover:bg-slate-50/80 transition duration-200">
                             <td class="px-8 md:px-12 py-7 md:py-8">
-                                <div class="font-heading font-extrabold text-lg md:text-xl text-slate-900 mb-1.5">{{ $dataset->title }}</div>
+                                <div class="font-heading font-black tracking-tight text-xl md:text-2xl text-slate-900 mb-1.5">{{ $dataset->title }}</div>
                                 <div class="text-sm text-slate-600 max-w-xl leading-relaxed font-medium">{{ $dataset->description }}</div>
                             </td>
                             <td class="px-8 md:px-12 py-7 md:py-8">

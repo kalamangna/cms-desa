@@ -44,7 +44,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Peta <span class="text-primary-500 italic">Spasial</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -108,7 +108,7 @@
                     <!-- Tab Content: Dusun -->
                     <div x-show="activeTab === 'dusun'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
                         <div class="mb-4">
-                            <h3 class="text-sm font-heading font-extrabold text-slate-900 leading-tight">Daftar Wilayah</h3>
+                            <h3 class="text-base font-heading font-black tracking-tight text-slate-900 leading-tight">Daftar Wilayah</h3>
                             <p class="text-slate-500 text-[10px] font-semibold mt-1">Pilih wilayah dusun untuk memfokuskan peta.</p>
                         </div>
 
@@ -139,7 +139,7 @@
                     <!-- Tab Content: Fasilitas Umum -->
                     <div x-show="activeTab === 'fasilitas'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-cloak>
                         <div class="mb-3">
-                            <h3 class="text-sm font-heading font-extrabold text-slate-900 leading-tight">Cari Fasilitas</h3>
+                            <h3 class="text-base font-heading font-black tracking-tight text-slate-900 leading-tight">Cari Fasilitas</h3>
                             <p class="text-slate-500 text-[10px] font-semibold mt-1">Gunakan pencarian dan filter kategori.</p>
                         </div>
 

@@ -35,7 +35,7 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                 Berita <span class="text-primary-500 italic">Terbaru</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2">
@@ -75,7 +75,7 @@
                     {{-- ─── Featured Card (first post) ──────────────────── --}}
                     @if($index === 0)
                     <a href="/berita/{{ $post->slug }}" class="group block mb-10 md:mb-14 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-3xl transition-transform duration-300">
-                        <div class="relative rounded-3xl overflow-hidden shadow-xl shadow-slate-200 border border-white">
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-200/60 border border-slate-200/80">
                             {{-- Image --}}
                             <div class="aspect-video w-full overflow-hidden bg-slate-200">
                                 <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
@@ -101,8 +101,7 @@
 
                             {{-- Content overlay --}}
                             <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                                <time class="text-primary-400 text-[10px] font-black uppercase tracking-widest mb-3 block">
-                                    <i class="fa-regular fa-calendar mr-1.5"></i>
+                                <time class="text-slate-300 text-[10px] font-black uppercase tracking-widest mb-3 block">
                                     {{ $post->published_at->translatedFormat('d F Y') }}
                                 </time>
                                 <h2 class="text-xl md:text-2xl lg:text-3xl font-heading font-extrabold text-white leading-tight group-hover:text-primary-300 transition-colors duration-300 line-clamp-2 mb-3">
@@ -126,7 +125,7 @@
                     @endif
 
                     {{-- ─── Regular Post Card ────────────────────────────── --}}
-                    <a href="/berita/{{ $post->slug }}" class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 flex flex-col">
+                    <a href="/berita/{{ $post->slug }}" class="group bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/60 hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 flex flex-col">
                         {{-- Thumbnail --}}
                         <div class="block relative overflow-hidden aspect-video bg-slate-100 flex-shrink-0">
                             <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
@@ -189,7 +188,7 @@
             <aside class="lg:w-1/3 xl:w-1/3 space-y-8">
 
                 {{-- Search (desktop) --}}
-                <div class="hidden lg:block bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-primary-300 transition-all duration-300">
+                <div class="hidden lg:block bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 transition-all duration-300">
                     <h3 class="text-base font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-magnifying-glass text-primary-500 text-sm"></i> Cari Berita
                     </h3>

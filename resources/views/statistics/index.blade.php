@@ -34,7 +34,7 @@
 
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
-                <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
+                <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
                     Statistik <span class="text-primary-500 italic">Desa</span>
                 </h1>
                 <p class="text-slate-300 text-lg mt-2 leading-relaxed">
@@ -64,7 +64,7 @@
          id="statistik-main">
 
         @if($isEmptyDb)
-            <div class="bg-white rounded-3xl border border-slate-100 shadow-sm max-w-2xl mx-auto">
+            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 max-w-2xl mx-auto">
                 <x-empty-state
                     icon="fa-solid fa-users-slash"
                     title="Data Kependudukan Belum Tersedia"
@@ -80,48 +80,48 @@
                         <i class="fa-solid fa-users text-xs"></i> Total Penduduk
                     </span>
                     <div>
-                        <span class="text-3xl md:text-4xl font-extrabold block leading-none">{{ number_format($summaryCards['total_penduduk'], 0, ',', '.') }}</span>
+                        <span class="text-4xl md:text-5xl font-black tracking-tight block leading-none">{{ number_format($summaryCards['total_penduduk'], 0, ',', '.') }}</span>
                         <span class="text-primary-200 text-[10px] font-semibold mt-2 block">jiwa aktif {{ $summaryCards['latest_year'] }}</span>
                     </div>
                 </div>
 
                 {{-- YoY Growth --}}
-                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs flex flex-col justify-between min-h-[120px]">
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col justify-between min-h-[120px]">
                     <span class="text-slate-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-chart-line text-primary-600 text-xs"></i> Pertumbuhan YoY
                     </span>
                     <div>
                         @if(!is_null($summaryCards['yoy_growth']))
                             @php $yoy = $summaryCards['yoy_growth']; @endphp
-                            <span class="text-3xl font-extrabold block leading-none {{ $yoy >= 0 ? 'text-primary-700' : 'text-rose-600' }}">
+                            <span class="text-4xl font-black tracking-tight block leading-none {{ $yoy >= 0 ? 'text-primary-700' : 'text-rose-600' }}">
                                 {{ $yoy >= 0 ? '+' : '' }}{{ number_format($yoy, 2, ',', '.') }}%
                             </span>
                             <span class="text-slate-500 text-[10px] font-semibold mt-2 block">vs {{ $summaryCards['latest_year'] - 1 }}</span>
                         @else
-                            <span class="text-2xl font-extrabold block leading-none text-slate-300">—</span>
+                            <span class="text-3xl font-black tracking-tight block leading-none text-slate-300">—</span>
                             <span class="text-slate-500 text-[10px] font-semibold mt-2 block">data historis belum ada</span>
                         @endif
                     </div>
                 </div>
 
                 {{-- Tahun Terkini --}}
-                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs flex flex-col justify-between min-h-[120px]">
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col justify-between min-h-[120px]">
                     <span class="text-slate-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-regular fa-calendar text-primary-600 text-xs"></i> Tahun Data
                     </span>
                     <div>
-                        <span class="text-3xl font-extrabold text-slate-900 block leading-none">{{ $summaryCards['latest_year'] }}</span>
+                        <span class="text-4xl font-black tracking-tight text-slate-900 block leading-none">{{ $summaryCards['latest_year'] }}</span>
                         <span class="text-slate-500 text-[10px] font-semibold mt-2 block">data real-time</span>
                     </div>
                 </div>
 
                 {{-- Dusun Terbanyak --}}
-                <div class="bg-slate-900 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[120px] shadow-xs">
+                <div class="bg-slate-900 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[120px] shadow-lg shadow-slate-900/40">
                     <span class="text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-location-dot text-primary-400 text-xs"></i> Dusun Terbanyak
                     </span>
                     <div>
-                        <span class="text-lg font-extrabold block leading-snug">{{ $summaryCards['top_dusun'] }}</span>
+                        <span class="text-xl font-black tracking-tight block leading-snug">{{ $summaryCards['top_dusun'] }}</span>
                         <span class="text-slate-400 text-[10px] font-semibold mt-2 block">{{ number_format($summaryCards['top_dusun_count'], 0, ',', '.') }} jiwa</span>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
 
         {{-- ── SIDEBAR (desktop only) ──────────────────────────────────── --}}
         <aside class="hidden md:block w-64 flex-shrink-0 sticky top-24 self-start">
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden">
                 <div class="px-5 pt-5 pb-3">
                     <span class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-500 flex items-center gap-1.5">
                         <i class="fa-solid fa-layer-group text-primary-600"></i> Kategori
@@ -269,7 +269,7 @@
                 </div>
 
                 {{-- ── CHART CONTAINER ───────────────────────────────────── --}}
-                <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden p-6 md:p-8 mb-6">
+                <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden p-6 md:p-8 mb-6">
 
                     {{-- Toolbar --}}
                     <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
@@ -359,7 +359,7 @@
                         ? (int)$selectedYear
                         : (int)($allYears->last() ?? date('Y'));
                 @endphp
-                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden mb-8">
+                <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden mb-8">
                     <div class="flex items-center justify-between px-6 md:px-8 pt-6 pb-4">
                         <div>
                             <h3 class="text-base font-heading font-extrabold text-slate-900"

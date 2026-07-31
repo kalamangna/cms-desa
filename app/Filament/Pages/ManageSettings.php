@@ -118,6 +118,10 @@ class ManageSettings extends Page implements HasForms
                                     ->placeholder('Contoh: 2028')
                                     ->helperText('Tahun akhir masa bhakti pemerintahan.')
                                     ->numeric(),
+                                RichEditor::make('village_head_greeting')->label('Isi Sambutan Kades')
+                                    ->placeholder('Tuliskan naskah lengkap sambutan hangat Kepala Desa...')
+                                    ->helperText('Pesan Kepala Desa kepada warga.')
+                                    ->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Kontak & Lokasi')
                             ->icon('heroicon-o-map-pin')

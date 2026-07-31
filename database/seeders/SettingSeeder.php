@@ -44,8 +44,7 @@ class SettingSeeder extends Seeder
             ['key' => 'village_mission', 'value' => '<ol><li>Meningkatkan kualitas pelayanan publik pemerintahan desa.</li><li>Membangun infrastruktur desa yang memadai dan berwawasan lingkungan.</li><li>Mendorong pertumbuhan ekonomi kerakyatan melalui BUMDes dan sektor pertanian.</li><li>Menjaga dan melestarikan budaya gotong royong serta nilai-nilai keagamaan.</li></ol>'],
             
             // Sambutan Kades
-            ['key' => 'village_head_greeting_title', 'value' => 'Sambutan Kepala Desa Tompobulu'],
-            ['key' => 'village_head_greeting', 'value' => '<p><em>Assalamu\'alaikum Warahmatullahi Wabarakatuh.</em></p><p>Selamat datang di website resmi Desa Tompobulu. Puji syukur kita panjatkan ke hadirat Allah SWT, karena atas rahmat-Nya website ini dapat hadir sebagai jendela informasi desa kita tercinta.</p><p>Website ini dibangun sebagai wujud nyata komitmen kami dalam menghadirkan tata kelola pemerintahan desa yang transparan, akuntabel, dan berbasis digital. Melalui platform ini, seluruh warga desa dapat mengakses berbagai informasi pelayanan publik, berita terkini, hingga memantau realisasi anggaran pembangunan secara langsung.</p><p>Semoga website ini memberikan manfaat yang seluas-luasnya bagi kemajuan Desa Tompobulu.</p><p><em>Wassalamu\'alaikum Warahmatullahi Wabarakatuh.</em></p>'],
+            ['key' => 'village_head_greeting', 'value' => '<p>Selamat datang di portal resmi desa. Website ini adalah wujud nyata komitmen kami dalam menghadirkan pelayanan publik yang cepat, transparan, dan berbasis digital.</p><p>Mari bersama-sama membangun desa yang lebih maju, mandiri, dan sejahtera.</p>'],
             
             // Karakteristik & Wilayah
             ['key' => 'village_area', 'value' => '450'],

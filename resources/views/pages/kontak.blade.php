@@ -64,8 +64,8 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white leading-tight mb-6">
-                Kontak <span class="text-primary-500 italic">Desa</span>
+            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+                Kontak <span class="text-primary-500 italic">Kami</span>
             </h1>
             <p class="text-slate-300 text-lg mt-2 leading-relaxed">
                 Informasi kontak dan saluran pelayanan Pemerintah Desa.
@@ -83,7 +83,7 @@
             <div class="space-y-6">
 
                 {{-- Alamat --}}
-                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs">
+                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50">
                     <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-solid fa-location-dot"></i>
                     </div>
@@ -94,7 +94,7 @@
                 </div>
 
                 {{-- Telepon / WA --}}
-                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs">
+                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50">
                     <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-brands fa-whatsapp"></i>
                     </div>
@@ -122,7 +122,7 @@
                 </div>
 
                 {{-- Email --}}
-                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs">
+                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50">
                     <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
@@ -139,7 +139,7 @@
                 </div>
 
                 {{-- Jam Operasional --}}
-                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs">
+                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50">
                     <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-regular fa-clock"></i>
                     </div>
@@ -150,7 +150,7 @@
                 </div>
 
                 {{-- Social Media --}}
-                <div class="bg-slate-900 rounded-3xl p-8 text-white shadow-md">
+                <div class="bg-slate-900 rounded-3xl p-8 text-white shadow-lg shadow-slate-900/40">
                     <h4 class="text-xs font-black uppercase tracking-widest text-primary-400 mb-6">Ikuti Media Sosial</h4>
                     <div class="flex flex-wrap gap-3">
                         @if(!empty($site_settings['social_facebook']))
