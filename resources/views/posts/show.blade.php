@@ -163,13 +163,13 @@
                         <div class="flex gap-2.5">
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
                                target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[#1877F2] bg-blue-50 hover:bg-[#1877F2] hover:text-white hover:border-blue-600 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                title="Bagikan ke Facebook">
                                 <i class="fa-brands fa-facebook-f text-sm"></i>
                             </a>
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' - ' . request()->fullUrl()) }}"
                                target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-green-500 hover:text-white hover:border-green-500 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[#25D366] bg-green-50 hover:bg-[#25D366] hover:text-white hover:border-green-500 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                                title="Bagikan ke WhatsApp">
                                 <i class="fa-brands fa-whatsapp text-base"></i>
                             </a>

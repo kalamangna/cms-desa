@@ -213,7 +213,7 @@
                         @endif
 
                         <div x-show="selectedDusun" x-cloak>
-                            <button type="button" @click="resetFilters()" class="inline-flex items-center gap-1 text-[10px] text-rose-400 hover:text-rose-600 font-semibold mt-2 transition-colors">
+                            <button type="button" @click="resetFilters()" class="inline-flex items-center gap-1 text-[10px] text-rose-400 hover:text-rose-600 font-semibold mt-2 transition-colors active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 rounded">
                                 <i class="fa-solid fa-xmark"></i> Hapus filter
                             </button>
                         </div>

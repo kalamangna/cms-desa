@@ -301,7 +301,7 @@
                 <span class="opacity-30">|</span>
                 <form method="POST" action="/admin/logout" class="inline">
                     @csrf
-                    <button type="submit" class="hover:text-rose-400 transition flex items-center gap-1.5">
+                    <button type="submit" class="hover:text-rose-400 transition-all duration-200 flex items-center gap-1.5 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-sm">
                         <i class="fa-solid fa-right-from-bracket text-[9px]"></i> Keluar
                     </button>
                 </form>
@@ -431,7 +431,7 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="flex items-center lg:hidden">
-                    <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu Utama" title="Menu Utama" class="text-slate-600 hover:text-primary-600 p-2 focus:outline-none transition-transform duration-200" :class="mobileMenuOpen ? 'rotate-90' : ''">
+                    <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu Utama" title="Menu Utama" class="text-slate-600 hover:text-primary-600 p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 active:scale-95 rounded-md transition-all duration-200" :class="mobileMenuOpen ? 'rotate-90' : ''">
                         <span class="sr-only">Menu Utama Navigasi</span>
                         <i class="fa-solid fa-bars text-xl" x-show="!mobileMenuOpen"></i>
                         <i class="fa-solid fa-xmark text-xl" x-show="mobileMenuOpen" x-cloak></i>
@@ -500,7 +500,7 @@
                         </a>
                         <form method="POST" action="/admin/logout" class="w-full">
                             @csrf
-                            <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-100 text-slate-600 text-center">
+                            <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-100 text-slate-600 text-center hover:bg-slate-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 transition-all duration-200">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 Keluar
                             </button>
@@ -546,7 +546,7 @@
                     </p>
                     <div class="flex gap-3">
                         @if(!empty($site_settings['social_facebook']))
-                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all duration-200 text-slate-300 hover:text-white" title="Facebook">
+                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-500 border-white/10 hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all duration-200 hover:text-white" title="Facebook">
                             <i class="fa-brands fa-facebook-f text-sm"></i>
                         </a>
                         @else
@@ -556,7 +556,7 @@
                         @endif
 
                         @if(!empty($site_settings['social_instagram']))
-                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-pink-600 hover:border-pink-600 transition-all duration-200 text-slate-300 hover:text-white" title="Instagram">
+                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-pink-500 border-white/10 hover:bg-pink-600 hover:border-pink-600 hover:text-white transition-all duration-200 hover:text-white" title="Instagram">
                             <i class="fa-brands fa-instagram text-sm"></i>
                         </a>
                         @else
@@ -566,7 +566,7 @@
                         @endif
 
                         @if(!empty($site_settings['social_youtube']))
-                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-all duration-200 text-slate-300 hover:text-white" title="YouTube">
+                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-red-500 border-white/10 hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-200 hover:text-white" title="YouTube">
                             <i class="fa-brands fa-youtube text-sm"></i>
                         </a>
                         @else

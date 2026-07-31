@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.68] - 2026-08-01
+
+### Changed
+- **Sistem Desain (UI/UX)**: Menambahkan status interaksi mutlak (`active:scale-95`, `focus:ring-2`) pada beberapa tombol minor (menu *mobile*, tombol keluar/masuk, tombol *reset filter*) agar selaras dengan aksesibilitas Poin 6 `DESIGN.md`.
+- **Merek & Ikon Sosial**: Menerapkan warna asli/merek (biru untuk Facebook, merah untuk YouTube, hijau untuk WhatsApp, dll.) pada ikon sosial media secara statis (bawaan) pada *Footer*, halaman Kontak, dan tombol Berbagi di *detail* Berita, sesuai pengecualian warna pada Poin 2 `DESIGN.md`.
+
 ## [1.26.67] - 2026-08-01
 
 ### Changed

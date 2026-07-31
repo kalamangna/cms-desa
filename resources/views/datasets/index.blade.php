@@ -58,7 +58,7 @@
                 </div>
                 <form action="/dataset" method="GET" class="relative w-full md:w-96">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari dataset..." class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 shadow-xs text-sm">
-                    <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary-600 transition cursor-pointer" aria-label="Cari Dataset">
+                    <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary-600 transition cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-md" aria-label="Cari Dataset">
                         <i class="fa-solid fa-magnifying-glass text-sm"></i>
                     </button>
                 </form>
