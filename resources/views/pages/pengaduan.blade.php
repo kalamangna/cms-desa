@@ -124,7 +124,7 @@
                     <button
                         type="button"
                         @click.stop="showSuccessModal = false"
-                        class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                        class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
                         title="Tutup (Esc)">
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>
