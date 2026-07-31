@@ -18,7 +18,7 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1 py-0.5">
@@ -49,7 +49,7 @@
 ═══════════════════════════════════════════════════════ --}}
 <div class="bg-slate-50 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-        <div class="bg-white rounded-[32px] md:rounded-[40px] shadow-lg shadow-slate-200/50 border border-slate-200/80 overflow-hidden">
+        <div class="bg-white rounded-3xl md:rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-200/80 overflow-hidden">
             {{-- Header Toolbar --}}
             <div class="p-8 md:p-12 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8 bg-slate-50/50 text-center md:text-left">
                 <div>
@@ -69,9 +69,9 @@
                 <table class="w-full text-left min-w-[800px] lg:min-w-0">
                     <thead>
                         <tr class="bg-slate-50/80 border-b border-slate-100">
-                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 text-[10px] uppercase tracking-[0.2em]">Dataset & Deskripsi</th>
-                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 text-[10px] uppercase tracking-[0.2em]">Tahun</th>
-                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 text-[10px] uppercase tracking-[0.2em] text-right">Unduh</th>
+                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 text-[10px] uppercase tracking-widest">Dataset & Deskripsi</th>
+                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 text-[10px] uppercase tracking-widest">Tahun</th>
+                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 text-[10px] uppercase tracking-widest text-right">Unduh</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">

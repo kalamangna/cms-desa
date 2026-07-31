@@ -39,7 +39,7 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1 py-0.5">
@@ -74,7 +74,7 @@
 ═══════════════════════════════════════════════════════ --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 md:-mt-16 mb-16 md:mb-24 relative z-10">
     @if($categories->isEmpty())
-        <div class="bg-white rounded-[32px] border border-slate-200/80 shadow-sm p-4">
+        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-4">
             <x-empty-state
                 icon="fa-solid fa-scale-balanced"
                 title="Data APBDes Belum Tersedia"
@@ -127,7 +127,7 @@
             };
         @endphp
 
-        <div class="bg-white rounded-[32px] shadow-lg shadow-slate-200/50 border border-slate-200/80 overflow-hidden">
+        <div class="bg-white rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-200/80 overflow-hidden">
             {{-- Coloured top accent bar --}}
             <div class="h-1.5 w-full bg-gradient-to-r {{ $theme['gradient'] }}"></div>
 

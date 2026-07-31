@@ -43,7 +43,7 @@
 
         {{-- Helpful Links --}}
         <div class="border-t border-slate-200 pt-8 max-w-lg mx-auto">
-            <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Mungkin Anda Mencari:</p>
+            <p class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Mungkin Anda Mencari:</p>
             <div class="grid grid-cols-2 gap-3 text-sm text-slate-600 font-semibold">
                 <a href="/layanan" class="hover:text-emerald-600 transition flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-hand-holding-hand text-xs text-emerald-500"></i> Layanan Publik

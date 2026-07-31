@@ -30,7 +30,7 @@
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1 py-0.5">
@@ -61,7 +61,7 @@
             
             {{-- Map View (Main Area) --}}
             <div class="lg:col-span-2 flex flex-col gap-6">
-                <div class="bg-white rounded-[32px] p-2 border border-slate-200/80 shadow-lg shadow-slate-200/50 relative overflow-hidden h-[500px] md:h-[600px] min-h-[450px] z-0">
+                <div class="bg-white rounded-3xl p-2 border border-slate-200/80 shadow-lg shadow-slate-200/50 relative overflow-hidden h-[500px] md:h-[600px] min-h-[450px] z-0">
                     <div id="spatialMap" class="w-full h-full rounded-[24px] absolute inset-0 z-0"></div>
                     
                     {{-- Legend Overlay --}}
@@ -86,7 +86,7 @@
                  x-data="spatialMapSidebar">
                 
                 {{-- Tabbed Selector Card --}}
-                <div class="bg-white rounded-[32px] p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col gap-4">
+                <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col gap-4">
                     <!-- Tab Buttons -->
                     <div class="flex border-b border-slate-100 pb-1">
                         <button type="button" 
@@ -202,7 +202,7 @@
                 </div>
 
                 {{-- Detail Information Card --}}
-                <div id="dusunInfoCard" class="bg-white rounded-[32px] p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col gap-5 transition-all duration-300 relative overflow-hidden group">
+                <div id="dusunInfoCard" class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col gap-5 transition-all duration-300 relative overflow-hidden group">
                     <div class="absolute top-0 left-0 w-2 h-full bg-slate-300" id="infoCardBorder"></div>
                     
                     <div class="pl-2">

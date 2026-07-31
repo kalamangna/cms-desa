@@ -18,7 +18,7 @@
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1 py-0.5">
@@ -64,7 +64,7 @@
          id="statistik-main">
 
         @if($isEmptyDb)
-            <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm max-w-2xl mx-auto">
+            <div class="bg-white rounded-3xl border border-slate-100 shadow-sm max-w-2xl mx-auto">
                 <x-empty-state
                     icon="fa-solid fa-users-slash"
                     title="Data Kependudukan Belum Tersedia"
@@ -76,7 +76,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
                 {{-- Total Penduduk --}}
                 <div class="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-6 text-white shadow-lg shadow-primary-900/10 flex flex-col justify-between min-h-[120px]">
-                    <span class="text-primary-200 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                    <span class="text-primary-200 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-users text-xs"></i> Total Penduduk
                     </span>
                     <div>
@@ -87,7 +87,7 @@
 
                 {{-- YoY Growth --}}
                 <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs flex flex-col justify-between min-h-[120px]">
-                    <span class="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                    <span class="text-slate-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-chart-line text-primary-600 text-xs"></i> Pertumbuhan YoY
                     </span>
                     <div>
@@ -106,7 +106,7 @@
 
                 {{-- Tahun Terkini --}}
                 <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs flex flex-col justify-between min-h-[120px]">
-                    <span class="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                    <span class="text-slate-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-regular fa-calendar text-primary-600 text-xs"></i> Tahun Data
                     </span>
                     <div>
@@ -117,7 +117,7 @@
 
                 {{-- Dusun Terbanyak --}}
                 <div class="bg-slate-900 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[120px] shadow-xs">
-                    <span class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5">
+                    <span class="text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-location-dot text-primary-400 text-xs"></i> Dusun Terbanyak
                     </span>
                     <div>
@@ -129,7 +129,7 @@
 
     {{-- Mobile: Dropdown Category Selector --}}
     <div class="md:hidden mb-6">
-        <label for="stat-category-select" class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Pilih Kategori</label>
+        <label for="stat-category-select" class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">Pilih Kategori</label>
         <div class="relative">
             <select
                 x-model="activeTab"
@@ -189,7 +189,7 @@
                         @if($dusuns->count() > 0)
                         {{-- Filter Dusun --}}
                         <div class="mb-4">
-                            <label for="filter-dusun-select" class="block text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2 flex items-center gap-1.5">
+                            <label for="filter-dusun-select" class="block text-[9px] font-black uppercase tracking-widest text-slate-500 mb-2 flex items-center gap-1.5">
                                 <i class="fa-solid fa-location-dot text-primary-600"></i> Filter Dusun
                             </label>
                             <div class="relative">
@@ -403,8 +403,8 @@
                         <table id="tabel-{{ $category->slug }}" class="w-full text-sm border-collapse">
                             <thead id="thead-{{ $category->slug }}">
                                 <tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50">
-                                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
-                                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap leading-tight">
+                                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
+                                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap leading-tight">
                                         Total<br>
                                         <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">({{ $firstIndicatorUnit }})</span>
                                     </th>
@@ -583,15 +583,15 @@
 
             if (thead) {
                 let ths = `<tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50">
-                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>`;
+                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>`;
                 options.forEach((opt, idx) => {
                     const colColor = colors[idx] || '#64748b';
-                    ths += `<th class="text-right px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap leading-tight" style="color: ${colColor}">
+                    ths += `<th class="text-right px-4 py-2.5 text-[10px] font-black uppercase tracking-widest whitespace-nowrap leading-tight" style="color: ${colColor}">
                         ${opt}<br>
                         <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(${firstUnit})</span>
                     </th>`;
                 });
-                ths += `<th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap leading-tight">
+                ths += `<th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap leading-tight">
                     Total<br>
                     <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(${firstUnit})</span>
                 </th></tr>`;
@@ -659,8 +659,8 @@
 
             if (thead) {
                 thead.innerHTML = `<tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50">
-                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
-                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap leading-tight">
+                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
+                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap leading-tight">
                         Total<br>
                         <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(${firstUnit})</span>
                     </th>

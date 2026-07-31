@@ -15,7 +15,7 @@
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1 py-0.5">
@@ -102,7 +102,7 @@
 
         {{-- ===================== TAB: KIRIM PENGADUAN ===================== --}}
         <div x-show="activeTab === 'kirim'" x-transition:enter="transition ease-out duration-300" x-cloak>
-            <div class="bg-white rounded-[32px] p-8 md:p-12 border border-slate-200/80 shadow-lg shadow-slate-200/50">
+            <div class="bg-white rounded-3xl p-8 md:p-12 border border-slate-200/80 shadow-lg shadow-slate-200/50">
                 
                 {{-- Success Modal Popup & Ticket Display --}}
                 @if(session('success') && session('ticket_number'))
@@ -199,7 +199,7 @@
 
         {{-- ===================== TAB: LACAK PENGADUAN ===================== --}}
         <div x-show="activeTab === 'lacak'" x-transition:enter="transition ease-out duration-300" x-cloak>
-            <div class="bg-white rounded-[32px] p-8 md:p-12 border border-slate-200/80 shadow-lg shadow-slate-200/50 mb-8">
+            <div class="bg-white rounded-3xl p-8 md:p-12 border border-slate-200/80 shadow-lg shadow-slate-200/50 mb-8">
                 <div class="mb-8">
                     <h3 class="text-xl font-heading font-extrabold text-slate-900 mb-2">Lacak Status Pengaduan</h3>
                     <p class="text-slate-500 text-sm font-medium">Masukkan nomor tiket pengaduan Anda di bawah ini.</p>
@@ -225,7 +225,7 @@
             {{-- Tracking Results (Real-time Rendered) --}}
             <div x-show="searched" x-transition:enter="transition ease-out duration-300">
                 <template x-if="result && result.found">
-                    <div class="bg-white rounded-[32px] border border-slate-200/80 shadow-lg shadow-slate-200/50 p-8 md:p-12 space-y-8">
+                    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 p-8 md:p-12 space-y-8">
                         
                         {{-- Status Header --}}
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-slate-100">
