@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.66] - 2026-08-01
+
+### Changed
+- **Notifikasi Telegram**: Memperjelas dan merapikan format pesat notifikasi Telegram untuk *Cleanup* arsip backup (`📂 Backup Terbaru:`) agar lebih mudah dibaca.
+
 ## [1.26.65] - 2026-07-31
 
 ### Changed

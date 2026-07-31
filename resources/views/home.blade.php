@@ -59,7 +59,7 @@
      x-transition:leave-end="opacity-0"
      @keydown.escape.window="closePopup()"
      @click="closePopup()"
-     class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+     class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
      role="dialog" aria-modal="true" aria-labelledby="popup-infographic-title">
     
     <!-- Modal Container -->
@@ -71,7 +71,7 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 scale-100 translate-y-0"
          x-transition:leave-end="opacity-0 scale-95 translate-y-4"
-         class="relative bg-slate-900 rounded-[28px] max-w-xl md:max-w-2xl w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default">
+         class="relative bg-slate-900 rounded-3xl max-w-xl md:max-w-2xl w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default">
         
         <!-- Header / Close button -->
         <button type="button"
@@ -139,7 +139,7 @@
 @endif
 
 {{-- 1. HERO --}}
-<div class="relative bg-slate-900 min-h-[90vh] flex items-center overflow-hidden">
+<div class="relative bg-slate-900 min-h-screen flex items-center overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -154,7 +154,7 @@
             <div>
                 <div class="flex items-center gap-3 mb-8">
                     <div class="h-px w-12 bg-primary-500"></div>
-                    <span class="text-primary-400 text-xs font-black uppercase tracking-[0.3em]">Portal Resmi Pemerintah Desa</span>
+                    <span class="text-primary-400 text-xs font-black uppercase tracking-widest">Portal Resmi Pemerintah Desa</span>
                 </div>
                 <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.05] mb-8">
                     Desa<br><span class="text-primary-500 italic">{{ $site_settings['village_name'] ?? '' }}</span>
@@ -183,10 +183,10 @@
             <div class="flex items-center justify-center mt-16 lg:mt-0">
                 <div class="relative">
                     {{-- Glow background --}}
-                    <div class="absolute inset-0 bg-primary-500/20 rounded-[32px] blur-3xl scale-110"></div>
+                    <div class="absolute inset-0 bg-primary-500/20 rounded-3xl blur-3xl scale-110"></div>
 
                     {{-- Frame foto --}}
-                    <div class="relative w-[270px] h-[324px] sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-[32px] overflow-hidden border-2 border-white/10 shadow-2xl">
+                    <div class="relative w-72 h-80 sm:w-80 sm:h-96 xl:w-96 xl:h-[480px] rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl">
                         <img src="{{ ($villageHead && $villageHead->photo) ? asset('storage/' . $villageHead->photo) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover object-top"
                              alt="Foto {{ $villageHead?->name ?? 'Kepala Desa' }}"
@@ -283,7 +283,7 @@
         <p class="text-slate-500 text-sm mt-2 font-medium">Pilih layanan yang Anda butuhkan di bawah ini</p>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
+        <a href="/layanan" class="group bg-white p-6 md:p-8 rounded-3xl shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100/80 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 transition-all duration-300 shadow-xs">
                 <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
@@ -291,7 +291,7 @@
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Panduan dan pengajuan administrasi kependudukan</p>
         </a>
         
-        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
+        <a href="/pengaduan" class="group bg-white p-6 md:p-8 rounded-3xl shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100/80 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 transition-all duration-300 shadow-xs">
                 <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
@@ -299,7 +299,7 @@
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Sampaikan aspirasi atau laporan masalah warga</p>
         </a>
         
-        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
+        <a href="/buku-tamu" class="group bg-white p-6 md:p-8 rounded-3xl shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100/80 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 transition-all duration-300 shadow-xs">
                 <i class="fa-solid fa-address-book text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
@@ -307,7 +307,7 @@
             <p class="relative z-10 text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Tinggalkan pesan, kesan, atau saran untuk desa</p>
         </a>
         
-        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-[2rem] shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
+        <a href="/potensi" class="group bg-white p-6 md:p-8 rounded-3xl shadow-xs border border-slate-200/80 hover:shadow-xl hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 border border-primary-100/80 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 transition-all duration-300 shadow-xs">
                 <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-primary-600 group-hover:text-white transition-colors"></i>
             </div>
@@ -319,16 +319,16 @@
 
 {{-- 3. SAMBUTAN KEPALA DESA --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
-    <div class="bg-white rounded-[32px] shadow-lg shadow-slate-200/50 overflow-hidden border border-slate-200/80 relative">
+    <div class="bg-white rounded-3xl shadow-lg shadow-slate-200/50 overflow-hidden border border-slate-200/80 relative">
         {{-- Decorative Quote Mark in Background --}}
         <div class="absolute -top-12 -right-12 text-primary-50/60 pointer-events-none z-0">
-            <i class="fa-solid fa-quote-right text-[200px] md:text-[300px]"></i>
+            <i class="fa-solid fa-quote-right text-9xl md:text-9xl"></i>
         </div>
 
         <div class="p-8 md:p-16 lg:p-20 relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
             <div class="flex items-center gap-3 mb-6 justify-center">
                 <div class="h-px w-8 bg-primary-600"></div>
-                <span class="text-primary-600 font-black text-xs uppercase tracking-[0.25em]">Sambutan Kepala Desa</span>
+                <span class="text-primary-600 font-black text-xs uppercase tracking-widest">Sambutan Kepala Desa</span>
                 <div class="h-px w-8 bg-primary-600"></div>
             </div>
             <h2 class="text-2xl md:text-4xl font-heading font-extrabold text-slate-900 mb-10 leading-tight">
@@ -357,7 +357,7 @@
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-primary-600"></div>
-                    <span class="text-primary-600 font-black text-xs uppercase tracking-[0.25em]">Transparansi Data</span>
+                    <span class="text-primary-600 font-black text-xs uppercase tracking-widest">Transparansi Data</span>
                 </div>
                 <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Statistik & <span class="text-primary-600">APBDes</span></h2>
             </div>
@@ -450,7 +450,7 @@
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-primary-600"></div>
-                    <span class="text-primary-600 font-black text-xs uppercase tracking-[0.25em]">Informasi Terbaru</span>
+                    <span class="text-primary-600 font-black text-xs uppercase tracking-widest">Informasi Terbaru</span>
                 </div>
                 <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Berita & <span class="text-primary-600">Pengumuman</span></h2>
             </div>
@@ -460,7 +460,7 @@
             <div class="lg:col-span-8 space-y-8">
                 @if($featuredPost)
                 <a href="/berita/{{ $featuredPost->slug }}" class="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 rounded-3xl cursor-pointer">
-                    <div class="relative rounded-3xl overflow-hidden aspect-[16/9] mb-6 shadow-lg border border-slate-200/80">
+                    <div class="relative rounded-3xl overflow-hidden aspect-video mb-6 shadow-lg border border-slate-200/80">
                         <img src="{{ $featuredPost->featured_image ? asset('storage/' . $featuredPost->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                              alt="{{ $featuredPost->title }}"
@@ -481,7 +481,7 @@
 
                 <div class="space-y-4">
                     @forelse($recentPosts as $post)
-                    <a href="/berita/{{ $post->slug }}" class="flex gap-5 group items-center p-4 rounded-2xl hover:bg-slate-50 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 -mx-4 cursor-pointer">
+                    <a href="/berita/{{ $post->slug }}" class="flex gap-5 group items-center p-4 rounded-2xl hover:bg-slate-50 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 -mx-4 cursor-pointer">
                         <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200/80">
                             <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
@@ -598,7 +598,7 @@
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-primary-600"></div>
-                    <span class="text-primary-600 font-black text-xs uppercase tracking-[0.25em]">Dokumentasi Desa</span>
+                    <span class="text-primary-600 font-black text-xs uppercase tracking-widest">Dokumentasi Desa</span>
                 </div>
                 <h2 class="text-4xl md:text-5xl font-heading font-extrabold text-slate-900">Galeri <span class="text-primary-600">Foto & Video</span></h2>
             </div>
@@ -614,7 +614,7 @@
         @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($galleries as $idx => $gallery)
-            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-sm aspect-[4/3] cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" tabindex="0"
+            <div class="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-sm aspect-video cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" tabindex="0"
                  @click="openLightboxByIndex({{ $idx }})">
                 <img src="{{ $gallery->image_url }}"
                      class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
@@ -666,7 +666,7 @@
         @keydown.arrow-left.window="prevSlide()"
         @keydown.arrow-right.window="nextSlide()"
         @click="closeLightbox()"
-        class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+        class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
         role="dialog" aria-modal="true" aria-labelledby="home-gallery-lightbox-title"
     >
         {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
@@ -706,7 +706,7 @@
 
         {{-- Container Modal Konten --}}
         <div
-            class="relative bg-slate-900 rounded-[28px] w-[92vw] sm:w-auto sm:max-w-[85vw] md:max-w-[75vw] flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
+            class="relative bg-slate-900 rounded-3xl w-11/12 sm:w-auto sm:max-w-[85vw] md:max-w-[75vw] flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
             @click.stop
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95 translate-y-4"

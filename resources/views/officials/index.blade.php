@@ -168,7 +168,7 @@
         <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 rounded-full blur-3xl"></div>
     </div>
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li><a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1"><i class="fa-solid fa-house text-[10px]"></i> Beranda</a></li>
                 <li class="flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[9px] text-primary-500/40"></i><span class="text-white">Aparatur Desa</span></li>
@@ -240,7 +240,7 @@
         @php
             $photoUrl = $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp');
         @endphp
-        <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group cursor-pointer flex flex-col w-full text-left bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary-300 hover:-translate-y-1.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
+        <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group cursor-pointer flex flex-col w-full text-left bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary-300 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
             <div class="relative w-full aspect-[4/5] overflow-hidden bg-slate-100">
                 <div class="w-full h-full block relative group/btn">
                     <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
@@ -273,7 +273,7 @@
          @keydown.arrow-left.window="prevSlide()"
          @keydown.arrow-right.window="nextSlide()"
          @click="closePreview()"
-         class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+         class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
          role="dialog" aria-modal="true">
         
         {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
@@ -311,7 +311,7 @@
             </button>
         </template>
 
-        <div class="relative bg-slate-900 rounded-[28px] max-w-xs sm:max-w-sm w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default" @click.stop
+        <div class="relative bg-slate-900 rounded-3xl max-w-xs sm:max-w-sm w-full flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default" @click.stop
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 scale-95 translate-y-4"
              x-transition:enter-end="opacity-100 scale-100 translate-y-0"

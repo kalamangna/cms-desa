@@ -284,7 +284,7 @@
 <body class="bg-slate-50 flex flex-col min-h-screen font-sans text-slate-900">
     <!-- Top Bar -->
     <div class="bg-primary-900 text-white py-2 hidden md:block">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
             <div class="flex gap-8">
                 <span class="flex items-center gap-2">
                     <i class="fa-solid fa-location-dot text-primary-400"></i> {{ !empty($site_settings['village_address']) ? $site_settings['village_address'] : '-' }}
@@ -580,7 +580,7 @@
 
                 <!-- Kontak -->
                 <div class="lg:col-span-2">
-                    <h2 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-primary-400">Kontak Kami</h2>
+                    <h2 class="text-xs font-black uppercase tracking-widest mb-6 text-primary-400">Kontak Kami</h2>
                     <ul class="space-y-4 text-sm text-slate-300 font-medium">
                         <li class="flex items-center gap-3">
                             <span class="w-7 h-7 rounded-lg bg-primary-600/20 border border-primary-500/30 flex items-center justify-center flex-shrink-0">
@@ -617,7 +617,7 @@
 
                 <!-- Statistik Pengunjung -->
                 <div>
-                    <h2 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-primary-400">Statistik Pengunjung</h2>
+                    <h2 class="text-xs font-black uppercase tracking-widest mb-6 text-primary-400">Statistik Pengunjung</h2>
                     @if(isset($visitor_stats))
                     <ul class="space-y-4 text-sm text-slate-300 font-medium">
                         <li class="flex items-center gap-3">
@@ -651,7 +651,7 @@
                 <p class="text-slate-400 text-xs font-semibold">
                     &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}.
                 </p>
-                <p class="text-slate-300 text-[10px] font-bold uppercase tracking-[0.15em]">
+                <p class="text-slate-300 text-[10px] font-bold uppercase tracking-widest">
                     Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-primary-400 hover:text-primary-300 underline underline-offset-2 transition">kalamangna</a> &bull; v{{ config('app.version', '1.8.5') }}
                 </p>
             </div>

@@ -19,7 +19,7 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1">
@@ -68,16 +68,16 @@
             {{-- =========================================================
                  LEFT: Posts Grid
                  ========================================================= --}}
-            <main class="lg:w-2/3 xl:w-[68%]">
+            <main class="lg:w-2/3 xl:w-2/3">
 
                 @forelse($posts as $index => $post)
 
                     {{-- ─── Featured Card (first post) ──────────────────── --}}
                     @if($index === 0)
-                    <a href="/berita/{{ $post->slug }}" class="group block mb-10 md:mb-14 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-3xl transition-transform duration-300">
+                    <a href="/berita/{{ $post->slug }}" class="group block mb-10 md:mb-14 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-3xl transition-transform duration-300">
                         <div class="relative rounded-3xl overflow-hidden shadow-xl shadow-slate-200 border border-white">
                             {{-- Image --}}
-                            <div class="aspect-[16/8] w-full overflow-hidden bg-slate-200">
+                            <div class="aspect-video w-full overflow-hidden bg-slate-200">
                                 <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                      alt="{{ $post->title }}"
@@ -126,9 +126,9 @@
                     @endif
 
                     {{-- ─── Regular Post Card ────────────────────────────── --}}
-                    <a href="/berita/{{ $post->slug }}" class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg hover:border-primary-300 hover:-translate-y-1 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 flex flex-col">
+                    <a href="/berita/{{ $post->slug }}" class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg hover:border-primary-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 flex flex-col">
                         {{-- Thumbnail --}}
-                        <div class="block relative overflow-hidden aspect-[16/10] bg-slate-100 flex-shrink-0">
+                        <div class="block relative overflow-hidden aspect-video bg-slate-100 flex-shrink-0">
                             <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                  alt="{{ $post->title }}"
@@ -186,7 +186,7 @@
             {{-- =========================================================
                  RIGHT: Sidebar
                  ========================================================= --}}
-            <aside class="lg:w-1/3 xl:w-[32%] space-y-8">
+            <aside class="lg:w-1/3 xl:w-1/3 space-y-8">
 
                 {{-- Search (desktop) --}}
                 <div class="hidden lg:block bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-primary-300 transition-all duration-300">

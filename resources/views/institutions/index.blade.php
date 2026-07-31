@@ -42,7 +42,7 @@
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1">
@@ -143,7 +143,7 @@
          x-transition:leave-end="opacity-0"
          @keydown.escape.window="closeModal()"
          @click="closeModal()"
-         class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+         class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
          role="dialog"
          aria-modal="true">
          
@@ -157,7 +157,7 @@
          </button>
 
          <!-- Modal Box -->
-         <div class="relative w-[92vw] sm:w-[85vw] md:w-[75vw] lg:w-[60vw] max-w-4xl bg-white rounded-2xl md:rounded-[28px] overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] cursor-default"
+         <div class="relative w-11/12 sm:w-5/6 md:w-3/4 lg:w-3/5 max-w-4xl bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] cursor-default"
               x-show="selectedInstitution !== null"
               @click.stop
               x-transition:enter="transition ease-out duration-300"

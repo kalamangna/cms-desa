@@ -55,13 +55,13 @@
              onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
         <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/80 to-slate-900"></div>
-        <div class="absolute inset-0 opacity-[0.06]"
+        <div class="absolute inset-0 opacity-5"
              style="background-image:radial-gradient(#94a3b8 1px,transparent 1px);background-size:22px 22px;"></div>
     </div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex flex-wrap items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1">
@@ -74,7 +74,7 @@
                 </li>
                 <li class="flex items-center gap-2">
                     <i class="fa-solid fa-chevron-right text-[9px] text-primary-500/40"></i>
-                    <span class="text-white/70 truncate max-w-[180px] md:max-w-none normal-case tracking-normal font-medium">
+                    <span class="text-white/70 truncate max-w-44 md:max-w-none normal-case tracking-normal font-medium">
                         {{ Str::limit($post->title, 40) }}
                     </span>
                 </li>
@@ -85,7 +85,7 @@
         @if($post->category)
         <div class="mb-5">
             <a href="/berita?category={{ $post->category->slug }}"
-               class="inline-flex items-center gap-2 bg-primary-500/15 border border-primary-500/25 text-primary-400 text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full hover:bg-primary-500/25 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+               class="inline-flex items-center gap-2 bg-primary-500/15 border border-primary-500/25 text-primary-400 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full hover:bg-primary-500/25 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
                 <i class="fa-solid fa-tag text-[9px]"></i>
                 {{ $post->category->name }}
             </a>
@@ -157,7 +157,7 @@
 
                     {{-- Share --}}
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                        <span class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] flex-shrink-0">
+                        <span class="text-xs font-black text-slate-400 uppercase tracking-widest flex-shrink-0">
                             Bagikan:
                         </span>
                         <div class="flex gap-2.5">
@@ -199,7 +199,7 @@
         <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
             @if(isset($prevPost))
             <a href="/berita/{{ $prevPost->slug }}"
-               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                 <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-all">
                     <i class="fa-solid fa-arrow-left text-sm text-slate-500 group-hover:text-white"></i>
                 </div>
@@ -216,7 +216,7 @@
 
             @if(isset($nextPost))
             <a href="/berita/{{ $nextPost->slug }}"
-               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:flex-row-reverse sm:text-right">
+               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:flex-row-reverse sm:text-right">
                 <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-all">
                     <i class="fa-solid fa-arrow-right text-sm text-slate-500 group-hover:text-white"></i>
                 </div>
@@ -240,8 +240,8 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                 @foreach($relatedPosts as $related)
-                <a href="/berita/{{ $related->slug }}" class="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-1 transition-all duration-300 flex flex-col active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                    <div class="aspect-[16/9] overflow-hidden bg-slate-100">
+                <a href="/berita/{{ $related->slug }}" class="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-1 transition-all duration-300 flex flex-col active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                    <div class="aspect-video overflow-hidden bg-slate-100">
                         <img src="{{ $related->featured_image ? asset('storage/' . $related->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                              alt="{{ $related->title }}"

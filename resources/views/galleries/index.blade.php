@@ -18,7 +18,7 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1 py-0.5">
@@ -100,7 +100,7 @@
             :class="activeFilter === 'semua'
                 ? 'bg-primary-600 text-white shadow-md shadow-primary-600/20 border-transparent'
                 : 'bg-white text-slate-600 hover:bg-slate-50 border-slate-200 shadow-xs'"
-            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 cursor-pointer"
         >
             <i class="fa-solid fa-border-all text-xs"></i>
             Semua
@@ -110,7 +110,7 @@
             :class="activeFilter === 'photo'
                 ? 'bg-primary-600 text-white shadow-md shadow-primary-600/20 border-transparent'
                 : 'bg-white text-slate-600 hover:bg-slate-50 border-slate-200 shadow-xs'"
-            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 cursor-pointer"
         >
             <i class="fa-solid fa-camera text-xs"></i>
             Foto
@@ -120,7 +120,7 @@
             :class="activeFilter === 'video'
                 ? 'bg-primary-600 text-white shadow-md shadow-primary-600/20 border-transparent'
                 : 'bg-white text-slate-600 hover:bg-slate-50 border-slate-200 shadow-xs'"
-            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 cursor-pointer"
         >
             <i class="fa-brands fa-youtube text-xs"></i>
             Video
@@ -138,7 +138,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             @foreach($galleries as $index => $item)
             <div
-                class="group relative bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-sm aspect-[16/10] cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                class="group relative bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-sm aspect-video cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                 x-show="activeFilter === 'semua' || activeFilter === '{{ $item->type === 'video' ? 'video' : 'photo' }}'"
                 x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 scale-95"
@@ -217,7 +217,7 @@
         @keydown.arrow-left.window="prevSlide()"
         @keydown.arrow-right.window="nextSlide()"
         @click="closeLightbox()"
-        class="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+        class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
         role="dialog" aria-modal="true" aria-labelledby="gallery-lightbox-title"
     >
         {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
@@ -257,7 +257,8 @@
 
         {{-- Container Modal Konten --}}
         <div
-            class="relative bg-slate-900 rounded-[28px] w-[92vw] sm:w-auto sm:max-w-[85vw] md:max-w-[75vw] flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
+            class="relative bg-slate-900 rounded-3xl flex flex-col overflow-hidden border border-slate-700/80 shadow-2xl cursor-default"
+            :class="currentItem.type === 'video' ? 'w-11/12 sm:w-5/6 max-w-4xl' : 'w-11/12 sm:w-auto sm:max-w-4xl md:max-w-5xl'"
             @click.stop
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
@@ -267,9 +268,9 @@
             x-transition:leave-end="opacity-0 scale-95 translate-y-4"
         >
             {{-- Slider Content --}}
-            <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-[200px] w-full">
+            <div class="relative overflow-hidden flex items-center justify-center bg-slate-950 min-h-52 w-full">
                 <template x-if="lightboxOpen && currentItem.type === 'video'">
-                    <div class="w-full sm:w-[80vw] max-w-4xl aspect-video bg-black relative overflow-hidden">
+                    <div class="w-full aspect-video bg-black relative overflow-hidden">
                         <iframe
                             class="w-full h-full"
                             :src="getYoutubeEmbed(currentItem.youtube_url)"

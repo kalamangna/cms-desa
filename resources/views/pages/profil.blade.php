@@ -16,7 +16,7 @@
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1">
@@ -69,7 +69,7 @@
 
         {{-- Visi Card --}}
         @if(!empty(trim(strip_tags($site_settings['village_vision'] ?? ''))))
-        <div class="relative bg-gradient-to-br from-primary-600 to-primary-800 rounded-[32px] p-10 md:p-16 text-white mb-10 shadow-2xl shadow-primary-200/60 overflow-hidden">
+        <div class="relative bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-10 md:p-16 text-white mb-10 shadow-2xl shadow-primary-200/60 overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none"></div>
             <div class="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl pointer-events-none"></div>
             <div class="relative z-10">
@@ -77,7 +77,7 @@
                     <div class="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center">
                         <i class="fa-solid fa-eye text-white"></i>
                     </div>
-                    <span class="text-primary-200 font-black text-[11px] uppercase tracking-[0.3em]">Visi</span>
+                    <span class="text-primary-200 font-black text-[11px] uppercase tracking-widest">Visi</span>
                 </div>
                 <p class="text-xl md:text-2xl font-heading font-bold italic leading-relaxed">
                     "{{ $site_settings['village_vision'] }}"
@@ -85,12 +85,12 @@
             </div>
         </div>
         @else
-        <div class="bg-white rounded-[32px] p-10 md:p-16 border border-slate-200 shadow-sm mb-10">
+        <div class="bg-white rounded-3xl p-10 md:p-16 border border-slate-200 shadow-sm mb-10">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center">
                     <i class="fa-solid fa-eye"></i>
                 </div>
-                <span class="text-slate-500 font-black text-[11px] uppercase tracking-[0.3em]">Visi</span>
+                <span class="text-slate-500 font-black text-[11px] uppercase tracking-widest">Visi</span>
             </div>
             <x-empty-state 
                 icon="fa-solid fa-eye" 
@@ -101,12 +101,12 @@
         @endif
 
         {{-- Misi Card --}}
-        <div class="bg-white rounded-[32px] p-10 md:p-16 border border-slate-200 shadow-sm">
+        <div class="bg-white rounded-3xl p-10 md:p-16 border border-slate-200 shadow-sm">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center">
                     <i class="fa-solid fa-list-check"></i>
                 </div>
-                <span class="text-slate-500 font-black text-[11px] uppercase tracking-[0.3em]">Misi</span>
+                <span class="text-slate-500 font-black text-[11px] uppercase tracking-widest">Misi</span>
             </div>
             <div class="prose prose-slate max-w-none text-slate-600 font-medium">
                 @if(!empty(trim(strip_tags($site_settings['village_mission'] ?? ''))))

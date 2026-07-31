@@ -19,7 +19,7 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
-        <nav class="flex mb-8 text-xs font-black uppercase tracking-[0.2em] text-primary-500/60" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-xs font-black uppercase tracking-widest text-primary-500/60" aria-label="Breadcrumb">
             <ol class="inline-flex items-center gap-2">
                 <li>
                     <a href="/" class="hover:text-primary-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center gap-1.5 rounded-md px-1 py-0.5">
@@ -74,7 +74,7 @@
         {{-- Year / Month divider --}}
         @if($index === 0 || $announcement->published_at->format('Ym') !== $announcements[$index - 1]->published_at->format('Ym'))
         <div class="flex items-center gap-4 mb-8 {{ $index > 0 ? 'mt-14 md:mt-16' : '' }}">
-            <div class="bg-slate-900 text-white text-xs font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-sm">
+            <div class="bg-slate-900 text-white text-xs font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">
                 {{ $announcement->published_at->translatedFormat('F Y') }}
             </div>
             <div class="flex-1 h-px bg-slate-200"></div>
@@ -86,7 +86,7 @@
 
             {{-- Timeline stem --}}
             @if(!$loop->last)
-            <div class="absolute left-[23px] md:left-[27px] top-14 bottom-0 w-px bg-slate-200 group-last:hidden -z-0"></div>
+            <div class="absolute left-6 md:left-7 top-14 bottom-0 w-px bg-slate-200 group-last:hidden -z-0"></div>
             @endif
 
             {{-- Icon dot --}}
@@ -120,7 +120,7 @@
                     <div class="flex items-center justify-between gap-3 pt-2">
                         <button @click="open = !open"
                                 :aria-expanded="open"
-                                class="inline-flex items-center justify-center gap-2 text-xs font-bold px-4 py-2.5 min-h-[44px] rounded-xl transition-all duration-200 bg-primary-50 text-primary-700 hover:bg-primary-100 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                                class="inline-flex items-center justify-center gap-2 text-xs font-bold px-4 py-2.5 min-h-11 rounded-xl transition-all duration-200 bg-primary-50 text-primary-700 hover:bg-primary-100 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                             <span x-text="open ? 'Sembunyikan Isi Pengumuman' : 'Baca Pengumuman Selengkapnya'"></span>
                             <i class="fa-solid transition-transform duration-200 text-[10px]"
                                :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>

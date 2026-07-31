@@ -46,8 +46,14 @@ trait HasTelegramNotification
                 $newest = $dest->newestBackup();
                 if ($newest) {
                     $size     = \Spatie\Backup\Helpers\Format::humanReadableSize($newest->sizeInBytes());
-                    $content .= "📦 <code>" . basename($newest->path()) . "</code>\n";
-                    $content .= "💾 {$size}\n";
+                    if (str_contains($className, 'Cleanup')) {
+                        $content .= "📂 Backup Terbaru:\n";
+                        $content .= "   └ 📦 <code>" . basename($newest->path()) . "</code>\n";
+                        $content .= "   └ 💾 Ukuran: {$size}\n";
+                    } else {
+                        $content .= "📦 <code>" . basename($newest->path()) . "</code>\n";
+                        $content .= "💾 {$size}\n";
+                    }
                 }
             } catch (\Exception $e) {
                 // ignore if backup info unavailable
