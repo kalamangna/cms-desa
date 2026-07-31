@@ -139,7 +139,7 @@
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
 
-                <div class="bg-white rounded-[28px] shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default">
                     
                     <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-5">
                         <i class="fa-solid fa-check"></i>
@@ -373,7 +373,7 @@
              x-transition:leave="transition ease-in duration-200 transform"
              x-transition:leave-start="opacity-100 translate-y-0 scale-100"
              x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-             class="bg-white rounded-[28px] shadow-2xl p-8 md:p-10 max-w-lg w-full max-h-[85vh] overflow-y-auto border border-slate-100 relative cursor-default">
+             class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 max-w-lg w-full max-h-[85vh] overflow-y-auto border border-slate-100 relative cursor-default">
 
             <div class="mb-8">
                 <span class="text-xs font-black uppercase tracking-wider text-slate-400">Pengajuan Layanan</span>

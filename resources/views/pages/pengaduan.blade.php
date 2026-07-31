@@ -129,7 +129,7 @@
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>
 
-                    <div @click.stop class="bg-white rounded-[28px] shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default">
+                    <div @click.stop class="bg-white rounded-3xl shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default">
                         <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-5 shadow-xs">
                             <i class="fa-solid fa-check"></i>
                         </div>

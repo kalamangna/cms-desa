@@ -134,7 +134,7 @@
             <div class="p-8 md:p-10">
                 {{-- Icon + badge row --}}
                 <div class="flex justify-between items-center mb-8">
-                    <div class="w-14 h-14 rounded-[18px] {{ $theme['icon-bg'] }} flex items-center justify-center text-xl shadow-xs">
+                    <div class="w-14 h-14 rounded-2xl {{ $theme['icon-bg'] }} flex items-center justify-center text-xl shadow-xs">
                         <i class="{{ $theme['icon'] }}"></i>
                     </div>
                     <span class="px-3 py-1.5 rounded-full {{ $theme['light-bg'] }} {{ $theme['text'] }}
@@ -258,7 +258,7 @@
                         </div>
 
                         {{-- Doughnut Chart card --}}
-                        <div class="bg-white p-6 md:p-8 rounded-[28px] border border-slate-200/80 shadow-sm relative overflow-hidden group">
+                        <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-sm relative overflow-hidden group">
                             <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-150 transition duration-1000"></div>
                             <h4 class="text-center font-heading font-bold text-slate-900 mb-6 relative z-10 text-sm">
                                 Distribusi Dana

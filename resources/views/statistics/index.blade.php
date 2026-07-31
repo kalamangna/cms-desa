@@ -269,7 +269,7 @@
                 </div>
 
                 {{-- ── CHART CONTAINER ───────────────────────────────────── --}}
-                <div class="bg-white rounded-[28px] border border-slate-200 shadow-xs overflow-hidden p-6 md:p-8 mb-6">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden p-6 md:p-8 mb-6">
 
                     {{-- Toolbar --}}
                     <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
@@ -359,7 +359,7 @@
                         ? (int)$selectedYear
                         : (int)($allYears->last() ?? date('Y'));
                 @endphp
-                <div class="bg-white rounded-[28px] border border-slate-100 shadow-sm overflow-hidden mb-8">
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden mb-8">
                     <div class="flex items-center justify-between px-6 md:px-8 pt-6 pb-4">
                         <div>
                             <h3 class="text-base font-heading font-extrabold text-slate-900"

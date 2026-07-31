@@ -62,7 +62,7 @@
             {{-- Map View (Main Area) --}}
             <div class="lg:col-span-2 flex flex-col gap-6">
                 <div class="bg-white rounded-3xl p-2 border border-slate-200/80 shadow-lg shadow-slate-200/50 relative overflow-hidden h-[500px] md:h-[600px] min-h-[450px] z-0">
-                    <div id="spatialMap" class="w-full h-full rounded-[24px] absolute inset-0 z-0"></div>
+                    <div id="spatialMap" class="w-full h-full rounded-2xl absolute inset-0 z-0"></div>
                     
                     {{-- Legend Overlay --}}
                     <div class="absolute bottom-6 left-6 bg-white/95 backdrop-blur px-4 py-3 rounded-2xl shadow-xl border border-slate-200/80 z-[1000] hidden sm:block max-w-[220px]">

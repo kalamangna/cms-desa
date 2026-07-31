@@ -83,7 +83,7 @@
             <div class="space-y-6">
 
                 {{-- Alamat --}}
-                <div class="flex items-start gap-5 bg-white rounded-[24px] p-6 border border-slate-200/80 shadow-xs">
+                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs">
                     <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-solid fa-location-dot"></i>
                     </div>
@@ -94,7 +94,7 @@
                 </div>
 
                 {{-- Telepon / WA --}}
-                <div class="flex items-start gap-5 bg-white rounded-[24px] p-6 border border-slate-200/80 shadow-xs">
+                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs">
                     <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-brands fa-whatsapp"></i>
                     </div>
@@ -122,7 +122,7 @@
                 </div>
 
                 {{-- Email --}}
-                <div class="flex items-start gap-5 bg-white rounded-[24px] p-6 border border-slate-200/80 shadow-xs">
+                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs">
                     <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
@@ -139,7 +139,7 @@
                 </div>
 
                 {{-- Jam Operasional --}}
-                <div class="flex items-start gap-5 bg-white rounded-[24px] p-6 border border-slate-200/80 shadow-xs">
+                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs">
                     <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-regular fa-clock"></i>
                     </div>
@@ -150,7 +150,7 @@
                 </div>
 
                 {{-- Social Media --}}
-                <div class="bg-slate-900 rounded-[28px] p-8 text-white shadow-md">
+                <div class="bg-slate-900 rounded-3xl p-8 text-white shadow-md">
                     <h4 class="text-xs font-black uppercase tracking-widest text-primary-400 mb-6">Ikuti Media Sosial</h4>
                     <div class="flex flex-wrap gap-3">
                         @if(!empty($site_settings['social_facebook']))
@@ -189,7 +189,7 @@
                 </div>
 
                 {{-- Link Pengaduan --}}
-                <a href="/pengaduan" class="flex items-center gap-4 bg-primary-50 hover:bg-primary-100/80 border border-primary-200/80 rounded-[24px] p-6 transition-all duration-200 group active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+                <a href="/pengaduan" class="flex items-center gap-4 bg-primary-50 hover:bg-primary-100/80 border border-primary-200/80 rounded-2xl p-6 transition-all duration-200 group active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
                     <div class="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
