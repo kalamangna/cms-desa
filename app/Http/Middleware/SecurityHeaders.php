@@ -25,6 +25,7 @@ class SecurityHeaders
         // Terapkan Content Security Policy (CSP) modern yang memperbolehkan Vite Dev Server & 'unsafe-eval' untuk Alpine.js
         $csp = "default-src 'self'; " .
                "script-src 'self' 'unsafe-inline' 'unsafe-eval' http://*:5173 https:; " .
+               "worker-src 'self' blob:; " .
                "style-src 'self' 'unsafe-inline' http://*:5173 https:; " .
                "font-src 'self' data: https:; " .
                "img-src 'self' data: blob: https: http:; " .

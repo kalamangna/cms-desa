@@ -61,5 +61,5 @@
     <FilesMatch "\.(ico|jpe?g|png|gif|webp|avif|swf|css|js|woff|woff2|ttf|otf|svg)$">
         Header set Cache-Control "max-age=31536000, public"
     </FilesMatch>
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://*:5173 https:; style-src 'self' 'unsafe-inline' http://*:5173 https:; font-src 'self' data: https:; img-src 'self' data: blob: https: http:; frame-src 'self' https:; connect-src 'self' https: http: ws://*:5173 wss://*:5173; object-src 'none'; base-uri 'self';"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://*:5173 https:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' http://*:5173 https:; font-src 'self' data: https:; img-src 'self' data: blob: https: http:; frame-src 'self' https:; connect-src 'self' https: http: ws://*:5173 wss://*:5173; object-src 'none'; base-uri 'self';"
 </IfModule>
