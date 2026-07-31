@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.67] - 2026-08-01
+
+### Changed
+- **Sistem Desain (UI/UX)**: Menyelaraskan kelas utilitas Tailwind yang tersisa (seperti mengubah `tracking-[0.2em]` menjadi `tracking-widest` dan `rounded-[32px]` menjadi `rounded-3xl`) pada halaman kategori Transparansi (APBDes, Statistik, Dataset, Publikasi) dan Layanan (Layanan Mandiri, Pengaduan, Buku Tamu, Kontak, Peta) agar sepenuhnya patuh pada pedoman `DESIGN.md`.
+
 ## [1.26.66] - 2026-08-01
 
 ### Changed
