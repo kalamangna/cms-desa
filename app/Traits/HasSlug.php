@@ -15,7 +15,8 @@ trait HasSlug
                 $slug = $baseSlug;
                 $count = 1;
 
-                while (static::where('slug', $slug)
+                while (static::withTrashed()
+                    ->where('slug', $slug)
                     ->where('id', '!=', $model->id ?? null)
                     ->exists()) {
                     $slug = "{$baseSlug}-{$count}";
