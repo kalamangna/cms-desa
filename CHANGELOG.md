@@ -2,6 +2,21 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.71] - 2026-08-04
+
+### Added
+- **Optimasi SEO & Peta Spasial (Google Search Snippet)**:
+  - Menambahkan variasi ejaan dinamis pada JSON-LD Schema.org (`alternateName`) untuk mengatasi perbedaan penulisan nama desa (termasuk variasi ejaan spasi/tersambung untuk Desa Tompobulu / Tompo Bulu, Lappacinrana / Lappa Cinrana, dan Lamatti Riattang / Lamattiriattang).
+  - Menambahkan tipe lembaga resmi `GovernmentOffice` pada Schema.org untuk meningkatkan otoritas peringkat pencarian lokal (Local SEO).
+  - Mengintegrasikan properti `hasMap` dan `GeoCoordinates` secara otomatis dari fitur Peta Spasial (`PublicFacility`) jika koordinat lokasi kantor desa diinput oleh admin.
+  - Menambahkan `SpecialAnnouncement` JSON-LD Schema.org pada modul pengumuman publik.
+
+### Changed
+- **Formulasi Meta Tags Beranda**:
+  - Memperbarui Title Tag Halaman Beranda menjadi `Desa [Nama Desa] - Portal Resmi Pemerintah Desa` untuk pembobotan kata kunci utama yang lebih tinggi pada algoritma Google.
+  - Memperbarui Meta Description Beranda dengan menyertakan nama Desa, Kecamatan, dan Kabupaten tanpa singkatan untuk meningkatkan relevansi pencarian wilayah.
+  - Menambahkan variasi kata kunci geografis pada tag HTML `meta_keywords`.
+
 ## [1.26.70] - 2026-08-01
 
 ### Changed

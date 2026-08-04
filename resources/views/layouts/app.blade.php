@@ -8,7 +8,7 @@
     <!-- SEO Meta Tags -->
     <title>@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))</title>
     <meta name="description" content="@yield('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan pelayanan publik, publikasi berita pembangunan, transparansi anggaran, dan statistik kependudukan secara akurat.')">
-    <meta name="keywords" content="@yield('meta_keywords', 'desa, ' . ($site_settings['village_name'] ?? '') . ', ' . ($site_settings['district_name'] ?? '') . ', statistik desa, apbdes, pemerintah desa')">
+    <meta name="keywords" content="@yield('meta_keywords', 'Desa ' . ($site_settings['village_name'] ?? '') . ', Desa ' . ($site_settings['village_name'] ?? '') . ' ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . ', Kecamatan ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', Kabupaten ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . ', ' . ($site_settings['village_name'] ?? '') . ' ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', pemerintah desa, apbdes, berita desa')">
     <meta name="author" content="Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}">
     <meta name="robots" content="index, follow">
 
@@ -41,10 +41,64 @@
     {
         "@@context": "https://schema.org",
         "@graph": [
+            @php
+                $vName = trim($site_settings['village_name'] ?? '');
+                $distName = \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? ''));
+                $regName  = \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? ''));
+
+                // Ambil koordinat presisi kantor desa dari fitur Peta Spasial (PublicFacility) jika diinput admin
+                $officeFacility = \App\Models\PublicFacility::where(function($q) {
+                    $q->where('type', 'like', '%kantor%')
+                      ->orWhere('name', 'like', '%kantor%');
+                })->whereNotNull('latitude')->whereNotNull('longitude')->first();
+
+                $spellingVariants = [];
+                if ($vName !== '') {
+                    // 1. Nama Asli
+                    $spellingVariants[] = $vName;
+
+                    // 2. Pemisahan / penggabungan kata khusus untuk desa yang memiliki variasi ejaan resmi
+                    $vLower = strtolower($vName);
+                    if ($vLower === 'tompobulu') {
+                        $spellingVariants[] = 'Tompo Bulu';
+                    } elseif ($vLower === 'tompo bulu') {
+                        $spellingVariants[] = 'Tompobulu';
+                    } elseif ($vLower === 'lappacinrana') {
+                        $spellingVariants[] = 'Lappa Cinrana';
+                    } elseif ($vLower === 'lappa cinrana') {
+                        $spellingVariants[] = 'Lappacinrana';
+                    } elseif ($vLower === 'lamattiriattang') {
+                        $spellingVariants[] = 'Lamatti Riattang';
+                    } elseif ($vLower === 'lamatti riattang') {
+                        $spellingVariants[] = 'Lamattiriattang';
+                    }
+
+                    $spellingVariants = array_unique($spellingVariants);
+                }
+
+                // Generasi kombinasi alternateName dinamis lengkap
+                $alternateNames = [];
+                foreach ($spellingVariants as $variant) {
+                    $alternateNames[] = "Desa {$variant}";
+                    $alternateNames[] = "Pemerintah Desa {$variant}";
+                    $alternateNames[] = "Pemdes {$variant}";
+                    $alternateNames[] = "{$variant}";
+                    if ($regName) {
+                        $alternateNames[] = "Desa {$variant} {$regName}";
+                        $alternateNames[] = "{$variant} {$regName}";
+                    }
+                    if ($distName) {
+                        $alternateNames[] = "Desa {$variant} {$distName}";
+                        $alternateNames[] = "{$variant} {$distName}";
+                    }
+                }
+                $alternateNames = array_values(array_unique($alternateNames));
+            @endphp
             {
-                "@type": "Organization",
+                "@type": "GovernmentOffice",
                 "@id": "{{ url('/') }}/#organization",
-                "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}",
+                "name": "Pemerintah Desa {{ $vName }}",
+                "alternateName": {!! json_encode($alternateNames, JSON_UNESCAPED_SLASHES) !!},
                 "url": "{{ url('/') }}",
                 "logo": {
                     "@type": "ImageObject",
@@ -54,13 +108,21 @@
                     "@type": "PostalAddress",
                     "streetAddress": "{{ $site_settings['village_address'] ?? '' }}",
                     "addressLocality": "{{ $site_settings['district_name'] ?? '' }}",
+                    "addressRegion": "{{ $site_settings['regency_name'] ?? '' }}",
                     "addressCountry": "ID"
                 },
                 "telephone": "{{ $site_settings['village_phone'] ?? '' }}",
                 "sameAs": [
                     "{{ $site_settings['social_facebook'] ?? '' }}",
                     "{{ $site_settings['social_instagram'] ?? '' }}"
-                ]
+                ],
+                "hasMap": "https://maps.google.com/maps?q={{ urlencode('Desa ' . $vName . ' Kecamatan ' . $distName . ' Kabupaten ' . $regName) }}"@if($officeFacility),
+                "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": "{{ $officeFacility->latitude }}",
+                    "longitude": "{{ $officeFacility->longitude }}"
+                }
+                @endif
             },
             {
                 "@type": "WebSite",

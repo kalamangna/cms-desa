@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk publikasi berita pembangunan, struktur aparatur, transparansi anggaran APBDes, dan data statistik kependudukan resmi.')
+@section('title', 'Desa ' . ($site_settings['village_name'] ?? '') . ' - Portal Resmi Pemerintah Desa')
+@section('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ', Kecamatan ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', Kabupaten ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . '. Menyajikan informasi publik, berita pembangunan, transparansi APBDes, dan statistik kependudukan.')
 @section('meta_image', asset('img/meta.webp'))
 
 @push('head')
