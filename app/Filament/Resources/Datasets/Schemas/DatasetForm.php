@@ -125,16 +125,19 @@ class DatasetForm
                     ->schema([
                         FileUpload::make('file_csv')->label('File CSV (Custom)')
                             ->helperText('Unggah berkas data CSV.')
+                            ->disk('public')
                             ->directory('datasets/csv')
                             ->acceptedFileTypes(['text/csv', 'text/plain'])
                             ->columnSpan(4),
                         FileUpload::make('file_xlsx')->label('File XLSX (Custom)')
                             ->helperText('Unggah berkas spreadsheet Excel.')
+                            ->disk('public')
                             ->directory('datasets/xlsx')
                             ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
                             ->columnSpan(4),
                         FileUpload::make('file_pdf')->label('File PDF (Custom)')
                             ->helperText('Unggah dokumen cetak PDF.')
+                            ->disk('public')
                             ->directory('datasets/pdf')
                             ->acceptedFileTypes(['application/pdf'])
                             ->columnSpan(4),

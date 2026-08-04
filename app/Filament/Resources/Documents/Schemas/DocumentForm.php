@@ -22,6 +22,7 @@ class DocumentForm
                     ->columnSpanFull(),
                 FileUpload::make('file')->label('Berkas')
                     ->helperText('Unggah dokumen (PDF/DOCX, maks 10MB).')
+                    ->disk('public')
                     ->directory('documents')
                     ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
                     ->required()
