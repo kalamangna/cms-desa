@@ -42,6 +42,7 @@ class PublicationForm
                 FileUpload::make('cover')
                     ->label('Sampul (Cover)')
                     ->helperText('Unggah gambar sampul buku (Maksimal 2MB).')
+                    ->disk('public')
                     ->image()
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->imageResizeTargetWidth(600)
@@ -51,6 +52,7 @@ class PublicationForm
                     ->columnSpanFull(),
                 FileUpload::make('pdf_file')->label('File Buku PDF')
                     ->helperText('Unggah berkas dokumen PDF publikasi.')
+                    ->disk('public')
                     ->directory('publications/pdfs')
                     ->acceptedFileTypes(['application/pdf'])
                     ->required()
