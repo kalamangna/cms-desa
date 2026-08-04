@@ -177,13 +177,13 @@ return [
              */
             'disks' => array_values(array_filter([
                 'local',
-                env('GOOGLE_DRIVE_CLIENT_ID') ? 'google' : null,
+                (env('GOOGLE_DRIVE_CLIENT_ID') && env('GOOGLE_DRIVE_REFRESH_TOKEN')) ? 'google' : null,
             ])),
 
             /*
              * Determines whether to allow backups to continue when some targets fail instead of failing completely.
              */
-            'continue_on_failure' => false,
+            'continue_on_failure' => true,
         ],
 
         /*
@@ -312,7 +312,7 @@ return [
             'name' => $dynamicBackupName,
             'disks' => array_values(array_filter([
                 'local',
-                env('GOOGLE_DRIVE_CLIENT_ID') ? 'google' : null,
+                (env('GOOGLE_DRIVE_CLIENT_ID') && env('GOOGLE_DRIVE_REFRESH_TOKEN')) ? 'google' : null,
             ])),
             'health_checks' => [
                 MaximumAgeInDays::class => 1,
