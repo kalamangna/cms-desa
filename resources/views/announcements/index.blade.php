@@ -4,6 +4,33 @@
 @section('meta_description', 'Daftar pengumuman resmi, keputusan, dan maklumat kedinasan yang diterbitkan oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk masyarakat umum.')
 @section('meta_image', asset('img/meta.webp'))
 
+@push('head')
+@if(!$announcements->isEmpty())
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        @foreach($announcements as $idx => $ann)
+        {
+            "@type": "SpecialAnnouncement",
+            "@id": "{{ url('/pengumuman') }}#announcement-{{ $ann->id }}",
+            "name": {!! json_encode($ann->title) !!},
+            "text": {!! json_encode(Str::limit(strip_tags($ann->content), 200)) !!},
+            "datePosted": "{{ $ann->published_at?->toIso8601String() }}",
+            "category": "Government",
+            "publisher": {
+                "@type": "GovernmentOrganization",
+                "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}",
+                "url": "{{ url('/') }}"
+            }
+        }{{ $idx < count($announcements) - 1 ? ',' : '' }}
+        @endforeach
+    ]
+}
+</script>
+@endif
+@endpush
+
 @section('content')
 
 {{-- =========================================================
