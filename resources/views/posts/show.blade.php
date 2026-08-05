@@ -140,42 +140,42 @@
             <div class="px-6 md:px-12 lg:px-16 pt-10 md:pt-14 pb-8">
                 {{-- Prose content --}}
                 <div class="prose prose-lg md:prose-xl prose-slate max-w-none
-                            prose-headings:font-heading prose-headings:text-slate-900 prose-headings:font-bold
-                            prose-p:text-slate-600 prose-p:leading-relaxed prose-p:font-medium
-                            prose-a:text-primary-600 prose-a:font-semibold hover:prose-a:text-primary-700
+                            prose-headings:font-heading prose-headings:text-slate-900 dark:prose-headings:text-slate-100 prose-headings:font-bold
+                            prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:leading-relaxed prose-p:font-medium
+                            prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-a:font-semibold hover:prose-a:text-primary-700 dark:hover:prose-a:text-primary-300
                             prose-img:rounded-2xl prose-img:shadow-lg
-                            prose-blockquote:border-primary-500 prose-blockquote:bg-primary-50/50 prose-blockquote:rounded-r-2xl prose-blockquote:py-1
-                            prose-code:text-primary-700 prose-code:bg-primary-50 prose-code:rounded prose-code:px-1
-                            prose-strong:text-slate-800">
+                            prose-blockquote:border-primary-500 prose-blockquote:bg-primary-50/50 dark:prose-blockquote:bg-primary-950/30 prose-blockquote:rounded-r-2xl prose-blockquote:py-1
+                            prose-code:text-primary-700 dark:prose-code:text-primary-300 prose-code:bg-primary-50 dark:prose-code:bg-primary-950/40 prose-code:rounded prose-code:px-1
+                            prose-strong:text-slate-800 dark:prose-strong:text-slate-100">
                     {!! $post->content !!}
                 </div>
             </div>
 
             {{-- ─── Footer: Tags & Share ────────────────────────────── --}}
-            <div class="px-6 md:px-12 lg:px-16 py-8 border-t border-slate-100 bg-slate-50/50">
+            <div class="px-6 md:px-12 lg:px-16 py-8 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
 
                     {{-- Share --}}
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                        <span class="text-xs font-black text-slate-400 uppercase tracking-widest flex-shrink-0">
+                        <span class="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex-shrink-0">
                             Bagikan:
                         </span>
                         <div class="flex gap-2.5">
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
                                target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[#1877F2] bg-blue-50 hover:bg-[#1877F2] hover:text-white hover:border-blue-600 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                               class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center text-[#1877F2] bg-blue-50 dark:bg-blue-950/40 hover:bg-[#1877F2] hover:text-white hover:border-blue-600 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
                                title="Bagikan ke Facebook">
                                 <i class="fa-brands fa-facebook-f text-sm"></i>
                             </a>
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' - ' . request()->fullUrl()) }}"
                                target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[#25D366] bg-green-50 hover:bg-[#25D366] hover:text-white hover:border-green-500 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                               class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center text-[#25D366] bg-green-50 dark:bg-green-950/40 hover:bg-[#25D366] hover:text-white hover:border-green-500 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
                                title="Bagikan ke WhatsApp">
                                 <i class="fa-brands fa-whatsapp text-base"></i>
                             </a>
 
                             <button onclick="navigator.clipboard.writeText(window.location.href); this.innerHTML='<i class=\'fa-solid fa-check\'></i>'; setTimeout(()=>{ this.innerHTML='<i class=\'fa-solid fa-link\'></i>'; }, 2000)"
-                               class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                               class="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-primary-500 hover:text-white hover:border-primary-500 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
                                title="Salin tautan">
                                 <i class="fa-solid fa-link text-sm"></i>
                             </button>
@@ -184,7 +184,7 @@
 
                     {{-- Back button --}}
                     <a href="/berita"
-                       class="inline-flex items-center gap-2.5 bg-slate-900 text-white font-bold text-sm px-6 py-3 rounded-xl hover:bg-primary-600 transition-all duration-200 shadow-lg shadow-slate-900/15 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                       class="inline-flex items-center gap-2.5 bg-slate-900 dark:bg-slate-800 text-white font-bold text-sm px-6 py-3 rounded-xl hover:bg-primary-600 dark:hover:bg-primary-600 transition-all duration-200 shadow-lg shadow-slate-900/15 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
                         <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform duration-200"></i>
                         Kembali ke Berita
                     </a>
@@ -199,13 +199,13 @@
         <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
             @if(isset($prevPost))
             <a href="/berita/{{ $prevPost->slug }}"
-               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-all">
-                    <i class="fa-solid fa-arrow-left text-sm text-slate-500 group-hover:text-white"></i>
+               class="group flex items-center gap-4 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-all">
+                    <i class="fa-solid fa-arrow-left text-sm text-slate-500 dark:text-slate-400 group-hover:text-white"></i>
                 </div>
                 <div class="min-w-0">
-                    <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Sebelumnya</div>
-                    <div class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-primary-600 transition-colors">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Sebelumnya</div>
+                    <div class="text-sm font-bold text-slate-800 dark:text-slate-100 line-clamp-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                         {{ $prevPost->title }}
                     </div>
                 </div>
@@ -216,13 +216,13 @@
 
             @if(isset($nextPost))
             <a href="/berita/{{ $nextPost->slug }}"
-               class="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:flex-row-reverse sm:text-right">
-                <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-all">
-                    <i class="fa-solid fa-arrow-right text-sm text-slate-500 group-hover:text-white"></i>
+               class="group flex items-center gap-4 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950 sm:flex-row-reverse sm:text-right">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-all">
+                    <i class="fa-solid fa-arrow-right text-sm text-slate-500 dark:text-slate-400 group-hover:text-white"></i>
                 </div>
                 <div class="min-w-0">
-                    <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Selanjutnya</div>
-                    <div class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-primary-600 transition-colors">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Selanjutnya</div>
+                    <div class="text-sm font-bold text-slate-800 dark:text-slate-100 line-clamp-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                         {{ $nextPost->title }}
                     </div>
                 </div>
@@ -235,13 +235,13 @@
         @if(isset($relatedPosts) && $relatedPosts->count() > 0)
         <div class="mt-14">
             <div class="flex items-center gap-3 mb-7">
-                <h2 class="text-2xl font-heading font-extrabold text-slate-900">Berita Terkait</h2>
-                <div class="flex-1 h-px bg-slate-200"></div>
+                <h2 class="text-2xl font-heading font-extrabold text-slate-900 dark:text-slate-100">Berita Terkait</h2>
+                <div class="flex-1 h-px bg-slate-200 dark:bg-slate-800"></div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                 @foreach($relatedPosts as $related)
-                <a href="/berita/{{ $related->slug }}" class="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md shadow-slate-200/50 hover:shadow-lg hover:border-primary-300 hover:-translate-y-1 transition-all duration-300 flex flex-col active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                    <div class="aspect-video overflow-hidden bg-slate-100">
+                <a href="/berita/{{ $related->slug }}" class="group bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 hover:-translate-y-1 transition-all duration-300 flex flex-col active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950">
+                    <div class="aspect-video overflow-hidden bg-slate-100 dark:bg-slate-800">
                         <img src="{{ $related->featured_image ? asset('storage/' . $related->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                              alt="{{ $related->title }}"
