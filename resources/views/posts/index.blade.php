@@ -48,17 +48,17 @@
 {{-- =========================================================
      MAIN CONTENT
      ========================================================= --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
 
         {{-- ─── Search Bar (Mobile) ──────────────────────────────── --}}
         <div class="mb-10 lg:hidden">
             <form action="/berita" method="GET">
                 <div class="relative">
-                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-sm"></i>
                     <input type="text" name="search" value="{{ request('search') }}"
                            placeholder="Cari berita..."
-                           class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 shadow-sm text-sm">
+                           class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 shadow-sm text-sm">
                 </div>
             </form>
         </div>
@@ -75,9 +75,9 @@
                     {{-- ─── Featured Card (first post) ──────────────────── --}}
                     @if($index === 0)
                     <a href="/berita/{{ $post->slug }}" class="group block mb-10 md:mb-14 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-3xl transition-transform duration-300">
-                        <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-200/60 border border-slate-200/80">
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-200/60 dark:shadow-slate-950/60 border border-slate-200/80 dark:border-slate-800">
                             {{-- Image --}}
-                            <div class="aspect-video w-full overflow-hidden bg-slate-200">
+                            <div class="aspect-video w-full overflow-hidden bg-slate-200 dark:bg-slate-800">
                                 <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                      alt="{{ $post->title }}"
@@ -125,9 +125,9 @@
                     @endif
 
                     {{-- ─── Regular Post Card ────────────────────────────── --}}
-                    <a href="/berita/{{ $post->slug }}" class="group bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/60 hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 flex flex-col">
+                    <a href="/berita/{{ $post->slug }}" class="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-2xl hover:shadow-slate-300/60 dark:hover:shadow-slate-950 hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950 transition-all duration-300 flex flex-col">
                         {{-- Thumbnail --}}
-                        <div class="block relative overflow-hidden aspect-video bg-slate-100 flex-shrink-0">
+                        <div class="block relative overflow-hidden aspect-video bg-slate-100 dark:bg-slate-800 flex-shrink-0">
                             <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                  alt="{{ $post->title }}"

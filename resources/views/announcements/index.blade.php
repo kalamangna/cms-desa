@@ -8,7 +8,7 @@
 @if(!$announcements->isEmpty())
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
+    "@@context": "https://schema.org",
     "@graph": [
         @foreach($announcements as $idx => $ann)
         {
@@ -75,16 +75,16 @@
 {{-- =========================================================
      STATS BAR
      ========================================================= --}}
-<div class="bg-white border-b border-slate-200/80 shadow-sm">
+<div class="bg-white dark:bg-slate-900 border-b border-slate-200/80 dark:border-slate-800 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div class="flex flex-wrap items-center gap-6 text-sm text-slate-600">
+        <div class="flex flex-wrap items-center gap-6 text-sm text-slate-600 dark:text-slate-300">
             <div class="flex items-center gap-2.5">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-                <span class="font-semibold text-slate-700">Diperbarui secara berkala</span>
+                <span class="font-semibold text-slate-700 dark:text-slate-200">Diperbarui secara berkala</span>
             </div>
             <div class="flex items-center gap-2 font-medium">
                 <i class="fa-solid fa-bullhorn text-amber-500"></i>
-                Total <span class="font-bold text-slate-900">{{ $announcements->total() }}</span> pengumuman publik
+                Total <span class="font-bold text-slate-900 dark:text-slate-100">{{ $announcements->total() }}</span> pengumuman publik
             </div>
         </div>
     </div>
@@ -93,7 +93,7 @@
 {{-- =========================================================
      TIMELINE CONTENT
      ========================================================= --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
 
         @forelse($announcements as $index => $announcement)
@@ -104,7 +104,7 @@
             <div class="bg-slate-900 text-white text-xs font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">
                 {{ $announcement->published_at->translatedFormat('F Y') }}
             </div>
-            <div class="flex-1 h-px bg-slate-200"></div>
+            <div class="flex-1 h-px bg-slate-200 dark:bg-slate-800"></div>
         </div>
         @endif
 
@@ -113,16 +113,16 @@
 
             {{-- Timeline stem --}}
             @if(!$loop->last)
-            <div class="absolute left-6 md:left-7 top-14 bottom-0 w-px bg-slate-200 group-last:hidden -z-0"></div>
+            <div class="absolute left-6 md:left-7 top-14 bottom-0 w-px bg-slate-200 dark:bg-slate-800 group-last:hidden -z-0"></div>
             @endif
 
             {{-- Icon dot --}}
-            <div class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center shadow-xs group-hover:bg-primary-600 group-hover:border-primary-600 transition-all duration-300 z-10">
-                <i class="fa-solid fa-bullhorn text-primary-600 group-hover:text-white transition-colors duration-300 text-base md:text-lg"></i>
+            <div class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 border border-primary-100 dark:border-primary-900/50 flex items-center justify-center shadow-xs group-hover:bg-primary-600 group-hover:border-primary-600 transition-all duration-300 z-10">
+                <i class="fa-solid fa-bullhorn text-primary-600 dark:text-primary-400 group-hover:text-white transition-colors duration-300 text-base md:text-lg"></i>
             </div>
 
             {{-- Card --}}
-            <div class="flex-1 bg-white rounded-2xl border border-slate-200/80 shadow-lg shadow-slate-200/50 hover:shadow-xl hover:shadow-slate-200 hover:-translate-y-1 transition-all duration-300 overflow-hidden p-6 md:p-7">
+            <div class="flex-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-xl hover:shadow-slate-200 dark:hover:shadow-slate-950 hover:-translate-y-1 transition-all duration-300 overflow-hidden p-6 md:p-7">
                 
                 {{-- Meta Info: Date Badge --}}
                 <div class="mb-4">
@@ -132,12 +132,12 @@
                 </div>
 
                 {{-- Title --}}
-                <h2 class="text-xl md:text-2xl font-heading font-extrabold text-slate-900 mb-3 leading-snug group-hover:text-primary-700 transition-colors duration-200">
+                <h2 class="text-xl md:text-2xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-3 leading-snug group-hover:text-primary-700 dark:group-hover:text-primary-400 transition-colors duration-200">
                     {{ $announcement->title }}
                 </h2>
 
                 {{-- Content Preview --}}
-                <div class="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-6">
+                <div class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed line-clamp-3 mb-6">
                     {{ Str::limit(strip_tags($announcement->content), 240) }}
                 </div>
 
@@ -146,7 +146,7 @@
                     <div class="flex items-center justify-between gap-3 pt-2">
                         <button @click="open = !open"
                                 :aria-expanded="open"
-                                class="inline-flex items-center justify-center gap-2 text-xs font-bold px-4 py-2.5 min-h-11 rounded-xl transition-all duration-200 bg-primary-50 text-primary-700 hover:bg-primary-100 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                                class="inline-flex items-center justify-center gap-2 text-xs font-bold px-4 py-2.5 min-h-11 rounded-xl transition-all duration-200 bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-primary-900/50 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
                             <span x-text="open ? 'Sembunyikan Isi Pengumuman' : 'Baca Pengumuman Selengkapnya'"></span>
                             <i class="fa-solid transition-transform duration-200 text-[10px]"
                                :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
@@ -159,7 +159,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="prose prose-sm prose-emerald max-w-none text-slate-700 mt-5 pt-5 border-t border-slate-100 leading-relaxed">
+                         class="prose prose-sm prose-emerald max-w-none text-slate-700 dark:text-slate-300 mt-5 pt-5 border-t border-slate-100 dark:border-slate-800 leading-relaxed">
                         {!! $announcement->content !!}
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 @section('title', 'Halaman Tidak Ditemukan (404) | Desa ' . ($site_settings['village_name'] ?? ''))
 
 @section('content')
-<div class="bg-slate-50 min-h-[70vh] flex items-center py-16 md:py-24">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-[70vh] flex items-center py-16 md:py-24">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {{-- Visual Illustration --}}
         <div class="relative inline-flex items-center justify-center mb-8">
@@ -15,10 +15,10 @@
         </div>
 
         {{-- Heading & Message --}}
-        <h1 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-4">
+        <h1 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-4">
             Aduh! Halaman Tidak Ditemukan
         </h1>
-        <p class="text-slate-500 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10 font-medium">
+        <p class="text-slate-500 dark:text-slate-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10 font-medium">
             Sepertinya jalan yang Anda cari tidak ada atau halaman telah dipindahkan. Mari kembali ke jalan utama Desa {{ $site_settings['village_name'] ?? '' }}.
         </p>
 
@@ -30,21 +30,21 @@
                 Kembali ke Beranda
             </a>
             <a href="/berita" 
-               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold px-8 py-4 rounded-2xl transition duration-300 shadow-sm">
+               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 font-bold px-8 py-4 rounded-2xl transition duration-300 shadow-sm">
                 <i class="fa-solid fa-newspaper text-sm text-emerald-600"></i>
                 Baca Berita Desa
             </a>
-            <a href="/kontak" 
-               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold px-8 py-4 rounded-2xl transition duration-300 shadow-sm">
+            <a href="/kontak"
+               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 font-bold px-8 py-4 rounded-2xl transition duration-300 shadow-sm">
                 <i class="fa-solid fa-envelope text-sm text-emerald-600"></i>
                 Hubungi Kami
             </a>
         </div>
 
         {{-- Helpful Links --}}
-        <div class="border-t border-slate-200 pt-8 max-w-lg mx-auto">
-            <p class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Mungkin Anda Mencari:</p>
-            <div class="grid grid-cols-2 gap-3 text-sm text-slate-600 font-semibold">
+        <div class="border-t border-slate-200 dark:border-slate-800 pt-8 max-w-lg mx-auto">
+            <p class="text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4">Mungkin Anda Mencari:</p>
+            <div class="grid grid-cols-2 gap-3 text-sm text-slate-600 dark:text-slate-300 font-semibold">
                 <a href="/layanan" class="hover:text-emerald-600 transition flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-hand-holding-hand text-xs text-emerald-500"></i> Layanan Publik
                 </a>

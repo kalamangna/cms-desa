@@ -5,6 +5,10 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/* Dark mode berbasis class (toggle manual). Tailwind v4 default-nya prefers-color-scheme;
+   directive ini mengalihkan varian `dark:` agar mengikuti class `.dark` pada <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --color-primary-50: var(--color-emerald-50);
     --color-primary-100: var(--color-emerald-100);
@@ -98,4 +102,30 @@
 .prose ol > li::marker {
     color: #64748b; /* slate-500 marker */
     font-weight: 600;
+}
+
+/* Padanan .prose untuk mode gelap (menyesuaikan warna hex hardcode di atas) */
+.dark .prose {
+    color: #cbd5e1; /* slate-300 */
+}
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4 {
+    color: #f1f5f9; /* slate-100 */
+}
+.dark .prose strong {
+    color: #f1f5f9; /* slate-100 */
+}
+.dark .prose a {
+    color: var(--color-primary-400);
+}
+.dark .prose a:hover {
+    color: var(--color-primary-300);
+}
+.dark .prose blockquote {
+    color: #cbd5e1; /* slate-300 */
+}
+.dark .prose ol > li::marker {
+    color: #94a3b8; /* slate-400 marker */
 }

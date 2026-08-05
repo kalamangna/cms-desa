@@ -45,25 +45,25 @@
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
 {{-- KONTEN UTAMA --}}
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
 
         {{-- ─── Header Statistik ─── --}}
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-10 md:mb-12">
             <div>
-                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 mb-2">Semua Dokumen Publik</h2>
-                <p class="text-slate-600 text-sm">
-                    Ditemukan <span class="text-primary-700 font-bold">{{ $documents->total() }}</span> berkas dokumen tersedia.
+                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-2">Semua Dokumen Publik</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-sm">
+                    Ditemukan <span class="text-primary-700 dark:text-primary-400 font-bold">{{ $documents->total() }}</span> berkas dokumen tersedia.
                 </p>
             </div>
             {{-- Stat Badge --}}
-            <div class="flex-shrink-0 hidden sm:flex items-center gap-3.5 bg-white border border-slate-200/80 rounded-2xl px-6 py-4 shadow-lg shadow-slate-200/50">
+            <div class="flex-shrink-0 hidden sm:flex items-center gap-3.5 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl px-6 py-4 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
                 <div class="w-11 h-11 rounded-xl bg-primary-600 flex items-center justify-center text-white shadow-xs">
                     <i class="fa-solid fa-folder-open text-base"></i>
                 </div>
                 <div>
-                    <div class="text-2xl font-heading font-black text-slate-900 leading-none mb-0.5">{{ $documents->total() }}</div>
-                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Total Dokumen</div>
+                    <div class="text-2xl font-heading font-black text-slate-900 dark:text-slate-100 leading-none mb-0.5">{{ $documents->total() }}</div>
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Dokumen</div>
                 </div>
             </div>
         </div>
@@ -73,18 +73,18 @@
         @php
             $ext = $doc->file ? strtolower(pathinfo($doc->file, PATHINFO_EXTENSION)) : 'file';
             $iconMap = [
-                'pdf'  => ['icon' => 'fa-file-pdf',  'bg' => 'bg-red-50',    'text' => 'text-red-600',    'badge' => 'bg-red-100/80 text-red-800 border-red-200/60'],
-                'doc'  => ['icon' => 'fa-file-word',  'bg' => 'bg-blue-50',   'text' => 'text-blue-600',   'badge' => 'bg-blue-100/80 text-blue-800 border-blue-200/60'],
-                'docx' => ['icon' => 'fa-file-word',  'bg' => 'bg-blue-50',   'text' => 'text-blue-600',   'badge' => 'bg-blue-100/80 text-blue-800 border-blue-200/60'],
-                'xls'  => ['icon' => 'fa-file-excel', 'bg' => 'bg-emerald-50','text' => 'text-emerald-600','badge' => 'bg-emerald-100/80 text-emerald-800 border-emerald-200/60'],
-                'xlsx' => ['icon' => 'fa-file-excel', 'bg' => 'bg-emerald-50','text' => 'text-emerald-600','badge' => 'bg-emerald-100/80 text-emerald-800 border-emerald-200/60'],
-                'ppt'  => ['icon' => 'fa-file-powerpoint', 'bg' => 'bg-orange-50', 'text' => 'text-orange-600', 'badge' => 'bg-orange-100/80 text-orange-800 border-orange-200/60'],
-                'pptx' => ['icon' => 'fa-file-powerpoint', 'bg' => 'bg-orange-50', 'text' => 'text-orange-600', 'badge' => 'bg-orange-100/80 text-orange-800 border-orange-200/60'],
-                'zip'  => ['icon' => 'fa-file-zipper','bg' => 'bg-amber-50', 'text' => 'text-amber-600', 'badge' => 'bg-amber-100/80 text-amber-800 border-amber-200/60'],
+                'pdf'  => ['icon' => 'fa-file-pdf',  'bg' => 'bg-red-50 dark:bg-red-500/10',    'text' => 'text-red-600 dark:text-red-400',    'badge' => 'bg-red-100/80 dark:bg-red-500/10 text-red-800 dark:text-red-300 border-red-200/60 dark:border-red-500/20'],
+                'doc'  => ['icon' => 'fa-file-word',  'bg' => 'bg-blue-50 dark:bg-blue-500/10',   'text' => 'text-blue-600 dark:text-blue-400',   'badge' => 'bg-blue-100/80 dark:bg-blue-500/10 text-blue-800 dark:text-blue-300 border-blue-200/60 dark:border-blue-500/20'],
+                'docx' => ['icon' => 'fa-file-word',  'bg' => 'bg-blue-50 dark:bg-blue-500/10',   'text' => 'text-blue-600 dark:text-blue-400',   'badge' => 'bg-blue-100/80 dark:bg-blue-500/10 text-blue-800 dark:text-blue-300 border-blue-200/60 dark:border-blue-500/20'],
+                'xls'  => ['icon' => 'fa-file-excel', 'bg' => 'bg-emerald-50 dark:bg-emerald-500/10','text' => 'text-emerald-600 dark:text-emerald-400','badge' => 'bg-emerald-100/80 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-500/20'],
+                'xlsx' => ['icon' => 'fa-file-excel', 'bg' => 'bg-emerald-50 dark:bg-emerald-500/10','text' => 'text-emerald-600 dark:text-emerald-400','badge' => 'bg-emerald-100/80 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-500/20'],
+                'ppt'  => ['icon' => 'fa-file-powerpoint', 'bg' => 'bg-orange-50 dark:bg-orange-500/10', 'text' => 'text-orange-600 dark:text-orange-400', 'badge' => 'bg-orange-100/80 dark:bg-orange-500/10 text-orange-800 dark:text-orange-300 border-orange-200/60 dark:border-orange-500/20'],
+                'pptx' => ['icon' => 'fa-file-powerpoint', 'bg' => 'bg-orange-50 dark:bg-orange-500/10', 'text' => 'text-orange-600 dark:text-orange-400', 'badge' => 'bg-orange-100/80 dark:bg-orange-500/10 text-orange-800 dark:text-orange-300 border-orange-200/60 dark:border-orange-500/20'],
+                'zip'  => ['icon' => 'fa-file-zipper','bg' => 'bg-amber-50 dark:bg-amber-500/10', 'text' => 'text-amber-600 dark:text-amber-400', 'badge' => 'bg-amber-100/80 dark:bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-200/60 dark:border-amber-500/20'],
             ];
-            $fileStyle = $iconMap[$ext] ?? ['icon' => 'fa-file-lines', 'bg' => 'bg-slate-100', 'text' => 'text-slate-600', 'badge' => 'bg-slate-100 text-slate-700 border-slate-200'];
+            $fileStyle = $iconMap[$ext] ?? ['icon' => 'fa-file-lines', 'bg' => 'bg-slate-100 dark:bg-slate-800', 'text' => 'text-slate-600 dark:text-slate-400', 'badge' => 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'];
         @endphp
-        <div class="group flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-white rounded-2xl md:rounded-3xl p-6 md:p-7 mb-4 shadow-lg shadow-slate-200/50 border border-slate-200/80 hover:border-primary-300 hover:shadow-xl hover:shadow-slate-300/60 hover:-translate-y-1 transition-all duration-300">
+        <div class="group flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl p-6 md:p-7 mb-4 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-xl hover:shadow-slate-300/60 dark:hover:shadow-slate-950 hover:-translate-y-1 transition-all duration-300">
 
             {{-- Ikon file --}}
             <div class="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-2xl {{ $fileStyle['bg'] }} {{ $fileStyle['text'] }} flex items-center justify-center text-2xl shadow-xs border border-black/5">
@@ -99,19 +99,19 @@
                         {{ strtoupper($ext) }}
                     </span>
                     @if($doc->category ?? false)
-                        <span class="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 border border-slate-200 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                        <span class="inline-flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                             {{ $doc->category }}
                         </span>
                     @endif
                 </div>
-                <h3 class="text-xl md:text-2xl font-heading font-extrabold tracking-tight text-slate-900 group-hover:text-primary-700 transition-colors duration-200 leading-snug break-words mb-2">
+                <h3 class="text-xl md:text-2xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-slate-100 group-hover:text-primary-700 dark:group-hover:text-primary-400 transition-colors duration-200 leading-snug break-words mb-2">
                     {{ $doc->title }}
                 </h3>
                 @if($doc->description)
-                    <p class="text-sm text-slate-600 leading-relaxed line-clamp-2 mb-3">{{ $doc->description }}</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 mb-3">{{ $doc->description }}</p>
                 @endif
-                <div class="flex items-center gap-2 text-slate-500 text-xs font-medium">
-                    <i class="fa-regular fa-calendar text-slate-400 text-[11px]"></i>
+                <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs font-medium">
+                    <i class="fa-regular fa-calendar text-slate-400 dark:text-slate-500 text-[11px]"></i>
                     <span>Diunggah {{ $doc->created_at->translatedFormat('d F Y') }}</span>
                 </div>
             </div>

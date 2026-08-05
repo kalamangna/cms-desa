@@ -47,24 +47,24 @@
 {{-- ═══════════════════════════════════════════════════════
      MAIN CONTENT
 ═══════════════════════════════════════════════════════ --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
 
         {{-- ─── Header Statistik ─── --}}
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
             <div>
-                <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 mb-2">Semua Publikasi</h2>
-                <p class="text-slate-600 text-sm font-medium">
-                    Tersedia <span class="text-primary-700 font-extrabold">{{ $publications->total() }}</span> dokumen publikasi publik.
+                <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-2">Semua Publikasi</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-sm font-medium">
+                    Tersedia <span class="text-primary-700 dark:text-primary-400 font-extrabold">{{ $publications->total() }}</span> dokumen publikasi publik.
                 </p>
             </div>
-            <div class="flex-shrink-0 hidden sm:flex items-center gap-3.5 bg-primary-50 border border-primary-100/80 rounded-2xl px-6 py-3.5 shadow-xs">
+            <div class="flex-shrink-0 hidden sm:flex items-center gap-3.5 bg-primary-50 dark:bg-primary-950/40 border border-primary-100/80 dark:border-primary-900/50 rounded-2xl px-6 py-3.5 shadow-xs">
                 <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white shadow-xs">
                     <i class="fa-solid fa-book-open text-sm"></i>
                 </div>
                 <div>
-                    <div class="text-2xl font-heading font-black tracking-tight text-slate-900">{{ $publications->total() }}</div>
-                    <div class="text-[10px] font-black uppercase tracking-widest text-slate-500">Total Publikasi</div>
+                    <div class="text-2xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">{{ $publications->total() }}</div>
+                    <div class="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Total Publikasi</div>
                 </div>
             </div>
         </div>
@@ -72,10 +72,10 @@
         {{-- ─── Grid 4 Kolom ─── --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             @forelse($publications as $pub)
-            <div class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-200/80">
+            <div class="flex flex-col bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800">
 
                 {{-- Cover Image (rasio buku: 3/4) --}}
-                <div class="relative aspect-[3/4] bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden flex-shrink-0">
+                <div class="relative aspect-[3/4] bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 overflow-hidden flex-shrink-0">
                     @if($pub->cover)
                         <img
                             src="{{ asset('storage/' . $pub->cover) }}"
@@ -107,25 +107,25 @@
                         };
                     @endphp
                     <div class="flex flex-wrap items-center gap-2 mb-3">
-                        <span class="bg-slate-100 text-slate-700 text-[9px] font-black px-2.5 py-1 rounded-full tracking-wider uppercase border border-slate-200">
+                        <span class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[9px] font-black px-2.5 py-1 rounded-full tracking-wider uppercase border border-slate-200 dark:border-slate-700">
                             {{ $pub->year }}
                         </span>
                         <span class="inline-flex items-center {{ $typeColor }} text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-xs">
                             {{ $typeLabel }}
                         </span>
                         @if($pub->category)
-                            <span class="bg-primary-50 text-primary-700 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border border-primary-100">
+                            <span class="bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border border-primary-100 dark:border-primary-900/50">
                                 {{ $pub->category }}
                             </span>
                         @endif
                     </div>
-                    <h3 class="text-lg font-heading font-black tracking-tight text-slate-900 leading-snug mb-auto line-clamp-3">
+                    <h3 class="text-lg font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 leading-snug mb-auto line-clamp-3">
                         {{ $pub->title }}
                     </h3>
 
                     {{-- Footer card --}}
-                    <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-1.5 text-slate-400">
+                    <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
                             <i class="fa-solid fa-file-pdf text-rose-500 text-sm"></i>
                             <span class="text-[10px] font-black uppercase tracking-widest">PDF</span>
                         </div>

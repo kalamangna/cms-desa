@@ -40,9 +40,9 @@
 </div>
 
 {{-- ===================== FORM SECTION ===================== --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-        <div class="bg-white rounded-3xl p-8 md:p-12 border border-slate-200/80 shadow-lg shadow-slate-200/50">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
             
             {{-- Success Modal Popup --}}
             @if(session('success'))
@@ -68,13 +68,13 @@
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
 
-                <div @click.stop class="bg-white rounded-3xl shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 relative text-center cursor-default animate-in zoom-in-95 duration-300">
-                    <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto mb-5 shadow-xs">
+                <div @click.stop class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 dark:border-slate-800 relative text-center cursor-default animate-in zoom-in-95 duration-300">
+                    <div class="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl mx-auto mb-5 shadow-xs">
                         <i class="fa-solid fa-check"></i>
                     </div>
 
-                    <h3 class="font-heading font-black tracking-tight text-slate-900 text-2xl mb-2">{{ session('success') }}</h3>
-                    <p class="text-sm text-slate-500 mb-8 font-medium">Data kunjungan Anda telah dicatat.</p>
+                    <h3 class="font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 text-2xl mb-2">{{ session('success') }}</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-8 font-medium">Data kunjungan Anda telah dicatat.</p>
 
                     <button @click="showSuccessModal = false" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 text-white py-3.5 rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer">
                         Tutup
@@ -85,13 +85,13 @@
 
             {{-- Error Notification --}}
             @if($errors->any())
-            <div class="mb-10 bg-rose-50 border border-rose-200 rounded-3xl p-6 flex gap-4 items-start text-slate-700">
-                <div class="w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center flex-shrink-0">
+            <div class="mb-10 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-3xl p-6 flex gap-4 items-start text-slate-700 dark:text-slate-300">
+                <div class="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center flex-shrink-0">
                     <i class="fa-solid fa-circle-exclamation text-lg"></i>
                 </div>
                 <div>
-                    <h4 class="font-bold text-slate-900 mb-1">Pengecekan Formulir</h4>
-                    <ul class="list-disc pl-4 text-xs text-rose-600 space-y-0.5 font-medium">
+                    <h4 class="font-bold text-slate-900 dark:text-slate-100 mb-1">Pengecekan Formulir</h4>
+                    <ul class="list-disc pl-4 text-xs text-rose-600 dark:text-rose-400 space-y-0.5 font-medium">
                         @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -101,35 +101,35 @@
             @endif
 
             <div class="mb-8">
-                <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 mb-2">Catat Kunjungan</h3>
-                <p class="text-slate-500 text-sm font-medium">Isi formulir berikut dengan data yang valid.</p>
+                <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-2">Catat Kunjungan</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Isi formulir berikut dengan data yang valid.</p>
             </div>
 
             <form action="{{ route('guest-book.store') }}" method="POST" class="space-y-6">
                 @csrf
                 <div>
-                    <label for="name" class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2.5 ml-1">Nama Lengkap</label>
+                    <label for="name" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nama Lengkap</label>
                     <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap Anda" required
-                           class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 placeholder-slate-300 outline-none transition text-sm">
+                           class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="institution_address" class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2.5 ml-1">Instansi / Alamat</label>
+                        <label for="institution_address" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Instansi / Alamat</label>
                         <input type="text" id="institution_address" name="institution_address" value="{{ old('institution_address') }}" placeholder="Asal instansi atau alamat asal" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 placeholder-slate-300 outline-none transition text-sm">
+                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
                     </div>
                     <div>
-                        <label for="phone" class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2.5 ml-1">Nomor Kontak (WhatsApp)</label>
+                        <label for="phone" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nomor Kontak (WhatsApp)</label>
                         <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" placeholder="Contoh: 08xx-xxxx-xxxx" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 placeholder-slate-300 outline-none transition text-sm">
+                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
                     </div>
                 </div>
 
                 <div>
-                    <label for="purpose" class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2.5 ml-1">Keperluan / Pesan</label>
+                    <label for="purpose" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Keperluan / Pesan</label>
                     <textarea id="purpose" name="purpose" rows="5" placeholder="Tuliskan tujuan kunjungan Anda secara jelas..." required
-                              class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 placeholder-slate-300 outline-none transition resize-none text-sm">{{ old('purpose') }}</textarea>
+                              class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition resize-none text-sm">{{ old('purpose') }}</textarea>
                 </div>
 
                 <button type="submit"

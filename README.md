@@ -30,12 +30,20 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ## 🛠️ Stack Teknologi
 
-- **Framework**: [Laravel 12](https://laravel.com) (PHP 8.3+)
+- **Framework**: [Laravel 12](https://laravel.com) (PHP 8.2+)
 - **Admin Panel**: [Filament v4](https://filamentphp.com)
 - **CSS Engine**: [Tailwind CSS v4](https://tailwindcss.com)
 - **Interaktivitas**: Alpine.js, ApexCharts, Leaflet.js
 - **Cloud Storage**: Flysystem Google Drive (`masbug/flysystem-google-drive-ext`)
 - **Database**: MySQL / MariaDB / PostgreSQL / SQLite / SQL Server
+
+---
+
+## 📖 Dokumentasi Developer
+
+- **[CLAUDE.md](CLAUDE.md)** — Arsitektur aplikasi, standar & konvensi pengembangan
+- **[DESIGN.md](DESIGN.md)** — Sistem desain & panduan UI (Tailwind CSS)
+- **[CRON.md](CRON.md)** — Setup cron job per-desa (shared hosting)
 
 ---
 
@@ -64,6 +72,26 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
     npm run dev
     php artisan serve
     ```
+
+---
+
+### 🔧 Alur Kerja Development
+
+Perintah utama development (menjalankan server, queue, log, dan vite sekaligus):
+```bash
+composer dev
+```
+
+Menjalankan pengujian:
+```bash
+composer test                                     # Seluruh suite
+php artisan test --filter=StatisticDashboardTest  # Satu test class
+```
+
+Format kode:
+```bash
+./vendor/bin/pint
+```
 
 ---
 
@@ -112,7 +140,30 @@ Untuk mengelola instalasi di beberapa server sekaligus tanpa perlu SSH manual sa
 
 ### ☁️ Konfigurasi Remote Backup (Google Drive - Opsional)
 
-Untuk mengaktifkan pencadangan otomatis ke Google Drive di luar server lokal, isi kredensial Google API pada berkas `.env`:
+Untuk mengaktifkan pencadangan otomatis ke Google Drive di luar server lokal:
+
+1. **Buat Google Cloud Project**:
+   - Buka [Google Cloud Console](https://console.cloud.google.com)
+   - Buat project baru atau pilih project yang ada
+   - Aktifkan **Google Drive API** di menu APIs & Services
+
+2. **Buat OAuth 2.0 Credentials**:
+   - Di Google Cloud Console, buka **APIs & Services → Credentials**
+   - Klik **Create Credentials → OAuth client ID**
+   - Pilih tipe aplikasi **Desktop app** atau **Web application**
+   - Salin **Client ID** dan **Client Secret**
+
+3. **Generate Refresh Token**:
+   - Gunakan [Google OAuth 2.0 Playground](https://developers.google.com/oauthplayground)
+   - Atau tools seperti [oauth2l](https://github.com/google/oauth2l)
+   - Authorize dengan scope `https://www.googleapis.com/auth/drive.file`
+   - Salin **Refresh Token**
+
+4. **Buat Folder di Google Drive**:
+   - Buka Google Drive, buat folder baru untuk backup
+   - Copy ID folder dari URL (format: `https://drive.google.com/drive/folders/FOLDER_ID_DI_SINI`)
+
+5. **Isi kredensial ke `.env`**:
 
 ```env
 GOOGLE_DRIVE_CLIENT_ID=XXXXX.apps.googleusercontent.com

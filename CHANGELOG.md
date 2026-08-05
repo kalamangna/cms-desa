@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.72] - 2026-08-05
+
+### Fixed
+- **Perbaikan Fatal Error JSON-LD**: Memperbaiki sintaks `@context` pada `resources/views/announcements/index.blade.php` dengan menambahkan *escape* ganda (`@@context`) agar tidak dibaca sebagai *Blade directive* yang menyebabkan `syntax error, unexpected end of file`.
+
 ## [1.26.71] - 2026-08-04
 
 ### Added

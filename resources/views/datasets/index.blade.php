@@ -47,42 +47,42 @@
 {{-- ═══════════════════════════════════════════════════════
      MAIN CONTENT
 ═══════════════════════════════════════════════════════ --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-        <div class="bg-white rounded-3xl md:rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-200/80 overflow-hidden">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl md:rounded-3xl shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 overflow-hidden">
             {{-- Header Toolbar --}}
-            <div class="p-8 md:p-12 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8 bg-slate-50/50 text-center md:text-left">
+            <div class="p-8 md:p-12 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-8 bg-slate-50/50 dark:bg-slate-800/30 text-center md:text-left">
                 <div>
-                    <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900">Katalog Dataset</h2>
-                    <p class="text-slate-500 font-medium text-sm mt-1">Ditemukan {{ $datasets->total() }} dataset publik yang tersedia</p>
+                    <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Katalog Dataset</h2>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm mt-1">Ditemukan {{ $datasets->total() }} dataset publik yang tersedia</p>
                 </div>
                 <form action="/dataset" method="GET" class="relative w-full md:w-96">
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari dataset..." class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 shadow-xs text-sm">
-                    <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary-600 transition cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-md" aria-label="Cari Dataset">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari dataset..." class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-100 dark:placeholder-slate-500 shadow-xs text-sm">
+                    <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-primary-600 transition cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-md" aria-label="Cari Dataset">
                         <i class="fa-solid fa-magnifying-glass text-sm"></i>
                     </button>
                 </form>
             </div>
-            
+
             {{-- Table --}}
             <div class="overflow-x-auto">
                 <table class="w-full text-left min-w-[800px] lg:min-w-0">
                     <thead>
-                        <tr class="bg-slate-50/80 border-b border-slate-100">
-                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 text-[10px] uppercase tracking-widest">Dataset & Deskripsi</th>
-                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 text-[10px] uppercase tracking-widest">Tahun</th>
-                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 text-[10px] uppercase tracking-widest text-right">Unduh</th>
+                        <tr class="bg-slate-50/80 dark:bg-slate-800/40 border-b border-slate-100 dark:border-slate-800">
+                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 dark:text-slate-400 text-[10px] uppercase tracking-widest">Dataset & Deskripsi</th>
+                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 dark:text-slate-400 text-[10px] uppercase tracking-widest">Tahun</th>
+                            <th class="px-8 md:px-12 py-5 font-black text-slate-500 dark:text-slate-400 text-[10px] uppercase tracking-widest text-right">Unduh</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100">
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                         @forelse($datasets as $dataset)
-                        <tr class="hover:bg-slate-50/80 transition duration-200">
+                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition duration-200">
                             <td class="px-8 md:px-12 py-7 md:py-8">
-                                <div class="font-heading font-black tracking-tight text-xl md:text-2xl text-slate-900 mb-1.5">{{ $dataset->title }}</div>
-                                <div class="text-sm text-slate-600 max-w-xl leading-relaxed font-medium">{{ $dataset->description }}</div>
+                                <div class="font-heading font-black tracking-tight text-xl md:text-2xl text-slate-900 dark:text-slate-100 mb-1.5">{{ $dataset->title }}</div>
+                                <div class="text-sm text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed font-medium">{{ $dataset->description }}</div>
                             </td>
                             <td class="px-8 md:px-12 py-7 md:py-8">
-                                <span class="px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-700 font-extrabold text-[10px] tracking-widest uppercase border border-slate-200">{{ $dataset->year }}</span>
+                                <span class="px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-extrabold text-[10px] tracking-widest uppercase border border-slate-200 dark:border-slate-700">{{ $dataset->year }}</span>
                             </td>
                             <td class="px-8 md:px-12 py-7 md:py-8 text-right">
                                 <div class="flex justify-end gap-2.5">
@@ -125,7 +125,7 @@
             </div>
             
             @if($datasets->hasPages())
-            <div class="p-8 md:p-12 border-t border-slate-100 bg-slate-50/50">
+            <div class="p-8 md:p-12 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
                 {{ $datasets->links() }}
             </div>
             @endif

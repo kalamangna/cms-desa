@@ -10,7 +10,7 @@ Dokumen ini menjadi acuan utama dalam merancang antarmuka pengguna (UI) agar kon
 - **Prinsip Akhir:** Fokus antarmuka adalah membantu selesainya tugas tanpa paksaan berpikir (*don't make me think*).
 
 ## 2. Design Token & Pewarnaan (Tailwind)
-- **Warna Utama (Theme Color):** Gunakan kelas warna tema statis atau dinamis yang sudah terdefinisi di konfigurasi `tailwind.config.js` (contoh: `bg-primary`, `text-primary`). Hindari *hardcode* warna sembarangan (seperti `bg-[#1abc9c]`) secara *inline*.
+- **Warna Utama (Theme Color):** Gunakan kelas warna tema yang sudah terdefinisi pada blok `@theme` di `resources/css/app.css` (contoh: `bg-primary`, `text-primary`). Token `--color-primary-*` dipetakan ke skala `emerald` sebagai default. Hindari *hardcode* warna sembarangan (seperti `bg-[#1abc9c]`) secara *inline*. **Catatan Tailwind v4:** proyek ini tidak lagi menggunakan `tailwind.config.js`; seluruh kustomisasi token warna dan font dilakukan lewat directive `@theme` di file CSS.
 - **Warna Netral (Neutral Color):** Gunakan skala warna abu-abu bawaan Tailwind (disarankan `slate` atau `zinc`) untuk teks (`text-slate-900`), latar belakang (`bg-slate-50`), dan garis batas (`border-slate-200`).
 - **Warna Semantik:** Gunakan konvensi standar untuk umpan balik (*Success* = `emerald`/`green`, *Warning* = `amber`/`yellow`, *Danger* = `red`/`rose`, *Info* = `blue`/`sky`).
 - **Data Visualisasi (Grafik/Chart):** Pengecualian dari Warna Utama; grafik, diagram, atau batang progres mutlak wajib menggunakan set warna statis (misal: `emerald` untuk dataset A, `sky` untuk dataset B) agar identitas perbandingan data tetap konsisten dan tidak luntur karena perubahan warna tema (*theme color*).

@@ -91,11 +91,11 @@
     @else
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         @foreach($institutions as $institution)
-        <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left bg-white rounded-3xl p-6 md:p-8 border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden gap-6 h-full">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden gap-6 h-full">
 
             {{-- Logo --}}
             <div class="flex-shrink-0">
-                <div class="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-white shadow-xl shadow-slate-300/40 mx-auto sm:mx-0">
+                <div class="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-white dark:ring-slate-800 shadow-xl shadow-slate-300/40 dark:shadow-slate-950/40 mx-auto sm:mx-0">
                     <img
                         src="{{ $institution->logo ? asset('storage/' . $institution->logo) : asset('img/meta.webp') }}"
                         class="w-full h-full object-cover"
@@ -108,9 +108,9 @@
             {{-- Info --}}
             <div class="flex-1 w-full flex flex-col justify-between h-full">
                 <div class="mb-5">
-                    <h3 class="text-2xl md:text-3xl font-heading font-extrabold tracking-tight text-slate-900 mb-3">{{ $institution->name }}</h3>
+                    <h3 class="text-2xl md:text-3xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-slate-100 mb-3">{{ $institution->name }}</h3>
                     @if($institution->description)
-                    <div class="prose prose-sm prose-slate max-w-none text-slate-500 text-sm leading-relaxed line-clamp-3">
+                    <div class="prose prose-sm prose-slate max-w-none text-slate-500 dark:text-slate-400 text-sm leading-relaxed line-clamp-3">
                         {!! strip_tags($institution->description) !!}
                     </div>
                     @endif
@@ -124,7 +124,7 @@
                             description: {{ json_encode($institution->description) }},
                             management: {{ json_encode($institution->management ?? []) }}
                         })"
-                        class="w-full sm:w-auto mt-auto inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-primary-50 text-slate-600 hover:text-primary-700 py-3 px-5 rounded-2xl text-xs font-bold border border-slate-200 hover:border-primary-100 transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                        class="w-full sm:w-auto mt-auto inline-flex items-center justify-center gap-2 bg-slate-50 dark:bg-slate-800 hover:bg-primary-50 dark:hover:bg-primary-950/40 text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-300 py-3 px-5 rounded-2xl text-xs font-bold border border-slate-200 dark:border-slate-700 hover:border-primary-100 dark:hover:border-primary-900/50 transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
                     <i class="fa-solid fa-sitemap"></i> Lihat Detail
                 </button>
             </div>
@@ -157,7 +157,7 @@
          </button>
 
          <!-- Modal Box -->
-         <div class="relative w-11/12 sm:w-5/6 md:w-3/4 lg:w-3/5 max-w-4xl bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] cursor-default"
+         <div class="relative w-11/12 sm:w-5/6 md:w-3/4 lg:w-3/5 max-w-4xl bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] cursor-default"
               x-show="selectedInstitution !== null"
               @click.stop
               x-transition:enter="transition ease-out duration-300"
@@ -168,34 +168,34 @@
               x-transition:leave-end="opacity-0 scale-95 translate-y-4">
               
               <!-- Modal Header (Logo + Title) -->
-              <div class="p-6 sm:p-8 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 flex-shrink-0">
-                  <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-white shadow-lg flex-shrink-0 bg-white">
+              <div class="p-6 sm:p-8 bg-slate-50 dark:bg-slate-800/40 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 flex-shrink-0">
+                  <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-white dark:ring-slate-800 shadow-lg flex-shrink-0 bg-white dark:bg-slate-900">
                       <img :src="selectedInstitution?.logo"
                            :alt="selectedInstitution?.name"
                            class="w-full h-full object-cover">
                   </div>
                   <div class="text-center sm:text-left flex-1">
-                      <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 leading-tight"
+                      <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 leading-tight"
                           x-text="selectedInstitution?.name"></h2>
                   </div>
               </div>
 
               <!-- Modal Content (Description + Management) -->
-              <div class="p-6 sm:p-8 bg-white overflow-y-auto custom-scrollbar flex-1">
-                  <div class="prose prose-sm sm:prose-base prose-slate max-w-none text-slate-600 leading-relaxed"
+              <div class="p-6 sm:p-8 bg-white dark:bg-slate-900 overflow-y-auto custom-scrollbar flex-1">
+                  <div class="prose prose-sm sm:prose-base prose-slate max-w-none text-slate-600 dark:text-slate-300 leading-relaxed"
                        x-html="selectedInstitution?.description">
                   </div>
 
                   <template x-if="selectedInstitution?.management && selectedInstitution.management.length > 0">
-                      <div class="mt-10 border-t border-slate-200 pt-8">
-                          <h4 class="text-sm font-black uppercase tracking-widest text-primary-600 mb-6">
+                      <div class="mt-10 border-t border-slate-200 dark:border-slate-800 pt-8">
+                          <h4 class="text-sm font-black uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-6">
                               Struktur Pengurus
                           </h4>
                           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <template x-for="member in selectedInstitution.management" :key="member.name + member.position">
-                                  <div class="flex flex-col p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                                      <span class="text-[10px] font-black uppercase tracking-wider text-primary-600/80 mb-1" x-text="member.position"></span>
-                                      <span class="text-sm font-bold text-slate-800" x-text="member.name"></span>
+                                  <div class="flex flex-col p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                      <span class="text-[10px] font-black uppercase tracking-wider text-primary-600/80 dark:text-primary-400/80 mb-1" x-text="member.position"></span>
+                                      <span class="text-sm font-bold text-slate-800 dark:text-slate-200" x-text="member.name"></span>
                                   </div>
                               </template>
                           </div>

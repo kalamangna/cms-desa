@@ -37,7 +37,9 @@ trait HasTelegramNotification
         $backupName = $this->event->backupName ?? null;
 
         if ($diskName) {
-            $content .= "🗄 Disk: <code>{$diskName}</code>\n";
+            $diskIcon = $diskName === 'google' ? '☁️' : '🗄';
+            $diskLabel = $diskName === 'google' ? 'Google Drive' : 'Local';
+            $content .= "{$diskIcon} <b>{$diskLabel}</b>\n";
         }
 
         if ($diskName && $backupName) {

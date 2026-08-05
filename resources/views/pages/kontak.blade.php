@@ -75,7 +75,7 @@
 </div>
 
 {{-- ===================== MAIN LAYOUT ===================== --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
@@ -83,23 +83,23 @@
             <div class="space-y-6">
 
                 {{-- Alamat --}}
-                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50">
-                    <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
+                <div class="flex items-start gap-5 bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
+                    <div class="w-12 h-12 rounded-2xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-solid fa-location-dot"></i>
                     </div>
                     <div class="min-w-0">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Alamat Kantor</p>
-                        <p class="text-slate-800 font-semibold leading-relaxed text-sm">{{ $site_settings['village_address'] ?? '-' }}</p>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Alamat Kantor</p>
+                        <p class="text-slate-800 dark:text-slate-200 font-semibold leading-relaxed text-sm">{{ $site_settings['village_address'] ?? '-' }}</p>
                     </div>
                 </div>
 
                 {{-- Telepon / WA --}}
-                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50">
-                    <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
+                <div class="flex items-start gap-5 bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
+                    <div class="w-12 h-12 rounded-2xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-brands fa-whatsapp"></i>
                     </div>
                     <div class="min-w-0">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Telepon / WhatsApp</p>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Telepon / WhatsApp</p>
                         @php
                             $phone = $site_settings['village_phone'] ?? '';
                             $waNumber = preg_replace('/[^0-9]/', '', $phone);
@@ -109,43 +109,43 @@
                         @endphp
                         @if($phone)
                         <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
-                           class="text-slate-800 font-semibold text-sm hover:text-primary-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 inline-flex items-center gap-2 mt-1 rounded-md px-1 -ml-1">
+                           class="text-slate-800 dark:text-slate-200 font-semibold text-sm hover:text-primary-700 dark:hover:text-primary-400 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 inline-flex items-center gap-2 mt-1 rounded-md px-1 -ml-1">
                             {{ $phone }}
-                            <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide border border-emerald-200">
+                            <span class="inline-flex items-center gap-1 bg-emerald-100 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide border border-emerald-200 dark:border-emerald-500/20">
                                 <i class="fa-brands fa-whatsapp text-[10px]"></i> Chat
                             </span>
                         </a>
                         @else
-                        <p class="text-slate-400 text-sm font-medium">-</p>
+                        <p class="text-slate-400 dark:text-slate-500 text-sm font-medium">-</p>
                         @endif
                     </div>
                 </div>
 
                 {{-- Email --}}
-                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50">
-                    <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
+                <div class="flex items-start gap-5 bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
+                    <div class="w-12 h-12 rounded-2xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
                     <div class="min-w-0">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Email Resmi</p>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Email Resmi</p>
                         @if(!empty($site_settings['village_email']))
-                        <a href="mailto:{{ $site_settings['village_email'] }}" class="text-slate-800 font-semibold text-sm hover:text-primary-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 break-all inline-block rounded-md px-1 -ml-1">
+                        <a href="mailto:{{ $site_settings['village_email'] }}" class="text-slate-800 dark:text-slate-200 font-semibold text-sm hover:text-primary-700 dark:hover:text-primary-400 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 break-all inline-block rounded-md px-1 -ml-1">
                             {{ $site_settings['village_email'] }}
                         </a>
                         @else
-                        <p class="text-slate-400 text-sm font-medium">-</p>
+                        <p class="text-slate-400 dark:text-slate-500 text-sm font-medium">-</p>
                         @endif
                     </div>
                 </div>
 
                 {{-- Jam Operasional --}}
-                <div class="flex items-start gap-5 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50">
-                    <div class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
+                <div class="flex items-start gap-5 bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
+                    <div class="w-12 h-12 rounded-2xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-regular fa-clock"></i>
                     </div>
                     <div class="min-w-0">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Jam Operasional Pelayanan</p>
-                        <p class="text-slate-800 font-semibold text-sm">Senin – Jumat, 08.00 – 16.00 WITA</p>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Jam Operasional Pelayanan</p>
+                        <p class="text-slate-800 dark:text-slate-200 font-semibold text-sm">Senin – Jumat, 08.00 – 16.00 WITA</p>
                     </div>
                 </div>
 
@@ -189,20 +189,20 @@
                 </div>
 
                 {{-- Link Pengaduan --}}
-                <a href="/pengaduan" class="flex items-center gap-4 bg-primary-50 hover:bg-primary-100/80 border border-primary-200/80 rounded-2xl p-6 transition-all duration-200 group active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+                <a href="/pengaduan" class="flex items-center gap-4 bg-primary-50 dark:bg-primary-950/40 hover:bg-primary-100/80 dark:hover:bg-primary-900/50 border border-primary-200/80 dark:border-primary-900/50 rounded-2xl p-6 transition-all duration-200 group active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
                     <div class="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
                     <div>
-                        <p class="text-slate-900 font-extrabold text-sm">Punya pengaduan atau aspirasi?</p>
-                        <p class="text-primary-700 text-xs font-semibold mt-0.5">Sampaikan melalui halaman Pengaduan →</p>
+                        <p class="text-slate-900 dark:text-slate-100 font-extrabold text-sm">Punya pengaduan atau aspirasi?</p>
+                        <p class="text-primary-700 dark:text-primary-400 text-xs font-semibold mt-0.5">Sampaikan melalui halaman Pengaduan →</p>
                     </div>
                 </a>
             </div>
 
             {{-- ========== RIGHT: Peta ========== --}}
             <div class="lg:sticky lg:top-24 self-start">
-                <div class="rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-200/80 h-[520px] lg:h-[640px] relative bg-slate-100">
+                <div class="rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 h-[520px] lg:h-[640px] relative bg-slate-100 dark:bg-slate-800">
                     @if(!empty($site_settings['village_name']))
                     <iframe
                         class="w-full h-full absolute inset-0 z-0 border-0"
@@ -212,10 +212,10 @@
                         referrerpolicy="no-referrer-when-downgrade"
                     ></iframe>
                     @else
-                    <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-300 p-6 text-center">
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-300 dark:text-slate-600 p-6 text-center">
                         <i class="fa-solid fa-map-location-dot text-7xl mb-4 opacity-30"></i>
-                        <p class="font-bold text-slate-400">Peta belum dikonfigurasi</p>
-                        <p class="text-sm text-slate-300 mt-1">Tambahkan nama desa di pengaturan untuk mengaktifkan peta.</p>
+                        <p class="font-bold text-slate-400 dark:text-slate-500">Peta belum dikonfigurasi</p>
+                        <p class="text-sm text-slate-300 dark:text-slate-600 mt-1">Tambahkan nama desa di pengaturan untuk mengaktifkan peta.</p>
                     </div>
                     @endif
                 </div>

@@ -120,10 +120,10 @@
 {{-- =========================================================
      ARTICLE CONTENT
      ========================================================= --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 md:-mt-12 pb-20 md:pb-32 relative z-10">
 
-        <article class="bg-white rounded-3xl shadow-2xl shadow-slate-200/60 overflow-hidden border border-slate-100">
+        <article class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-slate-200/60 dark:shadow-slate-950/60 overflow-hidden border border-slate-100 dark:border-slate-800">
 
             {{-- ─── Featured Image ──────────────────────────────────── --}}
             <div class="w-full overflow-hidden" style="aspect-ratio:21/9;">
