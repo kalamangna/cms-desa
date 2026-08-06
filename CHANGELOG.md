@@ -2,6 +2,18 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.73] - 2026-08-05
+
+### Added
+- **Mode Gelap Halaman Publik**: Menerapkan varian `dark:` pada tujuh halaman yang sebelumnya belum didukung, sesuai Poin 2 `DESIGN.md`:
+  - **Detail Berita** (`posts/show`), **Galeri** (`galleries/index`), **Potensi Desa** (`pages/potensi`), **Layanan Mandiri** (`pages/layanan`), **Pengaduan** (`pages/pengaduan`), **Aparatur Desa** (`officials/index`), dan **APBDes** (`apbdes/index`).
+- **Mode Gelap Paginasi**: Menerapkan varian `dark:` pada berkas paginasi bersama (`vendor/pagination/tailwind`) yang dipakai enam halaman daftar (Pengumuman, Dataset, Dokumen, Galeri, Berita, Publikasi), mencakup tombol seluler (termasuk kondisi nonaktif), teks jumlah data, tombol navigasi, nomor halaman, dan pemisah elipsis.
+
+### Changed
+- **Grafik APBDes Adaptif**: Warna teks dan tema *tooltip* ApexCharts kini mengikuti mode gelap yang aktif saat halaman dimuat. Palet seri data tetap statis sesuai pengecualian Poin 2 `DESIGN.md`.
+- **Cincin Progres APBDes**: Mengganti `stroke` bernilai heksadesimal tetap menjadi `currentColor` agar mengikuti kelas tema.
+- **Modal Bagan Aparatur**: Menambahkan padanan mode gelap khusus untuk kerangka modal (latar, tajuk, tombol, petunjuk). Elemen bagan (`.oc-*`) sengaja dibiarkan terang karena dikloning apa adanya saat ekspor PDF, sehingga warna gelap akan ikut terbawa ke dokumen hasil.
+
 ## [1.26.72] - 2026-08-05
 
 ### Fixed
