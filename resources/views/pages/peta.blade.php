@@ -55,22 +55,22 @@
 </div>
 
 {{-- ===================== MAP SECTION ===================== --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             {{-- Map View (Main Area) --}}
             <div class="lg:col-span-2 flex flex-col gap-6">
-                <div class="bg-white rounded-3xl p-2 border border-slate-200/80 shadow-lg shadow-slate-200/50 relative overflow-hidden h-[500px] md:h-[600px] min-h-[450px] z-0">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-2 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 relative overflow-hidden h-[500px] md:h-[600px] min-h-[450px] z-0">
                     <div id="spatialMap" class="w-full h-full rounded-2xl absolute inset-0 z-0"></div>
                     
                     {{-- Legend Overlay --}}
-                    <div class="absolute bottom-6 left-6 bg-white/95 backdrop-blur px-4 py-3 rounded-2xl shadow-xl border border-slate-200/80 z-[1000] hidden sm:block max-w-[220px]">
+                    <div class="absolute bottom-6 left-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur px-4 py-3 rounded-2xl shadow-xl border border-slate-200/80 dark:border-slate-700 z-[1000] hidden sm:block max-w-[220px]">
                         <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Legenda Dusun</p>
                         <div class="space-y-1.5">
                             @foreach($dusuns as $dusun)
                                 @if($dusun->geojson)
-                                <div class="flex items-center gap-2 text-xs font-bold text-slate-700">
+                                <div class="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300">
                                     <span class="w-3.5 h-3.5 rounded-md border border-white shadow-xs flex-shrink-0" style="background-color: {{ $dusun->color ?? '#10b981' }}"></span>
                                     <span class="truncate">Dusun {{ $dusun->name }}</span>
                                 </div>
@@ -86,19 +86,19 @@
                  x-data="spatialMapSidebar">
                 
                 {{-- Tabbed Selector Card --}}
-                <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col gap-4">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-4">
                     <!-- Tab Buttons -->
-                    <div class="flex border-b border-slate-100 pb-1">
+                    <div class="flex border-b border-slate-100 dark:border-slate-800 pb-1">
                         <button type="button" 
                                 @click="activeTab = 'dusun'"
-                                :class="activeTab === 'dusun' ? 'border-primary-600 text-primary-700 font-extrabold' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 font-semibold'"
+                                :class="activeTab === 'dusun' ? 'border-primary-600 dark:border-primary-500 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 font-semibold'"
                                 class="flex-1 pb-3 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
                             <i class="fa-solid fa-map-location-dot"></i>
                             Wilayah
                         </button>
                         <button type="button" 
                                 @click="activeTab = 'fasilitas'"
-                                :class="activeTab === 'fasilitas' ? 'border-primary-600 text-primary-700 font-extrabold' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 font-semibold'"
+                                :class="activeTab === 'fasilitas' ? 'border-primary-600 dark:border-primary-500 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 font-semibold'"
                                 class="flex-1 pb-3 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
                             <i class="fa-solid fa-building-circle-check"></i>
                             Fasilitas Umum
@@ -108,8 +108,8 @@
                     <!-- Tab Content: Dusun -->
                     <div x-show="activeTab === 'dusun'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
                         <div class="mb-4">
-                            <h3 class="text-base font-heading font-black tracking-tight text-slate-900 leading-tight">Daftar Wilayah</h3>
-                            <p class="text-slate-500 text-[10px] font-semibold mt-1">Pilih wilayah dusun untuk memfokuskan peta.</p>
+                            <h3 class="text-base font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 leading-tight">Daftar Wilayah</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-1">Pilih wilayah dusun untuk memfokuskan peta.</p>
                         </div>
 
                         <div class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
@@ -117,7 +117,7 @@
                                 <button type="button"
                                         onclick="focusDusun({{ $dusun->id }})"
                                         id="btn-dusun-{{ $dusun->id }}"
-                                        class="w-full flex items-center justify-between p-3.5 rounded-2xl border text-left transition-all duration-200 font-bold text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 @if($dusun->geojson) border-slate-200/80 bg-slate-50/50 hover:bg-primary-50/50 text-slate-800 hover:border-primary-300 @else border-slate-100 bg-slate-50/30 text-slate-400 cursor-not-allowed opacity-60 @endif">
+                                        class="w-full flex items-center justify-between p-3.5 rounded-2xl border text-left transition-all duration-200 font-bold text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 @if($dusun->geojson) border-slate-200/80 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950/50 hover:bg-primary-50/50 dark:hover:bg-primary-950/40 text-slate-800 dark:text-slate-200 hover:border-primary-300 dark:hover:border-primary-700/50 @else border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-950/30 text-slate-400 cursor-not-allowed opacity-60 @endif">
                                     <span class="flex items-center gap-2.5 truncate">
                                         <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: {{ $dusun->color ?? '#cbd5e1' }}"></span>
                                         <span class="truncate">Dusun {{ $dusun->name }}</span>
@@ -139,8 +139,8 @@
                     <!-- Tab Content: Fasilitas Umum -->
                     <div x-show="activeTab === 'fasilitas'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-cloak>
                         <div class="mb-3">
-                            <h3 class="text-base font-heading font-black tracking-tight text-slate-900 leading-tight">Cari Fasilitas</h3>
-                            <p class="text-slate-500 text-[10px] font-semibold mt-1">Gunakan pencarian dan filter kategori.</p>
+                            <h3 class="text-base font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 leading-tight">Cari Fasilitas</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-1">Gunakan pencarian dan filter kategori.</p>
                         </div>
 
                         <!-- Search & Filter Controls -->
@@ -153,7 +153,7 @@
                                 <input type="text" 
                                        x-model="searchQuery" 
                                        placeholder="Cari nama atau jenis..." 
-                                       class="w-full pl-8 pr-3 py-2 text-[11px] font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition">
+                                       class="w-full pl-8 pr-3 py-2 text-[11px] font-semibold bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition">
                             </div>
 
                             <!-- Category Pill Filter -->
@@ -161,7 +161,7 @@
                                 <template x-for="cat in ['Semua', 'Pendidikan', 'Ibadah', 'Kesehatan', 'Pemerintahan', 'Umum']">
                                     <button type="button"
                                             @click="selectedCategory = cat; filterMarkers();"
-                                            :class="selectedCategory === cat ? 'bg-primary-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80'"
+                                            :class="selectedCategory === cat ? 'bg-primary-600 text-white shadow-xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200/80 dark:hover:bg-slate-700/80'"
                                             class="px-2.5 py-1 rounded-lg text-[9px] font-bold whitespace-nowrap transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
                                             x-text="cat === 'Umum' ? 'Umum/Lainnya' : cat">
                                     </button>
@@ -175,16 +175,16 @@
                                 <button type="button"
                                         @click="focusFacility(facility)"
                                         :id="'btn-facility-' + facility.id"
-                                        class="w-full flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200/80 bg-slate-50/50 hover:bg-primary-50/50 hover:border-primary-300 text-left transition-all duration-200 cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+                                        class="w-full flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950/50 hover:bg-primary-50/50 dark:hover:bg-primary-950/40 hover:border-primary-300 dark:hover:border-primary-700/50 text-left transition-all duration-200 cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
                                     <!-- Icon based on type -->
                                     <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-white shadow-xs"
                                          :class="getFacilityColorClass(facility.type)">
                                         <i :class="getFacilityIconClass(facility.type) + ' text-[9px]'"></i>
                                     </div>
                                     <div class="min-w-0 flex-1">
-                                        <p class="text-slate-900 font-bold text-xs truncate" x-text="facility.name"></p>
+                                        <p class="text-slate-900 dark:text-slate-100 font-bold text-xs truncate" x-text="facility.name"></p>
                                          <p class="text-slate-400 text-[9px] font-semibold mt-0.5" x-text="facility.type"></p>
-                                        <p class="text-slate-500 text-[9px] truncate mt-1 font-medium" x-show="facility.address" x-text="facility.address"></p>
+                                        <p class="text-slate-500 dark:text-slate-400 text-[9px] truncate mt-1 font-medium" x-show="facility.address" x-text="facility.address"></p>
                                     </div>
                                 </button>
                             </template>
@@ -202,33 +202,33 @@
                 </div>
 
                 {{-- Detail Information Card --}}
-                <div id="dusunInfoCard" class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col gap-5 transition-all duration-300 relative overflow-hidden group">
+                <div id="dusunInfoCard" class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-5 transition-all duration-300 relative overflow-hidden group">
                     <div class="absolute top-0 left-0 w-2 h-full bg-slate-300" id="infoCardBorder"></div>
                     
                     <div class="pl-2">
-                        <span class="inline-flex items-center gap-1.5 bg-slate-100 text-slate-600 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider mb-2" id="infoBadge">
+                        <span class="inline-flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider mb-2" id="infoBadge">
                             <i class="fa-solid fa-map"></i> Klik Area Peta
                         </span>
-                        <h4 class="text-xl font-heading font-extrabold text-slate-900 leading-tight" id="infoTitle">Detail Informasi</h4>
-                        <p class="text-slate-500 text-xs font-semibold mt-1" id="infoSubtitle">Pilih area Dusun atau marker Fasilitas Umum pada peta untuk melihat detail informasi.</p>
+                        <h4 class="text-xl font-heading font-extrabold text-slate-900 dark:text-slate-100 leading-tight" id="infoTitle">Detail Informasi</h4>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold mt-1" id="infoSubtitle">Pilih area Dusun atau marker Fasilitas Umum pada peta untuk melihat detail informasi.</p>
                     </div>
 
                     {{-- Stats grid, initially hidden --}}
                     <div id="infoStatsGrid" class="hidden grid grid-cols-1 gap-3.5 pl-2">
-                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80">
+                        <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700">
                             <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Kepala Dusun</p>
-                            <p class="text-slate-800 font-bold text-sm" id="infoHead">-</p>
+                            <p class="text-slate-800 dark:text-slate-200 font-bold text-sm" id="infoHead">-</p>
                         </div>
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80">
+                            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700">
                                 <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Penduduk</p>
                                 <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1" id="infoPopulation">0</p>
-                                <p class="text-slate-500 text-[10px] font-bold mt-1">Jiwa</p>
+                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-bold mt-1">Jiwa</p>
                             </div>
-                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80">
+                            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700">
                                 <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Keluarga</p>
                                 <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1" id="infoFamilies">0</p>
-                                <p class="text-slate-500 text-[10px] font-bold mt-1">KK</p>
+                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-bold mt-1">KK</p>
                             </div>
                         </div>
                     </div>
@@ -245,6 +245,27 @@
 {{-- Leaflet JS & CSS --}}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+    /* Dark mode styling for map tiles */
+    html.dark .leaflet-tile {
+        filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+    }
+    
+    /* Dark mode styling for Leaflet popups */
+    html.dark .leaflet-popup-content-wrapper,
+    html.dark .leaflet-popup-tip {
+        background-color: #0f172a; /* slate-900 */
+        color: #f1f5f9; /* slate-100 */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+    }
+    html.dark .leaflet-popup-close-button {
+        color: #94a3b8 !important; /* slate-400 */
+    }
+    html.dark .leaflet-popup-close-button:hover {
+        color: #f8fafc !important; /* slate-50 */
+    }
+</style>
 
 <script>
     document.addEventListener('alpine:init', () => {
@@ -357,17 +378,17 @@
 
                 // Bind Popup
                 const popupContent = `
-                    <div class="p-2 text-slate-800 font-sans">
-                        <h5 class="font-heading font-black text-sm text-primary-700 mb-1">Dusun ${dusun.name}</h5>
-                        <p class="text-xs font-semibold text-slate-500 mb-2">Kepala Dusun: <strong>${dusun.head_name || '-'}</strong></p>
-                        <div class="grid grid-cols-2 gap-2 text-center bg-slate-50 p-2 rounded-lg border border-slate-200/80">
+                    <div class="p-2 text-slate-800 dark:text-slate-200 font-sans">
+                        <h5 class="font-heading font-black text-sm text-primary-700 dark:text-primary-400 mb-1">Dusun ${dusun.name}</h5>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">Kepala Dusun: <strong>${dusun.head_name || '-'}</strong></p>
+                        <div class="grid grid-cols-2 gap-2 text-center bg-slate-50 dark:bg-slate-950 p-2 rounded-lg border border-slate-200/80 dark:border-slate-700">
                             <div>
                                 <p class="text-[9px] font-black uppercase text-slate-400">Penduduk</p>
-                                <p class="text-xs font-bold text-slate-900">${dusun.citizens_count} Jiwa</p>
+                                <p class="text-xs font-bold text-slate-900 dark:text-slate-100">${dusun.citizens_count} Jiwa</p>
                             </div>
                             <div>
                                 <p class="text-[9px] font-black uppercase text-slate-400">Keluarga</p>
-                                <p class="text-xs font-bold text-slate-900">${dusun.families_count} KK</p>
+                                <p class="text-xs font-bold text-slate-900 dark:text-slate-100">${dusun.families_count} KK</p>
                             </div>
                         </div>
                     </div>
@@ -430,11 +451,11 @@
 
             const marker = L.marker([facility.latitude, facility.longitude], { icon: customIcon })
                 .bindPopup(`
-                    <div class="p-2 text-slate-800 font-sans min-w-[150px]">
+                    <div class="p-2 text-slate-800 dark:text-slate-200 font-sans min-w-[150px]">
                         <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 block">${facility.type}</span>
-                        <h5 class="font-heading font-black text-sm text-slate-900 mt-0.5">${facility.name}</h5>
-                        ${facility.address ? `<p class="text-xs text-slate-500 leading-normal mt-2"><i class="fa-solid fa-location-dot text-slate-400"></i> ${facility.address}</p>` : ''}
-                        ${facility.description ? `<p class="text-xs text-slate-400 italic leading-normal mt-2 border-t border-slate-100 pt-2">${facility.description}</p>` : ''}
+                        <h5 class="font-heading font-black text-sm text-slate-900 dark:text-slate-100 mt-0.5">${facility.name}</h5>
+                        ${facility.address ? `<p class="text-xs text-slate-500 dark:text-slate-400 leading-normal mt-2"><i class="fa-solid fa-location-dot text-slate-400"></i> ${facility.address}</p>` : ''}
+                        ${facility.description ? `<p class="text-xs text-slate-400 italic leading-normal mt-2 border-t border-slate-100 dark:border-slate-800 pt-2">${facility.description}</p>` : ''}
                     </div>
                 `);
 
@@ -517,17 +538,17 @@
 
         // Restore Dusun stats
         statsEl.innerHTML = `
-            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100/50">
+            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100/50 dark:border-slate-800">
                 <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Kepala Dusun</p>
-                <p class="text-slate-800 font-bold text-sm">${dusun.head_name || '-'}</p>
+                <p class="text-slate-800 dark:text-slate-200 font-bold text-sm">${dusun.head_name || '-'}</p>
             </div>
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100/50">
+                <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100/50 dark:border-slate-800">
                     <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Penduduk</p>
                     <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1">${Number(dusun.citizens_count).toLocaleString('id-ID')}</p>
                     <p class="text-slate-400 text-[10px] font-bold mt-1">Jiwa</p>
                 </div>
-                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100/50">
+                <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100/50 dark:border-slate-800">
                     <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Keluarga</p>
                     <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1">${Number(dusun.families_count).toLocaleString('id-ID')}</p>
                     <p class="text-slate-400 text-[10px] font-bold mt-1">KK</p>
@@ -542,16 +563,16 @@
             const btn = document.getElementById(`btn-dusun-${d.id}`);
             if (btn) {
                 if (d.id === dusun.id) {
-                    btn.classList.add('border-emerald-500', 'bg-emerald-50/20');
+                    btn.classList.add('border-emerald-500', 'bg-emerald-50/20', 'dark:border-emerald-500/80', 'dark:bg-emerald-950/40');
                 } else {
-                    btn.classList.remove('border-emerald-500', 'bg-emerald-50/20');
+                    btn.classList.remove('border-emerald-500', 'bg-emerald-50/20', 'dark:border-emerald-500/80', 'dark:bg-emerald-950/40');
                 }
             }
         });
 
         // Remove active styling from any facility items
         document.querySelectorAll('[id^="btn-facility-"]').forEach(btn => {
-            btn.classList.remove('border-emerald-500', 'bg-emerald-50/20');
+            btn.classList.remove('border-emerald-500', 'bg-emerald-50/20', 'dark:border-emerald-500/80', 'dark:bg-emerald-950/40');
         });
     }
 
@@ -593,20 +614,20 @@
         subtitleEl.innerHTML = `Berikut informasi detail fasilitas <strong>${facility.name}</strong>.`;
 
         statsEl.innerHTML = `
-            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100/50 space-y-3">
+            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100/50 dark:border-slate-800 space-y-3">
                 ${facility.address ? `
                 <div>
                     <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Alamat</p>
-                    <p class="text-slate-800 font-bold text-xs leading-normal"><i class="fa-solid fa-location-dot text-slate-400 mr-1"></i> ${facility.address}</p>
+                    <p class="text-slate-800 dark:text-slate-200 font-bold text-xs leading-normal"><i class="fa-solid fa-location-dot text-slate-400 mr-1"></i> ${facility.address}</p>
                 </div>` : ''}
                 ${facility.description ? `
                 <div>
                     <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Deskripsi / Catatan</p>
-                    <p class="text-slate-600 font-medium text-xs leading-relaxed italic">${facility.description}</p>
+                    <p class="text-slate-600 dark:text-slate-400 font-medium text-xs leading-relaxed italic">${facility.description}</p>
                 </div>` : ''}
                 <div>
                     <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Koordinat</p>
-                    <p class="text-slate-500 font-mono text-[10px]">${facility.latitude}, ${facility.longitude}</p>
+                    <p class="text-slate-500 dark:text-slate-400 font-mono text-[10px]">${facility.latitude}, ${facility.longitude}</p>
                 </div>
             </div>
         `;
@@ -615,17 +636,17 @@
 
         // Toggle buttons border highlight on facility list
         document.querySelectorAll('[id^="btn-facility-"]').forEach(btn => {
-            btn.classList.remove('border-emerald-500', 'bg-emerald-50/20');
+            btn.classList.remove('border-emerald-500', 'bg-emerald-50/20', 'dark:border-emerald-500/80', 'dark:bg-emerald-950/40');
         });
         const currentBtn = document.getElementById(`btn-facility-${facility.id}`);
         if (currentBtn) {
-            currentBtn.classList.add('border-emerald-500', 'bg-emerald-50/20');
+            currentBtn.classList.add('border-emerald-500', 'bg-emerald-50/20', 'dark:border-emerald-500/80', 'dark:bg-emerald-950/40');
         }
 
         // Remove active styling from any dusun items
         dusunData.forEach(d => {
             const btn = document.getElementById(`btn-dusun-${d.id}`);
-            if (btn) btn.classList.remove('border-emerald-500', 'bg-emerald-50/20');
+            if (btn) btn.classList.remove('border-emerald-500', 'bg-emerald-50/20', 'dark:border-emerald-500/80', 'dark:bg-emerald-950/40');
         });
     }
 

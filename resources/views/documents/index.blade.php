@@ -120,7 +120,7 @@
             <div class="flex-shrink-0 w-full sm:w-auto pt-2 sm:pt-0">
                 <a
                     href="{{ asset('storage/' . $doc->file) }}"
-                    class="inline-flex items-center justify-center gap-2.5 bg-slate-900 hover:bg-primary-600 text-white px-6 py-3 min-h-[44px] rounded-xl text-xs font-bold transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 w-full sm:w-auto whitespace-nowrap"
+                    class="inline-flex items-center justify-center gap-2.5 bg-slate-900 dark:bg-slate-700 hover:bg-primary-600 dark:hover:bg-primary-500 text-white px-6 py-3 min-h-[44px] rounded-xl text-xs font-bold transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 w-full sm:w-auto whitespace-nowrap"
                     target="_blank"
                     download
                 >

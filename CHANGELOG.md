@@ -2,6 +2,17 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.74] - 2026-08-06
+
+### Changed
+- **Penyempurnaan Mode Gelap (Dark Mode) Ekstensif**:
+  - **Toolbar ApexCharts (Statistik)**: Menyuntikkan CSS khusus pada halaman statistik untuk memperbaiki tampilan *toolbar* dan menu *dropdown* ApexCharts yang sebelumnya tidak memiliki penyesuaian untuk mode gelap.
+  - **Tabel Hover Dinamis (Statistik)**: Memperbaiki utilitas Tailwind pada tabel indikator dari `dark:hover` menjadi `dark:group-hover` agar warna *sticky column* tersinkronisasi saat satu baris di-*hover*.
+  - **Prose Invert (Berita)**: Menambahkan utilitas `dark:prose-invert` pada *WYSIWYG* detail berita agar elemen *list/bullet* dan tabel ikut berubah terang di latar gelap.
+  - **Info Pengumuman (Berita)**: Menjinakkan warna gradien terang pada kartu Pengumuman Resmi menjadi skema *dark slate* elegan saat mode gelap aktif, sambil membalikkan tombolnya menjadi *primary* (CTA).
+  - **Peta Pintar (Kontak)**: Menerapkan CSS Filter mutakhir (`dark:invert dark:hue-rotate-180 dark:opacity-90`) pada Google Maps iframe sehingga otomatis menjelma menjadi *Dark Map* yang ramah mata.
+  - **Tombol Terkamuflase (Dokumen)**: Memperbaiki tombol "Unduh Dokumen" (`bg-slate-900`) yang sebelumnya tersembunyi karena membaur dengan warna latar kartu di mode gelap.
+
 ## [1.26.73] - 2026-08-05
 
 ### Added

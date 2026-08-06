@@ -205,7 +205,7 @@
                 <div class="rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 h-[520px] lg:h-[640px] relative bg-slate-100 dark:bg-slate-800">
                     @if(!empty($site_settings['village_name']))
                     <iframe
-                        class="w-full h-full absolute inset-0 z-0 border-0"
+                        class="w-full h-full absolute inset-0 z-0 border-0 transition-all duration-500 dark:invert dark:hue-rotate-180 dark:opacity-90"
                         src="https://maps.google.com/maps?q=Desa+{{ urlencode($site_settings['village_name']) }}+Kecamatan+{{ urlencode($site_settings['district_name'] ?? '') }}+Kabupaten+{{ urlencode($site_settings['regency_name'] ?? '') }}&z=12&output=embed"
                         allowfullscreen=""
                         loading="lazy"

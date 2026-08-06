@@ -399,7 +399,7 @@
                     <a href="/" class="flex-shrink-0 flex items-center gap-3">
                         <img class="h-10 w-auto transition-all duration-300" :class="scrolled ? 'h-9' : 'h-11'" src="{{ asset('img/sinjai.webp') }}" alt="Logo" width="44" height="44">
                         <div class="flex flex-col">
-                            <span class="font-heading font-bold text-lg leading-tight text-primary-700">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
+                            <span class="font-heading font-bold text-lg leading-tight text-primary-700 dark:text-primary-400">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
                             <span class="text-[9px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold">Portal Resmi Desa</span>
                         </div>
                     </a>

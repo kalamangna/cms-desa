@@ -42,7 +42,7 @@
                 </p>
             </div>
             {{-- Live indicator --}}
-            <div class="flex items-center gap-3 bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit mb-2">
+            <div class="flex items-center gap-3 bg-white/5 dark:bg-slate-900/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit mb-2">
                 <span class="relative flex h-3 w-3">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-3 w-3 bg-primary-500"></span>
@@ -57,14 +57,14 @@
 {{-- ═══════════════════════════════════════════════════════
      MAIN CONTENT
 ═══════════════════════════════════════════════════════ --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20"
          x-data="statistikApp()"
          x-init="init()"
          id="statistik-main">
 
         @if($isEmptyDb)
-            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 max-w-2xl mx-auto">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 max-w-2xl mx-auto">
                 <x-empty-state
                     icon="fa-solid fa-users-slash"
                     title="Data Kependudukan Belum Tersedia"
@@ -86,8 +86,8 @@
                 </div>
 
                 {{-- YoY Growth --}}
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col justify-between min-h-[120px]">
-                    <span class="text-slate-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col justify-between min-h-[120px]">
+                    <span class="text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-chart-line text-primary-600 text-xs"></i> Pertumbuhan YoY
                     </span>
                     <div>
@@ -96,22 +96,22 @@
                             <span class="text-4xl font-black tracking-tight block leading-none {{ $yoy >= 0 ? 'text-primary-700' : 'text-rose-600' }}">
                                 {{ $yoy >= 0 ? '+' : '' }}{{ number_format($yoy, 2, ',', '.') }}%
                             </span>
-                            <span class="text-slate-500 text-[10px] font-semibold mt-2 block">vs {{ $summaryCards['latest_year'] - 1 }}</span>
+                            <span class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-2 block">vs {{ $summaryCards['latest_year'] - 1 }}</span>
                         @else
                             <span class="text-3xl font-black tracking-tight block leading-none text-slate-300">—</span>
-                            <span class="text-slate-500 text-[10px] font-semibold mt-2 block">data historis belum ada</span>
+                            <span class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-2 block">data historis belum ada</span>
                         @endif
                     </div>
                 </div>
 
                 {{-- Tahun Terkini --}}
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 flex flex-col justify-between min-h-[120px]">
-                    <span class="text-slate-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col justify-between min-h-[120px]">
+                    <span class="text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-regular fa-calendar text-primary-600 text-xs"></i> Tahun Data
                     </span>
                     <div>
-                        <span class="text-4xl font-black tracking-tight text-slate-900 block leading-none">{{ $summaryCards['latest_year'] }}</span>
-                        <span class="text-slate-500 text-[10px] font-semibold mt-2 block">data real-time</span>
+                        <span class="text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100 block leading-none">{{ $summaryCards['latest_year'] }}</span>
+                        <span class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-2 block">data real-time</span>
                     </div>
                 </div>
 
@@ -129,12 +129,12 @@
 
     {{-- Mobile: Dropdown Category Selector --}}
     <div class="md:hidden mb-6">
-        <label for="stat-category-select" class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">Pilih Kategori</label>
+        <label for="stat-category-select" class="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Pilih Kategori</label>
         <div class="relative">
             <select
                 x-model="activeTab"
                 @change="onCategoryChange($event.target.value)"
-                class="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-5 py-3.5 pr-10 text-sm font-bold text-slate-800 shadow-xs focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                class="w-full appearance-none bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-5 py-3.5 pr-10 text-sm font-bold text-slate-800 dark:text-slate-200 shadow-xs focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 id="stat-category-select"
                 aria-label="Pilih Kategori Statistik">
                 @foreach($categories as $category)
@@ -152,9 +152,9 @@
 
         {{-- ── SIDEBAR (desktop only) ──────────────────────────────────── --}}
         <aside class="hidden md:block w-64 flex-shrink-0 sticky top-24 self-start">
-            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden">
                 <div class="px-5 pt-5 pb-3">
-                    <span class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-500 flex items-center gap-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                         <i class="fa-solid fa-layer-group text-primary-600"></i> Kategori
                     </span>
                 </div>
@@ -163,8 +163,8 @@
                     <button
                         @click="onCategoryChange('{{ $category->slug }}')"
                         :class="activeTab === '{{ $category->slug }}'
-                            ? 'bg-primary-50/80 text-primary-700 font-extrabold border-l-4 border-primary-600'
-                            : 'text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900 font-semibold'"
+                            ? 'bg-primary-50/80 dark:bg-primary-950/40 text-primary-700 dark:text-primary-400 font-extrabold border-l-4 border-primary-600 dark:border-primary-500'
+                            : 'text-slate-600 dark:text-slate-400 border-l-4 border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white font-semibold'"
                         class="w-full text-left flex items-center justify-between gap-2 px-5 py-3 text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
                         id="sidebar-tab-{{ $category->slug }}">
                         <span class="flex items-center gap-2.5 leading-snug">
@@ -173,7 +173,7 @@
                             {{ $category->name }}
                         </span>
                         <span
-                            :class="activeTab === '{{ $category->slug }}' ? 'bg-primary-100 text-primary-800 font-black' : 'bg-slate-100 text-slate-500 font-bold'"
+                            :class="activeTab === '{{ $category->slug }}' ? 'bg-primary-100 dark:bg-primary-900/50 text-primary-800 font-black' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold'"
                             class="text-[10px] px-2 py-0.5 rounded-full flex-shrink-0 transition-all duration-200">
                             {{ $category->indicators->count() }}
                         </span>
@@ -182,14 +182,14 @@
                 </nav>
 
                 {{-- Filter Dusun & Tahun --}}
-                <div class="border-t border-slate-100 px-5 py-4">
+                <div class="border-t border-slate-100 dark:border-slate-800 px-5 py-4">
                     <form method="GET" action="/statistik" @submit.prevent>
                         <input type="hidden" name="kategori" :value="activeTab">
 
                         @if($dusuns->count() > 0)
                         {{-- Filter Dusun --}}
                         <div class="mb-4">
-                            <label for="filter-dusun-select" class="block text-[9px] font-black uppercase tracking-widest text-slate-500 mb-2 flex items-center gap-1.5">
+                            <label for="filter-dusun-select" class="block text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 flex items-center gap-1.5">
                                 <i class="fa-solid fa-location-dot text-primary-600"></i> Filter Dusun
                             </label>
                             <div class="relative">
@@ -199,7 +199,7 @@
                                     name="dusun_id"
                                     @change="onFilterChange()"
                                     x-model="selectedDusun"
-                                    class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 pr-8 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                    class="w-full appearance-none bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 pr-8 text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
                                     <option value="">Semua Dusun</option>
                                     @foreach($dusuns as $dusun)
                                         <option value="{{ $dusun->id }}">{{ $dusun->name }}</option>
@@ -257,25 +257,25 @@
                             <div class="h-px w-6 bg-primary-600"></div>
                             <span class="text-primary-700 font-black text-[10px] uppercase tracking-[0.25em]">Visualisasi Data</span>
                         </div>
-                        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900" x-text="'{{ addslashes($category->name) }}' + getDusunTitleSuffix()">{{ $category->name }}</h2>
+                        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100" x-text="'{{ addslashes($category->name) }}' + getDusunTitleSuffix()">{{ $category->name }}</h2>
                         @if($category->description)
-                        <p class="text-slate-600 text-sm mt-1 leading-relaxed">{{ $category->description }}</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mt-1 leading-relaxed">{{ $category->description }}</p>
                         @endif
                     </div>
-                    <div class="flex items-center gap-2 text-slate-500 text-xs font-semibold">
+                    <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs font-semibold">
                         <i class="fa-regular fa-calendar-check text-primary-600"></i>
                         Diperbarui {{ date('d M Y') }}
                     </div>
                 </div>
 
                 {{-- ── CHART CONTAINER ───────────────────────────────────── --}}
-                <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden p-6 md:p-8 mb-6">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden p-6 md:p-8 mb-6">
 
                     {{-- Toolbar --}}
                     <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
                         <div>
-                            <h3 class="text-base font-heading font-extrabold text-slate-900" x-text="'Grafik {{ addslashes($category->name) }}' + getDusunTitleSuffix()">Grafik {{ $category->name }}</h3>
-                            <p class="text-slate-500 text-xs font-medium mt-0.5">{{ $totalIndicators }} indikator &mdash; {{ $allYears->count() > 1 ? $allYears->first() . '–' . $allYears->last() : ($allYears->first() ?? date('Y')) }}</p>
+                            <h3 class="text-base font-heading font-extrabold text-slate-900 dark:text-slate-100" x-text="'Grafik {{ addslashes($category->name) }}' + getDusunTitleSuffix()">Grafik {{ $category->name }}</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-0.5">{{ $totalIndicators }} indikator &mdash; {{ $allYears->count() > 1 ? $allYears->first() . '–' . $allYears->last() : ($allYears->first() ?? date('Y')) }}</p>
                         </div>
 
                         {{-- Controls --}}
@@ -289,7 +289,7 @@
                                         aria-label="Bandingkan Tahun"
                                         x-model="compareYear"
                                         @change="renderChart()"
-                                        class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer">
+                                        class="appearance-none bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer">
                                     <option value="none">Bandingkan...</option>
                                     @foreach($allYears as $yr)
                                     <option value="{{ $yr }}">vs {{ $yr }}</option>
@@ -303,7 +303,7 @@
 
                             {{-- Toggle Persentase --}}
                             <button @click="showPercent = !showPercent; renderChart()"
-                                    :class="showPercent ? 'bg-primary-600 text-white border-primary-600 shadow-xs' : 'bg-white text-slate-700 border-slate-200 hover:border-primary-400'"
+                                    :class="showPercent ? 'bg-primary-600 text-white border-primary-600 shadow-xs' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-primary-400'"
                                     class="px-3.5 py-2 rounded-xl text-xs font-bold border transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 flex items-center gap-1.5 cursor-pointer">
                                 <i class="fa-solid fa-percent text-[10px]"></i>
                                 <span x-text="showPercent ? 'Persentase' : 'Jumlah'"></span>
@@ -316,7 +316,7 @@
                                         aria-label="Pembanding Dinamis"
                                         x-model="activeSecondaryKey"
                                         @change="if (activeSecondaryKey !== 'none') currentType = 'bar'; renderChart()"
-                                        class="appearance-none bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
+                                        class="appearance-none bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
                                     <option value="none">Tanpa Pembanding</option>
                                     <template x-for="(conf, key) in (categoryData['{{ $category->slug }}']?.secondaryConfigs || {})" :key="key">
                                         <option :value="key" x-text="'Pisah: ' + conf.label"></option>
@@ -328,15 +328,15 @@
                             </div>
 
                             {{-- Tipe Grafik (hanya tampil jika Tanpa Pembanding) --}}
-                            <div class="inline-flex bg-slate-100 p-1 rounded-xl border border-slate-200" x-show="activeSecondaryKey === 'none'">
+                            <div class="inline-flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700" x-show="activeSecondaryKey === 'none'">
                                 <button @click="currentType = 'bar'; renderChart()"
-                                        :class="currentType === 'bar' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'"
+                                        :class="currentType === 'bar' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
                                         class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none"
                                         title="Grafik Batang">
                                     <i class="fa-solid fa-chart-bar"></i>
                                 </button>
                                 <button @click="currentType = 'doughnut'; renderChart()"
-                                        :class="currentType === 'doughnut' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'"
+                                        :class="currentType === 'doughnut' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
                                         class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none"
                                         title="Grafik Lingkaran">
                                     <i class="fa-solid fa-chart-pie"></i>
@@ -359,10 +359,10 @@
                         ? (int)$selectedYear
                         : (int)($allYears->last() ?? date('Y'));
                 @endphp
-                <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden mb-8">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden mb-8">
                     <div class="flex items-center justify-between px-6 md:px-8 pt-6 pb-4">
                         <div>
-                            <h3 class="text-base font-heading font-extrabold text-slate-900"
+                            <h3 class="text-base font-heading font-extrabold text-slate-900 dark:text-slate-100"
                                 x-text="'Tabel {{ addslashes($category->name) }}' + (activeSecondaryKey !== 'none' && categoryData['{{ $category->slug }}']?.secondaryConfigs?.[activeSecondaryKey] ? ' (Berdasarkan ' + categoryData['{{ $category->slug }}'].secondaryConfigs[activeSecondaryKey].label + ')' : '') + getDusunTitleSuffix()">
                                 Tabel {{ $category->name }}
                             </h3>
@@ -374,23 +374,23 @@
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open" @click.outside="open = false"
                                     :aria-expanded="open"
-                                    class="inline-flex items-center gap-1.5 px-3.5 py-2.5 min-h-[40px] rounded-xl text-xs font-bold bg-slate-100 border border-slate-200 text-slate-700 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 cursor-pointer">
+                                    class="inline-flex items-center gap-1.5 px-3.5 py-2.5 min-h-[40px] rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 cursor-pointer">
                                 <i class="fa-solid fa-download text-[11px]"></i>
                                 <span>Ekspor</span>
                                 <i class="fa-solid fa-chevron-down text-[9px] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
                             </button>
                             <div x-show="open" x-transition
-                                 class="absolute right-0 mt-1.5 w-40 bg-white rounded-2xl shadow-xl border border-slate-100 py-1.5 z-30">
+                                 class="absolute right-0 mt-1.5 w-40 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 py-1.5 z-30">
                                 <button onclick="exportTableCSV('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}', '{{ addslashes($site_settings['village_name'] ?? '') }}')"
-                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
+                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
                                     <i class="fa-solid fa-file-csv text-emerald-500 w-4 text-center"></i> CSV
                                 </button>
                                 <button onclick="exportTableExcel('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}', '{{ addslashes($site_settings['village_name'] ?? '') }}')"
-                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
+                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
                                     <i class="fa-solid fa-file-excel text-emerald-600 w-4 text-center"></i> Excel
                                 </button>
                                 <button onclick="exportTablePDF('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}', '{{ addslashes($site_settings['village_name'] ?? '') }}')"
-                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
+                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
                                     <i class="fa-solid fa-file-pdf text-red-500 w-4 text-center"></i> PDF
                                 </button>
                             </div>
@@ -402,15 +402,15 @@
                         @endphp
                         <table id="tabel-{{ $category->slug }}" class="w-full text-sm border-collapse">
                             <thead id="thead-{{ $category->slug }}">
-                                <tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50">
-                                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
-                                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap leading-tight">
+                                <tr class="border-t border-slate-100 dark:border-slate-800 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+                                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 sticky left-0 bg-slate-50 dark:bg-slate-950 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
+                                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap leading-tight">
                                         Total<br>
                                         <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">({{ $firstIndicatorUnit }})</span>
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody id="tbody-{{ $category->slug }}" class="divide-y divide-slate-50">
+                            <tbody id="tbody-{{ $category->slug }}" class="divide-y divide-slate-50 dark:divide-slate-800/50">
                                 @php
                                     $grandTotal = 0;
                                     foreach ($category->indicators as $ind) {
@@ -424,11 +424,11 @@
                                     $valT = $dp ? (int)($dp->value ?? 0) : 0;
                                     $pctT = $grandTotal > 0 ? round(($valT / $grandTotal) * 100, 1) : 0;
                                 @endphp
-                                <tr class="hover:bg-slate-50 transition-colors duration-100 group">
-                                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-100 group">
+                                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 dark:text-slate-200 sticky left-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
                                         {{ $indicator->name }}
                                     </td>
-                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
+                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 dark:text-slate-100 whitespace-nowrap">
                                         {{ number_format($valT, 0, ',', '.') }}
                                         @if($grandTotal > 0)
                                             <span class="text-[10px] text-slate-400 font-medium ml-1">({{ str_replace('.', ',', (string)$pctT) }}%)</span>
@@ -437,10 +437,10 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot id="tfoot-{{ $category->slug }}" class="border-t-2 border-slate-200 bg-slate-100 font-extrabold text-slate-900">
+                            <tfoot id="tfoot-{{ $category->slug }}" class="border-t-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 font-extrabold text-slate-900 dark:text-slate-100">
                                 <tr>
-                                    <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>
-                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">{{ number_format($grandTotal, 0, ',', '.') }}</td>
+                                    <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 dark:text-slate-100 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 dark:bg-slate-800 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>
+                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">{{ number_format($grandTotal, 0, ',', '.') }}</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -456,11 +456,28 @@
 
     @endif
 </div>{{-- /alpine wrapper --}}
-</div>{{-- /bg-slate-50 --}}
+</div>{{-- /bg-slate-50 dark:bg-slate-950 --}}
 
 @endsection
 
 @push('scripts')
+<style>
+    /* Dark mode override for ApexCharts Toolbar & Menu */
+    html.dark .apexcharts-toolbar svg {
+        fill: #94a3b8; /* slate-400 */
+    }
+    html.dark .apexcharts-toolbar svg:hover {
+        fill: #f8fafc; /* slate-50 */
+    }
+    html.dark .apexcharts-menu {
+        background-color: #0f172a; /* slate-900 */
+        border: 1px solid #334155; /* slate-700 */
+        color: #f8fafc; /* slate-50 */
+    }
+    html.dark .apexcharts-theme-light .apexcharts-menu-item:hover {
+        background-color: #1e293b; /* slate-800 */
+    }
+</style>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -582,8 +599,8 @@
             }, 0);
 
             if (thead) {
-                let ths = `<tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50">
-                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>`;
+                let ths = `<tr class="border-t border-slate-100 dark:border-slate-800 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 sticky left-0 bg-slate-50 dark:bg-slate-950 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>`;
                 options.forEach((opt, idx) => {
                     const colColor = colors[idx] || '#64748b';
                     ths += `<th class="text-right px-4 py-2.5 text-[10px] font-black uppercase tracking-widest whitespace-nowrap leading-tight" style="color: ${colColor}">
@@ -591,7 +608,7 @@
                         <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(${firstUnit})</span>
                     </th>`;
                 });
-                ths += `<th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap leading-tight">
+                ths += `<th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap leading-tight">
                     Total<br>
                     <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(${firstUnit})</span>
                 </th></tr>`;
@@ -608,8 +625,8 @@
                 const indBreakdown = ind.breakdowns?.[secondaryKey] || {};
                 const pctInd = grandTotal > 0 ? (Math.round((indTotal / grandTotal) * 1000) / 10) : 0;
 
-                tbodyHtml += `<tr class="hover:bg-slate-50 transition-colors duration-100 group">
-                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
+                tbodyHtml += `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-100 group">
+                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 dark:text-slate-200 sticky left-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
                         ${ind.name}
                     </td>`;
 
@@ -625,7 +642,7 @@
                     </td>`;
                 });
 
-                tbodyHtml += `<td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
+                tbodyHtml += `<td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 dark:text-slate-100 whitespace-nowrap">
                     ${indTotal.toLocaleString('id-ID')}
                     ${grandTotal > 0 ? `<span class="text-[10px] text-slate-400 font-medium ml-1">(${pctInd.toString().replace('.', ',')}%)</span>` : ''}
                 </td></tr>`;
@@ -634,7 +651,7 @@
 
             if (tfoot) {
                 let tfootHtml = `<tr>
-                    <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>`;
+                    <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 dark:text-slate-100 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 dark:bg-slate-800 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>`;
                 options.forEach((opt, idx) => {
                     const sumVal = colSums[opt] || 0;
                     const colColor = colors[idx] || '#64748b';
@@ -645,7 +662,7 @@
                         ${grandTotal > 0 ? `<span class="text-[10px] font-bold ml-1 opacity-90" style="color: ${colColor}">(${pctCol.toString().replace('.', ',')}%)</span>` : ''}
                     </td>`;
                 });
-                tfootHtml += `<td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">
+                tfootHtml += `<td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">
                     ${grandTotal.toLocaleString('id-ID')}
                 </td></tr>`;
                 tfoot.innerHTML = tfootHtml;
@@ -658,9 +675,9 @@
             }, 0);
 
             if (thead) {
-                thead.innerHTML = `<tr class="border-t border-slate-100 border-b border-slate-100 bg-slate-50">
-                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
-                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap leading-tight">
+                thead.innerHTML = `<tr class="border-t border-slate-100 dark:border-slate-800 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 sticky left-0 bg-slate-50 dark:bg-slate-950 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
+                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap leading-tight">
                         Total<br>
                         <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(${firstUnit})</span>
                     </th>
@@ -673,11 +690,11 @@
                 const valT = d ? (d.value ?? 0) : 0;
                 const pctT = grandTotal > 0 ? (Math.round((valT / grandTotal) * 1000) / 10) : 0;
 
-                tbodyHtml += `<tr class="hover:bg-slate-50 transition-colors duration-100 group">
-                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
+                tbodyHtml += `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-100 group">
+                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 dark:text-slate-200 sticky left-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
                         ${ind.name}
                     </td>
-                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 whitespace-nowrap">
+                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 dark:text-slate-100 whitespace-nowrap">
                         ${valT.toLocaleString('id-ID')}
                         ${grandTotal > 0 ? `<span class="text-[10px] text-slate-400 font-medium ml-1">(${pctT.toString().replace('.', ',')}%)</span>` : ''}
                     </td>
@@ -687,8 +704,8 @@
 
             if (tfoot) {
                 tfoot.innerHTML = `<tr>
-                    <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>
-                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 whitespace-nowrap">${grandTotal.toLocaleString('id-ID')}</td>
+                    <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 dark:text-slate-100 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 dark:bg-slate-800 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>
+                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">${grandTotal.toLocaleString('id-ID')}</td>
                 </tr>`;
             }
         }
@@ -696,6 +713,11 @@
 
     // ── Main render function ────────────────────────────────────────────────
     window.renderStatChart = function(slug, type, showPercent, filterYear, compareYear, secondaryKey) {
+        const isDark = document.documentElement.classList.contains('dark');
+        const textColor = isDark ? '#e2e8f0' : '#334155'; // slate-200 / slate-700
+        const mutedColor = isDark ? '#94a3b8' : '#64748b'; // slate-400 / slate-500
+        const titleColor = isDark ? '#f8fafc' : '#0f172a'; // slate-50 / slate-900
+
         const cat = categoryData[slug];
         if (!cat) return;
         const el = document.getElementById('chart-' + slug);
@@ -772,7 +794,7 @@
                     categories: filteredIndicators.map(i => i.name),
                     min: 0,
                     labels: {
-                        style: { colors: '#94a3b8', fontWeight: 600, fontSize: '11px' },
+                        style: { colors: mutedColor, fontWeight: 600, fontSize: '11px' },
                         formatter: (val) => showPercent ? val + '%' : (val % 1 === 0 ? val.toLocaleString('id-ID') : '')
                     },
                     axisBorder: { show: false }, axisTicks: { show: false }
@@ -780,7 +802,7 @@
                 yaxis: {
                     labels: {
                         show: true,
-                        style: { colors: '#334155', fontWeight: 700, fontSize: '11px' }
+                        style: { colors: textColor, fontWeight: 700, fontSize: '11px' }
                     }
                 },
                 grid: { borderColor: 'rgba(148,163,184,0.08)', strokeDashArray: 5, xaxis: { lines: { show: true } }, yaxis: { lines: { show: false } } },
@@ -790,11 +812,11 @@
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 600,
                     fontSize: '11px',
-                    labels: { colors: '#64748b' },
+                    labels: { colors: mutedColor },
                     markers: { width: 8, height: 8, radius: 8, offsetY: -1 }
                 },
                 tooltip: {
-                    theme: 'light',
+                    theme: isDark ? 'dark' : 'light',
                     y: { formatter: (val, opts) => {
                         const unit = filteredIndicators[opts.dataPointIndex]?.unit || '';
                         if (showPercent) return val + '%';
@@ -889,14 +911,14 @@
                         rotate: -35,
                         rotateAlways: false,
                         hideOverlappingLabels: true,
-                        style: { colors: '#94a3b8', fontWeight: 600, fontSize: '10px' }
+                        style: { colors: mutedColor, fontWeight: 600, fontSize: '10px' }
                     },
                     axisBorder: { show: false }, axisTicks: { show: false }
                 },
                 yaxis: {
                     min: 0,
                     labels: {
-                        style: { colors: '#94a3b8', fontWeight: 600, fontSize: '11px' },
+                        style: { colors: mutedColor, fontWeight: 600, fontSize: '11px' },
                         formatter: (val) => {
                             if (showPercent) return val + '%';
                             if (val % 1 === 0) return val.toLocaleString('id-ID');
@@ -911,11 +933,11 @@
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 600,
                     fontSize: '11px',
-                    labels: { colors: '#64748b' },
+                    labels: { colors: mutedColor },
                     markers: { width: 8, height: 8, radius: 8, offsetY: -1 }
                 },
                 tooltip: {
-                    theme: 'light',
+                    theme: isDark ? 'dark' : 'light',
                     y: { formatter: (val, opts) => {
                         const unit = filteredIndicators[opts.seriesIndex]?.unit || '';
                         if (showPercent) return val + '%';
@@ -946,13 +968,13 @@
                         size: '72%',
                         labels: {
                             show: true,
-                            name: { show: true, fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '13px', color: '#64748b' },
-                            value: { show: true, fontFamily: 'Inter, sans-serif', fontWeight: 800, fontSize: '22px', color: '#0f172a',
+                            name: { show: true, fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '13px', color: mutedColor },
+                            value: { show: true, fontFamily: 'Inter, sans-serif', fontWeight: 800, fontSize: '22px', color: titleColor,
                                 formatter: (val) => showPercent ? val + '%' : parseInt(val).toLocaleString('id-ID') },
                             total: {
                                 show: true,
                                 label: 'Total (' + latestYear + ')',
-                                fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '11px', color: '#94a3b8',
+                                fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '11px', color: mutedColor,
                                 formatter: (w) => {
                                     const tot = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
                                     return showPercent ? '100%' : tot.toLocaleString('id-ID');
@@ -961,8 +983,8 @@
                         }
                     }}
                 },
-                legend: { position: 'bottom', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '11px', labels: { colors: '#64748b' }, markers: { width: 8, height: 8, radius: 8, offsetY: -1 } },
-                tooltip: { theme: 'light', y: { formatter: (val) => {
+                legend: { position: 'bottom', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '11px', labels: { colors: mutedColor }, markers: { width: 8, height: 8, radius: 8, offsetY: -1 } },
+                tooltip: { theme: isDark ? 'dark' : 'light', y: { formatter: (val) => {
                     if (showPercent) return val + '%';
                     return val.toLocaleString('id-ID');
                 }}}

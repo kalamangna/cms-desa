@@ -146,13 +146,13 @@
                             <time class="text-primary-600 font-bold text-[10px] uppercase tracking-widest mb-2.5 block">
                                 {{ $post->published_at->translatedFormat('d M Y') }}
                             </time>
-                            <h2 class="text-base font-heading font-bold text-slate-900 leading-snug mb-3 group-hover:text-primary-600 transition-colors line-clamp-2 flex-grow">
+                            <h2 class="text-base font-heading font-bold text-slate-900 dark:text-slate-100 leading-snug mb-3 group-hover:text-primary-600 transition-colors line-clamp-2 flex-grow">
                                 {{ $post->title }}
                             </h2>
-                            <p class="text-slate-500 text-xs leading-relaxed line-clamp-2 mb-4">
+                            <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed line-clamp-2 mb-4">
                                 {{ Str::limit(strip_tags($post->content), 100) }}
                             </p>
-                            <div class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 group-hover:text-primary-600 transition-colors group/link mt-auto">
+                            <div class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 group-hover:text-primary-600 transition-colors group/link mt-auto">
                                 Baca <i class="fa-solid fa-arrow-right text-[9px] group-hover/link:translate-x-1 transition-transform"></i>
                             </div>
                         </div>
@@ -188,15 +188,15 @@
             <aside class="lg:w-1/3 xl:w-1/3 space-y-8">
 
                 {{-- Search (desktop) --}}
-                <div class="hidden lg:block bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg shadow-slate-200/50 transition-all duration-300">
-                    <h3 class="text-base font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <div class="hidden lg:block bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 transition-all duration-300">
+                    <h3 class="text-base font-heading font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-magnifying-glass text-primary-500 text-sm"></i> Cari Berita
                     </h3>
                     <form action="/berita" method="GET">
                         <div class="relative">
                             <input type="text" name="search" value="{{ request('search') }}"
                                    placeholder="Kata kunci..."
-                                   class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 text-sm">
+                                   class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-300 text-sm">
                             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                         </div>
                     </form>
@@ -237,16 +237,16 @@
                 </div>
 
                 {{-- Info Box --}}
-                <div class="bg-gradient-to-br from-primary-500 to-primary-600 rounded-3xl p-6 text-white shadow-xl shadow-primary-500/20">
-                    <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+                <div class="bg-gradient-to-br from-primary-500 to-primary-600 dark:from-slate-900 dark:to-slate-800 dark:border dark:border-slate-800 rounded-3xl p-6 text-white shadow-xl shadow-primary-500/20 dark:shadow-slate-950/50 transition-colors duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-white/20 dark:bg-primary-500/20 flex items-center justify-center mb-4 text-white dark:text-primary-400">
                         <i class="fa-solid fa-bullhorn text-xl"></i>
                     </div>
-                    <h3 class="font-heading font-extrabold text-lg mb-2">Pengumuman Resmi</h3>
-                    <p class="text-primary-100 text-sm leading-relaxed mb-4">
+                    <h3 class="font-heading font-extrabold text-lg mb-2 text-white dark:text-slate-100">Pengumuman Resmi</h3>
+                    <p class="text-primary-100 dark:text-slate-400 text-sm leading-relaxed mb-4">
                         Lihat edaran dan informasi penting dari pemerintah desa.
                     </p>
                     <a href="/pengumuman"
-                       class="inline-flex items-center gap-2 bg-white text-primary-700 font-bold text-sm px-4 py-2.5 rounded-xl hover:bg-primary-50 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-500">
+                       class="inline-flex items-center gap-2 bg-white dark:bg-primary-600 text-primary-700 dark:text-white font-bold text-sm px-4 py-2.5 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-500 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white dark:focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-primary-500 dark:focus:ring-offset-slate-900">
                         Lihat Pengumuman <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
                 </div>

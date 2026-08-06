@@ -139,7 +139,7 @@
             {{-- ─── Article Body ────────────────────────────────────── --}}
             <div class="px-6 md:px-12 lg:px-16 pt-10 md:pt-14 pb-8">
                 {{-- Prose content --}}
-                <div class="prose prose-lg md:prose-xl prose-slate max-w-none
+                <div class="prose prose-lg md:prose-xl prose-slate dark:prose-invert max-w-none
                             prose-headings:font-heading prose-headings:text-slate-900 dark:prose-headings:text-slate-100 prose-headings:font-bold
                             prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:leading-relaxed prose-p:font-medium
                             prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-a:font-semibold hover:prose-a:text-primary-700 dark:hover:prose-a:text-primary-300
