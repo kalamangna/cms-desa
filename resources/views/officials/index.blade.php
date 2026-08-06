@@ -55,6 +55,17 @@
     }
     body.sotk-modal-open { overflow: hidden; }
 
+    /* ─── Padanan mode gelap untuk kerangka modal ───
+       Bagan (.oc-*) sengaja dibiarkan terang: elemen tersebut dikloning apa adanya
+       saat ekspor PDF, sehingga warna gelap akan ikut terbawa ke dokumen hasil. */
+    .dark .sotk-modal { background: #0f172a; box-shadow: 0 40px 100px rgba(2,6,23,0.6); }
+    .dark .sotk-modal-header { background: #0f172a; border-bottom-color: #1e293b; }
+    .dark .sotk-modal-btn { background: #1e293b; border-color: #334155; color: #94a3b8; }
+    .dark .sotk-modal-btn.btn-close:hover { background: #4c0519; color: #fda4af; border-color: #9f1239; }
+    .dark .sotk-hint { color: #64748b; }
+    .dark .sotk-zoom-wrapper { background: #1e293b; border-color: #334155; }
+    .dark .sotk-trigger-btn { background: #0f172a; }
+
 
     /* ─── Org Chart Tree ─── */
     /* ─── Tree layout ─── */
@@ -240,8 +251,8 @@
         @php
             $photoUrl = $official->photo ? asset('storage/' . $official->photo) : asset('img/meta.webp');
         @endphp
-        <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group cursor-pointer flex flex-col w-full text-left bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/60 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
-            <div class="relative w-full aspect-[4/5] overflow-hidden bg-slate-100">
+        <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group cursor-pointer flex flex-col w-full text-left bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-2xl hover:shadow-slate-300/60 dark:hover:shadow-slate-950/80 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950 transition-all duration-300">
+            <div class="relative w-full aspect-[4/5] overflow-hidden bg-slate-100 dark:bg-slate-800">
                 <div class="w-full h-full block relative group/btn">
                     <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3 sm:p-4 text-white">
@@ -251,9 +262,9 @@
                     </div>
                 </div>
             </div>
-            <div class="p-3.5 sm:p-5 md:p-6 text-center flex-1 flex flex-col items-center justify-between bg-white">
-                <h3 class="text-sm sm:text-base md:text-lg font-heading font-extrabold text-slate-900 mb-2 sm:mb-3 leading-snug group-hover:text-primary-600 transition-colors">{{ $official->name }}</h3>
-                <span class="inline-flex items-center bg-primary-50 text-primary-700 border border-primary-200/80 rounded-full px-2.5 sm:px-3.5 py-1 text-[10px] sm:text-xs font-black uppercase tracking-wide">
+            <div class="p-3.5 sm:p-5 md:p-6 text-center flex-1 flex flex-col items-center justify-between bg-white dark:bg-slate-900">
+                <h3 class="text-sm sm:text-base md:text-lg font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-2 sm:mb-3 leading-snug group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{{ $official->name }}</h3>
+                <span class="inline-flex items-center bg-primary-50 dark:bg-primary-950/50 text-primary-700 dark:text-primary-300 border border-primary-200/80 dark:border-primary-900 rounded-full px-2.5 sm:px-3.5 py-1 text-[10px] sm:text-xs font-black uppercase tracking-wide">
                     {{ $official->position }}
                 </span>
             </div>
@@ -354,14 +365,14 @@
                 {{-- Header --}}
 
                 <div class="sotk-modal-header" @mousedown="isDragging = false">
-                    <h3 class="font-heading font-bold text-lg text-slate-800">
+                    <h3 class="font-heading font-bold text-lg text-slate-800 dark:text-slate-100">
                         Struktur Organisasi
                         @if(!empty($site_settings['village_period_start']) || !empty($site_settings['village_period_end']))
-                            <span class="text-slate-500 font-normal ml-2 text-sm">| Periode {{ $site_settings['village_period_start'] ?? '...' }} - {{ $site_settings['village_period_end'] ?? '...' }}</span>
+                            <span class="text-slate-500 dark:text-slate-400 font-normal ml-2 text-sm">| Periode {{ $site_settings['village_period_start'] ?? '...' }} - {{ $site_settings['village_period_end'] ?? '...' }}</span>
                         @endif
                     </h3>
                     <div class="sotk-modal-actions">
-                        <span class="text-xs font-bold text-slate-400 tabular-nums mr-1" x-text="Math.round(scale * 100) + '%'"></span>
+                        <span class="text-xs font-bold text-slate-400 dark:text-slate-500 tabular-nums mr-1" x-text="Math.round(scale * 100) + '%'"></span>
                         <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="zoomOut()" title="Perkecil"><i class="fa-solid fa-minus"></i></button>
                         <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="zoomIn()" title="Perbesar"><i class="fa-solid fa-plus"></i></button>
                         <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="resetZoom()" title="Reset ukuran"><i class="fa-solid fa-arrows-to-circle"></i></button>

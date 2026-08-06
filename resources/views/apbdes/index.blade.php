@@ -74,7 +74,7 @@
 ═══════════════════════════════════════════════════════ --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 md:-mt-16 mb-16 md:mb-24 relative z-10">
     @if($categories->isEmpty())
-        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 p-4">
             <x-empty-state
                 icon="fa-solid fa-scale-balanced"
                 title="Data APBDes Belum Tersedia"
@@ -127,7 +127,7 @@
             };
         @endphp
 
-        <div class="bg-white rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-200/80 overflow-hidden">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 overflow-hidden">
             {{-- Coloured top accent bar --}}
             <div class="h-1.5 w-full bg-gradient-to-r {{ $theme['gradient'] }}"></div>
 
@@ -143,36 +143,36 @@
                     </span>
                 </div>
 
-                <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 mb-6">{{ $category->name }}</h3>
+                <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-6">{{ $category->name }}</h3>
 
                 <div class="space-y-5">
                     <div>
-                        <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Anggaran</p>
-                        <p class="text-xl md:text-2xl font-heading font-black tracking-tight text-slate-900">
+                        <p class="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Anggaran</p>
+                        <p class="text-xl md:text-2xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">
                             Rp {{ number_format($totalBudget, 0, ',', '.') }}
                         </p>
                     </div>
                     <div>
-                        <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Realisasi</p>
+                        <p class="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Realisasi</p>
                         <p class="text-3xl md:text-4xl font-heading font-black tracking-tight {{ $theme['text'] }}">
                             Rp {{ number_format($totalRealization, 0, ',', '.') }}
                         </p>
                     </div>
 
                     {{-- Progress --}}
-                    <div class="pt-4 border-t border-slate-100">
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-3">
-                            <span class="text-sm font-bold text-slate-700">Persentase Capaian</span>
+                            <span class="text-sm font-bold text-slate-700 dark:text-slate-200">Persentase Capaian</span>
                             <span class="text-lg font-black {{ $theme['text'] }}">{{ number_format($percentage, 1, ',', '.') }}%</span>
                         </div>
                         {{-- Segmented progress bar --}}
-                        <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                             <div class="h-full {{ $theme['bar'] }} rounded-full transition-all duration-1000 relative"
                                  style="width: {{ min($percentage, 100) }}%">
                                 <div class="absolute inset-0 bg-white/20 animate-pulse rounded-full"></div>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-500 font-medium mt-2">
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-2">
                             {{ $category->realizations->count() }} pos anggaran
                         </p>
                     </div>
@@ -186,14 +186,14 @@
 {{-- ═══════════════════════════════════════════════════════
      DETAIL PER CATEGORY – accordion style with Alpine.js
 ═══════════════════════════════════════════════════════ --}}
-<div class="bg-slate-50 min-h-screen">
+<div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
         <div class="mb-12 text-center md:text-left">
             <div class="flex items-center gap-3 mb-4 md:justify-start justify-center">
                 <div class="h-px w-8 bg-primary-600"></div>
                 <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Rincian Anggaran</span>
             </div>
-            <h2 class="text-4xl md:text-5xl font-heading font-black tracking-tight text-slate-900">Detail Transparansi Dana</h2>
+            <h2 class="text-4xl md:text-5xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Detail Transparansi Dana</h2>
         </div>
 
         <div class="space-y-12 md:space-y-16">
@@ -239,28 +239,28 @@
                                 <div class="h-px w-8 bg-primary-600"></div>
                                 <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Detail Transparansi</span>
                             </div>
-                            <h3 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 mb-4 leading-tight">
+                            <h3 class="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-4 leading-tight">
                                 Rincian <br class="hidden lg:block">{{ $category->name }}
                             </h3>
-                            <p class="text-slate-600 leading-relaxed font-medium text-sm">
+                            <p class="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm">
                                 Alokasi dana dan sumber {{ strtolower($category->name) }} yang dikelola secara profesional
                                 untuk kemajuan Desa {{ $site_settings['village_name'] ?? '' }}.
                             </p>
                         </div>
 
                         {{-- Summary pill --}}
-                        <div class="flex items-center gap-3 mb-6 bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs">
+                        <div class="flex items-center gap-3 mb-6 bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800 shadow-xs">
                             <div class="flex-1">
-                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Realisasi</p>
-                                <p class="font-extrabold text-slate-900 text-lg">Rp {{ number_format($totalRealization, 0, ',', '.') }}</p>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Total Realisasi</p>
+                                <p class="font-extrabold text-slate-900 dark:text-slate-100 text-lg">Rp {{ number_format($totalRealization, 0, ',', '.') }}</p>
                             </div>
                             <span class="text-2xl font-black {{ $theme['text'] }}">{{ number_format($pct, 0) }}%</span>
                         </div>
 
                         {{-- Doughnut Chart card --}}
-                        <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-sm relative overflow-hidden group">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-150 transition duration-1000"></div>
-                            <h4 class="text-center font-heading font-bold text-slate-900 mb-6 relative z-10 text-sm">
+                        <div class="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 dark:bg-slate-800/60 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-150 transition duration-1000"></div>
+                            <h4 class="text-center font-heading font-bold text-slate-900 dark:text-slate-100 mb-6 relative z-10 text-sm">
                                 Distribusi Dana
                             </h4>
                             @if($category->realizations->sum('realization_amount') > 0)
@@ -269,11 +269,11 @@
                             </div>
                             @else
                             <div class="h-56 relative z-10 flex flex-col items-center justify-center text-center p-4">
-                                <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-300 mb-3">
+                                <div class="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-300 dark:text-slate-600 mb-3">
                                     <i class="fa-solid fa-chart-pie text-xl"></i>
                                 </div>
-                                <p class="text-xs font-bold text-slate-500">Grafik Tidak Tersedia</p>
-                                <p class="text-[10px] text-slate-400 mt-1">Belum ada realisasi dana diisi</p>
+                                <p class="text-xs font-bold text-slate-500 dark:text-slate-400">Grafik Tidak Tersedia</p>
+                                <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Belum ada realisasi dana diisi</p>
                             </div>
                             @endif
                         </div>
@@ -284,14 +284,14 @@
 
                         {{-- Section subheader with toggle --}}
                         <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm font-bold text-slate-600 flex items-center gap-2">
+                            <span class="text-sm font-bold text-slate-600 dark:text-slate-300 flex items-center gap-2">
                                 <i class="fa-solid fa-list-ul text-primary-600"></i>
                                 {{ $category->realizations->count() }} Pos Anggaran
                             </span>
                             @if($category->realizations->count() > 0)
                             <button @click="open = !open"
                                     :aria-expanded="open"
-                                    class="text-xs font-bold text-slate-500 hover:text-primary-700 transition flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-100 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                    class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-primary-700 dark:hover:text-primary-400 transition flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500">
                                 <span x-text="open ? 'Sembunyikan' : 'Tampilkan'"></span>
                                 <i class="fa-solid fa-chevron-up transition-transform duration-300 text-[10px]"
                                    :class="open ? '' : 'rotate-180'"></i>
@@ -306,14 +306,14 @@
                                     ? ($realization->realization_amount / $realization->budget_amount) * 100
                                     : 0;
                                 $status = $rPct >= 90
-                                    ? ['label' => 'Sangat Baik', 'cls' => 'bg-emerald-50 text-emerald-800 border-emerald-200']
+                                    ? ['label' => 'Sangat Baik', 'cls' => 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900']
                                     : ($rPct >= 60
-                                        ? ['label' => 'Sedang', 'cls' => 'bg-amber-50 text-amber-800 border-amber-200']
-                                        : ['label' => 'Rendah', 'cls' => 'bg-rose-50 text-rose-800 border-rose-200']);
+                                        ? ['label' => 'Sedang', 'cls' => 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-900']
+                                        : ['label' => 'Rendah', 'cls' => 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-900']);
                             @endphp
-                            <div class="bg-white rounded-2xl md:rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+                            <div class="bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs overflow-hidden">
                                 {{-- Progress accent top --}}
-                                <div class="h-1 w-full bg-slate-100">
+                                <div class="h-1 w-full bg-slate-100 dark:bg-slate-800">
                                     <div class="{{ $theme['bar'] }} h-full transition-all duration-700 rounded-full"
                                          style="width: {{ min($rPct, 100) }}%"></div>
                                 </div>
@@ -323,11 +323,11 @@
                                         {{-- Left: title + amounts --}}
                                         <div class="flex-grow">
                                             <div class="flex items-start gap-4 mb-4">
-                                                <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-primary-50 flex items-center justify-center flex-shrink-0 transition">
-                                                    <i class="fa-solid fa-file-invoice-dollar text-slate-400 group-hover:text-primary-600 text-sm transition"></i>
+                                                <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 group-hover:bg-primary-50 dark:group-hover:bg-primary-950/40 flex items-center justify-center flex-shrink-0 transition">
+                                                    <i class="fa-solid fa-file-invoice-dollar text-slate-400 dark:text-slate-500 group-hover:text-primary-600 dark:group-hover:text-primary-400 text-sm transition"></i>
                                                 </div>
                                                 <div>
-                                                    <h4 class="text-base md:text-lg font-heading font-bold text-slate-900 group-hover:text-primary-700 transition leading-snug">
+                                                    <h4 class="text-base md:text-lg font-heading font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary-700 dark:group-hover:text-primary-400 transition leading-snug">
                                                         {{ $realization->title }}
                                                     </h4>
                                                     <span class="mt-1 inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border {{ $status['cls'] }}">
@@ -337,15 +337,15 @@
                                             </div>
 
                                             {{-- Budget vs realization row --}}
-                                            <div class="grid grid-cols-2 gap-4 bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                                            <div class="grid grid-cols-2 gap-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 border border-slate-100 dark:border-slate-700">
                                                 <div>
-                                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Anggaran</p>
-                                                    <p class="font-bold text-slate-800 text-sm md:text-base">
+                                                    <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Anggaran</p>
+                                                    <p class="font-bold text-slate-800 dark:text-slate-100 text-sm md:text-base">
                                                         Rp {{ number_format($realization->budget_amount, 0, ',', '.') }}
                                                     </p>
                                                 </div>
                                                 <div>
-                                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Realisasi</p>
+                                                    <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Realisasi</p>
                                                     <p class="font-extrabold {{ $theme['text'] }} text-sm md:text-base">
                                                         Rp {{ number_format($realization->realization_amount, 0, ',', '.') }}
                                                     </p>
@@ -354,10 +354,10 @@
                                         </div>
 
                                         {{-- Right: percentage ring --}}
-                                        <div class="flex-shrink-0 flex flex-col items-center gap-1.5 border-t md:border-t-0 md:border-l border-slate-100 pt-5 md:pt-0 md:pl-7">
+                                        <div class="flex-shrink-0 flex flex-col items-center gap-1.5 border-t md:border-t-0 md:border-l border-slate-100 dark:border-slate-800 pt-5 md:pt-0 md:pl-7">
                                             <div class="relative w-18 h-18 md:w-20 md:h-20">
                                                 <svg class="w-full h-full -rotate-90" viewBox="0 0 80 80">
-                                                    <circle cx="40" cy="40" r="34" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+                                                    <circle cx="40" cy="40" r="34" fill="none" stroke="currentColor" class="text-slate-200 dark:text-slate-700" stroke-width="8"/>
                                                     <circle cx="40" cy="40" r="34" fill="none"
                                                             stroke="{{ $theme['chart'] }}"
                                                             stroke-width="8"
@@ -366,16 +366,16 @@
                                                             style="transition: stroke-dasharray 1s ease;"/>
                                                 </svg>
                                                 <div class="absolute inset-0 flex items-center justify-center">
-                                                    <span class="text-sm md:text-base font-black text-slate-900">{{ round($rPct) }}%</span>
+                                                    <span class="text-sm md:text-base font-black text-slate-900 dark:text-slate-100">{{ round($rPct) }}%</span>
                                                 </div>
                                             </div>
-                                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Capaian</span>
+                                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">Capaian</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             @empty
-                            <div class="bg-white rounded-2xl border border-slate-200/80 p-4">
+                            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-4">
                                 <x-empty-state 
                                     icon="fa-solid fa-coins" 
                                     title="Belum Ada Rincian Pos Anggaran" 
@@ -401,6 +401,11 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Warna teks & tooltip grafik mengikuti mode gelap yang aktif saat halaman dimuat.
+        const isDark = document.documentElement.classList.contains('dark');
+        const chartValueColor = isDark ? '#f1f5f9' : '#0f172a';
+        const chartTheme = isDark ? 'dark' : 'light';
+
         @foreach($categories as $category)
         (function() {
             const element = document.getElementById('chart-{{ $category->id }}');
@@ -434,7 +439,7 @@
                                     fontFamily: 'Inter, sans-serif',
                                     fontWeight: 800,
                                     fontSize: '15px',
-                                    color: '#0f172a',
+                                    color: chartValueColor,
                                     offsetY: 5,
                                     formatter: function(val) {
                                         if (val >= 1000000000) {
@@ -465,7 +470,7 @@
                 },
                 legend: { show: false },
                 tooltip: {
-                    theme: 'light',
+                    theme: chartTheme,
                     y: {
                         formatter: function(val) {
                             return 'Rp ' + val.toLocaleString('id-ID');

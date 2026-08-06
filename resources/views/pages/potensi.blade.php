@@ -88,8 +88,8 @@
         <template x-for="cat in ['Semua', 'Pariwisata', 'Pertanian & Perkebunan', 'Peternakan', 'Industri Kreatif', 'UMKM', 'Seni & Budaya']">
             <button type="button"
                     @click="activeCategory = cat"
-                    :class="activeCategory === cat ? 'bg-primary-600 text-white shadow-xl shadow-primary-600/20' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'"
-                    class="px-5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+                    :class="activeCategory === cat ? 'bg-primary-600 text-white shadow-xl shadow-primary-600/20' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'"
+                    class="px-5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
                     x-text="cat">
             </button>
         </template>
@@ -102,10 +102,10 @@
                  x-transition:enter="transition ease-out duration-300"
                  x-transition:enter-start="opacity-0 scale-95"
                  x-transition:enter-end="opacity-100 scale-100"
-                 class="bg-white rounded-3xl border border-slate-200/80 shadow-lg shadow-slate-200/50 overflow-hidden flex flex-col h-full transition-all duration-300">
-                 
+                 class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden flex flex-col h-full transition-all duration-300">
+
                  <!-- Image Header -->
-                 <div class="relative aspect-video w-full overflow-hidden bg-slate-100 flex-shrink-0">
+                 <div class="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
                     <img src="{{ $pot->image ? asset('storage/' . $pot->image) : asset('img/meta.webp') }}"
                          class="w-full h-full object-cover"
                          alt="{{ $pot->title }}"
@@ -113,12 +113,12 @@
                     
                     <!-- Floating category badge -->
                     <span class="absolute top-4 left-4 inline-flex items-center text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-xl border backdrop-blur-md shadow-sm
-                        @if($pot->category === 'Pariwisata') bg-blue-50/90 text-blue-700 border-blue-100
-                        @elseif($pot->category === 'Pertanian & Perkebunan') bg-emerald-50/90 text-emerald-700 border-emerald-100
-                        @elseif($pot->category === 'Peternakan') bg-amber-50/90 text-amber-700 border-amber-100
-                        @elseif($pot->category === 'Industri Kreatif') bg-violet-50/90 text-violet-700 border-violet-100
-                        @elseif($pot->category === 'UMKM') bg-orange-50/90 text-orange-700 border-orange-100
-                        @else bg-rose-50/90 text-rose-700 border-rose-100 @endif">
+                        @if($pot->category === 'Pariwisata') bg-blue-50/90 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border-blue-100 dark:border-blue-900
+                        @elseif($pot->category === 'Pertanian & Perkebunan') bg-emerald-50/90 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border-emerald-100 dark:border-emerald-900
+                        @elseif($pot->category === 'Peternakan') bg-amber-50/90 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border-amber-100 dark:border-amber-900
+                        @elseif($pot->category === 'Industri Kreatif') bg-violet-50/90 dark:bg-violet-950/70 text-violet-700 dark:text-violet-300 border-violet-100 dark:border-violet-900
+                        @elseif($pot->category === 'UMKM') bg-orange-50/90 dark:bg-orange-950/70 text-orange-700 dark:text-orange-300 border-orange-100 dark:border-orange-900
+                        @else bg-rose-50/90 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border-rose-100 dark:border-rose-900 @endif">
                         {{ $pot->category }}
                     </span>
                  </div>
@@ -126,10 +126,10 @@
                  <!-- Content Body -->
                  <div class="p-6 flex-1 flex flex-col justify-between">
                     <div class="mb-5">
-                        <h3 class="text-xl font-heading font-black tracking-tight text-slate-900 transition-colors duration-200 line-clamp-2 leading-snug">
+                        <h3 class="text-xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 transition-colors duration-200 line-clamp-2 leading-snug">
                             {{ $pot->title }}
                         </h3>
-                        <div class="text-slate-500 text-xs font-medium leading-relaxed mt-2.5 line-clamp-3">
+                        <div class="text-slate-500 dark:text-slate-400 text-xs font-medium leading-relaxed mt-2.5 line-clamp-3">
                             {!! strip_tags($pot->description) !!}
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                                 image: {{ json_encode($pot->image ? asset('storage/' . $pot->image) : asset('img/meta.webp')) }},
                                 description: {{ json_encode($pot->description) }}
                             })"
-                            class="w-full inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-primary-50 text-slate-600 hover:text-primary-700 py-3.5 rounded-2xl text-xs font-bold border border-slate-200 hover:border-primary-100 transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                            class="w-full inline-flex items-center justify-center gap-2 bg-slate-50 dark:bg-slate-800 hover:bg-primary-50 dark:hover:bg-primary-950/40 text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400 py-3.5 rounded-2xl text-xs font-bold border border-slate-200 dark:border-slate-700 hover:border-primary-100 dark:hover:border-primary-900 transition-all duration-300 cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950">
                         <i class="fa-solid fa-circle-info"></i> Selengkapnya
                     </button>
                  </div>
@@ -194,7 +194,7 @@
           </button>
 
           <!-- Modal Box -->
-          <div class="relative w-11/12 sm:w-5/6 md:w-3/4 lg:w-3/5 max-w-4xl bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] cursor-default"
+          <div class="relative w-11/12 sm:w-5/6 md:w-3/4 lg:w-3/5 max-w-4xl bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] cursor-default"
                x-show="selectedPotential !== null"
                @click.stop
                x-transition:enter="transition ease-out duration-300"
@@ -205,29 +205,29 @@
                x-transition:leave-end="opacity-0 scale-95 translate-y-4">
                
                <!-- Modal Image -->
-               <div class="relative w-full h-48 sm:h-64 md:h-80 bg-slate-100 flex-shrink-0 flex items-center justify-center overflow-hidden">
+               <div class="relative w-full h-48 sm:h-64 md:h-80 bg-slate-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center overflow-hidden">
                    <img :src="selectedPotential?.image"
                         :alt="selectedPotential?.title"
                         class="w-full h-full object-cover">
                </div>
 
                <!-- Modal Content -->
-               <div class="p-6 sm:p-8 bg-white border-t border-slate-200 overflow-y-auto custom-scrollbar">
+               <div class="p-6 sm:p-8 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 overflow-y-auto custom-scrollbar">
                    <span class="inline-flex items-center text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-xl border mb-4"
                          :class="{
-                            'bg-blue-50 text-blue-700 border-blue-100': selectedPotential?.category === 'Pariwisata',
-                            'bg-emerald-50 text-emerald-700 border-emerald-100': selectedPotential?.category === 'Pertanian & Perkebunan',
-                            'bg-amber-50 text-amber-700 border-amber-100': selectedPotential?.category === 'Peternakan',
-                            'bg-violet-50 text-violet-700 border-violet-100': selectedPotential?.category === 'Industri Kreatif',
-                            'bg-orange-50 text-orange-700 border-orange-100': selectedPotential?.category === 'UMKM',
-                            'bg-rose-50 text-rose-700 border-rose-100': selectedPotential?.category !== 'Pariwisata' && selectedPotential?.category !== 'Pertanian & Perkebunan' && selectedPotential?.category !== 'Peternakan' && selectedPotential?.category !== 'Industri Kreatif' && selectedPotential?.category !== 'UMKM'
+                            'bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border-blue-100 dark:border-blue-900': selectedPotential?.category === 'Pariwisata',
+                            'bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border-emerald-100 dark:border-emerald-900': selectedPotential?.category === 'Pertanian & Perkebunan',
+                            'bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border-amber-100 dark:border-amber-900': selectedPotential?.category === 'Peternakan',
+                            'bg-violet-50 dark:bg-violet-950/70 text-violet-700 dark:text-violet-300 border-violet-100 dark:border-violet-900': selectedPotential?.category === 'Industri Kreatif',
+                            'bg-orange-50 dark:bg-orange-950/70 text-orange-700 dark:text-orange-300 border-orange-100 dark:border-orange-900': selectedPotential?.category === 'UMKM',
+                            'bg-rose-50 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border-rose-100 dark:border-rose-900': selectedPotential?.category !== 'Pariwisata' && selectedPotential?.category !== 'Pertanian & Perkebunan' && selectedPotential?.category !== 'Peternakan' && selectedPotential?.category !== 'Industri Kreatif' && selectedPotential?.category !== 'UMKM'
                          }"
                          x-text="selectedPotential?.category">
                    </span>
-                   <h2 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 mb-4 sm:mb-5 leading-tight"
+                   <h2 class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-4 sm:mb-5 leading-tight"
                        x-text="selectedPotential?.title"></h2>
-                   
-                   <div class="prose prose-sm sm:prose-base prose-slate max-w-none text-slate-600 leading-relaxed"
+
+                   <div class="prose prose-sm sm:prose-base prose-slate max-w-none text-slate-600 dark:text-slate-300 leading-relaxed"
                         x-html="selectedPotential?.description">
                    </div>
                </div>

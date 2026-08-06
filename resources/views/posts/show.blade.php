@@ -249,10 +249,10 @@
 
                     </div>
                     <div class="p-4 flex flex-col flex-grow">
-                        <time class="text-primary-600 font-bold text-[9px] uppercase tracking-widest mb-1.5 block">
+                        <time class="text-primary-600 dark:text-primary-400 font-bold text-[9px] uppercase tracking-widest mb-1.5 block">
                             {{ $related->published_at->translatedFormat('d M Y') }}
                         </time>
-                        <h3 class="text-sm font-heading font-bold text-slate-800 line-clamp-2 group-hover:text-primary-600 transition-colors">
+                        <h3 class="text-sm font-heading font-bold text-slate-800 dark:text-slate-100 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                             {{ $related->title }}
                         </h3>
                     </div>

@@ -99,8 +99,8 @@
             @click="activeFilter = 'semua'"
             :class="activeFilter === 'semua'
                 ? 'bg-primary-600 text-white shadow-md shadow-primary-600/20 border-transparent'
-                : 'bg-white text-slate-600 hover:bg-slate-50 border-slate-200 shadow-xs'"
-            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 cursor-pointer"
+                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-xs'"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 cursor-pointer"
         >
             <i class="fa-solid fa-border-all text-xs"></i>
             Semua
@@ -109,8 +109,8 @@
             @click="activeFilter = 'photo'"
             :class="activeFilter === 'photo'
                 ? 'bg-primary-600 text-white shadow-md shadow-primary-600/20 border-transparent'
-                : 'bg-white text-slate-600 hover:bg-slate-50 border-slate-200 shadow-xs'"
-            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 cursor-pointer"
+                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-xs'"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 cursor-pointer"
         >
             <i class="fa-solid fa-camera text-xs"></i>
             Foto
@@ -119,8 +119,8 @@
             @click="activeFilter = 'video'"
             :class="activeFilter === 'video'
                 ? 'bg-primary-600 text-white shadow-md shadow-primary-600/20 border-transparent'
-                : 'bg-white text-slate-600 hover:bg-slate-50 border-slate-200 shadow-xs'"
-            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 cursor-pointer"
+                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-xs'"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 cursor-pointer"
         >
             <i class="fa-brands fa-youtube text-xs"></i>
             Video
@@ -137,7 +137,7 @@
     @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             @foreach($galleries as $index => $item)
-            <div class="group relative bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 aspect-video cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-300/60"
+            <div class="group relative bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 aspect-video cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-300/60 dark:hover:shadow-slate-950/80"
                 x-show="activeFilter === 'semua' || activeFilter === '{{ $item->type === 'video' ? 'video' : 'photo' }}'"
                 x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 scale-95"
