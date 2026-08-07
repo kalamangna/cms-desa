@@ -41,7 +41,7 @@ Portal Informasi Desa Modern, Transparan, dan Berbasis Data Mikro. Menyajikan vi
 
 ## 📖 Dokumentasi Developer
 
-- **[CLAUDE.md](CLAUDE.md)** — Arsitektur aplikasi, standar & konvensi pengembangan
+- **[GEMINI.md](GEMINI.md)** — Arsitektur aplikasi, standar & konvensi pengembangan
 - **[DESIGN.md](DESIGN.md)** — Sistem desain & panduan UI (Tailwind CSS)
 - **[CRON.md](CRON.md)** — Setup cron job per-desa (shared hosting)
 

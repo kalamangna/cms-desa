@@ -373,16 +373,16 @@
                     </h3>
                     <div class="sotk-modal-actions">
                         <span class="text-xs font-bold text-slate-400 dark:text-slate-500 tabular-nums mr-1" x-text="Math.round(scale * 100) + '%'"></span>
-                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="zoomOut()" title="Perkecil"><i class="fa-solid fa-minus"></i></button>
-                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="zoomIn()" title="Perbesar"><i class="fa-solid fa-plus"></i></button>
-                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="resetZoom()" title="Reset ukuran"><i class="fa-solid fa-arrows-to-circle"></i></button>
-                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500" @click="toggleFullscreen()" title="Layar penuh">
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="zoomOut()" title="Perkecil"><i class="fa-solid fa-minus"></i></button>
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="zoomIn()" title="Perbesar"><i class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="resetZoom()" title="Reset ukuran"><i class="fa-solid fa-arrows-to-circle"></i></button>
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="toggleFullscreen()" title="Layar penuh">
                             <i :class="isFullscreen ? 'fa-solid fa-compress' : 'fa-solid fa-expand'"></i>
                         </button>
-                        <button type="button" class="sotk-modal-btn text-rose-600 hover:text-rose-700 hover:bg-rose-50 hover:border-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-500" @click="downloadChart()" title="Download PDF Struktur Organisasi">
+                        <button type="button" class="sotk-modal-btn text-rose-600 hover:text-rose-700 hover:bg-rose-50 hover:border-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-500 active:scale-95 disabled:opacity-50" @click="downloadChart()" title="Download PDF Struktur Organisasi">
                             <i class="fa-solid fa-file-pdf text-sm"></i>
                         </button>
-                        <button type="button" class="sotk-modal-btn btn-close focus:outline-none focus:ring-2 focus:ring-rose-500" @click="close()" title="Tutup">
+                        <button type="button" class="sotk-modal-btn btn-close focus:outline-none focus:ring-2 focus:ring-rose-500 active:scale-95 disabled:opacity-50" @click="close()" title="Tutup">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
 

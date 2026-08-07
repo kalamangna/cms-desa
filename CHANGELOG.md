@@ -2,6 +2,18 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.77] - 2026-08-07
+
+### Changed
+- **Penyempurnaan Komponen Interaktif (UI)**:
+  - **Efek Aktif Tombol**: Menambahkan kelas utilitas `active:scale-95` dan `disabled:opacity-50` secara merata pada tombol-tombol kustom di halaman Statistik (opsi chart, dropdown ekspor) dan halaman Aparatur (tombol modal struktur SOTK) guna memberikan ilusi sentuhan (*tactile feedback*) yang nyata di perangkat seluler.
+  - **Validasi Formulir Visual**: Merombak tampilan *input text* pada halaman Buku Tamu dan Layanan Pengaduan agar merespons secara individual terhadap validasi *error*. Garis batas (*border*) dan cincin fokus (*ring*) akan menyala merah (`border-rose-500`) secara eksklusif hanya pada kotak yang gagal melewati filter validasi *backend*.
+
+## [1.26.76] - 2026-08-07
+
+### Added
+- **Standard Operating Procedure (SOP)**: Merapikan panduan alur kerja rilis dan kompilasi CSS di dalam berkas dokumentasi sistem (`GEMINI.md`) agar selaras seratus persen dengan memori pengembangan terbaru.
+
 ## [1.26.75] - 2026-08-07
 
 ### Changed

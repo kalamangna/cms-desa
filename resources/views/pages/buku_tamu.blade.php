@@ -110,26 +110,26 @@
                 <div>
                     <label for="name" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nama Lengkap</label>
                     <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap Anda" required
-                           class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
+                           class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('name') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="institution_address" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Instansi / Alamat</label>
                         <input type="text" id="institution_address" name="institution_address" value="{{ old('institution_address') }}" placeholder="Asal instansi atau alamat asal" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
+                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('institution_address') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
                     </div>
                     <div>
                         <label for="phone" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nomor Kontak (WhatsApp)</label>
                         <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" placeholder="Contoh: 08xx-xxxx-xxxx" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
+                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('phone') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
                     </div>
                 </div>
 
                 <div>
                     <label for="purpose" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Keperluan / Pesan</label>
                     <textarea id="purpose" name="purpose" rows="5" placeholder="Tuliskan tujuan kunjungan Anda secara jelas..." required
-                              class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition resize-none text-sm">{{ old('purpose') }}</textarea>
+                              class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('purpose') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition resize-none text-sm">{{ old('purpose') }}</textarea>
                 </div>
 
                 <button type="submit"

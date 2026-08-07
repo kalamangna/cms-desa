@@ -167,25 +167,25 @@
                         <div>
                             <label for="name" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nama Pelapor / Pengirim</label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Masukkan nama Anda" required
-                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
+                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('name') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
                         </div>
                         <div>
                             <label for="phone" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nomor WhatsApp</label>
                             <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" placeholder="Contoh: 08xx-xxxx-xxxx" required
-                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
+                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('phone') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
                         </div>
                     </div>
 
                     <div>
                         <label for="title" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Judul Laporan</label>
                         <input type="text" id="title" name="title" value="{{ old('title') }}" placeholder="Tuliskan subjek / judul keluhan Anda" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
+                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('title') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
                     </div>
 
                     <div>
                         <label for="content" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Rincian Laporan</label>
                         <textarea id="content" name="content" rows="6" placeholder="Ceritakan permasalahan secara mendalam (sebutkan waktu, lokasi, dan kronologi jika ada)..." required
-                                  class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition resize-none text-sm">{{ old('content') }}</textarea>
+                                  class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('content') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition resize-none text-sm">{{ old('content') }}</textarea>
                     </div>
 
                     <button type="submit"

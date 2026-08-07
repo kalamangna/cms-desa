@@ -331,13 +331,13 @@
                             <div class="inline-flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700" x-show="activeSecondaryKey === 'none'">
                                 <button @click="currentType = 'bar'; renderChart()"
                                         :class="currentType === 'bar' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none active:scale-95 disabled:opacity-50"
                                         title="Grafik Batang">
                                     <i class="fa-solid fa-chart-bar"></i>
                                 </button>
                                 <button @click="currentType = 'doughnut'; renderChart()"
                                         :class="currentType === 'doughnut' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none active:scale-95 disabled:opacity-50"
                                         title="Grafik Lingkaran">
                                     <i class="fa-solid fa-chart-pie"></i>
                                 </button>
@@ -382,15 +382,15 @@
                             <div x-show="open" x-transition
                                  class="absolute right-0 mt-1.5 w-40 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 py-1.5 z-30">
                                 <button onclick="exportTableCSV('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}', '{{ addslashes($site_settings['village_name'] ?? '') }}')"
-                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition active:scale-95">
                                     <i class="fa-solid fa-file-csv text-emerald-500 w-4 text-center"></i> CSV
                                 </button>
                                 <button onclick="exportTableExcel('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}', '{{ addslashes($site_settings['village_name'] ?? '') }}')"
-                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition active:scale-95">
                                     <i class="fa-solid fa-file-excel text-emerald-600 w-4 text-center"></i> Excel
                                 </button>
                                 <button onclick="exportTablePDF('tabel-{{ $category->slug }}', '{{ addslashes($category->name) }}', '{{ addslashes($site_settings['village_name'] ?? '') }}')"
-                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                                        class="flex items-center gap-2.5 w-full px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition active:scale-95">
                                     <i class="fa-solid fa-file-pdf text-red-500 w-4 text-center"></i> PDF
                                 </button>
                             </div>

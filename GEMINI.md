@@ -1,6 +1,6 @@
-# CLAUDE.md
+# GEMINI.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Gemini (or any AI Agent) when working with code in this repository.
 
 ## Project Overview
 
@@ -81,11 +81,10 @@ Do **not** modify these without explicit instruction:
 - `composer.json` / `package.json` (dependency manifests)
 
 ### Pre-push checklist (only when explicitly asked to push)
-1. Bump app version if changes are significant
-2. Update `CHANGELOG.md` (Keep a Changelog format, in Indonesian)
-3. Update `README.md` if configuration changed
-4. Run `npm run build` if frontend changed
-5. Run `./vendor/bin/pint` for code formatting
+1. **Format Code**: Run `./vendor/bin/pint`
+2. **Compile CSS**: If CSS/Tailwind classes changed, run `npm run build` exactly once. (Do NOT run build repeatedly during the `npm run dev` coding phase). Skip this if no CSS changes.
+3. **Documentation**: Update `CHANGELOG.md` (Keep a Changelog format, bump version, in Indonesian) and `README.md` (if config changed).
+4. **Deploy**: `git commit` and `git push`.
 
 ### Language & format conventions
 - **Code identifiers** (classes, methods, variables, DB tables): **English** only
