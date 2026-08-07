@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.79] - 2026-08-07
+
+### Changed
+- **UI/UX**: Mengubah warna teks nama desa (*brand name*) pada *navbar* di Mode Gelap menjadi putih murni (`dark:text-white`) untuk meningkatkan kontras visual dan aksesibilitas keterbacaan.
+
 ## [1.26.78] - 2026-08-07
 
 ### Fixed
