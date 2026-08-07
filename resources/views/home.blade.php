@@ -212,11 +212,11 @@
 
         {{-- Penduduk --}}
         <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-600 dark:text-primary-400 flex-shrink-0 mx-auto sm:mx-0 shadow-lg shadow-primary-500/20">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-700 dark:text-primary-400 flex-shrink-0 mx-auto sm:mx-0 shadow-lg shadow-primary-500/20">
                 <i class="fa-solid fa-users text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-400 dark:text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Penduduk</p>
+                <p class="text-slate-500 dark:text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Penduduk</p>
                 <p class="text-2xl md:text-3xl font-heading font-black text-slate-900 dark:text-slate-100 leading-none tracking-tight">{{ number_format($totalPenduduk, 0, ',', '.') }}</p>
                 <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">Jiwa</p>
             </div>
@@ -224,11 +224,11 @@
 
         {{-- Keluarga --}}
         <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-600 dark:text-primary-400 flex-shrink-0 mx-auto sm:mx-0 shadow-lg shadow-primary-500/20">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-700 dark:text-primary-400 flex-shrink-0 mx-auto sm:mx-0 shadow-lg shadow-primary-500/20">
                 <i class="fa-solid fa-house-chimney text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-400 dark:text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Keluarga</p>
+                <p class="text-slate-500 dark:text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Keluarga</p>
                 <p class="text-2xl md:text-3xl font-heading font-black text-slate-900 dark:text-slate-100 leading-none tracking-tight">{{ number_format($totalKeluarga, 0, ',', '.') }}</p>
                 <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">Kepala Keluarga</p>
             </div>
@@ -236,11 +236,11 @@
 
         {{-- Dusun --}}
         <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-600 dark:text-primary-400 flex-shrink-0 mx-auto sm:mx-0 shadow-lg shadow-primary-500/20">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-700 dark:text-primary-400 flex-shrink-0 mx-auto sm:mx-0 shadow-lg shadow-primary-500/20">
                 <i class="fa-solid fa-map-location-dot text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-400 dark:text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Dusun</p>
+                <p class="text-slate-500 dark:text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Dusun</p>
                 <p class="text-2xl md:text-3xl font-heading font-black text-slate-900 dark:text-slate-100 leading-none tracking-tight">{{ number_format($totalDusun, 0, ',', '.') }}</p>
                 <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">{{ $totalRT }} RT / {{ $totalRW }} RW</p>
             </div>
@@ -248,11 +248,11 @@
 
         {{-- Luas Wilayah --}}
         <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 sm:gap-4 group cursor-default">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-600 dark:text-primary-400 flex-shrink-0 mx-auto sm:mx-0 shadow-lg shadow-primary-500/20">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-700 dark:text-primary-400 flex-shrink-0 mx-auto sm:mx-0 shadow-lg shadow-primary-500/20">
                 <i class="fa-solid fa-ruler-combined text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0 w-full">
-                <p class="text-slate-400 dark:text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
+                <p class="text-slate-500 dark:text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">Luas Wilayah</p>
                 <p class="text-2xl md:text-3xl font-heading font-black text-slate-900 dark:text-slate-100 leading-none tracking-tight">{{ $site_settings['village_area'] ?? '—' }}</p>
                 <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">{{ $site_settings['village_area_unit'] ?? 'km²' }}</p>
             </div>
@@ -264,13 +264,13 @@
 {{-- 2.5 MENU LAYANAN CEPAT --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-20">
     <div class="text-center mb-10">
-        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100">Akses <span class="text-primary-600 dark:text-primary-400">Layanan Cepat</span></h2>
+        <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100">Akses <span class="text-primary-700 dark:text-primary-400">Layanan Cepat</span></h2>
         <p class="text-slate-500 dark:text-slate-400 text-sm mt-2 font-medium">Pilih layanan yang Anda butuhkan di bawah ini</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <a href="/layanan" class="group bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 hover:shadow-2xl hover:shadow-primary-500/10 hover:border-primary-300 dark:hover:border-primary-900/50 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 dark:bg-primary-950/40 border border-primary-100/80 dark:border-primary-900/50 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 group-hover:shadow-lg group-hover:shadow-primary-600/30 transition-all duration-300 shadow-sm">
-                <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-primary-600 dark:text-primary-400 group-hover:text-white transition-colors"></i>
+                <i class="fa-solid fa-file-signature text-2xl md:text-3xl text-primary-700 dark:text-primary-400 group-hover:text-white transition-colors"></i>
             </div>
             <h3 class="relative z-10 font-heading font-black text-slate-900 dark:text-slate-100 text-base md:text-lg tracking-tight mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">Layanan Mandiri</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">Panduan dan pengajuan administrasi kependudukan</p>
@@ -278,7 +278,7 @@
         
         <a href="/pengaduan" class="group bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 hover:shadow-2xl hover:shadow-primary-500/10 hover:border-primary-300 dark:hover:border-primary-900/50 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 dark:bg-primary-950/40 border border-primary-100/80 dark:border-primary-900/50 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 group-hover:shadow-lg group-hover:shadow-primary-600/30 transition-all duration-300 shadow-sm">
-                <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-primary-600 dark:text-primary-400 group-hover:text-white transition-colors"></i>
+                <i class="fa-solid fa-bullhorn text-2xl md:text-3xl text-primary-700 dark:text-primary-400 group-hover:text-white transition-colors"></i>
             </div>
             <h3 class="relative z-10 font-heading font-black text-slate-900 dark:text-slate-100 text-base md:text-lg tracking-tight mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">Lapor & Pengaduan</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">Sampaikan aspirasi atau laporan masalah warga</p>
@@ -286,7 +286,7 @@
         
         <a href="/buku-tamu" class="group bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 hover:shadow-2xl hover:shadow-primary-500/10 hover:border-primary-300 dark:hover:border-primary-900/50 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 dark:bg-primary-950/40 border border-primary-100/80 dark:border-primary-900/50 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 group-hover:shadow-lg group-hover:shadow-primary-600/30 transition-all duration-300 shadow-sm">
-                <i class="fa-solid fa-address-book text-2xl md:text-3xl text-primary-600 dark:text-primary-400 group-hover:text-white transition-colors"></i>
+                <i class="fa-solid fa-address-book text-2xl md:text-3xl text-primary-700 dark:text-primary-400 group-hover:text-white transition-colors"></i>
             </div>
             <h3 class="relative z-10 font-heading font-black text-slate-900 dark:text-slate-100 text-base md:text-lg tracking-tight mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">Buku Tamu</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">Tinggalkan pesan, kesan, atau saran untuk desa</p>
@@ -294,7 +294,7 @@
         
         <a href="/potensi" class="group bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 hover:shadow-2xl hover:shadow-primary-500/10 hover:border-primary-300 dark:hover:border-primary-900/50 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden cursor-pointer">
             <div class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-50 dark:bg-primary-950/40 border border-primary-100/80 dark:border-primary-900/50 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-primary-600 group-hover:shadow-lg group-hover:shadow-primary-600/30 transition-all duration-300 shadow-sm">
-                <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-primary-600 dark:text-primary-400 group-hover:text-white transition-colors"></i>
+                <i class="fa-solid fa-map-marked-alt text-2xl md:text-3xl text-primary-700 dark:text-primary-400 group-hover:text-white transition-colors"></i>
             </div>
             <h3 class="relative z-10 font-heading font-black text-slate-900 dark:text-slate-100 text-base md:text-lg tracking-tight mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">Potensi Desa</h3>
             <p class="relative z-10 text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">Eksplorasi pariwisata, budaya, dan komoditas lokal</p>
@@ -313,14 +313,14 @@
         <div class="p-8 md:p-16 lg:p-20 relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
             <div class="flex items-center gap-3 mb-10 justify-center">
                 <div class="h-px w-8 bg-primary-600"></div>
-                <h2 class="text-primary-600 dark:text-primary-400 font-black text-xs uppercase tracking-widest">Sambutan Kepala Desa</h2>
+                <h2 class="text-primary-700 dark:text-primary-400 font-black text-xs uppercase tracking-widest">Sambutan Kepala Desa</h2>
                 <div class="h-px w-8 bg-primary-600"></div>
             </div>
             <div class="prose prose-slate prose-p:mb-6 prose-p:last:mb-0 text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed italic mb-12 max-w-3xl text-center mx-auto font-medium">
                 {!! $site_settings['village_head_greeting'] ?? 'Selamat datang di portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' !!}
             </div>
             <div class="flex flex-col items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-600 dark:text-primary-400 shadow-xs">
+                <div class="w-12 h-12 rounded-full bg-primary-50 dark:bg-primary-950/40 flex items-center justify-center text-primary-700 dark:text-primary-400 shadow-xs">
                     <i class="fa-solid fa-signature text-lg"></i>
                 </div>
                 <div>
@@ -339,9 +339,9 @@
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-primary-600"></div>
-                    <span class="text-primary-600 dark:text-primary-400 font-black text-xs uppercase tracking-widest">Transparansi Data</span>
+                    <span class="text-primary-700 dark:text-primary-400 font-black text-xs uppercase tracking-widest">Transparansi Data</span>
                 </div>
-                <h2 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Statistik & <span class="text-primary-600 dark:text-primary-400">APBDes</span></h2>
+                <h2 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Statistik & <span class="text-primary-700 dark:text-primary-400">APBDes</span></h2>
             </div>
         </div>
 
@@ -361,7 +361,7 @@
                                 <option value="job">Status Pekerjaan</option>
                                 <option value="education">Pendidikan</option>
                             </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-slate-400 dark:text-slate-500">
+                            <div class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-slate-500 dark:text-slate-400">
                                 <i class="fa-solid fa-chevron-down text-[8px]"></i>
                             </div>
                         </div>
@@ -373,7 +373,7 @@
                         <div class="h-72 flex flex-col items-center justify-center text-center p-4">
                             <i class="fa-solid fa-users-slash text-slate-300 dark:text-slate-700 text-4xl mb-3"></i>
                             <p class="text-slate-500 dark:text-slate-400 text-sm font-semibold">Belum ada data demografi aktif.</p>
-                            <p class="text-slate-400 dark:text-slate-500 text-xs mt-1">Impor data warga melalui panel admin untuk melihat visualisasi.</p>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Impor data warga melalui panel admin untuk melihat visualisasi.</p>
                         </div>
                     @else
                         <div class="h-72"><div id="populationChart"></div></div>
@@ -433,9 +433,9 @@
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-primary-600"></div>
-                    <span class="text-primary-600 dark:text-primary-400 font-black text-xs uppercase tracking-widest">Informasi Terbaru</span>
+                    <span class="text-primary-700 dark:text-primary-400 font-black text-xs uppercase tracking-widest">Informasi Terbaru</span>
                 </div>
-                <h2 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Berita & <span class="text-primary-600 dark:text-primary-400">Pengumuman</span></h2>
+                <h2 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Berita & <span class="text-primary-700 dark:text-primary-400">Pengumuman</span></h2>
             </div>
         </div>
 
@@ -473,7 +473,7 @@
                                  onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-primary-600 dark:text-primary-400 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
+                            <p class="text-primary-700 dark:text-primary-400 text-[10px] font-bold uppercase tracking-widest mb-1.5">{{ $post->published_at->translatedFormat('d M Y') }}</p>
                             <h4 class="font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 text-base md:text-lg leading-snug group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2 mb-1.5">{{ $post->title }}</h4>
                             <p class="text-slate-500 dark:text-slate-400 text-xs md:text-sm line-clamp-2 font-medium">{!! Str::limit(strip_tags($post->content), 100) !!}</p>
                         </div>
@@ -504,11 +504,11 @@
                         @forelse($announcements as $ann)
                         <a href="/pengumuman" class="block bg-white dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-slate-950/50 hover:border-primary-200 dark:hover:border-primary-900/50 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-300 cursor-pointer">
                             <div class="flex items-start gap-4">
-                                <div class="w-9 h-9 rounded-xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                                <div class="w-9 h-9 rounded-xl bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                                     <i class="fa-solid fa-bullhorn text-xs"></i>
                                 </div>
                                 <div class="min-w-0">
-                                    <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">{{ $ann->published_at->translatedFormat('d M Y') }}</p>
+                                    <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">{{ $ann->published_at->translatedFormat('d M Y') }}</p>
                                     <h4 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm leading-snug line-clamp-2">{{ $ann->title }}</h4>
                                 </div>
                             </div>
@@ -581,9 +581,9 @@
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-px w-8 bg-primary-600"></div>
-                    <span class="text-primary-600 dark:text-primary-400 font-black text-xs uppercase tracking-widest">Dokumentasi Desa</span>
+                    <span class="text-primary-700 dark:text-primary-400 font-black text-xs uppercase tracking-widest">Dokumentasi Desa</span>
                 </div>
-                <h2 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Galeri <span class="text-primary-600 dark:text-primary-400">Foto & Video</span></h2>
+                <h2 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Galeri <span class="text-primary-700 dark:text-primary-400">Foto & Video</span></h2>
             </div>
         </div>
 

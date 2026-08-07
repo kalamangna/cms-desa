@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.80] - 2026-08-07
+
+### Fixed
+- **Aksesibilitas (A11y)**: Meningkatkan rasio kontras warna pada label statistik (`text-slate-500`) dan *heading* beranda (`text-primary-700`) agar memenuhi standar kepatuhan warna aksesibilitas (lolos Lighthouse).
+
 ## [1.26.79] - 2026-08-07
 
 ### Changed
