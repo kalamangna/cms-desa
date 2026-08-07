@@ -125,12 +125,12 @@
 @endif
 
 {{-- 1. HERO --}}
-<div class="relative bg-slate-900 min-h-screen flex items-center overflow-hidden">
+<div class="relative bg-slate-900 dark:bg-slate-950 min-h-screen flex items-center overflow-hidden transition-colors duration-500">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900 dark:via-slate-950 dark:to-slate-950 transition-colors duration-500"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 dark:bg-primary-500/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 dark:bg-primary-600/5 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-28 md:pt-28 md:pb-32 lg:pb-36 lg:pt-32 w-full">
@@ -828,6 +828,8 @@ document.addEventListener('DOMContentLoaded', function () {
             colors = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#f43f5e', '#06b6d4', '#14b8a6', '#f97316', '#3b82f6'];
         }
 
+        const isDark = document.documentElement.classList.contains('dark');
+
         let optionsPop = {
             chart: {
                 type: 'donut',
@@ -845,13 +847,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         size: '72%',
                         labels: {
                             show: true,
-                            name: { show: true, fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '13px', color: '#64748b' },
+                            name: { show: true, fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '13px', color: isDark ? '#94a3b8' : '#64748b' },
                             value: {
                                 show: true,
                                 fontFamily: 'Inter, sans-serif',
                                 fontWeight: 800,
                                 fontSize: '20px',
-                                color: '#0f172a',
+                                color: isDark ? '#f8fafc' : '#0f172a',
                                 formatter: function(val) { return parseInt(val).toLocaleString('id-ID'); }
                             },
                             total: {
@@ -860,7 +862,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 fontFamily: 'Poppins, sans-serif',
                                 fontWeight: 700,
                                 fontSize: '10px',
-                                color: '#94a3b8',
+                                color: isDark ? '#64748b' : '#94a3b8',
                                 formatter: function(w) {
                                     return w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString('id-ID');
                                 }
@@ -874,11 +876,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 600,
                 fontSize: '12px',
-                labels: { colors: '#64748b' },
+                labels: { colors: isDark ? '#cbd5e1' : '#64748b' },
                 markers: { width: 9, height: 9, radius: 9, offsetY: -1 }
             },
             tooltip: {
-                theme: 'light',
+                theme: isDark ? 'dark' : 'light',
                 y: {
                     formatter: function(val) {
                         return val.toLocaleString('id-ID') + ' Jiwa';
@@ -906,6 +908,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // Observer untuk update chart jika mode gelap ditoggle
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.attributeName === 'class' && currentPopChart) {
+                const type = selectHomeChart ? selectHomeChart.value : 'gender';
+                renderDemografiChart(type);
+            }
+        });
+    });
+    observer.observe(document.documentElement, { attributes: true });
 });
 </script>
 @endpush

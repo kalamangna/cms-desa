@@ -224,7 +224,7 @@
                                 x-transition:leave="transition ease-in duration-150"
                                 x-transition:leave-start="opacity-100 translate-y-0"
                                 x-transition:leave-end="opacity-0 -translate-y-2"
-                                class="mt-3 prose prose-sm max-w-none text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 rounded-2xl p-4 text-xs leading-relaxed"
+                                class="mt-3 prose prose-sm dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 rounded-2xl p-4 text-xs leading-relaxed"
                                 x-cloak>
                                 <div>{!! $service->requirements ?? '<p class="text-slate-400 dark:text-slate-500 italic">Persyaratan belum diisi.</p>' !!}</div>
                             </div>

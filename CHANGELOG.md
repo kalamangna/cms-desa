@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.75] - 2026-08-07
+
+### Changed
+- **Penyempurnaan Ekstra Mode Gelap (Dark Mode)**:
+  - **Prose Invert Global**: Memperluas cakupan utilitas `dark:prose-invert` ke seluruh halaman yang merender teks dari *WYSIWYG editor* (Profil, Potensi, Layanan, Lembaga, Pengumuman) agar elemen *heading*, *list*, dan tulisan tebal tidak hilang tertelan latar belakang gelap.
+  - **Efek Seamless Hero Section**: Menambahkan transisi latar belakang pada komponen *Hero Section* (baik di Beranda maupun di 15 halaman internal lainnya) dari `bg-slate-900` (mode terang) menjadi `dark:bg-slate-950` (mode gelap). Ini menciptakan ilusi kanvas tanpa batas (*borderless/seamless blend*) antara *Hero* dan sisa halaman saat mode gelap diaktifkan, serta mengurangi silau efek pendar cahaya (*blur orbs*).
+  - **Responsivitas Grafik Beranda**: Menyelamatkan grafik ApexCharts di Beranda dari warna teks statis yang tak terlihat di mode gelap dengan warna variabel dinamis (`isDark`), serta menambahkan `MutationObserver` khusus agar grafik otomatis di-*re-render* secara instan tiap kali sakelar tema ditekan tanpa perlu memuat ulang halaman.
+
 ## [1.26.74] - 2026-08-06
 
 ### Changed

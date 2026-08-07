@@ -7,12 +7,12 @@
 @section('content')
 
 {{-- ===================== HERO ===================== --}}
-<div class="relative bg-slate-900 py-16 md:py-24 lg:py-28 overflow-hidden">
+<div class="relative bg-slate-900 dark:bg-slate-950 py-16 md:py-24 lg:py-28 overflow-hidden transition-colors duration-500">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-slate-900 to-slate-900 dark:via-slate-950 dark:to-slate-950 transition-colors duration-500"></div>
         <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 right-0 w-96 h-96 bg-primary-500/10 dark:bg-primary-500/5 rounded-full blur-3xl transition-colors duration-500"></div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 bg-primary-600/10 dark:bg-primary-600/5 rounded-full blur-3xl transition-colors duration-500"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,7 +46,7 @@
         <div class="mb-8">
             <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-2">Sejarah Desa</h2>
         </div>
-        <div class="prose prose-slate max-w-none text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+        <div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
             @if(!empty(trim(strip_tags($site_settings['village_history'] ?? ''))))
                 {!! $site_settings['village_history'] !!}
             @else
@@ -108,7 +108,7 @@
                 </div>
                 <span class="text-slate-500 dark:text-slate-400 font-black text-[11px] uppercase tracking-widest">Misi</span>
             </div>
-            <div class="prose prose-slate max-w-none text-slate-600 dark:text-slate-300 font-medium">
+            <div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 font-medium">
                 @if(!empty(trim(strip_tags($site_settings['village_mission'] ?? ''))))
                     {!! $site_settings['village_mission'] !!}
                 @else
