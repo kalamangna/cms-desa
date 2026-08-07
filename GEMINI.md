@@ -83,7 +83,7 @@ Do **not** modify these without explicit instruction:
 ### Pre-push checklist (only when explicitly asked to push)
 1. **Format Code**: Run `./vendor/bin/pint`
 2. **Compile CSS**: If CSS/Tailwind classes changed, run `npm run build` exactly once. (Do NOT run build repeatedly during the `npm run dev` coding phase). Skip this if no CSS changes.
-3. **Documentation**: Update `CHANGELOG.md` (Keep a Changelog format, bump version, in Indonesian) and `README.md` (if config changed).
+3. **Documentation**: Update `CHANGELOG.md` (Keep a Changelog format, bump version, in Indonesian), sync `'version'` in `config/app.php`, and update `README.md` (if config changed).
 4. **Deploy**: `git commit` and `git push`.
 
 ### Language & format conventions
