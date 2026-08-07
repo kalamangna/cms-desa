@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.78] - 2026-08-07
+
+### Fixed
+- **Konfigurasi Sistem**: Sinkronisasi variabel internal `'version'` di `config/app.php` agar mencerminkan versi rilis *changelog* yang sebenarnya secara akurat.
+
 ## [1.26.77] - 2026-08-07
 
 ### Changed
