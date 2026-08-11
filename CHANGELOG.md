@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.81] - 2026-08-11
+
+### Fixed
+- **Stabilitas & Ketahanan Database (Layout)**: Membungkus pencarian lokasi kantor desa (`PublicFacility`) pada Schema Markup JSON-LD di [`app.blade.php`](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/layouts/app.blade.php) menggunakan blok `try-catch` dan pengecekan `Schema::hasTable()`. Hal ini mencegah kegagalan total tampilan halaman (`ViewException`) ketika koneksi MySQL server pada hosting terbatas atau mengalami kendala jaringan sesaat.
+
 ## [1.26.80] - 2026-08-07
 
 ### Fixed

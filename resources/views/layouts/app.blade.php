@@ -59,10 +59,15 @@
                 $regName  = \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? ''));
 
                 // Ambil koordinat presisi kantor desa dari fitur Peta Spasial (PublicFacility) jika diinput admin
-                $officeFacility = \App\Models\PublicFacility::where(function($q) {
-                    $q->where('type', 'like', '%kantor%')
-                      ->orWhere('name', 'like', '%kantor%');
-                })->whereNotNull('latitude')->whereNotNull('longitude')->first();
+                $officeFacility = null;
+                try {
+                    if (\Illuminate\Support\Facades\Schema::hasTable('public_facilities')) {
+                        $officeFacility = \App\Models\PublicFacility::where(function($q) {
+                            $q->where('type', 'like', '%kantor%')
+                              ->orWhere('name', 'like', '%kantor%');
+                        })->whereNotNull('latitude')->whereNotNull('longitude')->first();
+                    }
+                } catch (\Throwable $e) {}
 
                 $spellingVariants = [];
                 if ($vName !== '') {
