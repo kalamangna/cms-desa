@@ -2,33 +2,39 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Pages\Page;
-use Filament\Forms\Form;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Schemas\Components\Tabs;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Textarea;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Actions\Action;
 use App\Models\Setting;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\EmbeddedSchema;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 class ManageSettings extends Page implements HasForms
 {
     use InteractsWithForms;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cog-6-tooth';
+
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
+
     protected static ?string $title = 'Pengaturan';
+
     protected static ?string $navigationLabel = 'Pengaturan';
+
     protected static ?int $navigationSort = 1;
 
     public ?array $data = [];
@@ -47,13 +53,13 @@ class ManageSettings extends Page implements HasForms
         $this->form->fill($settings);
     }
 
-    public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
                 Tabs::make('Pengaturan')
                     ->tabs([
-                    Tabs\Tab::make('Identitas Desa')
+                        Tabs\Tab::make('Identitas Desa')
                             ->icon('heroicon-o-building-library')
                             ->columns(2)
                             ->components([
@@ -62,15 +68,18 @@ class ManageSettings extends Page implements HasForms
                                     ->placeholder('Contoh: Tompobulu')
                                     ->helperText('Nama resmi desa, tanpa kata "Desa".')
                                     ->columnSpanFull(),
-                                \Filament\Schemas\Components\Grid::make(3)
+                                Grid::make(3)
                                     ->schema([
                                         Select::make('province_name')
                                             ->label('Provinsi')
                                             ->placeholder('Pilih Provinsi')
                                             ->helperText('Pilih lokasi provinsi desa.')
-                                            ->options(function (\Filament\Schemas\Components\Utilities\Get $get) {
+                                            ->options(function (Get $get) {
                                                 $opts = self::getProvinces();
-                                                if ($val = $get('province_name')) $opts[$val] = $val;
+                                                if ($val = $get('province_name')) {
+                                                    $opts[$val] = $val;
+                                                }
+
                                                 return $opts;
                                             })
                                             ->searchable()
@@ -80,12 +89,15 @@ class ManageSettings extends Page implements HasForms
                                             ->label('Kabupaten/Kota')
                                             ->placeholder('Pilih Kabupaten/Kota')
                                             ->helperText('Pilih kabupaten/kota desa.')
-                                            ->options(function (\Filament\Schemas\Components\Utilities\Get $get) {
+                                            ->options(function (Get $get) {
                                                 $opts = $get('province_name') ? self::getRegencies($get('province_name')) : [];
-                                                if ($val = $get('regency_name')) $opts[$val] = $val;
+                                                if ($val = $get('regency_name')) {
+                                                    $opts[$val] = $val;
+                                                }
+
                                                 return $opts;
                                             })
-                                            ->disabled(fn(\Filament\Schemas\Components\Utilities\Get $get) => !$get('province_name'))
+                                            ->disabled(fn (Get $get) => ! $get('province_name'))
                                             ->searchable()
                                             ->preload()
                                             ->live(),
@@ -93,12 +105,15 @@ class ManageSettings extends Page implements HasForms
                                             ->label('Kecamatan')
                                             ->placeholder('Pilih Kecamatan')
                                             ->helperText('Pilih kecamatan desa.')
-                                            ->options(function (\Filament\Schemas\Components\Utilities\Get $get) {
+                                            ->options(function (Get $get) {
                                                 $opts = $get('regency_name') && $get('province_name') ? self::getDistricts($get('province_name'), $get('regency_name')) : [];
-                                                if ($val = $get('district_name')) $opts[$val] = $val;
+                                                if ($val = $get('district_name')) {
+                                                    $opts[$val] = $val;
+                                                }
+
                                                 return $opts;
                                             })
-                                            ->disabled(fn(\Filament\Schemas\Components\Utilities\Get $get) => !$get('regency_name'))
+                                            ->disabled(fn (Get $get) => ! $get('regency_name'))
                                             ->searchable()
                                             ->preload(),
                                     ])
@@ -166,16 +181,16 @@ class ManageSettings extends Page implements HasForms
                                 Radio::make('primary_color')
                                     ->label('Warna Primer Website')
                                     ->options([
-                                        '#10b981' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #10b981;"></span> Emerald (Default)</span>'),
-                                        '#14b8a6' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #14b8a6;"></span> Teal</span>'),
-                                        '#0ea5e9' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #0ea5e9;"></span> Sky Blue</span>'),
-                                        '#3b82f6' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #3b82f6;"></span> Royal Blue</span>'),
-                                        '#6366f1' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #6366f1;"></span> Indigo</span>'),
-                                        '#8b5cf6' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #8b5cf6;"></span> Violet</span>'),
-                                        '#f43f5e' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #f43f5e;"></span> Rose</span>'),
-                                        '#f97316' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #f97316;"></span> Orange</span>'),
-                                        '#f59e0b' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #f59e0b;"></span> Amber</span>'),
-                                        '#475569' => new \Illuminate\Support\HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #475569;"></span> Slate</span>'),
+                                        '#10b981' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #10b981;"></span> Emerald (Default)</span>'),
+                                        '#14b8a6' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #14b8a6;"></span> Teal</span>'),
+                                        '#0ea5e9' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #0ea5e9;"></span> Sky Blue</span>'),
+                                        '#3b82f6' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #3b82f6;"></span> Royal Blue</span>'),
+                                        '#6366f1' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #6366f1;"></span> Indigo</span>'),
+                                        '#8b5cf6' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #8b5cf6;"></span> Violet</span>'),
+                                        '#f43f5e' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #f43f5e;"></span> Rose</span>'),
+                                        '#f97316' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #f97316;"></span> Orange</span>'),
+                                        '#f59e0b' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #f59e0b;"></span> Amber</span>'),
+                                        '#475569' => new HtmlString('<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 16px; height: 16px; border-radius: 9999px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); background-color: #475569;"></span> Slate</span>'),
                                     ])
                                     ->default('#10b981')
                                     ->required(),
@@ -184,22 +199,22 @@ class ManageSettings extends Page implements HasForms
                                     ->placeholder('Contoh: xYz12345')
                                     ->helperText('ID unik dari widget aksesibilitas UserWay.'),
                             ]),
-                    ])->columnSpanFull()
+                    ])->columnSpanFull(),
             ])
             ->statePath('data');
     }
 
-    public function content(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
+    public function content(Schema $schema): Schema
     {
         return $schema
             ->components([
                 \Filament\Schemas\Components\Form::make([
-                    \Filament\Schemas\Components\EmbeddedSchema::make('form'),
+                    EmbeddedSchema::make('form'),
                 ])
                     ->id('form')
                     ->livewireSubmitHandler('save')
                     ->footer([
-                        \Filament\Schemas\Components\Actions::make($this->getFormActions()),
+                        Actions::make($this->getFormActions()),
                     ]),
             ]);
     }
@@ -241,13 +256,16 @@ class ManageSettings extends Page implements HasForms
                 if ($response->successful()) {
                     $options = [];
                     foreach ($response->json() as $item) {
-                        $name = \Illuminate\Support\Str::title($item['name']);
+                        $name = Str::title($item['name']);
                         $options[$name] = $name;
                     }
                     asort($options);
+
                     return $options;
                 }
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
+
             return ['Sulawesi Selatan' => 'Sulawesi Selatan'];
         });
     }
@@ -257,7 +275,8 @@ class ManageSettings extends Page implements HasForms
         if (empty($provinceName)) {
             $provinceName = 'Sulawesi Selatan';
         }
-        return Cache::remember('regencies_list_' . md5($provinceName), 86400, function () use ($provinceName) {
+
+        return Cache::remember('regencies_list_'.md5($provinceName), 86400, function () use ($provinceName) {
             try {
                 $provResponse = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
                 $provId = '73'; // Default Sulsel
@@ -274,24 +293,30 @@ class ManageSettings extends Page implements HasForms
                 if ($response->successful()) {
                     $options = [];
                     foreach ($response->json() as $item) {
-                        $name = \Illuminate\Support\Str::title($item['name']);
+                        $name = Str::title($item['name']);
                         $options[$name] = $name;
                     }
                     asort($options);
+
                     return $options;
                 }
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
+
             return ['Sinjai' => 'Sinjai'];
         });
     }
 
     public static function getDistricts(?string $provinceName, ?string $regencyName): array
     {
-        if (empty($regencyName) || empty($provinceName)) return [];
-        return Cache::remember('districts_list_' . md5($provinceName . '_' . $regencyName), 86400, function () use ($provinceName, $regencyName) {
+        if (empty($regencyName) || empty($provinceName)) {
+            return [];
+        }
+
+        return Cache::remember('districts_list_'.md5($provinceName.'_'.$regencyName), 86400, function () use ($provinceName, $regencyName) {
             try {
                 $provResponse = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
-                $provId = '73'; 
+                $provId = '73';
                 if ($provResponse->successful()) {
                     foreach ($provResponse->json() as $p) {
                         if (strcasecmp($p['name'], $provinceName) === 0) {
@@ -318,13 +343,16 @@ class ManageSettings extends Page implements HasForms
                 if ($response->successful()) {
                     $options = [];
                     foreach ($response->json() as $item) {
-                        $name = \Illuminate\Support\Str::title($item['name']);
+                        $name = Str::title($item['name']);
                         $options[$name] = $name;
                     }
                     asort($options);
+
                     return $options;
                 }
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
+
             return [];
         });
     }

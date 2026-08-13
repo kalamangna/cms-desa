@@ -38,7 +38,8 @@ class GoogleDriveAdapterWrapper implements FilesystemAdapter
             if ($dir && $dir !== '.') {
                 try {
                     $this->adapter->createDirectory($dir, $config);
-                } catch (\Throwable $ignored) {}
+                } catch (\Throwable $ignored) {
+                }
             }
             $this->adapter->write($path, $contents, $config);
         }
@@ -53,7 +54,8 @@ class GoogleDriveAdapterWrapper implements FilesystemAdapter
             if ($dir && $dir !== '.') {
                 try {
                     $this->adapter->createDirectory($dir, $config);
-                } catch (\Throwable $ignored) {}
+                } catch (\Throwable $ignored) {
+                }
             }
             $this->adapter->writeStream($path, $contents, $config);
         }
@@ -73,28 +75,32 @@ class GoogleDriveAdapterWrapper implements FilesystemAdapter
     {
         try {
             $this->adapter->delete($path);
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
     }
 
     public function deleteDirectory(string $path): void
     {
         try {
             $this->adapter->deleteDirectory($path);
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
     }
 
     public function createDirectory(string $path, Config $config): void
     {
         try {
             $this->adapter->createDirectory($path, $config);
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
     }
 
     public function setVisibility(string $path, string $visibility): void
     {
         try {
             $this->adapter->setVisibility($path, $visibility);
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
     }
 
     public function visibility(string $path): FileAttributes

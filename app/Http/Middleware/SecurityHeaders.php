@@ -11,7 +11,7 @@ class SecurityHeaders
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -23,15 +23,15 @@ class SecurityHeaders
         }
 
         // Terapkan Content Security Policy (CSP) modern yang memperbolehkan Vite Dev Server & 'unsafe-eval' untuk Alpine.js
-        $csp = "default-src 'self'; " .
-               "script-src 'self' 'unsafe-inline' 'unsafe-eval' http://*:5173 https:; " .
-               "worker-src 'self' blob:; " .
-               "style-src 'self' 'unsafe-inline' http://*:5173 https:; " .
-               "font-src 'self' data: https:; " .
-               "img-src 'self' data: blob: https: http:; " .
-               "frame-src 'self' https:; " .
-               "connect-src 'self' https: http: ws://*:5173 wss://*:5173; " .
-               "object-src 'none'; " .
+        $csp = "default-src 'self'; ".
+               "script-src 'self' 'unsafe-inline' 'unsafe-eval' http://*:5173 https:; ".
+               "worker-src 'self' blob:; ".
+               "style-src 'self' 'unsafe-inline' http://*:5173 https:; ".
+               "font-src 'self' data: https:; ".
+               "img-src 'self' data: blob: https: http:; ".
+               "frame-src 'self' https:; ".
+               "connect-src 'self' https: http: ws://*:5173 wss://*:5173; ".
+               "object-src 'none'; ".
                "base-uri 'self';";
 
         $response->headers->set('Content-Security-Policy', $csp, true);

@@ -22,7 +22,6 @@ class CitizenResource extends Resource
 
     protected static ?string $modelLabel = 'Penduduk';
 
-    
     protected static ?string $navigationLabel = 'Penduduk';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Kependudukan';

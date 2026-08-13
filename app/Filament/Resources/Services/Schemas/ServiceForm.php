@@ -2,13 +2,10 @@
 
 namespace App\Filament\Resources\Services\Schemas;
 
-use Filament\Schemas\Schema;
-
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\RichEditor;
-use Illuminate\Support\Str;
-use Filament\Forms\Set;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Schema;
 
 class ServiceForm
 {

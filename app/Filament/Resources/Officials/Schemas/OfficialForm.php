@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Officials\Schemas;
 
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
 class OfficialForm
@@ -14,7 +14,7 @@ class OfficialForm
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         TextInput::make('name')->label('Nama Lengkap')
                             ->placeholder('Contoh: Andi Muhammad S.Pd')
@@ -36,7 +36,7 @@ class OfficialForm
                     ->preload()
                     ->nullable()
                     ->columnSpanFull(),
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         Select::make('level')
                             ->label('Tingkat Jabatan')

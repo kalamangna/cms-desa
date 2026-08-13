@@ -31,7 +31,7 @@ class MetadataTest extends TestCase
             'dataset_id' => $dataset->id,
             'source' => 'BPS Maros',
         ]);
-        
+
         $this->assertEquals($dataset->id, $metadata->dataset->id);
         $this->assertEquals($metadata->id, $dataset->fresh()->metadata->id);
     }

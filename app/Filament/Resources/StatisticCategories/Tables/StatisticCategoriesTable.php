@@ -6,8 +6,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
@@ -23,18 +23,18 @@ class StatisticCategoriesTable
                     ->sortable(),
                 TextColumn::make('mapping_table')
                     ->label('Sumber Data')
-                    ->formatStateUsing(fn (string $state): string => match($state) {
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
                         'citizens' => 'Data Penduduk (Individu)',
                         'families' => 'Data Keluarga',
                         default => $state,
                     })
                     ->badge()
-                    ->color(fn ($state) => match($state) {
+                    ->color(fn ($state) => match ($state) {
                         'citizens' => 'info',
                         'families' => 'warning',
                         default => 'gray',
                     }),
-                \Filament\Tables\Columns\ToggleColumn::make('is_active')
+                ToggleColumn::make('is_active')
                     ->label('Status Publik')
                     ->sortable(),
                 TextColumn::make('indicators_count')

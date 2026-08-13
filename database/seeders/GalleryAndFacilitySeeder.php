@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Gallery;
-use App\Models\VillagePotential;
 use App\Models\PublicFacility;
+use App\Models\VillagePotential;
 use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class GalleryAndFacilitySeeder extends Seeder
@@ -17,7 +17,7 @@ class GalleryAndFacilitySeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Membersihkan dan membuat data modul tambahan (Galeri, Potensi, Fasilitas)...');
-        
+
         // Membersihkan data lama
         Gallery::query()->forceDelete();
         VillagePotential::query()->forceDelete();

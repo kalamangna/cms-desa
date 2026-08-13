@@ -3,17 +3,18 @@
 namespace App\Filament\Widgets;
 
 use App\Models\VisitorLog;
-use Filament\Widgets\TableWidget as BaseWidget;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Support\Facades\DB;
 
 class TopLocationsTableWidget extends BaseWidget
 {
     protected static bool $isDiscovered = false;
+
     protected static ?string $heading = 'Sebaran Lokasi Pengunjung';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {

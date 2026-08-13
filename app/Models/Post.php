@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\Helpers\ImageHelper;
+use App\Traits\Auditable;
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use App\Traits\HasSlug;
-use App\Traits\Auditable;
+use Illuminate\Support\Facades\Cache;
 
 class Post extends Model
 {
-    use SoftDeletes, HasSlug, Auditable;
+    use Auditable, HasSlug, SoftDeletes;
 
     protected $fillable = [
         'category_id',
@@ -33,12 +34,12 @@ class Post extends Model
             }
 
             if ($post->isDirty('featured_image') && $post->featured_image) {
-                $post->featured_image = \App\Helpers\ImageHelper::convertToWebp($post->featured_image, 'posts');
+                $post->featured_image = ImageHelper::convertToWebp($post->featured_image, 'posts');
             }
         });
 
-        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_posts'));
-        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_posts'));
+        static::saved(fn () => Cache::forget('home_posts'));
+        static::deleted(fn () => Cache::forget('home_posts'));
     }
 
     public function category()

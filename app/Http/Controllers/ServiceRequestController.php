@@ -35,7 +35,7 @@ class ServiceRequestController extends Controller
             ->first();
 
         if ($request->wantsJson() || $request->ajax()) {
-            if (!$serviceRequest) {
+            if (! $serviceRequest) {
                 return response()->json(['found' => false, 'message' => 'Nomor tiket tidak ditemukan'], 404);
             }
 
@@ -43,7 +43,7 @@ class ServiceRequestController extends Controller
                 'found' => true,
                 'ticket_number' => $serviceRequest->ticket_number,
                 'name' => $serviceRequest->name,
-                'nik_masked' => substr($serviceRequest->nik, 0, 4) . '**********',
+                'nik_masked' => substr($serviceRequest->nik, 0, 4).'**********',
                 'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
                 'status' => $serviceRequest->status,
                 'created_at' => $serviceRequest->created_at->translatedFormat('d M Y, H:i'),

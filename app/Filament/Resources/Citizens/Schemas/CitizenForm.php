@@ -2,17 +2,17 @@
 
 namespace App\Filament\Resources\Citizens\Schemas;
 
-use Filament\Schemas\Schema;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DatePicker;
-use Filament\Schemas\Components\Grid;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\CheckboxList;
+use Filament\Schemas\Schema;
+use Filament\Support\RawJs;
 
 class CitizenForm
 {
@@ -186,35 +186,35 @@ class CitizenForm
                                                 TextInput::make('income_salary')->label('Gaji / Upah (Rp)')
                                                     ->placeholder('Contoh: 2500000')
                                                     ->helperText('Penghasilan rutin per bulan.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_allowance')->label('Tunjangan (Rp)')
                                                     ->placeholder('Contoh: 500000')
                                                     ->helperText('Tunjangan pekerjaan.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_food')->label('Uang Makan (Rp)')
                                                     ->placeholder('Contoh: 300000')
                                                     ->helperText('Uang konsumsi/makan.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_honor')->label('Honor (Rp)')
                                                     ->placeholder('Contoh: 200000')
                                                     ->helperText('Honorarium kegiatan.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_overtime')->label('Lembur (Rp)')
                                                     ->placeholder('Contoh: 150000')
                                                     ->helperText('Upah kerja lembur.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_business')->label('Pendapatan Usaha (Rp)')
                                                     ->placeholder('Contoh: 1000000')
                                                     ->helperText('Keuntungan usaha mandiri.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_passive')->label('Passive Income (Rp)')
                                                     ->placeholder('Contoh: 0')
                                                     ->helperText('Hasil sewa/investasi.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('income_other')->label('Pendapatan Lainnya (Rp)')
                                                     ->placeholder('Contoh: 0')
                                                     ->helperText('Sumber pendapatan lain.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                             ]),
                                     ]),
                             ]),
@@ -259,14 +259,29 @@ class CitizenForm
                                                 'speech' => 'Disabilitas Sensorik Wicara',
                                             ])
                                             ->formatStateUsing(function ($record) {
-                                                if (! $record) return [];
+                                                if (! $record) {
+                                                    return [];
+                                                }
                                                 $selected = [];
-                                                if ($record->disability_physical) $selected[] = 'physical';
-                                                if ($record->disability_mental) $selected[] = 'mental';
-                                                if ($record->disability_intellectual) $selected[] = 'intellectual';
-                                                if ($record->disability_blind) $selected[] = 'blind';
-                                                if ($record->disability_deaf) $selected[] = 'deaf';
-                                                if ($record->disability_speech) $selected[] = 'speech';
+                                                if ($record->disability_physical) {
+                                                    $selected[] = 'physical';
+                                                }
+                                                if ($record->disability_mental) {
+                                                    $selected[] = 'mental';
+                                                }
+                                                if ($record->disability_intellectual) {
+                                                    $selected[] = 'intellectual';
+                                                }
+                                                if ($record->disability_blind) {
+                                                    $selected[] = 'blind';
+                                                }
+                                                if ($record->disability_deaf) {
+                                                    $selected[] = 'deaf';
+                                                }
+                                                if ($record->disability_speech) {
+                                                    $selected[] = 'speech';
+                                                }
+
                                                 return $selected;
                                             })
                                             ->dehydrateStateUsing(function ($state, $record) {

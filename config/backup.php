@@ -1,27 +1,24 @@
 <?php
 
+use App\Models\Setting;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Spatie\Backup\Notifications\Notifiable;
-use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification;
-use Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification;
-use Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification;
-use Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification;
-use Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification;
-use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification;
 use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 
 $villageName = 'desa';
 try {
-    if (class_exists(\App\Models\Setting::class) && \Illuminate\Support\Facades\Schema::hasTable('settings')) {
-        $villageName = \App\Models\Setting::where('key', 'village_name')->value('value') ?: env('APP_NAME', 'desa');
+    if (class_exists(Setting::class) && Schema::hasTable('settings')) {
+        $villageName = Setting::where('key', 'village_name')->value('value') ?: env('APP_NAME', 'desa');
     } else {
         $villageName = env('APP_NAME', 'desa');
     }
-} catch (\Throwable $e) {
+} catch (Throwable $e) {
     $villageName = env('APP_NAME', 'desa');
 }
-$dynamicBackupName = \Illuminate\Support\Str::slug($villageName ?: 'desa');
+$dynamicBackupName = Str::slug($villageName ?: 'desa');
 
 return [
 
@@ -48,9 +45,14 @@ return [
                  * Directories used by the backup process will automatically be excluded.
                  */
                 'exclude' => [
+                    base_path('.git'),
+                    base_path('.npm-cache'),
                     base_path('vendor'),
                     base_path('node_modules'),
                     storage_path('framework'),
+                    storage_path('logs'),
+                    storage_path('app/private'),
+                    storage_path('app/backup-temp'),
                 ],
 
                 /*
@@ -170,7 +172,7 @@ return [
             /*
              * The filename prefix used for the backup zip file.
              */
-            'filename_prefix' => $dynamicBackupName ? $dynamicBackupName . '-' : '',
+            'filename_prefix' => $dynamicBackupName ? $dynamicBackupName.'-' : '',
 
             /*
              * The disk names on which the backups will be stored.
@@ -234,12 +236,12 @@ return [
      */
     'notifications' => [
         'notifications' => [
-            \App\Notifications\Backup\BackupHasFailedNotification::class => ['mail', 'telegram'],
-            \App\Notifications\Backup\UnhealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
-            \App\Notifications\Backup\CleanupHasFailedNotification::class => ['mail', 'telegram'],
-            \App\Notifications\Backup\BackupWasSuccessfulNotification::class => ['mail', 'telegram'],
-            \App\Notifications\Backup\HealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
-            \App\Notifications\Backup\CleanupWasSuccessfulNotification::class => ['mail', 'telegram'],
+            App\Notifications\Backup\BackupHasFailedNotification::class => ['mail', 'telegram'],
+            App\Notifications\Backup\UnhealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
+            App\Notifications\Backup\CleanupHasFailedNotification::class => ['mail', 'telegram'],
+            App\Notifications\Backup\BackupWasSuccessfulNotification::class => ['mail', 'telegram'],
+            App\Notifications\Backup\HealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
+            App\Notifications\Backup\CleanupWasSuccessfulNotification::class => ['mail', 'telegram'],
         ],
 
         /*

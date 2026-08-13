@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Citizens\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
@@ -24,7 +25,7 @@ class CitizensTable
                     ->searchable()
                     ->copyable()
                     ->fontFamily('mono')
-                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null)),
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6).'******'.substr($state, -4) : ($state ? substr($state, 0, 4).'***' : null)),
 
                 TextColumn::make('name')
                     ->label('Nama Lengkap')
@@ -57,7 +58,7 @@ class CitizensTable
                     ->searchable()
                     ->copyable()
                     ->fontFamily('mono')
-                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null))
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6).'******'.substr($state, -4) : ($state ? substr($state, 0, 4).'***' : null))
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('date_of_birth')
@@ -127,7 +128,7 @@ class CitizensTable
             ])
             ->recordActions([
                 EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

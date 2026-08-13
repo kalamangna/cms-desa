@@ -11,14 +11,14 @@ class ImageHelper
     /**
      * Convert an uploaded image file or existing storage path to WebP format.
      *
-     * @param UploadedFile|string $file UploadedFile instance or relative storage path
-     * @param string $directory Storage subdirectory (e.g. 'posts', 'galleries', 'officials')
-     * @param int $quality WebP quality (default: 80)
+     * @param  UploadedFile|string  $file  UploadedFile instance or relative storage path
+     * @param  string  $directory  Storage subdirectory (e.g. 'posts', 'galleries', 'officials')
+     * @param  int  $quality  WebP quality (default: 80)
      * @return string|null Relative storage path of converted WebP file or original path if failed
      */
     public static function convertToWebp(mixed $file, string $directory = 'uploads', int $quality = 80, int $maxDimension = 800): ?string
     {
-        if (!$file) {
+        if (! $file) {
             return null;
         }
 
@@ -28,8 +28,8 @@ class ImageHelper
             $realPath = $file->getRealPath();
         } elseif (is_string($file)) {
             // Already a relative path in storage/app/public/
-            $storagePath = storage_path('app/public/' . ltrim($file, '/'));
-            if (!file_exists($storagePath)) {
+            $storagePath = storage_path('app/public/'.ltrim($file, '/'));
+            if (! file_exists($storagePath)) {
                 return $file;
             }
             $extension = strtolower(pathinfo($storagePath, PATHINFO_EXTENSION));
@@ -44,14 +44,16 @@ class ImageHelper
             if ($file instanceof UploadedFile) {
                 return $file->store($directory, 'public');
             }
+
             return $file;
         }
 
         // Check if GD PHP extension and imagewebp function are available
-        if (!function_exists('imagewebp') || !function_exists('imagecreatetruecolor')) {
+        if (! function_exists('imagewebp') || ! function_exists('imagecreatetruecolor')) {
             if ($file instanceof UploadedFile) {
                 return $file->store($directory, 'public');
             }
+
             return $file;
         }
 
@@ -68,23 +70,24 @@ class ImageHelper
             }
         }
 
-        if (!$image) {
+        if (! $image) {
             if ($file instanceof UploadedFile) {
                 return $file->store($directory, 'public');
             }
+
             return $file;
         }
 
         // Generate unique WebP filename and full target path
-        $filename = Str::uuid() . '.webp';
+        $filename = Str::uuid().'.webp';
         $targetSubDir = trim($directory, '/');
-        $targetDir = storage_path('app/public/' . $targetSubDir);
+        $targetDir = storage_path('app/public/'.$targetSubDir);
 
-        if (!file_exists($targetDir)) {
+        if (! file_exists($targetDir)) {
             mkdir($targetDir, 0755, true);
         }
 
-        $targetFullPath = $targetDir . '/' . $filename;
+        $targetFullPath = $targetDir.'/'.$filename;
 
         // Resize image if any dimension exceeds $maxDimension to optimize image delivery
         $origWidth = imagesx($image);
@@ -119,7 +122,8 @@ class ImageHelper
             if (is_string($file) && file_exists($realPath) && $realPath !== $targetFullPath) {
                 @unlink($realPath);
             }
-            return ($targetSubDir ? $targetSubDir . '/' : '') . $filename;
+
+            return ($targetSubDir ? $targetSubDir.'/' : '').$filename;
         }
 
         // Fallback to normal store if WebP conversion failed

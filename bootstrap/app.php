@@ -1,8 +1,16 @@
 <?php
 
+use App\Http\Middleware\MinifyHtml;
+use App\Http\Middleware\SecurityHeaders;
+use App\Http\Middleware\TrackVisitor;
+use App\Notifications\SystemMonitorNotification;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,36 +20,36 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
-            \App\Http\Middleware\SecurityHeaders::class,
-            \App\Http\Middleware\TrackVisitor::class,
-            \App\Http\Middleware\MinifyHtml::class,
+            SecurityHeaders::class,
+            TrackVisitor::class,
+            MinifyHtml::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->reportable(function (\Throwable $e) {
+        $exceptions->reportable(function (Throwable $e) {
             // Jangan kirim notifikasi jika di lingkungan lokal / mode debug aktif
             if (app()->environment('local') || config('app.debug')) {
                 return;
             }
 
             // Jangan kirim notifikasi untuk error biasa (404, validasi, auth)
-            if ($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException ||
-                $e instanceof \Illuminate\Validation\ValidationException ||
-                $e instanceof \Illuminate\Auth\AuthenticationException) {
+            if ($e instanceof NotFoundHttpException ||
+                $e instanceof ValidationException ||
+                $e instanceof AuthenticationException) {
                 return;
             }
 
             try {
                 $method = request()->method();
-                $url    = request()->fullUrl();
-                $msg    = class_basename($e) . "\n"
-                        . "📄 " . basename($e->getFile()) . ":{$e->getLine()}\n"
-                        . "💬 <code>" . substr($e->getMessage(), 0, 300) . "</code>\n"
-                        . "\n🔗 {$method} {$url}";
+                $url = request()->fullUrl();
+                $msg = class_basename($e)."\n"
+                        .'📄 '.basename($e->getFile()).":{$e->getLine()}\n"
+                        .'💬 <code>'.substr($e->getMessage(), 0, 300)."</code>\n"
+                        ."\n🔗 {$method} {$url}";
 
-                \Illuminate\Support\Facades\Notification::route('telegram', 'system')
-                    ->notify(new \App\Notifications\SystemMonitorNotification('SYSTEM ERROR', $msg, 'danger'));
-            } catch (\Throwable $err) {
+                Notification::route('telegram', 'system')
+                    ->notify(new SystemMonitorNotification('SYSTEM ERROR', $msg, 'danger'));
+            } catch (Throwable $err) {
                 // Abaikan jika Telegram juga error agar tidak terjadi infinite loop
             }
         });

@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\Auditable;
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use App\Traits\HasSlug;
-use App\Traits\Auditable;
+use Illuminate\Support\Facades\Cache;
 
 class Announcement extends Model
 {
-    use SoftDeletes, HasSlug, Auditable;
+    use Auditable, HasSlug, SoftDeletes;
 
     protected $fillable = ['title', 'slug', 'photo', 'content', 'published_at'];
 
@@ -22,8 +22,8 @@ class Announcement extends Model
             }
         });
 
-        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_announcements'));
-        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_announcements'));
+        static::saved(fn () => Cache::forget('home_announcements'));
+        static::deleted(fn () => Cache::forget('home_announcements'));
     }
 
     protected $casts = [

@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources\Families\Tables;
 
+use App\Models\Family;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Filament\Tables\Columns\TextColumn;
-use App\Models\Family;
 
 class FamiliesTable
 {
@@ -26,7 +27,7 @@ class FamiliesTable
                     ->sortable()
                     ->copyable()
                     ->fontFamily('mono')
-                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null)),
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6).'******'.substr($state, -4) : ($state ? substr($state, 0, 4).'***' : null)),
 
                 TextColumn::make('head_name')
                     ->label('Kepala Keluarga')
@@ -47,6 +48,7 @@ class FamiliesTable
                     ->label('Anggota')
                     ->formatStateUsing(function ($state, Family $record) {
                         $realCount = $record->citizens()->count();
+
                         return $realCount > 0 ? "{$realCount} Jiwa" : "{$state} Jiwa";
                     })
                     ->badge()
@@ -60,20 +62,20 @@ class FamiliesTable
                     ->placeholder('-')
                     ->copyable()
                     ->fontFamily('mono')
-                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null))
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6).'******'.substr($state, -4) : ($state ? substr($state, 0, 4).'***' : null))
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('photo_front')
                     ->label('Foto Rumah')
                     ->formatStateUsing(fn ($state) => empty($state) ? '-' : (str_starts_with($state, 'http') ? '🔗 Google Drive' : '🖼️ Foto Lokal'))
-                    ->url(fn ($state) => empty($state) ? null : (str_starts_with($state, 'http') ? $state : asset('storage/' . $state)), shouldOpenInNewTab: true)
+                    ->url(fn ($state) => empty($state) ? null : (str_starts_with($state, 'http') ? $state : asset('storage/'.$state)), shouldOpenInNewTab: true)
                     ->color('primary')
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('photo_kk')
                     ->label('Foto KK')
                     ->formatStateUsing(fn ($state) => empty($state) ? '-' : (str_starts_with($state, 'http') ? '🔗 Google Drive' : '🖼️ Foto Lokal'))
-                    ->url(fn ($state) => empty($state) ? null : (str_starts_with($state, 'http') ? $state : asset('storage/' . $state)), shouldOpenInNewTab: true)
+                    ->url(fn ($state) => empty($state) ? null : (str_starts_with($state, 'http') ? $state : asset('storage/'.$state)), shouldOpenInNewTab: true)
                     ->color('primary')
                     ->toggleable(isToggledHiddenByDefault: true),
 
@@ -93,7 +95,7 @@ class FamiliesTable
             ])
             ->recordActions([
                 EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -11,7 +11,7 @@ class Cadangan extends BaseBackups
 
     protected string $view = 'filament.pages.cadangan';
 
-    public function getTitle(): string | Htmlable
+    public function getTitle(): string|Htmlable
     {
         return 'Cadangan';
     }

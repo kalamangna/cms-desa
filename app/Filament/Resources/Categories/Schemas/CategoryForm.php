@@ -4,8 +4,6 @@ namespace App\Filament\Resources\Categories\Schemas;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Str;
-use Filament\Forms\Set;
 
 class CategoryForm
 {

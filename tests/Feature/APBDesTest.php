@@ -20,7 +20,7 @@ class APBDesTest extends TestCase
     public function test_can_create_budget_realization(): void
     {
         $category = BudgetCategory::create(['name' => 'Pendapatan', 'slug' => 'pendapatan']);
-        
+
         $realization = BudgetRealization::create([
             'budget_category_id' => $category->id,
             'title' => 'Dana Desa',
@@ -33,7 +33,7 @@ class APBDesTest extends TestCase
             'title' => 'Dana Desa',
             'budget_amount' => 1000000000,
         ]);
-        
+
         $this->assertEquals(50, $realization->percentage);
     }
 }

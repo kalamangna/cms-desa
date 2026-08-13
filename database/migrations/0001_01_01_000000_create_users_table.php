@@ -13,7 +13,7 @@ return new class extends Migration
     {
         if (Schema::hasTable('users')) {
             Schema::table('users', function (Blueprint $table) {
-                if (!Schema::hasColumn('users', 'deleted_at')) {
+                if (! Schema::hasColumn('users', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });
@@ -29,7 +29,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('password_reset_tokens')) {
+        if (! Schema::hasTable('password_reset_tokens')) {
             Schema::create('password_reset_tokens', function (Blueprint $table) {
                 $table->string('username')->primary();
                 $table->string('token');
@@ -37,7 +37,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('sessions')) {
+        if (! Schema::hasTable('sessions')) {
             Schema::create('sessions', function (Blueprint $table) {
                 $table->string('id')->primary();
                 $table->foreignId('user_id')->nullable()->index();

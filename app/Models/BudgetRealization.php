@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class BudgetRealization extends Model
 {
@@ -18,9 +19,9 @@ class BudgetRealization extends Model
     ];
 
     protected $casts = [
-        'budget_amount'      => 'float',
+        'budget_amount' => 'float',
         'realization_amount' => 'float',
-        'year'               => 'integer',
+        'year' => 'integer',
     ];
 
     public function category()
@@ -41,8 +42,8 @@ class BudgetRealization extends Model
     {
         $clearCache = function ($realization) {
             $year = $realization->year ?? date('Y');
-            \Illuminate\Support\Facades\Cache::forget("home_budget_summary_{$year}");
-            \Illuminate\Support\Facades\Cache::forget("home_belanja_details_{$year}");
+            Cache::forget("home_budget_summary_{$year}");
+            Cache::forget("home_belanja_details_{$year}");
         };
 
         static::saved($clearCache);

@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources\PopupInfographics\Schemas;
 
-use Filament\Schemas\Schema;
-
-use Filament\Forms\Components\TextInput;
+use App\Models\PopupInfographic;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Schema;
 
 class PopupInfographicForm
 {
@@ -36,7 +35,7 @@ class PopupInfographicForm
                     ->placeholder('Contoh: 1')
                     ->helperText('Urutan tampil (terkecil = pertama).')
                     ->numeric()
-                    ->default(fn () => (\App\Models\PopupInfographic::max('sort_order') ?? 0) + 1)
+                    ->default(fn () => (PopupInfographic::max('sort_order') ?? 0) + 1)
                     ->required()
                     ->columnSpanFull(),
             ]);

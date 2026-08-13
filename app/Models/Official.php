@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Helpers\ImageHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Official extends Model
 {
@@ -34,11 +36,11 @@ class Official extends Model
     {
         static::saving(function ($official) {
             if ($official->isDirty('photo') && $official->photo) {
-                $official->photo = \App\Helpers\ImageHelper::convertToWebp($official->photo, 'officials', 80, 500);
+                $official->photo = ImageHelper::convertToWebp($official->photo, 'officials', 80, 500);
             }
         });
 
-        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_village_head'));
-        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_village_head'));
+        static::saved(fn () => Cache::forget('home_village_head'));
+        static::deleted(fn () => Cache::forget('home_village_head'));
     }
 }

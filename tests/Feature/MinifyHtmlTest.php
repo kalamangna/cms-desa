@@ -81,6 +81,7 @@ class MinifyHtmlTest extends TestCase
 </body>
 </html>
 HTML;
+
             return response($html, 200, ['Content-Type' => 'text/html']);
         });
 

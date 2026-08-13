@@ -55,7 +55,7 @@ class StatisticService
 
         foreach ($categories as $category) {
             $indicatorsData = [];
-            $palette = ['#10b981','#0ea5e9','#f59e0b','#8b5cf6','#ec4899','#f43f5e','#06b6d4','#14b8a6','#f97316','#3b82f6'];
+            $palette = ['#10b981', '#0ea5e9', '#f59e0b', '#8b5cf6', '#ec4899', '#f43f5e', '#06b6d4', '#14b8a6', '#f97316', '#3b82f6'];
             foreach ($category->indicators as $idx => $indicator) {
                 $c = $palette[$idx % count($palette)];
                 if (str_contains(strtolower($indicator->name), 'laki-laki') || str_contains(strtolower($indicator->name), 'laki laki')) {
@@ -255,7 +255,7 @@ class StatisticService
             'lighting_source' => 'Sumber Penerangan',
         ];
 
-        $palette = ['#0ea5e9','#ec4899','#10b981','#f59e0b','#8b5cf6','#f43f5e','#06b6d4','#14b8a6','#f97316','#3b82f6','#64748b','#84cc16'];
+        $palette = ['#0ea5e9', '#ec4899', '#10b981', '#f59e0b', '#8b5cf6', '#f43f5e', '#06b6d4', '#14b8a6', '#f97316', '#3b82f6', '#64748b', '#84cc16'];
 
         $result = [];
         foreach ($secCols as $col) {
@@ -286,13 +286,13 @@ class StatisticService
             'gender' => ['Laki-laki', 'Perempuan'],
             'education_level' => [
                 'Tidak Punya Ijazah SD', 'SD / Sederajat', 'SMP / Sederajat',
-                'SMA / Sederajat', 'D1 / D2 / D3', 'D4 / S1 / Profesi', 'S2 / S3'
+                'SMA / Sederajat', 'D1 / D2 / D3', 'D4 / S1 / Profesi', 'S2 / S3',
             ],
             'marital_status' => ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati'],
             'job_status' => [
                 'Berusaha Sendiri', 'Buruh / Karyawan / Pegawai Swasta', 'Pekerja Bebas',
                 'Pekerja Keluarga / Tidak Dibayar', 'ASN / TNI / Polri / BUMN / BUMD / Pejabat Negara',
-                'Berusaha Dibantu Buruh', 'Lainnya'
+                'Berusaha Dibantu Buruh', 'Lainnya',
             ],
             'school_participation' => ['Tidak / Belum Pernah Sekolah', 'Masih Sekolah', 'Tidak Bersekolah Lagi'],
             'has_digital_wallet' => ['Tidak Ada', 'Ya untuk Pribadi', 'Ya untuk Usaha & Pribadi', 'Ya untuk Usaha'],
@@ -301,7 +301,7 @@ class StatisticService
             'building_type' => ['Rumah Tinggal Tunggal', 'Lainnya'],
             'water_source' => ['Sumur Terlindung', 'Sumur Bor / Pompa', 'Leding', 'Mata Air', 'Air kemasan bermerek', 'Lainnya'],
             'lighting_source' => ['Listrik PLN Dengan Meteran', 'Listrik PLN Tanpa Meteran', 'Listrik Non-PLN', 'Bukan Listrik'],
-            'dusun_id' => Dusun::orderBy('name', 'asc')->pluck('name')->map(fn($n) => 'Dusun ' . $n)->toArray(),
+            'dusun_id' => Dusun::orderBy('name', 'asc')->pluck('name')->map(fn ($n) => 'Dusun '.$n)->toArray(),
             default => DB::table($category->mapping_table)->whereNotNull($column)->where($column, '!=', '')->distinct()->pluck($column)->toArray(),
         };
     }
@@ -319,6 +319,7 @@ class StatisticService
             foreach ($secOptions as $opt) {
                 $res[$opt] = 0;
             }
+
             return $res;
         }
 
@@ -336,16 +337,16 @@ class StatisticService
         if ($secColumn === 'dusun_id') {
             $dusuns = Dusun::orderBy('name', 'asc')->get();
             foreach ($dusuns as $dusun) {
-                $optName = 'Dusun ' . $dusun->name;
+                $optName = 'Dusun '.$dusun->name;
                 $res[$optName] = (clone $baseQuery)->where('dusun_id', $dusun->id)->count();
             }
         } elseif (in_array($secColumn, ['assistance_type'], true)) {
             foreach ($secOptions as $opt) {
                 $q = clone $baseQuery;
                 if ($opt === 'Tidak Menerima Bantuan') {
-                    $q->where(fn($sub) => $sub->whereNull('assistance_type')->orWhere('assistance_type', 'Tidak Ada')->orWhere('assistance_type', ''));
+                    $q->where(fn ($sub) => $sub->whereNull('assistance_type')->orWhere('assistance_type', 'Tidak Ada')->orWhere('assistance_type', ''));
                 } else {
-                    $q->where('assistance_type', 'LIKE', '%' . $opt . '%');
+                    $q->where('assistance_type', 'LIKE', '%'.$opt.'%');
                 }
                 $res[$opt] = $q->count();
             }
@@ -353,7 +354,7 @@ class StatisticService
             foreach ($secOptions as $opt) {
                 $q = clone $baseQuery;
                 if ($opt === 'Tidak Ada' || $opt === 'Tidak Terdaftar') {
-                    $q->where(fn($sub) => $sub->whereNull($secColumn)->orWhere($secColumn, '')->orWhere($secColumn, $opt));
+                    $q->where(fn ($sub) => $sub->whereNull($secColumn)->orWhere($secColumn, '')->orWhere($secColumn, $opt));
                 } else {
                     $q->where($secColumn, '=', $opt);
                 }
@@ -509,7 +510,7 @@ class StatisticService
             ]);
 
             $indicator = new StatisticIndicator([
-                'name' => 'Dusun ' . $dusun->name,
+                'name' => 'Dusun '.$dusun->name,
                 'unit' => 'Jiwa',
             ]);
             $indicator->setRelation('data', collect([$liveData]));

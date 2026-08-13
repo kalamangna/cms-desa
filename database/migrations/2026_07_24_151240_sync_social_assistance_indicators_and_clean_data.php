@@ -14,27 +14,38 @@ return new class extends Migration
         // 1. Clean assistance_type strings in families table
         $families = DB::table('families')->whereNotNull('assistance_type')->get();
         foreach ($families as $f) {
-            $raw   = trim($f->assistance_type);
+            $raw = trim($f->assistance_type);
             $lower = strtolower($raw);
 
             if (empty($raw) || in_array($lower, ['tidak ada', 'tidak', 'none', '-'])) {
                 DB::table('families')->where('id', $f->id)->update(['assistance_type' => 'Tidak Ada']);
+
                 continue;
             }
 
             $items = [];
-            if (str_contains($lower, 'pkh'))                                      $items[] = 'PKH';
-            if (str_contains($lower, 'bpnt') || str_contains($lower, 'sembako')) $items[] = 'BPNT / Sembako';
-            if (str_contains($lower, 'blt'))                                       $items[] = 'BLT Desa';
-            if (str_contains($lower, 'listrik') || str_contains($lower, 'subsidi')) $items[] = 'Subsidi Listrik';
-            if (str_contains($lower, 'bedah') || str_contains($lower, 'rumah'))   $items[] = 'Bedah Rumah';
+            if (str_contains($lower, 'pkh')) {
+                $items[] = 'PKH';
+            }
+            if (str_contains($lower, 'bpnt') || str_contains($lower, 'sembako')) {
+                $items[] = 'BPNT / Sembako';
+            }
+            if (str_contains($lower, 'blt')) {
+                $items[] = 'BLT Desa';
+            }
+            if (str_contains($lower, 'listrik') || str_contains($lower, 'subsidi')) {
+                $items[] = 'Subsidi Listrik';
+            }
+            if (str_contains($lower, 'bedah') || str_contains($lower, 'rumah')) {
+                $items[] = 'Bedah Rumah';
+            }
 
             if (empty($items)) {
                 $items[] = 'Bantuan Lainnya';
             }
 
             DB::table('families')->where('id', $f->id)->update([
-                'assistance_type' => implode(', ', array_unique($items))
+                'assistance_type' => implode(', ', array_unique($items)),
             ]);
         }
 

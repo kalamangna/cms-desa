@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
 class UserForm
@@ -12,7 +13,7 @@ class UserForm
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         TextInput::make('name')->label('Nama Lengkap')
                             ->placeholder('Contoh: Administrator Utama')
@@ -24,9 +25,9 @@ class UserForm
                             ->required(),
                     ])
                     ->columnSpanFull(),
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
-                        \Filament\Forms\Components\Select::make('roles')->label('Peran (Role)')
+                        Select::make('roles')->label('Peran (Role)')
                             ->placeholder('Pilih Peran')
                             ->helperText('Hak akses pengguna.')
                             ->relationship('roles', 'name')

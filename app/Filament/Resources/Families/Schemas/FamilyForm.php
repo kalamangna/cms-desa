@@ -2,17 +2,19 @@
 
 namespace App\Filament\Resources\Families\Schemas;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
+use Filament\Support\RawJs;
+use Illuminate\Support\HtmlString;
 
 class FamilyForm
 {
@@ -132,15 +134,15 @@ class FamilyForm
                                                 TextInput::make('rental_estimate')->label('Perkiraan Sewa Sebulan (Rp)')
                                                     ->placeholder('Contoh: 500000')
                                                     ->helperText('Biaya estimasi sewa per bulan.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                                 TextInput::make('rental_free_estimate')->label('Estimasi Bebas Sewa / Lainnya (Rp)')
                                                     ->placeholder('Contoh: 0')
                                                     ->helperText('Estimasi nilai jika berstatus bebas sewa.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                                 TextInput::make('rental_contract_value')->label('Nilai Kontrak Total (Rp)')
                                                     ->placeholder('Contoh: 6000000')
                                                     ->helperText('Nilai total kesepakatan kontrak.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                             ]),
                                     ]),
 
@@ -317,7 +319,7 @@ class FamilyForm
                                             ]),
                                     ]),
 
-                                 Section::make('Pengeluaran Utilitas')
+                                Section::make('Pengeluaran Utilitas')
                                     ->description('Biaya listrik dan pulsa/internet.')
                                     ->schema([
                                         Grid::make(2)
@@ -325,11 +327,11 @@ class FamilyForm
                                                 TextInput::make('electricity_cost')->label('Pengeluaran Listrik Sebulan (Rp)')
                                                     ->placeholder('Contoh: 150000')
                                                     ->helperText('Tagihan/token listrik rata-rata sebulan.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                                 TextInput::make('internet_cost')->label('Pengeluaran Pulsa / Internet Sebulan (Rp)')
                                                     ->placeholder('Contoh: 100000')
                                                     ->helperText('Pulsa dan kuota internet rata-rata sebulan.')
-                                                    ->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
+                                                    ->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp'),
                                             ]),
                                     ]),
                             ]),
@@ -357,9 +359,9 @@ class FamilyForm
                                         Grid::make(2)
                                             ->schema([
                                                 TextInput::make('motorcycle_count')->label('Sepeda Motor (Jumlah)')->placeholder('0')->helperText('Jumlah unit sepeda motor.')->numeric()->default(0),
-                                                TextInput::make('motorcycle_value')->label('Total Nilai Aset Motor (Rp)')->placeholder('Contoh: 15000000')->helperText('Estimasi nilai taksiran motor.')->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                TextInput::make('motorcycle_value')->label('Total Nilai Aset Motor (Rp)')->placeholder('Contoh: 15000000')->helperText('Estimasi nilai taksiran motor.')->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('car_count')->label('Mobil (Jumlah)')->placeholder('0')->helperText('Jumlah unit mobil.')->numeric()->default(0),
-                                                TextInput::make('car_value')->label('Total Nilai Aset Mobil (Rp)')->placeholder('Contoh: 100000000')->helperText('Estimasi nilai taksiran mobil.')->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                TextInput::make('car_value')->label('Total Nilai Aset Mobil (Rp)')->placeholder('Contoh: 100000000')->helperText('Estimasi nilai taksiran mobil.')->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                             ]),
                                     ]),
 
@@ -369,9 +371,9 @@ class FamilyForm
                                         Grid::make(2)
                                             ->schema([
                                                 TextInput::make('other_land_count')->label('Tanah Lain Dimiliki (Jumlah)')->placeholder('0')->helperText('Jumlah bidang tanah lain.')->numeric()->default(0),
-                                                TextInput::make('other_land_value')->label('Total Nilai Jual Tanah (Rp)')->placeholder('Contoh: 50000000')->helperText('Estimasi nilai jual tanah.')->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                TextInput::make('other_land_value')->label('Total Nilai Jual Tanah (Rp)')->placeholder('Contoh: 50000000')->helperText('Estimasi nilai jual tanah.')->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                                 TextInput::make('other_building_count')->label('Bangunan Lain Dimiliki (Jumlah)')->placeholder('0')->helperText('Jumlah unit bangunan lain.')->numeric()->default(0),
-                                                TextInput::make('other_building_value')->label('Total Nilai Jual Bangunan (Rp)')->placeholder('Contoh: 75000000')->helperText('Estimasi nilai jual bangunan.')->numeric()->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
+                                                TextInput::make('other_building_value')->label('Total Nilai Jual Bangunan (Rp)')->placeholder('Contoh: 75000000')->helperText('Estimasi nilai jual bangunan.')->numeric()->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))->stripCharacters('.')->prefix('Rp')->default(0),
                                             ]),
                                     ]),
 
@@ -400,12 +402,20 @@ class FamilyForm
                                                 'Bantuan Lainnya' => 'Bantuan Lainnya',
                                             ])
                                             ->formatStateUsing(function ($state) {
-                                                if (is_array($state)) return $state;
-                                                if (empty($state) || $state === 'Tidak Ada') return [];
+                                                if (is_array($state)) {
+                                                    return $state;
+                                                }
+                                                if (empty($state) || $state === 'Tidak Ada') {
+                                                    return [];
+                                                }
+
                                                 return array_map('trim', explode(',', $state));
                                             })
                                             ->dehydrateStateUsing(function ($state) {
-                                                if (empty($state) || !is_array($state)) return 'Tidak Ada';
+                                                if (empty($state) || ! is_array($state)) {
+                                                    return 'Tidak Ada';
+                                                }
+
                                                 return implode(', ', $state);
                                             })
                                             ->columns(3)
@@ -425,44 +435,56 @@ class FamilyForm
                                                     ->label('Foto Rumah Tampak Depan')
                                                     ->content(function ($record) {
                                                         $url = $record?->photo_front;
-                                                        if (empty($url)) return new \Illuminate\Support\HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
-                                                        if (str_starts_with($url, 'http')) {
-                                                            return new \Illuminate\Support\HtmlString('<a href="' . e($url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                        if (empty($url)) {
+                                                            return new HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
                                                         }
-                                                        return new \Illuminate\Support\HtmlString('<a href="' . asset('storage/' . $url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
+                                                        if (str_starts_with($url, 'http')) {
+                                                            return new HtmlString('<a href="'.e($url).'" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                        }
+
+                                                        return new HtmlString('<a href="'.asset('storage/'.$url).'" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
                                                     }),
 
                                                 Placeholder::make('photo_living_room_drive')
                                                     ->label('Foto Ruang Tamu')
                                                     ->content(function ($record) {
                                                         $url = $record?->photo_living_room;
-                                                        if (empty($url)) return new \Illuminate\Support\HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
-                                                        if (str_starts_with($url, 'http')) {
-                                                            return new \Illuminate\Support\HtmlString('<a href="' . e($url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                        if (empty($url)) {
+                                                            return new HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
                                                         }
-                                                        return new \Illuminate\Support\HtmlString('<a href="' . asset('storage/' . $url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
+                                                        if (str_starts_with($url, 'http')) {
+                                                            return new HtmlString('<a href="'.e($url).'" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                        }
+
+                                                        return new HtmlString('<a href="'.asset('storage/'.$url).'" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
                                                     }),
 
                                                 Placeholder::make('photo_bathroom_drive')
                                                     ->label('Foto Kamar Mandi')
                                                     ->content(function ($record) {
                                                         $url = $record?->photo_bathroom;
-                                                        if (empty($url)) return new \Illuminate\Support\HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
-                                                        if (str_starts_with($url, 'http')) {
-                                                            return new \Illuminate\Support\HtmlString('<a href="' . e($url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                        if (empty($url)) {
+                                                            return new HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
                                                         }
-                                                        return new \Illuminate\Support\HtmlString('<a href="' . asset('storage/' . $url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
+                                                        if (str_starts_with($url, 'http')) {
+                                                            return new HtmlString('<a href="'.e($url).'" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                        }
+
+                                                        return new HtmlString('<a href="'.asset('storage/'.$url).'" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
                                                     }),
 
                                                 Placeholder::make('photo_kk_drive')
                                                     ->label('Foto Kartu Keluarga')
                                                     ->content(function ($record) {
                                                         $url = $record?->photo_kk;
-                                                        if (empty($url)) return new \Illuminate\Support\HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
-                                                        if (str_starts_with($url, 'http')) {
-                                                            return new \Illuminate\Support\HtmlString('<a href="' . e($url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                        if (empty($url)) {
+                                                            return new HtmlString('<span class="text-gray-400 font-normal">Tidak ada foto</span>');
                                                         }
-                                                        return new \Illuminate\Support\HtmlString('<a href="' . asset('storage/' . $url) . '" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
+                                                        if (str_starts_with($url, 'http')) {
+                                                            return new HtmlString('<a href="'.e($url).'" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 border border-primary-200 dark:border-primary-800 font-medium hover:bg-primary-100 transition-colors">🔗 Buka Foto di Google Drive ↗</a>');
+                                                        }
+
+                                                        return new HtmlString('<a href="'.asset('storage/'.$url).'" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium hover:bg-emerald-100 transition-colors">🖼️ Lihat Foto Lokal ↗</a>');
                                                     }),
                                             ]),
                                     ]),

@@ -16,13 +16,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('families', function (Blueprint $table) {
-            if (!Schema::hasColumn('families', 'rental_estimate')) {
+            if (! Schema::hasColumn('families', 'rental_estimate')) {
                 $table->bigInteger('rental_estimate')->nullable()->after('ownership_proof');
             }
-            if (!Schema::hasColumn('families', 'rental_free_estimate')) {
+            if (! Schema::hasColumn('families', 'rental_free_estimate')) {
                 $table->bigInteger('rental_free_estimate')->nullable()->after('rental_estimate');
             }
-            if (!Schema::hasColumn('families', 'rental_contract_value')) {
+            if (! Schema::hasColumn('families', 'rental_contract_value')) {
                 $table->bigInteger('rental_contract_value')->nullable()->after('rental_free_estimate');
             }
         });
@@ -37,10 +37,16 @@ return new class extends Migration
         // Pada fresh install, kolom ini sudah ada dari base CREATE — jangan di-drop saat rollback migration ini.
         Schema::table('families', function (Blueprint $table) {
             $cols = [];
-            if (Schema::hasColumn('families', 'rental_estimate')) $cols[] = 'rental_estimate';
-            if (Schema::hasColumn('families', 'rental_free_estimate')) $cols[] = 'rental_free_estimate';
-            if (Schema::hasColumn('families', 'rental_contract_value')) $cols[] = 'rental_contract_value';
-            if (!empty($cols)) {
+            if (Schema::hasColumn('families', 'rental_estimate')) {
+                $cols[] = 'rental_estimate';
+            }
+            if (Schema::hasColumn('families', 'rental_free_estimate')) {
+                $cols[] = 'rental_free_estimate';
+            }
+            if (Schema::hasColumn('families', 'rental_contract_value')) {
+                $cols[] = 'rental_contract_value';
+            }
+            if (! empty($cols)) {
                 $table->dropColumn($cols);
             }
         });

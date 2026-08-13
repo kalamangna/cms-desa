@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('families', function (Blueprint $table) {
-            if (!Schema::hasColumn('families', 'cow_count')) {
+            if (! Schema::hasColumn('families', 'cow_count')) {
                 $table->integer('cow_count')->default(0)->after('other_building_value');
             }
-            if (!Schema::hasColumn('families', 'goat_count')) {
+            if (! Schema::hasColumn('families', 'goat_count')) {
                 $table->integer('goat_count')->default(0)->after('cow_count');
             }
-            if (!Schema::hasColumn('families', 'buffalo_count')) {
+            if (! Schema::hasColumn('families', 'buffalo_count')) {
                 $table->integer('buffalo_count')->default(0)->after('goat_count');
             }
         });

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\Category;
-use App\Models\Post;
 use App\Models\Announcement;
-use App\Models\Gallery;
+use App\Models\Category;
 use App\Models\Document;
+use App\Models\Gallery;
+use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -41,8 +41,6 @@ class CMSContentTest extends TestCase
         ]);
         $this->assertDatabaseHas('announcements', ['title' => 'Pengumuman Penting']);
     }
-
-
 
     public function test_can_create_gallery(): void
     {

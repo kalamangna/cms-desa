@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Models\Announcement;
-use App\Models\Official;
-use App\Models\StatisticData;
-use App\Models\StatisticCategory;
-use App\Models\BudgetRealization;
 use App\Models\BudgetCategory;
-use App\Models\Publication;
-use App\Models\Gallery;
+use App\Models\BudgetRealization;
+use App\Models\Citizen;
+use App\Models\Dusun;
 use App\Models\Family;
-use Illuminate\Http\Request;
+use App\Models\Gallery;
+use App\Models\Official;
+use App\Models\Post;
+use App\Models\Publication;
+use App\Models\StatisticData;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -40,19 +40,19 @@ class HomeController extends Controller
         $latestYear = Cache::remember('home_latest_year', $ttl, function () {
             return StatisticData::max('year') ?? date('Y');
         });
-        
+
         $totalPenduduk = Cache::remember('home_total_penduduk_real', $ttl, function () {
-            return \App\Models\Citizen::where('status', 'Aktif')->count();
+            return Citizen::where('status', 'Aktif')->count();
         });
 
         $totalUMKM = Cache::remember('home_total_umkm', $ttl, function () use ($latestYear) {
-            return StatisticData::whereHas('indicator', function($q) {
+            return StatisticData::whereHas('indicator', function ($q) {
                 $q->where('name', 'Jumlah Unit UMKM');
             })->where('year', $latestYear)->value('value') ?? 0;
         });
 
         $totalDusun = Cache::remember('home_total_dusun', $ttl, function () {
-            return \App\Models\Dusun::count();
+            return Dusun::count();
         });
 
         $totalKeluarga = Cache::remember('home_total_keluarga', $ttl, function () {
@@ -60,47 +60,47 @@ class HomeController extends Controller
         });
 
         $totalRT = Cache::remember('home_total_rt', $ttl, function () {
-            return \App\Models\Dusun::sum('total_rt');
+            return Dusun::sum('total_rt');
         });
 
         $totalRW = Cache::remember('home_total_rw', $ttl, function () {
-            return \App\Models\Dusun::sum('total_rw');
+            return Dusun::sum('total_rw');
         });
 
         $jobData = Cache::remember('home_job_stats', $ttl, function () {
-            return \App\Models\Citizen::select('job_status as name', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
-                   ->where('status', 'Aktif')
-                   ->whereNotNull('job_status')
-                   ->where('job_status', '!=', '')
-                   ->groupBy('job_status')
-                   ->get();
+            return Citizen::select('job_status as name', DB::raw('count(*) as total'))
+                ->where('status', 'Aktif')
+                ->whereNotNull('job_status')
+                ->where('job_status', '!=', '')
+                ->groupBy('job_status')
+                ->get();
         });
 
         $eduData = Cache::remember('home_edu_stats', $ttl, function () {
-            return \App\Models\Citizen::select('education as name', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
-                   ->where('status', 'Aktif')
-                   ->whereNotNull('education')
-                   ->groupBy('education')
-                   ->get();
+            return Citizen::select('education as name', DB::raw('count(*) as total'))
+                ->where('status', 'Aktif')
+                ->whereNotNull('education')
+                ->groupBy('education')
+                ->get();
         });
 
         $lakiLakiCount = Cache::remember('home_laki_laki_count', $ttl, function () {
-            return \App\Models\Citizen::where('status', 'Aktif')->where('gender', 'Laki-laki')->count();
+            return Citizen::where('status', 'Aktif')->where('gender', 'Laki-laki')->count();
         });
 
         $perempuanCount = Cache::remember('home_perempuan_count', $ttl, function () {
-            return \App\Models\Citizen::where('status', 'Aktif')->where('gender', 'Perempuan')->count();
+            return Citizen::where('status', 'Aktif')->where('gender', 'Perempuan')->count();
         });
 
         $disabilitasCount = Cache::remember('home_disabilitas_count', $ttl, function () {
-            return \App\Models\Citizen::where('status', 'Aktif')
+            return Citizen::where('status', 'Aktif')
                 ->where(function ($q) {
                     $q->where('disability_physical', 1)
-                      ->orWhere('disability_mental', 1)
-                      ->orWhere('disability_intellectual', 1)
-                      ->orWhere('disability_blind', 1)
-                      ->orWhere('disability_deaf', 1)
-                      ->orWhere('disability_speech', 1);
+                        ->orWhere('disability_mental', 1)
+                        ->orWhere('disability_intellectual', 1)
+                        ->orWhere('disability_blind', 1)
+                        ->orWhere('disability_deaf', 1)
+                        ->orWhere('disability_speech', 1);
                 })->count();
         });
 
@@ -112,7 +112,7 @@ class HomeController extends Controller
             $summary = [
                 'pendapatan' => ['budget' => 0, 'realization' => 0],
                 'belanja' => ['budget' => 0, 'realization' => 0],
-                'pembiayaan' => ['budget' => 0, 'realization' => 0]
+                'pembiayaan' => ['budget' => 0, 'realization' => 0],
             ];
 
             foreach ($categories as $cat) {
@@ -153,7 +153,6 @@ class HomeController extends Controller
         $belanjaPct = $budgetSummary['belanja']['budget'] > 0
             ? min(($budgetSummary['belanja']['realization'] / $budgetSummary['belanja']['budget']) * 100, 100)
             : 0;
-
 
         $publications = Cache::remember('home_publications', $ttl, function () {
             return Publication::latest()->take(4)->get();

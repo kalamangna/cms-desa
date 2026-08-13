@@ -2,12 +2,10 @@
 
 namespace App\Filament\Resources\Documents\Schemas;
 
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Str;
-use Filament\Forms\Set;
 
 class DocumentForm
 {

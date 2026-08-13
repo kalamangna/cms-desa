@@ -14,7 +14,7 @@ return new class extends Migration
         // 1. Budget Categories Table (APBDes Categories)
         if (Schema::hasTable('budget_categories')) {
             Schema::table('budget_categories', function (Blueprint $table) {
-                if (!Schema::hasColumn('budget_categories', 'deleted_at')) {
+                if (! Schema::hasColumn('budget_categories', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });
@@ -31,10 +31,10 @@ return new class extends Migration
         // 2. Budget Realizations Table
         if (Schema::hasTable('budget_realizations')) {
             Schema::table('budget_realizations', function (Blueprint $table) {
-                if (!Schema::hasColumn('budget_realizations', 'title')) {
+                if (! Schema::hasColumn('budget_realizations', 'title')) {
                     $table->string('title')->nullable();
                 }
-                if (!Schema::hasColumn('budget_realizations', 'deleted_at')) {
+                if (! Schema::hasColumn('budget_realizations', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });

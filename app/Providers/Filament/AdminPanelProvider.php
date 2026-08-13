@@ -3,15 +3,20 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
-use Filament\Http\Middleware\Authenticate;
+use App\Filament\Pages\Cadangan;
+use App\Filament\Widgets\VisitSiteWidget;
+use App\Models\Setting;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -19,9 +24,11 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Navigation\NavigationGroup;
-use Filament\View\PanelsRenderHook;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -34,7 +41,7 @@ class AdminPanelProvider extends PanelProvider
             ->login(Login::class)
             ->renderHook(
                 PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
-                fn (): string => \Illuminate\Support\Facades\Blade::render('
+                fn (): string => Blade::render('
                     <div class="text-center mt-6">
                         <x-filament::link
                             href="/"
@@ -50,14 +57,15 @@ class AdminPanelProvider extends PanelProvider
 
             ->brandName(function () {
                 try {
-                    if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
-                        $name = \App\Models\Setting::where('key', 'village_name')->value('value');
-                        if (!empty($name)) {
-                            return 'Desa ' . \Illuminate\Support\Str::title($name);
+                    if (Schema::hasTable('settings')) {
+                        $name = Setting::where('key', 'village_name')->value('value');
+                        if (! empty($name)) {
+                            return 'Desa '.Str::title($name);
                         }
                     }
                 } catch (\Throwable $e) {
                 }
+
                 return 'Website Desa';
             })
             ->brandLogo('/img/sinjai.png')
@@ -77,21 +85,21 @@ class AdminPanelProvider extends PanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->navigationGroups([
                 NavigationGroup::make()
-                     ->label('Kependudukan'),
+                    ->label('Kependudukan'),
                 NavigationGroup::make()
-                     ->label('Profil'),
+                    ->label('Profil'),
                 NavigationGroup::make()
-                     ->label('Informasi'),
+                    ->label('Informasi'),
                 NavigationGroup::make()
-                     ->label('Transparansi'),
+                    ->label('Transparansi'),
                 NavigationGroup::make()
-                     ->label('Layanan'),
+                    ->label('Layanan'),
                 NavigationGroup::make()
-                     ->label('Peta'),
+                    ->label('Peta'),
                 NavigationGroup::make()
-                     ->label('Master'),
+                    ->label('Master'),
                 NavigationGroup::make()
-                     ->label('Sistem'),
+                    ->label('Sistem'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
@@ -100,7 +108,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                \App\Filament\Widgets\VisitSiteWidget::class,
+                VisitSiteWidget::class,
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
@@ -120,12 +128,12 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('Sistem')
                     ->navigationLabel('Peran')
                     ->navigationSort(4),
-                \ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin::make()
+                FilamentSpatieLaravelBackupPlugin::make()
                     ->authorize(fn () => auth()->user()?->hasRole('super_admin') ?? false)
                     ->navigationGroup('Sistem')
                     ->navigationLabel('Cadangan')
                     ->navigationSort(5)
-                    ->usingPage(\App\Filament\Pages\Cadangan::class),
+                    ->usingPage(Cadangan::class),
             ])
             ->authMiddleware([
                 Authenticate::class,

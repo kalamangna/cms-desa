@@ -18,7 +18,7 @@ trait Auditable
             $new = $model->getChanges();
             unset($old['updated_at'], $new['updated_at']);
 
-            if (!empty($new)) {
+            if (! empty($new)) {
                 static::logAudit('updated', $model, $old, $new);
             }
         });

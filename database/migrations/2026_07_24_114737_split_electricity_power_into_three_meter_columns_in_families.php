@@ -16,13 +16,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('families', function (Blueprint $table) {
-            if (!Schema::hasColumn('families', 'electricity_power_meter_1')) {
+            if (! Schema::hasColumn('families', 'electricity_power_meter_1')) {
                 $table->string('electricity_power_meter_1')->nullable()->after('lighting_source');
             }
-            if (!Schema::hasColumn('families', 'electricity_power_meter_2')) {
+            if (! Schema::hasColumn('families', 'electricity_power_meter_2')) {
                 $table->string('electricity_power_meter_2')->nullable()->after('electricity_power_meter_1');
             }
-            if (!Schema::hasColumn('families', 'electricity_power_meter_3')) {
+            if (! Schema::hasColumn('families', 'electricity_power_meter_3')) {
                 $table->string('electricity_power_meter_3')->nullable()->after('electricity_power_meter_2');
             }
         });

@@ -2,10 +2,12 @@
 
 namespace App\Filament\Pages\Auth;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Component;
-use Filament\Forms\Components\TextInput;
+use App\Models\Setting;
 use Filament\Auth\Pages\Login as BaseLogin;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class Login extends BaseLogin
@@ -19,13 +21,14 @@ class Login extends BaseLogin
     {
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
-                $name = \App\Models\Setting::where('key', 'village_name')->value('value');
-                if (!empty($name)) {
-                    return 'Pemerintah Desa ' . \Illuminate\Support\Str::title($name);
+                $name = Setting::where('key', 'village_name')->value('value');
+                if (! empty($name)) {
+                    return 'Pemerintah Desa '.Str::title($name);
                 }
             }
         } catch (\Throwable $e) {
         }
+
         return 'Pemerintah Desa';
     }
 

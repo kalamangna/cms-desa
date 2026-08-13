@@ -13,7 +13,7 @@ class VisitorChartWidget extends ChartWidget
 
     protected static ?int $sort = 2;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getFilters(): ?array
     {
@@ -27,16 +27,16 @@ class VisitorChartWidget extends ChartWidget
     protected function getData(): array
     {
         $days = (int) ($this->filter ?? '7');
-        
+
         $data = collect(range($days - 1, 0))
             ->map(function ($i) {
                 $date = now()->subDays($i)->format('Y-m-d');
-                
+
                 $pageViews = VisitorLog::where('visit_date', $date)->count();
                 $uniqueVisitors = VisitorLog::where('visit_date', $date)
                     ->distinct('ip_hash')
                     ->count('ip_hash');
-                    
+
                 return [
                     'date' => now()->subDays($i)->translatedFormat('d M'),
                     'views' => $pageViews,

@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Citizen;
-use App\Models\Family;
 use App\Models\Dusun;
+use App\Models\Family;
 use Faker\Factory as Faker;
-use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class PopulationSeeder extends Seeder
 {
@@ -17,14 +16,15 @@ class PopulationSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Membuat data Keluarga dan Penduduk...');
-        
+
         $faker = Faker::create('id_ID');
-        
+
         // Ambil dusun yang sudah ada
         $dusuns = Dusun::all();
-        
+
         if ($dusuns->isEmpty()) {
             $this->command->error('Tidak ada data Dusun! Jalankan VillageProfileSeeder terlebih dahulu.');
+
             return;
         }
 
@@ -39,7 +39,7 @@ class PopulationSeeder extends Seeder
             $rw = str_pad(rand(1, $dusun->total_rw), 3, '0', STR_PAD_LEFT);
             $headGender = rand(0, 1) ? 'male' : 'female';
             $headName = $faker->name($headGender);
-            
+
             // Generate NIK (16 digits) and KK (16 digits)
             $kkNumber = $faker->numerify('7307##########');
             $headNik = $faker->numerify('7307##########');
@@ -92,7 +92,7 @@ class PopulationSeeder extends Seeder
             // 3. Buat Istri / Suami (tergantung Kepala Keluarga)
             $spouseGender = $headGender == 'male' ? 'female' : 'male';
             $spouseNik = $faker->numerify('7307##########');
-            
+
             $spouseEdu = $faker->randomElement($educations);
             Citizen::create([
                 'nik' => $spouseNik,
@@ -122,7 +122,7 @@ class PopulationSeeder extends Seeder
                 $childGender = rand(0, 1) ? 'Laki-laki' : 'Perempuan';
                 $childNik = $faker->numerify('7307##########');
                 $isAdult = rand(0, 1);
-                
+
                 $childEdu = $isAdult ? $faker->randomElement($educations) : 'SD / Sederajat';
                 Citizen::create([
                     'nik' => $childNik,
@@ -131,7 +131,7 @@ class PopulationSeeder extends Seeder
                     'kk_order' => $j + 3,
                     'name' => $faker->name($childGender == 'Laki-laki' ? 'male' : 'female'),
                     'place_of_birth' => $faker->city,
-                    'date_of_birth' => $isAdult 
+                    'date_of_birth' => $isAdult
                         ? $faker->dateTimeBetween('-24 years', '-18 years')->format('Y-m-d')
                         : $faker->dateTimeBetween('-17 years', '-5 years')->format('Y-m-d'),
                     'gender' => $childGender,

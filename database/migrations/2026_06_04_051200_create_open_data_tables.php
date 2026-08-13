@@ -14,28 +14,28 @@ return new class extends Migration
         // 1. Datasets Table (Open Data)
         if (Schema::hasTable('datasets')) {
             Schema::table('datasets', function (Blueprint $table) {
-                if (!Schema::hasColumn('datasets', 'slug')) {
+                if (! Schema::hasColumn('datasets', 'slug')) {
                     $table->string('slug')->unique()->nullable();
                 }
-                if (!Schema::hasColumn('datasets', 'description')) {
+                if (! Schema::hasColumn('datasets', 'description')) {
                     $table->text('description')->nullable();
                 }
-                if (!Schema::hasColumn('datasets', 'year')) {
+                if (! Schema::hasColumn('datasets', 'year')) {
                     $table->year('year')->nullable();
                 }
-                if (!Schema::hasColumn('datasets', 'source')) {
+                if (! Schema::hasColumn('datasets', 'source')) {
                     $table->string('source')->nullable();
                 }
-                if (!Schema::hasColumn('datasets', 'file_csv')) {
+                if (! Schema::hasColumn('datasets', 'file_csv')) {
                     $table->string('file_csv')->nullable();
                 }
-                if (!Schema::hasColumn('datasets', 'file_xlsx')) {
+                if (! Schema::hasColumn('datasets', 'file_xlsx')) {
                     $table->string('file_xlsx')->nullable();
                 }
-                if (!Schema::hasColumn('datasets', 'file_pdf')) {
+                if (! Schema::hasColumn('datasets', 'file_pdf')) {
                     $table->string('file_pdf')->nullable();
                 }
-                if (!Schema::hasColumn('datasets', 'deleted_at')) {
+                if (! Schema::hasColumn('datasets', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });
@@ -58,19 +58,19 @@ return new class extends Migration
         // 2. Metadata Table
         if (Schema::hasTable('metadata')) {
             Schema::table('metadata', function (Blueprint $table) {
-                if (!Schema::hasColumn('metadata', 'source')) {
+                if (! Schema::hasColumn('metadata', 'source')) {
                     $table->string('source')->nullable();
                 }
-                if (!Schema::hasColumn('metadata', 'definition')) {
+                if (! Schema::hasColumn('metadata', 'definition')) {
                     $table->text('definition')->nullable();
                 }
-                if (!Schema::hasColumn('metadata', 'update_frequency')) {
+                if (! Schema::hasColumn('metadata', 'update_frequency')) {
                     $table->string('update_frequency')->nullable();
                 }
-                if (!Schema::hasColumn('metadata', 'responsible_person')) {
+                if (! Schema::hasColumn('metadata', 'responsible_person')) {
                     $table->string('responsible_person')->nullable();
                 }
-                if (!Schema::hasColumn('metadata', 'deleted_at')) {
+                if (! Schema::hasColumn('metadata', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });
@@ -90,22 +90,22 @@ return new class extends Migration
         // 3. Publications Table (e.g. Infographics/Reports PDFs)
         if (Schema::hasTable('publications')) {
             Schema::table('publications', function (Blueprint $table) {
-                if (!Schema::hasColumn('publications', 'slug')) {
+                if (! Schema::hasColumn('publications', 'slug')) {
                     $table->string('slug')->unique()->nullable();
                 }
-                if (!Schema::hasColumn('publications', 'type')) {
+                if (! Schema::hasColumn('publications', 'type')) {
                     $table->string('type')->nullable();
                 }
-                if (!Schema::hasColumn('publications', 'year')) {
+                if (! Schema::hasColumn('publications', 'year')) {
                     $table->year('year')->nullable();
                 }
-                if (!Schema::hasColumn('publications', 'cover')) {
+                if (! Schema::hasColumn('publications', 'cover')) {
                     $table->string('cover')->nullable();
                 }
-                if (!Schema::hasColumn('publications', 'pdf_file')) {
+                if (! Schema::hasColumn('publications', 'pdf_file')) {
                     $table->string('pdf_file')->nullable();
                 }
-                if (!Schema::hasColumn('publications', 'deleted_at')) {
+                if (! Schema::hasColumn('publications', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Cache;
 
 return new class extends Migration
 {
@@ -12,25 +13,25 @@ return new class extends Migration
     public function up(): void
     {
         if (
-            !function_exists('imagecreatefromwebp') ||
-            !function_exists('imagewebp') ||
-            !function_exists('imagecreatetruecolor')
+            ! function_exists('imagecreatefromwebp') ||
+            ! function_exists('imagewebp') ||
+            ! function_exists('imagecreatetruecolor')
         ) {
             return;
         }
 
         $rules = [
             'officials' => 500,
-            'settings'  => 700,
+            'settings' => 700,
         ];
 
         foreach ($rules as $subDir => $maxDimension) {
-            $dir = storage_path('app/public/' . $subDir);
-            if (!is_dir($dir)) {
+            $dir = storage_path('app/public/'.$subDir);
+            if (! is_dir($dir)) {
                 continue;
             }
 
-            $files = glob($dir . '/*.webp') ?: [];
+            $files = glob($dir.'/*.webp') ?: [];
 
             foreach ($files as $path) {
                 $this->resizeWebp($path, $maxDimension);
@@ -38,8 +39,8 @@ return new class extends Migration
         }
 
         try {
-            \Illuminate\Support\Facades\Cache::flush();
-        } catch (\Throwable $e) {
+            Cache::flush();
+        } catch (Throwable $e) {
             // Ignore
         }
     }
@@ -52,7 +53,7 @@ return new class extends Migration
     {
         try {
             $img = @imagecreatefromwebp($path);
-            if (!$img) {
+            if (! $img) {
                 return;
             }
 
@@ -62,6 +63,7 @@ return new class extends Migration
             // Skip if already within limits
             if ($w <= $maxDimension && $h <= $maxDimension) {
                 imagedestroy($img);
+
                 return;
             }
 
@@ -83,7 +85,7 @@ return new class extends Migration
 
             @imagewebp($resized, $path, $quality);
             imagedestroy($resized);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // Skip problematic files silently
         }
     }

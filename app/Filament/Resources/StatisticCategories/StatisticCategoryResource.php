@@ -2,16 +2,15 @@
 
 namespace App\Filament\Resources\StatisticCategories;
 
-use App\Filament\Resources\StatisticCategories\Pages\ListStatisticCategories;
 use App\Filament\Resources\StatisticCategories\Pages\CreateStatisticCategory;
 use App\Filament\Resources\StatisticCategories\Pages\EditStatisticCategory;
+use App\Filament\Resources\StatisticCategories\Pages\ListStatisticCategories;
 use App\Filament\Resources\StatisticCategories\Schemas\StatisticCategoryForm;
 use App\Filament\Resources\StatisticCategories\Tables\StatisticCategoriesTable;
 use App\Models\StatisticCategory;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
 class StatisticCategoryResource extends Resource

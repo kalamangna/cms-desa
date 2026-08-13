@@ -37,7 +37,7 @@ class ComplaintController extends Controller
         $complaint = Complaint::where('ticket_number', trim($request->ticket_number))->first();
 
         if ($request->wantsJson() || $request->ajax()) {
-            if (!$complaint) {
+            if (! $complaint) {
                 return response()->json(['found' => false, 'message' => 'Nomor tiket tidak ditemukan'], 404);
             }
 

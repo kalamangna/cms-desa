@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 return new class extends Migration
 {
@@ -12,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         // Bersihkan cache permission bawaan Spatie
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $role = Role::where('name', 'admin_desa')->first();
         if ($role) {
@@ -23,7 +24,7 @@ return new class extends Migration
                 'View:Role', 'ViewAny:Role', 'Create:Role', 'Update:Role', 'Delete:Role', 'DeleteAny:Role', 'ForceDelete:Role', 'ForceDeleteAny:Role', 'Restore:Role', 'RestoreAny:Role', 'Replicate:Role', 'Reorder:Role',
                 'View:User', 'ViewAny:User', 'Create:User', 'Update:User', 'Delete:User', 'DeleteAny:User', 'ForceDelete:User', 'ForceDeleteAny:User', 'Restore:User', 'RestoreAny:User', 'Replicate:User', 'Reorder:User',
                 'View:AuditLog', 'ViewAny:AuditLog', 'Create:AuditLog', 'Update:AuditLog', 'Delete:AuditLog', 'DeleteAny:AuditLog', 'ForceDelete:AuditLog', 'ForceDeleteAny:AuditLog', 'Restore:AuditLog', 'RestoreAny:AuditLog', 'Replicate:AuditLog', 'Reorder:AuditLog',
-                'View:Backups'
+                'View:Backups',
             ];
 
             // Filter izin yang BOLEH dimiliki oleh admin_desa
@@ -36,9 +37,9 @@ return new class extends Migration
             // Ini akan memastikan admin_desa mendapatkan ratusan izin konten, tapi tidak izin sensitif
             $role->syncPermissions($permissionsToAssign);
         }
-        
+
         // Bersihkan cache lagi setelah operasi selesai
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
     }
 
     /**

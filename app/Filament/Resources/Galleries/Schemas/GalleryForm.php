@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources\Galleries\Schemas;
 
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
 class GalleryForm
@@ -14,7 +15,7 @@ class GalleryForm
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         TextInput::make('title')->label('Judul')
                             ->placeholder('Contoh: Pelaksanaan Kerja Bakti Dusun')

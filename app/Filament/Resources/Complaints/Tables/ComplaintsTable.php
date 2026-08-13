@@ -2,13 +2,14 @@
 
 namespace App\Filament\Resources\Complaints\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\Action;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 
 class ComplaintsTable
 {
@@ -51,7 +52,7 @@ class ComplaintsTable
             ])
             ->recordActions([
                 EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                DeleteAction::make(),
                 Action::make('whatsapp')
                     ->label('Kirim WA')
                     ->icon('heroicon-o-chat-bubble-left-ellipsis')
@@ -59,16 +60,17 @@ class ComplaintsTable
                     ->url(function ($record): string {
                         $waNumber = preg_replace('/[^0-9]/', '', $record->phone ?? '');
                         if (str_starts_with($waNumber, '0')) {
-                            $waNumber = '62' . substr($waNumber, 1);
+                            $waNumber = '62'.substr($waNumber, 1);
                         }
                         $response = $record->response ? "\n\nTanggapan: {$record->response}" : '';
                         $statusLabel = match ($record->status) {
                             'Diproses' => 'sedang DIPROSES',
-                            'Selesai'  => 'telah SELESAI ditindaklanjuti',
-                            default    => 'masih MENUNGGU',
+                            'Selesai' => 'telah SELESAI ditindaklanjuti',
+                            default => 'masih MENUNGGU',
                         };
                         $message = "Halo {$record->name}, pengaduan Anda dengan judul \"{$record->title}\" (Nomor Tiket: {$record->ticket_number}) {$statusLabel}.{$response}\n\nTerima kasih.";
-                        return "https://wa.me/{$waNumber}?text=" . urlencode($message);
+
+                        return "https://wa.me/{$waNumber}?text=".urlencode($message);
                     })
                     ->openUrlInNewTab()
                     ->visible(fn ($record): bool => ! empty($record->phone)),
@@ -80,4 +82,3 @@ class ComplaintsTable
             ]);
     }
 }
-

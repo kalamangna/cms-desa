@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\GuestBooks\Schemas;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Schema;
 
 class GuestBookForm
 {
@@ -12,7 +13,7 @@ class GuestBookForm
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Grid::make(3)
+                Grid::make(3)
                     ->schema([
                         TextInput::make('name')->label('Nama Lengkap')
                             ->placeholder('Contoh: Ir. Budi Santoso')

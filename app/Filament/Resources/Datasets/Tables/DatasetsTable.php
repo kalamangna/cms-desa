@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Datasets\Tables;
 
+use App\Models\Dataset;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
@@ -70,12 +72,12 @@ class DatasetsTable
             ->filters([
                 SelectFilter::make('year')
                     ->label('Tahun')
-                    ->options(fn () => \App\Models\Dataset::distinct()->orderByDesc('year')->pluck('year', 'year')->toArray()),
+                    ->options(fn () => Dataset::distinct()->orderByDesc('year')->pluck('year', 'year')->toArray()),
                 TrashedFilter::make(),
             ])
             ->recordActions([
                 EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Citizen extends Model
 {
@@ -196,33 +197,33 @@ class Citizen extends Model
         parent::boot();
 
         static::saving(function ($citizen) {
-            if ($citizen->education_level && !$citizen->education) {
+            if ($citizen->education_level && ! $citizen->education) {
                 $citizen->education = $citizen->education_level;
-            } elseif ($citizen->education && !$citizen->education_level) {
+            } elseif ($citizen->education && ! $citizen->education_level) {
                 $citizen->education_level = $citizen->education;
             }
         });
 
         static::saved(function () {
-            \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
-            \Illuminate\Support\Facades\Cache::forget('home_job_stats');
-            \Illuminate\Support\Facades\Cache::forget('home_edu_stats');
-            \Illuminate\Support\Facades\Cache::forget('home_religion_stats');
-            \Illuminate\Support\Facades\Cache::forget('home_laki_laki_count');
-            \Illuminate\Support\Facades\Cache::forget('home_perempuan_count');
-            \Illuminate\Support\Facades\Cache::forget('home_disabilitas_count');
-            \Illuminate\Support\Facades\Cache::forget('profil_total_penduduk');
+            Cache::forget('home_total_penduduk_real');
+            Cache::forget('home_job_stats');
+            Cache::forget('home_edu_stats');
+            Cache::forget('home_religion_stats');
+            Cache::forget('home_laki_laki_count');
+            Cache::forget('home_perempuan_count');
+            Cache::forget('home_disabilitas_count');
+            Cache::forget('profil_total_penduduk');
         });
 
         static::deleted(function () {
-            \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
-            \Illuminate\Support\Facades\Cache::forget('home_job_stats');
-            \Illuminate\Support\Facades\Cache::forget('home_edu_stats');
-            \Illuminate\Support\Facades\Cache::forget('home_religion_stats');
-            \Illuminate\Support\Facades\Cache::forget('home_laki_laki_count');
-            \Illuminate\Support\Facades\Cache::forget('home_perempuan_count');
-            \Illuminate\Support\Facades\Cache::forget('home_disabilitas_count');
-            \Illuminate\Support\Facades\Cache::forget('profil_total_penduduk');
+            Cache::forget('home_total_penduduk_real');
+            Cache::forget('home_job_stats');
+            Cache::forget('home_edu_stats');
+            Cache::forget('home_religion_stats');
+            Cache::forget('home_laki_laki_count');
+            Cache::forget('home_perempuan_count');
+            Cache::forget('home_disabilitas_count');
+            Cache::forget('profil_total_penduduk');
         });
     }
 

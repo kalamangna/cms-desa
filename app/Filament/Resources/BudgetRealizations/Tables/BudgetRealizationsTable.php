@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\BudgetRealizations\Tables;
 
+use App\Models\BudgetRealization;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -40,7 +42,7 @@ class BudgetRealizationsTable
             ->filters([
                 SelectFilter::make('year')
                     ->label('Tahun')
-                    ->options(fn () => \App\Models\BudgetRealization::distinct()->orderByDesc('year')->pluck('year', 'year')->toArray()),
+                    ->options(fn () => BudgetRealization::distinct()->orderByDesc('year')->pluck('year', 'year')->toArray()),
                 SelectFilter::make('budget_category_id')
                     ->label('Kategori')
                     ->relationship('category', 'name')
@@ -49,7 +51,7 @@ class BudgetRealizationsTable
             ])
             ->recordActions([
                 EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class StatisticCategory extends Model
 {
     protected $fillable = [
         'name', 'slug', 'description', 'is_active', 'mapping_table', 'mapping_column', 'secondary_columns',
-        'comparison_column', 'comparison_value_a', 'comparison_value_b', 'comparison_label_a', 'comparison_label_b'
+        'comparison_column', 'comparison_value_a', 'comparison_value_b', 'comparison_label_a', 'comparison_label_b',
     ];
 
     protected $casts = [
@@ -48,14 +50,14 @@ class StatisticCategory extends Model
     {
         static::saving(function ($category) {
             if (empty($category->slug) || $category->isDirty('name')) {
-                $category->slug = \Illuminate\Support\Str::slug($category->name);
+                $category->slug = Str::slug($category->name);
             }
         });
 
         static::saved(function ($category) {
-            if ($category->mapping_table && !empty($category->mapping_column)) {
-                $columns = is_array($category->mapping_column) 
-                    ? $category->mapping_column 
+            if ($category->mapping_table && ! empty($category->mapping_column)) {
+                $columns = is_array($category->mapping_column)
+                    ? $category->mapping_column
                     : (json_decode($category->mapping_column, true) ?: [$category->mapping_column]);
 
                 if (! in_array($category->mapping_table, self::ALLOWED_TABLES, true)) {
@@ -183,7 +185,7 @@ class StatisticCategory extends Model
                             ]);
                         }
                     } else {
-                        $query = \Illuminate\Support\Facades\DB::table($category->mapping_table)
+                        $query = DB::table($category->mapping_table)
                             ->whereNull('deleted_at')
                             ->whereNotNull($col)
                             ->where($col, '!=', '');
@@ -196,8 +198,10 @@ class StatisticCategory extends Model
                         $normalizedValues = [];
 
                         foreach ($values as $val) {
-                            $valStr = trim((string)$val);
-                            if ($valStr === '') continue;
+                            $valStr = trim((string) $val);
+                            if ($valStr === '') {
+                                continue;
+                            }
 
                             // Normalisasi spasi ganda
                             $valStr = preg_replace('/\s+/', ' ', $valStr);
@@ -207,9 +211,9 @@ class StatisticCategory extends Model
 
                             // Penanganan singkatan umum agar tetap UPPERCASE
                             $abbreviations = [
-                                'Pns', 'Sd', 'Smp', 'Sma', 'Bkkbn', 'Kk', 'Bpjs', 'Rt', 'Rw', 
-                                'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3', 'Pip', 'Pkh', 
-                                'Bnt', 'Blt', 'Kps', 'Kip', 'Kis', 'Sktm', 'Pbi', 'Non Pbi'
+                                'Pns', 'Sd', 'Smp', 'Sma', 'Bkkbn', 'Kk', 'Bpjs', 'Rt', 'Rw',
+                                'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3', 'Pip', 'Pkh',
+                                'Bnt', 'Blt', 'Kps', 'Kip', 'Kis', 'Sktm', 'Pbi', 'Non Pbi',
                             ];
                             foreach ($abbreviations as $abbr) {
                                 // Match exact word bounds or whole string
@@ -226,7 +230,7 @@ class StatisticCategory extends Model
 
                             $category->indicators()->create([
                                 'name' => $indicatorName,
-                                	'unit' => $unit,
+                                'unit' => $unit,
                                 'mapping_column' => $col,
                                 'mapping_operator' => '=',
                                 'mapping_value' => $mappingValue,
@@ -264,7 +268,7 @@ class StatisticCategory extends Model
             'illness_cholesterol' => 'Penyakit Kolesterol',
             'illness_other' => 'Penyakit Lainnya',
             'has_digital_wallet' => 'Kepemilikan Dompet Digital/Rekening',
-            
+
             // families
             'assistance_type' => 'Jenis Bantuan Sosial',
             'ownership_status' => 'Status Kepemilikan Rumah',
@@ -278,7 +282,10 @@ class StatisticCategory extends Model
 
     public static function isBooleanColumn(?string $column): bool
     {
-        if (empty($column)) return false;
+        if (empty($column)) {
+            return false;
+        }
+
         return str_starts_with($column, 'disability_') ||
                str_starts_with($column, 'illness_') ||
                str_starts_with($column, 'has_') ||

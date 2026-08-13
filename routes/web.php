@@ -1,19 +1,26 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\OfficialController;
-use App\Http\Controllers\StatisticController;
-use App\Http\Controllers\DatasetController;
-use App\Http\Controllers\PublicationController;
-use App\Http\Controllers\APBDesController;
-use App\Http\Controllers\SitemapController;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\APBDesController;
+use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\DatasetController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\GuestBookController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\MapController;
+use App\Http\Controllers\OfficialController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\PublicationController;
+use App\Http\Controllers\ServiceRequestController;
+use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\StatisticController;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 
 // Route untuk SEO & Robots
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
@@ -23,19 +30,19 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/profil', [PageController::class, 'profil'])->name('profil');
 Route::get('/layanan', [PageController::class, 'layanan'])->name('layanan');
-Route::post('/layanan/ajukan', [\App\Http\Controllers\ServiceRequestController::class, 'store'])->name('service-requests.store');
-Route::get('/layanan/lacak', [\App\Http\Controllers\ServiceRequestController::class, 'track'])->name('service-requests.track');
+Route::post('/layanan/ajukan', [ServiceRequestController::class, 'store'])->name('service-requests.store');
+Route::get('/layanan/lacak', [ServiceRequestController::class, 'track'])->name('service-requests.track');
 
 Route::get('/kontak', [PageController::class, 'kontak'])->name('kontak');
 Route::get('/potensi', [PageController::class, 'potensi'])->name('potensi');
-Route::get('/peta', [\App\Http\Controllers\MapController::class, 'index'])->name('peta.index');
+Route::get('/peta', [MapController::class, 'index'])->name('peta.index');
 
-Route::get('/buku-tamu', [\App\Http\Controllers\GuestBookController::class, 'index'])->name('guest-book.index');
-Route::post('/buku-tamu', [\App\Http\Controllers\GuestBookController::class, 'store'])->name('guest-book.store');
+Route::get('/buku-tamu', [GuestBookController::class, 'index'])->name('guest-book.index');
+Route::post('/buku-tamu', [GuestBookController::class, 'store'])->name('guest-book.store');
 
-Route::get('/pengaduan', [\App\Http\Controllers\ComplaintController::class, 'index'])->name('complaints.index');
-Route::post('/pengaduan', [\App\Http\Controllers\ComplaintController::class, 'store'])->name('complaints.store');
-Route::get('/pengaduan/lacak', [\App\Http\Controllers\ComplaintController::class, 'track'])->name('complaints.track');
+Route::get('/pengaduan', [ComplaintController::class, 'index'])->name('complaints.index');
+Route::post('/pengaduan', [ComplaintController::class, 'store'])->name('complaints.store');
+Route::get('/pengaduan/lacak', [ComplaintController::class, 'track'])->name('complaints.track');
 
 Route::get('/aparatur', [OfficialController::class, 'index'])->name('officials.index');
 Route::get('/lembaga', [InstitutionController::class, 'index'])->name('institutions.index');
@@ -64,33 +71,35 @@ Route::get('/init', function () {
 
     $src = storage_path('app/public');
     $dst = public_path('storage');
-    
+
     // Pastikan folder public/storage dibuat sebagai folder fisik
-    if (!file_exists($dst)) {
-        if (!@mkdir($dst, 0755, true)) {
-            return "Gagal membuat folder public/storage fisik. Harap buat folder tersebut secara manual melalui cPanel File Manager dengan hak akses 755.";
+    if (! file_exists($dst)) {
+        if (! @mkdir($dst, 0755, true)) {
+            return 'Gagal membuat folder public/storage fisik. Harap buat folder tersebut secara manual melalui cPanel File Manager dengan hak akses 755.';
         }
     }
-    
+
     // Fungsi rekursif menyalin isi folder
     $copyRecursive = function ($src, $dst) use (&$copyRecursive) {
-        if (!file_exists($src)) return;
+        if (! file_exists($src)) {
+            return;
+        }
         $dir = opendir($src);
         @mkdir($dst, 0755, true);
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
-                if (is_dir($src . '/' . $file)) {
-                    $copyRecursive($src . '/' . $file, $dst . '/' . $file);
+                if (is_dir($src.'/'.$file)) {
+                    $copyRecursive($src.'/'.$file, $dst.'/'.$file);
                 } else {
-                    @copy($src . '/' . $file, $dst . '/' . $file);
+                    @copy($src.'/'.$file, $dst.'/'.$file);
                 }
             }
         }
         closedir($dir);
     };
-    
+
     $copyRecursive($src, $dst);
-    
+
     // Perbaiki tautan 404 di DB jika file .webp fisik tidak ada tetapi tautan di DB sudah terlanjur ber-ekstensi .webp
     $tablesAndColumns = [
         'posts' => ['featured_image'],
@@ -105,30 +114,36 @@ Route::get('/init', function () {
 
     $revertedCount = 0;
     foreach ($tablesAndColumns as $table => $columns) {
-        if (!\Illuminate\Support\Facades\Schema::hasTable($table)) continue;
+        if (! Schema::hasTable($table)) {
+            continue;
+        }
         foreach ($columns as $column) {
-            if (!\Illuminate\Support\Facades\Schema::hasColumn($table, $column)) continue;
+            if (! Schema::hasColumn($table, $column)) {
+                continue;
+            }
 
-            $rows = \Illuminate\Support\Facades\DB::table($table)
+            $rows = DB::table($table)
                 ->where($column, 'LIKE', '%.webp')
                 ->get();
 
             foreach ($rows as $row) {
                 $val = $row->{$column};
-                if (!$val) continue;
+                if (! $val) {
+                    continue;
+                }
 
-                $fullWebpPath = storage_path('app/public/' . ltrim($val, '/'));
-                $publicWebpPath = public_path('storage/' . ltrim($val, '/'));
+                $fullWebpPath = storage_path('app/public/'.ltrim($val, '/'));
+                $publicWebpPath = public_path('storage/'.ltrim($val, '/'));
 
                 // Jika file .webp fisiknya tidak ada di storage_path maupun public_path
-                if (!file_exists($fullWebpPath) && !file_exists($publicWebpPath)) {
+                if (! file_exists($fullWebpPath) && ! file_exists($publicWebpPath)) {
                     $basePathWithoutExt = preg_replace('/\.webp$/i', '', $val);
                     $foundExt = null;
 
                     // 1. Coba konversi file asli (.jpg/.jpeg/.png) ke .webp di tempat jika file fisiknya ada
                     foreach (['.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'] as $testExt) {
-                        $origFile = storage_path('app/public/' . ltrim($basePathWithoutExt . $testExt, '/'));
-                        $publicOrigFile = public_path('storage/' . ltrim($basePathWithoutExt . $testExt, '/'));
+                        $origFile = storage_path('app/public/'.ltrim($basePathWithoutExt.$testExt, '/'));
+                        $publicOrigFile = public_path('storage/'.ltrim($basePathWithoutExt.$testExt, '/'));
                         $targetOrigFile = file_exists($origFile) ? $origFile : (file_exists($publicOrigFile) ? $publicOrigFile : null);
 
                         if ($targetOrigFile) {
@@ -147,7 +162,7 @@ Route::get('/init', function () {
                                 $foundExt = 'converted_to_webp';
                                 break;
                             } else {
-                                $foundExt = $basePathWithoutExt . $testExt;
+                                $foundExt = $basePathWithoutExt.$testExt;
                                 break;
                             }
                         }
@@ -155,8 +170,8 @@ Route::get('/init', function () {
 
                     // 2. Jika tidak ada file fisik untuk dikonversi, kembalikan tautan DB ke ekstensi asli atau .jpg/.png
                     if ($foundExt !== 'converted_to_webp') {
-                        $targetValue = $foundExt ?: ($basePathWithoutExt . '.jpg');
-                        \Illuminate\Support\Facades\DB::table($table)
+                        $targetValue = $foundExt ?: ($basePathWithoutExt.'.jpg');
+                        DB::table($table)
                             ->where('id', $row->id)
                             ->update([$column => $targetValue]);
                         $revertedCount++;
@@ -167,7 +182,7 @@ Route::get('/init', function () {
     }
 
     // Bersihkan cache aplikasi agar data beranda/slider langsung terbarui
-    \Illuminate\Support\Facades\Cache::flush();
+    Cache::flush();
 
     return "Berhasil menyalin data media, memulihkan {$revertedCount} tautan gambar 404 & menghapus cache aplikasi!";
 })->middleware('auth');

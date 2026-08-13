@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\Institutions\Schemas;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Schema;
 
 class InstitutionForm
 {
@@ -12,7 +15,7 @@ class InstitutionForm
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         TextInput::make('name')
                             ->label('Nama Lembaga')
@@ -31,16 +34,16 @@ class InstitutionForm
                             ->directory('institutions'),
                     ])
                     ->columnSpanFull(),
-                \Filament\Forms\Components\RichEditor::make('description')
+                RichEditor::make('description')
                     ->label('Deskripsi / Profil Lembaga')
                     ->helperText('Jelaskan profil, visi, misi, atau peran lembaga ini di desa.')
                     ->nullable()
                     ->columnSpanFull(),
-                \Filament\Forms\Components\Repeater::make('management')
+                Repeater::make('management')
                     ->label('Struktur Pengurus')
                     ->helperText('Daftar pengurus lembaga.')
                     ->schema([
-                        \Filament\Schemas\Components\Grid::make(2)
+                        Grid::make(2)
                             ->schema([
                                 TextInput::make('position')
                                     ->label('Jabatan')

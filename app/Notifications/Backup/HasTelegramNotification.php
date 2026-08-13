@@ -4,6 +4,8 @@ namespace App\Notifications\Backup;
 
 use App\Helpers\TelegramHelper;
 use NotificationChannels\Telegram\TelegramMessage;
+use Spatie\Backup\BackupDestination\BackupDestination;
+use Spatie\Backup\Helpers\Format;
 
 trait HasTelegramNotification
 {
@@ -14,15 +16,15 @@ trait HasTelegramNotification
 
         // Determine title & emoji based on notification class
         if (str_contains($className, 'Cleanup')) {
-            $type  = 'Cleanup Arsip';
+            $type = 'Cleanup Arsip';
             $emoji = $isSuccess ? '🧹' : '❌';
             $title = $isSuccess ? 'CLEANUP SUKSES' : 'CLEANUP GAGAL';
         } elseif (str_contains($className, 'Healthy') || str_contains($className, 'Unhealthy')) {
-            $type  = 'Health Check';
+            $type = 'Health Check';
             $emoji = $isSuccess ? '🩺' : '⚠️';
             $title = $isSuccess ? 'BACKUP SEHAT' : 'BACKUP KRITIS';
         } else {
-            $type  = 'Backup Data';
+            $type = 'Backup Data';
             $emoji = $isSuccess ? '✅' : '❌';
             $title = $isSuccess ? 'BACKUP SUKSES' : 'BACKUP GAGAL';
         }
@@ -33,7 +35,7 @@ trait HasTelegramNotification
         // ── Konten ────────────────────────────────────────────
         $content .= "📌 {$type}\n";
 
-        $diskName   = $this->event->diskName   ?? null;
+        $diskName = $this->event->diskName ?? null;
         $backupName = $this->event->backupName ?? null;
 
         if ($diskName) {
@@ -44,16 +46,16 @@ trait HasTelegramNotification
 
         if ($diskName && $backupName) {
             try {
-                $dest   = \Spatie\Backup\BackupDestination\BackupDestination::create($diskName, $backupName);
+                $dest = BackupDestination::create($diskName, $backupName);
                 $newest = $dest->newestBackup();
                 if ($newest) {
-                    $size     = \Spatie\Backup\Helpers\Format::humanReadableSize($newest->sizeInBytes());
+                    $size = Format::humanReadableSize($newest->sizeInBytes());
                     if (str_contains($className, 'Cleanup')) {
                         $content .= "📂 Backup Terbaru:\n";
-                        $content .= "   └ 📦 <code>" . basename($newest->path()) . "</code>\n";
+                        $content .= '   └ 📦 <code>'.basename($newest->path())."</code>\n";
                         $content .= "   └ 💾 Ukuran: {$size}\n";
                     } else {
-                        $content .= "📦 <code>" . basename($newest->path()) . "</code>\n";
+                        $content .= '📦 <code>'.basename($newest->path())."</code>\n";
                         $content .= "💾 {$size}\n";
                     }
                 }
@@ -63,11 +65,11 @@ trait HasTelegramNotification
         }
 
         if (! $isSuccess && isset($this->event->exception)) {
-            $content .= "\n⚠️ <code>" . substr($this->event->exception->getMessage(), 0, 200) . "</code>";
+            $content .= "\n⚠️ <code>".substr($this->event->exception->getMessage(), 0, 200).'</code>';
         }
 
         // ── Footer ────────────────────────────────────────────
-        $content = rtrim($content) . TelegramHelper::footer();
+        $content = rtrim($content).TelegramHelper::footer();
 
         return TelegramMessage::create()
             ->to(config('services.telegram-bot-api.chat_id'))

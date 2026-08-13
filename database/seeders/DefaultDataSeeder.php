@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Setting;
-use Spatie\Permission\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class DefaultDataSeeder extends Seeder
 {
@@ -16,14 +18,14 @@ class DefaultDataSeeder extends Seeder
     public function run(): void
     {
         // 1. Roles & Permissions Setup
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $superAdminRole = Role::firstOrCreate(['name' => 'super_admin']);
         $adminDesaRole = Role::firstOrCreate(['name' => 'admin_desa']);
 
         // Ambil semua permission yang ada
-        $permissions = \Spatie\Permission\Models\Permission::all();
-        
+        $permissions = Permission::all();
+
         // Berikan SEMUA izin ke super_admin
         $superAdminRole->syncPermissions($permissions);
 
@@ -35,6 +37,7 @@ class DefaultDataSeeder extends Seeder
                     return false;
                 }
             }
+
             return true;
         });
         $adminDesaRole->syncPermissions($adminDesaPermissions);

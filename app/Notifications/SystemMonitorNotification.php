@@ -22,20 +22,20 @@ class SystemMonitorNotification extends Notification
     public function toTelegram($notifiable): TelegramMessage
     {
         $emoji = match ($this->type) {
-            'danger'  => '🚨',
+            'danger' => '🚨',
             'warning' => '⚠️',
             'success' => '✅',
-            default   => 'ℹ️',
+            default => 'ℹ️',
         };
 
         // ── Header ────────────────────────────────────────────
-        $content  = "{$emoji} <b>{$this->title}</b>\n\n";
+        $content = "{$emoji} <b>{$this->title}</b>\n\n";
 
         // ── Konten ────────────────────────────────────────────
         $content .= $this->message;
 
         // ── Footer ────────────────────────────────────────────
-        $content = rtrim($content) . TelegramHelper::footer();
+        $content = rtrim($content).TelegramHelper::footer();
 
         return TelegramMessage::create()
             ->to(config('services.telegram-bot-api.chat_id'))

@@ -12,10 +12,16 @@ return new class extends Migration
         // dropColumn hanya dijalankan jika kolom tersebut benar-benar ada (dari existing install lama).
         Schema::table('citizens', function (Blueprint $table) {
             $colsToDrop = [];
-            if (Schema::hasColumn('citizens', 'domicile_province')) $colsToDrop[] = 'domicile_province';
-            if (Schema::hasColumn('citizens', 'domicile_city')) $colsToDrop[] = 'domicile_city';
-            if (Schema::hasColumn('citizens', 'domicile_country')) $colsToDrop[] = 'domicile_country';
-            if (!empty($colsToDrop)) {
+            if (Schema::hasColumn('citizens', 'domicile_province')) {
+                $colsToDrop[] = 'domicile_province';
+            }
+            if (Schema::hasColumn('citizens', 'domicile_city')) {
+                $colsToDrop[] = 'domicile_city';
+            }
+            if (Schema::hasColumn('citizens', 'domicile_country')) {
+                $colsToDrop[] = 'domicile_country';
+            }
+            if (! empty($colsToDrop)) {
                 $table->dropColumn($colsToDrop);
             }
         });

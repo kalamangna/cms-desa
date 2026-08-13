@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\Announcement;
 use App\Models\Category;
 use App\Models\Post;
-use App\Models\Announcement;
 use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class ArticleSeeder extends Seeder
@@ -14,7 +14,7 @@ class ArticleSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Membersihkan dan membuat data Kategori, Artikel, dan Pengumuman...');
-        
+
         Category::query()->forceDelete();
         Post::query()->forceDelete();
         Announcement::query()->forceDelete();
@@ -23,9 +23,8 @@ class ArticleSeeder extends Seeder
 
         // 1. Kategori
         $newsCategories = [
-            'Berita Utama', 'Program Desa'
+            'Berita Utama', 'Program Desa',
         ];
-
 
         foreach ($newsCategories as $name) {
             Category::create(['name' => $name, 'slug' => Str::slug($name)]);
@@ -62,16 +61,16 @@ class ArticleSeeder extends Seeder
             [
                 'title' => 'Kunjungan Studi Banding dari Desa Tetangga Terkait Pengelolaan BUMDes',
                 'content' => '<p>Pemerintah Desa hari ini menerima kunjungan kerja (studi banding) dari perangkat desa tetangga. Kunjungan ini berfokus pada pertukaran ilmu terkait keberhasilan desa kita dalam mengelola Badan Usaha Milik Desa (BUMDes).</p><p>Kepala Desa berharap sinergi antardesa ini dapat terus berlanjut untuk memajukan perekonomian kawasan secara bersama-sama.</p>',
-            ]
+            ],
         ];
 
         foreach ($villageNews as $news) {
             Post::create([
                 'category_id' => $newsCatModels->random()->id,
                 'title' => $news['title'],
-                'slug' => Str::slug($news['title'] . '-' . Str::random(4)),
+                'slug' => Str::slug($news['title'].'-'.Str::random(4)),
                 'content' => $news['content'],
-                'featured_image' => null, 
+                'featured_image' => null,
                 'published_at' => $faker->dateTimeBetween('-6 months', 'now'),
             ]);
         }
@@ -97,7 +96,7 @@ class ArticleSeeder extends Seeder
         ];
 
         foreach ($announcements as $announcement) {
-            $announcement['slug'] = Str::slug($announcement['title'] . '-' . Str::random(4));
+            $announcement['slug'] = Str::slug($announcement['title'].'-'.Str::random(4));
             Announcement::create($announcement);
         }
 

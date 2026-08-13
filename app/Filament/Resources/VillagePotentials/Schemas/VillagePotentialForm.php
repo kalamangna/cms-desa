@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\VillagePotentials\Schemas;
 
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
 class VillagePotentialForm
@@ -15,7 +15,7 @@ class VillagePotentialForm
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         TextInput::make('title')->label('Judul Potensi')
                             ->placeholder('Contoh: Wisata Alam Air Terjun Karawa')

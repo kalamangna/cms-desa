@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 return new class extends Migration
 {
@@ -10,12 +10,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!function_exists('imagewebp') || !function_exists('imagecreatetruecolor') || !function_exists('imagecreatefromwebp')) {
+        if (! function_exists('imagewebp') || ! function_exists('imagecreatetruecolor') || ! function_exists('imagecreatefromwebp')) {
             return;
         }
 
         $baseDir = storage_path('app/public');
-        if (!file_exists($baseDir)) {
+        if (! file_exists($baseDir)) {
             return;
         }
 
@@ -37,7 +37,7 @@ return new class extends Migration
 
                 $path = $file->getPathname();
                 $img = @imagecreatefromwebp($path);
-                if (!$img) {
+                if (! $img) {
                     continue;
                 }
 
@@ -67,13 +67,13 @@ return new class extends Migration
                     imagedestroy($img);
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // Ignore error
         }
 
         try {
-            \Illuminate\Support\Facades\Cache::flush();
-        } catch (\Throwable $e) {
+            Cache::flush();
+        } catch (Throwable $e) {
             // Ignore
         }
     }
@@ -81,7 +81,5 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-    }
+    public function down(): void {}
 };

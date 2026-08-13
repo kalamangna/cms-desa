@@ -17,16 +17,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('citizens', function (Blueprint $table) {
-            if (!Schema::hasColumn('citizens', 'domicile_address_type')) {
+            if (! Schema::hasColumn('citizens', 'domicile_address_type')) {
                 $table->string('domicile_address_type')->nullable()->after('citizenship_status');
             }
-            if (!Schema::hasColumn('citizens', 'domicile_province')) {
+            if (! Schema::hasColumn('citizens', 'domicile_province')) {
                 $table->string('domicile_province')->nullable()->after('domicile_address_type');
             }
-            if (!Schema::hasColumn('citizens', 'domicile_city')) {
+            if (! Schema::hasColumn('citizens', 'domicile_city')) {
                 $table->string('domicile_city')->nullable()->after('domicile_province');
             }
-            if (!Schema::hasColumn('citizens', 'domicile_country')) {
+            if (! Schema::hasColumn('citizens', 'domicile_country')) {
                 $table->string('domicile_country')->nullable()->after('domicile_city');
             }
         });
@@ -41,11 +41,19 @@ return new class extends Migration
         // domicile_province/city/country tidak ada di fresh install (tidak dibuat di base CREATE).
         Schema::table('citizens', function (Blueprint $table) {
             $cols = [];
-            if (Schema::hasColumn('citizens', 'domicile_address_type')) $cols[] = 'domicile_address_type';
-            if (Schema::hasColumn('citizens', 'domicile_province')) $cols[] = 'domicile_province';
-            if (Schema::hasColumn('citizens', 'domicile_city')) $cols[] = 'domicile_city';
-            if (Schema::hasColumn('citizens', 'domicile_country')) $cols[] = 'domicile_country';
-            if (!empty($cols)) {
+            if (Schema::hasColumn('citizens', 'domicile_address_type')) {
+                $cols[] = 'domicile_address_type';
+            }
+            if (Schema::hasColumn('citizens', 'domicile_province')) {
+                $cols[] = 'domicile_province';
+            }
+            if (Schema::hasColumn('citizens', 'domicile_city')) {
+                $cols[] = 'domicile_city';
+            }
+            if (Schema::hasColumn('citizens', 'domicile_country')) {
+                $cols[] = 'domicile_country';
+            }
+            if (! empty($cols)) {
                 $table->dropColumn($cols);
             }
         });

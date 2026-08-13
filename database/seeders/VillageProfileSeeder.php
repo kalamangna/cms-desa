@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Official;
 use App\Models\Dusun;
 use App\Models\Institution;
+use App\Models\Official;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class VillageProfileSeeder extends Seeder
@@ -102,7 +102,7 @@ class VillageProfileSeeder extends Seeder
                     ['position' => 'Wakil Ketua', 'name' => 'Firman'],
                     ['position' => 'Sekretaris', 'name' => 'Reza'],
                 ],
-            ]
+            ],
         ];
 
         foreach ($institutions as $inst) {

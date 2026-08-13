@@ -24,7 +24,7 @@ class MinifyHtml
 
         // Hanya minifikasi response HTML biasa
         $contentType = $response->headers->get('Content-Type', '');
-        if (!str_contains($contentType, 'text/html')) {
+        if (! str_contains($contentType, 'text/html')) {
             return $response;
         }
 
@@ -34,10 +34,10 @@ class MinifyHtml
         }
 
         $minified = $this->minify($content);
-        
-        // Pengaman: Jika proses minifikasi menghasilkan string kosong/null (error regex), 
+
+        // Pengaman: Jika proses minifikasi menghasilkan string kosong/null (error regex),
         // kembalikan konten asli agar halaman tidak blank.
-        if (!empty($minified)) {
+        if (! empty($minified)) {
             $response->setContent($minified);
         }
 
@@ -58,6 +58,7 @@ class MinifyHtml
             function ($matches) use (&$preserve, $placeholder) {
                 $key = count($preserve);
                 $preserve[$key] = $matches[0];
+
                 return sprintf($placeholder, $key);
             },
             $html

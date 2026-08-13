@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dataset;
 use App\Models\Citizen;
+use App\Models\Dataset;
 use App\Models\Family;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
-use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class DatasetController extends Controller
 {
@@ -22,15 +24,16 @@ class DatasetController extends Controller
 
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('year', 'like', "%{$search}%")
-                  ->orWhere('source', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('year', 'like', "%{$search}%")
+                    ->orWhere('source', 'like', "%{$search}%");
             });
         }
 
         $datasets = $query->paginate(10)->withQueryString();
+
         return view('datasets.index', compact('datasets'));
     }
 
@@ -126,18 +129,18 @@ class DatasetController extends Controller
             if ($format === 'csv') {
                 $fileName = "{$baseFileName}.csv";
                 $resHeaders = [
-                    "Content-type"        => "text/csv; charset=UTF-8",
-                    "Content-Disposition" => "attachment; filename=$fileName",
-                    "Pragma"              => "no-cache",
-                    "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-                    "Expires"             => "0"
+                    'Content-type' => 'text/csv; charset=UTF-8',
+                    'Content-Disposition' => "attachment; filename=$fileName",
+                    'Pragma' => 'no-cache',
+                    'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+                    'Expires' => '0',
                 ];
 
-                $callback = function() use ($activeCols, $headers) {
+                $callback = function () use ($activeCols, $headers) {
                     $file = fopen('php://output', 'w');
                     // UTF-8 BOM untuk kompatibilitas otomatis Microsoft Excel & R/Python
                     fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-                    
+
                     // CSV MURNI (Langsung Header & Data sesuai standar Data Science)
                     fputcsv($file, $headers, ';');
 
@@ -173,24 +176,24 @@ class DatasetController extends Controller
                 return response()->stream($callback, 200, $resHeaders);
 
             } elseif ($format === 'xlsx') {
-                $spreadsheet = new Spreadsheet();
+                $spreadsheet = new Spreadsheet;
                 $sheet = $spreadsheet->getActiveSheet();
                 $sheet->setTitle('Dataset Kependudukan');
-                
-                // KOP HEADER EXCEL RAPI
-                $sheet->setCellValue('A1', 'PEMERINTAH DESA ' . strtoupper($villageName));
-                $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14)->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('047857'));
-                
-                $sheet->setCellValue('A2', 'DATASET: ' . strtoupper($datasetTitle) . ' (Tahun 2026)');
-                $sheet->getStyle('A2')->getFont()->setBold(true)->setSize(11)->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('0F766E'));
 
-                $sheet->setCellValue('A3', 'Portal Open Data Desa ' . $villageName . ' | Diunduh: ' . date('d/m/Y H:i') . ' | Dianonimkan Sesuai UU PDP');
-                $sheet->getStyle('A3')->getFont()->setItalic(true)->setSize(9)->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('64748B'));
+                // KOP HEADER EXCEL RAPI
+                $sheet->setCellValue('A1', 'PEMERINTAH DESA '.strtoupper($villageName));
+                $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14)->setColor(new Color('047857'));
+
+                $sheet->setCellValue('A2', 'DATASET: '.strtoupper($datasetTitle).' (Tahun 2026)');
+                $sheet->getStyle('A2')->getFont()->setBold(true)->setSize(11)->setColor(new Color('0F766E'));
+
+                $sheet->setCellValue('A3', 'Portal Open Data Desa '.$villageName.' | Diunduh: '.date('d/m/Y H:i').' | Dianonimkan Sesuai UU PDP');
+                $sheet->getStyle('A3')->getFont()->setItalic(true)->setSize(9)->setColor(new Color('64748B'));
 
                 // HEADER TABEL (BARIS 5)
                 $sheet->fromArray($headers, null, 'A5');
-                $lastColumnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex(count($headers));
-                
+                $lastColumnLetter = Coordinate::stringFromColumnIndex(count($headers));
+
                 $headerStyle = [
                     'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF'], 'size' => 10],
                     'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
@@ -208,7 +211,7 @@ class DatasetController extends Controller
                     foreach ($activeCols as $col) {
                         $row[] = match ($col) {
                             'gender' => $citizen->gender ?? '-',
-                            'age' => $citizen->date_of_birth ? \Carbon\Carbon::parse($citizen->date_of_birth)->age : '-',
+                            'age' => $citizen->date_of_birth ? Carbon::parse($citizen->date_of_birth)->age : '-',
                             'marital_status' => $citizen->marital_status ?? '-',
                             'family_relation' => $citizen->family_relation ?? '-',
                             'education_level' => $citizen->education_level ?? '-',
@@ -224,8 +227,8 @@ class DatasetController extends Controller
                             default => '-',
                         };
                     }
-                    $sheet->fromArray($row, null, 'A' . $rowNum);
-                    
+                    $sheet->fromArray($row, null, 'A'.$rowNum);
+
                     // Zebra striping untuk baris genap
                     if ($rowNum % 2 === 0) {
                         $sheet->getStyle("A{$rowNum}:{$lastColumnLetter}{$rowNum}")
@@ -234,7 +237,7 @@ class DatasetController extends Controller
                             ->getStartColor()
                             ->setRGB('F8FAFC');
                     }
-                    
+
                     // Format alignment kolom No
                     $sheet->getStyle("A{$rowNum}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
@@ -246,14 +249,14 @@ class DatasetController extends Controller
                 $sheet->getColumnDimension('A')->setWidth(8);
 
                 for ($colIdx = 2; $colIdx <= count($headers); $colIdx++) {
-                    $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($colIdx);
+                    $colLetter = Coordinate::stringFromColumnIndex($colIdx);
                     $sheet->getColumnDimension($colLetter)->setAutoSize(true);
                 }
 
                 $writer = new Xlsx($spreadsheet);
                 $fileName = "{$baseFileName}.xlsx";
 
-                return response()->streamDownload(function() use ($writer) {
+                return response()->streamDownload(function () use ($writer) {
                     $writer->save('php://output');
                 }, $fileName, [
                     'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -276,14 +279,14 @@ class DatasetController extends Controller
             if ($format === 'csv') {
                 $fileName = "{$baseFileName}.csv";
                 $resHeaders = [
-                    "Content-type"        => "text/csv; charset=UTF-8",
-                    "Content-Disposition" => "attachment; filename=$fileName",
-                    "Pragma"              => "no-cache",
-                    "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-                    "Expires"             => "0"
+                    'Content-type' => 'text/csv; charset=UTF-8',
+                    'Content-Disposition' => "attachment; filename=$fileName",
+                    'Pragma' => 'no-cache',
+                    'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+                    'Expires' => '0',
                 ];
 
-                $callback = function() use ($activeCols, $headers) {
+                $callback = function () use ($activeCols, $headers) {
                     $file = fopen('php://output', 'w');
                     // UTF-8 BOM untuk kompatibilitas otomatis Microsoft Excel & R/Python
                     fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
@@ -323,24 +326,24 @@ class DatasetController extends Controller
                 return response()->stream($callback, 200, $resHeaders);
 
             } elseif ($format === 'xlsx') {
-                $spreadsheet = new Spreadsheet();
+                $spreadsheet = new Spreadsheet;
                 $sheet = $spreadsheet->getActiveSheet();
                 $sheet->setTitle('Dataset Profil Keluarga');
 
                 // KOP HEADER EXCEL RAPI
-                $sheet->setCellValue('A1', 'PEMERINTAH DESA ' . strtoupper($villageName));
-                $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14)->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('047857'));
-                
-                $sheet->setCellValue('A2', 'DATASET: ' . strtoupper($datasetTitle) . ' (Tahun 2026)');
-                $sheet->getStyle('A2')->getFont()->setBold(true)->setSize(11)->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('0F766E'));
+                $sheet->setCellValue('A1', 'PEMERINTAH DESA '.strtoupper($villageName));
+                $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14)->setColor(new Color('047857'));
 
-                $sheet->setCellValue('A3', 'Portal Open Data Desa ' . $villageName . ' | Diunduh: ' . date('d/m/Y H:i') . ' | Dianonimkan Sesuai UU PDP');
-                $sheet->getStyle('A3')->getFont()->setItalic(true)->setSize(9)->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('64748B'));
+                $sheet->setCellValue('A2', 'DATASET: '.strtoupper($datasetTitle).' (Tahun 2026)');
+                $sheet->getStyle('A2')->getFont()->setBold(true)->setSize(11)->setColor(new Color('0F766E'));
+
+                $sheet->setCellValue('A3', 'Portal Open Data Desa '.$villageName.' | Diunduh: '.date('d/m/Y H:i').' | Dianonimkan Sesuai UU PDP');
+                $sheet->getStyle('A3')->getFont()->setItalic(true)->setSize(9)->setColor(new Color('64748B'));
 
                 // HEADER TABEL (BARIS 5)
                 $sheet->fromArray($headers, null, 'A5');
-                $lastColumnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex(count($headers));
-                
+                $lastColumnLetter = Coordinate::stringFromColumnIndex(count($headers));
+
                 $headerStyle = [
                     'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF'], 'size' => 10],
                     'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
@@ -374,7 +377,7 @@ class DatasetController extends Controller
                             default => '-',
                         };
                     }
-                    $sheet->fromArray($row, null, 'A' . $rowNum);
+                    $sheet->fromArray($row, null, 'A'.$rowNum);
 
                     // Zebra striping untuk baris genap
                     if ($rowNum % 2 === 0) {
@@ -396,14 +399,14 @@ class DatasetController extends Controller
                 $sheet->getColumnDimension('A')->setWidth(8);
 
                 for ($colIdx = 2; $colIdx <= count($headers); $colIdx++) {
-                    $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($colIdx);
+                    $colLetter = Coordinate::stringFromColumnIndex($colIdx);
                     $sheet->getColumnDimension($colLetter)->setAutoSize(true);
                 }
 
                 $writer = new Xlsx($spreadsheet);
                 $fileName = "{$baseFileName}.xlsx";
 
-                return response()->streamDownload(function() use ($writer) {
+                return response()->streamDownload(function () use ($writer) {
                     $writer->save('php://output');
                 }, $fileName, [
                     'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

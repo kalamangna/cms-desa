@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Service;
-use App\Models\ServiceRequest;
 use App\Models\Complaint;
 use App\Models\GuestBook;
+use App\Models\Service;
+use App\Models\ServiceRequest;
 use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class PublicServiceSeeder extends Seeder
@@ -15,7 +15,7 @@ class PublicServiceSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Membersihkan dan membuat data Layanan, Permohonan, Pengaduan, dan Buku Tamu...');
-        
+
         Service::query()->forceDelete();
         ServiceRequest::query()->forceDelete();
         Complaint::query()->forceDelete();
@@ -25,11 +25,11 @@ class PublicServiceSeeder extends Seeder
 
         // 1. Layanan
         $services = [
-            ['title' => 'Surat Pengantar KTP', 'description' => 'Layanan pembuatan surat pengantar untuk perekaman e-KTP di kecamatan.', 'requirements' => "<ol><li>Fotokopi KK</li><li>Pengantar RT/RW</li><li>Pas foto 3x4</li></ol>"],
-            ['title' => 'Surat Pengantar Kartu Keluarga', 'description' => 'Layanan pembuatan/perubahan KK.', 'requirements' => "<ol><li>KK Asli/Fotokopi</li><li>Buku Nikah</li><li>Pengantar RT/RW</li></ol>"],
-            ['title' => 'Surat Keterangan Usaha (SKU)', 'description' => 'Surat keterangan resmi dari desa untuk warga yang memiliki usaha.', 'requirements' => "<ol><li>Fotokopi KTP dan KK</li><li>Foto Tempat Usaha</li><li>Pengantar RT/RW</li></ol>"],
-            ['title' => 'Surat Keterangan Tidak Mampu', 'description' => 'Surat keterangan untuk fasilitas keringanan biaya.', 'requirements' => "<ol><li>Fotokopi KTP dan KK</li><li>Pengantar RT/RW</li><li>Foto kondisi rumah</li></ol>"],
-            ['title' => 'Surat Keterangan Domisili', 'description' => 'Surat keterangan tinggal/domisili.', 'requirements' => "<ol><li>KTP asal</li><li>Pengantar RT/RW</li></ol>"],
+            ['title' => 'Surat Pengantar KTP', 'description' => 'Layanan pembuatan surat pengantar untuk perekaman e-KTP di kecamatan.', 'requirements' => '<ol><li>Fotokopi KK</li><li>Pengantar RT/RW</li><li>Pas foto 3x4</li></ol>'],
+            ['title' => 'Surat Pengantar Kartu Keluarga', 'description' => 'Layanan pembuatan/perubahan KK.', 'requirements' => '<ol><li>KK Asli/Fotokopi</li><li>Buku Nikah</li><li>Pengantar RT/RW</li></ol>'],
+            ['title' => 'Surat Keterangan Usaha (SKU)', 'description' => 'Surat keterangan resmi dari desa untuk warga yang memiliki usaha.', 'requirements' => '<ol><li>Fotokopi KTP dan KK</li><li>Foto Tempat Usaha</li><li>Pengantar RT/RW</li></ol>'],
+            ['title' => 'Surat Keterangan Tidak Mampu', 'description' => 'Surat keterangan untuk fasilitas keringanan biaya.', 'requirements' => '<ol><li>Fotokopi KTP dan KK</li><li>Pengantar RT/RW</li><li>Foto kondisi rumah</li></ol>'],
+            ['title' => 'Surat Keterangan Domisili', 'description' => 'Surat keterangan tinggal/domisili.', 'requirements' => '<ol><li>KTP asal</li><li>Pengantar RT/RW</li></ol>'],
         ];
 
         foreach ($services as $s) {
@@ -43,7 +43,7 @@ class PublicServiceSeeder extends Seeder
         if ($allServices->count() > 0) {
             for ($i = 0; $i < 5; $i++) {
                 $status = $faker->randomElement(['Menunggu', 'Diproses', 'Selesai', 'Ditolak']);
-                $adminResponse = match($status) {
+                $adminResponse = match ($status) {
                     'Selesai' => 'Dokumen telah selesai dicetak.',
                     'Ditolak' => 'Berkas kurang lengkap, mohon periksa kembali.',
                     'Diproses' => 'Berkas sedang diverifikasi.',
@@ -54,7 +54,7 @@ class PublicServiceSeeder extends Seeder
                     'ticket_number' => strtoupper(Str::random(10)),
                     'nik' => $faker->numerify('3201##########'),
                     'name' => $faker->name,
-                    'phone' => '08' . $faker->numerify('##########'),
+                    'phone' => '08'.$faker->numerify('##########'),
                     'service_id' => $allServices->random()->id,
                     'status' => $status,
                     'admin_response' => $adminResponse,

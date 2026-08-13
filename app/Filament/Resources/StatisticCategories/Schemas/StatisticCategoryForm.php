@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources\StatisticCategories\Schemas;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class StatisticCategoryForm
 {
@@ -19,7 +19,7 @@ class StatisticCategoryForm
                 Section::make('Informasi Kategori')
                     ->description('Pengaturan nama, sumber data, kolom pemetaan, dan deskripsi.')
                     ->schema([
-                        \Filament\Schemas\Components\Grid::make(2)
+                        Grid::make(2)
                             ->schema([
                                 TextInput::make('name')
                                     ->label('Nama Kategori')
@@ -77,6 +77,7 @@ class StatisticCategoryForm
                                         'lighting_source' => 'Sumber Penerangan',
                                     ];
                                 }
+
                                 return [];
                             })
                             ->reactive()
@@ -88,7 +89,7 @@ class StatisticCategoryForm
                             ->helperText('Centang kolom pembanding untuk grafik.')
                             ->options(function (callable $get) {
                                 $table = $get('mapping_table');
-                                 if ($table === 'citizens') {
+                                if ($table === 'citizens') {
                                     return [
                                         'gender' => 'Jenis Kelamin',
                                         'education_level' => 'Pendidikan',
@@ -108,6 +109,7 @@ class StatisticCategoryForm
                                         'lighting_source' => 'Sumber Penerangan',
                                     ];
                                 }
+
                                 return [];
                             })
                             ->reactive()

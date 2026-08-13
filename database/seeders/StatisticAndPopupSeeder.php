@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\StatisticCategory;
 use App\Models\PopupInfographic;
-use Illuminate\Support\Str;
+use App\Models\StatisticCategory;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class StatisticAndPopupSeeder extends Seeder
 {
@@ -16,7 +16,7 @@ class StatisticAndPopupSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Membersihkan dan membuat data Statistik dan Popup Infografis...');
-        
+
         StatisticCategory::query()->forceDelete();
         PopupInfographic::query()->forceDelete();
 
@@ -93,11 +93,11 @@ class StatisticAndPopupSeeder extends Seeder
         }
 
         // Pastikan direktori popup-infographics ada
-        if (!Storage::disk('public')->exists('popup-infographics')) {
+        if (! Storage::disk('public')->exists('popup-infographics')) {
             Storage::disk('public')->makeDirectory('popup-infographics');
         }
         // Salin meta.webp sebagai dummy jika belum ada
-        if (!Storage::disk('public')->exists('popup-infographics/meta.webp') && file_exists(public_path('img/meta.webp'))) {
+        if (! Storage::disk('public')->exists('popup-infographics/meta.webp') && file_exists(public_path('img/meta.webp'))) {
             Storage::disk('public')->put('popup-infographics/meta.webp', file_get_contents(public_path('img/meta.webp')));
         }
 
@@ -120,7 +120,7 @@ class StatisticAndPopupSeeder extends Seeder
                 'image' => 'popup-infographics/meta.webp',
                 'sort_order' => 3,
                 'is_active' => true,
-            ]
+            ],
         ];
 
         foreach ($popups as $popup) {

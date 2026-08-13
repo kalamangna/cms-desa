@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Traits\HasSlug;
-
 class BudgetCategory extends Model
 {
-    use SoftDeletes, HasSlug;
+    use HasSlug, SoftDeletes;
 
     protected $fillable = ['name', 'slug'];
 

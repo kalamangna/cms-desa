@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\ImageHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -27,7 +28,7 @@ class VillagePotential extends Model
                 $potential->slug = Str::slug($potential->title);
             }
             if ($potential->image) {
-                $potential->image = \App\Helpers\ImageHelper::convertToWebp($potential->image, 'potentials');
+                $potential->image = ImageHelper::convertToWebp($potential->image, 'potentials');
             }
         });
 
@@ -36,7 +37,7 @@ class VillagePotential extends Model
                 $potential->slug = Str::slug($potential->title);
             }
             if ($potential->isDirty('image') && $potential->image) {
-                $potential->image = \App\Helpers\ImageHelper::convertToWebp($potential->image, 'potentials');
+                $potential->image = ImageHelper::convertToWebp($potential->image, 'potentials');
             }
         });
     }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -13,9 +13,9 @@ class PostController extends Controller
         $query = Post::with('category')->where('published_at', '<=', now())->latest();
 
         if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                  ->orWhere('content', 'like', '%' . $request->search . '%');
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%'.$request->search.'%')
+                    ->orWhere('content', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -28,7 +28,7 @@ class PostController extends Controller
         }
 
         $posts = $query->paginate(7)->withQueryString();
-        
+
         $categories = Category::withCount(['posts' => function ($query) {
             $query->where('published_at', '<=', now());
         }])->get();
@@ -39,6 +39,7 @@ class PostController extends Controller
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->where('published_at', '<=', now())->firstOrFail();
+
         return view('posts.show', compact('post'));
     }
 }

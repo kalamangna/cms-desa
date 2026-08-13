@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Helpers\ImageHelper;
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use App\Traits\HasSlug;
+use Illuminate\Support\Facades\Cache;
 
 class Publication extends Model
 {
-    use SoftDeletes, HasSlug;
+    use HasSlug, SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -24,11 +25,11 @@ class Publication extends Model
     {
         static::saving(function ($publication) {
             if ($publication->isDirty('cover') && $publication->cover) {
-                $publication->cover = \App\Helpers\ImageHelper::convertToWebp($publication->cover, 'publications');
+                $publication->cover = ImageHelper::convertToWebp($publication->cover, 'publications');
             }
         });
 
-        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_publications'));
-        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_publications'));
+        static::saved(fn () => Cache::forget('home_publications'));
+        static::deleted(fn () => Cache::forget('home_publications'));
     }
 }

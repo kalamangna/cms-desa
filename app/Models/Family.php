@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Family extends Model
 {
@@ -143,10 +144,10 @@ class Family extends Model
     protected static function booted()
     {
         static::saved(function () {
-            \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
+            Cache::forget('home_total_penduduk_real');
         });
         static::deleted(function () {
-            \Illuminate\Support\Facades\Cache::forget('home_total_penduduk_real');
+            Cache::forget('home_total_penduduk_real');
         });
     }
 }

@@ -39,7 +39,7 @@ class FrontendAccessTest extends TestCase
     {
         $response = $this->get('/layanan');
         $response->assertStatus(200);
-        // Note: GovernmentService schema renders only if $services is not empty, 
+        // Note: GovernmentService schema renders only if $services is not empty,
         // but the route itself must load without errors.
     }
 }

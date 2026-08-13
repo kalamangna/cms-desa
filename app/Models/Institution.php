@@ -1,7 +1,8 @@
 <?php
- 
+
 namespace App\Models;
- 
+
+use App\Helpers\ImageHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -34,7 +35,7 @@ class Institution extends Model
                 $institution->slug = Str::slug($institution->name);
             }
             if ($institution->logo) {
-                $institution->logo = \App\Helpers\ImageHelper::convertToWebp($institution->logo, 'institutions');
+                $institution->logo = ImageHelper::convertToWebp($institution->logo, 'institutions');
             }
         });
 
@@ -43,7 +44,7 @@ class Institution extends Model
                 $institution->slug = Str::slug($institution->name);
             }
             if ($institution->isDirty('logo') && $institution->logo) {
-                $institution->logo = \App\Helpers\ImageHelper::convertToWebp($institution->logo, 'institutions');
+                $institution->logo = ImageHelper::convertToWebp($institution->logo, 'institutions');
             }
         });
     }

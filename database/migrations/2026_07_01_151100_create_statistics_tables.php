@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         // 1. Statistic Categories Table
-        if (!Schema::hasTable('statistic_categories')) {
+        if (! Schema::hasTable('statistic_categories')) {
             Schema::create('statistic_categories', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
@@ -32,7 +32,7 @@ return new class extends Migration
         }
 
         // 2. Statistic Indicators Table
-        if (!Schema::hasTable('statistic_indicators')) {
+        if (! Schema::hasTable('statistic_indicators')) {
             Schema::create('statistic_indicators', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('statistic_category_id')->constrained()->cascadeOnDelete();
@@ -48,7 +48,7 @@ return new class extends Migration
         }
 
         // 3. Statistic Data Table
-        if (!Schema::hasTable('statistic_data')) {
+        if (! Schema::hasTable('statistic_data')) {
             Schema::create('statistic_data', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('statistic_indicator_id')->constrained()->cascadeOnDelete();

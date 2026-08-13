@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources\PublicFacilities\Schemas;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Schema;
 
 class PublicFacilityForm
 {
@@ -13,7 +14,7 @@ class PublicFacilityForm
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         TextInput::make('name')->label('Nama Fasilitas')
                             ->placeholder('Contoh: Puskesmas Pembantu Dusun Karawa')
@@ -32,13 +33,15 @@ class PublicFacilityForm
                             ->required(),
                     ])
                     ->columnSpanFull(),
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         TextInput::make('latitude')
                             ->label('Latitude')
                             ->live(onBlur: true)
                             ->afterStateUpdated(function ($state, $set) {
-                                if (empty($state)) return;
+                                if (empty($state)) {
+                                    return;
+                                }
                                 if (str_contains($state, ',')) {
                                     $parts = explode(',', $state);
                                     $lat = trim($parts[0]);
@@ -69,7 +72,9 @@ class PublicFacilityForm
                             ->label('Longitude')
                             ->live(onBlur: true)
                             ->afterStateUpdated(function ($state, $set) {
-                                if (empty($state)) return;
+                                if (empty($state)) {
+                                    return;
+                                }
                                 if (str_contains($state, ',')) {
                                     $parts = explode(',', $state);
                                     $lat = trim($parts[0]);

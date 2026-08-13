@@ -14,7 +14,7 @@ return new class extends Migration
         // 1. Categories Table (News Categories)
         if (Schema::hasTable('categories')) {
             Schema::table('categories', function (Blueprint $table) {
-                if (!Schema::hasColumn('categories', 'deleted_at')) {
+                if (! Schema::hasColumn('categories', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });
@@ -31,12 +31,12 @@ return new class extends Migration
         // 2. Posts Table (News Articles)
         if (Schema::hasTable('posts')) {
             Schema::table('posts', function (Blueprint $table) {
-                if (!Schema::hasColumn('posts', 'deleted_at')) {
+                if (! Schema::hasColumn('posts', 'deleted_at')) {
                     $table->softDeletes();
                 }
-                if (Schema::hasColumn('posts', 'photo') && !Schema::hasColumn('posts', 'featured_image')) {
+                if (Schema::hasColumn('posts', 'photo') && ! Schema::hasColumn('posts', 'featured_image')) {
                     $table->renameColumn('photo', 'featured_image');
-                } elseif (!Schema::hasColumn('posts', 'featured_image')) {
+                } elseif (! Schema::hasColumn('posts', 'featured_image')) {
                     $table->string('featured_image')->nullable();
                 }
             });

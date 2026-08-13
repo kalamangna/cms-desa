@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         $mappings = [
-            'Tidak ada'              => 'Tidak Ada',
-            'Ya untuk pribadi'       => 'Ya untuk Pribadi',
+            'Tidak ada' => 'Tidak Ada',
+            'Ya untuk pribadi' => 'Ya untuk Pribadi',
             'Ya untuk usaha dan pribadi' => 'Ya untuk Usaha & Pribadi',
-            'Ya untuk usaha'         => 'Ya untuk Usaha',
+            'Ya untuk usaha' => 'Ya untuk Usaha',
         ];
 
         foreach ($mappings as $old => $new) {

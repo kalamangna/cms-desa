@@ -27,7 +27,7 @@ return new class extends Migration
                 'Tidak tinggal bersama keluarga/pindah ke wilayah/daerah lain di Indonesia' => 'Pindah',
                 'Tidak tinggal bersama keluarga/pindah ke luar negeri' => 'Pindah',
                 'Sudah pisah KK' => 'Tidak tinggal di rumah ini',
-            ]
+            ],
         ];
 
         foreach ($citizenMappings as $column => $mappings) {
@@ -58,7 +58,7 @@ return new class extends Migration
                 'Listrik PLN dengan meteran' => 'Listrik PLN Dengan Meteran',
                 'Listrik non-PLN' => 'Listrik Non-PLN',
                 'Bukan listrik' => 'Bukan Listrik',
-            ]
+            ],
         ];
 
         foreach ($familyMappings as $column => $mappings) {

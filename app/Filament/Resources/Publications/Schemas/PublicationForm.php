@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources\Publications\Schemas;
 
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Str;
-use Filament\Forms\Set;
 
 class PublicationForm
 {
@@ -20,7 +19,7 @@ class PublicationForm
                     ->helperText('Nama resmi buku publikasi statistik.')
                     ->required()
                     ->columnSpanFull(),
-                \Filament\Schemas\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         Select::make('type')->label('Tipe Publikasi')
                             ->placeholder('Pilih Tipe')

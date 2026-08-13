@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\StatisticCategory;
-use App\Models\StatisticIndicator;
 use App\Models\StatisticData;
+use App\Models\StatisticIndicator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

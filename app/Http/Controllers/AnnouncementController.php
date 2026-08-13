@@ -11,6 +11,7 @@ class AnnouncementController extends Controller
         $announcements = Announcement::latest()
             ->where('published_at', '<=', now())
             ->paginate(10);
+
         return view('announcements.index', compact('announcements'));
     }
 }

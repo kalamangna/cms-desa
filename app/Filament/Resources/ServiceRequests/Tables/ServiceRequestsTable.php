@@ -2,13 +2,14 @@
 
 namespace App\Filament\Resources\ServiceRequests\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\Action;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 
 class ServiceRequestsTable
 {
@@ -21,7 +22,7 @@ class ServiceRequestsTable
                     ->sortable(),
                 TextColumn::make('nik')->label('NIK')
                     ->searchable()
-                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6) . '******' . substr($state, -4) : ($state ? substr($state, 0, 4) . '***' : null)),
+                    ->formatStateUsing(fn ($state) => $state && strlen($state) >= 16 ? substr($state, 0, 6).'******'.substr($state, -4) : ($state ? substr($state, 0, 4).'***' : null)),
                 TextColumn::make('name')->label('Nama Pemohon')
                     ->searchable()
                     ->sortable(),
@@ -63,21 +64,22 @@ class ServiceRequestsTable
                     ->url(function ($record): string {
                         $waNumber = preg_replace('/[^0-9]/', '', $record->phone ?? '');
                         if (str_starts_with($waNumber, '0')) {
-                            $waNumber = '62' . substr($waNumber, 1);
+                            $waNumber = '62'.substr($waNumber, 1);
                         }
                         $statusLabel = match ($record->status) {
                             'Diproses' => 'sedang DIPROSES',
-                            'Selesai'  => 'telah SELESAI diproses. Silakan mengambil berkas fisik di Kantor Desa',
-                            default    => 'masih MENUNGGU untuk diproses',
+                            'Selesai' => 'telah SELESAI diproses. Silakan mengambil berkas fisik di Kantor Desa',
+                            default => 'masih MENUNGGU untuk diproses',
                         };
                         $serviceName = $record->service?->title ?? 'layanan yang Anda ajukan';
                         $message = "Halo {$record->name}, permohonan {$serviceName} Anda (Nomor Tiket: {$record->ticket_number}) {$statusLabel}.\n\nTerima kasih.";
-                        return "https://wa.me/{$waNumber}?text=" . urlencode($message);
+
+                        return "https://wa.me/{$waNumber}?text=".urlencode($message);
                     })
                     ->openUrlInNewTab()
                     ->visible(fn ($record): bool => ! empty($record->phone)),
                 EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -86,4 +88,3 @@ class ServiceRequestsTable
             ]);
     }
 }
-

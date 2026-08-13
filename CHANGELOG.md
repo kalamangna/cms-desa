@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.82] - 2026-08-13
+
+### Fixed
+- **Perbaikan Integrasi Google Drive & Optimasi Ukuran Backup**:
+  - Memperbarui kredensial OAuth 2.0 (refresh token & client secrets) untuk integrasi remote backup Google Drive.
+  - Mengecualikan folder riwayat backup lama (`storage/app/private`), cache npm (`.npm-cache`), log (`storage/logs`), dan repositori git (`.git`) dari aturan arsip `config/backup.php`.
+  - Mengurangi ukuran file zip backup secara drastis dari ~250MB–1GB menjadi 4MB–18MB per desa sehingga pengunggahan harian menjadi sangat cepat dan efisien.
+
 ## [1.26.81] - 2026-08-11
 
 ### Fixed

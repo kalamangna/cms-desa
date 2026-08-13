@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -13,13 +14,14 @@ return new class extends Migration
     public function up(): void
     {
         // Pastikan ekstensi GD dan fungsi imagewebp tersedia
-        if (!function_exists('imagewebp') || !function_exists('imagecreatetruecolor')) {
+        if (! function_exists('imagewebp') || ! function_exists('imagecreatetruecolor')) {
             Log::warning('Migrasi WebP dilewati: Ekstensi GD PHP / imagewebp tidak aktif pada server ini.');
+
             return;
         }
 
         $baseDir = storage_path('app/public');
-        if (!file_exists($baseDir)) {
+        if (! file_exists($baseDir)) {
             return;
         }
 
@@ -36,7 +38,7 @@ return new class extends Migration
                 }
 
                 $ext = strtolower($file->getExtension());
-                if (!in_array($ext, ['jpg', 'jpeg', 'png'])) {
+                if (! in_array($ext, ['jpg', 'jpeg', 'png'])) {
                     continue;
                 }
 
@@ -50,7 +52,7 @@ return new class extends Migration
                     $img = @imagecreatefromjpeg($path);
                 }
 
-                if (!$img) {
+                if (! $img) {
                     continue;
                 }
 
@@ -80,8 +82,8 @@ return new class extends Migration
                     }
                 }
             }
-        } catch (\Throwable $e) {
-            Log::error('Gagal mengonversi gambar fisik di migrasi WebP: ' . $e->getMessage());
+        } catch (Throwable $e) {
+            Log::error('Gagal mengonversi gambar fisik di migrasi WebP: '.$e->getMessage());
         }
 
         // 2. Pembaruan tautan path gambar di database secara aman
@@ -96,12 +98,12 @@ return new class extends Migration
         ];
 
         foreach ($tablesAndColumns as $table => $columns) {
-            if (!Schema::hasTable($table)) {
+            if (! Schema::hasTable($table)) {
                 continue;
             }
 
             foreach ($columns as $column) {
-                if (!Schema::hasColumn($table, $column)) {
+                if (! Schema::hasColumn($table, $column)) {
                     continue;
                 }
 
@@ -109,29 +111,31 @@ return new class extends Migration
                     $rowsToWebp = DB::table($table)
                         ->where(function ($q) use ($column) {
                             $q->where($column, 'LIKE', '%.jpg')
-                              ->orWhere($column, 'LIKE', '%.jpeg')
-                              ->orWhere($column, 'LIKE', '%.png');
+                                ->orWhere($column, 'LIKE', '%.jpeg')
+                                ->orWhere($column, 'LIKE', '%.png');
                         })
                         ->get();
 
                     foreach ($rowsToWebp as $row) {
                         $oldValue = $row->{$column};
-                        if (!$oldValue) continue;
+                        if (! $oldValue) {
+                            continue;
+                        }
 
                         $newValue = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $oldValue);
                         DB::table($table)
                             ->where('id', $row->id)
                             ->update([$column => $newValue]);
                     }
-                } catch (\Throwable $e) {
-                    Log::warning("Gagal memperbarui tabel {$table} kolom {$column} pada migrasi WebP: " . $e->getMessage());
+                } catch (Throwable $e) {
+                    Log::warning("Gagal memperbarui tabel {$table} kolom {$column} pada migrasi WebP: ".$e->getMessage());
                 }
             }
         }
 
         try {
-            \Illuminate\Support\Facades\Cache::flush();
-        } catch (\Throwable $e) {
+            Cache::flush();
+        } catch (Throwable $e) {
             // Ignore cache error
         }
     }
@@ -139,7 +143,5 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-    }
+    public function down(): void {}
 };

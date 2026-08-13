@@ -18,7 +18,7 @@ class ServiceRequest extends Model
         static::creating(function ($request) {
             $date = now()->format('Ymd');
             $random = strtoupper(bin2hex(random_bytes(2)));
-            $request->ticket_number = 'SRV-' . $date . '-' . $random;
+            $request->ticket_number = 'SRV-'.$date.'-'.$random;
         });
     }
 }

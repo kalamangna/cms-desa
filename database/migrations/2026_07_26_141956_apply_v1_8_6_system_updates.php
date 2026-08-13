@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 return new class extends Migration
 {
@@ -24,21 +26,21 @@ return new class extends Migration
         });
 
         // 3. Mengamankan & Menyesuaikan izin (permissions) admin_desa yang sedang aktif
-        $role = \Spatie\Permission\Models\Role::where('name', 'admin_desa')->first();
+        $role = Role::where('name', 'admin_desa')->first();
         if ($role) {
             // Cabut izin sensitif agar tidak bisa mengelola sistem inti
             $sensitivePermissions = [
                 'View:Role', 'ViewAny:Role', 'Create:Role', 'Update:Role', 'Delete:Role', 'DeleteAny:Role', 'ForceDelete:Role', 'ForceDeleteAny:Role', 'Restore:Role', 'RestoreAny:Role', 'Replicate:Role', 'Reorder:Role',
                 'View:User', 'ViewAny:User', 'Create:User', 'Update:User', 'Delete:User', 'DeleteAny:User', 'ForceDelete:User', 'ForceDeleteAny:User', 'Restore:User', 'RestoreAny:User', 'Replicate:User', 'Reorder:User',
                 'View:AuditLog', 'ViewAny:AuditLog', 'Create:AuditLog', 'Update:AuditLog', 'Delete:AuditLog', 'DeleteAny:AuditLog', 'ForceDelete:AuditLog', 'ForceDeleteAny:AuditLog', 'Restore:AuditLog', 'RestoreAny:AuditLog', 'Replicate:AuditLog', 'Reorder:AuditLog',
-                'View:Backups'
+                'View:Backups',
             ];
-            
-            $permissionsToRevoke = \Spatie\Permission\Models\Permission::whereIn('name', $sensitivePermissions)->get();
+
+            $permissionsToRevoke = Permission::whereIn('name', $sensitivePermissions)->get();
             $role->revokePermissionTo($permissionsToRevoke);
 
             // Berikan izin spesifik ke halaman yang diizinkan (Pengaturan & Statistik)
-            $allowedPages = \Spatie\Permission\Models\Permission::whereIn('name', ['View:ManageSettings', 'View:VisitorStatistics'])->get();
+            $allowedPages = Permission::whereIn('name', ['View:ManageSettings', 'View:VisitorStatistics'])->get();
             $role->givePermissionTo($allowedPages);
         }
     }

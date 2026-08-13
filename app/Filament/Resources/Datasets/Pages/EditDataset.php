@@ -13,7 +13,7 @@ class EditDataset extends EditRecord
 {
     protected static string $resource = DatasetResource::class;
 
-    public function getMaxContentWidth(): Width | string | null
+    public function getMaxContentWidth(): Width|string|null
     {
         return Width::Full;
     }

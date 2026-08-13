@@ -38,7 +38,7 @@ return new class extends Migration
 
             if ($clean !== null && $clean !== $raw) {
                 DB::table('citizens')->where('id', $r->id)->update(['job_status' => $clean]);
-            } elseif ($clean === null && !empty($raw)) {
+            } elseif ($clean === null && ! empty($raw)) {
                 DB::table('citizens')->where('id', $r->id)->update(['job_status' => null]);
             }
         }

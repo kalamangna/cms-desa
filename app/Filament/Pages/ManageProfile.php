@@ -2,30 +2,32 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Pages\Page;
-use Filament\Forms\Form;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Schemas\Components\Tabs;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\RichEditor;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Forms\Set;
-use Filament\Actions\Action;
 use App\Models\Setting;
+use Filament\Actions\Action;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
+use Filament\Pages\Page;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\EmbeddedSchema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Schema;
 
 class ManageProfile extends Page implements HasForms
 {
     use InteractsWithForms;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
+
     protected static string|\UnitEnum|null $navigationGroup = 'Profil';
+
     protected static ?string $title = 'Profil Desa';
+
     protected static ?string $navigationLabel = 'Profil Desa';
+
     protected static ?int $navigationSort = 1;
 
     public ?array $data = [];
@@ -35,8 +37,8 @@ class ManageProfile extends Page implements HasForms
         $settings = Setting::pluck('value', 'key')->toArray();
         $this->form->fill($settings);
     }
- 
-    public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
+
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
@@ -73,7 +75,7 @@ class ManageProfile extends Page implements HasForms
                                     ->helperText('Satuan pengukuran luas wilayah.')
                                     ->options([
                                         'km²' => 'km² (Kilometer Persegi)',
-                                        'Ha'  => 'Ha (Hektar)',
+                                        'Ha' => 'Ha (Hektar)',
                                     ])
                                     ->default('km²')
                                     ->required(),
@@ -82,38 +84,38 @@ class ManageProfile extends Page implements HasForms
                                     ->placeholder('Pilih Topografi')
                                     ->helperText('Bentuk bentang alam wilayah desa.')
                                     ->options([
-                                        'Dataran Rendah'  => 'Dataran Rendah',
-                                        'Dataran Tinggi'  => 'Dataran Tinggi',
-                                        'Pegunungan'      => 'Pegunungan',
-                                        'Perbukitan'      => 'Perbukitan',
+                                        'Dataran Rendah' => 'Dataran Rendah',
+                                        'Dataran Tinggi' => 'Dataran Tinggi',
+                                        'Pegunungan' => 'Pegunungan',
+                                        'Perbukitan' => 'Perbukitan',
                                         'Pesisir / Pantai' => 'Pesisir / Pantai',
-                                        'Lembah'          => 'Lembah',
-                                        'Rawa'            => 'Rawa',
-                                        'Kepulauan'       => 'Kepulauan',
+                                        'Lembah' => 'Lembah',
+                                        'Rawa' => 'Rawa',
+                                        'Kepulauan' => 'Kepulauan',
                                     ])
                                     ->searchable()
                                     ->native(false),
                             ]),
-                    ])->columnSpanFull()
+                    ])->columnSpanFull(),
             ])
             ->statePath('data');
     }
- 
-    public function content(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
+
+    public function content(Schema $schema): Schema
     {
         return $schema
             ->components([
                 \Filament\Schemas\Components\Form::make([
-                    \Filament\Schemas\Components\EmbeddedSchema::make('form'),
+                    EmbeddedSchema::make('form'),
                 ])
                     ->id('form')
                     ->livewireSubmitHandler('save')
                     ->footer([
-                        \Filament\Schemas\Components\Actions::make($this->getFormActions()),
+                        Actions::make($this->getFormActions()),
                     ]),
             ]);
     }
- 
+
     protected function getFormActions(): array
     {
         return [
@@ -123,15 +125,15 @@ class ManageProfile extends Page implements HasForms
                 ->color('primary'),
         ];
     }
- 
+
     public function save(): void
     {
         $data = $this->form->getState();
- 
+
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
- 
+
         Notification::make()
             ->success()
             ->title('Berhasil')

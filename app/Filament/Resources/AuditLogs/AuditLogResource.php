@@ -4,39 +4,61 @@ namespace App\Filament\Resources\AuditLogs;
 
 use App\Filament\Resources\AuditLogs\Pages\ListAuditLogs;
 use App\Models\AuditLog;
+use Filament\Actions\ViewAction;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Filament\Schemas\Schema;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\Section;
 
 class AuditLogResource extends Resource
 {
     protected static ?string $model = AuditLog::class;
 
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
+
     protected static ?string $navigationLabel = 'Audit Log';
+
     protected static ?string $modelLabel = 'Audit Log';
-        protected static ?int $navigationSort = 6;
+
+    protected static ?int $navigationSort = 6;
+
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     public static function canViewAny(): bool
     {
         $user = auth()->user();
-        if (!$user) return false;
-        
-        return $user->hasRole('super_admin') || 
-               $user->hasRole('Super Admin') || 
-               $user->hasRole('superadmin') || 
+        if (! $user) {
+            return false;
+        }
+
+        return $user->hasRole('super_admin') ||
+               $user->hasRole('Super Admin') ||
+               $user->hasRole('superadmin') ||
                $user->id === 1;
     }
 
-    public static function canCreate(): bool { return false; }
-    public static function canEdit(Model $record): bool { return false; }
-    public static function canDelete(Model $record): bool { return false; }
-    public static function canDeleteAny(): bool { return false; }
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return false;
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return false;
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return false;
+    }
 
     public static function table(Table $table): Table
     {
@@ -76,7 +98,7 @@ class AuditLogResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->actions([
-                \Filament\Actions\ViewAction::make()
+                ViewAction::make()
                     ->label('Rincian'),
             ]);
     }

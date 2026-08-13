@@ -14,7 +14,7 @@ return new class extends Migration
         // 1. Announcements Table
         if (Schema::hasTable('announcements')) {
             Schema::table('announcements', function (Blueprint $table) {
-                if (!Schema::hasColumn('announcements', 'deleted_at')) {
+                if (! Schema::hasColumn('announcements', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });
@@ -34,7 +34,7 @@ return new class extends Migration
         // 2. Galleries Table
         if (Schema::hasTable('galleries')) {
             Schema::table('galleries', function (Blueprint $table) {
-                if (!Schema::hasColumn('galleries', 'deleted_at')) {
+                if (! Schema::hasColumn('galleries', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });
@@ -55,7 +55,7 @@ return new class extends Migration
         // 3. Documents Table
         if (Schema::hasTable('documents')) {
             Schema::table('documents', function (Blueprint $table) {
-                if (!Schema::hasColumn('documents', 'deleted_at')) {
+                if (! Schema::hasColumn('documents', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });
@@ -72,7 +72,7 @@ return new class extends Migration
         }
 
         // 4. Services Table
-        if (!Schema::hasTable('services')) {
+        if (! Schema::hasTable('services')) {
             Schema::create('services', function (Blueprint $table) {
                 $table->id();
                 $table->string('title');
@@ -87,7 +87,7 @@ return new class extends Migration
         // 5. Institutions Table
         if (Schema::hasTable('institutions')) {
             Schema::table('institutions', function (Blueprint $table) {
-                if (!Schema::hasColumn('institutions', 'deleted_at')) {
+                if (! Schema::hasColumn('institutions', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });
@@ -106,7 +106,7 @@ return new class extends Migration
         // 6. Officials Table
         if (Schema::hasTable('officials')) {
             Schema::table('officials', function (Blueprint $table) {
-                if (!Schema::hasColumn('officials', 'deleted_at')) {
+                if (! Schema::hasColumn('officials', 'deleted_at')) {
                     $table->softDeletes();
                 }
             });

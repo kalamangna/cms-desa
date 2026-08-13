@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Document;
 use App\Models\Publication;
-use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class DocumentAndPublicationSeeder extends Seeder
 {
@@ -16,7 +16,7 @@ class DocumentAndPublicationSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Membersihkan dan membuat data Dokumen dan Publikasi...');
-        
+
         // Membersihkan data lama
         Document::query()->forceDelete();
         Publication::query()->forceDelete();
@@ -55,18 +55,18 @@ class DocumentAndPublicationSeeder extends Seeder
         foreach ($documents as $doc) {
             $doc['slug'] = Str::slug($doc['title']);
             Document::create($doc);
-            
-            if (!Storage::disk('public')->exists($doc['file'])) {
+
+            if (! Storage::disk('public')->exists($doc['file'])) {
                 Storage::disk('public')->put($doc['file'], $dummyPdfContent);
             }
         }
 
         // Pastikan direktori publications ada
-        if (!Storage::disk('public')->exists('publications')) {
+        if (! Storage::disk('public')->exists('publications')) {
             Storage::disk('public')->makeDirectory('publications');
         }
         // Salin meta.webp sebagai dummy cover
-        if (!Storage::disk('public')->exists('publications/meta.webp') && file_exists(public_path('img/meta.webp'))) {
+        if (! Storage::disk('public')->exists('publications/meta.webp') && file_exists(public_path('img/meta.webp'))) {
             Storage::disk('public')->put('publications/meta.webp', file_get_contents(public_path('img/meta.webp')));
         }
 
@@ -106,8 +106,8 @@ class DocumentAndPublicationSeeder extends Seeder
         foreach ($publications as $pub) {
             $pub['slug'] = Str::slug($pub['title']);
             Publication::create($pub);
-            
-            if (!Storage::disk('public')->exists($pub['pdf_file'])) {
+
+            if (! Storage::disk('public')->exists($pub['pdf_file'])) {
                 Storage::disk('public')->put($pub['pdf_file'], $dummyPdfContent);
             }
         }

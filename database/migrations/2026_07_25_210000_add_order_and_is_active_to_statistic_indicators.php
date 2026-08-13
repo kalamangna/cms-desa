@@ -17,15 +17,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('statistic_indicators')) {
+        if (! Schema::hasTable('statistic_indicators')) {
             return;
         }
 
         Schema::table('statistic_indicators', function (Blueprint $table) {
-            if (!Schema::hasColumn('statistic_indicators', 'order')) {
+            if (! Schema::hasColumn('statistic_indicators', 'order')) {
                 $table->integer('order')->default(0)->after('mapping_value');
             }
-            if (!Schema::hasColumn('statistic_indicators', 'is_active')) {
+            if (! Schema::hasColumn('statistic_indicators', 'is_active')) {
                 $table->boolean('is_active')->default(true)->after('order');
             }
         });
@@ -36,15 +36,19 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (!Schema::hasTable('statistic_indicators')) {
+        if (! Schema::hasTable('statistic_indicators')) {
             return;
         }
 
         Schema::table('statistic_indicators', function (Blueprint $table) {
             $cols = [];
-            if (Schema::hasColumn('statistic_indicators', 'is_active')) $cols[] = 'is_active';
-            if (Schema::hasColumn('statistic_indicators', 'order')) $cols[] = 'order';
-            if (!empty($cols)) {
+            if (Schema::hasColumn('statistic_indicators', 'is_active')) {
+                $cols[] = 'is_active';
+            }
+            if (Schema::hasColumn('statistic_indicators', 'order')) {
+                $cols[] = 'order';
+            }
+            if (! empty($cols)) {
                 $table->dropColumn($cols);
             }
         });

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         // Guard: Pada fresh install, kolom ini sudah dibuat sebagai bigInteger di base CREATE migration.
         // Migration ini hanya relevan untuk database existing yang dibuat sebelum perubahan base.
-        if (!Schema::hasTable('families')) {
+        if (! Schema::hasTable('families')) {
             return;
         }
         Schema::table('families', function (Blueprint $table) {

@@ -11,17 +11,17 @@ return new class extends Migration
     public function up(): void
     {
         $mappings = [
-            'Belum / tidak bekerja'        => 'Belum / Tidak Bekerja',
-            'Ibu rumah tangga'             => 'Ibu Rumah Tangga',
-            'Petani / pekebun'             => 'Petani / Pekebun',
-            'Pelajar / mahasiswa'          => 'Pelajar / Mahasiswa',
-            'Wiraswasta / pengusaha'       => 'Wiraswasta / Pengusaha',
-            'Karyawan swasta'              => 'Karyawan Swasta',
-            'Tenaga pendidikan'            => 'Tenaga Pendidikan',
-            'Tenaga kesehatan'             => 'Tenaga Kesehatan',
-            'Pns / aparatur'               => 'PNS / Aparatur',
-            'Buruh / pekerja harian'       => 'Buruh / Pekerja Harian',
-            'Pekerja jasa & transportasi'  => 'Pekerja Jasa & Transportasi',
+            'Belum / tidak bekerja' => 'Belum / Tidak Bekerja',
+            'Ibu rumah tangga' => 'Ibu Rumah Tangga',
+            'Petani / pekebun' => 'Petani / Pekebun',
+            'Pelajar / mahasiswa' => 'Pelajar / Mahasiswa',
+            'Wiraswasta / pengusaha' => 'Wiraswasta / Pengusaha',
+            'Karyawan swasta' => 'Karyawan Swasta',
+            'Tenaga pendidikan' => 'Tenaga Pendidikan',
+            'Tenaga kesehatan' => 'Tenaga Kesehatan',
+            'Pns / aparatur' => 'PNS / Aparatur',
+            'Buruh / pekerja harian' => 'Buruh / Pekerja Harian',
+            'Pekerja jasa & transportasi' => 'Pekerja Jasa & Transportasi',
         ];
 
         foreach ($mappings as $old => $new) {

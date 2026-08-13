@@ -8,10 +8,8 @@ use App\Filament\Resources\GuestBooks\Pages\ListGuestBooks;
 use App\Filament\Resources\GuestBooks\Schemas\GuestBookForm;
 use App\Filament\Resources\GuestBooks\Tables\GuestBooksTable;
 use App\Models\GuestBook;
-use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
 class GuestBookResource extends Resource
@@ -19,8 +17,11 @@ class GuestBookResource extends Resource
     protected static ?string $model = GuestBook::class;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-book-open';
+
     protected static string|\UnitEnum|null $navigationGroup = 'Layanan';
+
     protected static ?string $navigationLabel = 'Buku Tamu';
+
     protected static ?int $navigationSort = 3;
 
     public static function getModelLabel(): string

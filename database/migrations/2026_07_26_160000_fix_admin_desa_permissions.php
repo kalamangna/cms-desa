@@ -2,8 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 return new class extends Migration
 {
@@ -13,7 +14,7 @@ return new class extends Migration
     public function up(): void
     {
         // Bersihkan cache permission bawaan Spatie
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // 1. Generate ulang seluruh permission secara otomatis dan pasangkan ke admin_desa
         // Karena panel_user di config/filament-shield.php sudah kita ganti menjadi admin_desa,
@@ -21,7 +22,7 @@ return new class extends Migration
         Artisan::call('shield:generate', [
             '--all' => true,
             '--panel' => 'admin',
-            '--option' => 'policies_and_permissions'
+            '--option' => 'policies_and_permissions',
         ]);
 
         // 2. Cabut kembali izin sensitif dari admin_desa (seperti konfigurasi sebelumnya)
@@ -31,9 +32,9 @@ return new class extends Migration
                 'View:Role', 'ViewAny:Role', 'Create:Role', 'Update:Role', 'Delete:Role', 'DeleteAny:Role', 'ForceDelete:Role', 'ForceDeleteAny:Role', 'Restore:Role', 'RestoreAny:Role', 'Replicate:Role', 'Reorder:Role',
                 'View:User', 'ViewAny:User', 'Create:User', 'Update:User', 'Delete:User', 'DeleteAny:User', 'ForceDelete:User', 'ForceDeleteAny:User', 'Restore:User', 'RestoreAny:User', 'Replicate:User', 'Reorder:User',
                 'View:AuditLog', 'ViewAny:AuditLog', 'Create:AuditLog', 'Update:AuditLog', 'Delete:AuditLog', 'DeleteAny:AuditLog', 'ForceDelete:AuditLog', 'ForceDeleteAny:AuditLog', 'Restore:AuditLog', 'RestoreAny:AuditLog', 'Replicate:AuditLog', 'Reorder:AuditLog',
-                'View:Backups'
+                'View:Backups',
             ];
-            
+
             $permissionsToRevoke = Permission::whereIn('name', $sensitivePermissions)->get();
             if ($permissionsToRevoke->isNotEmpty()) {
                 $role->revokePermissionTo($permissionsToRevoke);
@@ -45,12 +46,12 @@ return new class extends Migration
                 $role->givePermissionTo($allowedPages);
             }
         }
-        
+
         // 3. (Opsional) Hapus peran panel_user yang terlanjur terbuat jika ada
         Role::where('name', 'panel_user')->delete();
-        
+
         // Bersihkan cache lagi setelah operasi selesai
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
     }
 
     /**

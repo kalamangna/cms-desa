@@ -3,11 +3,12 @@
 namespace App\Filament\Resources\VillagePotentials\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class VillagePotentialsTable
@@ -23,7 +24,7 @@ class VillagePotentialsTable
                     ->sortable()
                     ->searchable(),
                 ImageColumn::make('image')->label('Foto'),
-                \Filament\Tables\Columns\ToggleColumn::make('is_active')->label('Aktif')
+                ToggleColumn::make('is_active')->label('Aktif')
                     ->sortable(),
                 TextColumn::make('created_at')->label('Dibuat')
                     ->dateTime()
@@ -35,7 +36,7 @@ class VillagePotentialsTable
             ])
             ->recordActions([
                 EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

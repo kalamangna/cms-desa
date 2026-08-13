@@ -2,14 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-
+use App\Filament\Pages\Auth\Login;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
-use App\Filament\Pages\Auth\Login;
 use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 class FilamentAccessTest extends TestCase
 {
@@ -31,7 +30,7 @@ class FilamentAccessTest extends TestCase
             'username' => 'kalamangna',
             'password' => Hash::make('Syazani'),
         ]);
-        
+
         Role::create(['name' => 'super_admin']);
         $user->assignRole('super_admin');
 
@@ -46,8 +45,6 @@ class FilamentAccessTest extends TestCase
 
         $this->assertAuthenticatedAs($user);
     }
-
-
 
     public function test_home_page_is_accessible(): void
     {

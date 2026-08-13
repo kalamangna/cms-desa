@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\ImageHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class PopupInfographic extends Model
@@ -12,7 +13,7 @@ class PopupInfographic extends Model
     {
         static::saving(function ($infographic) {
             if ($infographic->isDirty('image') && $infographic->image) {
-                $infographic->image = \App\Helpers\ImageHelper::convertToWebp($infographic->image, 'popup-infographics', 82, 700);
+                $infographic->image = ImageHelper::convertToWebp($infographic->image, 'popup-infographics', 82, 700);
             }
         });
     }

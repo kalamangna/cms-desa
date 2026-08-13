@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Helpers\ImageHelper;
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use App\Traits\HasSlug;
+use Illuminate\Support\Facades\Cache;
 
 class Gallery extends Model
 {
-    use SoftDeletes, HasSlug;
+    use HasSlug, SoftDeletes;
 
     protected $fillable = ['title', 'slug', 'type', 'image', 'youtube_url', 'description'];
 
@@ -21,11 +22,11 @@ class Gallery extends Model
                 return "https://img.youtube.com/vi/{$matches[1]}/hqdefault.jpg";
             }
         }
-        
+
         if ($this->image) {
-            return asset('storage/' . $this->image);
+            return asset('storage/'.$this->image);
         }
-        
+
         // Local meta.webp image as placeholder fallback
         return asset('img/meta.webp');
     }
@@ -34,11 +35,11 @@ class Gallery extends Model
     {
         static::saving(function ($gallery) {
             if ($gallery->isDirty('image') && $gallery->image) {
-                $gallery->image = \App\Helpers\ImageHelper::convertToWebp($gallery->image, 'galleries');
+                $gallery->image = ImageHelper::convertToWebp($gallery->image, 'galleries');
             }
         });
 
-        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home_galleries'));
-        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home_galleries'));
+        static::saved(fn () => Cache::forget('home_galleries'));
+        static::deleted(fn () => Cache::forget('home_galleries'));
     }
 }

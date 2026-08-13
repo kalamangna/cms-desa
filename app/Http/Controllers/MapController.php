@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dusun;
+use App\Models\PublicFacility;
 use App\Models\Setting;
-use Illuminate\Http\Request;
 
 class MapController extends Controller
 {
@@ -15,13 +15,13 @@ class MapController extends Controller
             'citizens' => function ($query) {
                 $query->where('status', 'Aktif');
             },
-            'families'
+            'families',
         ])->get();
 
         // Get general settings for map center coordinates
         $site_settings = Setting::pluck('value', 'key')->toArray();
 
-        $facilities = \App\Models\PublicFacility::all();
+        $facilities = PublicFacility::all();
 
         return view('pages.peta', compact('dusuns', 'site_settings', 'facilities'));
     }

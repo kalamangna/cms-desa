@@ -11,7 +11,6 @@ use App\Models\PopupInfographic;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
 class PopupInfographicResource extends Resource
@@ -19,7 +18,9 @@ class PopupInfographicResource extends Resource
     protected static ?string $model = PopupInfographic::class;
 
     protected static string|\UnitEnum|null $navigationGroup = 'Informasi';
+
     protected static ?int $navigationSort = 5;
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-photo';
 
     public static function getModelLabel(): string

@@ -5,11 +5,11 @@ namespace App\Filament\Widgets;
 use App\Models\VisitorLog;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Illuminate\Support\Carbon;
 
 class VisitorStatsOverviewWidget extends BaseWidget
 {
     protected static bool $isDiscovered = false;
+
     protected function getStats(): array
     {
         $todayStr = now()->toDateString();
@@ -17,7 +17,7 @@ class VisitorStatsOverviewWidget extends BaseWidget
 
         $today = VisitorLog::where('visit_date', $todayStr)->distinct('ip_hash')->count('ip_hash');
         $yesterday = VisitorLog::where('visit_date', $yesterdayStr)->distinct('ip_hash')->count('ip_hash');
-        
+
         $thisMonth = VisitorLog::whereYear('visit_date', now()->year)
             ->whereMonth('visit_date', now()->month)
             ->distinct('ip_hash')

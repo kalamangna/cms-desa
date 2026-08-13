@@ -13,7 +13,7 @@ return new class extends Migration
     {
         // Guard: Pada fresh install, has_digital_wallet sudah dibuat sebagai string nullable di base CREATE migration.
         // Migration ini hanya relevan untuk database existing yang masih menggunakan boolean.
-        if (!Schema::hasTable('citizens') || !Schema::hasColumn('citizens', 'has_digital_wallet')) {
+        if (! Schema::hasTable('citizens') || ! Schema::hasColumn('citizens', 'has_digital_wallet')) {
             return;
         }
         Schema::table('citizens', function (Blueprint $table) {

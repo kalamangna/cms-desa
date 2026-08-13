@@ -2,12 +2,44 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Filament\Components\CustomBackupDestinationListRecords;
+use App\Models\Announcement;
+use App\Models\AuditLog;
+use App\Models\BudgetRealization;
+use App\Models\Citizen;
+use App\Models\Dusun;
+use App\Models\Family;
+use App\Models\Gallery;
+use App\Models\Official;
+use App\Models\Post;
+use App\Models\Publication;
 use App\Models\Setting;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Cache;
+use App\Models\StatisticData;
+use App\Models\User;
+use App\Models\VisitorLog;
+use App\Notifications\SystemMonitorNotification;
+use App\Services\GoogleDriveAdapterWrapper;
+use Filament\Forms\Components\Select;
+use Google\Client;
+use Google\Service\Drive;
+use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Console\Events\CommandStarting;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use League\Flysystem\Filesystem;
+use Livewire\Livewire;
+use Masbug\Flysystem\GoogleDriveAdapter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,45 +57,46 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if (config('app.env') === 'production' || str_starts_with(config('app.url', ''), 'https://')) {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
+            URL::forceScheme('https');
         }
 
         Paginator::useTailwind();
 
         // Register Google Drive Storage Driver
         try {
-            \Illuminate\Support\Facades\Storage::extend('google', function ($app, $config) {
+            Storage::extend('google', function ($app, $config) {
                 $options = [];
-                if (!empty($config['teamDriveId'] ?? null)) {
+                if (! empty($config['teamDriveId'] ?? null)) {
                     $options['teamDriveId'] = $config['teamDriveId'];
                 }
 
                 $folderId = $config['folder'] ?? null;
-                if (!empty($folderId)) {
+                if (! empty($folderId)) {
                     $options['sharedFolderId'] = $folderId;
                 }
 
-                $client = new \Google\Client();
+                $client = new Client;
                 $client->setClientId($config['clientId']);
                 $client->setClientSecret($config['clientSecret']);
                 $client->refreshToken($config['refreshToken']);
 
-                $service    = new \Google\Service\Drive($client);
-                $rawAdapter = new \Masbug\Flysystem\GoogleDriveAdapter($service, null, $options);
-                $adapter    = new \App\Services\GoogleDriveAdapterWrapper($rawAdapter);
-                $driver     = new \League\Flysystem\Filesystem($adapter);
+                $service = new Drive($client);
+                $rawAdapter = new GoogleDriveAdapter($service, null, $options);
+                $adapter = new GoogleDriveAdapterWrapper($rawAdapter);
+                $driver = new Filesystem($adapter);
 
-                return new \Illuminate\Filesystem\FilesystemAdapter($driver, $adapter);
+                return new FilesystemAdapter($driver, $adapter);
             });
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
 
         // Register custom Livewire backup list records component to prevent polling expiration
-        \Livewire\Livewire::component('custom-backup-destination-list-records', \App\Filament\Components\CustomBackupDestinationListRecords::class);
+        Livewire::component('custom-backup-destination-list-records', CustomBackupDestinationListRecords::class);
 
         // Audit Log Listeners for Auth
-        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Login::class, function ($event) {
+        Event::listen(Login::class, function ($event) {
             try {
-                \App\Models\AuditLog::create([
+                AuditLog::create([
                     'user_id' => $event->user?->id,
                     'user_name' => $event->user?->name ?? 'Sistem',
                     'event' => 'login',
@@ -71,13 +104,14 @@ class AppServiceProvider extends ServiceProvider
                     'ip_address' => request()->ip(),
                     'user_agent' => request()->userAgent(),
                 ]);
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) {
+            }
         });
 
-        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Logout::class, function ($event) {
+        Event::listen(Logout::class, function ($event) {
             try {
                 if ($event->user) {
-                    \App\Models\AuditLog::create([
+                    AuditLog::create([
                         'user_id' => $event->user->id,
                         'user_name' => $event->user->name,
                         'event' => 'logout',
@@ -86,86 +120,100 @@ class AppServiceProvider extends ServiceProvider
                         'user_agent' => request()->userAgent(),
                     ]);
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) {
+            }
         });
 
         // 1. Radar Keamanan Autentikasi (Logins) - Telegram Notification
-        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Login::class, function ($event) {
+        Event::listen(Login::class, function ($event) {
             try {
                 // Lewati notifikasi jika yang login adalah super admin agar tidak berisik
                 if ($event->user->hasRole('super_admin')) {
                     return;
                 }
-                
-                $ip      = request()->ip();
-                $ua      = request()->userAgent() ?? '-';
-                $browser = strlen($ua) > 60 ? substr($ua, 0, 60) . '…' : $ua;
-                $roles   = $event->user->getRoleNames()->implode(', ') ?: 'Tanpa role';
-                $msg     = "👤 {$event->user->name}\n"
-                         . "🔑 {$event->user->username}\n"
-                         . "🎭 {$roles}\n"
-                         . "🌐 {$ip}\n"
-                         . "🖥 <code>{$browser}</code>";
-                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('LOGIN BERHASIL', $msg, 'success'));
-            } catch (\Throwable $e) {}
+
+                $ip = request()->ip();
+                $ua = request()->userAgent() ?? '-';
+                $browser = strlen($ua) > 60 ? substr($ua, 0, 60).'…' : $ua;
+                $roles = $event->user->getRoleNames()->implode(', ') ?: 'Tanpa role';
+                $msg = "👤 {$event->user->name}\n"
+                         ."🔑 {$event->user->username}\n"
+                         ."🎭 {$roles}\n"
+                         ."🌐 {$ip}\n"
+                         ."🖥 <code>{$browser}</code>";
+                Notification::route('telegram', 'system')->notify(new SystemMonitorNotification('LOGIN BERHASIL', $msg, 'success'));
+            } catch (\Throwable $e) {
+            }
         });
 
-        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Failed::class, function ($event) {
+        Event::listen(Failed::class, function ($event) {
             try {
-                $ip      = request()->ip();
-                $ua      = request()->userAgent() ?? '-';
-                $browser = strlen($ua) > 60 ? substr($ua, 0, 60) . '…' : $ua;
+                $ip = request()->ip();
+                $ua = request()->userAgent() ?? '-';
+                $browser = strlen($ua) > 60 ? substr($ua, 0, 60).'…' : $ua;
                 $username = $event->credentials['username'] ?? 'tidak diketahui';
-                $msg     = "🔑 {$username}\n"
-                         . "🌐 {$ip}\n"
-                         . "🖥 <code>{$browser}</code>";
-                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('LOGIN GAGAL', $msg, 'danger'));
-            } catch (\Throwable $e) {}
+                $msg = "🔑 {$username}\n"
+                         ."🌐 {$ip}\n"
+                         ."🖥 <code>{$browser}</code>";
+                Notification::route('telegram', 'system')->notify(new SystemMonitorNotification('LOGIN GAGAL', $msg, 'danger'));
+            } catch (\Throwable $e) {
+            }
         });
 
         // 2. Pengawasan Hak Akses (User Management)
-        \App\Models\User::created(function (\App\Models\User $user) {
+        User::created(function (User $user) {
             try {
-                if (auth()->check() && auth()->user()->hasRole('super_admin')) return;
+                if (auth()->check() && auth()->user()->hasRole('super_admin')) {
+                    return;
+                }
 
                 $roles = $user->getRoleNames()->implode(', ') ?: 'Tanpa role';
-                $msg   = "👤 {$user->name}\n"
-                       . "🔑 {$user->username}\n"
-                       . "🎭 {$roles}";
-                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('AKUN ADMIN DIBUAT', $msg, 'warning'));
-            } catch (\Throwable $e) {}
+                $msg = "👤 {$user->name}\n"
+                       ."🔑 {$user->username}\n"
+                       ."🎭 {$roles}";
+                Notification::route('telegram', 'system')->notify(new SystemMonitorNotification('AKUN ADMIN DIBUAT', $msg, 'warning'));
+            } catch (\Throwable $e) {
+            }
         });
 
-        \App\Models\User::deleted(function (\App\Models\User $user) {
+        User::deleted(function (User $user) {
             try {
-                if (auth()->check() && auth()->user()->hasRole('super_admin')) return;
+                if (auth()->check() && auth()->user()->hasRole('super_admin')) {
+                    return;
+                }
 
                 $roles = $user->getRoleNames()->implode(', ') ?: 'Tanpa role';
-                $msg   = "👤 {$user->name}\n"
-                       . "🔑 {$user->username}\n"
-                       . "🎭 {$roles}";
-                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('AKUN ADMIN DIHAPUS', $msg, 'danger'));
-            } catch (\Throwable $e) {}
+                $msg = "👤 {$user->name}\n"
+                       ."🔑 {$user->username}\n"
+                       ."🎭 {$roles}";
+                Notification::route('telegram', 'system')->notify(new SystemMonitorNotification('AKUN ADMIN DIHAPUS', $msg, 'danger'));
+            } catch (\Throwable $e) {
+            }
         });
 
         // 3. Perubahan Pengaturan Krusial
-        \App\Models\Setting::updated(function (\App\Models\Setting $setting) {
+        Setting::updated(function (Setting $setting) {
             try {
-                if (auth()->check() && auth()->user()->hasRole('super_admin')) return;
-                
-                if (in_array($setting->key, ['sejarah_desa', 'visi_misi', 'peta_desa'])) return;
+                if (auth()->check() && auth()->user()->hasRole('super_admin')) {
+                    return;
+                }
+
+                if (in_array($setting->key, ['sejarah_desa', 'visi_misi', 'peta_desa'])) {
+                    return;
+                }
 
                 $oldRaw = $setting->getOriginal('value') ?? '-';
                 $newRaw = $setting->value ?? '-';
                 // Potong jika terlalu panjang (misal JSON/teks panjang)
-                $old    = strlen($oldRaw) > 80 ? substr($oldRaw, 0, 80) . '…' : $oldRaw;
-                $new    = strlen($newRaw) > 80 ? substr($newRaw, 0, 80) . '…' : $newRaw;
+                $old = strlen($oldRaw) > 80 ? substr($oldRaw, 0, 80).'…' : $oldRaw;
+                $new = strlen($newRaw) > 80 ? substr($newRaw, 0, 80).'…' : $newRaw;
 
                 $msg = "⚙️ <code>{$setting->key}</code>\n"
-                     . "📤 Lama: <code>{$old}</code>\n"
-                     . "📥 Baru: <code>{$new}</code>";
-                \Illuminate\Support\Facades\Notification::route('telegram', 'system')->notify(new \App\Notifications\SystemMonitorNotification('PENGATURAN DIUBAH', $msg, 'info'));
-            } catch (\Throwable $e) {}
+                     ."📤 Lama: <code>{$old}</code>\n"
+                     ."📥 Baru: <code>{$new}</code>";
+                Notification::route('telegram', 'system')->notify(new SystemMonitorNotification('PENGATURAN DIUBAH', $msg, 'info'));
+            } catch (\Throwable $e) {
+            }
         });
 
         // Cache Invalidation Observers
@@ -191,26 +239,26 @@ class AppServiceProvider extends ServiceProvider
             Cache::forget('home_perempuan_count');
         };
 
-        \App\Models\Post::saved($clearHomeCache);
-        \App\Models\Post::deleted($clearHomeCache);
-        \App\Models\Announcement::saved($clearHomeCache);
-        \App\Models\Announcement::deleted($clearHomeCache);
-        \App\Models\Official::saved($clearHomeCache);
-        \App\Models\Official::deleted($clearHomeCache);
-        \App\Models\StatisticData::saved($clearHomeCache);
-        \App\Models\StatisticData::deleted($clearHomeCache);
-        \App\Models\BudgetRealization::saved($clearHomeCache);
-        \App\Models\BudgetRealization::deleted($clearHomeCache);
-        \App\Models\Publication::saved($clearHomeCache);
-        \App\Models\Publication::deleted($clearHomeCache);
-        \App\Models\Gallery::saved($clearHomeCache);
-        \App\Models\Gallery::deleted($clearHomeCache);
-        \App\Models\Dusun::saved($clearHomeCache);
-        \App\Models\Dusun::deleted($clearHomeCache);
-        \App\Models\Citizen::saved($clearHomeCache);
-        \App\Models\Citizen::deleted($clearHomeCache);
-        \App\Models\Family::saved($clearHomeCache);
-        \App\Models\Family::deleted($clearHomeCache);
+        Post::saved($clearHomeCache);
+        Post::deleted($clearHomeCache);
+        Announcement::saved($clearHomeCache);
+        Announcement::deleted($clearHomeCache);
+        Official::saved($clearHomeCache);
+        Official::deleted($clearHomeCache);
+        StatisticData::saved($clearHomeCache);
+        StatisticData::deleted($clearHomeCache);
+        BudgetRealization::saved($clearHomeCache);
+        BudgetRealization::deleted($clearHomeCache);
+        Publication::saved($clearHomeCache);
+        Publication::deleted($clearHomeCache);
+        Gallery::saved($clearHomeCache);
+        Gallery::deleted($clearHomeCache);
+        Dusun::saved($clearHomeCache);
+        Dusun::deleted($clearHomeCache);
+        Citizen::saved($clearHomeCache);
+        Citizen::deleted($clearHomeCache);
+        Family::saved($clearHomeCache);
+        Family::deleted($clearHomeCache);
 
         try {
             if (Schema::hasTable('settings')) {
@@ -225,16 +273,16 @@ class AppServiceProvider extends ServiceProvider
                 }
                 View::share('site_settings', $settings);
 
-                if (isset($settings['village_name']) && !empty($settings['village_name'])) {
-                    $slug = \Illuminate\Support\Str::slug($settings['village_name']);
+                if (isset($settings['village_name']) && ! empty($settings['village_name'])) {
+                    $slug = Str::slug($settings['village_name']);
                     config(['backup.backup.name' => $slug]);
-                    config(['backup.backup.destination.filename_prefix' => $slug . '-']);
-                    
-                    \Illuminate\Support\Facades\Event::listen(\Illuminate\Console\Events\CommandStarting::class, function ($event) use ($slug) {
+                    config(['backup.backup.destination.filename_prefix' => $slug.'-']);
+
+                    Event::listen(CommandStarting::class, function ($event) use ($slug) {
                         if ($event->command === 'backup:run' && $event->input->hasParameterOption('--filename')) {
                             $current = $event->input->getParameterOption('--filename');
-                            if ($current && !str_starts_with($current, $slug)) {
-                                $event->input->setOption('filename', $slug . '-' . $current);
+                            if ($current && ! str_starts_with($current, $slug)) {
+                                $event->input->setOption('filename', $slug.'-'.$current);
                             }
                         }
                     });
@@ -252,15 +300,15 @@ class AppServiceProvider extends ServiceProvider
                     $todayStr = now()->toDateString();
                     $yesterdayStr = now()->subDay()->toDateString();
 
-                    $today = \App\Models\VisitorLog::where('visit_date', $todayStr)
+                    $today = VisitorLog::where('visit_date', $todayStr)
                         ->distinct('ip_hash')
                         ->count('ip_hash');
 
-                    $yesterday = \App\Models\VisitorLog::where('visit_date', $yesterdayStr)
+                    $yesterday = VisitorLog::where('visit_date', $yesterdayStr)
                         ->distinct('ip_hash')
                         ->count('ip_hash');
 
-                    $total = \App\Models\VisitorLog::distinct('ip_hash')
+                    $total = VisitorLog::distinct('ip_hash')
                         ->count('ip_hash');
 
                     return [
@@ -276,7 +324,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Globally configure all Select components to use custom/searchable dropdown (Choices.js) instead of native
-        \Filament\Forms\Components\Select::configureUsing(function (\Filament\Forms\Components\Select $select): void {
+        Select::configureUsing(function (Select $select): void {
             $select->native(false);
         });
     }

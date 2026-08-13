@@ -16,7 +16,7 @@ return new class extends Migration
                 if (Schema::hasColumn('institutions', 'motto')) {
                     $table->dropColumn('motto');
                 }
-                if (!Schema::hasColumn('institutions', 'management')) {
+                if (! Schema::hasColumn('institutions', 'management')) {
                     $table->json('management')->nullable()->after('description');
                 }
             });
@@ -30,7 +30,7 @@ return new class extends Migration
     {
         if (Schema::hasTable('institutions')) {
             Schema::table('institutions', function (Blueprint $table) {
-                if (!Schema::hasColumn('institutions', 'motto')) {
+                if (! Schema::hasColumn('institutions', 'motto')) {
                     $table->string('motto')->nullable()->after('description');
                 }
                 if (Schema::hasColumn('institutions', 'management')) {
