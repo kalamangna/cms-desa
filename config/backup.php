@@ -1,10 +1,16 @@
 <?php
 
 use App\Models\Setting;
+use App\Notifications\Backup\BackupHasFailedNotification;
+use App\Notifications\Backup\BackupWasSuccessfulNotification;
+use App\Notifications\Backup\CleanupHasFailedNotification;
+use App\Notifications\Backup\CleanupWasSuccessfulNotification;
+use App\Notifications\Backup\HealthyBackupWasFoundNotification;
+use App\Notifications\Backup\UnhealthyBackupWasFoundNotification;
+use App\Services\Backup\CustomCleanupStrategy;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Spatie\Backup\Notifications\Notifiable;
-use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 
@@ -236,12 +242,12 @@ return [
      */
     'notifications' => [
         'notifications' => [
-            App\Notifications\Backup\BackupHasFailedNotification::class => ['mail', 'telegram'],
-            App\Notifications\Backup\UnhealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
-            App\Notifications\Backup\CleanupHasFailedNotification::class => ['mail', 'telegram'],
-            App\Notifications\Backup\BackupWasSuccessfulNotification::class => ['mail', 'telegram'],
-            App\Notifications\Backup\HealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
-            App\Notifications\Backup\CleanupWasSuccessfulNotification::class => ['mail', 'telegram'],
+            BackupHasFailedNotification::class => ['mail', 'telegram'],
+            UnhealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
+            CleanupHasFailedNotification::class => ['mail', 'telegram'],
+            BackupWasSuccessfulNotification::class => ['mail', 'telegram'],
+            HealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
+            CleanupWasSuccessfulNotification::class => ['mail', 'telegram'],
         ],
 
         /*
@@ -344,7 +350,7 @@ return [
          * No matter how you configure it the default strategy will never
          * delete the newest backup.
          */
-        'strategy' => DefaultStrategy::class,
+        'strategy' => CustomCleanupStrategy::class,
 
         'default_strategy' => [
             /*

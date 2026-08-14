@@ -3,6 +3,7 @@
 namespace App\Notifications\Backup;
 
 use App\Helpers\TelegramHelper;
+use App\Services\Backup\CustomCleanupStrategy;
 use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
@@ -47,17 +48,26 @@ trait HasTelegramNotification
         if ($diskName && $backupName) {
             try {
                 $dest = BackupDestination::create($diskName, $backupName);
-                $newest = $dest->newestBackup();
-                if ($newest) {
-                    $size = Format::humanReadableSize($newest->sizeInBytes());
-                    if (str_contains($className, 'Cleanup')) {
-                        $content .= "📂 Backup Terbaru:\n";
-                        $content .= '   └ 📦 <code>'.basename($newest->path())."</code>\n";
-                        $content .= "   └ 💾 Ukuran: {$size}\n";
+
+                if (str_contains($className, 'Cleanup')) {
+                    $freedBytes = CustomCleanupStrategy::$freedStorage[$diskName] ?? 0;
+                    $freedCount = CustomCleanupStrategy::$deletedCounts[$diskName] ?? 0;
+                    $freedFormatted = Format::humanReadableSize($freedBytes);
+                    $usedStorage = Format::humanReadableSize($dest->fresh()->usedStorage());
+
+                    if ($freedCount > 0) {
+                        $content .= "🗑 <b>Ruang Dihapus:</b> {$freedFormatted} ({$freedCount} file arsip)\n";
                     } else {
-                        $content .= '📦 <code>'.basename($newest->path())."</code>\n";
-                        $content .= "💾 {$size}\n";
+                        $content .= "🗑 <b>Ruang Dihapus:</b> 0 B (Tidak ada file kedaluwarsa)\n";
                     }
+                    $content .= "💾 <b>Sisa Penyimpanan:</b> {$usedStorage}\n";
+                }
+
+                $newest = $dest->newestBackup();
+                if ($newest && ! str_contains($className, 'Cleanup')) {
+                    $size = Format::humanReadableSize($newest->sizeInBytes());
+                    $content .= '📦 <code>'.basename($newest->path())."</code>\n";
+                    $content .= "💾 {$size}\n";
                 }
             } catch (\Exception $e) {
                 // ignore if backup info unavailable

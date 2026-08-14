@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.83] - 2026-08-14
+
+### Changed
+- **Optimalisasi Strategi Backup & Penyesuaian Notifikasi Telegram**:
+  - Mengubah jadwal pencadangan rutin pada `routes/console.php` menjadi **Backup Database Harian** (`backup:run --only-db`) setiap pukul 02:00 WITA dan **Backup File Mingguan** (`backup:run --only-files`) setiap hari Minggu pukul 03:00 WITA untuk mencegah beban I/O tinggi dan error batas temporary file `ZipArchive` di shared hosting.
+  - Mengimplementasikan `App\Services\Backup\CustomCleanupStrategy` untuk melacak jumlah file dan kapasitas penyimpanan yang dibersihkan/dihapus secara akurat.
+  - Memperbarui format notifikasi Telegram pada `App\Notifications\Backup\HasTelegramNotification` untuk menampilkan informasi ruang yang dihapus (`Ruang Dihapus`) dan sisa kapasitas penyimpanan (`Sisa Penyimpanan`), serta menghapus bagian daftar file terbaru yang redundan saat proses pembersihan arsip (*cleanup*).
+
 ## [1.26.82] - 2026-08-13
 
 ### Fixed
