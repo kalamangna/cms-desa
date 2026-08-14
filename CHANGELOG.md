@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.84] - 2026-08-15
+
+### Changed
+- **Notifikasi Backup**: Menonaktifkan pengiriman notifikasi Telegram dan email saat proses pembersihan backup (*cleanup*) berhasil tanpa error (`CleanupWasSuccessfulNotification`) pada `config/backup.php` guna menghindari notifikasi harian yang tidak diperlukan. Notifikasi untuk kegagalan cleanup (`CleanupHasFailedNotification`) tetap dipertahankan.
+
 ## [1.26.83] - 2026-08-14
 
 ### Changed
