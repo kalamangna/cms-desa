@@ -17,7 +17,7 @@ trait HasTelegramNotification
 
         // Determine title & emoji based on notification class
         if (str_contains($className, 'Cleanup')) {
-            $type = 'Cleanup Arsip';
+            $type = 'Cleanup Backup';
             $emoji = $isSuccess ? '🧹' : '❌';
             $title = $isSuccess ? 'CLEANUP SUKSES' : 'CLEANUP GAGAL';
         } elseif (str_contains($className, 'Healthy') || str_contains($className, 'Unhealthy')) {
@@ -56,11 +56,11 @@ trait HasTelegramNotification
                     $usedStorage = Format::humanReadableSize($dest->fresh()->usedStorage());
 
                     if ($freedCount > 0) {
-                        $content .= "🗑 <b>Ruang Dihapus:</b> {$freedFormatted} ({$freedCount} file arsip)\n";
+                        $content .= "🗑 <b>Ruang Dihapus:</b> {$freedFormatted} ({$freedCount} file backup)\n";
                     } else {
                         $content .= "🗑 <b>Ruang Dihapus:</b> 0 B (Tidak ada file kedaluwarsa)\n";
                     }
-                    $content .= "💾 <b>Sisa Penyimpanan:</b> {$usedStorage}\n";
+                    $content .= "💾 <b>Total Backup Tersimpan:</b> {$usedStorage}\n";
                 }
 
                 $newest = $dest->newestBackup();
