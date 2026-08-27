@@ -381,12 +381,12 @@
                 <form method="POST" action="/admin/logout" class="inline">
                     @csrf
                     <button type="submit" class="hover:text-rose-400 transition-all duration-200 flex items-center gap-1.5 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-sm">
-                        <i class="fa-solid fa-right-from-bracket text-[9px]"></i> Keluar
+                        <i class="fa-solid fa-right-from-bracket text-[9px]"></i> Logout
                     </button>
                 </form>
                 @else
                 <a href="/admin/login" target="_blank" rel="noopener" class="hover:text-primary-400 transition flex items-center gap-1.5 active:scale-95">
-                    <i class="fa-solid fa-lock text-[9px]"></i> Login Admin
+                    <i class="fa-solid fa-lock text-[9px]"></i> Login
                 </a>
                 @endauth
             </div>
@@ -414,14 +414,14 @@
                 <div class="hidden lg:flex lg:items-center lg:space-x-8" x-data="{ openMenu: null }">
                     <a href="/" class="relative py-2 px-1 text-sm font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('/') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
                         Beranda
-                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 transition-all duration-300 origin-left {{ request()->is('/') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('/') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                     </a>
 
                     <!-- Profil Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'profil'" @mouseleave="openMenu = null">
                         <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
 Profil <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
                         <div x-show="openMenu === 'profil'"
                             x-transition:enter="transition ease-out duration-150"
@@ -442,7 +442,7 @@ Profil <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     <div class="relative py-2" @mouseenter="openMenu = 'info'" @mouseleave="openMenu = null">
                         <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
 Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 transition-all duration-300 origin-left {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
                         <div x-show="openMenu === 'info'"
                             x-transition:enter="transition ease-out duration-150"
@@ -463,7 +463,7 @@ Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     <div class="relative py-2" @mouseenter="openMenu = 'transparansi'" @mouseleave="openMenu = null">
                         <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
 Transparansi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 transition-all duration-300 origin-left {{ request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
                         <div x-show="openMenu === 'transparansi'"
                             x-transition:enter="transition ease-out duration-150"
@@ -484,7 +484,7 @@ Transparansi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     <div class="relative py-2" @mouseenter="openMenu = 'layanan'" @mouseleave="openMenu = null">
                         <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('layanan*') || request()->is('kontak*') || request()->is('buku-tamu*') || request()->is('pengaduan*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
 Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 transition-all duration-300 origin-left {{ request()->is('layanan*') || request()->is('kontak*') || request()->is('buku-tamu*') || request()->is('pengaduan*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('layanan*') || request()->is('kontak*') || request()->is('buku-tamu*') || request()->is('pengaduan*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
                         <div x-show="openMenu === 'layanan'"
                             x-transition:enter="transition ease-out duration-150"
@@ -504,7 +504,7 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     <!-- Peta Spasial (Top-Level Link) -->
                     <a href="/peta" class="relative py-2 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('peta*') ? 'text-primary-600 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400' }}">
                         Peta Spasial
-                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 transition-all duration-300 origin-left {{ request()->is('peta*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('peta*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                     </a>
 
                     <!-- Theme Toggle (Desktop) -->
@@ -592,22 +592,22 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                 <div class="pt-6 border-t border-slate-100 dark:border-slate-800 mt-4">
                     @auth
                     <div class="flex flex-col gap-3">
-                        <a href="/admin" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-primary-600 text-white text-center shadow-lg shadow-primary-200">
-                            <i class="fa-solid fa-table-cells-large"></i>
-                            Panel Admin
+                        <a href="/admin" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-primary-600 text-white text-center shadow-lg shadow-primary-200 dark:shadow-none">
+                            <i class="fa-solid fa-gauge"></i>
+                            Dashboard
                         </a>
                         <form method="POST" action="/admin/logout" class="w-full">
                             @csrf
-                            <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-100 text-slate-600 text-center hover:bg-slate-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 transition-all duration-200">
+                            <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-center hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 dark:focus-visible:ring-slate-600 transition-all duration-200">
                                 <i class="fa-solid fa-right-from-bracket"></i>
-                                Keluar
+                                Logout
                             </button>
                         </form>
                     </div>
                     @else
-                    <a href="/admin/login" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 text-white text-center shadow-lg hover:shadow-xl active:scale-95 transition-all duration-300">
-                        <i class="fa-solid fa-user"></i>
-                        Login Sistem
+                    <a href="/admin/login" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 dark:bg-slate-800 text-white dark:border dark:border-slate-700 text-center shadow-lg hover:shadow-xl dark:shadow-none dark:hover:shadow-none dark:hover:bg-slate-700 active:scale-95 transition-all duration-300">
+                        <i class="fa-solid fa-lock"></i>
+                        Login
                     </a>
                     @endauth
                 </div>

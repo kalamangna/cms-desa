@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Potensi | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', 'Potensi Desa | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Katalog potensi unggulan, komoditas, kebudayaan, dan pariwisata pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 

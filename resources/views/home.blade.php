@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Desa ' . ($site_settings['village_name'] ?? '') . ' - Portal Resmi Pemerintah Desa')
-@section('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ', Kecamatan ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', Kabupaten ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . '. Menyajikan informasi publik, berita pembangunan, transparansi APBDes, dan statistik kependudukan.')
+@section('title', 'Desa ' . ($site_settings['village_name'] ?? '') . ' | Portal Informasi & Layanan Digital')
+@section('meta_description', 'Portal resmi Desa ' . ($site_settings['village_name'] ?? '') . ', Kec. ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', Kab. ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . '. Layanan mandiri warga, transparansi APBDes, dan informasi pembangunan.')
 @section('meta_image', asset('img/meta.webp'))
 
 @push('head')
@@ -25,11 +25,14 @@
 <div x-data="{ 
         isOpen: false,
         activeSlide: 0,
+        direction: 1,
         popups: @js($popups),
         get activeSlideTitle() {
             return this.popups[this.activeSlide]?.title || '';
         },
         totalSlides: {{ count($popups) }},
+        touchStartX: 0,
+        touchEndX: 0,
         init() {
             const hasShown = sessionStorage.getItem('home_popup_shown_session');
             if (!hasShown) {
@@ -43,10 +46,26 @@
             sessionStorage.setItem('home_popup_shown_session', 'true');
         },
         nextSlide() {
+            this.direction = 1;
             this.activeSlide = (this.activeSlide + 1) % this.totalSlides;
         },
         prevSlide() {
+            this.direction = -1;
             this.activeSlide = (this.activeSlide - 1 + this.totalSlides) % this.totalSlides;
+        },
+        handleTouchStart(e) {
+            this.touchStartX = e.changedTouches[0].screenX;
+        },
+        handleTouchEnd(e) {
+            this.touchEndX = e.changedTouches[0].screenX;
+            const diff = this.touchStartX - this.touchEndX;
+            if (Math.abs(diff) > 40) {
+                if (diff > 0) {
+                    this.nextSlide();
+                } else {
+                    this.prevSlide();
+                }
+            }
         }
      }"
      x-show="isOpen"
@@ -58,13 +77,17 @@
      x-transition:leave-start="opacity-100"
      x-transition:leave-end="opacity-0"
      @keydown.escape.window="closePopup()"
+     @keydown.arrow-left.window="if(isOpen) prevSlide()"
+     @keydown.arrow-right.window="if(isOpen) nextSlide()"
+     @touchstart.passive="handleTouchStart($event)"
+     @touchend.passive="handleTouchEnd($event)"
      @click="closePopup()"
-     class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+     class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer select-none"
      role="dialog" aria-modal="true" aria-labelledby="popup-infographic-title">
     
     {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
     @if(count($popups) > 1)
-        <div class="fixed top-5 left-5 sm:top-8 sm:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full shadow-2xl pointer-events-none">
+        <div class="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-black uppercase tracking-wider px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-2xl pointer-events-none">
             <span x-text="(activeSlide + 1) + ' / {{ count($popups) }}'"></span>
         </div>
     @endif
@@ -73,42 +96,37 @@
     <button
         type="button"
         @click.stop="closePopup()"
-        class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500"
+        class="fixed top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
         title="Tutup (Esc)"
     >
-        <i class="fa-solid fa-xmark text-xl"></i>
+        <i class="fa-solid fa-xmark text-base sm:text-lg md:text-xl"></i>
     </button>
 
     {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
     @if(count($popups) > 1)
         <button type="button" @click.stop="prevSlide()" 
-                class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                class="fixed left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                 title="Sebelumnya (Tombol Panah Kiri)">
-            <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>
+            <i class="fa-solid fa-chevron-left text-xs sm:text-sm md:text-base"></i>
         </button>
 
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <button type="button" @click.stop="nextSlide()" 
-                class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                class="fixed right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                 title="Selanjutnya (Tombol Panah Kanan)">
-            <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>
+            <i class="fa-solid fa-chevron-right text-xs sm:text-sm md:text-base"></i>
         </button>
     @endif
 
-    {{-- Container Modal Konten (Invisible Bounding Box) --}}
-    <div
-        class="relative w-full h-full flex flex-col items-center justify-center cursor-default px-4 pt-6 pb-24 sm:px-12 sm:pt-10 sm:pb-32 md:px-20 md:pt-12 md:pb-40 overflow-hidden"
-        @click.stop
-    >
+    {{-- Container Modal Konten --}}
+    <div class="relative w-full h-full overflow-hidden flex items-center justify-center cursor-default" @click.stop>
         <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
              :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
             @foreach($popups as $index => $popup)
-            <div class="w-full flex-shrink-0 flex items-center justify-center min-w-full h-full relative">
+            <div class="w-full h-full flex-shrink-0 flex items-center justify-center px-12 pt-16 pb-20 sm:px-20 sm:pt-20 sm:pb-28 md:px-24 md:pt-20 md:pb-32 relative">
                 <img src="{{ asset('storage/' . $popup['image']) }}" 
-                     class="max-w-full max-h-full object-contain rounded-xl shadow-2xl ring-1 ring-white/20 transition-all duration-300"
+                     class="max-w-full max-h-full w-auto h-auto object-contain rounded-2xl shadow-2xl transition-all duration-300 select-none"
                      alt="{{ $popup['title'] ?? 'Infografis Beranda' }}"
-                     width="600"
-                     height="800"
                      onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
                      @if($loop->first) fetchpriority="high" decoding="async" @else loading="lazy" @endif>
             </div>
@@ -532,14 +550,23 @@
 </div>
 
 @php
-    $homeGalleryItems = $galleries->map(fn($g) => [
-        'id' => $g->id,
-        'type' => $g->type === 'video' ? 'video' : 'photo',
-        'image_url' => $g->image_url ? $g->image_url : asset('img/meta.webp'),
-        'title' => $g->title,
-        'youtube_url' => $g->type === 'video' ? $g->youtube_url : '',
-        'created_at' => $g->created_at->translatedFormat('d M Y')
-    ])->values()->toArray();
+    $homeGalleryItems = $galleries->map(function($g) {
+        $embedUrl = '';
+        if ($g->type === 'video' && $g->youtube_url) {
+            if (preg_match('/(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]{11})/', $g->youtube_url, $matches)) {
+                $embedUrl = 'https://www.youtube-nocookie.com/embed/' . $matches[1];
+            }
+        }
+        return [
+            'id' => $g->id,
+            'type' => $g->type === 'video' ? 'video' : 'photo',
+            'image_url' => $g->image_url ? $g->image_url : asset('img/meta.webp'),
+            'title' => $g->title,
+            'youtube_url' => $g->type === 'video' ? $g->youtube_url : '',
+            'youtube_embed' => $embedUrl,
+            'created_at' => $g->created_at->translatedFormat('d M Y')
+        ];
+    })->values()->toArray();
 @endphp
 
 {{-- 6. GALERI & PUBLIKASI --}}
@@ -573,6 +600,22 @@
             if (!url) return '';
             const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
             return (match && match[2].length === 11) ? 'https://www.youtube-nocookie.com/embed/' + match[2] : '';
+        },
+        touchStartX: 0,
+        touchEndX: 0,
+        handleTouchStart(e) {
+            this.touchStartX = e.changedTouches[0].screenX;
+        },
+        handleTouchEnd(e) {
+            this.touchEndX = e.changedTouches[0].screenX;
+            const diff = this.touchStartX - this.touchEndX;
+            if (Math.abs(diff) > 40) {
+                if (diff > 0) {
+                    this.nextSlide();
+                } else {
+                    this.prevSlide();
+                }
+            }
         }
     }"
 >
@@ -646,15 +689,17 @@
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
         @keydown.escape.window="closeLightbox()"
-        @keydown.arrow-left.window="prevSlide()"
-        @keydown.arrow-right.window="nextSlide()"
+        @keydown.arrow-left.window="if(lightboxOpen) prevSlide()"
+        @keydown.arrow-right.window="if(lightboxOpen) nextSlide()"
+        @touchstart.passive="handleTouchStart($event)"
+        @touchend.passive="handleTouchEnd($event)"
         @click="closeLightbox()"
-        class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+        class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer select-none"
         role="dialog" aria-modal="true" aria-labelledby="home-gallery-lightbox-title"
     >
         {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
         <template x-if="galleryItems.length > 1">
-            <div class="fixed top-5 left-5 sm:top-8 sm:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full shadow-2xl">
+            <div class="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-black uppercase tracking-wider px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-2xl pointer-events-none">
                 <span x-text="(currentIndex + 1) + ' / ' + galleryItems.length"></span>
             </div>
         </template>
@@ -663,55 +708,58 @@
         <button
             type="button"
             @click.stop="closeLightbox()"
-            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+            class="fixed top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
             title="Tutup (Esc)"
         >
-            <i class="fa-solid fa-xmark text-xl"></i>
+            <i class="fa-solid fa-xmark text-base sm:text-lg md:text-xl"></i>
         </button>
 
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="galleryItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     title="Sebelumnya (Tombol Panah Kiri)">
-                <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>
+                <i class="fa-solid fa-chevron-left text-xs sm:text-sm md:text-base"></i>
             </button>
         </template>
 
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="galleryItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110"
+                    class="fixed right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     title="Selanjutnya (Tombol Panah Kanan)">
-                <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>
+                <i class="fa-solid fa-chevron-right text-xs sm:text-sm md:text-base"></i>
             </button>
         </template>
 
-        {{-- Container Modal Konten (Invisible Bounding Box) --}}
-        <div
-            class="relative w-full h-full flex flex-col items-center justify-center cursor-default px-4 pt-8 pb-24 sm:px-8 sm:pt-12 sm:pb-28 md:px-16 md:pt-12 md:pb-32"
-            @click.stop
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-            x-transition:leave-end="opacity-0 scale-95 translate-y-4"
-        >
-            <template x-if="lightboxOpen && currentItem.type === 'video'">
-                <div class="w-full max-w-5xl aspect-video bg-black relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/20">
-                    <iframe
-                        class="w-full h-full"
-                        :src="getYoutubeEmbed(currentItem.youtube_url)"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen
-                    ></iframe>
+        {{-- Container Modal Konten --}}
+        <div class="relative w-full h-full overflow-hidden flex items-center justify-center cursor-default" @click.stop>
+            <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
+                 :style="'transform: translateX(-' + (currentIndex * 100) + '%)'">
+                @foreach($homeGalleryItems as $index => $item)
+                <div class="w-full h-full flex-shrink-0 flex items-center justify-center px-12 pt-16 pb-20 sm:px-20 sm:pt-20 sm:pb-28 md:px-24 md:pt-20 md:pb-32 relative">
+                    @if($item['type'] === 'video')
+                        <div class="w-full max-w-5xl aspect-video bg-black relative overflow-hidden rounded-2xl shadow-2xl">
+                            <template x-if="lightboxOpen && currentIndex === {{ $index }}">
+                                <iframe
+                                    class="w-full h-full"
+                                    src="{{ $item['youtube_embed'] }}"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen
+                                ></iframe>
+                            </template>
+                        </div>
+                    @else
+                        <img src="{{ $item['image_url'] }}" 
+                             class="max-w-full max-h-full w-auto h-auto object-contain rounded-2xl shadow-2xl transition-all duration-300 select-none"
+                             alt="{{ $item['title'] ?? 'Galeri Desa' }}"
+                             loading="lazy"
+                             onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
+                    @endif
                 </div>
-            </template>
-            <template x-if="currentItem.type !== 'video'">
-                <img :src="currentItem.image_url" :alt="currentItem.title" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl ring-1 ring-white/20 transition-all duration-300">
-            </template>
+                @endforeach
+            </div>
         </div>
 
         {{-- Footer Info (Floating at viewport bottom) --}}

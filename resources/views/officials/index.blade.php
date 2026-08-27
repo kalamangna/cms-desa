@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Aparatur | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', 'Aparatur Desa | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Susunan jajaran aparatur dan perangkat desa yang bertugas dalam penyelenggaraan urusan pemerintahan di bawah Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
@@ -224,17 +224,19 @@
         officialItems: @js($officialItems),
         currentIndex: 0,
         previewOpen: false,
+        touchStartX: 0,
+        touchEndX: 0,
         get currentOfficial() {
             return this.officialItems[this.currentIndex] || {};
         },
         openPreviewByIndex(index) {
             this.currentIndex = index;
             this.previewOpen = true;
-            document.body.classList.add('sotk-modal-open');
+            document.body.classList.add('overflow-hidden');
         },
         closePreview() {
             this.previewOpen = false;
-            document.body.classList.remove('sotk-modal-open');
+            document.body.classList.remove('overflow-hidden');
         },
         nextSlide() {
             if (this.officialItems.length === 0) return;
@@ -243,6 +245,20 @@
         prevSlide() {
             if (this.officialItems.length === 0) return;
             this.currentIndex = (this.currentIndex - 1 + this.officialItems.length) % this.officialItems.length;
+        },
+        handleTouchStart(e) {
+            this.touchStartX = e.changedTouches[0].screenX;
+        },
+        handleTouchEnd(e) {
+            this.touchEndX = e.changedTouches[0].screenX;
+            const diff = this.touchStartX - this.touchEndX;
+            if (Math.abs(diff) > 40) {
+                if (diff > 0) {
+                    this.nextSlide();
+                } else {
+                    this.prevSlide();
+                }
+            }
         }
     }">
 
@@ -281,15 +297,17 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
          @keydown.escape.window="closePreview()"
-         @keydown.arrow-left.window="prevSlide()"
-         @keydown.arrow-right.window="nextSlide()"
+         @keydown.arrow-left.window="if(previewOpen) prevSlide()"
+         @keydown.arrow-right.window="if(previewOpen) nextSlide()"
+         @touchstart.passive="handleTouchStart($event)"
+         @touchend.passive="handleTouchEnd($event)"
          @click="closePreview()"
-         class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
-         role="dialog" aria-modal="true">
+         class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer select-none"
+         role="dialog" aria-modal="true" aria-labelledby="official-lightbox-title">
         
         {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
         <template x-if="officialItems.length > 1">
-            <div class="fixed top-5 left-5 sm:top-8 sm:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-black uppercase tracking-wider px-4 py-2 rounded-full shadow-2xl">
+            <div class="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-black uppercase tracking-wider px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-2xl pointer-events-none">
                 <span x-text="(currentIndex + 1) + ' / ' + officialItems.length"></span>
             </div>
         </template>
@@ -298,40 +316,44 @@
         <button
             type="button"
             @click.stop="closePreview()"
-            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+            class="fixed top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
             title="Tutup (Esc)"
         >
-            <i class="fa-solid fa-xmark text-xl"></i>
+            <i class="fa-solid fa-xmark text-base sm:text-lg md:text-xl"></i>
         </button>
 
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="officialItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 active:scale-95 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                    class="fixed left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     title="Sebelumnya (Tombol Panah Kiri)">
-                <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>
+                <i class="fa-solid fa-chevron-left text-xs sm:text-sm md:text-base"></i>
             </button>
         </template>
 
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="officialItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 active:scale-95 text-white flex items-center justify-center transition duration-300 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                    class="fixed right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     title="Selanjutnya (Tombol Panah Kanan)">
-                <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>
+                <i class="fa-solid fa-chevron-right text-xs sm:text-sm md:text-base"></i>
             </button>
         </template>
 
-        {{-- Container Modal Konten (Invisible Bounding Box) --}}
-        <div class="relative w-full h-full flex flex-col items-center justify-center cursor-default px-4 pt-10 pb-24 sm:px-12 sm:pt-12 sm:pb-28 md:px-20 md:pt-16 md:pb-32" @click.stop
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-             x-transition:leave-end="opacity-0 scale-95 translate-y-4">
-             
-            <img :src="currentOfficial.photo" :alt="currentOfficial.name" class="max-w-full max-h-full aspect-[4/5] object-cover object-top rounded-xl shadow-2xl ring-1 ring-white/20 transition-all duration-300">
+        {{-- Container Modal Konten --}}
+        <div class="relative w-full h-full overflow-hidden flex items-center justify-center cursor-default" @click.stop>
+            <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
+                 :style="'transform: translateX(-' + (currentIndex * 100) + '%)'">
+                @foreach($officialItems as $index => $item)
+                <div class="w-full h-full flex-shrink-0 flex items-center justify-center px-12 pt-16 pb-20 sm:px-20 sm:pt-20 sm:pb-28 md:px-24 md:pt-20 md:pb-32 relative">
+                    <img src="{{ $item['photo'] }}" 
+                         class="max-w-full max-h-full aspect-[4/5] w-auto h-auto object-cover object-top rounded-2xl shadow-2xl transition-all duration-300 select-none"
+                         alt="{{ $item['name'] ?? 'Aparatur Desa' }}"
+                         loading="lazy"
+                         onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
+                </div>
+                @endforeach
+            </div>
         </div>
 
         {{-- Footer Info (Floating at viewport bottom) --}}

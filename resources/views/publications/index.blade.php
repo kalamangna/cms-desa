@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Publikasi Data | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', 'Publikasi Statistik | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Katalog berkas publikasi resmi, laporan berkala, dan dokumen infografis dari Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 

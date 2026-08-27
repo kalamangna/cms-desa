@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pengaduan | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', 'Pengaduan Warga | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Portal pengaduan dan aspirasi warga Desa ' . ($site_settings['village_name'] ?? '') . ' secara aman, cepat, dan transparan.')
 @section('meta_image', asset('img/meta.webp'))
 

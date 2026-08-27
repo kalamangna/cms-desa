@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'APBDes | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', 'APBDes ' . date('Y') . ' | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Laporan transparansi APBDes (Anggaran Pendapatan, Belanja, dan Pembiayaan Desa) yang dikelola oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' sebagai perwujudan tata kelola keuangan yang bersih.')
 @section('meta_image', asset('img/meta.webp'))
 

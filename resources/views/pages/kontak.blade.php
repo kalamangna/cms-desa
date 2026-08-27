@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kontak | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', 'Kontak Kami | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Informasi kontak pelayanan publik dan alamat kantor sekretariat Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk pengaduan dan koordinasi.')
 @section('meta_image', asset('img/meta.webp'))
 

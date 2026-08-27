@@ -2,6 +2,24 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.86] - 2026-08-28
+
+### Added
+- **Modal Carousel Track & Touch Gestures**:
+  - Menerapkan arsitektur rel geser horizontal (*GPU-accelerated horizontal carousel track*) `transform: translateX(-[index * 100]%) duration-500 ease-out` pada Popup Infografis Beranda, Lightbox Galeri Beranda, Halaman Galeri (`/galeri`), dan Halaman Aparatur (`/aparatur`).
+  - Menambahkan dukungan gestur usap layar sentuh mobile (*touch swipe gesture*) dengan *passive touch event listeners* (`@touchstart.passive` & `@touchend.passive`) dan ambang batas sensitivitas sentuhan.
+  - Menambahkan navigasi tombol panah keyboard desktop (`←` / `→`) dengan pengkondisian status modal aktif.
+
+### Changed
+- **SEO & Meta Snippet Standarisasi**:
+  - Menyeragamkan format judul SEO (2 kata utama) pada seluruh halaman publik (`/profil`, `/potensi`, `/pengaduan`, `/kontak`, `/berita`, `/pengumuman`, `/galeri`, `/dokumen`, `/publikasi`, `/statistik`, `/aparatur`, `/lembaga`).
+  - Mengubah judul dan heading APBDes menjadi tahun berjalan dinamis (`APBDes {{ date('Y') }}`).
+  - Memperbarui SEO Title dan Meta Description halaman Beranda ke format ringkas (~135 karakter).
+- **Penyelarasan UI Modal & Tombol Responsif**:
+  - Menstandarisasi skala ukuran tombol modal (Tutup, Panah Navigasi, Counter Badge) menjadi proporsional lintas viewport (`w-10 sm:w-12 md:w-14`).
+  - Menghapus garis border semu (`ring-1 ring-white/20`) dan menetapkan dimensi intrinsik gambar `w-auto h-auto object-contain rounded-2xl shadow-2xl` agar pas sempurna tanpa ruang kosong (*letterbox*).
+  - Menyeragamkan label tombol autentikasi di Topbar desktop dan Drawer mobile (`Login`, `Logout`, `Dashboard`).
+
 ## [1.26.85] - 2026-08-27
 
 ### Added
