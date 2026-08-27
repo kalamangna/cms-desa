@@ -2,6 +2,24 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.85] - 2026-08-27
+
+### Added
+- **Auto-Frame Foto Berita Portrait**:
+  - Menambahkan parameter `padPortraitToLandscape` pada `App\Helpers\ImageHelper::convertToWebp` untuk mengonversi gambar bertipe portrait (tinggi > lebar) menjadi kanvas standar 16:9 dengan latar belakang blur alami dari foto asli serta foto utama tetap tajam di tengah.
+  - Mengaktifkan fitur auto-frame 16:9 pada model `App\Models\Post` agar foto berita portrait tampil proporsional dan tidak terpotong aneh saat dibagikan ke media sosial (WhatsApp, Facebook, Twitter).
+  - Menambahkan pengujian otomatis unit test `test_portrait_post_image_is_auto_framed_to_16_by_9` pada `tests/Feature/CMSContentTest.php`.
+
+### Changed
+- **Tampilan Gambar Berita**:
+  - Memperbarui rasio container gambar utama berita pada `resources/views/posts/show.blade.php` dari pembatasan rasio kaku 21:9 menjadi fleksibel (`max-h-[550px] object-cover`) agar foto tidak terpotong ekstrem di halaman website.
+  - Menghapus perulangan teks judul pada tombol bagikan WhatsApp (`resources/views/posts/show.blade.php`) sehingga hanya mengirimkan tautan URL murni dan membiarkan Open Graph preview merender kartu ringkasan secara bersih.
+
+### Fixed
+- **Notifikasi Telegram Saat Pengujian**:
+  - Menonaktifkan pengiriman notifikasi Telegram pada event autentikasi (login/gagal), mutasi akun admin, mutasi pengaturan, dan system error saat pengujian otomatis berlangsung (`app()->runningUnitTests()` / `app()->environment('testing')`) atau jika kredensial bot Telegram kosong.
+  - Mengosongkan variabel `TELEGRAM_BOT_TOKEN` dan `TELEGRAM_CHAT_ID` pada `phpunit.xml`.
+
 ## [1.26.84] - 2026-08-15
 
 ### Changed

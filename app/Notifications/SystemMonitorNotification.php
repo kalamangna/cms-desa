@@ -16,6 +16,10 @@ class SystemMonitorNotification extends Notification
 
     public function via($notifiable): array
     {
+        if (app()->runningUnitTests() || app()->environment('testing') || empty(config('services.telegram-bot-api.token')) || empty(config('services.telegram-bot-api.chat_id'))) {
+            return [];
+        }
+
         return ['telegram'];
     }
 

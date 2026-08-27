@@ -4,12 +4,25 @@ namespace App\Notifications\Backup;
 
 use App\Helpers\TelegramHelper;
 use App\Services\Backup\CustomCleanupStrategy;
+use NotificationChannels\Telegram\TelegramChannel;
 use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\BackupDestination\BackupDestination;
 use Spatie\Backup\Helpers\Format;
 
 trait HasTelegramNotification
 {
+    public function via($notifiable): array
+    {
+        if (app()->runningUnitTests() || app()->environment('testing') || empty(config('services.telegram-bot-api.token')) || empty(config('services.telegram-bot-api.chat_id'))) {
+            return array_filter(
+                parent::via($notifiable),
+                fn ($channel) => $channel !== 'telegram' && $channel !== TelegramChannel::class
+            );
+        }
+
+        return parent::via($notifiable);
+    }
+
     public function toTelegram($notifiable): TelegramMessage
     {
         $className = class_basename($this);

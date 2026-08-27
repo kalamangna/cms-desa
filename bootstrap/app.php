@@ -27,8 +27,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->reportable(function (Throwable $e) {
-            // Jangan kirim notifikasi jika di lingkungan lokal / mode debug aktif
-            if (app()->environment('local') || config('app.debug')) {
+            // Jangan kirim notifikasi jika di lingkungan lokal, testing, atau mode debug aktif
+            if (app()->environment('local', 'testing') || app()->runningUnitTests() || config('app.debug')) {
                 return;
             }
 

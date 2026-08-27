@@ -34,7 +34,7 @@ class PostForm
                             ->preload()
                             ->columnSpanFull(),
                         FileUpload::make('featured_image')->label('Gambar Utama')
-                            ->helperText('Foto sampul artikel (Maksimal 2MB).')
+                            ->helperText('Foto sampul artikel (Maksimal 2MB). Foto portrait otomatis disesuaikan ke rasio 16:9 dengan latar belakang blur.')
                             ->disk('public')
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])

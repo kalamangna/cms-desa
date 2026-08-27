@@ -13,6 +13,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\EmbeddedSchema;
+use Filament\Schemas\Components\Form;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 
@@ -105,7 +106,7 @@ class ManageProfile extends Page implements HasForms
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Form::make([
+                Form::make([
                     EmbeddedSchema::make('form'),
                 ])
                     ->id('form')

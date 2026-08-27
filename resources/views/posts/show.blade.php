@@ -126,9 +126,9 @@
         <article class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-slate-200/60 dark:shadow-slate-950/60 overflow-hidden border border-slate-100 dark:border-slate-800">
 
             {{-- ─── Featured Image ──────────────────────────────────── --}}
-            <div class="w-full overflow-hidden" style="aspect-ratio:21/9;">
+            <div class="w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                 <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
-                     class="w-full h-full object-cover"
+                     class="w-full h-auto max-h-[550px] object-cover"
                      alt="{{ $post->title }}"
                      loading="eager"
                      fetchpriority="high"
@@ -167,7 +167,7 @@
                                title="Bagikan ke Facebook">
                                 <i class="fa-brands fa-facebook-f text-sm"></i>
                             </a>
-                            <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' - ' . request()->fullUrl()) }}"
+                            <a href="https://api.whatsapp.com/send?text={{ urlencode(request()->fullUrl()) }}"
                                target="_blank" rel="noopener noreferrer"
                                class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center text-[#25D366] bg-green-50 dark:bg-green-950/40 hover:bg-[#25D366] hover:text-white hover:border-green-500 transition-all duration-200 shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
                                title="Bagikan ke WhatsApp">

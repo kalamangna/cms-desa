@@ -14,10 +14,17 @@ class ImageHelper
      * @param  UploadedFile|string  $file  UploadedFile instance or relative storage path
      * @param  string  $directory  Storage subdirectory (e.g. 'posts', 'galleries', 'officials')
      * @param  int  $quality  WebP quality (default: 80)
+     * @param  int  $maxDimension  Maximum width/height dimension in pixels (default: 800)
+     * @param  bool  $padPortraitToLandscape  Whether to auto-frame portrait photos into 16:9 canvas with blurred background
      * @return string|null Relative storage path of converted WebP file or original path if failed
      */
-    public static function convertToWebp(mixed $file, string $directory = 'uploads', int $quality = 80, int $maxDimension = 800): ?string
-    {
+    public static function convertToWebp(
+        mixed $file,
+        string $directory = 'uploads',
+        int $quality = 80,
+        int $maxDimension = 800,
+        bool $padPortraitToLandscape = false
+    ): ?string {
         if (! $file) {
             return null;
         }
@@ -37,15 +44,6 @@ class ImageHelper
             $directory = dirname(ltrim($file, '/'));
         } else {
             return null;
-        }
-
-        // If already WebP, save/return directly
-        if ($extension === 'webp') {
-            if ($file instanceof UploadedFile) {
-                return $file->store($directory, 'public');
-            }
-
-            return $file;
         }
 
         // Check if GD PHP extension and imagewebp function are available
@@ -68,6 +66,8 @@ class ImageHelper
                 imagealphablending($image, false);
                 imagesavealpha($image, true);
             }
+        } elseif ($extension === 'webp' && function_exists('imagecreatefromwebp')) {
+            $image = @imagecreatefromwebp($realPath);
         }
 
         if (! $image) {
@@ -89,11 +89,40 @@ class ImageHelper
 
         $targetFullPath = $targetDir.'/'.$filename;
 
-        // Resize image if any dimension exceeds $maxDimension to optimize image delivery
         $origWidth = imagesx($image);
         $origHeight = imagesy($image);
 
-        if ($origWidth > $maxDimension || $origHeight > $maxDimension) {
+        // Jika foto portrait dan diminta untuk diubah ke rasio 16:9 dengan latar belakang blur
+        if ($padPortraitToLandscape && $origHeight > $origWidth) {
+            $canvasH = min($origHeight, $maxDimension);
+            $canvasW = (int) round($canvasH * (16 / 9));
+
+            $canvas = imagecreatetruecolor($canvasW, $canvasH);
+
+            // Buat background blur halus dan efisien dari thumbnail kecil
+            $smallW = 64;
+            $smallH = 36;
+            $small = imagecreatetruecolor($smallW, $smallH);
+            imagecopyresampled($small, $image, 0, 0, 0, 0, $smallW, $smallH, $origWidth, $origHeight);
+            for ($i = 0; $i < 5; $i++) {
+                imagefilter($small, IMG_FILTER_GAUSSIAN_BLUR);
+            }
+            imagecopyresampled($canvas, $small, 0, 0, 0, 0, $canvasW, $canvasH, $smallW, $smallH);
+            imagedestroy($small);
+
+            // Gelapkan sedikit background agar foto portrait utama lebih fokus dan kontras
+            imagefilter($canvas, IMG_FILTER_BRIGHTNESS, -20);
+
+            // Letakkan foto portrait asli di tengah secara proporsional dan tajam
+            $fgH = $canvasH;
+            $fgW = (int) round(($origWidth / $origHeight) * $fgH);
+            $offsetX = (int) round(($canvasW - $fgW) / 2);
+            imagecopyresampled($canvas, $image, $offsetX, 0, 0, 0, $fgW, $fgH, $origWidth, $origHeight);
+
+            imagedestroy($image);
+            $image = $canvas;
+        } elseif ($origWidth > $maxDimension || $origHeight > $maxDimension) {
+            // Resize jika melebihi batas dimensi maksimal
             if ($origWidth >= $origHeight) {
                 $newWidth = $maxDimension;
                 $newHeight = (int) round(($origHeight / $origWidth) * $maxDimension);
@@ -111,6 +140,11 @@ class ImageHelper
             imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
             imagedestroy($image);
             $image = $resizedImage;
+        } elseif ($extension === 'webp' && ! ($file instanceof UploadedFile) && $realPath === $targetFullPath) {
+            // File webp yang sudah ada dan tidak diubah
+            imagedestroy($image);
+
+            return ($targetSubDir ? $targetSubDir.'/' : '').$filename;
         }
 
         // Convert and save image to WebP

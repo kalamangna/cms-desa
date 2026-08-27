@@ -34,7 +34,13 @@ class Post extends Model
             }
 
             if ($post->isDirty('featured_image') && $post->featured_image) {
-                $post->featured_image = ImageHelper::convertToWebp($post->featured_image, 'posts');
+                $post->featured_image = ImageHelper::convertToWebp(
+                    file: $post->featured_image,
+                    directory: 'posts',
+                    quality: 80,
+                    maxDimension: 1200,
+                    padPortraitToLandscape: true
+                );
             }
         });
 
