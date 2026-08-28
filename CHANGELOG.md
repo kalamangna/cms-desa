@@ -2,6 +2,15 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.87] - 2026-08-28
+
+### Fixed
+- **Stabilitas Eksekusi Database Backup & Google Drive Resilience**:
+  - Memperbaiki deklarasi method `App\Notifications\Backup\HasTelegramNotification::via(): array` (menghapus parameter `$notifiable`) agar kompatibel dengan `Spatie\Backup\Notifications\BaseNotification::via(): array` pada PHP 8.2/8.3 untuk mencegah fatal error bertipe *signature mismatch* (exit code 255) saat notifikasi backup dipicu.
+  - Menambahkan konfigurasi `dump` pada koneksi `mysql` dan `mariadb` di `config/database.php` dengan parameter peredam error MySQL 8 (`--no-tablespaces --column-statistics=0 --set-gtid-purged=OFF --skip-comments`) untuk mencegah kegagalan `mysqldump` akibat hak akses `PROCESS` pada shared hosting cPanel/CloudLinux.
+  - Membungkus seluruh error operasional Google Drive ke dalam standar exception Flysystem `UnableToWriteFile` dan `UnableToReadFile` pada `App\Services\GoogleDriveAdapterWrapper`.
+  - Menambahkan *try-catch guard* dan *fallback adapter* pada inisialisasi driver Google Drive serta event listener `CommandStarting` pada `App\Providers\AppServiceProvider` guna mencegah proses `backup:run` berhenti secara mendadak dengan exit code 255.
+
 ## [1.26.86] - 2026-08-28
 
 ### Added

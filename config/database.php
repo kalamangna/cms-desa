@@ -62,6 +62,12 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 (PHP_VERSION_ID >= 80500 ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+            'dump' => [
+                'dump_binary_path' => env('DB_DUMP_PATH', ''),
+                'use_single_transaction' => true,
+                'timeout' => 60 * 5,
+                'add_extra_dump_parameters' => env('DB_DUMP_EXTRA_OPTIONS', '--no-tablespaces --column-statistics=0 --set-gtid-purged=OFF --skip-comments'),
+            ],
         ],
 
         'mariadb' => [
@@ -82,6 +88,12 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 (PHP_VERSION_ID >= 80500 ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+            'dump' => [
+                'dump_binary_path' => env('DB_DUMP_PATH', ''),
+                'use_single_transaction' => true,
+                'timeout' => 60 * 5,
+                'add_extra_dump_parameters' => env('DB_DUMP_EXTRA_OPTIONS', '--no-tablespaces --skip-comments'),
+            ],
         ],
 
         'pgsql' => [

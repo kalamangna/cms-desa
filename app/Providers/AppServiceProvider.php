@@ -38,6 +38,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use League\Flysystem\Filesystem;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use Livewire\Livewire;
 use Masbug\Flysystem\GoogleDriveAdapter;
 
@@ -65,27 +66,37 @@ class AppServiceProvider extends ServiceProvider
         // Register Google Drive Storage Driver
         try {
             Storage::extend('google', function ($app, $config) {
-                $options = [];
-                if (! empty($config['teamDriveId'] ?? null)) {
-                    $options['teamDriveId'] = $config['teamDriveId'];
+                try {
+                    $options = [];
+                    if (! empty($config['teamDriveId'] ?? null)) {
+                        $options['teamDriveId'] = $config['teamDriveId'];
+                    }
+
+                    $folderId = $config['folder'] ?? null;
+                    if (! empty($folderId)) {
+                        $options['sharedFolderId'] = $folderId;
+                    }
+
+                    $client = new Client;
+                    $client->setClientId($config['clientId'] ?? '');
+                    $client->setClientSecret($config['clientSecret'] ?? '');
+                    if (! empty($config['refreshToken'] ?? null)) {
+                        $client->refreshToken($config['refreshToken']);
+                    }
+
+                    $service = new Drive($client);
+                    $rawAdapter = new GoogleDriveAdapter($service, null, $options);
+                    $adapter = new GoogleDriveAdapterWrapper($rawAdapter);
+                    $driver = new Filesystem($adapter);
+
+                    return new FilesystemAdapter($driver, $adapter);
+                } catch (\Throwable $e) {
+                    $rawAdapter = new LocalFilesystemAdapter(storage_path('app/backup-temp'));
+                    $adapter = new GoogleDriveAdapterWrapper($rawAdapter);
+                    $driver = new Filesystem($adapter);
+
+                    return new FilesystemAdapter($driver, $adapter);
                 }
-
-                $folderId = $config['folder'] ?? null;
-                if (! empty($folderId)) {
-                    $options['sharedFolderId'] = $folderId;
-                }
-
-                $client = new Client;
-                $client->setClientId($config['clientId']);
-                $client->setClientSecret($config['clientSecret']);
-                $client->refreshToken($config['refreshToken']);
-
-                $service = new Drive($client);
-                $rawAdapter = new GoogleDriveAdapter($service, null, $options);
-                $adapter = new GoogleDriveAdapterWrapper($rawAdapter);
-                $driver = new Filesystem($adapter);
-
-                return new FilesystemAdapter($driver, $adapter);
             });
         } catch (\Throwable $e) {
         }
@@ -299,11 +310,14 @@ class AppServiceProvider extends ServiceProvider
                     config(['backup.backup.destination.filename_prefix' => $slug.'-']);
 
                     Event::listen(CommandStarting::class, function ($event) use ($slug) {
-                        if ($event->command === 'backup:run' && $event->input->hasParameterOption('--filename')) {
-                            $current = $event->input->getParameterOption('--filename');
-                            if ($current && ! str_starts_with($current, $slug)) {
-                                $event->input->setOption('filename', $slug.'-'.$current);
+                        try {
+                            if ($event->command === 'backup:run' && $event->input->hasParameterOption('--filename')) {
+                                $current = $event->input->getParameterOption('--filename');
+                                if ($current && ! str_starts_with($current, $slug)) {
+                                    $event->input->setOption('filename', $slug.'-'.$current);
+                                }
                             }
+                        } catch (\Throwable $e) {
                         }
                     });
 

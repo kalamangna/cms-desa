@@ -5,7 +5,9 @@ namespace App\Services;
 use League\Flysystem\Config;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\UnableToReadFile;
 use League\Flysystem\UnableToRetrieveMetadata;
+use League\Flysystem\UnableToWriteFile;
 
 class GoogleDriveAdapterWrapper implements FilesystemAdapter
 {
@@ -41,7 +43,11 @@ class GoogleDriveAdapterWrapper implements FilesystemAdapter
                 } catch (\Throwable $ignored) {
                 }
             }
-            $this->adapter->write($path, $contents, $config);
+            try {
+                $this->adapter->write($path, $contents, $config);
+            } catch (\Throwable $err) {
+                throw UnableToWriteFile::atLocation($path, $err->getMessage(), $err);
+            }
         }
     }
 
@@ -57,18 +63,30 @@ class GoogleDriveAdapterWrapper implements FilesystemAdapter
                 } catch (\Throwable $ignored) {
                 }
             }
-            $this->adapter->writeStream($path, $contents, $config);
+            try {
+                $this->adapter->writeStream($path, $contents, $config);
+            } catch (\Throwable $err) {
+                throw UnableToWriteFile::atLocation($path, $err->getMessage(), $err);
+            }
         }
     }
 
     public function read(string $path): string
     {
-        return $this->adapter->read($path);
+        try {
+            return $this->adapter->read($path);
+        } catch (\Throwable $e) {
+            throw UnableToReadFile::fromLocation($path, $e->getMessage(), $e);
+        }
     }
 
     public function readStream(string $path)
     {
-        return $this->adapter->readStream($path);
+        try {
+            return $this->adapter->readStream($path);
+        } catch (\Throwable $e) {
+            throw UnableToReadFile::fromLocation($path, $e->getMessage(), $e);
+        }
     }
 
     public function delete(string $path): void

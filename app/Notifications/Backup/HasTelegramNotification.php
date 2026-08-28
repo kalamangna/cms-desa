@@ -11,16 +11,16 @@ use Spatie\Backup\Helpers\Format;
 
 trait HasTelegramNotification
 {
-    public function via($notifiable): array
+    public function via(): array
     {
         if (app()->runningUnitTests() || app()->environment('testing') || empty(config('services.telegram-bot-api.token')) || empty(config('services.telegram-bot-api.chat_id'))) {
             return array_filter(
-                parent::via($notifiable),
+                parent::via(),
                 fn ($channel) => $channel !== 'telegram' && $channel !== TelegramChannel::class
             );
         }
 
-        return parent::via($notifiable);
+        return parent::via();
     }
 
     public function toTelegram($notifiable): TelegramMessage
