@@ -8,8 +8,10 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -32,10 +34,13 @@ return Application::configure(basePath: dirname(__DIR__))
                 return;
             }
 
-            // Jangan kirim notifikasi untuk error biasa (404, validasi, auth)
+            // Jangan kirim notifikasi untuk error biasa (4xx, validasi, auth, CSRF expired, dan probe bot pada Livewire)
             if ($e instanceof NotFoundHttpException ||
                 $e instanceof ValidationException ||
-                $e instanceof AuthenticationException) {
+                $e instanceof AuthenticationException ||
+                $e instanceof TokenMismatchException ||
+                str_starts_with(get_class($e), 'Livewire\\') ||
+                ($e instanceof HttpExceptionInterface && $e->getStatusCode() < 500)) {
                 return;
             }
 

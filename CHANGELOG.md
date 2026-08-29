@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.88] - 2026-08-29
+
+### Fixed
+- **Filter Notifikasi Error Pemindai/Bot Livewire & Klien HTTP**:
+  - Menyempurnakan exception handler di `bootstrap/app.php` dengan menyaring semua exception internal dari namespace `Livewire\` (seperti `CannotUpdateLockedPropertyException`, `RootTagMissingFromViewException`, `CorruptComponentPayloadException`, `MethodNotFoundException`, dll.) akibat request manipulasi (*payload tampering/probing*) dari bot scanner liar agar tidak memicu notifikasi `SYSTEM ERROR` palsu ke Telegram.
+  - Menambahkan penyaringan token CSRF kedaluwarsa (`TokenMismatchException`) dan seluruh respon HTTP error sisi klien (`HttpExceptionInterface` dengan status code `< 500`).
+
 ## [1.26.87] - 2026-08-28
 
 ### Fixed
