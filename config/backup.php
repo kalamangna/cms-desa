@@ -245,8 +245,8 @@ return [
             BackupHasFailedNotification::class => ['mail', 'telegram'],
             UnhealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
             CleanupHasFailedNotification::class => ['mail', 'telegram'],
-            BackupWasSuccessfulNotification::class => ['mail', 'telegram'],
-            HealthyBackupWasFoundNotification::class => ['mail', 'telegram'],
+            BackupWasSuccessfulNotification::class => [],
+            HealthyBackupWasFoundNotification::class => [],
             CleanupWasSuccessfulNotification::class => [],
         ],
 

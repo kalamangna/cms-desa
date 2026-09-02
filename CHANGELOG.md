@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.89] - 2026-09-02
+
+### Changed
+- **Notifikasi Backup**: Menonaktifkan pengiriman notifikasi (Telegram & Email) untuk proses backup yang berjalan sukses (`BackupWasSuccessfulNotification`) dan pemeriksaan kesehatan backup yang normal (`HealthyBackupWasFoundNotification`) pada `config/backup.php` guna menjaga efisiensi dan kebersihan saluran notifikasi. Notifikasi kegagalan (`BackupHasFailedNotification`, `UnhealthyBackupWasFoundNotification`, `CleanupHasFailedNotification`) tetap aktif.
+
 ## [1.26.88] - 2026-08-29
 
 ### Fixed
