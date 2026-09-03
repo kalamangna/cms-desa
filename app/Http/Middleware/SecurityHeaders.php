@@ -28,16 +28,16 @@ class SecurityHeaders
                "worker-src 'self' blob:; ".
                "style-src 'self' 'unsafe-inline' http://*:5173 https:; ".
                "font-src 'self' data: https:; ".
-               "img-src 'self' data: blob: https: http:; ".
+               "img-src 'self' data: blob: https:; ".
                "frame-src 'self' https:; ".
                "connect-src 'self' https: http: ws://*:5173 wss://*:5173; ".
                "object-src 'none'; ".
                "base-uri 'self';";
 
         $response->headers->set('Content-Security-Policy', $csp, true);
+        $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
-        $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
         return $response;

@@ -2,6 +2,18 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.90] - 2026-09-03
+
+### Fixed
+- **Koneksi Database Produksi**: Mengubah `DB_HOST` dari `localhost` (Unix socket) menjadi `127.0.0.1` (TCP) pada seluruh 5 server produksi (`massaile`, `tompobulu`, `lamattiriattang`, `lappacinrana`, `duampanuae`) untuk mencegah error `SQLSTATE[HY000] [2002] No such file or directory` pada shared hosting Hostinger.
+- **Double-escape `&amp;` pada meta tag**: Memperbaiki double HTML-escaping pada `<title>`, `og:title`, `og:description`, `twitter:title`, `twitter:description`, `og:url`, dan `canonical` di `resources/views/layouts/app.blade.php`. Nilai kini disiapkan via blok `@php` dan dirender dengan `{{ }}` sehingga karakter `&` tidak menjadi `&amp;` di SERP Google.
+- **H1 tanpa spasi pada halaman beranda**: Mengubah struktur `Desa<br><span>` menjadi dua `<span class="block">` terpisah di `resources/views/home.blade.php` agar crawler membaca teks H1 sebagai `"Desa [Nama Desa]"` bukan `"Desa[Nama Desa]"`.
+
+### Security
+- **HSTS Header**: Menambahkan header `Strict-Transport-Security: max-age=31536000; includeSubDomains` pada `SecurityHeaders` middleware untuk memaksa koneksi HTTPS secara permanen.
+- **CSP img-src diperkuat**: Menghapus `http:` dari direktif `img-src` pada Content Security Policy guna mencegah celah mixed-content pada gambar.
+- **X-XSS-Protection dihapus**: Menghapus header deprecated `X-XSS-Protection: 1; mode=block` karena sudah tidak didukung oleh browser modern dan digantikan oleh CSP.
+
 ## [1.26.89] - 2026-09-02
 
 ### Changed

@@ -18,35 +18,42 @@
     </script>
 
     <!-- SEO Meta Tags -->
-    <title>@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))</title>
-    <meta name="description" content="@yield('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan pelayanan publik, publikasi berita pembangunan, transparansi anggaran, dan statistik kependudukan secara akurat.')">
+    @php
+        $metaTitle       = strip_tags(@yield('title') ?: ('Desa ' . ($site_settings['village_name'] ?? 'Website Desa')));
+        $metaDescription = strip_tags(@yield('meta_description') ?: ('Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan pelayanan publik, publikasi berita pembangunan, transparansi anggaran, dan statistik kependudukan secara akurat.'));
+        $metaImage       = @yield('meta_image') ?: asset('img/meta.webp');
+        $metaCanonical   = @yield('canonical') ?: url()->current();
+        $metaOgType      = @yield('og_type') ?: 'website';
+    @endphp
+    <title>{{ $metaTitle }}</title>
+    <meta name="description" content="{{ $metaDescription }}">
     <meta name="keywords" content="@yield('meta_keywords', 'Desa ' . ($site_settings['village_name'] ?? '') . ', Desa ' . ($site_settings['village_name'] ?? '') . ' ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . ', Kecamatan ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', Kabupaten ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . ', ' . ($site_settings['village_name'] ?? '') . ' ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', pemerintah desa, apbdes, berita desa')">
     <meta name="author" content="Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}">
     <meta name="robots" content="index, follow">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="@yield('canonical', url()->current())">
+    <link rel="canonical" href="{{ $metaCanonical }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('img/sinjai.png') }}">
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:type" content="{{ $metaOgType }}">
     <meta property="og:site_name" content="Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}">
     <meta property="og:locale" content="id_ID">
-    <meta property="og:url" content="@yield('canonical', url()->current())">
-    <meta property="og:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
-    <meta property="og:description" content="@yield('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')">
-    <meta property="og:image" content="@yield('meta_image', asset('img/meta.webp'))">
+    <meta property="og:url" content="{{ $metaCanonical }}">
+    <meta property="og:title" content="{{ $metaTitle }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
+    <meta property="og:image" content="{{ $metaImage }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     @stack('og_extra')
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('title', 'Desa ' . ($site_settings['village_name'] ?? 'Website Desa'))">
-    <meta name="twitter:description" content="@yield('meta_description', 'Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')">
-    <meta name="twitter:image" content="@yield('meta_image', asset('img/meta.webp'))">
+    <meta name="twitter:title" content="{{ $metaTitle }}">
+    <meta name="twitter:description" content="{{ $metaDescription }}">
+    <meta name="twitter:image" content="{{ $metaImage }}">
 
     <!-- JSON-LD: Organization + WebSite (global) -->
     <script type="application/ld+json">

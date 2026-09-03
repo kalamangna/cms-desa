@@ -161,7 +161,7 @@
                     <span class="text-primary-400 text-xs font-black uppercase tracking-widest">Portal Informasi & Layanan Digital</span>
                 </div>
                 <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black text-white leading-[1.1] tracking-tight mb-6 drop-shadow-2xl">
-                    Desa<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">{{ $site_settings['village_name'] ?? '' }}</span>
+                    <span class="block">Desa</span><span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">{{ $site_settings['village_name'] ?? '' }}</span>
                 </h1>
                 <div class="flex flex-wrap items-center gap-2 text-slate-400 text-sm md:text-base font-medium tracking-wide mb-10">
                     Kec. {{ \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '...')) }} 
