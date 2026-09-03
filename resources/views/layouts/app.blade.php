@@ -19,11 +19,11 @@
 
     <!-- SEO Meta Tags -->
     @php
-        $metaTitle       = strip_tags(@yield('title') ?: ('Desa ' . ($site_settings['village_name'] ?? 'Website Desa')));
-        $metaDescription = strip_tags(@yield('meta_description') ?: ('Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan pelayanan publik, publikasi berita pembangunan, transparansi anggaran, dan statistik kependudukan secara akurat.'));
-        $metaImage       = @yield('meta_image') ?: asset('img/meta.webp');
-        $metaCanonical   = @yield('canonical') ?: url()->current();
-        $metaOgType      = @yield('og_type') ?: 'website';
+        $metaTitle       = strip_tags($__env->yieldContent('title') ?: ('Desa ' . ($site_settings['village_name'] ?? 'Website Desa')));
+        $metaDescription = strip_tags($__env->yieldContent('meta_description') ?: ('Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan pelayanan publik, publikasi berita pembangunan, transparansi anggaran, dan statistik kependudukan secara akurat.'));
+        $metaImage       = $__env->yieldContent('meta_image') ?: asset('img/meta.webp');
+        $metaCanonical   = $__env->yieldContent('canonical') ?: url()->current();
+        $metaOgType      = $__env->yieldContent('og_type') ?: 'website';
     @endphp
     <title>{{ $metaTitle }}</title>
     <meta name="description" content="{{ $metaDescription }}">

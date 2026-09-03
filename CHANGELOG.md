@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.91] - 2026-09-03
+
+### Fixed
+- **PHP FatalError `yield` di luar fungsi pada halaman `/peta`**: Mengganti pemanggilan `@yield()` di dalam blok `@php` pada `resources/views/layouts/app.blade.php` dengan `$__env->yieldContent()`. Penggunaan `@yield()` di dalam blok `@php` dikompilasi menjadi kata kunci `yield` PHP yang hanya valid di dalam fungsi generator, menyebabkan `FatalError: The "yield" expression can only be used inside a function` pada semua halaman yang meneruskan nilai section SEO (title, meta_description, meta_image, dll.) ke layout utama.
+
 ## [1.26.90] - 2026-09-03
 
 ### Fixed
