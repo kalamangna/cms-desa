@@ -4,28 +4,77 @@ namespace App\Traits;
 
 use App\Models\AuditLog;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 trait Auditable
 {
+    /**
+     * Atribut internal/sensitif yang diabaikan dari pencatatan Audit Log.
+     */
+    protected static array $auditIgnoredAttributes = [
+        'remember_token',
+        'password',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'email_verified_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     public static function bootAuditable(): void
     {
         static::created(function ($model) {
-            static::logAudit('created', $model, null, $model->getAttributes());
+            $attrs = static::filterAuditAttributes($model->getAttributes());
+            if (! empty($attrs)) {
+                static::logAudit('created', $model, null, $attrs);
+            }
         });
 
         static::updated(function ($model) {
-            $old = array_intersect_key($model->getOriginal(), $model->getChanges());
-            $new = $model->getChanges();
-            unset($old['updated_at'], $new['updated_at']);
+            $changes = $model->getChanges();
+            $original = $model->getOriginal();
 
+            $old = array_intersect_key($original, $changes);
+            $new = $changes;
+
+            $old = static::filterAuditAttributes($old);
+            $new = static::filterAuditAttributes($new);
+
+            // Jangan catat jika hanya atribut internal (misal remember_token) yang berubah
             if (! empty($new)) {
                 static::logAudit('updated', $model, $old, $new);
             }
         });
 
         static::deleted(function ($model) {
-            static::logAudit('deleted', $model, $model->getAttributes(), null);
+            $attrs = static::filterAuditAttributes($model->getAttributes());
+            static::logAudit('deleted', $model, $attrs, null);
         });
+    }
+
+    /**
+     * Filter atribut sensitif/internal dan ringkas konten teks panjang.
+     */
+    protected static function filterAuditAttributes(array $attributes): array
+    {
+        $filtered = [];
+
+        foreach ($attributes as $key => $value) {
+            if (in_array($key, static::$auditIgnoredAttributes, true)) {
+                continue;
+            }
+
+            // Jika nilai berupa teks panjang atau HTML, bersihkan dan ringkas
+            if (is_string($value) && strlen($value) > 120) {
+                $clean = trim(preg_replace('/\s+/', ' ', strip_tags($value)));
+                $value = Str::limit($clean, 120);
+            }
+
+            $filtered[$key] = $value;
+        }
+
+        return $filtered;
     }
 
     protected static function logAudit(string $event, $model, ?array $old, ?array $new): void
@@ -41,9 +90,9 @@ trait Auditable
                 default => "Melakukan {$event} pada {$modelName}"
             };
 
-            if (isset($model->name)) {
+            if (isset($model->name) && $model->name) {
                 $desc .= ": {$model->name}";
-            } elseif (isset($model->title)) {
+            } elseif (isset($model->title) && $model->title) {
                 $desc .= ": {$model->title}";
             }
 

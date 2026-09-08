@@ -2,6 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.92] - 2026-09-08
+
+### Changed
+- **Penyederhanaan dan Pemfilteran Audit Log**:
+  - Menyaring atribut internal dan sensitif (`remember_token`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `email_verified_at`, `created_at`, `updated_at`, `deleted_at`) pada trait `Auditable` agar tidak mencatat riwayat perubahan data yang tidak perlu (seperti pembaruan token login).
+  - Membersihkan tag HTML dan meringkas konten teks panjang (`strip_tags` dan pemotongan teks maksimal 120 karakter) agar tidak membebani database audit log.
+  - Memperbarui antarmuka rincian `AuditLogResource` di Filament: mengganti tampilan blok kode JSON mentah menjadi tabel perbandingan perubahan data (Atribut, Nilai Sebelum, Nilai Sesudah) yang rapi, berlabel bahasa Indonesia, dan mendukung mode gelap.
+  - Menyederhanakan tampilan informasi User Agent menjadi format nama peramban dan sistem operasi yang manusiawi (contoh: `Chrome (Windows)`, `Safari (macOS)`).
+  - Menyembunyikan bagian tabel perubahan data secara otomatis pada log aktivitas masuk dan keluar (`login`/`logout`).
+
 ## [1.26.91] - 2026-09-03
 
 ### Fixed
