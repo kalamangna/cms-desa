@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.93] - 2026-09-08
+
+### Changed
+- **Penyederhanaan Modal Audit Log**: Menghapus bagian rincian tabel perbandingan perubahan data (nilai lama vs baru) pada modal aksi rincian `AuditLogResource`. Modal kini berfokus menampilkan ringkasan informasi utama log audit (waktu, pengguna, aksi, deskripsi, IP address, dan perangkat/browser) secara bersih dan cepat tanpa memuat data atribut besar.
+
 ## [1.26.92] - 2026-09-08
 
 ### Changed

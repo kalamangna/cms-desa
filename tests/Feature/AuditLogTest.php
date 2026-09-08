@@ -78,27 +78,4 @@ class AuditLogTest extends TestCase
         $this->assertEquals('Safari (iOS)', AuditLogResource::parseUserAgent($safariIos));
         $this->assertEquals('-', AuditLogResource::parseUserAgent(null));
     }
-
-    public function test_audit_log_resource_renders_changes_html_table(): void
-    {
-        $log = AuditLog::create([
-            'user_name' => 'Admin Desa',
-            'event' => 'updated',
-            'auditable_type' => Post::class,
-            'auditable_id' => '1',
-            'description' => 'Mengubah data Post: Judul Berita',
-            'old_values' => ['title' => 'Judul Lama', 'is_active' => false],
-            'new_values' => ['title' => 'Judul Baru', 'is_active' => true],
-            'ip_address' => '127.0.0.1',
-            'user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0',
-        ]);
-
-        $html = AuditLogResource::renderChangesHtml($log);
-
-        $this->assertStringContainsString('Judul', $html);
-        $this->assertStringContainsString('Judul Lama', $html);
-        $this->assertStringContainsString('Judul Baru', $html);
-        $this->assertStringContainsString('Ya', $html);
-        $this->assertStringContainsString('Tidak', $html);
-    }
 }
