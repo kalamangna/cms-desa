@@ -9,6 +9,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -99,7 +100,9 @@ class AuditLogResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->actions([
                 ViewAction::make()
-                    ->label('Rincian'),
+                    ->label('Rincian')
+                    ->modalHeading('Rincian Audit Log')
+                    ->modalWidth(Width::Large),
             ]);
     }
 
@@ -108,20 +111,19 @@ class AuditLogResource extends Resource
         return $schema
             ->components([
                 Section::make('Informasi Audit Log')
-                    ->columns(3)
+                    ->columns(2)
                     ->schema([
                         TextEntry::make('created_at')->label('Waktu')->dateTime('d M Y, H:i:s'),
                         TextEntry::make('user_name')->label('Pengguna'),
                         TextEntry::make('event')->label('Tipe Aksi')->badge(),
-                        TextEntry::make('description')->label('Deskripsi')->columnSpanFull(),
                         TextEntry::make('ip_address')->label('IP Address'),
                         TextEntry::make('user_agent')
                             ->label('Perangkat / Browser')
                             ->formatStateUsing(fn (?string $state): string => static::parseUserAgent($state))
                             ->tooltip(fn (?string $state): ?string => $state)
-                            ->columnSpan(2),
+                            ->columnSpanFull(),
+                        TextEntry::make('description')->label('Deskripsi')->columnSpanFull(),
                     ]),
-
             ]);
     }
 

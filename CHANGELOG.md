@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.94] - 2026-09-08
+
+### Changed
+- **Penyesuaian Lebar & Tata Letak Modal Audit Log**: Menyesuaikan lebar modal aksi rincian pada `AuditLogResource` menjadi ukuran proporsional (`Width::Large` / `lg`) dari sebelumnya ukuran standar yang terlalu lebar (`4xl`). Mengatur ulang tata letak infolist menjadi grid 2 kolom yang rapi dan simetris.
+
 ## [1.26.93] - 2026-09-08
 
 ### Changed
