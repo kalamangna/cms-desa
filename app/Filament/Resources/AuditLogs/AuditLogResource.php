@@ -109,8 +109,10 @@ class AuditLogResource extends Resource
     public static function infolist(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->components([
                 Section::make('Informasi Audit Log')
+                    ->columnSpanFull()
                     ->columns(2)
                     ->schema([
                         TextEntry::make('created_at')->label('Waktu')->dateTime('d M Y, H:i:s'),

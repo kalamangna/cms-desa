@@ -2,6 +2,11 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.95] - 2026-09-08
+
+### Fixed
+- **Perbaikan Bentang Lebar Card Modal Audit Log**: Menambahkan konfigurasi satu kolom (`columns(1)`) pada root skema infolist dan `columnSpanFull()` pada card `Section` di `AuditLogResource` agar card membentang penuh (100%) mengisi seluruh ruang modal dialog tanpa menyisakan kekosongan kolom.
+
 ## [1.26.94] - 2026-09-08
 
 ### Changed
