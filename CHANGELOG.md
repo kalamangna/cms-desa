@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.100] - 2026-09-09
+
+### Changed
+- **Penyempurnaan Partisipasi Sekolah Kosong (Null)**:
+  - Memperbarui accessor `getSchoolParticipationAttribute` pada model `Citizen` agar mengembalikan `null` jika data kosong atau berupa simbol strip.
+  - Memperbarui hook `saving` pada model `Citizen` untuk menormalisasi nilai kosong/strip pada kolom `school_participation` menjadi `null`.
+  - Menyesuaikan import `ListCitizens` agar mengembalikan `null` untuk `school_participation` jika kolom atau sel kosong.
+
 ## [1.26.99] - 2026-09-09
 
 ### Changed

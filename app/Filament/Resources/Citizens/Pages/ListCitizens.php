@@ -273,7 +273,7 @@ class ListCitizens extends ListRecords
                                 'date_of_birth' => $dob,
                                 'marital_status' => $colMarital !== false ? $this->parseMaritalStatus($row[$colMarital]) : null,
                                 'family_relation' => $colRelation !== false ? $this->parseFamilyRelation($row[$colRelation]) : null,
-                                'school_participation' => $colSchool !== false ? $this->parseSchoolParticipation($row[$colSchool]) : 'Tidak / Belum Pernah Sekolah',
+                                'school_participation' => $colSchool !== false ? $this->parseSchoolParticipation($row[$colSchool]) : null,
                                 'education_level' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null,
                                 'education' => $colEduLevel !== false ? $this->parseEducationLevel($row[$colEduLevel]) : null, // legacy
                                 'bpjs_status' => $colBpjs !== false ? $this->parseBpjsStatus($row[$colBpjs]) : null,
@@ -559,24 +559,26 @@ class ListCitizens extends ListRecords
         return 'Lainnya';
     }
 
-    private function parseSchoolParticipation(?string $val): string
+    private function parseSchoolParticipation(?string $val): ?string
     {
-        if (empty($val)) {
-            return 'Tidak / Belum Pernah Sekolah';
+        if ($val === null) {
+            return null;
         }
 
         $clean = strtolower(trim($val));
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+            return null;
+        }
+
         if (strpos($clean, 'masih') !== false) {
             return 'Masih Sekolah';
-        }
-        if (strpos($clean, 'lagi') !== false) {
+        } elseif (strpos($clean, 'lagi') !== false) {
             return 'Tidak Bersekolah Lagi';
-        }
-        if (strpos($clean, 'tidak') !== false || strpos($clean, 'belum') !== false) {
+        } elseif (strpos($clean, 'tidak') !== false || strpos($clean, 'belum') !== false) {
             return 'Tidak / Belum Pernah Sekolah';
         }
 
-        return 'Tidak / Belum Pernah Sekolah';
+        return null;
     }
 
     private function parseDomicileAddressType(?string $val): ?string

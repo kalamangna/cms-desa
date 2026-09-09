@@ -131,10 +131,14 @@ class Citizen extends Model
     public function getSchoolParticipationAttribute($value)
     {
         if (empty($value)) {
-            return 'Tidak / Belum Pernah Sekolah';
+            return null;
         }
 
         $valLower = strtolower(trim($value));
+        if (in_array($valLower, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+            return null;
+        }
+
         if (str_contains($valLower, 'masih')) {
             return 'Masih Sekolah';
         }
@@ -188,7 +192,7 @@ class Citizen extends Model
         parent::boot();
 
         static::saving(function ($citizen) {
-            foreach (['education_level', 'education', 'job', 'job_status'] as $field) {
+            foreach (['education_level', 'education', 'job', 'job_status', 'school_participation'] as $field) {
                 $val = trim((string) $citizen->{$field});
                 if ($val === '' || in_array(strtolower($val), ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
                     $citizen->{$field} = null;
