@@ -2,9 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
-## [1.26.103] - 2026-09-09
+## [1.27.0] - 2026-09-09
 
 ### Changed
+- **Pembaruan Versi Minor Aplikasi (v1.27.0)**:
+  - Menaikkan versi minor aplikasi dari `1.26.x` ke `1.27.0` untuk mereset penomoran patch yang telah mencapai 100+ dan merefleksikan standarisasi kependudukan & demografi.
+  - Memperbarui nilai versi di `config/app.php` dan sinkronisasi teks fallback footer di `resources/views/layouts/app.blade.php`.
 - **Penanganan Nilai Null Komprehensif Data Keluarga (`Family`)**:
   - Memperbarui accessor `getBuildingTypeAttribute` dan `getClosetTypeAttribute` pada model `Family` agar mengembalikan `null` (bukan fallback semu `'Rumah Tinggal Tunggal'` atau `'Tidak Ada'`) ketika nilai kosong atau berupa tanda strip/placeholder (`-`, `--`, `null`, dll.).
   - Menambahkan event hook `saving` pada model `Family` untuk menormalisasi semua kolom string karakteristik fisik bangunan, sanitasi, listrik, bansos, catatan, serta desimal/numerik nullable (`floor_area`, `rental_*`) menjadi `null` saat bernilai kosong atau simbol strip.

@@ -752,7 +752,7 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}.
                 </p>
                 <p class="text-slate-300 text-[10px] font-bold uppercase tracking-widest">
-                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-primary-400 hover:text-primary-300 underline underline-offset-2 transition">kalamangna</a> &bull; v{{ config('app.version', '1.8.5') }}
+                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-primary-400 hover:text-primary-300 underline underline-offset-2 transition">kalamangna</a> &bull; v{{ config('app.version', '1.27.0') }}
                 </p>
             </div>
         </div>
