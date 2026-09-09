@@ -270,7 +270,7 @@
         <button type="button" @click="openPreviewByIndex({{ $idx }})" class="group cursor-pointer flex flex-col w-full text-left bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-2xl hover:shadow-slate-300/60 dark:hover:shadow-slate-950/80 hover:-translate-y-1.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950 transition-all duration-300">
             <div class="relative w-full aspect-[4/5] overflow-hidden bg-slate-100 dark:bg-slate-800">
                 <div class="w-full h-full block relative group/btn">
-                    <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
+                    <img src="{{ $photoUrl }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-700" alt="{{ $official->name }}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3 sm:p-4 text-white">
                         <span class="inline-flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-md px-2.5 sm:px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold shadow-lg">
                             <i class="fa-solid fa-expand text-[10px]"></i> <span class="hidden sm:inline">Perbesar Foto</span><span class="sm:hidden">Perbesar</span>
@@ -350,6 +350,7 @@
                          class="max-w-full max-h-full aspect-[4/5] w-auto h-auto object-cover object-top rounded-2xl shadow-2xl transition-all duration-300 select-none"
                          alt="{{ $item['name'] ?? 'Aparatur Desa' }}"
                          loading="lazy"
+                         decoding="async"
                          onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                 </div>
                 @endforeach

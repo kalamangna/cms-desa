@@ -101,6 +101,7 @@
                         class="w-full h-full object-cover"
                         alt="{{ $institution->name }}"
                         loading="lazy"
+                        decoding="async"
                         onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                 </div>
             </div>

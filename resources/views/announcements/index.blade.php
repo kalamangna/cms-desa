@@ -138,7 +138,7 @@
 
                 @if($announcement->photo)
                 <div class="mb-4 rounded-xl overflow-hidden max-h-96">
-                    <img src="{{ asset('storage/' . $announcement->photo) }}" alt="{{ $announcement->title }}" class="w-full h-auto object-cover rounded-xl" loading="lazy">
+                    <img src="{{ asset('storage/' . $announcement->photo) }}" alt="{{ $announcement->title }}" class="w-full h-auto object-cover rounded-xl" loading="lazy" decoding="async">
                 </div>
                 @endif
 

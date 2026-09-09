@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
@@ -29,16 +30,21 @@ class PostController extends Controller
 
         $posts = $query->paginate(7)->withQueryString();
 
-        $categories = Category::withCount(['posts' => function ($query) {
-            $query->where('published_at', '<=', now());
-        }])->get();
+        $categories = Cache::remember('posts_categories_with_count', 3600, function () {
+            return Category::withCount(['posts' => function ($query) {
+                $query->where('published_at', '<=', now());
+            }])->get();
+        });
 
         return view('posts.index', compact('posts', 'categories', 'selectedCategory'));
     }
 
     public function show($slug)
     {
-        $post = Post::where('slug', $slug)->where('published_at', '<=', now())->firstOrFail();
+        $post = Post::with('category')
+            ->where('slug', $slug)
+            ->where('published_at', '<=', now())
+            ->firstOrFail();
 
         return view('posts.show', compact('post'));
     }

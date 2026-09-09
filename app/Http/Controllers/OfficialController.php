@@ -4,19 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Official;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class OfficialController extends Controller
 {
     public function index()
     {
-        $officials = Official::with('subordinates')
-            ->orderBy('level', 'asc')
-            ->orderBy('order', 'asc')
-            ->get();
+        $data = Cache::remember('officials_tree_and_list', 3600, function () {
+            $officials = Official::with('subordinates')
+                ->orderBy('level', 'asc')
+                ->orderBy('order', 'asc')
+                ->get();
 
-        $tree = $this->buildTree($officials);
+            return [
+                'officials' => $officials,
+                'tree' => $this->buildTree($officials),
+            ];
+        });
 
-        return view('officials.index', compact('officials', 'tree'));
+        return view('officials.index', [
+            'officials' => $data['officials'],
+            'tree' => $data['tree'],
+        ]);
     }
 
     private function buildTree(Collection $officials, ?int $parentId = null): array

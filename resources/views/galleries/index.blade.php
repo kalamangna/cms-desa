@@ -179,6 +179,7 @@
                     class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500"
                     alt="{{ $item->title }}"
                     loading="lazy"
+                    decoding="async"
                     onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
                 >
 

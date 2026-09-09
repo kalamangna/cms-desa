@@ -83,6 +83,7 @@
                                      alt="{{ $post->title }}"
                                      loading="eager"
                                      fetchpriority="high"
+                                     decoding="async"
                                      onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
                             </div>
@@ -132,6 +133,7 @@
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                  alt="{{ $post->title }}"
                                  loading="lazy"
+                                 decoding="async"
                                  onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
                             @if($post->category)

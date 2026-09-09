@@ -132,6 +132,7 @@
                      alt="{{ $post->title }}"
                      loading="eager"
                      fetchpriority="high"
+                     decoding="async"
                      onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
             </div>
 
@@ -245,6 +246,8 @@
                         <img src="{{ $related->featured_image ? asset('storage/' . $related->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                              alt="{{ $related->title }}"
+                             loading="lazy"
+                             decoding="async"
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
 
                     </div>

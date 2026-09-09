@@ -194,6 +194,7 @@
                              height="480"
                              loading="eager"
                              fetchpriority="high"
+                             decoding="async"
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                         {{-- Overlay gradient bawah --}}
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
@@ -463,6 +464,7 @@
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                              alt="{{ $featuredPost->title }}"
                              loading="lazy"
+                             decoding="async"
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent"></div>
                         <div class="absolute top-6 left-6">
@@ -485,6 +487,7 @@
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                  alt="{{ $post->title }}"
                                  loading="lazy"
+                                 decoding="async"
                                  onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                         </div>
                         <div class="flex-1 min-w-0">
@@ -644,6 +647,7 @@
                      class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
                      alt="{{ $gallery->title }}"
                      loading="lazy"
+                     decoding="async"
                      onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                 
                 @if($gallery->type === 'video')

@@ -265,14 +265,17 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     </noscript>
     @php
-        $isViteHot = file_exists(public_path('hot'));
-        $manifest = [];
-        $manifestPath = public_path('build/manifest.json');
-        if (!$isViteHot && file_exists($manifestPath)) {
-            $manifest = json_decode(file_get_contents($manifestPath), true) ?? [];
+        static $cachedManifest = null;
+        if ($cachedManifest === null) {
+            $isViteHot = file_exists(public_path('hot'));
+            $cachedManifest = [];
+            $manifestPath = public_path('build/manifest.json');
+            if (!$isViteHot && file_exists($manifestPath)) {
+                $cachedManifest = json_decode(file_get_contents($manifestPath), true) ?? [];
+            }
         }
-        $cssFile = $manifest['resources/css/app.css']['file'] ?? null;
-        $jsFile  = $manifest['resources/js/app.js']['file'] ?? null;
+        $cssFile = $cachedManifest['resources/css/app.css']['file'] ?? null;
+        $jsFile  = $cachedManifest['resources/js/app.js']['file'] ?? null;
     @endphp
 
     @if($cssFile)

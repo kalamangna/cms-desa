@@ -82,6 +82,7 @@
                             class="w-full h-full object-cover"
                             alt="{{ $pub->title }}"
                             loading="lazy"
+                            decoding="async"
                             onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'"
                         >
                     @else
@@ -90,6 +91,7 @@
                             class="w-full h-full object-cover"
                             alt="{{ $pub->title }}"
                             loading="lazy"
+                            decoding="async"
                         >
                     @endif
                 </div>

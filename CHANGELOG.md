@@ -2,6 +2,20 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.98] - 2026-09-09
+
+### Changed
+- **Optimasi Performa Kueri & Caching Database**:
+  - Menambahkan eager loading `Post::with('category')` pada `PostController::show` untuk mengeliminasi kueri tambahan *lazy-loading* saat membaca artikel berita.
+  - Meng-cache hitungan postingan per kategori (`posts_categories_with_count`) di `PostController::index` selama 1 jam.
+  - Meng-cache struktur organisasi dan pohon hirarki jabatan aparatur desa (`officials_tree_and_list`) di `OfficialController::index`.
+  - Meng-cache daftar lembaga kemasyarakatan desa (`institutions_list`) di `InstitutionController::index`.
+  - Memperluas mekanisme *real-time cache invalidation* di `AppServiceProvider` untuk membersihkan cache kategori berita dan lembaga desa secara instan saat data dimutasi di panel admin.
+- **Optimasi Pengiriman Aset & Rendering Frontend**:
+  - Menambahkan header HTTP `immutable` pada `public/.htaccess` untuk berkas CSS/JS hasil build Vite (`app-[hash].css` dan `app-[hash].js`), mengeliminasi pengiriman kueri HTTP 304 revalidation berulang saat pengguna berpindah halaman.
+  - Menerapkan *static memoization* pembacaan manifest Vite (`public/build/manifest.json`) pada `resources/views/layouts/app.blade.php` untuk menghemat operasi I/O disk server.
+  - Menambahkan atribut `decoding="async"` pada elemen gambar publik (Beranda, Berita, Pengumuman, Galeri, Aparatur, Lembaga, dan Publikasi) agar peramban merender teks dan tata letak secara *non-blocking*.
+
 ## [1.26.97] - 2026-09-09
 
 ### Added
