@@ -83,7 +83,11 @@ Do **not** modify these without explicit instruction:
 ### Pre-push checklist (only when explicitly asked to push)
 1. **Format Code**: Run `./vendor/bin/pint`
 2. **Compile CSS**: If CSS/Tailwind classes changed, run `npm run build` exactly once. (Do NOT run build repeatedly during the `npm run dev` coding phase). Skip this if no CSS changes.
-3. **Documentation**: Update `CHANGELOG.md` (Keep a Changelog format, bump version, in Indonesian), sync `'version'` in `config/app.php`, and update `README.md` (if config changed).
+3. **Documentation**: Update `CHANGELOG.md` (Keep a Changelog format, in Indonesian), sync `'version'` in `config/app.php`, and update `README.md` (if config changed).
+   - **Versioning Guidelines (SemVer `MAJOR.MINOR.PATCH`)**:
+     - **PATCH (`+1`)**: Bug fix, perapian UI kecil, penyesuaian teks/label, optimasi minor.
+     - **MINOR (`+1, patch reset ke 0`)**: Penambahan modul/fitur baru, migrasi/tabel baru, standarisasi data besar, atau jika patch telah mencapai batas wajar (~20-30).
+     - **MAJOR (`+1, minor & patch reset ke 0`)**: *Breaking changes* atau perombakan arsitektur besar.
 4. **Deploy**: `git commit` and `git push`.
 
 ### Language & format conventions
