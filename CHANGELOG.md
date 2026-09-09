@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.102] - 2026-09-09
+
+### Changed
+- **Penerapan Empty State Konsisten pada Grafik Demografi Beranda**:
+  - Mengganti elemen kosong kustom dengan komponen standar `<x-empty-state :compact="true">` pada kontainer grafik demografi di Beranda (`resources/views/home.blade.php`).
+  - Mengintegrasikan transisi JavaScript agar otomatis beralih menampilkan komponen `<x-empty-state>` yang seragam dan informatif saat kategori dropdown yang dipilih (seperti Pekerjaan atau Pendidikan) belum memiliki data terisi.
+
 ## [1.26.101] - 2026-09-09
 
 ### Changed

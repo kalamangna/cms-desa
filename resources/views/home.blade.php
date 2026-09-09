@@ -385,15 +385,17 @@
                     </div>
                 </div>
                 <div class="p-8">
-                    @if($lakiLakiCount == 0 && $perempuanCount == 0)
-                        <div class="h-72 flex flex-col items-center justify-center text-center p-4">
-                            <i class="fa-solid fa-users-slash text-slate-300 dark:text-slate-700 text-4xl mb-3"></i>
-                            <p class="text-slate-500 dark:text-slate-400 text-sm font-semibold">Belum ada data demografi aktif.</p>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Impor data warga melalui panel admin untuk melihat visualisasi.</p>
+                    <div class="h-72 relative flex items-center justify-center">
+                        <div id="populationChart" class="w-full h-full {{ ($lakiLakiCount == 0 && $perempuanCount == 0) ? 'hidden' : '' }}"></div>
+                        <div id="populationEmptyState" class="{{ ($lakiLakiCount == 0 && $perempuanCount == 0) ? '' : 'hidden' }} w-full">
+                            <x-empty-state
+                                icon="fa-solid fa-chart-pie"
+                                title="Data Belum Tersedia"
+                                description="Belum ada data demografi aktif untuk kategori ini."
+                                :compact="true"
+                            />
                         </div>
-                    @else
-                        <div class="h-72"><div id="populationChart"></div></div>
-                    @endif
+                    </div>
                     <a href="/statistik" class="mt-8 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 cursor-pointer">
                         <i class="fa-solid fa-chart-line text-xs"></i> Statistik Lengkap
                     </a>
@@ -879,6 +881,25 @@ document.addEventListener('DOMContentLoaded', function () {
             labels = displayData.map(d => d.label);
             colors = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#f43f5e', '#06b6d4', '#14b8a6', '#f97316', '#3b82f6'];
         }
+
+        const elEmpty = document.getElementById('populationEmptyState');
+        const totalValue = series.reduce((sum, v) => sum + v, 0);
+        if (totalValue === 0) {
+            elPop.classList.add('hidden');
+            if (elEmpty) {
+                elEmpty.classList.remove('hidden');
+                const desc = elEmpty.querySelector('p');
+                if (desc) {
+                    desc.innerText = type === 'job'
+                        ? 'Belum ada data status pekerjaan warga yang tercatat.'
+                        : (type === 'education' ? 'Belum ada data tingkat pendidikan warga yang tercatat.' : 'Belum ada data demografi aktif.');
+                }
+            }
+            return;
+        }
+
+        if (elEmpty) elEmpty.classList.add('hidden');
+        elPop.classList.remove('hidden');
 
         const isDark = document.documentElement.classList.contains('dark');
 
