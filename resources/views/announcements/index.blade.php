@@ -84,7 +84,7 @@
             </div>
             <div class="flex items-center gap-2 font-medium">
                 <i class="fa-solid fa-bullhorn text-amber-500"></i>
-                Total <span class="font-bold text-slate-900 dark:text-slate-100">{{ $announcements->total() }}</span> pengumuman publik
+                Total <span class="font-bold text-slate-900 dark:text-slate-100">{{ $announcements->total() }}</span> pengumuman
             </div>
         </div>
     </div>

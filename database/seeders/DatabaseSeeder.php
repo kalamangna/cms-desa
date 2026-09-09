@@ -11,17 +11,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Cegah pengiriman notifikasi Telegram selama proses seeding database
+        config(['services.telegram-bot-api.chat_id' => null]);
+
         $this->call([
             DefaultDataSeeder::class,
             SettingSeeder::class,
             ArticleSeeder::class,
             VillageProfileSeeder::class,
-            PopulationSeeder::class,
-            GalleryAndFacilitySeeder::class,
-            DocumentAndPublicationSeeder::class,
-            ApbdesAndDatasetSeeder::class,
-            PublicServiceSeeder::class,
-            StatisticAndPopupSeeder::class,
+            GalleryAndPotentialSeeder::class,
+            DocumentSeeder::class,
+            ApbdesSeeder::class,
+            ServiceSeeder::class,
+            PopupInfographicSeeder::class,
         ]);
     }
 }

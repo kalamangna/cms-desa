@@ -17,6 +17,9 @@ class PopulationSeeder extends Seeder
     {
         $this->command->info('Membuat data Keluarga dan Penduduk...');
 
+        Citizen::query()->forceDelete();
+        Family::query()->forceDelete();
+
         $faker = Faker::create('id_ID');
 
         // Ambil dusun yang sudah ada

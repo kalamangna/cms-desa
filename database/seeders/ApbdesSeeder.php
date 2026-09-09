@@ -4,28 +4,24 @@ namespace Database\Seeders;
 
 use App\Models\BudgetCategory;
 use App\Models\BudgetRealization;
-use App\Models\Dataset;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
-class ApbdesAndDatasetSeeder extends Seeder
+class ApbdesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $this->command->info('Membersihkan dan membuat data APBDes serta Open Data (Dataset)...');
+        $this->command->info('Membersihkan dan membuat data APBDes...');
 
-        // Membersihkan data lama
+        // Membersihkan data lama APBDes
         BudgetRealization::query()->forceDelete();
         BudgetCategory::query()->forceDelete();
-        Dataset::query()->forceDelete();
 
         // 1. APBDes (Kategori)
         $catPendapatan = BudgetCategory::create(['name' => 'Pendapatan', 'slug' => 'pendapatan']);
         $catBelanja = BudgetCategory::create(['name' => 'Belanja', 'slug' => 'belanja']);
-        $catPembiayaan = BudgetCategory::create(['name' => 'Pembiayaan', 'slug' => 'pembiayaan']);
 
         // 1a. APBDes (Realisasi Pendapatan)
         $pendapatanData = [
@@ -67,47 +63,8 @@ class ApbdesAndDatasetSeeder extends Seeder
             ]);
         }
 
-        // 1c. APBDes (Realisasi Pembiayaan)
-        $pembiayaanData = [
-            ['title' => 'Penerimaan Pembiayaan (SILPA Tahun Sebelumnya)', 'budget_amount' => 50000000, 'realization_amount' => 50000000],
-            ['title' => 'Pengeluaran Pembiayaan (Penyertaan Modal BUMDes)', 'budget_amount' => 100000000, 'realization_amount' => 100000000],
-        ];
+        // Open Data (Dataset) sengaja tidak di-seed agar data terbuka tetap dikelola manual/ril desa.
 
-        foreach ($pembiayaanData as $pm) {
-            BudgetRealization::create([
-                'budget_category_id' => $catPembiayaan->id,
-                'title' => $pm['title'],
-                'year' => $currentYear,
-                'budget_amount' => $pm['budget_amount'],
-                'realization_amount' => $pm['realization_amount'],
-            ]);
-        }
-
-        // 2. Open Data (Dataset)
-        $datasets = [
-            [
-                'title' => 'Data Demografi Warga (Publik)',
-                'description' => 'Dataset terbuka yang berisi data statistik kependudukan warga desa yang aktif.',
-                'year' => $currentYear,
-                'source' => 'system',
-                'source_table' => 'citizens',
-                'selected_columns' => ['nik', 'name', 'gender', 'religion', 'education', 'job'],
-            ],
-            [
-                'title' => 'Data Keluarga Prasejahtera',
-                'description' => 'Dataset keluarga dengan kriteria bangunan atau pendapatan yang memerlukan bantuan.',
-                'year' => $currentYear,
-                'source' => 'system',
-                'source_table' => 'families',
-                'selected_columns' => ['kk_number', 'head_name', 'address', 'building_type'],
-            ],
-        ];
-
-        foreach ($datasets as $ds) {
-            $ds['slug'] = Str::slug($ds['title']);
-            Dataset::create($ds);
-        }
-
-        $this->command->info('Berhasil menyuntikkan data APBDes dan Dataset Terbuka.');
+        $this->command->info('Berhasil menyuntikkan data APBDes.');
     }
 }

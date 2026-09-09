@@ -481,7 +481,7 @@ class ListCitizens extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -514,7 +514,7 @@ class ListCitizens extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -709,7 +709,7 @@ class ListCitizens extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/', 'tidak tahu'], true)) {
             return null;
         }
 

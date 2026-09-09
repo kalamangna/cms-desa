@@ -51,12 +51,12 @@
         {{-- ─── Header & Form Pencarian ─── --}}
         <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-10 md:mb-12">
             <div>
-                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-2">Semua Dokumen Publik</h2>
+                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-1">Daftar Dokumen</h2>
                 <p class="text-slate-600 dark:text-slate-300 text-sm">
                     @if(request('search'))
-                        Menampilkan hasil pencarian untuk "<span class="font-bold text-slate-900 dark:text-slate-100">{{ request('search') }}</span>" ({{ $documents->total() }} berkas ditemukan).
+                        Hasil pencarian "<span class="font-bold text-slate-900 dark:text-slate-100">{{ request('search') }}</span>" ({{ $documents->total() }} dokumen).
                     @else
-                        Ditemukan <span class="text-primary-700 dark:text-primary-400 font-bold">{{ $documents->total() }}</span> berkas dokumen tersedia.
+                        Total <span class="text-primary-700 dark:text-primary-400 font-bold">{{ $documents->total() }}</span> dokumen.
                     @endif
                 </p>
             </div>

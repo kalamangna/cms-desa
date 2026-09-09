@@ -80,6 +80,7 @@ class HomeController extends Controller
             return Citizen::select('education as name', DB::raw('count(*) as total'))
                 ->where('status', 'Aktif')
                 ->whereNotNull('education')
+                ->where('education', '!=', '')
                 ->groupBy('education')
                 ->get();
         });

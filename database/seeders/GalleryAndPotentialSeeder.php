@@ -5,25 +5,22 @@ namespace Database\Seeders;
 use App\Models\Gallery;
 use App\Models\PublicFacility;
 use App\Models\VillagePotential;
-use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-class GalleryAndFacilitySeeder extends Seeder
+class GalleryAndPotentialSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $this->command->info('Membersihkan dan membuat data modul tambahan (Galeri, Potensi, Fasilitas)...');
+        $this->command->info('Membersihkan dan membuat data modul tambahan (Galeri, Potensi)...');
 
         // Membersihkan data lama
         Gallery::query()->forceDelete();
         VillagePotential::query()->forceDelete();
         PublicFacility::query()->forceDelete();
-
-        $faker = Faker::create('id_ID');
 
         // 1. Galeri
         $galleries = [
@@ -73,18 +70,8 @@ class GalleryAndFacilitySeeder extends Seeder
             VillagePotential::create($p);
         }
 
-        // 4. Fasilitas Umum
-        $facilities = [
-            ['name' => 'Masjid Jami Al-Hidayah', 'type' => 'Tempat Ibadah', 'latitude' => '-6.595', 'longitude' => '106.789', 'address' => 'Jl. Raya Desa No. 10', 'description' => 'Masjid utama desa untuk kegiatan keagamaan besar.'],
-            ['name' => 'SD Negeri 1 Tompobulu', 'type' => 'Pendidikan', 'latitude' => '-6.596', 'longitude' => '106.790', 'address' => 'Jl. Pendidikan No. 2', 'description' => 'Sekolah dasar rujukan dengan fasilitas perpustakaan lengkap.'],
-            ['name' => 'Puskesmas Pembantu (Pustu)', 'type' => 'Kesehatan', 'latitude' => '-6.597', 'longitude' => '106.788', 'address' => 'Jl. Kesehatan No. 5', 'description' => 'Pusat layanan kesehatan pertama bagi masyarakat desa.'],
-            ['name' => 'Lapangan Olahraga', 'type' => 'Olahraga', 'latitude' => '-6.594', 'longitude' => '106.791', 'address' => 'Gg. Lapangan Utama', 'description' => 'Fasilitas olahraga terbuka untuk sepakbola dan voli.'],
-        ];
+        // Fasilitas Umum sengaja tidak di-seed agar tetap dikelola manual/ril desa.
 
-        foreach ($facilities as $f) {
-            PublicFacility::create($f);
-        }
-
-        $this->command->info('Berhasil menyuntikkan data Galeri, Potensi Desa, dan Fasilitas Umum.');
+        $this->command->info('Berhasil menyuntikkan data Galeri dan Potensi Desa.');
     }
 }

@@ -3,23 +3,21 @@
 namespace Database\Seeders;
 
 use App\Models\Document;
-use App\Models\Publication;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class DocumentAndPublicationSeeder extends Seeder
+class DocumentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $this->command->info('Membersihkan dan membuat data Dokumen dan Publikasi...');
+        $this->command->info('Membersihkan dan membuat data Dokumen Publik...');
 
-        // Membersihkan data lama
+        // Membersihkan data lama dokumen
         Document::query()->forceDelete();
-        Publication::query()->forceDelete();
 
         // 1. Dokumen
         $documents = [
@@ -61,57 +59,8 @@ class DocumentAndPublicationSeeder extends Seeder
             }
         }
 
-        // Pastikan direktori publications ada
-        if (! Storage::disk('public')->exists('publications')) {
-            Storage::disk('public')->makeDirectory('publications');
-        }
-        // Salin meta.webp sebagai dummy cover
-        if (! Storage::disk('public')->exists('publications/meta.webp') && file_exists(public_path('img/meta.webp'))) {
-            Storage::disk('public')->put('publications/meta.webp', file_get_contents(public_path('img/meta.webp')));
-        }
+        // Publikasi Data sengaja tidak di-seed agar tetap dikelola manual/ril desa.
 
-        // 2. Publikasi
-        // Asumsi tipe publikasi: APBDes, RPJMDes, LPPD, LKPJ, dll.
-        $publications = [
-            [
-                'title' => 'Infografis APBDes Tahun Anggaran 2024',
-                'type' => 'APBDes',
-                'year' => 2024,
-                'cover' => 'publications/meta.webp',
-                'pdf_file' => 'publications/infografis-apbdes-2024.pdf',
-            ],
-            [
-                'title' => 'Laporan Penyelenggaraan Pemerintahan Desa 2023',
-                'type' => 'LPPD',
-                'year' => 2023,
-                'cover' => 'publications/meta.webp',
-                'pdf_file' => 'publications/lppd-2023.pdf',
-            ],
-            [
-                'title' => 'RKPDes Tahun 2024',
-                'type' => 'RKPDes',
-                'year' => 2024,
-                'cover' => 'publications/meta.webp',
-                'pdf_file' => 'publications/rkpdes-2024.pdf',
-            ],
-            [
-                'title' => 'Buku Profil Desa Tompobulu',
-                'type' => 'Profil',
-                'year' => 2022,
-                'cover' => 'publications/meta.webp',
-                'pdf_file' => 'publications/profil-desa-2022.pdf',
-            ],
-        ];
-
-        foreach ($publications as $pub) {
-            $pub['slug'] = Str::slug($pub['title']);
-            Publication::create($pub);
-
-            if (! Storage::disk('public')->exists($pub['pdf_file'])) {
-                Storage::disk('public')->put($pub['pdf_file'], $dummyPdfContent);
-            }
-        }
-
-        $this->command->info('Berhasil menyuntikkan 5 Dokumen Publik dan 4 Publikasi.');
+        $this->command->info('Berhasil menyuntikkan 5 Dokumen Publik.');
     }
 }

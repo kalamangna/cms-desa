@@ -148,7 +148,7 @@ class AppServiceProvider extends ServiceProvider
         // 1. Radar Keamanan Autentikasi (Logins) - Telegram Notification
         Event::listen(Login::class, function ($event) {
             try {
-                if (app()->runningUnitTests() || app()->environment('testing')) {
+                if (app()->runningUnitTests() || app()->environment('testing') || app()->runningInConsole()) {
                     return;
                 }
 
@@ -173,7 +173,7 @@ class AppServiceProvider extends ServiceProvider
 
         Event::listen(Failed::class, function ($event) {
             try {
-                if (app()->runningUnitTests() || app()->environment('testing')) {
+                if (app()->runningUnitTests() || app()->environment('testing') || app()->runningInConsole()) {
                     return;
                 }
 
@@ -192,7 +192,7 @@ class AppServiceProvider extends ServiceProvider
         // 2. Pengawasan Hak Akses (User Management)
         User::created(function (User $user) {
             try {
-                if (app()->runningUnitTests() || app()->environment('testing')) {
+                if (app()->runningUnitTests() || app()->environment('testing') || app()->runningInConsole()) {
                     return;
                 }
 
@@ -211,7 +211,7 @@ class AppServiceProvider extends ServiceProvider
 
         User::deleted(function (User $user) {
             try {
-                if (app()->runningUnitTests() || app()->environment('testing')) {
+                if (app()->runningUnitTests() || app()->environment('testing') || app()->runningInConsole()) {
                     return;
                 }
 
@@ -231,7 +231,7 @@ class AppServiceProvider extends ServiceProvider
         // 3. Perubahan Pengaturan Krusial
         Setting::updated(function (Setting $setting) {
             try {
-                if (app()->runningUnitTests() || app()->environment('testing')) {
+                if (app()->runningUnitTests() || app()->environment('testing') || app()->runningInConsole()) {
                     return;
                 }
 

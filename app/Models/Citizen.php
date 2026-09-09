@@ -128,15 +128,6 @@ class Citizen extends Model
         return '-';
     }
 
-    public function getEducationLevelAttribute($value)
-    {
-        if (! empty($value)) {
-            return $value;
-        }
-
-        return 'Tidak Punya Ijazah SD';
-    }
-
     public function getSchoolParticipationAttribute($value)
     {
         if (empty($value)) {
@@ -197,6 +188,13 @@ class Citizen extends Model
         parent::boot();
 
         static::saving(function ($citizen) {
+            foreach (['education_level', 'education', 'job', 'job_status'] as $field) {
+                $val = trim((string) $citizen->{$field});
+                if ($val === '' || in_array(strtolower($val), ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+                    $citizen->{$field} = null;
+                }
+            }
+
             if ($citizen->education_level && ! $citizen->education) {
                 $citizen->education = $citizen->education_level;
             } elseif ($citizen->education && ! $citizen->education_level) {

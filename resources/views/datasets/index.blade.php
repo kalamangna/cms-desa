@@ -54,7 +54,7 @@
             <div class="p-8 md:p-12 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-8 bg-slate-50/50 dark:bg-slate-800/30 text-center md:text-left">
                 <div>
                     <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Katalog Dataset</h2>
-                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm mt-1">Ditemukan {{ $datasets->total() }} dataset publik yang tersedia</p>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm mt-1">Total {{ $datasets->total() }} dataset.</p>
                 </div>
                 <form action="/dataset" method="GET" class="relative w-full md:w-96">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari dataset..." class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-100 dark:placeholder-slate-500 shadow-xs text-sm">

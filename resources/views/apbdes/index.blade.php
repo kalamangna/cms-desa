@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'APBDes ' . date('Y') . ' | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Laporan transparansi APBDes (Anggaran Pendapatan, Belanja, dan Pembiayaan Desa) yang dikelola oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' sebagai perwujudan tata kelola keuangan yang bersih.')
+@section('meta_description', 'Laporan transparansi APBDes (Anggaran Pendapatan dan Belanja Desa) yang dikelola oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' sebagai perwujudan tata kelola keuangan yang bersih.')
 @section('meta_image', asset('img/meta.webp'))
 
 @push('head')
@@ -18,7 +18,7 @@
                 "name": "Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}",
                 "url": "{{ url('/') }}"
             },
-            "description": "Laporan transparansi Anggaran Pendapatan, Belanja, dan Pembiayaan Desa (APBDes) Desa {{ $site_settings['village_name'] ?? '' }} tahun berjalan."
+            "description": "Laporan transparansi Anggaran Pendapatan dan Belanja Desa (APBDes) Desa {{ $site_settings['village_name'] ?? '' }} tahun berjalan."
         }
     ]
 }
@@ -58,7 +58,7 @@
                     APBDes <span class="text-primary-500 italic">{{ date('Y') }}</span>
                 </h1>
                 <p class="text-slate-300 text-lg mt-2 leading-relaxed">
-                    Laporan transparansi realisasi anggaran pendapatan, belanja, dan pembiayaan desa.
+                    Laporan transparansi realisasi anggaran pendapatan dan belanja desa.
                 </p>
             </div>
             <div class="flex items-center gap-3 bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-5 py-3 w-fit mb-2">
@@ -82,7 +82,7 @@
             />
         </div>
     @else
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+        <div class="grid grid-cols-1 {{ $categories->count() == 2 ? 'md:grid-cols-2' : 'lg:grid-cols-3' }} gap-6 md:gap-8">
             @foreach($categories as $category)
         @php
             $totalBudget      = $category->realizations->sum('budget_amount');

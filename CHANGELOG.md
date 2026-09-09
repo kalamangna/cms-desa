@@ -2,6 +2,23 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.99] - 2026-09-09
+
+### Changed
+- **Penyempurnaan Penanganan Nilai Kosong Data Kependudukan**:
+  - Menghapus accessor `getEducationLevelAttribute` pada model `Citizen` yang sebelumnya secara otomatis mengonversi nilai kosong menjadi `'Tidak Punya Ijazah SD'`.
+  - Menambahkan normalisasi otomatis pada event `saving` di model `Citizen` sehingga nilai kosong, spasi, maupun tanda strip (`'-'`, `'--'`, `'null'`, `'tidak ada'`, `'kosong'`) pada kolom `education_level`, `education`, `job`, dan `job_status` disimpan sebagai `null`.
+  - Memperbarui parser import data kependudukan (`parseEducationLevel`, `parseJob`, `parseJobStatus` di `ListCitizens`) agar mengembalikan `null` saat sel bernilai kosong atau berupa simbol strip/placeholder (bukan fallback ke `'Lainnya'`).
+  - Menambahkan filter `where('education', '!=', '')` pada kueri cache diagram pendidikan di `HomeController`.
+- **Restrukturisasi & Pembersihan Seeder Basis Data**:
+  - Menghapus seeder dusun dan menyisakan 1 seeder aparatur desa (Kepala Desa) pada `VillageProfileSeeder`.
+  - Menghapus seeder dummy fasilitas umum, daftar permohonan surat, daftar pengaduan warga, buku tamu, dan data kependudukan dummy (`PopulationSeeder`) dari `DatabaseSeeder`.
+  - Menyisakan 1 seeder pop-up infografis aktif pada `PopupInfographicSeeder`.
+  - Memisahkan berkas seeder gabungan menjadi lebih modular (`ApbdesSeeder`, `DocumentSeeder`, `GalleryAndPotentialSeeder`, `PopupInfographicSeeder`, `ServiceSeeder`).
+- **Penyelarasan Teks & Tampilan Halaman Publik**:
+  - Menyelaraskan teks judul, deskripsi meta, dan jumlah total pada halaman Pengumuman, Dokumen, Publikasi, Dataset, serta APBDes.
+  - Menyesuaikan tata letak grid kartu APBDes agar adaptif (`md:grid-cols-2` jika 2 kategori dan `lg:grid-cols-3` jika 3 kategori).
+
 ## [1.26.98] - 2026-09-09
 
 ### Changed
