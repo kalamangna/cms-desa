@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.101] - 2026-09-09
+
+### Changed
+- **Penyempurnaan Tampilan Grafik Demografi Beranda**:
+  - Menambahkan konfigurasi `noData` pada grafik ApexCharts di Beranda (`resources/views/home.blade.php`) agar menampilkan pesan "Belum ada data tersedia" secara elegan saat kategori yang dipilih (Pekerjaan atau Pendidikan) belum memiliki data terisi.
+  - Menyembunyikan label pusat donat saat rangkaian data kosong agar tidak menimpa teks keterangan kosong.
+
 ## [1.26.100] - 2026-09-09
 
 ### Changed

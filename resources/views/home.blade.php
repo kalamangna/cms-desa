@@ -888,6 +888,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 height: '100%',
                 fontFamily: 'Inter, sans-serif'
             },
+            noData: {
+                text: 'Belum ada data tersedia',
+                align: 'center',
+                verticalAlign: 'middle',
+                style: {
+                    color: isDark ? '#94a3b8' : '#64748b',
+                    fontSize: '13px',
+                    fontFamily: 'Inter, sans-serif'
+                }
+            },
             dataLabels: { enabled: false },
             series: series,
             labels: labels,
@@ -898,7 +908,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     donut: {
                         size: '72%',
                         labels: {
-                            show: true,
+                            show: series.length > 0,
                             name: { show: true, fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '13px', color: isDark ? '#94a3b8' : '#64748b' },
                             value: {
                                 show: true,
@@ -909,7 +919,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 formatter: function(val) { return parseInt(val).toLocaleString('id-ID'); }
                             },
                             total: {
-                                show: true,
+                                show: series.length > 0,
                                 label: 'Total Warga',
                                 fontFamily: 'Poppins, sans-serif',
                                 fontWeight: 700,
