@@ -112,10 +112,14 @@ class Family extends Model
     public function getBuildingTypeAttribute($value)
     {
         if (empty($value)) {
-            return 'Rumah Tinggal Tunggal';
+            return null;
         }
 
         $valLower = strtolower(trim($value));
+        if (in_array($valLower, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+            return null;
+        }
+
         if (str_contains($valLower, 'tunggal')) {
             return 'Rumah Tinggal Tunggal';
         }
@@ -134,15 +138,64 @@ class Family extends Model
 
     public function getClosetTypeAttribute($value)
     {
-        if (! empty($value)) {
-            return $value;
+        if (empty($value)) {
+            return null;
         }
 
-        return 'Tidak Ada';
+        $valLower = strtolower(trim($value));
+        if (in_array($valLower, ['-', '--', '---', 'null', 'kosong', 'none', '/'], true)) {
+            return null;
+        }
+
+        return $value;
     }
 
     protected static function booted()
     {
+        static::saving(function ($family) {
+            $nullableFields = [
+                'building_type',
+                'ownership_status',
+                'ownership_proof',
+                'floor_material',
+                'wall_material',
+                'roof_material',
+                'floor_condition',
+                'wall_condition',
+                'roof_condition',
+                'toilet_facility',
+                'closet_type',
+                'feces_disposal',
+                'water_source',
+                'lighting_source',
+                'electricity_power',
+                'electricity_power_meter_1',
+                'electricity_power_meter_2',
+                'electricity_power_meter_3',
+                'electricity_id',
+                'assistance_type',
+                'photo_front',
+                'photo_living_room',
+                'photo_bathroom',
+                'photo_kk',
+                'notes',
+                'rental_estimate',
+                'rental_free_estimate',
+                'rental_contract_value',
+                'floor_area',
+            ];
+
+            foreach ($nullableFields as $field) {
+                $rawVal = $family->getAttributes()[$field] ?? null;
+                if ($rawVal !== null) {
+                    $val = trim((string) $rawVal);
+                    if ($val === '' || in_array(strtolower($val), ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+                        $family->{$field} = null;
+                    }
+                }
+            }
+        });
+
         static::saved(function () {
             Cache::forget('home_total_penduduk_real');
         });

@@ -255,7 +255,7 @@ class ListFamilies extends ListRecords
                                 'building_type' => $colBuildingType !== false ? $this->parseBuildingType($row[$colBuildingType]) : null,
                                 'ownership_status' => $colOwnership !== false ? $this->parseOwnershipStatus($row[$colOwnership]) : null,
                                 'ownership_proof' => $colProof !== false ? $this->parseOwnershipProof($row[$colProof]) : null,
-                                'floor_area' => $colFloorArea !== false ? floatval(trim($row[$colFloorArea])) : null,
+                                'floor_area' => $colFloorArea !== false ? $this->parseFloorArea($row[$colFloorArea]) : null,
                                 'floor_material' => $colFloorMat !== false ? $this->parseFloorMaterial($row[$colFloorMat]) : null,
                                 'wall_material' => $colWallMat !== false ? $this->parseWallMaterial($row[$colWallMat]) : null,
                                 'roof_material' => $colRoofMat !== false ? $this->parseRoofMaterial($row[$colRoofMat]) : null,
@@ -271,13 +271,13 @@ class ListFamilies extends ListRecords
                                 'electricity_power_meter_1' => $this->parseElectricityPower($power1),
                                 'electricity_power_meter_2' => $this->parseElectricityPower($power2),
                                 'electricity_power_meter_3' => $this->parseElectricityPower($power3),
-                                'electricity_id' => $colPlnId !== false ? trim($row[$colPlnId]) : null,
+                                'electricity_id' => $colPlnId !== false ? (in_array(trim($row[$colPlnId]), ['-', '--', '---', 'null', 'none', '/'], true) ? null : trim($row[$colPlnId])) : null,
                                 'electricity_cost' => $colPlnCost !== false ? $this->cleanNumeric(trim($row[$colPlnCost])) : 0,
                                 'internet_cost' => $colNetCost !== false ? $this->cleanNumeric(trim($row[$colNetCost])) : 0,
-                                'photo_front' => $colPhotoFront !== false ? trim($row[$colPhotoFront]) : null,
-                                'photo_living_room' => $colPhotoLiving !== false ? trim($row[$colPhotoLiving]) : null,
-                                'photo_bathroom' => $colPhotoBath !== false ? trim($row[$colPhotoBath]) : null,
-                                'photo_kk' => $colPhotoKk !== false ? trim($row[$colPhotoKk]) : null,
+                                'photo_front' => $colPhotoFront !== false ? (in_array(trim($row[$colPhotoFront]), ['-', '--', '---', 'null', 'none', '/'], true) ? null : trim($row[$colPhotoFront])) : null,
+                                'photo_living_room' => $colPhotoLiving !== false ? (in_array(trim($row[$colPhotoLiving]), ['-', '--', '---', 'null', 'none', '/'], true) ? null : trim($row[$colPhotoLiving])) : null,
+                                'photo_bathroom' => $colPhotoBath !== false ? (in_array(trim($row[$colPhotoBath]), ['-', '--', '---', 'null', 'none', '/'], true) ? null : trim($row[$colPhotoBath])) : null,
+                                'photo_kk' => $colPhotoKk !== false ? (in_array(trim($row[$colPhotoKk]), ['-', '--', '---', 'null', 'none', '/'], true) ? null : trim($row[$colPhotoKk])) : null,
                                 'gas_3kg_count' => $colGas3 !== false ? intval(trim($row[$colGas3])) : 0,
                                 'gas_5kg_count' => $colGas5 !== false ? intval(trim($row[$colGas5])) : 0,
                                 'refrigerator_count' => $colFridge !== false ? intval(trim($row[$colFridge])) : 0,
@@ -296,10 +296,10 @@ class ListFamilies extends ListRecords
                                 'goat_count' => $colGoat !== false ? intval(trim($row[$colGoat])) : 0,
                                 'buffalo_count' => $colBuffalo !== false ? intval(trim($row[$colBuffalo])) : 0,
                                 // Fix #5: Kolom sewa bangunan (203.a/b/c)
-                                'rental_estimate' => $colRentalEstimate !== false ? $this->cleanNumeric(trim($row[$colRentalEstimate])) : null,
-                                'rental_free_estimate' => $colRentalFree !== false ? $this->cleanNumeric(trim($row[$colRentalFree])) : null,
-                                'rental_contract_value' => $colRentalContract !== false ? $this->cleanNumeric(trim($row[$colRentalContract])) : null,
-                                'notes' => $colNotes !== false ? trim($row[$colNotes]) : null,
+                                'rental_estimate' => $colRentalEstimate !== false ? $this->cleanNullableNumeric($row[$colRentalEstimate]) : null,
+                                'rental_free_estimate' => $colRentalFree !== false ? $this->cleanNullableNumeric($row[$colRentalFree]) : null,
+                                'rental_contract_value' => $colRentalContract !== false ? $this->cleanNullableNumeric($row[$colRentalContract]) : null,
+                                'notes' => $colNotes !== false ? (in_array(trim($row[$colNotes]), ['-', '--', '---', 'null', 'none', '/'], true) ? null : trim($row[$colNotes])) : null,
                             ];
 
                             $family = Family::withTrashed()->where('kk_number', $kkNumber)->first();
@@ -363,7 +363,7 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -376,11 +376,14 @@ class ListFamilies extends ListRecords
         if (str_contains($clean, 'rusun') || str_contains($clean, 'apartemen')) {
             return 'Lainnya';
         }
-        if (str_contains($clean, 'ruko') || str_contains($clean, 'komersial')) {
+        if (str_contains($clean, 'ruko') || str_contains($clean, 'komersial') || str_contains($clean, 'toko')) {
+            return 'Lainnya';
+        }
+        if (str_contains($clean, 'lain')) {
             return 'Lainnya';
         }
 
-        return 'Rumah Tinggal Tunggal'; // default
+        return null;
     }
 
     private function parseOwnershipProof(?string $val): ?string
@@ -389,18 +392,18 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
-        if (str_contains($clean, 'shm') || str_contains($clean, 'sertifikat hak milik')) {
+        if (str_contains($clean, 'shm') || str_contains($clean, 'sertifikat hak milik') || str_contains($clean, 'sertifikat')) {
             return 'SHM';
         }
-        if (str_contains($clean, 'tidak') || str_contains($clean, 'belum') || str_contains($clean, 'none') || $clean === '-') {
+        if (str_contains($clean, 'tidak punya') || str_contains($clean, 'belum punya') || str_contains($clean, 'tidak ada')) {
             return 'Tidak Punya';
         }
 
-        return 'Tidak Punya'; // default
+        return null;
     }
 
     private function parseFloorMaterial(?string $val): ?string
@@ -409,7 +412,7 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -432,7 +435,7 @@ class ListFamilies extends ListRecords
             return 'Semen / Bata Merah';
         }
 
-        return trim($val);
+        return null;
     }
 
     private function parseWallMaterial(?string $val): ?string
@@ -441,7 +444,7 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -460,7 +463,7 @@ class ListFamilies extends ListRecords
             return 'Kayu / Papan / Gipsum / GRC / Calciboard';
         }
 
-        return trim($val);
+        return null;
     }
 
     private function parseRoofMaterial(?string $val): ?string
@@ -469,7 +472,7 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -483,7 +486,7 @@ class ListFamilies extends ListRecords
             return 'Asbes';
         }
 
-        return trim($val);
+        return null;
     }
 
     private function parseCondition(?string $val): ?string
@@ -492,7 +495,7 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -513,7 +516,7 @@ class ListFamilies extends ListRecords
             return 'Rusak Ringan';
         }
 
-        return 'Baik'; // default
+        return null;
     }
 
     private function parseToiletFacility(?string $val): ?string
@@ -522,19 +525,21 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
-        if (str_contains($clean, 'tidak') || str_contains($clean, 'tidak ada')) {
+        if (str_contains($clean, 'tidak') || str_contains($clean, 'bukan')) {
             return 'Tidak Ada';
         }
         if (str_contains($clean, 'bersama') || str_contains($clean, 'beberapa rumah')) {
             return 'Ada, digunakan bersama oleh anggota keluarga dari beberapa rumah';
         }
+        if (str_contains($clean, 'ada') || str_contains($clean, 'sendiri') || str_contains($clean, 'satu rumah')) {
+            return 'Ada, digunakan oleh anggota keluarga dalam satu rumah';
+        }
 
-        // default: ada dan digunakan sendiri
-        return 'Ada, digunakan oleh anggota keluarga dalam satu rumah';
+        return null;
     }
 
     private function parseClosetType(?string $val): ?string
@@ -543,7 +548,7 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -556,11 +561,11 @@ class ListFamilies extends ListRecords
         if (str_contains($clean, 'cemplung') || str_contains($clean, 'cubluk')) {
             return 'Cemplung / Cubluk';
         }
-        if (str_contains($clean, 'tidak') || str_contains($clean, 'tidak ada') || $clean === '-') {
+        if (str_contains($clean, 'tidak') || str_contains($clean, 'bukan')) {
             return 'Tidak Ada';
         }
 
-        return 'Tidak Ada'; // default
+        return null;
     }
 
     private function parseFecesDisposal(?string $val): ?string
@@ -569,7 +574,7 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -585,8 +590,11 @@ class ListFamilies extends ListRecords
         if (str_contains($clean, 'pantai') || str_contains($clean, 'lapang')) {
             return 'Pantai / Tanah Lapang';
         }
+        if (str_contains($clean, 'lain')) {
+            return 'Lainnya';
+        }
 
-        return 'Lainnya';
+        return null;
     }
 
     private function parseWaterSource(?string $val): ?string
@@ -595,7 +603,7 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -616,9 +624,12 @@ class ListFamilies extends ListRecords
         }
         if (str_contains($clean, 'sumur')) {
             return 'Sumur Terlindung';
-        } // fallback sumur tanpa keterangan
+        }
+        if (str_contains($clean, 'lain')) {
+            return 'Lainnya';
+        }
 
-        return 'Lainnya';
+        return null;
     }
 
     private function parseLightingSource(?string $val): ?string
@@ -627,7 +638,7 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -645,9 +656,9 @@ class ListFamilies extends ListRecords
         }
         if (str_contains($clean, 'listrik')) {
             return 'Listrik PLN Dengan Meteran';
-        } // fallback listrik generic
+        }
 
-        return 'Bukan Listrik';
+        return null;
     }
 
     private function parseElectricityPower(?string $val): ?string
@@ -656,13 +667,12 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
         // Normalize numeric-only values (e.g. "900" → "900 Watt")
         $numClean = preg_replace('/[^0-9]/', '', $clean);
-        $validWatts = ['450', '900', '1300', '2200', '3500', '4400', '5500', '6600'];
         $formattedMap = [
             '450' => '450 Watt',
             '900' => '900 Watt',
@@ -687,8 +697,11 @@ class ListFamilies extends ListRecords
         if (str_contains($clean, '>') || str_contains($clean, 'lebih') || (is_numeric($numClean) && intval($numClean) > 6600)) {
             return '> 6.600 Watt';
         }
+        if (str_contains($clean, 'lain')) {
+            return 'Lainnya';
+        }
 
-        return 'Lainnya';
+        return null;
     }
 
     private function parseYesNo(?string $val): int
@@ -714,17 +727,19 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
         if (strpos($clean, 'milik sendiri') !== false || strpos($clean, 'sendiri') !== false) {
             return 'Milik Sendiri';
-        } elseif (strpos($clean, 'sewa') !== false && strpos($clean, 'bebas') === false) {
+        } elseif (strpos($clean, 'bebas') !== false) {
+            return 'Bebas Sewa';
+        } elseif (strpos($clean, 'sewa') !== false || strpos($clean, 'kontrak') !== false) {
             return 'Sewa / Kontrak';
         }
 
-        return 'Bebas Sewa';
+        return null;
     }
 
     private function parseAssistanceType(?string $val): ?string
@@ -733,11 +748,48 @@ class ListFamilies extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean) || in_array($clean, ['tidak ada', 'tidak', 'none', '-'])) {
-            return 'Tidak Ada';
+        if (empty($clean) || in_array($clean, ['tidak ada', 'tidak', 'none', '-', '--', '---', 'null', 'kosong', '/'], true)) {
+            return null;
         }
 
         return trim($val);
+    }
+
+    private function parseFloorArea(?string $val): ?float
+    {
+        if ($val === null) {
+            return null;
+        }
+        $clean = strtolower(trim($val));
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+            return null;
+        }
+        $clean = str_replace(',', '.', $clean);
+        $clean = preg_replace('/[^0-9\.]/', '', $clean);
+
+        return $clean !== '' ? floatval($clean) : null;
+    }
+
+    private function cleanNullableNumeric(?string $val): ?int
+    {
+        if ($val === null) {
+            return null;
+        }
+        $val = strtolower(trim($val));
+        if (empty($val) || in_array($val, ['tidak ada', 'none', '-', '--', '---', 'null', 'kosong', '?', 'n/a', '/'], true)) {
+            return null;
+        }
+
+        if (strpos($val, 'jt') !== false) {
+            $numPart = preg_replace('/[^0-9\.,]/', '', str_replace('jt', '', $val));
+            $numPart = str_replace(',', '.', $numPart);
+
+            return intval(floatval($numPart) * 1000000);
+        }
+
+        $clean = preg_replace('/[^0-9]/', '', explode('.', $val)[0]);
+
+        return $clean !== '' ? intval($clean) : null;
     }
 
     private function findColumnIndex(array $header, array $needles): int|bool

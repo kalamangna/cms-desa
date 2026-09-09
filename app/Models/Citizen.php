@@ -112,7 +112,7 @@ class Citizen extends Model
 
     public function getGenderAttribute($value)
     {
-        if (! empty($value)) {
+        if (! empty($value) && ! in_array(strtolower(trim($value)), ['-', '--', '---', 'null', 'none', '/'], true)) {
             return $value;
         }
 
@@ -125,7 +125,7 @@ class Citizen extends Model
             }
         }
 
-        return '-';
+        return null;
     }
 
     public function getSchoolParticipationAttribute($value)
@@ -154,20 +154,29 @@ class Citizen extends Model
 
     public function getBpjsStatusAttribute($value)
     {
-        if (! empty($value)) {
-            return $value;
+        if (empty($value)) {
+            return null;
         }
 
-        return 'Tidak Terdaftar';
+        $valLower = strtolower(trim($value));
+        if (in_array($valLower, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+            return null;
+        }
+
+        return $value;
     }
 
     public function getCitizenshipStatusAttribute($value)
     {
         if (empty($value)) {
-            return 'Tinggal di Rumah Ini';
+            return null;
         }
 
         $valLower = strtolower(trim($value));
+        if (in_array($valLower, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+            return null;
+        }
+
         if (str_contains($valLower, 'luar negeri')) {
             return 'Pindah ke Luar Negeri';
         }
@@ -192,10 +201,31 @@ class Citizen extends Model
         parent::boot();
 
         static::saving(function ($citizen) {
-            foreach (['education_level', 'education', 'job', 'job_status', 'school_participation'] as $field) {
-                $val = trim((string) $citizen->{$field});
-                if ($val === '' || in_array(strtolower($val), ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
-                    $citizen->{$field} = null;
+            $nullableFields = [
+                'education_level',
+                'education',
+                'job',
+                'job_status',
+                'school_participation',
+                'bpjs_status',
+                'citizenship_status',
+                'marital_status',
+                'family_relation',
+                'domicile_address_type',
+                'has_digital_wallet',
+                'place_of_birth',
+                'religion',
+                'blood_type',
+                'gender',
+            ];
+
+            foreach ($nullableFields as $field) {
+                $rawVal = $citizen->getAttributes()[$field] ?? null;
+                if ($rawVal !== null) {
+                    $val = trim((string) $rawVal);
+                    if ($val === '' || in_array(strtolower($val), ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+                        $citizen->{$field} = null;
+                    }
                 }
             }
 

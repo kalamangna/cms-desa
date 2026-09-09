@@ -2,6 +2,19 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.103] - 2026-09-09
+
+### Changed
+- **Penanganan Nilai Null Komprehensif Data Keluarga (`Family`)**:
+  - Memperbarui accessor `getBuildingTypeAttribute` dan `getClosetTypeAttribute` pada model `Family` agar mengembalikan `null` (bukan fallback semu `'Rumah Tinggal Tunggal'` atau `'Tidak Ada'`) ketika nilai kosong atau berupa tanda strip/placeholder (`-`, `--`, `null`, dll.).
+  - Menambahkan event hook `saving` pada model `Family` untuk menormalisasi semua kolom string karakteristik fisik bangunan, sanitasi, listrik, bansos, catatan, serta desimal/numerik nullable (`floor_area`, `rental_*`) menjadi `null` saat bernilai kosong atau simbol strip.
+  - Memperbarui parser import `ListFamilies` (`parseBuildingType`, `parseOwnershipProof`, `parseFloorMaterial`, `parseWallMaterial`, `parseRoofMaterial`, `parseCondition`, `parseToiletFacility`, `parseClosetType`, `parseFecesDisposal`, `parseWaterSource`, `parseLightingSource`, `parseElectricityPower`, `parseOwnershipStatus`, `parseAssistanceType`, `parseFloorArea`, `cleanNullableNumeric`) agar secara konsisten mengembalikan `null` jika sel kosong atau berupa simbol placeholder.
+- **Pengecekan & Pengetatan Nilai Null Data Individu (`Citizen`)**:
+  - Memperbarui accessor `getBpjsStatusAttribute` dan `getCitizenshipStatusAttribute` pada model `Citizen` agar tidak memalsukan nilai kosong/strip menjadi status default (`'Tidak Terdaftar'` atau `'Tinggal di Rumah Ini'`).
+  - Memperbarui accessor `getGenderAttribute` agar mengembalikan `null` jika nilai kosong dan tidak dapat disimpulkan dari NIK (bukan string `'-'`).
+  - Memperluas event hook `saving` pada model `Citizen` untuk membersihkan seluruh atribut kategori kependudukan (`education_level`, `education`, `job`, `job_status`, `school_participation`, `bpjs_status`, `citizenship_status`, `marital_status`, `family_relation`, `domicile_address_type`, `has_digital_wallet`, `place_of_birth`, `religion`, `blood_type`, dan `gender`) ke `null` jika kosong atau simbol strip.
+  - Memperbarui parser import `ListCitizens` dengan menambahkan `parseGender` (mencegah simbol `'-'` salah terbaca menjadi `'Laki-laki'`) dan memperketat parser `parseMaritalStatus`, `parseFamilyRelation`, `parseDomicileAddressType`, `parseHasDigitalWallet`, `parseCitizenshipStatus`, dan `parseBpjsStatus` untuk mengembalikan `null`.
+
 ## [1.26.102] - 2026-09-09
 
 ### Changed

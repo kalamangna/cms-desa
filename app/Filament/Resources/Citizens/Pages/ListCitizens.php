@@ -269,7 +269,7 @@ class ListCitizens extends ListRecords
                                 'rw' => $rw,
                                 'address' => $address,
                                 'domicile_address_type' => $domicileAddressType,
-                                'gender' => $colGender !== false && ! empty(trim($row[$colGender])) ? (strpos(strtolower(trim($row[$colGender])), 'perempuan') !== false || strtolower(trim($row[$colGender])) === 'p' ? 'Perempuan' : 'Laki-laki') : null,
+                                'gender' => $colGender !== false ? $this->parseGender($row[$colGender]) : null,
                                 'date_of_birth' => $dob,
                                 'marital_status' => $colMarital !== false ? $this->parseMaritalStatus($row[$colMarital]) : null,
                                 'family_relation' => $colRelation !== false ? $this->parseFamilyRelation($row[$colRelation]) : null,
@@ -320,7 +320,7 @@ class ListCitizens extends ListRecords
                                 'illness_other' => $colIllOther !== false ? $this->parseYesNo($row[$colIllOther]) : 0,
 
                                 'has_digital_wallet' => $colWallet !== false ? $this->parseHasDigitalWallet($row[$colWallet]) : null,
-                                'citizenship_status' => $colStatus !== false ? $this->parseCitizenshipStatus($row[$colStatus]) : 'Tinggal di Rumah Ini',
+                                'citizenship_status' => $colStatus !== false ? $this->parseCitizenshipStatus($row[$colStatus]) : null,
                                 'status' => 'Aktif',
                             ];
                             $citizen = Citizen::withTrashed()->where('nik', $nik)->first();
@@ -411,13 +411,32 @@ class ListCitizens extends ListRecords
         return $isYes ? 1 : 0;
     }
 
+    private function parseGender(?string $val): ?string
+    {
+        if ($val === null) {
+            return null;
+        }
+        $clean = strtolower(trim($val));
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+            return null;
+        }
+        if (str_contains($clean, 'perempuan') || $clean === 'p' || $clean === 'wanita' || $clean === 'w') {
+            return 'Perempuan';
+        }
+        if (str_contains($clean, 'laki') || $clean === 'l' || $clean === 'pria') {
+            return 'Laki-laki';
+        }
+
+        return null;
+    }
+
     private function parseMaritalStatus(?string $val): ?string
     {
         if ($val === null) {
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -431,7 +450,7 @@ class ListCitizens extends ListRecords
             return 'Kawin';
         }
 
-        return 'Belum Kawin';
+        return null;
     }
 
     private function parseFamilyRelation(?string $val): ?string
@@ -440,7 +459,7 @@ class ListCitizens extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -472,7 +491,7 @@ class ListCitizens extends ListRecords
             return 'Famili Lain';
         }
 
-        return 'Lainnya';
+        return null;
     }
 
     private function parseEducationLevel(?string $val): ?string
@@ -587,7 +606,7 @@ class ListCitizens extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
@@ -605,9 +624,9 @@ class ListCitizens extends ListRecords
         }
         if (str_contains($clean, 'kk')) {
             return 'Sesuai KK dan KTP';
-        } // fallback
+        }
 
-        return 'Sesuai KK dan KTP';
+        return null;
     }
 
     private function parseHasDigitalWallet(?string $val): ?string
@@ -616,7 +635,10 @@ class ListCitizens extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean) || in_array($clean, ['tidak', 'tidak ada', 'none', '-'])) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'kosong', 'none', '/'], true)) {
+            return null;
+        }
+        if (str_contains($clean, 'tidak') || in_array($clean, ['0', 'bukan', 'no'], true)) {
             return 'Tidak ada';
         }
 
@@ -631,19 +653,19 @@ class ListCitizens extends ListRecords
         }
         if (str_contains($clean, 'ya')) {
             return 'Ya untuk pribadi';
-        } // fallback ya tanpa keterangan
+        }
 
-        return 'Tidak ada';
+        return null;
     }
 
-    private function parseCitizenshipStatus(?string $val): string
+    private function parseCitizenshipStatus(?string $val): ?string
     {
         if ($val === null) {
-            return 'Tinggal di Rumah Ini';
+            return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
-            return 'Tinggal di Rumah Ini';
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'tidak ada', 'kosong', 'none', '/'], true)) {
+            return null;
         }
 
         if (str_contains($clean, 'luar negeri')) {
@@ -665,7 +687,7 @@ class ListCitizens extends ListRecords
             return 'Tinggal di Rumah Ini';
         }
 
-        return 'Tinggal di Rumah Ini';
+        return null;
     }
 
     private function parseBpjsStatus(?string $val): ?string
@@ -674,11 +696,11 @@ class ListCitizens extends ListRecords
             return null;
         }
         $clean = strtolower(trim($val));
-        if (empty($clean)) {
+        if (empty($clean) || in_array($clean, ['-', '--', '---', 'null', 'kosong', 'none', '/'], true)) {
             return null;
         }
 
-        if (str_contains($clean, 'tidak') || str_contains($clean, 'non bpjs') || $clean === '-') {
+        if (str_contains($clean, 'tidak') || str_contains($clean, 'non bpjs')) {
             return 'Tidak Terdaftar';
         }
         if (str_contains($clean, 'pbi') && (str_contains($clean, 'pusat') || str_contains($clean, 'tunjangan') || str_contains($clean, 'apbd') === false)) {
@@ -702,7 +724,7 @@ class ListCitizens extends ListRecords
             return 'BPJS Mandiri';
         } // fallback BPJS generic
 
-        return 'Tidak Terdaftar';
+        return null;
     }
 
     private function parseJobStatus(?string $val): ?string
