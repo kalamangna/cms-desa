@@ -11,10 +11,7 @@
 @section('content')
 
 @php
-    $popups = \App\Models\PopupInfographic::where('is_active', true)
-        ->orderBy('sort_order', 'asc')
-        ->get(['image', 'title'])
-        ->toArray();
+    $popups = $popups ?? [];
 @endphp
 
 @if(!empty($popups))

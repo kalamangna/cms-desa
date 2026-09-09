@@ -65,16 +65,8 @@
                 $distName = \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? ''));
                 $regName  = \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? ''));
 
-                // Ambil koordinat presisi kantor desa dari fitur Peta Spasial (PublicFacility) jika diinput admin
-                $officeFacility = null;
-                try {
-                    if (\Illuminate\Support\Facades\Schema::hasTable('public_facilities')) {
-                        $officeFacility = \App\Models\PublicFacility::where(function($q) {
-                            $q->where('type', 'like', '%kantor%')
-                              ->orWhere('name', 'like', '%kantor%');
-                        })->whereNotNull('latitude')->whereNotNull('longitude')->first();
-                    }
-                } catch (\Throwable $e) {}
+                // Koordinat presisi kantor desa (dari cache global AppServiceProvider)
+                $officeFacility = $office_facility ?? null;
 
                 $spellingVariants = [];
                 if ($vName !== '') {

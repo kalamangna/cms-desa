@@ -10,11 +10,27 @@ use App\Models\StatisticCategory;
 use App\Models\StatisticData;
 use App\Models\StatisticIndicator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class StatisticService
 {
     const ALLOWED_OPERATORS = ['=', '!=', '>', '<', '>=', '<=', 'LIKE', 'whereNotNull', 'whereNullOrTidak', 'whereNotIn'];
+
+    /**
+     * Bersihkan seluruh cache statistik data.
+     */
+    public static function clearCache(): void
+    {
+        try {
+            if (Cache::has('statistic_data_version')) {
+                Cache::increment('statistic_data_version');
+            } else {
+                Cache::put('statistic_data_version', 2, 86400 * 30);
+            }
+        } catch (\Throwable $e) {
+        }
+    }
 
     /**
      * Ambil data statistik lengkap untuk halaman /statistik.
@@ -23,27 +39,32 @@ class StatisticService
         ?int $selectedDusunId,
         ?int $selectedYear,
     ): array {
-        $currentYear = (int) date('Y');
-        $isEmptyDb = $this->isDatabaseEmpty();
+        $version = Cache::get('statistic_data_version', 1);
+        $cacheKey = "statistic_data_v{$version}_{$selectedDusunId}_{$selectedYear}";
 
-        $categories = $this->loadCategoriesWithLiveData(
-            $currentYear,
-            $isEmptyDb,
-            $selectedDusunId,
-            $selectedYear,
-        );
+        return Cache::remember($cacheKey, 3600, function () use ($selectedDusunId, $selectedYear) {
+            $currentYear = (int) date('Y');
+            $isEmptyDb = $this->isDatabaseEmpty();
 
-        return [
-            'isEmptyDb' => $isEmptyDb,
-            'categories' => $categories,
-            'summaryCards' => $this->buildSummaryCards($currentYear, $isEmptyDb, $selectedDusunId),
-            'availableYears' => $this->getAvailableYears($currentYear),
-            'dusuns' => Dusun::withCount([
-                'citizens' => fn ($q) => $q->where('status', 'Aktif'),
-                'families',
-            ])->orderBy('name', 'asc')->get(),
-            'datasets' => Dataset::latest()->take(3)->get(),
-        ];
+            $categories = $this->loadCategoriesWithLiveData(
+                $currentYear,
+                $isEmptyDb,
+                $selectedDusunId,
+                $selectedYear,
+            );
+
+            return [
+                'isEmptyDb' => $isEmptyDb,
+                'categories' => $categories,
+                'summaryCards' => $this->buildSummaryCards($currentYear, $isEmptyDb, $selectedDusunId),
+                'availableYears' => $this->getAvailableYears($currentYear),
+                'dusuns' => Dusun::withCount([
+                    'citizens' => fn ($q) => $q->where('status', 'Aktif'),
+                    'families',
+                ])->orderBy('name', 'asc')->get(),
+                'datasets' => Dataset::latest()->take(3)->get(),
+            ];
+        });
     }
 
     /**

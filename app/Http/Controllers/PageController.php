@@ -12,19 +12,19 @@ class PageController extends Controller
 {
     public function profil()
     {
-        $totalDusun = Cache::remember('profil_total_dusun', 3600, function () {
+        $totalDusun = Cache::remember('home_total_dusun', 3600, function () {
             return Dusun::count();
         });
 
-        $totalPenduduk = Cache::remember('profil_total_penduduk', 3600, function () {
+        $totalPenduduk = Cache::remember('home_total_penduduk_real', 3600, function () {
             return Citizen::where('status', 'Aktif')->count();
         });
 
-        $totalRt = Cache::remember('profil_total_rt', 3600, function () {
+        $totalRt = Cache::remember('home_total_rt', 3600, function () {
             return (int) Dusun::sum('total_rt');
         });
 
-        $totalRw = Cache::remember('profil_total_rw', 3600, function () {
+        $totalRw = Cache::remember('home_total_rw', 3600, function () {
             return (int) Dusun::sum('total_rw');
         });
 
@@ -33,7 +33,9 @@ class PageController extends Controller
 
     public function layanan()
     {
-        $services = Service::orderBy('id', 'asc')->get();
+        $services = Cache::remember('services_list', 3600, function () {
+            return Service::orderBy('id', 'asc')->get();
+        });
 
         return view('pages.layanan', compact('services'));
     }
@@ -45,7 +47,9 @@ class PageController extends Controller
 
     public function potensi()
     {
-        $potentials = VillagePotential::where('is_active', true)->latest()->get();
+        $potentials = Cache::remember('potentials_list', 3600, function () {
+            return VillagePotential::where('is_active', true)->latest()->get();
+        });
 
         return view('pages.potensi', compact('potentials'));
     }

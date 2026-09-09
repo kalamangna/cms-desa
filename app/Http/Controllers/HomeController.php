@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
-use App\Models\BudgetCategory;
 use App\Models\BudgetRealization;
 use App\Models\Citizen;
 use App\Models\Dusun;
 use App\Models\Family;
 use App\Models\Gallery;
 use App\Models\Official;
+use App\Models\PopupInfographic;
 use App\Models\Post;
 use App\Models\Publication;
 use App\Models\StatisticData;
@@ -108,30 +108,26 @@ class HomeController extends Controller
 
         $currentYear = date('Y');
         $budgetSummary = Cache::remember("home_budget_summary_{$currentYear}", $ttl, function () use ($currentYear) {
-            $categories = BudgetCategory::all();
             $summary = [
                 'pendapatan' => ['budget' => 0, 'realization' => 0],
                 'belanja' => ['budget' => 0, 'realization' => 0],
                 'pembiayaan' => ['budget' => 0, 'realization' => 0],
             ];
 
-            foreach ($categories as $cat) {
-                $budget = BudgetRealization::where('budget_category_id', $cat->id)
-                    ->where('year', $currentYear)
-                    ->sum('budget_amount');
-                $real = BudgetRealization::where('budget_category_id', $cat->id)
-                    ->where('year', $currentYear)
-                    ->sum('realization_amount');
+            $aggregates = BudgetRealization::where('budget_realizations.year', $currentYear)
+                ->join('budget_categories', 'budget_realizations.budget_category_id', '=', 'budget_categories.id')
+                ->groupBy('budget_categories.slug')
+                ->select(
+                    'budget_categories.slug',
+                    DB::raw('SUM(budget_realizations.budget_amount) as total_budget'),
+                    DB::raw('SUM(budget_realizations.realization_amount) as total_realization')
+                )
+                ->get();
 
-                if ($cat->slug === 'pendapatan') {
-                    $summary['pendapatan']['budget'] += $budget;
-                    $summary['pendapatan']['realization'] += $real;
-                } elseif ($cat->slug === 'belanja') {
-                    $summary['belanja']['budget'] += $budget;
-                    $summary['belanja']['realization'] += $real;
-                } elseif ($cat->slug === 'pembiayaan') {
-                    $summary['pembiayaan']['budget'] += $budget;
-                    $summary['pembiayaan']['realization'] += $real;
+            foreach ($aggregates as $row) {
+                if (isset($summary[$row->slug])) {
+                    $summary[$row->slug]['budget'] = (float) $row->total_budget;
+                    $summary[$row->slug]['realization'] = (float) $row->total_realization;
                 }
             }
 
@@ -162,6 +158,13 @@ class HomeController extends Controller
             return Gallery::latest()->take(8)->get();
         });
 
+        $popups = Cache::remember('home_popups', $ttl, function () {
+            return PopupInfographic::where('is_active', true)
+                ->orderBy('sort_order', 'asc')
+                ->get(['image', 'title'])
+                ->toArray();
+        });
+
         return view('home', compact(
             'featuredPost',
             'recentPosts',
@@ -181,9 +184,9 @@ class HomeController extends Controller
             'belanjaDetails',
             'pendapatanPct',
             'belanjaPct',
-
             'publications',
             'galleries',
+            'popups',
             'lakiLakiCount',
             'perempuanCount',
             'disabilitasCount'

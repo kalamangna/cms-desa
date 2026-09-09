@@ -5,20 +5,28 @@ namespace App\Providers;
 use App\Filament\Components\CustomBackupDestinationListRecords;
 use App\Models\Announcement;
 use App\Models\AuditLog;
+use App\Models\BudgetCategory;
 use App\Models\BudgetRealization;
 use App\Models\Citizen;
 use App\Models\Dusun;
 use App\Models\Family;
 use App\Models\Gallery;
 use App\Models\Official;
+use App\Models\PopupInfographic;
 use App\Models\Post;
 use App\Models\Publication;
+use App\Models\PublicFacility;
+use App\Models\Service;
 use App\Models\Setting;
+use App\Models\StatisticCategory;
 use App\Models\StatisticData;
+use App\Models\StatisticIndicator;
 use App\Models\User;
+use App\Models\VillagePotential;
 use App\Models\VisitorLog;
 use App\Notifications\SystemMonitorNotification;
 use App\Services\GoogleDriveAdapterWrapper;
+use App\Services\StatisticService;
 use Filament\Forms\Components\Select;
 use Google\Client;
 use Google\Service\Drive;
@@ -249,13 +257,16 @@ class AppServiceProvider extends ServiceProvider
 
         // Cache Invalidation Observers
         $clearHomeCache = function () {
+            $year = date('Y');
             Cache::forget('home_posts');
             Cache::forget('home_announcements');
             Cache::forget('home_village_head');
             Cache::forget('home_job_data');
             Cache::forget('home_edu_data');
             Cache::forget('home_budget_summary');
+            Cache::forget("home_budget_summary_{$year}");
             Cache::forget('home_belanja_details');
+            Cache::forget("home_belanja_details_{$year}");
             Cache::forget('home_publications');
             Cache::forget('home_galleries');
             Cache::forget('home_total_dusun');
@@ -264,10 +275,22 @@ class AppServiceProvider extends ServiceProvider
             Cache::forget('home_total_rw');
             Cache::forget('home_total_keluarga');
             Cache::forget('home_total_penduduk_real');
+            Cache::forget('profil_total_penduduk');
+            Cache::forget('profil_total_rt');
+            Cache::forget('profil_total_rw');
             Cache::forget('home_job_stats');
             Cache::forget('home_edu_stats');
             Cache::forget('home_laki_laki_count');
             Cache::forget('home_perempuan_count');
+            Cache::forget('home_disabilitas_count');
+            Cache::forget('home_total_umkm');
+            Cache::forget('home_latest_year');
+            Cache::forget('home_popups');
+            Cache::forget('apbdes_categories');
+            Cache::forget('sitemap_posts');
+            Cache::forget('sitemap_xml_content');
+            Cache::forget('map_dusuns');
+            StatisticService::clearCache();
         };
 
         Post::saved($clearHomeCache);
@@ -280,6 +303,12 @@ class AppServiceProvider extends ServiceProvider
         StatisticData::deleted($clearHomeCache);
         BudgetRealization::saved($clearHomeCache);
         BudgetRealization::deleted($clearHomeCache);
+        BudgetCategory::saved($clearHomeCache);
+        BudgetCategory::deleted($clearHomeCache);
+        StatisticCategory::saved($clearHomeCache);
+        StatisticCategory::deleted($clearHomeCache);
+        StatisticIndicator::saved($clearHomeCache);
+        StatisticIndicator::deleted($clearHomeCache);
         Publication::saved($clearHomeCache);
         Publication::deleted($clearHomeCache);
         Gallery::saved($clearHomeCache);
@@ -291,17 +320,64 @@ class AppServiceProvider extends ServiceProvider
         Family::saved($clearHomeCache);
         Family::deleted($clearHomeCache);
 
+        PopupInfographic::saved(function () {
+            Cache::forget('home_popups');
+        });
+        PopupInfographic::deleted(function () {
+            Cache::forget('home_popups');
+        });
+
+        PublicFacility::saved(function () {
+            Cache::forget('office_facility_coords');
+            Cache::forget('map_facilities');
+        });
+        PublicFacility::deleted(function () {
+            Cache::forget('office_facility_coords');
+            Cache::forget('map_facilities');
+        });
+
+        Setting::saved(function () {
+            Cache::forget('site_settings_all');
+        });
+        Setting::deleted(function () {
+            Cache::forget('site_settings_all');
+        });
+
+        Service::saved(function () {
+            Cache::forget('services_list');
+        });
+        Service::deleted(function () {
+            Cache::forget('services_list');
+        });
+
+        VillagePotential::saved(function () {
+            Cache::forget('potentials_list');
+        });
+        VillagePotential::deleted(function () {
+            Cache::forget('potentials_list');
+        });
+
         try {
-            if (Schema::hasTable('settings')) {
-                $settings = Setting::pluck('value', 'key')->all();
-                foreach ($settings as $key => $value) {
-                    if (is_string($value) && str_starts_with($value, '[') && str_ends_with($value, ']')) {
-                        $decoded = json_decode($value, true);
-                        if (json_last_error() === JSON_ERROR_NONE) {
-                            $settings[$key] = $decoded;
+            // Cache all site settings permanently until Setting model is mutated
+            $settings = Cache::rememberForever('site_settings_all', function () {
+                try {
+                    $raw = Setting::pluck('value', 'key')->all();
+                    foreach ($raw as $key => $value) {
+                        if (is_string($value) && str_starts_with($value, '[') && str_ends_with($value, ']')) {
+                            $decoded = json_decode($value, true);
+                            if (json_last_error() === JSON_ERROR_NONE) {
+                                $raw[$key] = $decoded;
+                            }
                         }
                     }
+
+                    return $raw;
+                } catch (\Throwable $e) {
+                    return [];
                 }
+            });
+
+            if (! empty($settings)) {
                 View::share('site_settings', $settings);
 
                 if (isset($settings['village_name']) && ! empty($settings['village_name'])) {
@@ -329,8 +405,9 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
 
-            if (Schema::hasTable('visitor_logs')) {
-                $visitorStats = Cache::remember('visitor_stats_summary', 300, function () {
+            // Cache visitor stats for 5 minutes without querying Schema on every request
+            $visitorStats = Cache::remember('visitor_stats_summary', 300, function () {
+                try {
                     $todayStr = now()->toDateString();
                     $yesterdayStr = now()->subDay()->toDateString();
 
@@ -350,9 +427,24 @@ class AppServiceProvider extends ServiceProvider
                         'yesterday' => $yesterday,
                         'total' => $total,
                     ];
-                });
-                View::share('visitor_stats', $visitorStats);
-            }
+                } catch (\Throwable $e) {
+                    return ['today' => 0, 'yesterday' => 0, 'total' => 0];
+                }
+            });
+            View::share('visitor_stats', $visitorStats);
+
+            // Office facility coordinate for SEO schema, cached for 24 hours
+            $officeFacility = Cache::remember('office_facility_coords', 86400, function () {
+                try {
+                    return PublicFacility::where(function ($q) {
+                        $q->where('type', 'like', '%kantor%')
+                            ->orWhere('name', 'like', '%kantor%');
+                    })->whereNotNull('latitude')->whereNotNull('longitude')->first();
+                } catch (\Throwable $e) {
+                    return null;
+                }
+            });
+            View::share('office_facility', $officeFacility);
         } catch (\Throwable $e) {
             // Database not ready or migrations not run yet, safe to ignore during boot
         }

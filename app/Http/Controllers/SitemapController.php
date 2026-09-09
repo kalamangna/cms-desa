@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Announcement;
 use App\Models\Post;
-use App\Models\Publication;
+use Illuminate\Support\Facades\Cache;
 
 class SitemapController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->where('published_at', '<=', now())->get();
-        $announcements = Announcement::latest()->where('published_at', '<=', now())->get();
-        $publications = Publication::latest()->get();
+        $content = Cache::remember('sitemap_xml_content', 86400, function () {
+            $posts = Post::latest()
+                ->where('published_at', '<=', now())
+                ->select(['slug', 'updated_at'])
+                ->get();
+            $announcements = collect();
+            $publications = collect();
 
-        $content = view('sitemap', compact('posts', 'announcements', 'publications'))->render();
+            return view('sitemap', compact('posts', 'announcements', 'publications'))->render();
+        });
 
         return response($content, 200)
             ->header('Content-Type', 'text/xml');

@@ -4,25 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Dusun;
 use App\Models\PublicFacility;
-use App\Models\Setting;
+use Illuminate\Support\Facades\Cache;
 
 class MapController extends Controller
 {
     public function index()
     {
-        // Get all dusuns with geojson mapped
-        $dusuns = Dusun::withCount([
-            'citizens' => function ($query) {
-                $query->where('status', 'Aktif');
-            },
-            'families',
-        ])->get();
+        // Get all dusuns with geojson mapped (cached)
+        $dusuns = Cache::remember('map_dusuns', 3600, function () {
+            return Dusun::withCount([
+                'citizens' => function ($query) {
+                    $query->where('status', 'Aktif');
+                },
+                'families',
+            ])->get();
+        });
 
-        // Get general settings for map center coordinates
-        $site_settings = Setting::pluck('value', 'key')->toArray();
+        $facilities = Cache::remember('map_facilities', 3600, function () {
+            return PublicFacility::all();
+        });
 
-        $facilities = PublicFacility::all();
-
-        return view('pages.peta', compact('dusuns', 'site_settings', 'facilities'));
+        return view('pages.peta', compact('dusuns', 'facilities'));
     }
 }

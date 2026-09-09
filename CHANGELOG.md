@@ -2,6 +2,21 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.96] - 2026-09-09
+
+### Changed
+- **Optimasi Performa Middleware Pelacakan Pengunjung**: Mengonversi `TrackVisitor` menjadi terminable middleware (`terminate()`) sehingga pemrosesan log pengunjung, kalkulasi hash IP, dan pencatatan database berjalan setelah HTTP response dikirimkan ke peramban (*zero TTFB latency delay*). Menambahkan cache geolokasi IP selama 7 hari untuk menghindari pemanggilan outbound API berulang.
+- **Optimasi Bootstrap Request & Global Caching**:
+  - Meng-cache pengaturan situs (`site_settings_all`) permanen hingga data pengaturan diubah, mengeliminasi pengecekan skema `Schema::hasTable('settings')` dan `Setting::pluck(...)` pada setiap request.
+  - Meng-cache ringkasan statistik pengunjung (`visitor_stats_summary`) dan koordinat kantor desa (`office_facility_coords`) untuk skema SEO Schema.org.
+  - Memperbaiki dan melengkapi observer pembersihan cache beranda, profil, dan statistik (`$clearHomeCache`).
+- **Pembersihan Database Query dari Template Blade**: Menghilangkan query langsung database dari berkas view `layouts/app.blade.php`, `home.blade.php`, `filament/admin/logo.blade.php`, dan widget admin `visit-site-widget.blade.php` sesuai standar arsitektur sistem.
+- **Peningkatan Efisiensi Agregasi & Caching Controller**:
+  - Mengubah perulangan kalkulasi anggaran APBDes di `HomeController` menjadi 1 query agregasi tunggal dengan `join` dan `groupBy`.
+  - Meng-cache pop-up infografis beranda, data APBDes (`apbdes_categories`), peta spasial dusun/fasilitas, daftar layanan, serta sitemap XML dengan pemilihan kolom minimal (`slug`, `updated_at`).
+  - Menambahkan version-based caching pada `StatisticService` untuk mereduksi beban query indikator statistik kependudukan.
+- **Indeks Database Performa**: Menambahkan migration indeks database pada tabel `citizens` (`status`, `gender`, `dusun_id`, `family_id`, `job_status`, `education`), `visitor_logs` (`ip_hash`), `budget_realizations` (`year`, `budget_category_id`), `posts` (`published_at`, `category_id`), dan `announcements` (`published_at`).
+
 ## [1.26.95] - 2026-09-08
 
 ### Fixed
