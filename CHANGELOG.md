@@ -2,6 +2,19 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.26.97] - 2026-09-09
+
+### Added
+- **Pencarian Dokumen Publik**: Menambahkan fitur pencarian dokumen berbasis judul dan deskripsi pada `DocumentController` serta bilah pencarian responsif pada halaman `/dokumen` lengkap dengan tombol pembersih pencarian (*clear*).
+- **Pengujian Frontend**: Menambahkan pengujian integrasi pencarian dokumen dan akses halaman galeri dengan deskripsi pada `FrontendAccessTest`.
+
+### Changed
+- **Penyempurnaan Tampilan Galeri & Modal Lightbox**:
+  - Menyembunyikan teks deskripsi pada *hover overlay* kartu grid galeri agar tampilan kartu lebih bersih dan fokus pada judul serta tanggal.
+  - Menampilkan deskripsi galeri secara proporsional di dalam modal *lightbox* pada halaman galeri (`/galeri`) dan cuplikan galeri di Beranda (`/`).
+  - Mengubah tata letak modal *lightbox* menjadi *flexbox* kolom (`flex-col`) dengan pembatasan skala video YouTube (`max-h-full` dan lebar proporsional terhadap tinggi layar), mencegah *overlap* antara bingkai video dengan teks informasi (tanggal, judul, deskripsi) serta memastikan kontrol pemutar YouTube tidak terhalang.
+- **Perapian Konten Pengumuman**: Menghilangkan duplikasi konten pengumuman pada halaman `/pengumuman` dengan hanya menampilkannya di dalam akordion *dropdown* (`x-collapse`), serta memperpendek label tombol menjadi "Baca Selengkapnya" / "Tutup".
+
 ## [1.26.96] - 2026-09-09
 
 ### Changed

@@ -136,18 +136,20 @@
                     {{ $announcement->title }}
                 </h2>
 
-                {{-- Content Preview --}}
-                <div class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed line-clamp-3 mb-6">
-                    {{ Str::limit(strip_tags($announcement->content), 240) }}
+                @if($announcement->photo)
+                <div class="mb-4 rounded-xl overflow-hidden max-h-96">
+                    <img src="{{ asset('storage/' . $announcement->photo) }}" alt="{{ $announcement->title }}" class="w-full h-auto object-cover rounded-xl" loading="lazy">
                 </div>
+                @endif
 
-                {{-- Read More Accordion (Alpine.js) --}}
-                <div x-data="{ open: false }">
-                    <div class="flex items-center justify-between gap-3 pt-2">
+                {{-- Accordion Konten Pengumuman (Alpine.js) --}}
+                <div x-data="{ open: false }" class="mt-2">
+                    {{-- Toggle Button --}}
+                    <div>
                         <button @click="open = !open"
                                 :aria-expanded="open"
-                                class="inline-flex items-center justify-center gap-2 text-xs font-bold px-4 py-2.5 min-h-11 rounded-xl transition-all duration-200 bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-primary-900/50 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
-                            <span x-text="open ? 'Sembunyikan Isi Pengumuman' : 'Baca Pengumuman Selengkapnya'"></span>
+                                class="inline-flex items-center justify-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-primary-900/50 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
+                            <span x-text="open ? 'Tutup' : 'Baca Selengkapnya'"></span>
                             <i class="fa-solid transition-transform duration-200 text-[10px]"
                                :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                         </button>
@@ -156,8 +158,8 @@
                     {{-- Full Content --}}
                     <div x-show="open"
                          x-cloak
-                         x-transition:enter="transition ease-out duration-300"
-                         x-transition:enter-start="opacity-0 transform -translate-y-2"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 transform -translate-y-1"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
                          class="prose prose-sm prose-emerald dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 mt-5 pt-5 border-t border-slate-100 dark:border-slate-800 leading-relaxed">
                         {!! $announcement->content !!}

@@ -56,6 +56,7 @@
             'type' => $g->type === 'video' ? 'video' : 'photo',
             'image_url' => $g->image_url ? $g->image_url : asset('img/meta.webp'),
             'title' => $g->title,
+            'description' => $g->description ?? '',
             'youtube_url' => $g->type === 'video' ? $g->youtube_url : '',
             'youtube_embed' => $embedUrl,
             'created_at' => $g->created_at->translatedFormat('d M Y')
@@ -198,9 +199,6 @@
                     <h3 class="text-base md:text-lg font-heading font-extrabold text-white leading-snug line-clamp-2">
                         {{ $item->title }}
                     </h3>
-                    @if($item->description)
-                        <p class="text-slate-300 text-xs leading-relaxed line-clamp-2 font-medium mt-1.5">{{ $item->description }}</p>
-                    @endif
                 </div>
             </div>
             @endforeach
@@ -243,7 +241,7 @@
         @touchstart.passive="handleTouchStart($event)"
         @touchend.passive="handleTouchEnd($event)"
         @click="closeLightbox()"
-        class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer select-none"
+        class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex flex-col justify-between pt-16 pb-4 px-3 sm:px-6 md:px-8 cursor-pointer select-none"
         role="dialog" aria-modal="true" aria-labelledby="gallery-lightbox-title"
     >
         {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
@@ -266,7 +264,7 @@
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="filteredItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                    class="fixed left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     title="Sebelumnya (Tombol Panah Kiri)">
                 <i class="fa-solid fa-chevron-left text-xs sm:text-sm md:text-base"></i>
             </button>
@@ -275,20 +273,21 @@
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="filteredItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                    class="fixed right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     title="Selanjutnya (Tombol Panah Kanan)">
                 <i class="fa-solid fa-chevron-right text-xs sm:text-sm md:text-base"></i>
             </button>
         </template>
 
         {{-- Container Modal Konten --}}
-        <div class="relative w-full h-full overflow-hidden flex items-center justify-center cursor-default" @click.stop>
+        <div class="relative w-full flex-1 min-h-0 overflow-hidden flex items-center justify-center cursor-default" @click.stop>
             <div class="relative flex transition-transform duration-500 ease-out h-full w-full"
                  :style="'transform: translateX(-' + (currentIndex * 100) + '%)'">
                 <template x-for="(item, index) in filteredItems" :key="item.id">
-                    <div class="w-full h-full flex-shrink-0 min-w-full flex items-center justify-center px-12 pt-16 pb-20 sm:px-20 sm:pt-20 sm:pb-28 md:px-24 md:pt-20 md:pb-32 relative">
+                    <div class="w-full h-full flex-shrink-0 min-w-full flex items-center justify-center px-10 sm:px-16 md:px-20 py-2 relative">
                         <template x-if="item.type === 'video'">
-                            <div class="w-full max-w-5xl aspect-video bg-black relative overflow-hidden rounded-2xl shadow-2xl">
+                            <div class="w-full max-w-5xl aspect-video max-h-full bg-black relative overflow-hidden rounded-2xl shadow-2xl flex items-center justify-center"
+                                 style="width: min(100%, calc((100vh - 15rem) * 16 / 9));">
                                 <template x-if="lightboxOpen && currentIndex === index">
                                     <iframe
                                         class="w-full h-full"
@@ -312,10 +311,11 @@
             </div>
         </div>
 
-        {{-- Footer Info (Floating at viewport bottom) --}}
-        <div class="fixed bottom-0 inset-x-0 p-6 sm:p-8 md:p-12 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent flex flex-col items-center text-center pointer-events-none z-10">
+        {{-- Footer Info (Terletak di bawah konten media tanpa tumpang tindih) --}}
+        <div class="w-full shrink-0 pt-3 pb-1 px-4 flex flex-col items-center text-center z-20 pointer-events-auto max-w-4xl mx-auto" @click.stop>
             <span class="text-[10px] md:text-xs font-black uppercase tracking-widest text-primary-400 drop-shadow-md" x-text="currentItem.created_at || ''"></span>
-            <h3 id="gallery-lightbox-title" class="text-base md:text-2xl font-heading font-black tracking-tight text-white leading-snug line-clamp-2 mt-2 drop-shadow-xl max-w-3xl" x-text="currentItem.title || ''"></h3>
+            <h3 id="gallery-lightbox-title" class="text-sm md:text-xl font-heading font-black tracking-tight text-white leading-snug line-clamp-2 mt-1 drop-shadow-xl" x-text="currentItem.title || ''"></h3>
+            <p x-show="currentItem.description" class="text-xs md:text-sm text-slate-300 leading-relaxed max-w-2xl mt-1.5 line-clamp-2 md:line-clamp-3 drop-shadow-md" x-text="currentItem.description || ''"></p>
         </div>
     </div>
 </div>

@@ -48,24 +48,39 @@
 <div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
 
-        {{-- ─── Header Statistik ─── --}}
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-10 md:mb-12">
+        {{-- ─── Header & Form Pencarian ─── --}}
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-10 md:mb-12">
             <div>
                 <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-2">Semua Dokumen Publik</h2>
                 <p class="text-slate-600 dark:text-slate-300 text-sm">
-                    Ditemukan <span class="text-primary-700 dark:text-primary-400 font-bold">{{ $documents->total() }}</span> berkas dokumen tersedia.
+                    @if(request('search'))
+                        Menampilkan hasil pencarian untuk "<span class="font-bold text-slate-900 dark:text-slate-100">{{ request('search') }}</span>" ({{ $documents->total() }} berkas ditemukan).
+                    @else
+                        Ditemukan <span class="text-primary-700 dark:text-primary-400 font-bold">{{ $documents->total() }}</span> berkas dokumen tersedia.
+                    @endif
                 </p>
             </div>
-            {{-- Stat Badge --}}
-            <div class="flex-shrink-0 hidden sm:flex items-center gap-3.5 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl px-6 py-4 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
-                <div class="w-11 h-11 rounded-xl bg-primary-600 flex items-center justify-center text-white shadow-xs">
-                    <i class="fa-solid fa-folder-open text-base"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-heading font-black text-slate-900 dark:text-slate-100 leading-none mb-0.5">{{ $documents->total() }}</div>
-                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Dokumen</div>
-                </div>
-            </div>
+
+            {{-- Form Pencarian Dokumen --}}
+            <form action="{{ route('documents.index') }}" method="GET" class="relative w-full sm:w-80 md:w-96">
+                <input type="text"
+                       name="search"
+                       value="{{ request('search') }}"
+                       placeholder="Cari nama atau rincian dokumen..."
+                       class="w-full pl-11 pr-10 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-100 dark:placeholder-slate-500 shadow-sm text-sm transition-all duration-200">
+                <button type="submit"
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-primary-600 transition cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-md"
+                        aria-label="Cari Dokumen">
+                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                </button>
+                @if(request('search'))
+                <a href="{{ route('documents.index') }}"
+                   class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-rose-500 transition text-xs font-bold"
+                   title="Hapus pencarian">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+                @endif
+            </form>
         </div>
 
         {{-- ─── List Card ─── --}}
@@ -133,9 +148,16 @@
         <div class="py-8">
             <x-empty-state
                 icon="fa-solid fa-folder-open"
-                title="Arsip Dokumen Masih Kosong"
-                description="Belum ada dokumen atau berkas resmi yang diterbitkan untuk saat ini."
+                :title="request('search') ? 'Dokumen Tidak Ditemukan' : 'Arsip Dokumen Masih Kosong'"
+                :description="request('search') ? 'Tidak ada dokumen yang sesuai dengan kata kunci &quot;' . e(request('search')) . '&quot;. Silakan coba kata kunci lain.' : 'Belum ada dokumen atau berkas resmi yang diterbitkan untuk saat ini.'"
             />
+            @if(request('search'))
+            <div class="mt-6 text-center">
+                <a href="{{ route('documents.index') }}" class="inline-flex items-center gap-2 text-xs font-bold text-primary-600 dark:text-primary-400 hover:underline">
+                    <i class="fa-solid fa-arrow-left"></i> Tampilkan Semua Dokumen
+                </a>
+            </div>
+            @endif
         </div>
         @endforelse
 
