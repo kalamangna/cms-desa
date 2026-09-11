@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\MinifyHtml;
+use App\Http\Middleware\ProtectPublicForm;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\TrackVisitor;
 use App\Notifications\SystemMonitorNotification;
@@ -25,6 +26,10 @@ return Application::configure(basePath: dirname(__DIR__))
             SecurityHeaders::class,
             TrackVisitor::class,
             MinifyHtml::class,
+        ]);
+
+        $middleware->alias([
+            'public.form.protect' => ProtectPublicForm::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

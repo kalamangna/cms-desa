@@ -107,6 +107,7 @@
 
             <form action="{{ route('guest-book.store') }}" method="POST" class="space-y-6">
                 @csrf
+                <x-honeypot />
                 <div>
                     <label for="name" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nama Lengkap</label>
                     <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap Anda" required

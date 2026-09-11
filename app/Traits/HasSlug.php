@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 trait HasSlug
@@ -15,7 +16,11 @@ trait HasSlug
                 $slug = $baseSlug;
                 $count = 1;
 
-                while (static::withTrashed()
+                $hasSoftDeletes = in_array(SoftDeletes::class, class_uses_recursive(static::class));
+
+                while ((
+                    $hasSoftDeletes ? static::withTrashed() : static::query()
+                )
                     ->where('slug', $slug)
                     ->where('id', '!=', $model->id ?? null)
                     ->exists()) {

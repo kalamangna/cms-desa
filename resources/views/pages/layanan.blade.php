@@ -38,9 +38,9 @@
 {{-- Wrapper with Alpine JS state --}}
 <div x-data="{ 
         activeService: null,
-        showApplyModal: false,
-        applyServiceId: null,
-        applyServiceTitle: '',
+        showApplyModal: {{ $errors->any() && old('service_id') ? 'true' : 'false' }},
+        applyServiceId: {{ old('service_id') ? old('service_id') : 'null' }},
+        applyServiceTitle: '{{ old('service_id') ? 'Pengajuan Layanan' : '' }}',
         showLacak: {{ isset($serviceRequest) || isset($searched_ticket) ? 'true' : 'false' }},
         ticket: '{{ $searched_ticket ?? '' }}',
         loading: false,
@@ -375,13 +375,29 @@
              x-transition:leave-end="opacity-0 translate-y-8 scale-95"
              class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 md:p-10 max-w-lg w-full max-h-[85vh] overflow-y-auto border border-slate-100 dark:border-slate-800 relative cursor-default">
 
-            <div class="mb-8">
+            <div class="mb-6">
                 <span class="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Pengajuan Layanan</span>
                 <h3 class="text-xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mt-1" x-text="applyServiceTitle"></h3>
             </div>
 
+            {{-- Error Notification --}}
+            @if($errors->any())
+            <div class="mb-5 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-2xl p-4 flex gap-3 items-start text-slate-700 dark:text-slate-300 text-xs">
+                <i class="fa-solid fa-circle-exclamation text-rose-600 dark:text-rose-400 mt-0.5"></i>
+                <div>
+                    <h4 class="font-bold text-slate-900 dark:text-slate-100 mb-1">Periksa Formulir</h4>
+                    <ul class="list-disc pl-4 text-rose-600 dark:text-rose-400 space-y-0.5">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            @endif
+
             <form action="{{ route('service-requests.store') }}" method="POST" class="space-y-5">
                 @csrf
+                <x-honeypot />
                 <input type="hidden" name="service_id" :value="applyServiceId">
 
                 <div>

@@ -161,8 +161,26 @@
                     <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Laporan Anda akan ditindaklanjuti oleh pihak desa.</p>
                 </div>
 
+                {{-- Error Notification --}}
+                @if($errors->any())
+                <div class="mb-8 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-3xl p-6 flex gap-4 items-start text-slate-700 dark:text-slate-300">
+                    <div class="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-circle-exclamation text-lg"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-slate-100 mb-1">Pengecekan Formulir</h4>
+                        <ul class="list-disc pl-4 text-xs text-rose-600 dark:text-rose-400 space-y-0.5 font-medium">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endif
+
                 <form action="{{ route('complaints.store') }}" method="POST" class="space-y-6">
                     @csrf
+                    <x-honeypot />
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label for="name" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nama Pelapor / Pengirim</label>

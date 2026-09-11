@@ -12,7 +12,7 @@ class Complaint extends Model
     {
         static::creating(function ($complaint) {
             $date = now()->format('Ymd');
-            $random = strtoupper(bin2hex(random_bytes(2)));
+            $random = strtoupper(bin2hex(random_bytes(3)));
             $complaint->ticket_number = 'ADV-'.$date.'-'.$random;
             if (empty($complaint->status)) {
                 $complaint->status = 'Menunggu';

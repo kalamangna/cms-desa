@@ -2,6 +2,35 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.28.0] - 2026-09-11
+
+### Keamanan
+- **Perlindungan Anti-Bot: Honeypot Tersembunyi + Time-Gate**:
+  - Menambahkan komponen Blade `<x-honeypot />` yang menyisipkan field tersembunyi (`_hp_website`) dan token enkripsi waktu (`_form_time`) ke setiap form publik. Bot yang mengisi field honeypot atau mengirimkan formulir dalam waktu kurang dari 3 detik akan langsung ditolak.
+  - Membuat middleware baru `ProtectPublicForm` (`app/Http/Middleware/ProtectPublicForm.php`) yang menangani validasi honeypot dan time-gate, serta mendaftarkan aliasnya sebagai `public.form.protect` di `bootstrap/app.php`.
+- **Rate Limiting per IP pada Rute Form Publik**:
+  - Menerapkan pembatasan laju `throttle:5,1` (5 pengajuan per menit) pada rute POST form Pengaduan, Permohonan Layanan, dan Buku Tamu.
+  - Menerapkan pembatasan laju `throttle:15,1` (15 pencarian per menit) pada rute lacak tiket Pengaduan dan Layanan.
+- **Sanitasi Input Anti-XSS (Stored XSS Prevention)**:
+  - Menambahkan pembersihan `strip_tags()`, penghapusan tag `<script>`, dan `trim()` pada seluruh input teks (Nama, Judul, Isi, Keperluan, Alamat) di `ComplaintController`, `GuestBookController`, dan `ServiceRequestController` sebelum data disimpan ke basis data.
+- **Validasi Input Diperkuat**:
+  - NIK pada Permohonan Layanan kini wajib persis 16 digit angka (`numeric|digits:16`) dengan pesan error dalam Bahasa Indonesia.
+  - Nomor telepon divalidasi dengan regex `[0-9+\-\s()]{8,25}` yang kompatibel dengan format lokal maupun internasional.
+  - Panjang maksimum nomor tiket pada penelusuran dibatasi hingga 30 karakter.
+- **Peningkatan Entropi Nomor Tiket (Anti-Brute Force)**:
+  - Kode acak pada nomor tiket Pengaduan (`ADV-`) dan Permohonan Layanan (`SRV-`) ditingkatkan dari 4 karakter hex (65.536 kombinasi) menjadi 6 karakter hex (16,7 juta kombinasi per hari) di model `Complaint` dan `ServiceRequest`.
+
+### Perbaikan
+- **`HasSlug` Trait Kompatibel dengan Model Tanpa SoftDeletes**:
+  - Memperbaiki error `BadMethodCallException: Call to undefined method withTrashed()` yang terjadi saat trait `HasSlug` digunakan pada model yang tidak menggunakan `SoftDeletes` (seperti `Service`).
+  - Logika slug kini secara otomatis mendeteksi keberadaan trait `SoftDeletes` sebelum memanggil `withTrashed()`.
+- **Tampilan Error Validasi Form Publik**:
+  - Menambahkan blok notifikasi error validasi pada form Pengaduan (tab "Kirim Laporan") dan modal Pengajuan Layanan.
+  - Modal Pengajuan Layanan kini otomatis terbuka kembali setelah submit yang gagal validasi.
+
+### Pengujian
+- Menambahkan `PublicFormSecurityTest` (5 test case, 36 assertions) yang mencakup: penolakan honeypot, penolakan time-gate rusak, sanitasi HTML/XSS pada Pengaduan dan Buku Tamu, serta validasi ketat NIK pada Permohonan Layanan.
+
 ## [1.27.0] - 2026-09-09
 
 ### Changed

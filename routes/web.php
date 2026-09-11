@@ -30,19 +30,29 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/profil', [PageController::class, 'profil'])->name('profil');
 Route::get('/layanan', [PageController::class, 'layanan'])->name('layanan');
-Route::post('/layanan/ajukan', [ServiceRequestController::class, 'store'])->name('service-requests.store');
-Route::get('/layanan/lacak', [ServiceRequestController::class, 'track'])->name('service-requests.track');
+Route::post('/layanan/ajukan', [ServiceRequestController::class, 'store'])
+    ->name('service-requests.store')
+    ->middleware(['throttle:5,1', 'public.form.protect']);
+Route::get('/layanan/lacak', [ServiceRequestController::class, 'track'])
+    ->name('service-requests.track')
+    ->middleware('throttle:15,1');
 
 Route::get('/kontak', [PageController::class, 'kontak'])->name('kontak');
 Route::get('/potensi', [PageController::class, 'potensi'])->name('potensi');
 Route::get('/peta', [MapController::class, 'index'])->name('peta.index');
 
 Route::get('/buku-tamu', [GuestBookController::class, 'index'])->name('guest-book.index');
-Route::post('/buku-tamu', [GuestBookController::class, 'store'])->name('guest-book.store');
+Route::post('/buku-tamu', [GuestBookController::class, 'store'])
+    ->name('guest-book.store')
+    ->middleware(['throttle:5,1', 'public.form.protect']);
 
 Route::get('/pengaduan', [ComplaintController::class, 'index'])->name('complaints.index');
-Route::post('/pengaduan', [ComplaintController::class, 'store'])->name('complaints.store');
-Route::get('/pengaduan/lacak', [ComplaintController::class, 'track'])->name('complaints.track');
+Route::post('/pengaduan', [ComplaintController::class, 'store'])
+    ->name('complaints.store')
+    ->middleware(['throttle:5,1', 'public.form.protect']);
+Route::get('/pengaduan/lacak', [ComplaintController::class, 'track'])
+    ->name('complaints.track')
+    ->middleware('throttle:15,1');
 
 Route::get('/aparatur', [OfficialController::class, 'index'])->name('officials.index');
 Route::get('/lembaga', [InstitutionController::class, 'index'])->name('institutions.index');

@@ -15,13 +15,24 @@ class ComplaintController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'regex:/^[0-9+\-\s()]{8,25}$/'],
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string', 'max:5000'],
+        ], [
+            'phone.regex' => 'Format nomor WhatsApp/telepon tidak valid (minimal 8-16 digit angka).',
         ]);
 
-        $complaint = Complaint::create($validated);
+        $clean = fn (?string $v) => $v !== null ? trim(strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $v))) : null;
+
+        $sanitized = [
+            'name' => $clean($validated['name']),
+            'phone' => preg_replace('/[^0-9+]/', '', $validated['phone']),
+            'title' => $clean($validated['title']),
+            'content' => $clean($validated['content']),
+        ];
+
+        $complaint = Complaint::create($sanitized);
 
         return redirect()->route('complaints.index')
             ->with('success', 'Terkirim!')
@@ -31,7 +42,7 @@ class ComplaintController extends Controller
     public function track(Request $request)
     {
         $request->validate([
-            'ticket_number' => 'required|string',
+            'ticket_number' => ['required', 'string', 'max:30'],
         ]);
 
         $complaint = Complaint::where('ticket_number', trim($request->ticket_number))->first();
