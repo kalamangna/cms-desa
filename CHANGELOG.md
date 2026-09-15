@@ -7,7 +7,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 ### Diubah
 - **Integrasi Widget Aksesibilitas Mandiri Sinjai (`a11y-sinjaikab`)**:
   - Menggantikan widget pihak ketiga UserWay dengan widget aksesibilitas web mandiri Pemerintah Kabupaten Sinjai ([`kalamangna/a11y-sinjaikab`](https://github.com/kalamangna/a11y-sinjaikab)) berbasis Web Component & Shadow DOM tanpa dependensi eksternal.
-  - Memuat skrip dari CDN jsdelivr dengan atribut `defer` pada [layouts/app.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/layouts/app.blade.php) serta sinkronisasi dinamis warna primer website (`data-color`) dan posisi tombol (`data-position`).
+  - Memuat skrip dari CDN jsdelivr dengan atribut `defer` pada [layouts/app.blade.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/resources/views/layouts/app.blade.php) dengan posisi tombol dinamis (`data-position`), serta membiarkan widget memakai warna bawaan resmi aksesibilitas Sinjai (`#0056b3`) agar konsisten dan tidak terdistorsi warna tema website.
   - Menambahkan petunjuk prefetching `<link rel="dns-prefetch" href="https://sinjaikab.go.id">` di `<head>`.
   - Menghapus konfigurasi `userway_widget_id` dan menggantikannya dengan switch toggle `enable_a11y_widget` serta pilihan posisi `a11y_widget_position` pada tab Tampilan & Tema di panel admin ([ManageSettings.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/app/Filament/Pages/ManageSettings.php)).
   - Menambahkan nilai bawaan pengaturan widget pada [SettingSeeder.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/database/seeders/SettingSeeder.php) serta pembersihan otomatis entri lawas `userway_widget_id` di database saat pengaturan disimpan.

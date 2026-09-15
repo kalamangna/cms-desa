@@ -765,7 +765,6 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
         src="https://cdn.jsdelivr.net/gh/kalamangna/a11y-sinjaikab@main/dist/widget.min.js" 
         data-position="{{ $site_settings['a11y_widget_position'] ?? 'bottom-left' }}" 
         data-lang="id" 
-        data-color="{{ $site_settings['primary_color'] ?? '#10b981' }}" 
         defer>
     </script>
     @endif

@@ -37,7 +37,7 @@ class A11yWidgetTest extends TestCase
         $response->assertDontSee('cdn.jsdelivr.net/gh/kalamangna/a11y-sinjaikab', false);
     }
 
-    public function test_a11y_widget_uses_custom_position_and_color(): void
+    public function test_a11y_widget_uses_custom_position_and_default_color(): void
     {
         Setting::create([
             'key' => 'enable_a11y_widget',
@@ -57,6 +57,6 @@ class A11yWidgetTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('data-position="bottom-right"', false);
-        $response->assertSee('data-color="#0ea5e9"', false);
+        $response->assertDontSee('data-color=', false);
     }
 }
