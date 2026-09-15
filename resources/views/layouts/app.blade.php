@@ -229,6 +229,7 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://sinjaikab.go.id">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -752,31 +753,20 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}.
                 </p>
                 <p class="text-slate-300 text-[10px] font-bold uppercase tracking-widest">
-                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-primary-400 hover:text-primary-300 underline underline-offset-2 transition">kalamangna</a> &bull; v{{ config('app.version', '1.27.0') }}
+                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-primary-400 hover:text-primary-300 underline underline-offset-2 transition">kalamangna</a> &bull; v{{ config('app.version', '1.28.1') }}
                 </p>
             </div>
         </div>
     </footer>
 
-    @if(!empty($site_settings['userway_widget_id']))
-    <!-- UserWay Accessibility Widget (Lazy Loaded on User Interaction) -->
-    <script>
-    (function() {
-        let loaded = false;
-        function loadUserWay() {
-            if (loaded) return;
-            loaded = true;
-            var s = document.createElement("script");
-            s.setAttribute("data-account", "{{ $site_settings['userway_widget_id'] }}");
-            s.setAttribute("src", "https://cdn.userway.org/widget.js");
-            (document.body || document.head).appendChild(s);
-        }
-        const events = ['mousemove', 'touchstart', 'keydown', 'scroll'];
-        events.forEach(function(e) {
-            window.addEventListener(e, loadUserWay, { once: true, passive: true });
-        });
-        setTimeout(loadUserWay, 4000);
-    })();
+    @if(filter_var($site_settings['enable_a11y_widget'] ?? true, FILTER_VALIDATE_BOOLEAN))
+    <!-- Widget Aksesibilitas Sinjai (a11y-sinjaikab) -->
+    <script 
+        src="https://cdn.jsdelivr.net/gh/kalamangna/a11y-sinjaikab@main/dist/widget.min.js" 
+        data-position="{{ $site_settings['a11y_widget_position'] ?? 'bottom-left' }}" 
+        data-lang="id" 
+        data-color="{{ $site_settings['primary_color'] ?? '#10b981' }}" 
+        defer>
     </script>
     @endif
 

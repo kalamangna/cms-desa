@@ -37,6 +37,8 @@ class SettingSeeder extends Seeder
 
             // Tampilan & Tema
             ['key' => 'primary_color', 'value' => '#10b981'],
+            ['key' => 'enable_a11y_widget', 'value' => '1'],
+            ['key' => 'a11y_widget_position', 'value' => 'bottom-left'],
 
             // Sejarah & Visi Misi
             ['key' => 'village_history', 'value' => '<p>Desa Tompobulu adalah desa agraris yang terletak di dataran tinggi yang sejuk. Desa ini terbentuk dari hasil pemekaran wilayah pada tahun 1980 dan terus berkembang menjadi desa mandiri dengan potensi pertanian dan pariwisata yang kuat.</p>'],

@@ -8,6 +8,7 @@ use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -50,6 +51,11 @@ class ManageSettings extends Page implements HasForms
                     $settings[$key] = $decoded;
                 }
             }
+        }
+        if (isset($settings['enable_a11y_widget'])) {
+            $settings['enable_a11y_widget'] = filter_var($settings['enable_a11y_widget'], FILTER_VALIDATE_BOOLEAN);
+        } else {
+            $settings['enable_a11y_widget'] = true;
         }
         $this->form->fill($settings);
     }
@@ -195,10 +201,20 @@ class ManageSettings extends Page implements HasForms
                                     ])
                                     ->default('#10b981')
                                     ->required(),
-                                TextInput::make('userway_widget_id')
-                                    ->label('UserWay Widget ID')
-                                    ->placeholder('Contoh: xYz12345')
-                                    ->helperText('ID unik dari widget aksesibilitas UserWay.'),
+                                Toggle::make('enable_a11y_widget')
+                                    ->label('Widget Aksesibilitas Sinjai (a11y-sinjaikab)')
+                                    ->default(true)
+                                    ->helperText('Menampilkan widget aksesibilitas mandiri Pemerintah Kabupaten Sinjai untuk mempermudah penyandang disabilitas.'),
+                                Select::make('a11y_widget_position')
+                                    ->label('Posisi Tombol Aksesibilitas')
+                                    ->options([
+                                        'bottom-left' => 'Kiri Bawah (Default)',
+                                        'bottom-right' => 'Kanan Bawah',
+                                        'top-left' => 'Kiri Atas',
+                                        'top-right' => 'Kanan Atas',
+                                    ])
+                                    ->default('bottom-left')
+                                    ->visible(fn (Get $get) => (bool) $get('enable_a11y_widget')),
                             ]),
                     ])->columnSpanFull(),
             ])
@@ -238,6 +254,8 @@ class ManageSettings extends Page implements HasForms
             $valueToStore = is_array($value) ? json_encode($value) : $value;
             Setting::updateOrCreate(['key' => $key], ['value' => $valueToStore]);
         }
+
+        Setting::where('key', 'userway_widget_id')->delete();
 
         // Clear home page cache
         Cache::forget('home_village_head');
