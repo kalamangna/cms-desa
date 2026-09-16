@@ -9,13 +9,11 @@
 @php
     $palette = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316', '#14b8a6', '#6366f1'];
     $mappedCount = 0;
-    foreach($dusuns as $dusun) {
-        if ($dusun->geojson) {
-            $color = $palette[$mappedCount % count($palette)];
-            $dusun->setAttribute('color', $color);
+    foreach($dusuns as $index => $dusun) {
+        $color = $palette[$index % count($palette)];
+        $dusun->setAttribute('color', $color);
+        if (!empty($dusun->geojson)) {
             $mappedCount++;
-        } else {
-            $dusun->setAttribute('color', '#cbd5e1');
         }
     }
 @endphp
@@ -65,6 +63,7 @@
                     <div id="spatialMap" class="w-full h-full rounded-2xl absolute inset-0 z-0"></div>
                     
                     {{-- Legend Overlay --}}
+                    @if($mappedCount > 0)
                     <div class="absolute bottom-6 left-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur px-4 py-3 rounded-2xl shadow-xl border border-slate-200/80 dark:border-slate-700 z-[1000] hidden sm:block max-w-[220px]">
                         <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Legenda Dusun</p>
                         <div class="space-y-1.5">
@@ -78,6 +77,7 @@
                             @endforeach
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
 
@@ -109,7 +109,13 @@
                     <div x-show="activeTab === 'dusun'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
                         <div class="mb-4">
                             <h3 class="text-base font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 leading-tight">Daftar Wilayah</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-1">Pilih wilayah dusun untuk memfokuskan peta.</p>
+                            <p class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-1">
+                                @if($mappedCount > 0)
+                                Pilih wilayah dusun untuk memfokuskan peta.
+                                @else
+                                Pilih dusun untuk melihat statistik kependudukan.
+                                @endif
+                            </p>
                         </div>
 
                         <div class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
@@ -117,14 +123,20 @@
                                 <button type="button"
                                         onclick="focusDusun({{ $dusun->id }})"
                                         id="btn-dusun-{{ $dusun->id }}"
-                                        class="w-full flex items-center justify-between p-3.5 rounded-2xl border text-left transition-all duration-200 font-bold text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 @if($dusun->geojson) border-slate-200/80 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950/50 hover:bg-primary-50/50 dark:hover:bg-primary-950/40 text-slate-800 dark:text-slate-200 hover:border-primary-300 dark:hover:border-primary-700/50 @else border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-950/30 text-slate-400 cursor-not-allowed opacity-60 @endif">
+                                        class="w-full flex items-center justify-between p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950/50 hover:bg-primary-50/50 dark:hover:bg-primary-950/40 text-slate-800 dark:text-slate-200 hover:border-primary-300 dark:hover:border-primary-700/50 text-left transition-all duration-200 font-bold text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
                                     <span class="flex items-center gap-2.5 truncate">
-                                        <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: {{ $dusun->color ?? '#cbd5e1' }}"></span>
+                                        <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: {{ $dusun->color ?? '#10b981' }}"></span>
                                         <span class="truncate">Dusun {{ $dusun->name }}</span>
                                     </span>
-                                    @if($dusun->geojson)
-                                    <i class="fa-solid fa-location-crosshairs text-slate-400 text-xs transition"></i>
-                                    @endif
+                                    <div class="flex items-center gap-1.5 text-xs">
+                                        @if($dusun->geojson)
+                                        <i class="fa-solid fa-location-crosshairs text-primary-500 text-xs transition" title="Batas poligon terpetakan"></i>
+                                        @else
+                                        <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
+                                            <i class="fa-solid fa-chart-pie text-[9px]"></i> Statistik
+                                        </span>
+                                        @endif
+                                    </div>
                                 </button>
                             @empty
                                 <x-empty-state
@@ -270,7 +282,7 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('spatialMapSidebar', () => ({
-            activeTab: 'dusun',
+            activeTab: {{ $mappedCount > 0 ? "'dusun'" : "'fasilitas'" }},
             searchQuery: '',
             selectedCategory: 'Semua',
             facilities: @json($facilities),
@@ -479,13 +491,21 @@
             map.fitBounds(facilityLayerGroup.getBounds(), { padding: [40, 40] });
         }
 
-        // Add Layer Control
-        const overlayMaps = {
-            "Batas Wilayah Dusun": dusunLayerGroup,
-            "Batas Luar Desa": boundaryLayerGroup,
-            "Fasilitas Umum": facilityLayerGroup
-        };
-        L.control.layers(null, overlayMaps, { collapsed: true }).addTo(map);
+        // Add Layer Control only for layers with active data
+        const overlayMaps = {};
+        if (hasPolygons) {
+            overlayMaps["Batas Wilayah Dusun"] = dusunLayerGroup;
+        }
+        @if(!empty($site_settings['village_geojson']))
+        overlayMaps["Batas Luar Desa"] = boundaryLayerGroup;
+        @endif
+        if (facilityMarkers.length > 0) {
+            overlayMaps["Fasilitas Umum"] = facilityLayerGroup;
+        }
+
+        if (Object.keys(overlayMaps).length > 1) {
+            L.control.layers(null, overlayMaps, { collapsed: true }).addTo(map);
+        }
 
         // Global functions for Alpine to call
         window.focusFacilityOnMap = function(facility) {
@@ -531,10 +551,14 @@
         borderEl.style.backgroundColor = dusun.color || '#10b981';
         badgeEl.style.backgroundColor = (dusun.color || '#10b981') + '15'; // translucent
         badgeEl.style.color = dusun.color || '#10b981';
-        badgeEl.innerHTML = `<i class="fa-solid fa-map-pin"></i> Wilayah Terpilih`;
 
-        titleEl.textContent = `Dusun ${dusun.name}`;
-        subtitleEl.innerHTML = `Berikut statistik kependudukan riil di wilayah <strong>Dusun ${dusun.name}</strong>.`;
+        if (dusun.geojson) {
+            badgeEl.innerHTML = `<i class="fa-solid fa-map-pin"></i> Wilayah Terpilih`;
+            subtitleEl.innerHTML = `Berikut statistik kependudukan riil di wilayah <strong>Dusun ${dusun.name}</strong>.`;
+        } else {
+            badgeEl.innerHTML = `<i class="fa-solid fa-chart-pie"></i> Profil Dusun`;
+            subtitleEl.innerHTML = `Statistik kependudukan riil di <strong>Dusun ${dusun.name}</strong>. <span class="block text-[11px] text-amber-600 dark:text-amber-400 font-semibold mt-1"><i class="fa-solid fa-circle-info mr-1"></i>Peta batas poligon sedang dalam proses pemetaan spasial.</span>`;
+        }
 
         // Restore Dusun stats
         statsEl.innerHTML = `
@@ -654,9 +678,11 @@
         const layer = layers[dusunId];
         const dusun = dusunData.find(d => d.id === dusunId);
         
-        if (layer && dusun) {
-            map.fitBounds(layer.getBounds());
-            layer.openPopup();
+        if (dusun) {
+            if (layer) {
+                map.fitBounds(layer.getBounds());
+                layer.openPopup();
+            }
             highlightDusunInfo(dusun);
         }
     }

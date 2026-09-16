@@ -54,9 +54,9 @@ class SettingSeeder extends Seeder
             ['key' => 'village_topography', 'value' => 'Pegunungan'],
 
             // Peta Spasial
-            ['key' => 'village_latitude', 'value' => '-6.556'],
-            ['key' => 'village_longitude', 'value' => '107.011'],
-            ['key' => 'village_geojson', 'value' => '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[107.000,-6.550],[107.020,-6.550],[107.020,-6.560],[107.000,-6.560],[107.000,-6.550]]]}}'],
+            ['key' => 'village_latitude', 'value' => '-5.118103'],
+            ['key' => 'village_longitude', 'value' => '120.078078'],
+            ['key' => 'village_geojson', 'value' => null],
         ];
 
         foreach ($settings as $setting) {

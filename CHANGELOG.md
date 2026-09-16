@@ -2,6 +2,24 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.28.3] - 2026-09-16
+
+### Diubah
+- **Penyesuaian Tampilan Peta Spasial pada Kondisi Poligon Kosong (`/peta`)**:
+  - Mengatur tab default awal secara otomatis ke **Fasilitas Umum** apabila seluruh poligon dusun belum dipetakan (`$mappedCount === 0`), sehingga pengunjung langsung disajikan sebaran fasilitas publik riil desa.
+  - Memastikan seluruh tombol daftar dusun pada tab Wilayah tetap aktif dan interaktif dengan aksen palet warna masing-masing:
+    - Menampilkan badge status kependudukan (*Statistik*).
+    - Saat tombol dusun diklik, kartu detail informasi di bawahnya langsung memuat statistik kependudukan riil dusun terkait (Kepala Dusun, Jumlah Penduduk, dan Jumlah KK) disertai catatan informatif status pemetaan spasial.
+  - Menyembunyikan kotak overlay *Legenda Dusun* yang kosong jika belum ada dusun dengan data poligon GeoJSON terpetakan.
+  - Menyederhanakan kontrol layer Leaflet (*Layer Control*) agar hanya mendaftarkan dan memunculkan toggle pada layer yang memiliki data aktif.
+
+### Perbaikan
+- **Pembersihan Koordinat Bawaan Seeder**:
+  - Menghapus poligon kotak dummy Jawa Barat pada [SettingSeeder.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/database/seeders/SettingSeeder.php) dan menyelaraskan koordinat titik pusat default ke Kabupaten Sinjai (`-5.118103, 120.078078`).
+
+### Pengujian
+- Menambahkan pengujian `test_spatial_map_page_is_accessible` pada [FrontendAccessTest.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/tests/Feature/FrontendAccessTest.php) untuk memverifikasi keteraksesan rute `/peta`.
+
 ## [1.28.2] - 2026-09-16
 
 ### Perbaikan

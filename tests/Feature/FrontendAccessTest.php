@@ -91,4 +91,12 @@ class FrontendAccessTest extends TestCase
         // Make sure description is present in the galleryItems JSON payload for modal lightbox
         $response->assertSee('Kegiatan gotong royong membersihkan saluran irigasi bersama warga.');
     }
+
+    public function test_spatial_map_page_is_accessible(): void
+    {
+        $response = $this->get('/peta');
+        $response->assertStatus(200);
+        $response->assertSee('Peta');
+        $response->assertSee('Fasilitas Umum');
+    }
 }
