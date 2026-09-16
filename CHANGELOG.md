@@ -14,6 +14,8 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
   - Menyederhanakan kontrol layer Leaflet (*Layer Control*) agar hanya mendaftarkan dan memunculkan toggle pada layer yang memiliki data aktif.
 
 ### Perbaikan
+- **Inisialisasi Komponen Alpine.js pada Halaman Peta Spasial (`/peta`)**:
+  - Mengatasi galat `ReferenceError: spatialMapSidebar is not defined` dengan mendaftarkan definisi fungsi `spatialMapSidebar` di `@push('head')` dan mengeksposnya ke objek global `window`, sehingga komponen selalu siap sebelum Alpine.js mengevaluasi direktif `x-data` di DOM.
 - **Pembersihan Koordinat Bawaan Seeder**:
   - Menghapus poligon kotak dummy Jawa Barat pada [SettingSeeder.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/database/seeders/SettingSeeder.php) dan menyelaraskan koordinat titik pusat default ke Kabupaten Sinjai (`-5.118103, 120.078078`).
 

@@ -4,8 +4,6 @@
 @section('meta_description', 'Peta spasial interaktif pembagian wilayah dusun, batas wilayah, serta informasi kependudukan dan statistik per dusun di Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
-@section('content')
-
 @php
     $palette = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316', '#14b8a6', '#6366f1'];
     $mappedCount = 0;
@@ -17,6 +15,69 @@
         }
     }
 @endphp
+
+@push('head')
+<script>
+    function spatialMapSidebar() {
+        return {
+            activeTab: {{ $mappedCount > 0 ? "'dusun'" : "'fasilitas'" }},
+            searchQuery: '',
+            selectedCategory: 'Semua',
+            facilities: @json($facilities),
+            get filteredFacilities() {
+                return this.facilities.filter(f => {
+                    const matchesSearch = f.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+                                         (f.address && f.address.toLowerCase().includes(this.searchQuery.toLowerCase()));
+                    const matchesCategory = this.selectedCategory === 'Semua' || f.type === this.selectedCategory;
+                    return matchesSearch && matchesCategory;
+                });
+            },
+            getFacilityColorClass(type) {
+                switch(type) {
+                    case 'Pendidikan': return 'bg-blue-600 border-blue-200';
+                    case 'Ibadah': return 'bg-emerald-600 border-emerald-200';
+                    case 'Kesehatan': return 'bg-rose-600 border-rose-200';
+                    case 'Pemerintahan': return 'bg-slate-950 border-slate-800';
+                    default: return 'bg-amber-500 border-amber-300';
+                }
+            },
+            getFacilityIconClass(type) {
+                switch(type) {
+                    case 'Pendidikan': return 'fa-solid fa-graduation-cap';
+                    case 'Ibadah': return 'fa-solid fa-mosque';
+                    case 'Kesehatan': return 'fa-solid fa-heart-pulse';
+                    case 'Pemerintahan': return 'fa-solid fa-building-flag';
+                    default: return 'fa-solid fa-map-pin';
+                }
+            },
+            focusFacility(facility) {
+                if (window.focusFacilityOnMap) {
+                    window.focusFacilityOnMap(facility);
+                }
+            },
+            filterMarkers() {
+                if (window.filterFacilityMarkers) {
+                    window.filterFacilityMarkers(this.selectedCategory, this.searchQuery);
+                }
+            },
+            init() {
+                this.$watch('searchQuery', () => this.filterMarkers());
+                this.$watch('selectedCategory', () => this.filterMarkers());
+            }
+        };
+    }
+    window.spatialMapSidebar = spatialMapSidebar;
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('spatialMapSidebar', spatialMapSidebar);
+    });
+    if (window.Alpine) {
+        Alpine.data('spatialMapSidebar', spatialMapSidebar);
+    }
+</script>
+@endpush
+
+@section('content')
 
 {{-- ===================== HERO ===================== --}}
 <div class="relative bg-slate-900 dark:bg-slate-950 py-16 md:py-24 lg:py-28 overflow-hidden transition-colors duration-500">
@@ -83,7 +144,7 @@
 
             {{-- Sidebar (Dusun list & Information Card) --}}
             <div class="lg:col-span-1 flex flex-col gap-6"
-                 x-data="spatialMapSidebar">
+                 x-data="spatialMapSidebar()">
                 
                 {{-- Tabbed Selector Card --}}
                 <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-4">
@@ -280,55 +341,6 @@
 </style>
 
 <script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('spatialMapSidebar', () => ({
-            activeTab: {{ $mappedCount > 0 ? "'dusun'" : "'fasilitas'" }},
-            searchQuery: '',
-            selectedCategory: 'Semua',
-            facilities: @json($facilities),
-            get filteredFacilities() {
-                return this.facilities.filter(f => {
-                    const matchesSearch = f.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-                                         (f.address && f.address.toLowerCase().includes(this.searchQuery.toLowerCase()));
-                    const matchesCategory = this.selectedCategory === 'Semua' || f.type === this.selectedCategory;
-                    return matchesSearch && matchesCategory;
-                });
-            },
-            getFacilityColorClass(type) {
-                switch(type) {
-                    case 'Pendidikan': return 'bg-blue-600 border-blue-200';
-                    case 'Ibadah': return 'bg-emerald-600 border-emerald-200';
-                    case 'Kesehatan': return 'bg-rose-600 border-rose-200';
-                    case 'Pemerintahan': return 'bg-slate-950 border-slate-800';
-                    default: return 'bg-amber-500 border-amber-300';
-                }
-            },
-            getFacilityIconClass(type) {
-                switch(type) {
-                    case 'Pendidikan': return 'fa-solid fa-graduation-cap';
-                    case 'Ibadah': return 'fa-solid fa-mosque';
-                    case 'Kesehatan': return 'fa-solid fa-heart-pulse';
-                    case 'Pemerintahan': return 'fa-solid fa-building-flag';
-                    default: return 'fa-solid fa-map-pin';
-                }
-            },
-            focusFacility(facility) {
-                if (window.focusFacilityOnMap) {
-                    window.focusFacilityOnMap(facility);
-                }
-            },
-            filterMarkers() {
-                if (window.filterFacilityMarkers) {
-                    window.filterFacilityMarkers(this.selectedCategory, this.searchQuery);
-                }
-            },
-            init() {
-                this.$watch('searchQuery', () => this.filterMarkers());
-                this.$watch('selectedCategory', () => this.filterMarkers());
-            }
-        }));
-    });
-
     let map;
     const layers = {}; // Storage for geojson layers
     const dusunData = @json($dusuns);
