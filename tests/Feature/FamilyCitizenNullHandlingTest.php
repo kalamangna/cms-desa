@@ -187,4 +187,31 @@ class FamilyCitizenNullHandlingTest extends TestCase
             $this->assertNull($method->invoke($page, '--'), "Failed asserting null for {$methodName}('--')");
         }
     }
+
+    public function test_family_update_resets_columns_to_null_when_empty_in_import(): void
+    {
+        $family = Family::create([
+            'kk_number' => '7307032806100002',
+            'head_name' => 'Hasmi Osman',
+            'building_type' => 'Rumah Tinggal Tunggal',
+            'ownership_status' => 'Milik Sendiri',
+            'floor_area' => 36,
+        ]);
+
+        // Simulating the new import behavior where building_type and ownership_status are null in Excel
+        $dataToSave = [
+            'head_name' => 'Hasmi Osman',
+            'building_type' => null,
+            'ownership_status' => null,
+            'floor_area' => null,
+        ];
+
+        $family->fill($dataToSave);
+        $family->save();
+        $family->refresh();
+
+        $this->assertNull($family->building_type);
+        $this->assertNull($family->ownership_status);
+        $this->assertNull($family->floor_area);
+    }
 }

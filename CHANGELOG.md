@@ -2,6 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.28.2] - 2026-09-16
+
+### Perbaikan
+- **Sinkronisasi Kolom Kosong pada Impor Data Kependudukan (`Family` & `Citizen`)**:
+  - Menyesuaikan logika pembaruan (*update/restore*) pada aksi import Excel di [ListFamilies.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/app/Filament/Resources/Families/Pages/ListFamilies.php) dan [ListCitizens.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/app/Filament/Resources/Citizens/Pages/ListCitizens.php) agar nilai kolom yang kosong (`NULL`) pada berkas Excel secara konsisten mereset kolom di basis data menjadi `NULL`, bukan mempertahankan data residu/lama dari rekaman sebelumnya.
+  - Menjaga perlindungan berkas foto hunian fisik (`photo_front`, `photo_living_room`, `photo_bathroom`, `photo_kk`) agar tidak terhapus jika kolom foto pada berkas impor Excel tidak disertakan.
+
+### Pengujian
+- Menambahkan pengujian `test_family_update_resets_columns_to_null_when_empty_in_import` pada [FamilyCitizenNullHandlingTest.php](file:///Users/abedzul/Desktop/htdocs/desa-cms/tests/Feature/FamilyCitizenNullHandlingTest.php) untuk memverifikasi bahwa kolom-kolom karakteristik bangunan berhasil di-reset menjadi `NULL` saat diperbarui melalui data impor yang kosong.
+
 ## [1.28.1] - 2026-09-15
 
 ### Diubah

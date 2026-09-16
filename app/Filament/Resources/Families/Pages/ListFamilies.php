@@ -304,18 +304,25 @@ class ListFamilies extends ListRecords
 
                             $family = Family::withTrashed()->where('kk_number', $kkNumber)->first();
                             if ($family) {
-                                $updateData = [];
-                                foreach ($dataToSave as $key => $value) {
-                                    if ($value !== null && $value !== '') {
-                                        $updateData[$key] = $value;
-                                    }
+                                // Preserve existing photos if not supplied in import file
+                                if (empty($dataToSave['photo_front'])) {
+                                    unset($dataToSave['photo_front']);
                                 }
-                                $family->fill($updateData);
+                                if (empty($dataToSave['photo_living_room'])) {
+                                    unset($dataToSave['photo_living_room']);
+                                }
+                                if (empty($dataToSave['photo_bathroom'])) {
+                                    unset($dataToSave['photo_bathroom']);
+                                }
+                                if (empty($dataToSave['photo_kk'])) {
+                                    unset($dataToSave['photo_kk']);
+                                }
+
+                                $family->fill($dataToSave);
                                 if ($family->trashed()) {
                                     $family->restore();
-                                } else {
-                                    $family->save();
                                 }
+                                $family->save();
                             } else {
                                 Family::create(array_merge(['kk_number' => $kkNumber], $dataToSave));
                             }

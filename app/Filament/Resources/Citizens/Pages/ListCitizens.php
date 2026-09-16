@@ -325,18 +325,11 @@ class ListCitizens extends ListRecords
                             ];
                             $citizen = Citizen::withTrashed()->where('nik', $nik)->first();
                             if ($citizen) {
-                                $updateData = [];
-                                foreach ($dataToSave as $key => $value) {
-                                    if ($value !== null && $value !== '') {
-                                        $updateData[$key] = $value;
-                                    }
-                                }
-                                $citizen->fill($updateData);
+                                $citizen->fill($dataToSave);
                                 if ($citizen->trashed()) {
                                     $citizen->restore();
-                                } else {
-                                    $citizen->save();
                                 }
+                                $citizen->save();
                             } else {
                                 Citizen::create(array_merge(['nik' => $nik], $dataToSave));
                             }
