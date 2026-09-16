@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\StatisticCategories\Schemas;
 
+use App\Models\StatisticCategory;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -31,7 +32,7 @@ class StatisticCategoryForm
                                     ->placeholder('Pilih Sumber Data')
                                     ->helperText('Tabel sumber data kuesioner.')
                                     ->options([
-                                        'citizens' => 'Data Penduduk (Individu)',
+                                        'citizens' => 'Data Penduduk',
                                         'families' => 'Data Keluarga',
                                     ])
                                     ->required()
@@ -42,8 +43,14 @@ class StatisticCategoryForm
                             ->helperText('Centang kolom kuesioner untuk statistik.')
                             ->options(function (callable $get) {
                                 $table = $get('mapping_table');
+                                if (! $table) {
+                                    return [];
+                                }
+
+                                $counts = StatisticCategory::getColumnDataCounts($table);
+
                                 if ($table === 'citizens') {
-                                    return [
+                                    $definitions = [
                                         'gender' => 'Jenis Kelamin',
                                         'education_level' => 'Tingkat Pendidikan Terakhir',
                                         'job' => 'Pekerjaan/Profesi',
@@ -68,7 +75,7 @@ class StatisticCategoryForm
                                         'has_digital_wallet' => 'Kepemilikan Dompet Digital/Rekening',
                                     ];
                                 } elseif ($table === 'families') {
-                                    return [
+                                    $definitions = [
                                         'assistance_type' => 'Jenis Bantuan Sosial',
                                         'ownership_status' => 'Status Kepemilikan Rumah',
                                         'building_type' => 'Jenis Bangunan',
@@ -76,9 +83,17 @@ class StatisticCategoryForm
                                         'water_source' => 'Sumber Air Minum',
                                         'lighting_source' => 'Sumber Penerangan',
                                     ];
+                                } else {
+                                    return [];
                                 }
 
-                                return [];
+                                $options = [];
+                                foreach ($definitions as $key => $label) {
+                                    $count = (int) ($counts[$key] ?? 0);
+                                    $options[$key] = "{$label} (".number_format($count, 0, ',', '.').' data)';
+                                }
+
+                                return $options;
                             })
                             ->reactive()
                             ->columns(3)

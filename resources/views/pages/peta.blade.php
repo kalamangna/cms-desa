@@ -168,36 +168,19 @@
 
                     <!-- Tab Content: Dusun -->
                     <div x-show="activeTab === 'dusun'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
-                        <div class="mb-4">
-                            <h3 class="text-base font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 leading-tight">Daftar Wilayah</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-1">
-                                @if($mappedCount > 0)
-                                Pilih wilayah dusun untuk memfokuskan peta.
-                                @else
-                                Pilih dusun untuk melihat statistik kependudukan.
-                                @endif
-                            </p>
-                        </div>
-
-                        <div class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                        <div class="space-y-1.5 max-h-[260px] overflow-y-auto pr-1">
                             @forelse($dusuns as $dusun)
                                 <button type="button"
                                         onclick="focusDusun({{ $dusun->id }})"
                                         id="btn-dusun-{{ $dusun->id }}"
-                                        class="w-full flex items-center justify-between p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950/50 hover:bg-primary-50/50 dark:hover:bg-primary-950/40 text-slate-800 dark:text-slate-200 hover:border-primary-300 dark:hover:border-primary-700/50 text-left transition-all duration-200 font-bold text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+                                        class="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950/50 hover:bg-primary-50/50 dark:hover:bg-primary-950/40 text-slate-800 dark:text-slate-200 hover:border-primary-300 dark:hover:border-primary-700/50 text-left transition-all duration-200 font-bold text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
                                     <span class="flex items-center gap-2.5 truncate">
                                         <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: {{ $dusun->color ?? '#10b981' }}"></span>
                                         <span class="truncate">Dusun {{ $dusun->name }}</span>
                                     </span>
-                                    <div class="flex items-center gap-1.5 text-xs">
-                                        @if($dusun->geojson)
-                                        <i class="fa-solid fa-location-crosshairs text-primary-500 text-xs transition" title="Batas poligon terpetakan"></i>
-                                        @else
-                                        <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
-                                            <i class="fa-solid fa-chart-pie text-[9px]"></i> Statistik
-                                        </span>
-                                        @endif
-                                    </div>
+                                    <span class="text-xs font-semibold text-slate-400 dark:text-slate-500 flex-shrink-0">
+                                        {{ number_format($dusun->citizens_count, 0, ',', '.') }} Jiwa
+                                    </span>
                                 </button>
                             @empty
                                 <x-empty-state
@@ -211,13 +194,8 @@
 
                     <!-- Tab Content: Fasilitas Umum -->
                     <div x-show="activeTab === 'fasilitas'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-cloak>
-                        <div class="mb-3">
-                            <h3 class="text-base font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 leading-tight">Cari Fasilitas</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-1">Gunakan pencarian dan filter kategori.</p>
-                        </div>
-
                         <!-- Search & Filter Controls -->
-                        <div class="space-y-3 mb-3">
+                        <div class="space-y-2.5 mb-3">
                             <!-- Search Input -->
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -225,8 +203,8 @@
                                 </span>
                                 <input type="text" 
                                        x-model="searchQuery" 
-                                       placeholder="Cari nama atau jenis..." 
-                                       class="w-full pl-8 pr-3 py-2 text-[11px] font-semibold bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition">
+                                       placeholder="Cari fasilitas..." 
+                                       class="w-full pl-8 pr-3 py-2 text-xs font-semibold bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition">
                             </div>
 
                             <!-- Category Pill Filter -->
@@ -236,28 +214,27 @@
                                             @click="selectedCategory = cat; filterMarkers();"
                                             :class="selectedCategory === cat ? 'bg-primary-600 text-white shadow-xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200/80 dark:hover:bg-slate-700/80'"
                                             class="px-2.5 py-1 rounded-lg text-[9px] font-bold whitespace-nowrap transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
-                                            x-text="cat === 'Umum' ? 'Umum/Lainnya' : cat">
+                                            x-text="cat === 'Umum' ? 'Umum' : cat">
                                     </button>
                                 </template>
                             </div>
                         </div>
 
                         <!-- Facility List -->
-                        <div class="space-y-2 max-h-[200px] overflow-y-auto pr-1">
+                        <div class="space-y-1.5 max-h-[220px] overflow-y-auto pr-1">
                             <template x-for="facility in filteredFacilities" :key="facility.id">
                                 <button type="button"
                                         @click="focusFacility(facility)"
                                         :id="'btn-facility-' + facility.id"
-                                        class="w-full flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950/50 hover:bg-primary-50/50 dark:hover:bg-primary-950/40 hover:border-primary-300 dark:hover:border-primary-700/50 text-left transition-all duration-200 cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+                                        class="w-full flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950/50 hover:bg-primary-50/50 dark:hover:bg-primary-950/40 hover:border-primary-300 dark:hover:border-primary-700/50 text-left transition-all duration-200 cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
                                     <!-- Icon based on type -->
-                                    <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-white shadow-xs"
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 text-white shadow-xs text-[10px]"
                                          :class="getFacilityColorClass(facility.type)">
-                                        <i :class="getFacilityIconClass(facility.type) + ' text-[9px]'"></i>
+                                        <i :class="getFacilityIconClass(facility.type)"></i>
                                     </div>
                                     <div class="min-w-0 flex-1">
                                         <p class="text-slate-900 dark:text-slate-100 font-bold text-xs truncate" x-text="facility.name"></p>
-                                         <p class="text-slate-400 text-[9px] font-semibold mt-0.5" x-text="facility.type"></p>
-                                        <p class="text-slate-500 dark:text-slate-400 text-[9px] truncate mt-1 font-medium" x-show="facility.address" x-text="facility.address"></p>
+                                        <p class="text-slate-400 text-[10px] truncate mt-0.5" x-show="facility.address" x-text="facility.address"></p>
                                     </div>
                                 </button>
                             </template>
@@ -275,32 +252,32 @@
                 </div>
 
                 {{-- Detail Information Card --}}
-                <div id="dusunInfoCard" class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-5 transition-all duration-300 relative overflow-hidden group">
+                <div id="dusunInfoCard" class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-4 transition-all duration-300 relative overflow-hidden group">
                     <div class="absolute top-0 left-0 w-2 h-full bg-slate-300" id="infoCardBorder"></div>
                     
                     <div class="pl-2">
-                        <span class="inline-flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider mb-2" id="infoBadge">
-                            <i class="fa-solid fa-map"></i> Klik Area Peta
+                        <span class="inline-flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider mb-1.5" id="infoBadge">
+                            <i class="fa-solid fa-map-pin"></i> Info
                         </span>
-                        <h4 class="text-xl font-heading font-extrabold text-slate-900 dark:text-slate-100 leading-tight" id="infoTitle">Detail Informasi</h4>
-                        <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold mt-1" id="infoSubtitle">Pilih area Dusun atau marker Fasilitas Umum pada peta untuk melihat detail informasi.</p>
+                        <h4 class="text-base font-heading font-extrabold text-slate-900 dark:text-slate-100 leading-tight" id="infoTitle">Detail Wilayah</h4>
+                        <p class="text-slate-400 dark:text-slate-500 text-xs font-medium mt-0.5" id="infoSubtitle">Pilih dusun atau fasilitas untuk melihat detail.</p>
                     </div>
 
                     {{-- Stats grid, initially hidden --}}
-                    <div id="infoStatsGrid" class="hidden grid grid-cols-1 gap-3.5 pl-2">
-                        <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700">
+                    <div id="infoStatsGrid" class="hidden grid grid-cols-1 gap-3 pl-2">
+                        <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700">
                             <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Kepala Dusun</p>
                             <p class="text-slate-800 dark:text-slate-200 font-bold text-sm" id="infoHead">-</p>
                         </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700">
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700">
                                 <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Penduduk</p>
-                                <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1" id="infoPopulation">0</p>
+                                <p class="text-slate-950 dark:text-slate-100 font-heading font-black text-lg leading-none mt-1" id="infoPopulation">0</p>
                                 <p class="text-slate-500 dark:text-slate-400 text-[10px] font-bold mt-1">Jiwa</p>
                             </div>
-                            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700">
+                            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700">
                                 <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Keluarga</p>
-                                <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1" id="infoFamilies">0</p>
+                                <p class="text-slate-950 dark:text-slate-100 font-heading font-black text-lg leading-none mt-1" id="infoFamilies">0</p>
                                 <p class="text-slate-500 dark:text-slate-400 text-[10px] font-bold mt-1">KK</p>
                             </div>
                         </div>
@@ -563,31 +540,25 @@
         borderEl.style.backgroundColor = dusun.color || '#10b981';
         badgeEl.style.backgroundColor = (dusun.color || '#10b981') + '15'; // translucent
         badgeEl.style.color = dusun.color || '#10b981';
+        badgeEl.innerHTML = `<i class="fa-solid fa-map-pin"></i> Dusun`;
 
-        if (dusun.geojson) {
-            badgeEl.innerHTML = `<i class="fa-solid fa-map-pin"></i> Wilayah Terpilih`;
-            subtitleEl.innerHTML = `Berikut statistik kependudukan riil di wilayah <strong>Dusun ${dusun.name}</strong>.`;
-        } else {
-            badgeEl.innerHTML = `<i class="fa-solid fa-chart-pie"></i> Profil Dusun`;
-            subtitleEl.innerHTML = `Statistik kependudukan riil di <strong>Dusun ${dusun.name}</strong>. <span class="block text-[11px] text-amber-600 dark:text-amber-400 font-semibold mt-1"><i class="fa-solid fa-circle-info mr-1"></i>Peta batas poligon sedang dalam proses pemetaan spasial.</span>`;
-        }
+        titleEl.textContent = `Dusun ${dusun.name}`;
+        subtitleEl.classList.add('hidden');
 
         // Restore Dusun stats
         statsEl.innerHTML = `
-            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100/50 dark:border-slate-800">
+            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-3 border border-slate-100/50 dark:border-slate-800">
                 <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Kepala Dusun</p>
                 <p class="text-slate-800 dark:text-slate-200 font-bold text-sm">${dusun.head_name || '-'}</p>
             </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100/50 dark:border-slate-800">
+            <div class="grid grid-cols-2 gap-2.5">
+                <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-3 border border-slate-100/50 dark:border-slate-800">
                     <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Penduduk</p>
-                    <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1">${Number(dusun.citizens_count).toLocaleString('id-ID')}</p>
-                    <p class="text-slate-400 text-[10px] font-bold mt-1">Jiwa</p>
+                    <p class="text-slate-950 dark:text-slate-100 font-heading font-black text-lg leading-none mt-1">${Number(dusun.citizens_count).toLocaleString('id-ID')} <span class="text-slate-400 text-[10px] font-medium">Jiwa</span></p>
                 </div>
-                <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100/50 dark:border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-3 border border-slate-100/50 dark:border-slate-800">
                     <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Keluarga</p>
-                    <p class="text-slate-950 font-heading font-black text-xl leading-none mt-1">${Number(dusun.families_count).toLocaleString('id-ID')}</p>
-                    <p class="text-slate-400 text-[10px] font-bold mt-1">KK</p>
+                    <p class="text-slate-950 dark:text-slate-100 font-heading font-black text-lg leading-none mt-1">${Number(dusun.families_count).toLocaleString('id-ID')} <span class="text-slate-400 text-[10px] font-medium">KK</span></p>
                 </div>
             </div>
         `;
@@ -647,26 +618,34 @@
         badgeEl.innerHTML = `<i class="fa-solid ${icon}"></i> ${facility.type}`;
 
         titleEl.textContent = facility.name;
-        subtitleEl.innerHTML = `Berikut informasi detail fasilitas <strong>${facility.name}</strong>.`;
+        subtitleEl.classList.add('hidden');
 
-        statsEl.innerHTML = `
-            <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100/50 dark:border-slate-800 space-y-3">
-                ${facility.address ? `
-                <div>
+        let facilityInfoHtml = '';
+        if (facility.address) {
+            facilityInfoHtml += `
+                <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-3 border border-slate-100/50 dark:border-slate-800">
                     <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Alamat</p>
-                    <p class="text-slate-800 dark:text-slate-200 font-bold text-xs leading-normal"><i class="fa-solid fa-location-dot text-slate-400 mr-1"></i> ${facility.address}</p>
-                </div>` : ''}
-                ${facility.description ? `
-                <div>
-                    <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Deskripsi / Catatan</p>
-                    <p class="text-slate-600 dark:text-slate-400 font-medium text-xs leading-relaxed italic">${facility.description}</p>
-                </div>` : ''}
-                <div>
-                    <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Koordinat</p>
-                    <p class="text-slate-500 dark:text-slate-400 font-mono text-[10px]">${facility.latitude}, ${facility.longitude}</p>
+                    <p class="text-slate-800 dark:text-slate-200 font-medium text-xs leading-relaxed"><i class="fa-solid fa-location-dot text-slate-400 mr-1"></i> ${facility.address}</p>
                 </div>
-            </div>
-        `;
+            `;
+        }
+        if (facility.description) {
+            facilityInfoHtml += `
+                <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-3 border border-slate-100/50 dark:border-slate-800">
+                    <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Catatan</p>
+                    <p class="text-slate-700 dark:text-slate-300 text-xs leading-relaxed">${facility.description}</p>
+                </div>
+            `;
+        }
+        if (!facilityInfoHtml) {
+            facilityInfoHtml = `
+                <div class="bg-slate-50 dark:bg-slate-950 rounded-2xl p-3 border border-slate-100/50 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
+                    Lokasi fasilitas terverifikasi pada peta.
+                </div>
+            `;
+        }
+
+        statsEl.innerHTML = `<div class="space-y-2.5">${facilityInfoHtml}</div>`;
 
         statsEl.classList.remove('hidden');
 

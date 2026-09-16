@@ -24,7 +24,7 @@ class StatisticCategoriesTable
                 TextColumn::make('mapping_table')
                     ->label('Sumber Data')
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'citizens' => 'Data Penduduk (Individu)',
+                        'citizens' => 'Data Penduduk',
                         'families' => 'Data Keluarga',
                         default => $state,
                     })

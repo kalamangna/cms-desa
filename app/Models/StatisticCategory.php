@@ -282,7 +282,7 @@ class StatisticCategory extends Model
 
     public static function isBooleanColumn(?string $column): bool
     {
-        if (empty($column)) {
+        if (empty($column) || $column === 'has_digital_wallet') {
             return false;
         }
 
@@ -291,5 +291,74 @@ class StatisticCategory extends Model
                str_starts_with($column, 'has_') ||
                $column === 'address_matches_kk' ||
                $column === 'pip_status';
+    }
+
+    public static function getColumnDataCounts(string $table): array
+    {
+        if (! in_array($table, self::ALLOWED_TABLES, true)) {
+            return [];
+        }
+
+        try {
+            $columns = match ($table) {
+                'citizens' => [
+                    'gender' => false,
+                    'education_level' => false,
+                    'job' => false,
+                    'job_status' => false,
+                    'disability_physical' => true,
+                    'disability_mental' => true,
+                    'disability_intellectual' => true,
+                    'disability_blind' => true,
+                    'disability_deaf' => true,
+                    'disability_speech' => true,
+                    'illness_hypertension' => true,
+                    'illness_rheumatic' => true,
+                    'illness_asthma' => true,
+                    'illness_heart' => true,
+                    'illness_diabetes' => true,
+                    'illness_tbc' => true,
+                    'illness_stroke' => true,
+                    'illness_cancer' => true,
+                    'illness_kidney' => true,
+                    'illness_cholesterol' => true,
+                    'illness_other' => true,
+                    'has_digital_wallet' => false,
+                ],
+                'families' => [
+                    'assistance_type' => false,
+                    'ownership_status' => false,
+                    'building_type' => false,
+                    'ownership_proof' => false,
+                    'water_source' => false,
+                    'lighting_source' => false,
+                ],
+                default => [],
+            };
+
+            if (empty($columns)) {
+                return [];
+            }
+
+            $selects = [];
+            foreach ($columns as $col => $isBoolean) {
+                if ($isBoolean) {
+                    $selects[] = "COUNT(CASE WHEN {$col} = 1 THEN 1 END) as {$col}";
+                } else {
+                    $selects[] = "COUNT(CASE WHEN {$col} IS NOT NULL AND {$col} != '' THEN 1 END) as {$col}";
+                }
+            }
+
+            $query = DB::table($table)->whereNull('deleted_at');
+            if ($table === 'citizens') {
+                $query->where('status', 'Aktif');
+            }
+
+            $result = $query->selectRaw(implode(', ', $selects))->first();
+
+            return $result ? (array) $result : [];
+        } catch (\Throwable $e) {
+            return [];
+        }
     }
 }

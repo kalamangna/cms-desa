@@ -2,6 +2,28 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.28.4] - 2026-09-16
+
+### Diubah
+- **Penyederhanaan Tampilan Teks Sidebar & Detail Informasi Peta (`/peta`)**:
+  - Merampingkan sidebar wilayah dan fasilitas umum dengan menghilangkan header ganda dan kalimat deskriptif redundan.
+  - Memperbarui daftar dusun menjadi format minimalis: indikator titik warna dusun dan nama dusun di sisi kiri, serta jumlah penduduk (`X Jiwa`) di sisi kanan.
+  - Menyembunyikan kalimat pengantar panjang pada kartu detail informasi saat item dipilih, langsung menyajikan data statistik esensial kependudukan (Kepala Dusun, Jiwa, KK) serta alamat dan catatan fasilitas publik tanpa deretan angka koordinat desimal mentah yang berlebihan.
+- **Penyelarasan Label Sumber Data Kependudukan**:
+  - Menyelaraskan label `Data Penduduk (Individu)` menjadi `Data Penduduk` pada form dan tabel admin Kategori Statistik.
+
+### Fitur
+- **Penghitungan Jumlah Data Riil pada Kolom Pemetaan Kuesioner**:
+  - Menampilkan jumlah data terisi secara dinamis pada setiap opsi *Kolom Pemetaan (Excel / Database)* di formulir Kategori Statistik, misalnya `Jenis Kelamin (2.410 data)`, `Disabilitas Fisik (12 data)`, `Jenis Bantuan Sosial (350 data)`.
+  - Menggunakan agregasi kondisional tunggal (*single conditional aggregation query*) pada `StatisticCategory::getColumnDataCounts` untuk performa cepat tanpa menambah query berulang.
+
+### Perbaikan
+- **Penanganan Kolom Tipe Boolean vs String pada Kategori Statistik**:
+  - Memperbaiki `StatisticCategory::isBooleanColumn` agar tidak memperlakukan `has_digital_wallet` sebagai boolean, sehingga pemetaan kategori pilihan dompet digital tetap berjalan semestinya.
+
+### Pengujian
+- Menambahkan unit test `test_get_column_data_counts` pada `StatisticTest` untuk memvalidasi penghitungan jumlah rekaman data kependudukan dan keluarga.
+
 ## [1.28.3] - 2026-09-16
 
 ### Diubah
