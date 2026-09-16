@@ -20,7 +20,7 @@
 <script>
     function spatialMapSidebar() {
         return {
-            activeTab: {{ $mappedCount > 0 ? "'dusun'" : "'fasilitas'" }},
+            activeTab: @js($mappedCount > 0 ? 'dusun' : 'fasilitas'),
             searchQuery: '',
             selectedCategory: 'Semua',
             facilities: @json($facilities),
