@@ -15,6 +15,19 @@ class SecurityHeaders
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->is('livewire/preview-file/*')) {
+            \Illuminate\Support\Facades\Log::info('LIVEWIRE_PREVIEW_INCOMING', [
+                'url' => $request->url(),
+                'fullUrl' => $request->fullUrl(),
+                'queryString' => $request->server->get('QUERY_STRING'),
+                'hasValidSignature' => $request->hasValidSignature(),
+                'scheme' => $request->getScheme(),
+                'port' => $request->getPort(),
+                'host' => $request->getHost(),
+                'headers' => $request->headers->all(),
+            ]);
+        }
+
         $response = $next($request);
 
         // Pastikan berkas pratinjau Livewire dikirim sebagai inline agar browser merender tag <img>
