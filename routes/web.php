@@ -2,6 +2,17 @@
 
 use App\Http\Controllers\AnnouncementController;
 
+Route::get('/debug-param/{filename}', function ($filename, Request $request) {
+    return response()->json([
+        'filename' => $filename,
+        'url' => $request->url(),
+        'fullUrl' => $request->fullUrl(),
+        'hasValidSignature' => $request->hasValidSignature(),
+        'expectedSignature' => hash_hmac('sha256', $request->url().'?expires='.$request->query('expires'), config('app.key')),
+        'actualSignature' => $request->query('signature'),
+    ]);
+})->name('debug-param');
+
 Route::get('/debug-signature', function (Request $request) {
     return response()->json([
         'url' => $request->url(),
