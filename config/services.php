@@ -40,4 +40,8 @@ return [
         'chat_id' => env('TELEGRAM_CHAT_ID', ''),
     ],
 
+    'monitoring' => [
+        'token' => env('MONITORING_API_KEY'),
+    ],
+
 ];

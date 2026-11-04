@@ -2,6 +2,26 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.28.5] - 2026-11-04
+
+### Fitur
+- **Endpoint API Telemetri Monitoring Internal (`/api/v1/internal/telemetry`)**:
+  - Menyediakan endpoint data telemetri komprehensif (status aplikasi, database, penggunaan ruang penyimpanan disk, dan statistik agregat) untuk integrasi dasbor pemantauan eksternal.
+  - Dilengkapi middleware proteksi `VerifyMonitoringToken` (`monitoring.auth`) melalui Bearer token atau header `X-Monitoring-Key`.
+  - Penambahan jadwal heartbeat berkala setiap menit via Laravel scheduler (`routes/console.php`) untuk merekam jejak waktu eksekusi cron (`telemetry_last_cron_at`).
+- **Template Berkas Impor Data Kependudukan**:
+  - Menyediakan berkas template Excel resmi di direktori `public/templates/` (`template_data_individu.xlsx` dan `template_data_keluarga.xlsx`).
+
+### Perbaikan
+- **Optimasi Retensi Backup & Kebijakan Log Server**:
+  - Mengoptimalkan ambang batas penyimpanan cadangan (*backup retention*) pada `config/backup.php` agar lebih ramah ruang disk shared hosting.
+  - Menyesuaikan retensi rotasi log harian (*daily log retention*) pada `config/logging.php`.
+- **Konfigurasi Lingkungan Pengujian PHPUnit**:
+  - Menambahkan definisi eksplisit `APP_URL` pada `phpunit.xml` untuk memastikan seluruh pengujian rute dan HTTP client berjalan konsisten.
+
+### Pengujian
+- Menambahkan pengujian fitur `TelemetryTest` guna memverifikasi otentikasi kunci monitoring dan struktur payload telemetri sistem.
+
 ## [1.28.4] - 2026-09-16
 
 ### Diubah

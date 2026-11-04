@@ -3,6 +3,7 @@
 use App\Models\Post;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\Facades\Schema;
 
@@ -20,6 +21,11 @@ Schedule::command('model:prune')->daily()->at('04:00');
 Schedule::command('queue:work --stop-when-empty')
     ->everyMinute()
     ->withoutOverlapping();
+
+// Heartbeat untuk pencatatan telemetri dasbor monitoring
+Schedule::call(function () {
+    Cache::forever('telemetry_last_cron_at', now()->toIso8601String());
+})->everyMinute();
 
 Artisan::command('app:compress-post-images', function () {
     $this->info('Memulai kompresi gambar berita di server...');
