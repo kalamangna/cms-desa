@@ -17,6 +17,16 @@ class SecurityHeaders
     {
         $response = $next($request);
 
+        // Pastikan berkas pratinjau Livewire dikirim sebagai inline agar browser merender tag <img>
+        if ($request->is('livewire/preview-file/*')) {
+            if ($response->headers->has('Content-Disposition')) {
+                $disposition = str_replace('attachment', 'inline', (string) $response->headers->get('Content-Disposition'));
+                $response->headers->set('Content-Disposition', $disposition);
+            }
+
+            return $response;
+        }
+
         // Jangan terapkan CSP ketat pada Filament Admin Panel agar tidak mengganggu Livewire/Alpine bawaan Filament
         if ($request->is('admin*') || $request->is('livewire*')) {
             return $response;
