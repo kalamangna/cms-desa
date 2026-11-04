@@ -1,6 +1,23 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+
+Route::get('/debug-signature', function (Request $request) {
+    return response()->json([
+        'url' => $request->url(),
+        'fullUrl' => $request->fullUrl(),
+        'isSecure' => $request->isSecure(),
+        'scheme' => $request->getScheme(),
+        'port' => $request->getPort(),
+        'schemeAndHttpHost' => $request->getSchemeAndHttpHost(),
+        'hasValidSignature' => $request->hasValidSignature(),
+        'server_https' => $request->server->get('HTTPS'),
+        'server_port' => $request->server->get('SERVER_PORT'),
+        'http_x_forwarded_proto' => $request->server->get('HTTP_X_FORWARDED_PROTO'),
+        'http_x_forwarded_port' => $request->server->get('HTTP_X_FORWARDED_PORT'),
+    ]);
+})->name('debug-signature');
+
 use App\Http\Controllers\APBDesController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DatasetController;
@@ -17,6 +34,7 @@ use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\StatisticController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
