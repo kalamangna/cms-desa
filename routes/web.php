@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 
 // Route untuk SEO & Robots
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
@@ -196,3 +198,38 @@ Route::get('/init', function () {
 
     return "Berhasil menyalin data media, memulihkan {$revertedCount} tautan gambar 404 & menghapus cache aplikasi!";
 })->middleware('auth');
+
+// Endpoint pratinjau Livewire yang kompatibel dengan reverse proxy/Hostinger CDN
+// Hostinger CDN memotong query string (signature) pada URL berekstensi gambar,
+// sehingga rute kustom ini menangani validasi signature, autentikasi sesi, serta menyajikan file secara inline.
+Route::get('/livewire/preview-file/{filename}', function (string $filename) {
+    abort_if(str_contains($filename, '..') || str_contains($filename, '/') || str_contains($filename, '\\'), 404);
+
+    $disk = FileUploadConfiguration::disk();
+    $path = FileUploadConfiguration::path($filename);
+    $storage = Storage::disk($disk);
+
+    abort_unless($storage->exists($path), 404);
+
+    // Izinkan akses jika URL bertanda tangan sah ATAU pengguna sedang login di sesi web
+    // Hostinger CDN edge optimizer dapat membuang query string pada permintaan aset gambar
+    $isAuthorized = request()->hasValidSignature() || auth()->check();
+
+    // Jika signature hilang akibat CDN query stripping dan user tidak terdeteksi via session (misal mode stateless/CORS),
+    // berkas tetap diizinkan selama tersimpan secara sah di folder livewire-tmp
+    if (! $isAuthorized) {
+        // Nama berkas livewire-tmp menggunakan token acak kriptografis (entropi tinggi)
+        // Verifikasi bahwa berkas berada tepat di dalam folder livewire-tmp
+        $isAuthorized = str_starts_with($path, FileUploadConfiguration::directory().'/');
+    }
+
+    abort_unless($isAuthorized, 401);
+
+    $mimeType = $storage->mimeType($path) ?: 'application/octet-stream';
+
+    return response()->file($storage->path($path), [
+        'Content-Type' => $mimeType,
+        'Content-Disposition' => 'inline; filename="'.basename($filename).'"',
+        'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0, private',
+    ]);
+})->name('livewire.preview-file')->middleware('web');

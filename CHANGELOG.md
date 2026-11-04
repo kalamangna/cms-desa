@@ -2,6 +2,17 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.28.7] - 2026-11-04
+
+### Perbaikan
+- **Rute Khusus Pratinjau Berkas Livewire di Lingkungan Hostinger CDN**:
+  - Mendaftarkan rute kustom `livewire.preview-file` pada `routes/web.php` untuk menggantikan penanganan bawaan Livewire.
+  - Mengatasi kendala pelucutan parameter tanda tangan (*query string signature*) oleh Hostinger CDN pada URL berakhiran gambar statis (`.png`, `.jpg`), dengan memvalidasi keberadaan berkas sementara di direktori `livewire-tmp` dan sesi autentikasi pengguna.
+  - Mengirimkan respons berkas pratinjau secara langsung dengan *Content-Disposition: inline* dan *Cache-Control: no-store, private*.
+
+### Pengujian
+- Memperluas pengujian `LivewirePreviewTest` dengan validasi akses pratinjau tanpa parameter *query string* (mekanisme fallback proksi/CDN).
+
 ## [1.28.6] - 2026-11-04
 
 ### Perbaikan

@@ -25,6 +25,12 @@ class LivewirePreviewTest extends TestCase
             $this->assertNotNull($disposition);
             $this->assertStringContainsString('inline', $disposition);
             $this->assertStringNotContainsString('attachment', $disposition);
+
+            // Test fallback ketika query string dilucuti oleh reverse proxy / CDN
+            $urlWithoutQuery = url('/livewire/preview-file/'.$filename);
+            $fallbackResponse = $this->get($urlWithoutQuery);
+            $fallbackResponse->assertStatus(200);
+            $this->assertStringContainsString('inline', (string) $fallbackResponse->headers->get('Content-Disposition'));
         } finally {
             $storage->delete('livewire-tmp/'.$filename);
         }
