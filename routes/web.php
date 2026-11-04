@@ -1,48 +1,6 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
-
-Route::get('/livewire/preview-file/{filename}', function ($filename, Request $request) {
-    Log::info('LIVEWIRE_PREVIEW_CALLED', [
-        'url' => $request->url(),
-        'fullUrl' => $request->fullUrl(),
-        'hasValidSignature' => $request->hasValidSignature(),
-        'headers' => $request->headers->all(),
-        'query' => $request->query(),
-    ]);
-
-    abort_unless($request->hasValidSignature(), 401);
-
-    return Utils::pretendPreviewResponseIsPreviewFile($filename);
-})->name('livewire.preview-file');
-
-Route::get('/debug-param/{filename}', function ($filename, Request $request) {
-    return response()->json([
-        'filename' => $filename,
-        'url' => $request->url(),
-        'fullUrl' => $request->fullUrl(),
-        'hasValidSignature' => $request->hasValidSignature(),
-        'expectedSignature' => hash_hmac('sha256', $request->url().'?expires='.$request->query('expires'), config('app.key')),
-        'actualSignature' => $request->query('signature'),
-    ]);
-})->name('debug-param');
-
-Route::get('/debug-signature', function (Request $request) {
-    return response()->json([
-        'url' => $request->url(),
-        'fullUrl' => $request->fullUrl(),
-        'isSecure' => $request->isSecure(),
-        'scheme' => $request->getScheme(),
-        'port' => $request->getPort(),
-        'schemeAndHttpHost' => $request->getSchemeAndHttpHost(),
-        'hasValidSignature' => $request->hasValidSignature(),
-        'server_https' => $request->server->get('HTTPS'),
-        'server_port' => $request->server->get('SERVER_PORT'),
-        'http_x_forwarded_proto' => $request->server->get('HTTP_X_FORWARDED_PROTO'),
-        'http_x_forwarded_port' => $request->server->get('HTTP_X_FORWARDED_PORT'),
-    ]);
-})->name('debug-signature');
-
 use App\Http\Controllers\APBDesController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DatasetController;
@@ -59,13 +17,10 @@ use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\StatisticController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
-use Livewire\Drawer\Utils;
 
 // Route untuk SEO & Robots
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);

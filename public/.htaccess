@@ -21,10 +21,13 @@
     # Block Access To Sensitive Files (.env, .git, etc.)
     RewriteRule ^(\.env|\.git|\.htaccess|\.example|composer\.) - [F,L]
 
+    # Bypass LiteSpeed / Hostinger CDN image conversion & caching for Livewire
+    RewriteRule ^livewire/ - [E=Cache-Control:no-cache,E=no-vary:1,E=noconvert:1]
+
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    RewriteRule ^ index.php [QSA,L]
 </IfModule>
 
 # Gzip / Deflate Compression
@@ -58,11 +61,14 @@
 </IfModule>
 
 <IfModule mod_headers.c>
+    SetEnvIf Request_URI "^/livewire/" NO_CACHE=1
+
     <FilesMatch "\.(ico|jpe?g|png|gif|webp|avif|swf|css|js|woff|woff2|ttf|otf|svg)$">
-        Header set Cache-Control "max-age=31536000, public"
+        Header set Cache-Control "max-age=31536000, public" env=!NO_CACHE
     </FilesMatch>
     <FilesMatch "^app-[a-zA-Z0-9_-]+\.(css|js)$">
         Header set Cache-Control "max-age=31536000, public, immutable"
     </FilesMatch>
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0, private" env=NO_CACHE
     Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://*:5173 https:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' http://*:5173 https:; font-src 'self' data: https:; img-src 'self' data: blob: https: http:; frame-src 'self' https:; connect-src 'self' https: http: ws://*:5173 wss://*:5173; object-src 'none'; base-uri 'self';"
 </IfModule>

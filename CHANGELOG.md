@@ -8,6 +8,7 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 - **Penanganan Pratinjau Gambar Livewire pada Editor Teks**:
   - Mengubah *Content-Disposition* pada respons berkas pratinjau Livewire (`livewire/preview-file/*`) dari `attachment` menjadi `inline` melalui middleware `SecurityHeaders`. Hal ini mengatasi gambar berikon rusak/sobek (*broken image*) di peramban Chromium saat menyematkan foto lewat lampiran (*Attach files*) pada editor konten berita.
   - Mengonfigurasi `$middleware->trustProxies(at: '*')` pada `bootstrap/app.php` untuk memastikan validasi tanda tangan URL sementara (*signed URL*) akurat di balik proksi balik (*reverse proxy* / CDN Hostinger).
+  - Memperbarui berkas konfigurasi `public/.htaccess` dengan flag `[QSA,L]` pada front controller rewrite serta aturan bypass `E=noconvert:1` dan `Cache-Control: no-store, private` khusus rute Livewire agar Hostinger CDN (imgproxy) tidak mencegat atau menghapus parameter tanda tangan (*query string*).
 
 ### Pengujian
 - Menambahkan pengujian fitur `LivewirePreviewTest` untuk memvalidasi header *Content-Disposition* bernilai `inline` pada rute pratinjau berkas sementara.
