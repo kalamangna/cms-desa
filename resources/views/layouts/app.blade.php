@@ -597,11 +597,16 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="activeGroup === 'profil' ? 'rotate-180 text-primary-600 dark:text-primary-400' : ''"></i>
                         </button>
                         <span class="hidden md:block px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Profil</span>
-                        <div class="mt-1 pl-3 space-y-1 md:pl-0 md:mt-0 md:block!" x-show="activeGroup === 'profil'" x-transition>
-                            <a href="/profil" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('profil*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Profil Desa</a>
-                            <a href="/aparatur" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('aparatur*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Aparatur Desa</a>
-                            <a href="/lembaga" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('lembaga*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Lembaga Desa</a>
-                            <a href="/potensi" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('potensi*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Potensi Desa</a>
+                        <div class="grid transition-[grid-template-rows,opacity,visibility] duration-200 ease-out md:grid-rows-[1fr]! md:opacity-100! md:visible!"
+                            :class="activeGroup === 'profil' ? 'grid-rows-[1fr] opacity-100 visible' : 'grid-rows-[0fr] opacity-0 invisible'">
+                            <div class="overflow-hidden min-h-0">
+                                <div class="pt-1 pl-3 space-y-1 md:pl-0 md:pt-0">
+                                    <a href="/profil" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('profil*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Profil Desa</a>
+                                    <a href="/aparatur" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('aparatur*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Aparatur Desa</a>
+                                    <a href="/lembaga" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('lembaga*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Lembaga Desa</a>
+                                    <a href="/potensi" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('potensi*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Potensi Desa</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -615,11 +620,16 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="activeGroup === 'info' ? 'rotate-180 text-primary-600 dark:text-primary-400' : ''"></i>
                         </button>
                         <span class="hidden md:block px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Informasi</span>
-                        <div class="mt-1 pl-3 space-y-1 md:pl-0 md:mt-0 md:block!" x-show="activeGroup === 'info'" x-transition>
-                            <a href="/berita" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('berita*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Berita</a>
-                            <a href="/pengumuman" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('pengumuman*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Pengumuman</a>
-                            <a href="/galeri" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('galeri*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Galeri</a>
-                            <a href="/dokumen" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('dokumen*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Dokumen</a>
+                        <div class="grid transition-[grid-template-rows,opacity,visibility] duration-200 ease-out md:grid-rows-[1fr]! md:opacity-100! md:visible!"
+                            :class="activeGroup === 'info' ? 'grid-rows-[1fr] opacity-100 visible' : 'grid-rows-[0fr] opacity-0 invisible'">
+                            <div class="overflow-hidden min-h-0">
+                                <div class="pt-1 pl-3 space-y-1 md:pl-0 md:pt-0">
+                                    <a href="/berita" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('berita*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Berita</a>
+                                    <a href="/pengumuman" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('pengumuman*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Pengumuman</a>
+                                    <a href="/galeri" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('galeri*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Galeri</a>
+                                    <a href="/dokumen" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('dokumen*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Dokumen</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -633,11 +643,16 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="activeGroup === 'transparansi' ? 'rotate-180 text-primary-600 dark:text-primary-400' : ''"></i>
                         </button>
                         <span class="hidden md:block px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Transparansi</span>
-                        <div class="mt-1 pl-3 space-y-1 md:pl-0 md:mt-0 md:block!" x-show="activeGroup === 'transparansi'" x-transition>
-                            <a href="/apbdes" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('apbdes*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">APBDes</a>
-                            <a href="/statistik" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('statistik*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Statistik</a>
-                            <a href="/dataset" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('dataset*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Open Data</a>
-                            <a href="/publikasi" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('publikasi*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Publikasi Data</a>
+                        <div class="grid transition-[grid-template-rows,opacity,visibility] duration-200 ease-out md:grid-rows-[1fr]! md:opacity-100! md:visible!"
+                            :class="activeGroup === 'transparansi' ? 'grid-rows-[1fr] opacity-100 visible' : 'grid-rows-[0fr] opacity-0 invisible'">
+                            <div class="overflow-hidden min-h-0">
+                                <div class="pt-1 pl-3 space-y-1 md:pl-0 md:pt-0">
+                                    <a href="/apbdes" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('apbdes*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">APBDes</a>
+                                    <a href="/statistik" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('statistik*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Statistik</a>
+                                    <a href="/dataset" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('dataset*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Open Data</a>
+                                    <a href="/publikasi" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('publikasi*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Publikasi Data</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -651,11 +666,16 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="activeGroup === 'layanan' ? 'rotate-180 text-primary-600 dark:text-primary-400' : ''"></i>
                         </button>
                         <span class="hidden md:block px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Layanan</span>
-                        <div class="mt-1 pl-3 space-y-1 md:pl-0 md:mt-0 md:block!" x-show="activeGroup === 'layanan'" x-transition>
-                            <a href="/layanan" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('layanan*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Layanan Mandiri</a>
-                            <a href="/pengaduan" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('pengaduan*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Pengaduan</a>
-                            <a href="/buku-tamu" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('buku-tamu*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Buku Tamu</a>
-                            <a href="/kontak" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('kontak*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Kontak</a>
+                        <div class="grid transition-[grid-template-rows,opacity,visibility] duration-200 ease-out md:grid-rows-[1fr]! md:opacity-100! md:visible!"
+                            :class="activeGroup === 'layanan' ? 'grid-rows-[1fr] opacity-100 visible' : 'grid-rows-[0fr] opacity-0 invisible'">
+                            <div class="overflow-hidden min-h-0">
+                                <div class="pt-1 pl-3 space-y-1 md:pl-0 md:pt-0">
+                                    <a href="/layanan" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('layanan*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Layanan Mandiri</a>
+                                    <a href="/pengaduan" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('pengaduan*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Pengaduan</a>
+                                    <a href="/buku-tamu" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('buku-tamu*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Buku Tamu</a>
+                                    <a href="/kontak" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('kontak*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Kontak</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

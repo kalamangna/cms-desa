@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.29.7] - 2026-11-23
+
+### Perbaikan
+- **Transisi Akordeon Submenu Mobile (`layouts/app.blade.php`)**:
+  - Mengganti transisi `x-show` + `x-transition` pada empat grup submenu mobile (`Profil`, `Informasi`, `Transparansi`, `Layanan`) dengan transisi CSS Grid (`grid-rows-[0fr]` ke `grid-rows-[1fr]`, `opacity`, dan `visibility`) agar perpindahan antar submenu berjalan mulus tanpa lonjakan tinggi maupun kedipan `display: none`.
+
 ## [1.29.6] - 2026-11-23
 
 ### Perbaikan
