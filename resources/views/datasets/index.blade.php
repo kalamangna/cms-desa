@@ -57,7 +57,7 @@
                     <p class="text-slate-500 dark:text-slate-400 font-medium text-sm mt-1">Total {{ $datasets->total() }} dataset.</p>
                 </div>
                 <form action="/dataset" method="GET" class="relative w-full md:w-72 lg:w-96 shrink-0">
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari dataset..." class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-100 dark:placeholder-slate-500 shadow-xs text-sm">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari dataset..." class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-100 dark:placeholder-slate-500 shadow-xs text-base sm:text-sm">
                     <button type="submit" class="absolute left-1 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-primary-600 transition cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xl" aria-label="Cari Dataset">
                         <i class="fa-solid fa-magnifying-glass text-sm"></i>
                     </button>

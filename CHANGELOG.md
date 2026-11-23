@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.29.4] - 2026-11-23
+
+### Perbaikan
+- **Pencegahan Auto-Zoom Peramban Mobile pada Kolom Input**:
+  - Mengubah ukuran huruf seluruh kolom `<input>`, `<textarea>`, dan `<select>` pada halaman Layanan, Pengaduan, Buku Tamu, Beranda, Statistik, Berita, Dokumen, dan Open Data menjadi `text-base sm:text-sm` (`16px` pada layar ponsel) agar iOS Safari tidak melakukan *auto-zoom* saat kolom disentuh.
+
 ## [1.29.3] - 2026-11-23
 
 ### Perbaikan

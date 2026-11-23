@@ -58,7 +58,7 @@
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-sm"></i>
                     <input type="text" name="search" value="{{ request('search') }}"
                            placeholder="Cari berita..."
-                           class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 shadow-sm text-sm">
+                           class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 shadow-sm text-base sm:text-sm">
                 </div>
             </form>
         </div>
@@ -198,7 +198,7 @@
                         <div class="relative">
                             <input type="text" name="search" value="{{ request('search') }}"
                                    placeholder="Kata kunci..."
-                                   class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-300 text-sm">
+                                   class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-300 text-base sm:text-sm">
                             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                         </div>
                     </form>

@@ -67,7 +67,7 @@
                        name="search"
                        value="{{ request('search') }}"
                        placeholder="Cari nama atau rincian dokumen..."
-                       class="w-full pl-11 pr-10 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-100 dark:placeholder-slate-500 shadow-sm text-sm transition-all duration-200">
+                       class="w-full pl-11 pr-10 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-100 dark:placeholder-slate-500 shadow-sm text-base sm:text-sm transition-all duration-200">
                 <button type="submit"
                         class="absolute left-1 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-primary-600 transition cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xl"
                         aria-label="Cari Dokumen">

@@ -373,7 +373,7 @@
                     <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                         <div class="flex-grow relative">
                             <input type="text" x-model="ticket" placeholder="SRV-20261123-A1B2C3" required
-                                   class="w-full h-12 sm:h-14 px-4 sm:px-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-sm">
+                                   class="w-full h-12 sm:h-14 px-4 sm:px-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-base sm:text-sm">
                         </div>
                         <button type="submit" :disabled="loading" class="h-12 sm:h-14 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white px-6 sm:px-8 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow-xs">
                             <template x-if="loading">
@@ -528,7 +528,7 @@
                            inputmode="numeric"
                            placeholder="16 digit NIK"
                            required
-                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('nik') ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
+                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('nik') ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-base sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
                     @error('nik')
                         <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                     @enderror
@@ -542,7 +542,7 @@
                            value="{{ old('name') }}"
                            placeholder="Budi Santoso"
                            required
-                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('name') ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
+                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('name') ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-base sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
                     @error('name')
                         <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                     @enderror
@@ -556,7 +556,7 @@
                            value="{{ old('phone') }}"
                            placeholder="081234567890"
                            required
-                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('phone') ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
+                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('phone') ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-base sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
                     @error('phone')
                         <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                     @enderror

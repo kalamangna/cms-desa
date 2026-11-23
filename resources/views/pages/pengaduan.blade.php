@@ -176,7 +176,7 @@
                         <div>
                             <label for="name" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nama Pelapor</label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Budi Santoso" required
-                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('name') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-sm">
+                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('name') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-base sm:text-sm">
                             @error('name')
                                 <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                             @enderror
@@ -184,7 +184,7 @@
                         <div>
                             <label for="phone" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nomor WhatsApp</label>
                             <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" placeholder="081234567890" required
-                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('phone') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-sm">
+                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('phone') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-base sm:text-sm">
                             @error('phone')
                                 <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                             @enderror
@@ -194,7 +194,7 @@
                     <div>
                         <label for="title" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Judul Laporan</label>
                         <input type="text" id="title" name="title" value="{{ old('title') }}" placeholder="Lampu jalan rusak di Dusun Selatan" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('title') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-sm">
+                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('title') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-base sm:text-sm">
                         @error('title')
                             <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                         @enderror
@@ -203,7 +203,7 @@
                     <div>
                         <label for="content" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Rincian Laporan</label>
                         <textarea id="content" name="content" rows="6" placeholder="Sertakan lokasi, waktu kejadian, dan rincian kendala" required
-                                  class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('content') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition resize-none text-sm">{{ old('content') }}</textarea>
+                                  class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('content') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition resize-none text-base sm:text-sm">{{ old('content') }}</textarea>
                         @error('content')
                             <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                         @enderror
@@ -235,7 +235,7 @@
                 <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <div class="flex-grow relative">
                         <input type="text" x-model="ticket" placeholder="Contoh: ADV-20260716-XXXX" required
-                               class="w-full h-12 sm:h-14 px-4 sm:px-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
+                               class="w-full h-12 sm:h-14 px-4 sm:px-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-base sm:text-sm">
                     </div>
                     <button type="submit" :disabled="loading" class="h-12 sm:h-14 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white px-6 sm:px-8 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow-xs">
                         <template x-if="loading">

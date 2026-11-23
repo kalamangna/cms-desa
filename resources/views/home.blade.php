@@ -372,7 +372,7 @@
                     <div class="flex items-center gap-2">
                         <div class="relative">
                             <label for="homeChartType" class="sr-only">Tipe Grafik Demografi</label>
-                            <select id="homeChartType" aria-label="Tipe Grafik Demografi" class="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 min-h-10 pr-8 text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all cursor-pointer">
+                            <select id="homeChartType" aria-label="Tipe Grafik Demografi" class="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 min-h-10 pr-8 text-base sm:text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all cursor-pointer">
                                 <option value="gender">Jenis Kelamin</option>
                                 <option value="job">Status Pekerjaan</option>
                                 <option value="education">Pendidikan</option>
