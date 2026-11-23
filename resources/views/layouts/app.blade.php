@@ -399,7 +399,14 @@
 
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 py-2 backdrop-blur-xl transition-shadow duration-300 border-b border-slate-200/80 dark:border-slate-800"
-        x-data="{ mobileMenuOpen: false, scrolled: false }"
+        x-data="{
+            mobileMenuOpen: false,
+            scrolled: false,
+            activeGroup: '{{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'profil' : (request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'info' : (request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'transparansi' : (request()->is('layanan*') || request()->is('pengaduan*') || request()->is('buku-tamu*') || request()->is('kontak*') ? 'layanan' : ''))) }}'
+        }"
+        x-effect="document.body.classList.toggle('overflow-hidden', mobileMenuOpen)"
+        @keydown.escape.window="mobileMenuOpen = false"
+        @resize.window="if (window.innerWidth >= 1024) mobileMenuOpen = false"
         @scroll.window="scrolled = (window.pageYOffset > 10)"
         :class="scrolled ? 'bg-white/90 dark:bg-slate-900/90 shadow-lg shadow-slate-200/40 dark:shadow-slate-950/40' : 'bg-white/95 dark:bg-slate-900/95'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -523,17 +530,24 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <div class="flex items-center gap-1 lg:hidden">
+                <div class="flex items-center gap-1 lg:hidden shrink-0">
                     <!-- Theme Toggle (Mobile) -->
                     <button type="button"
                         x-data="{ dark: document.documentElement.classList.contains('dark') }"
                         @click="dark = !dark; localStorage.setItem('theme', dark ? 'dark' : 'light'); document.documentElement.classList.toggle('dark', dark)"
-                        aria-label="Ganti mode gelap atau terang" title="Mode Gelap / Terang"
+                        aria-label="Ganti mode gelap atau terang" title="Mode Gelap atau Terang"
                         class="h-11 w-11 inline-flex items-center justify-center rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 active:scale-95 transition-all duration-200">
                         <i class="fa-solid fa-sun text-lg" x-show="!dark"></i>
                         <i class="fa-solid fa-moon text-lg" x-show="dark" x-cloak></i>
                     </button>
-                    <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu Utama" title="Menu Utama" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 h-11 w-11 inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 active:scale-95 rounded-md transition-all duration-200" :class="mobileMenuOpen ? 'rotate-90' : ''">
+                    <button type="button"
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                        :aria-expanded="mobileMenuOpen"
+                        aria-controls="mobile-navigation-drawer"
+                        aria-label="Menu Utama"
+                        title="Menu Utama"
+                        class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 h-11 w-11 inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 active:scale-95 rounded-md transition-all duration-200"
+                        :class="mobileMenuOpen ? 'rotate-90' : ''">
                         <span class="sr-only">Menu Utama Navigasi</span>
                         <i class="fa-solid fa-bars text-xl" x-show="!mobileMenuOpen"></i>
                         <i class="fa-solid fa-xmark text-xl" x-show="mobileMenuOpen" x-cloak></i>
@@ -542,76 +556,130 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
             </div>
         </div>
 
-        <!-- Mobile Menu Drawer -->
+        <!-- Mobile Menu Backdrop -->
         <div x-show="mobileMenuOpen"
             x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 -translate-y-4"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @click="mobileMenuOpen = false"
+            class="lg:hidden fixed inset-0 top-[81px] bg-slate-950/50 backdrop-blur-xs z-40"
+            x-cloak></div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-navigation-drawer"
+            x-show="mobileMenuOpen"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-2"
             x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition ease-in duration-150"
             x-transition:leave-start="opacity-100 translate-y-0"
-            x-transition:leave-end="opacity-0 -translate-y-4"
-            class="lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-y-auto max-h-[80vh]" x-cloak>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-2 pb-8 space-y-6">
+            x-transition:leave-end="opacity-0 -translate-y-2"
+            class="lg:hidden absolute inset-x-0 top-full z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-950/20 overflow-y-auto max-h-[calc(100dvh-5rem)] overscroll-contain"
+            x-cloak>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-6 space-y-2 md:space-y-5">
                 <!-- Home Link -->
-                <a href="/" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('/') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Beranda</a>
+                <a href="/" class="flex items-center justify-between px-4 min-h-11 py-2.5 rounded-2xl text-sm font-bold {{ request()->is('/') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">
+                    <span>Beranda</span>
+                </a>
 
-                <div class="space-y-6 md:space-y-0 md:grid md:grid-cols-2 md:gap-6">
-                <!-- Profil Section -->
-                <div>
-                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 block mb-2">Profil</span>
-                    <a href="/profil" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('profil*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Profil Desa</a>
-                    <a href="/aparatur" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('aparatur*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Aparatur Desa</a>
-                    <a href="/lembaga" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('lembaga*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Lembaga Desa</a>
-                    <a href="/potensi" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('potensi*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Potensi Desa</a>
+                <div class="space-y-1.5 md:space-y-0 md:grid md:grid-cols-2 md:gap-6">
+                    <!-- Profil Section -->
+                    <div class="rounded-2xl md:rounded-none">
+                        <button type="button"
+                            @click="activeGroup = activeGroup === 'profil' ? '' : 'profil'"
+                            :aria-expanded="activeGroup === 'profil'"
+                            class="w-full md:hidden flex items-center justify-between px-4 min-h-11 py-2.5 rounded-2xl text-sm font-bold {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'text-primary-700 bg-primary-50/70 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">
+                            <span>Profil</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="activeGroup === 'profil' ? 'rotate-180 text-primary-600 dark:text-primary-400' : ''"></i>
+                        </button>
+                        <span class="hidden md:block px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Profil</span>
+                        <div class="mt-1 pl-3 space-y-1 md:pl-0 md:mt-0 md:block!" x-show="activeGroup === 'profil'" x-transition>
+                            <a href="/profil" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('profil*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Profil Desa</a>
+                            <a href="/aparatur" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('aparatur*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Aparatur Desa</a>
+                            <a href="/lembaga" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('lembaga*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Lembaga Desa</a>
+                            <a href="/potensi" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('potensi*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Potensi Desa</a>
+                        </div>
+                    </div>
+
+                    <!-- Informasi Section -->
+                    <div class="rounded-2xl md:rounded-none">
+                        <button type="button"
+                            @click="activeGroup = activeGroup === 'info' ? '' : 'info'"
+                            :aria-expanded="activeGroup === 'info'"
+                            class="w-full md:hidden flex items-center justify-between px-4 min-h-11 py-2.5 rounded-2xl text-sm font-bold {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'text-primary-700 bg-primary-50/70 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">
+                            <span>Informasi</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="activeGroup === 'info' ? 'rotate-180 text-primary-600 dark:text-primary-400' : ''"></i>
+                        </button>
+                        <span class="hidden md:block px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Informasi</span>
+                        <div class="mt-1 pl-3 space-y-1 md:pl-0 md:mt-0 md:block!" x-show="activeGroup === 'info'" x-transition>
+                            <a href="/berita" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('berita*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Berita</a>
+                            <a href="/pengumuman" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('pengumuman*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Pengumuman</a>
+                            <a href="/galeri" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('galeri*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Galeri</a>
+                            <a href="/dokumen" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('dokumen*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Dokumen</a>
+                        </div>
+                    </div>
+
+                    <!-- Transparansi Section -->
+                    <div class="rounded-2xl md:rounded-none">
+                        <button type="button"
+                            @click="activeGroup = activeGroup === 'transparansi' ? '' : 'transparansi'"
+                            :aria-expanded="activeGroup === 'transparansi'"
+                            class="w-full md:hidden flex items-center justify-between px-4 min-h-11 py-2.5 rounded-2xl text-sm font-bold {{ request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'text-primary-700 bg-primary-50/70 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">
+                            <span>Transparansi</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="activeGroup === 'transparansi' ? 'rotate-180 text-primary-600 dark:text-primary-400' : ''"></i>
+                        </button>
+                        <span class="hidden md:block px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Transparansi</span>
+                        <div class="mt-1 pl-3 space-y-1 md:pl-0 md:mt-0 md:block!" x-show="activeGroup === 'transparansi'" x-transition>
+                            <a href="/apbdes" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('apbdes*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">APBDes</a>
+                            <a href="/statistik" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('statistik*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Statistik</a>
+                            <a href="/dataset" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('dataset*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Open Data</a>
+                            <a href="/publikasi" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('publikasi*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Publikasi Data</a>
+                        </div>
+                    </div>
+
+                    <!-- Layanan Section -->
+                    <div class="rounded-2xl md:rounded-none">
+                        <button type="button"
+                            @click="activeGroup = activeGroup === 'layanan' ? '' : 'layanan'"
+                            :aria-expanded="activeGroup === 'layanan'"
+                            class="w-full md:hidden flex items-center justify-between px-4 min-h-11 py-2.5 rounded-2xl text-sm font-bold {{ request()->is('layanan*') || request()->is('pengaduan*') || request()->is('buku-tamu*') || request()->is('kontak*') ? 'text-primary-700 bg-primary-50/70 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">
+                            <span>Layanan</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="activeGroup === 'layanan' ? 'rotate-180 text-primary-600 dark:text-primary-400' : ''"></i>
+                        </button>
+                        <span class="hidden md:block px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Layanan</span>
+                        <div class="mt-1 pl-3 space-y-1 md:pl-0 md:mt-0 md:block!" x-show="activeGroup === 'layanan'" x-transition>
+                            <a href="/layanan" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('layanan*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Layanan Mandiri</a>
+                            <a href="/pengaduan" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('pengaduan*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Pengaduan</a>
+                            <a href="/buku-tamu" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('buku-tamu*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Buku Tamu</a>
+                            <a href="/kontak" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('kontak*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Kontak</a>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Informasi Section -->
-                <div>
-                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 block mb-2">Informasi</span>
-                    <a href="/berita" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('berita*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Berita</a>
-                    <a href="/pengumuman" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pengumuman*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Pengumuman</a>
-                    <a href="/galeri" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('galeri*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Galeri</a>
-                    <a href="/dokumen" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('dokumen*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Dokumen</a>
-                </div>
+                <a href="/peta" class="flex items-center justify-between px-4 min-h-11 py-2.5 rounded-2xl text-sm font-bold {{ request()->is('peta*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">
+                    <span>Peta Spasial</span>
+                </a>
 
-                <!-- Transparansi Section -->
-                <div>
-                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 block mb-2">Transparansi</span>
-                    <a href="/apbdes" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('apbdes*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">APBDes</a>
-                    <a href="/statistik" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('statistik*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Statistik</a>
-                    <a href="/dataset" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('dataset*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Open Data</a>
-                    <a href="/publikasi" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('publikasi*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Publikasi Data</a>
-                </div>
-
-                <!-- Layanan Section -->
-                <div>
-                    <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 block mb-2">Layanan</span>
-                    <a href="/layanan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('layanan*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Layanan Mandiri</a>
-                    <a href="/pengaduan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pengaduan*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Pengaduan</a>
-                    <a href="/buku-tamu" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('buku-tamu*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Buku Tamu</a>
-                    <a href="/kontak" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('kontak*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Kontak</a>
-                </div>
-                </div>
-
-                <a href="/peta" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('peta*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Peta Spasial</a>
-
-                <div class="pt-6 border-t border-slate-100 dark:border-slate-800 mt-4">
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-800 mt-3">
                     @auth
-                    <div class="flex flex-col gap-3">
-                        <a href="/admin" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-primary-600 text-white text-center shadow-lg shadow-primary-200 dark:shadow-none">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="/admin" target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-2 px-4 min-h-12 py-3 rounded-2xl text-sm font-bold bg-primary-600 text-white text-center shadow-sm">
                             <i class="fa-solid fa-gauge"></i>
                             Dashboard
                         </a>
-                        <form method="POST" action="/admin/logout" class="w-full">
+                        <form method="POST" action="/admin/logout" class="flex-1">
                             @csrf
-                            <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-center hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 dark:focus-visible:ring-slate-600 transition-all duration-200">
+                            <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 min-h-12 py-3 rounded-2xl text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-center hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 dark:focus-visible:ring-slate-600 transition-all duration-200">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 Logout
                             </button>
                         </form>
                     </div>
                     @else
-                    <a href="/admin/login" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-base font-bold bg-slate-900 dark:bg-slate-800 text-white dark:border dark:border-slate-700 text-center shadow-lg hover:shadow-xl dark:shadow-none dark:hover:shadow-none dark:hover:bg-slate-700 active:scale-95 transition-all duration-300">
+                    <a href="/admin/login" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 px-4 min-h-12 py-3 rounded-2xl text-sm font-bold bg-slate-900 dark:bg-slate-800 text-white dark:border dark:border-slate-700 text-center shadow-sm hover:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 transition-all duration-200">
                         <i class="fa-solid fa-lock"></i>
                         Login
                     </a>

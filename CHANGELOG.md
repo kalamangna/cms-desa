@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.29.5] - 2026-11-23
+
+### Perbaikan
+- **Menu Navigasi Mobile (`layouts/app.blade.php`)**:
+  - Mengubah *drawer* menu mobile menjadi *overlay* (`absolute inset-x-0 top-full`) dengan *backdrop* penutup ketuk luar, penguncian scroll latar (`overflow-hidden`), dukungan tombol `Esc`, serta tinggi adaptif `max-h-[calc(100dvh-5rem)]` agar tidak mendorong konten halaman ke bawah atau terpotong *address bar* mobile.
+  - Mengelompokkan kategori menu (`Profil`, `Informasi`, `Transparansi`, `Layanan`) menjadi akordeon di layar mobile yang otomatis membuka grup halaman aktif, sembari tetap menampilkan 2 kolom terbuka di tablet (`md:`).
+  - Melengkapi `:aria-expanded`, `aria-controls`, tinggi target sentuh `min-h-11`, dan atribut `rel="noopener noreferrer"` pada tautan autentikasi drawer.
+
 ## [1.29.4] - 2026-11-23
 
 ### Perbaikan
