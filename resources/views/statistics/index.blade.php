@@ -502,10 +502,23 @@
     }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
+    // Muat pustaka ekspor (XLSX & jsPDF) hanya saat tombol ekspor diklik agar tidak memblokir muatan awal halaman
+    const _loadedExportScripts = {};
+    function loadExportScript(src) {
+        if (_loadedExportScripts[src]) return _loadedExportScripts[src];
+        _loadedExportScripts[src] = new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = src;
+            s.onload = resolve;
+            s.onerror = () => {
+                delete _loadedExportScripts[src];
+                reject(new Error('Gagal memuat pustaka ekspor.'));
+            };
+            document.head.appendChild(s);
+        });
+        return _loadedExportScripts[src];
+    }
 
     // ── Palette ────────────────────────────────────────────────────────────
     const palette = [
@@ -1182,10 +1195,14 @@ function exportTableCSV(tableId, categoryName, villageName) {
     a.click();
 }
 
-function exportTableExcel(tableId, categoryName, villageName) {
+async function exportTableExcel(tableId, categoryName, villageName) {
     if (typeof XLSX === 'undefined') {
-        alert('Library Excel belum dimuat. Coba refresh halaman.');
-        return;
+        try {
+            await loadExportScript('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js');
+        } catch (e) {
+            alert('Pustaka Excel gagal dimuat. Periksa koneksi internet lalu coba lagi.');
+            return;
+        }
     }
     const { headers, rows } = getTableData(tableId);
     const headerRows = [];
@@ -1208,9 +1225,16 @@ function exportTableExcel(tableId, categoryName, villageName) {
     XLSX.writeFile(wb, generateExportFilename(categoryName, villageName, 'xlsx'));
 }
 
-function exportTablePDF(tableId, categoryName, villageName) {
-    if (typeof window.jspdf === 'undefined') {
-        alert('Library PDF belum dimuat. Coba refresh halaman.');
+async function exportTablePDF(tableId, categoryName, villageName) {
+    try {
+        if (typeof window.jspdf === 'undefined') {
+            await loadExportScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+        }
+        if (!window.jspdf?.jsPDF?.API?.autoTable) {
+            await loadExportScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js');
+        }
+    } catch (e) {
+        alert('Pustaka PDF gagal dimuat. Periksa koneksi internet lalu coba lagi.');
         return;
     }
     const { jsPDF } = window.jspdf;

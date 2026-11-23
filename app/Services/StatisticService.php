@@ -46,22 +46,26 @@ class StatisticService
             $currentYear = (int) date('Y');
             $isEmptyDb = $this->isDatabaseEmpty();
 
+            // Muat daftar dusun beserta hitungan penduduk aktif dan keluarga sekali saja untuk seluruh agregasi
+            $dusuns = Dusun::withCount([
+                'citizens' => fn ($q) => $q->where('status', 'Aktif'),
+                'families',
+            ])->orderBy('name', 'asc')->get();
+
             $categories = $this->loadCategoriesWithLiveData(
                 $currentYear,
                 $isEmptyDb,
                 $selectedDusunId,
                 $selectedYear,
+                $dusuns,
             );
 
             return [
                 'isEmptyDb' => $isEmptyDb,
                 'categories' => $categories,
-                'summaryCards' => $this->buildSummaryCards($currentYear, $isEmptyDb, $selectedDusunId),
+                'summaryCards' => $this->buildSummaryCards($currentYear, $isEmptyDb, $dusuns),
                 'availableYears' => $this->getAvailableYears($currentYear),
-                'dusuns' => Dusun::withCount([
-                    'citizens' => fn ($q) => $q->where('status', 'Aktif'),
-                    'families',
-                ])->orderBy('name', 'asc')->get(),
+                'dusuns' => $dusuns,
                 'datasets' => Dataset::latest()->take(3)->get(),
             ];
         });
@@ -120,7 +124,8 @@ class StatisticService
 
     private function getAvailableYears(int $currentYear): array
     {
-        return StatisticData::pluck('year')
+        return StatisticData::distinct()
+            ->pluck('year')
             ->push($currentYear)
             ->unique()
             ->sort()
@@ -128,7 +133,7 @@ class StatisticService
             ->toArray();
     }
 
-    private function buildSummaryCards(int $currentYear, bool $isEmptyDb, ?int $selectedDusunId): array
+    private function buildSummaryCards(int $currentYear, bool $isEmptyDb, Collection $dusuns): array
     {
         $totalPendudukNow = $isEmptyDb
             ? 0
@@ -136,12 +141,7 @@ class StatisticService
 
         $yoyGrowth = $this->calculateYoYGrowth($currentYear, $totalPendudukNow);
 
-        $topDusun = null;
-        if (! $isEmptyDb) {
-            $topDusun = Dusun::withCount(['citizens' => fn ($q) => $q->where('status', 'Aktif')])
-                ->orderByDesc('citizens_count')
-                ->first();
-        }
+        $topDusun = $isEmptyDb ? null : $dusuns->sortByDesc('citizens_count')->first();
 
         return [
             'total_penduduk' => $totalPendudukNow,
@@ -173,12 +173,13 @@ class StatisticService
         bool $isEmptyDb,
         ?int $selectedDusunId,
         ?int $selectedYear,
+        Collection $dusuns,
     ): Collection {
         $categories = StatisticCategory::where('is_active', true)
             ->with(['indicators.data' => fn ($q) => $q->orderBy('year', 'asc')])
             ->get();
 
-        $dusunCategory = $this->createStaticDusunCategory($currentYear, $selectedDusunId);
+        $dusunCategory = $this->createStaticDusunCategory($currentYear, $selectedDusunId, $dusuns);
 
         if ($categories->isEmpty()) {
             $categories = $dusunCategory;
@@ -194,7 +195,7 @@ class StatisticService
                 continue;
             }
 
-            $secondaryConfigs = $this->getSecondaryOptions($category);
+            $secondaryConfigs = $this->getSecondaryOptions($category, $dusuns);
             $category->secondaryConfigs = $secondaryConfigs;
 
             $allowedColumns = StatisticCategory::ALLOWED_COLUMNS[$category->mapping_table] ?? [];
@@ -207,13 +208,14 @@ class StatisticService
                     continue;
                 }
 
-                $liveValue = $isEmptyDb
-                    ? 0
-                    : $this->queryIndicatorCount($category, $indicator, $selectedDusunId);
+                $counts = $this->queryIndicatorSummary($category, $indicator, $selectedDusunId, $isEmptyDb);
+                $liveValue = $counts['total'];
+                $genderBreakdown = [
+                    'male' => $counts['male'],
+                    'female' => $counts['female'],
+                ];
 
-                $genderBreakdown = $this->getGenderBreakdown($category, $indicator, $selectedDusunId, $isEmptyDb);
-
-                // Compute breakdowns for all configured secondary columns
+                // Hitung rincian untuk setiap kolom sekunder memakai agregasi GROUP BY
                 $breakdowns = [];
                 foreach ($secondaryConfigs as $secKey => $secConf) {
                     $breakdowns[$secKey] = $this->getSecondaryBreakdownCounts(
@@ -223,6 +225,8 @@ class StatisticService
                         $secConf['options'],
                         $selectedDusunId,
                         $isEmptyDb,
+                        $dusuns,
+                        $genderBreakdown,
                     );
                 }
                 $indicator->breakdowns = $breakdowns;
@@ -250,7 +254,7 @@ class StatisticService
         return $categories;
     }
 
-    public function getSecondaryOptions(StatisticCategory $category): array
+    public function getSecondaryOptions(StatisticCategory $category, ?Collection $dusuns = null): array
     {
         $secCols = $category->secondary_columns;
         if (empty($secCols)) {
@@ -281,7 +285,7 @@ class StatisticService
         $result = [];
         foreach ($secCols as $col) {
             $label = $allLabels[$col] ?? ucwords(str_replace('_', ' ', $col));
-            $options = $this->getSecondaryOptionsList($category, $col);
+            $options = $this->getSecondaryOptionsList($category, $col, $dusuns);
             $colors = [];
             foreach ($options as $idx => $opt) {
                 if ($col === 'gender') {
@@ -301,7 +305,7 @@ class StatisticService
         return $result;
     }
 
-    private function getSecondaryOptionsList(StatisticCategory $category, string $column): array
+    private function getSecondaryOptionsList(StatisticCategory $category, string $column, ?Collection $dusuns = null): array
     {
         return match ($column) {
             'gender' => ['Laki-laki', 'Perempuan'],
@@ -322,7 +326,7 @@ class StatisticService
             'building_type' => ['Rumah Tinggal Tunggal', 'Lainnya'],
             'water_source' => ['Sumur Terlindung', 'Sumur Bor / Pompa', 'Leding', 'Mata Air', 'Air kemasan bermerek', 'Lainnya'],
             'lighting_source' => ['Listrik PLN Dengan Meteran', 'Listrik PLN Tanpa Meteran', 'Listrik Non-PLN', 'Bukan Listrik'],
-            'dusun_id' => Dusun::orderBy('name', 'asc')->pluck('name')->map(fn ($n) => 'Dusun '.$n)->toArray(),
+            'dusun_id' => ($dusuns ?? Dusun::orderBy('name', 'asc')->get())->pluck('name')->map(fn ($n) => 'Dusun '.$n)->toArray(),
             default => DB::table($category->mapping_table)->whereNotNull($column)->where($column, '!=', '')->distinct()->pluck($column)->toArray(),
         };
     }
@@ -333,7 +337,9 @@ class StatisticService
         string $secColumn,
         array $secOptions,
         ?int $selectedDusunId,
-        bool $isEmptyDb
+        bool $isEmptyDb,
+        Collection $dusuns,
+        array $genderBreakdown,
     ): array {
         if ($isEmptyDb) {
             $res = [];
@@ -342,6 +348,14 @@ class StatisticService
             }
 
             return $res;
+        }
+
+        // Gunakan kembali hasil agregasi gender dari query utama indikator agar tidak query ulang
+        if ($secColumn === 'gender' && $category->mapping_table === 'citizens') {
+            return [
+                'Laki-laki' => $genderBreakdown['male'],
+                'Perempuan' => $genderBreakdown['female'],
+            ];
         }
 
         $baseQuery = $category->mapping_table === 'families'
@@ -356,12 +370,15 @@ class StatisticService
 
         $res = [];
         if ($secColumn === 'dusun_id') {
-            $dusuns = Dusun::orderBy('name', 'asc')->get();
+            $grouped = $baseQuery
+                ->selectRaw('dusun_id, COUNT(*) as total')
+                ->groupBy('dusun_id')
+                ->pluck('total', 'dusun_id');
+
             foreach ($dusuns as $dusun) {
-                $optName = 'Dusun '.$dusun->name;
-                $res[$optName] = (clone $baseQuery)->where('dusun_id', $dusun->id)->count();
+                $res['Dusun '.$dusun->name] = (int) ($grouped[$dusun->id] ?? 0);
             }
-        } elseif (in_array($secColumn, ['assistance_type'], true)) {
+        } elseif ($secColumn === 'assistance_type') {
             foreach ($secOptions as $opt) {
                 $q = clone $baseQuery;
                 if ($opt === 'Tidak Menerima Bantuan') {
@@ -372,32 +389,52 @@ class StatisticService
                 $res[$opt] = $q->count();
             }
         } else {
-            foreach ($secOptions as $opt) {
-                $q = clone $baseQuery;
-                if ($opt === 'Tidak Ada' || $opt === 'Tidak Terdaftar') {
-                    $q->where(fn ($sub) => $sub->whereNull($secColumn)->orWhere($secColumn, '')->orWhere($secColumn, $opt));
+            $rows = $baseQuery
+                ->select($secColumn, DB::raw('COUNT(*) as total'))
+                ->groupBy($secColumn)
+                ->get();
+
+            $countsByVal = [];
+            $emptyCount = 0;
+            foreach ($rows as $row) {
+                $val = $row->{$secColumn};
+                if ($val === null || $val === '') {
+                    $emptyCount += (int) $row->total;
                 } else {
-                    $q->where($secColumn, '=', $opt);
+                    $countsByVal[$val] = (int) $row->total;
                 }
-                $res[$opt] = $q->count();
+            }
+
+            foreach ($secOptions as $opt) {
+                if ($opt === 'Tidak Ada' || $opt === 'Tidak Terdaftar') {
+                    $res[$opt] = ($countsByVal[$opt] ?? 0) + $emptyCount;
+                } else {
+                    $res[$opt] = $countsByVal[$opt] ?? 0;
+                }
             }
         }
 
         return $res;
     }
 
-    private function queryIndicatorCount(
+    /**
+     * Hitung total indikator beserta rincian gender dalam satu query agregasi.
+     *
+     * @return array{total: int, male: int, female: int}
+     */
+    private function queryIndicatorSummary(
         StatisticCategory $category,
         StatisticIndicator $indicator,
         ?int $selectedDusunId,
-    ): int {
+        bool $isEmptyDb,
+    ): array {
+        if ($isEmptyDb) {
+            return ['total' => 0, 'male' => 0, 'female' => 0];
+        }
+
         $query = $category->mapping_table === 'families'
             ? Family::query()
-            : Citizen::query();
-
-        if ($category->mapping_table === 'citizens') {
-            $query->where('status', 'Aktif');
-        }
+            : Citizen::query()->where('status', 'Aktif');
 
         if ($selectedDusunId) {
             $query->where('dusun_id', $selectedDusunId);
@@ -405,31 +442,22 @@ class StatisticService
 
         $this->applyIndicatorCondition($query, $indicator);
 
-        return $query->count();
-    }
+        if ($category->mapping_table === 'citizens') {
+            $agg = $query
+                ->selectRaw("COUNT(*) as total, COALESCE(SUM(CASE WHEN gender = 'Laki-laki' THEN 1 ELSE 0 END), 0) as male, COALESCE(SUM(CASE WHEN gender = 'Perempuan' THEN 1 ELSE 0 END), 0) as female")
+                ->first();
 
-    private function getGenderBreakdown(
-        StatisticCategory $category,
-        StatisticIndicator $indicator,
-        ?int $selectedDusunId,
-        bool $isEmptyDb,
-    ): array {
-        if ($category->mapping_table !== 'citizens' || $isEmptyDb) {
-            return ['male' => 0, 'female' => 0];
+            return [
+                'total' => (int) ($agg->total ?? 0),
+                'male' => (int) ($agg->male ?? 0),
+                'female' => (int) ($agg->female ?? 0),
+            ];
         }
-
-        $baseQuery = Citizen::query()
-            ->where('status', 'Aktif');
-
-        if ($selectedDusunId) {
-            $baseQuery->where('dusun_id', $selectedDusunId);
-        }
-
-        $this->applyIndicatorCondition($baseQuery, $indicator);
 
         return [
-            'male' => (clone $baseQuery)->where('gender', 'Laki-laki')->count(),
-            'female' => (clone $baseQuery)->where('gender', 'Perempuan')->count(),
+            'total' => $query->count(),
+            'male' => 0,
+            'female' => 0,
         ];
     }
 
@@ -509,9 +537,19 @@ class StatisticService
         return $merged;
     }
 
-    private function createStaticDusunCategory(int $currentYear, ?int $selectedDusunId): Collection
+    private function createStaticDusunCategory(int $currentYear, ?int $selectedDusunId, Collection $dusuns): Collection
     {
-        $dusuns = Dusun::orderBy('name', 'asc')->get();
+        $grouped = Citizen::where('status', 'Aktif')
+            ->when($selectedDusunId, fn ($q) => $q->where('dusun_id', $selectedDusunId))
+            ->selectRaw('dusun_id, gender, COUNT(*) as total')
+            ->groupBy('dusun_id', 'gender')
+            ->get();
+
+        $countsByDusun = [];
+        foreach ($grouped as $row) {
+            $countsByDusun[$row->dusun_id][$row->gender] = (int) $row->total;
+        }
+
         $indicators = collect();
 
         foreach ($dusuns as $dusun) {
@@ -519,8 +557,8 @@ class StatisticService
                 continue;
             }
 
-            $male = Citizen::where('status', 'Aktif')->where('dusun_id', $dusun->id)->where('gender', 'Laki-laki')->count();
-            $female = Citizen::where('status', 'Aktif')->where('dusun_id', $dusun->id)->where('gender', 'Perempuan')->count();
+            $male = $countsByDusun[$dusun->id]['Laki-laki'] ?? 0;
+            $female = $countsByDusun[$dusun->id]['Perempuan'] ?? 0;
             $total = $male + $female;
 
             $liveData = new StatisticData([

@@ -11,7 +11,13 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Post::with('category')->where('published_at', '<=', now())->latest();
+        $categories = Cache::remember('posts_categories_with_count', 3600, function () {
+            return Category::withCount(['posts' => function ($query) {
+                $query->where('published_at', '<=', now());
+            }])->get();
+        });
+
+        $query = Post::with('category:id,name,slug')->where('published_at', '<=', now())->latest();
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
@@ -22,19 +28,15 @@ class PostController extends Controller
 
         $selectedCategory = null;
         if ($request->filled('category')) {
-            $selectedCategory = Category::where('slug', $request->category)->first();
-            $query->whereHas('category', function ($q) use ($request) {
-                $q->where('slug', $request->category);
-            });
+            $selectedCategory = $categories->firstWhere('slug', $request->category);
+            if ($selectedCategory) {
+                $query->where('category_id', $selectedCategory->id);
+            } else {
+                $query->whereRaw('1 = 0');
+            }
         }
 
         $posts = $query->paginate(7)->withQueryString();
-
-        $categories = Cache::remember('posts_categories_with_count', 3600, function () {
-            return Category::withCount(['posts' => function ($query) {
-                $query->where('published_at', '<=', now());
-            }])->get();
-        });
 
         return view('posts.index', compact('posts', 'categories', 'selectedCategory'));
     }

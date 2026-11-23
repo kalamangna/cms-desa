@@ -43,7 +43,6 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
@@ -259,86 +258,95 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        // Cache Invalidation Observers
-        $clearHomeCache = function () {
-            $year = date('Y');
-            Cache::forget('home_posts');
-            Cache::forget('home_announcements');
-            Cache::forget('home_village_head');
-            Cache::forget('home_job_data');
-            Cache::forget('home_edu_data');
-            Cache::forget('home_budget_summary');
-            Cache::forget("home_budget_summary_{$year}");
-            Cache::forget('home_belanja_details');
-            Cache::forget("home_belanja_details_{$year}");
-            Cache::forget('home_publications');
-            Cache::forget('home_galleries');
-            Cache::forget('home_total_dusun');
-            Cache::forget('profil_total_dusun');
-            Cache::forget('home_total_rt');
-            Cache::forget('home_total_rw');
-            Cache::forget('home_total_keluarga');
-            Cache::forget('home_total_penduduk_real');
-            Cache::forget('profil_total_penduduk');
-            Cache::forget('profil_total_rt');
-            Cache::forget('profil_total_rw');
-            Cache::forget('home_job_stats');
-            Cache::forget('home_edu_stats');
-            Cache::forget('home_laki_laki_count');
-            Cache::forget('home_perempuan_count');
-            Cache::forget('home_disabilitas_count');
-            Cache::forget('home_total_umkm');
-            Cache::forget('home_latest_year');
-            Cache::forget('home_popups');
-            Cache::forget('apbdes_categories');
-            Cache::forget('sitemap_posts');
-            Cache::forget('sitemap_xml_content');
-            Cache::forget('map_dusuns');
-            Cache::forget('posts_categories_with_count');
-            Cache::forget('officials_tree_and_list');
-            Cache::forget('institutions_list');
-            StatisticService::clearCache();
+        // Cache Invalidation Observers (dibatasi per domain agar tidak memicu stampede lintas modul)
+        $clearHomeData = function (): void {
+            Cache::forget('home_page_data_'.date('Y'));
         };
 
-        Post::saved($clearHomeCache);
-        Post::deleted($clearHomeCache);
-        Category::saved($clearHomeCache);
-        Category::deleted($clearHomeCache);
-        Announcement::saved($clearHomeCache);
-        Announcement::deleted($clearHomeCache);
-        Official::saved($clearHomeCache);
-        Official::deleted($clearHomeCache);
-        Institution::saved($clearHomeCache);
-        Institution::deleted($clearHomeCache);
-        StatisticData::saved($clearHomeCache);
-        StatisticData::deleted($clearHomeCache);
-        BudgetRealization::saved($clearHomeCache);
-        BudgetRealization::deleted($clearHomeCache);
-        BudgetCategory::saved($clearHomeCache);
-        BudgetCategory::deleted($clearHomeCache);
-        StatisticCategory::saved($clearHomeCache);
-        StatisticCategory::deleted($clearHomeCache);
-        StatisticIndicator::saved($clearHomeCache);
-        StatisticIndicator::deleted($clearHomeCache);
-        Publication::saved($clearHomeCache);
-        Publication::deleted($clearHomeCache);
-        Gallery::saved($clearHomeCache);
-        Gallery::deleted($clearHomeCache);
-        Dusun::saved($clearHomeCache);
-        Dusun::deleted($clearHomeCache);
-        Citizen::saved($clearHomeCache);
-        Citizen::deleted($clearHomeCache);
-        Family::saved($clearHomeCache);
-        Family::deleted($clearHomeCache);
-        Dataset::saved($clearHomeCache);
-        Dataset::deleted($clearHomeCache);
+        $clearPostCache = function () use ($clearHomeData): void {
+            $clearHomeData();
+            Cache::forget('posts_categories_with_count');
+            Cache::forget('sitemap_posts');
+            Cache::forget('sitemap_xml_content');
+        };
+        Post::saved($clearPostCache);
+        Post::deleted($clearPostCache);
+        Category::saved($clearPostCache);
+        Category::deleted($clearPostCache);
 
-        PopupInfographic::saved(function () {
-            Cache::forget('home_popups');
-        });
-        PopupInfographic::deleted(function () {
-            Cache::forget('home_popups');
-        });
+        $clearAnnouncementCache = function () use ($clearHomeData): void {
+            $clearHomeData();
+            Cache::forget('sitemap_xml_content');
+        };
+        Announcement::saved($clearAnnouncementCache);
+        Announcement::deleted($clearAnnouncementCache);
+
+        $clearOfficialCache = function () use ($clearHomeData): void {
+            $clearHomeData();
+            Cache::forget('officials_tree_and_list');
+        };
+        Official::saved($clearOfficialCache);
+        Official::deleted($clearOfficialCache);
+
+        $clearInstitutionCache = function (): void {
+            Cache::forget('institutions_list');
+        };
+        Institution::saved($clearInstitutionCache);
+        Institution::deleted($clearInstitutionCache);
+
+        $clearBudgetCache = function () use ($clearHomeData): void {
+            $clearHomeData();
+            Cache::forget('apbdes_categories');
+        };
+        BudgetRealization::saved($clearBudgetCache);
+        BudgetRealization::deleted($clearBudgetCache);
+        BudgetCategory::saved($clearBudgetCache);
+        BudgetCategory::deleted($clearBudgetCache);
+
+        $clearStatisticCache = function (): void {
+            StatisticService::clearCache();
+        };
+        StatisticData::saved($clearStatisticCache);
+        StatisticData::deleted($clearStatisticCache);
+        StatisticCategory::saved($clearStatisticCache);
+        StatisticCategory::deleted($clearStatisticCache);
+        StatisticIndicator::saved($clearStatisticCache);
+        StatisticIndicator::deleted($clearStatisticCache);
+
+        $clearSitemapCache = function (): void {
+            Cache::forget('sitemap_xml_content');
+        };
+        Publication::saved($clearSitemapCache);
+        Publication::deleted($clearSitemapCache);
+        Dataset::saved($clearSitemapCache);
+        Dataset::deleted($clearSitemapCache);
+
+        Gallery::saved($clearHomeData);
+        Gallery::deleted($clearHomeData);
+
+        $clearDusunCache = function () use ($clearHomeData): void {
+            $clearHomeData();
+            Cache::forget('profil_total_dusun');
+            Cache::forget('profil_total_rt');
+            Cache::forget('profil_total_rw');
+            Cache::forget('map_dusuns');
+            StatisticService::clearCache();
+        };
+        Dusun::saved($clearDusunCache);
+        Dusun::deleted($clearDusunCache);
+
+        $clearPopulationCache = function () use ($clearHomeData): void {
+            $clearHomeData();
+            Cache::forget('profil_total_penduduk');
+            StatisticService::clearCache();
+        };
+        Citizen::saved($clearPopulationCache);
+        Citizen::deleted($clearPopulationCache);
+        Family::saved($clearPopulationCache);
+        Family::deleted($clearPopulationCache);
+
+        PopupInfographic::saved($clearHomeData);
+        PopupInfographic::deleted($clearHomeData);
 
         PublicFacility::saved(function () {
             Cache::forget('office_facility_coords');
@@ -424,46 +432,55 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
 
-            // Cache visitor stats for 5 minutes without querying Schema on every request
-            $visitorStats = Cache::remember('visitor_stats_summary', 300, function () {
-                try {
-                    $todayStr = now()->toDateString();
-                    $yesterdayStr = now()->subDay()->toDateString();
+            // Muat statistik pengunjung dan koordinat kantor desa hanya saat layout publik dirender
+            // agar request /admin, /livewire, /api, dan artisan CLI tidak terbebani query tambahan.
+            View::composer('layouts.app', function ($view): void {
+                $visitorStats = Cache::remember('visitor_stats_summary', 300, function () {
+                    try {
+                        $todayStr = now()->toDateString();
+                        $yesterdayStr = now()->subDay()->toDateString();
 
-                    $today = VisitorLog::where('visit_date', $todayStr)
-                        ->distinct('ip_hash')
-                        ->count('ip_hash');
+                        $today = VisitorLog::where('visit_date', $todayStr)
+                            ->distinct('ip_hash')
+                            ->count('ip_hash');
 
-                    $yesterday = VisitorLog::where('visit_date', $yesterdayStr)
-                        ->distinct('ip_hash')
-                        ->count('ip_hash');
+                        $yesterday = VisitorLog::where('visit_date', $yesterdayStr)
+                            ->distinct('ip_hash')
+                            ->count('ip_hash');
 
-                    $total = VisitorLog::distinct('ip_hash')
-                        ->count('ip_hash');
+                        $total = VisitorLog::distinct('ip_hash')
+                            ->count('ip_hash');
 
-                    return [
-                        'today' => $today,
-                        'yesterday' => $yesterday,
-                        'total' => $total,
-                    ];
-                } catch (\Throwable $e) {
-                    return ['today' => 0, 'yesterday' => 0, 'total' => 0];
-                }
+                        return [
+                            'today' => $today,
+                            'yesterday' => $yesterday,
+                            'total' => $total,
+                        ];
+                    } catch (\Throwable $e) {
+                        return ['today' => 0, 'yesterday' => 0, 'total' => 0];
+                    }
+                });
+
+                $officeFacility = Cache::remember('office_facility_coords', 86400, function () {
+                    try {
+                        return PublicFacility::select(['latitude', 'longitude'])
+                            ->where(function ($q) {
+                                $q->where('type', 'like', '%kantor%')
+                                    ->orWhere('name', 'like', '%kantor%');
+                            })
+                            ->whereNotNull('latitude')
+                            ->whereNotNull('longitude')
+                            ->first();
+                    } catch (\Throwable $e) {
+                        return null;
+                    }
+                });
+
+                $view->with([
+                    'visitor_stats' => $visitorStats,
+                    'office_facility' => $officeFacility,
+                ]);
             });
-            View::share('visitor_stats', $visitorStats);
-
-            // Office facility coordinate for SEO schema, cached for 24 hours
-            $officeFacility = Cache::remember('office_facility_coords', 86400, function () {
-                try {
-                    return PublicFacility::where(function ($q) {
-                        $q->where('type', 'like', '%kantor%')
-                            ->orWhere('name', 'like', '%kantor%');
-                    })->whereNotNull('latitude')->whereNotNull('longitude')->first();
-                } catch (\Throwable $e) {
-                    return null;
-                }
-            });
-            View::share('office_facility', $officeFacility);
         } catch (\Throwable $e) {
             // Database not ready or migrations not run yet, safe to ignore during boot
         }

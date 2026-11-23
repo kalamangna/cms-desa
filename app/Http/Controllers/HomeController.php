@@ -11,8 +11,6 @@ use App\Models\Gallery;
 use App\Models\Official;
 use App\Models\PopupInfographic;
 use App\Models\Post;
-use App\Models\Publication;
-use App\Models\StatisticData;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -20,96 +18,50 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Cache TTL: 1 Hour
+        // Konsolidasi seluruh data beranda ke satu payload cache agar warm request hanya 1 query cache
         $ttl = 3600;
+        $currentYear = date('Y');
 
-        $allPosts = Cache::remember('home_posts', $ttl, function () {
-            return Post::with('category')->latest()->where('published_at', '<=', now())->take(4)->get();
-        });
-        $featuredPost = $allPosts->first();
-        $recentPosts = $allPosts->skip(1);
+        $data = Cache::remember("home_page_data_{$currentYear}", $ttl, function () use ($currentYear) {
+            $allPosts = Post::with('category:id,name,slug')
+                ->latest()
+                ->where('published_at', '<=', now())
+                ->take(4)
+                ->get();
 
-        $announcements = Cache::remember('home_announcements', $ttl, function () {
-            return Announcement::latest()->where('published_at', '<=', now())->take(5)->get();
-        });
+            $announcements = Announcement::latest()
+                ->where('published_at', '<=', now())
+                ->take(5)
+                ->get();
 
-        $villageHead = Cache::remember('home_village_head', $ttl * 24, function () {
-            return Official::where('level', 1)->orderBy('order')->first();
-        });
+            $villageHead = Official::where('level', 1)
+                ->orderBy('order')
+                ->first();
 
-        $latestYear = Cache::remember('home_latest_year', $ttl, function () {
-            return StatisticData::max('year') ?? date('Y');
-        });
+            $dusunAgg = Dusun::selectRaw('COUNT(*) as total_dusun, COALESCE(SUM(total_rt), 0) as total_rt, COALESCE(SUM(total_rw), 0) as total_rw')
+                ->first();
 
-        $totalPenduduk = Cache::remember('home_total_penduduk_real', $ttl, function () {
-            return Citizen::where('status', 'Aktif')->count();
-        });
+            $totalKeluarga = Family::count();
 
-        $totalUMKM = Cache::remember('home_total_umkm', $ttl, function () use ($latestYear) {
-            return StatisticData::whereHas('indicator', function ($q) {
-                $q->where('name', 'Jumlah Unit UMKM');
-            })->where('year', $latestYear)->value('value') ?? 0;
-        });
+            $citizenAgg = Citizen::where('status', 'Aktif')
+                ->selectRaw("COUNT(*) as total, COALESCE(SUM(CASE WHEN gender = 'Laki-laki' THEN 1 ELSE 0 END), 0) as laki_laki, COALESCE(SUM(CASE WHEN gender = 'Perempuan' THEN 1 ELSE 0 END), 0) as perempuan")
+                ->first();
 
-        $totalDusun = Cache::remember('home_total_dusun', $ttl, function () {
-            return Dusun::count();
-        });
-
-        $totalKeluarga = Cache::remember('home_total_keluarga', $ttl, function () {
-            return Family::count();
-        });
-
-        $totalRT = Cache::remember('home_total_rt', $ttl, function () {
-            return Dusun::sum('total_rt');
-        });
-
-        $totalRW = Cache::remember('home_total_rw', $ttl, function () {
-            return Dusun::sum('total_rw');
-        });
-
-        $jobData = Cache::remember('home_job_stats', $ttl, function () {
-            return Citizen::select('job_status as name', DB::raw('count(*) as total'))
+            $jobData = Citizen::select('job_status as name', DB::raw('count(*) as total'))
                 ->where('status', 'Aktif')
                 ->whereNotNull('job_status')
                 ->where('job_status', '!=', '')
                 ->groupBy('job_status')
                 ->get();
-        });
 
-        $eduData = Cache::remember('home_edu_stats', $ttl, function () {
-            return Citizen::select('education as name', DB::raw('count(*) as total'))
+            $eduData = Citizen::select('education as name', DB::raw('count(*) as total'))
                 ->where('status', 'Aktif')
                 ->whereNotNull('education')
                 ->where('education', '!=', '')
                 ->groupBy('education')
                 ->get();
-        });
 
-        $lakiLakiCount = Cache::remember('home_laki_laki_count', $ttl, function () {
-            return Citizen::where('status', 'Aktif')->where('gender', 'Laki-laki')->count();
-        });
-
-        $perempuanCount = Cache::remember('home_perempuan_count', $ttl, function () {
-            return Citizen::where('status', 'Aktif')->where('gender', 'Perempuan')->count();
-        });
-
-        $disabilitasCount = Cache::remember('home_disabilitas_count', $ttl, function () {
-            return Citizen::where('status', 'Aktif')
-                ->where(function ($q) {
-                    $q->where('disability_physical', 1)
-                        ->orWhere('disability_mental', 1)
-                        ->orWhere('disability_intellectual', 1)
-                        ->orWhere('disability_blind', 1)
-                        ->orWhere('disability_deaf', 1)
-                        ->orWhere('disability_speech', 1);
-                })->count();
-        });
-
-        $useCitizenData = true; // flag to tell view which format to use
-
-        $currentYear = date('Y');
-        $budgetSummary = Cache::remember("home_budget_summary_{$currentYear}", $ttl, function () use ($currentYear) {
-            $summary = [
+            $budgetSummary = [
                 'pendapatan' => ['budget' => 0, 'realization' => 0],
                 'belanja' => ['budget' => 0, 'realization' => 0],
                 'pembiayaan' => ['budget' => 0, 'realization' => 0],
@@ -126,71 +78,48 @@ class HomeController extends Controller
                 ->get();
 
             foreach ($aggregates as $row) {
-                if (isset($summary[$row->slug])) {
-                    $summary[$row->slug]['budget'] = (float) $row->total_budget;
-                    $summary[$row->slug]['realization'] = (float) $row->total_realization;
+                if (isset($budgetSummary[$row->slug])) {
+                    $budgetSummary[$row->slug]['budget'] = (float) $row->total_budget;
+                    $budgetSummary[$row->slug]['realization'] = (float) $row->total_realization;
                 }
             }
 
-            return $summary;
-        });
+            $pendapatanPct = $budgetSummary['pendapatan']['budget'] > 0
+                ? min(($budgetSummary['pendapatan']['realization'] / $budgetSummary['pendapatan']['budget']) * 100, 100)
+                : 0;
+            $belanjaPct = $budgetSummary['belanja']['budget'] > 0
+                ? min(($budgetSummary['belanja']['realization'] / $budgetSummary['belanja']['budget']) * 100, 100)
+                : 0;
 
-        $belanjaDetails = Cache::remember("home_belanja_details_{$currentYear}", $ttl, function () use ($currentYear) {
-            return BudgetRealization::where('year', $currentYear)
-                ->whereHas('category', function ($q) {
-                    $q->where('slug', 'belanja');
-                })
-                ->get();
-        });
+            $galleries = Gallery::latest()->take(8)->get();
 
-        // Kalkulasi persentase APBDes (dipindahkan dari Blade)
-        $pendapatanPct = $budgetSummary['pendapatan']['budget'] > 0
-            ? min(($budgetSummary['pendapatan']['realization'] / $budgetSummary['pendapatan']['budget']) * 100, 100)
-            : 0;
-        $belanjaPct = $budgetSummary['belanja']['budget'] > 0
-            ? min(($budgetSummary['belanja']['realization'] / $budgetSummary['belanja']['budget']) * 100, 100)
-            : 0;
-
-        $publications = Cache::remember('home_publications', $ttl, function () {
-            return Publication::latest()->take(4)->get();
-        });
-
-        $galleries = Cache::remember('home_galleries', $ttl, function () {
-            return Gallery::latest()->take(8)->get();
-        });
-
-        $popups = Cache::remember('home_popups', $ttl, function () {
-            return PopupInfographic::where('is_active', true)
+            $popups = PopupInfographic::where('is_active', true)
                 ->orderBy('sort_order', 'asc')
                 ->get(['image', 'title'])
                 ->toArray();
+
+            return [
+                'featuredPost' => $allPosts->first(),
+                'recentPosts' => $allPosts->skip(1)->values(),
+                'announcements' => $announcements,
+                'villageHead' => $villageHead,
+                'totalPenduduk' => (int) ($citizenAgg->total ?? 0),
+                'totalKeluarga' => (int) $totalKeluarga,
+                'totalDusun' => (int) ($dusunAgg->total_dusun ?? 0),
+                'totalRT' => (int) ($dusunAgg->total_rt ?? 0),
+                'totalRW' => (int) ($dusunAgg->total_rw ?? 0),
+                'jobData' => $jobData,
+                'eduData' => $eduData,
+                'budgetSummary' => $budgetSummary,
+                'pendapatanPct' => $pendapatanPct,
+                'belanjaPct' => $belanjaPct,
+                'galleries' => $galleries,
+                'popups' => $popups,
+                'lakiLakiCount' => (int) ($citizenAgg->laki_laki ?? 0),
+                'perempuanCount' => (int) ($citizenAgg->perempuan ?? 0),
+            ];
         });
 
-        return view('home', compact(
-            'featuredPost',
-            'recentPosts',
-            'announcements',
-            'villageHead',
-            'totalPenduduk',
-            'totalKeluarga',
-            'totalUMKM',
-            'totalDusun',
-            'totalRT',
-            'totalRW',
-            'latestYear',
-            'jobData',
-            'eduData',
-            'useCitizenData',
-            'budgetSummary',
-            'belanjaDetails',
-            'pendapatanPct',
-            'belanjaPct',
-            'publications',
-            'galleries',
-            'popups',
-            'lakiLakiCount',
-            'perempuanCount',
-            'disabilitasCount'
-        ));
+        return view('home', $data);
     }
 }

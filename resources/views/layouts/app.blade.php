@@ -35,7 +35,7 @@
     <link rel="canonical" href="{{ $metaCanonical }}">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('img/sinjai.png') }}">
+    <link rel="icon" type="image/webp" href="{{ asset('img/sinjai.webp') }}">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="{{ $metaOgType }}">
@@ -239,14 +239,9 @@
     <noscript>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     </noscript>
-    {{-- Preload FontAwesome woff2 fonts agar browser download paralel sejak awal --}}
-    {{-- tanpa ini, browser baru tahu setelah all.min.css selesai diparse (~1000ms) --}}
+    {{-- Preload hanya font solid yang dipakai di atas lipatan agar tidak berebut bandwidth dengan gambar LCP --}}
     <link rel="preload" as="font" type="font/woff2" crossorigin
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-brands-400.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-regular-400.woff2">
     <script>
         (function() {
             function loadFA() {
@@ -276,7 +271,6 @@
             }
         }
         $cssFile = $cachedManifest['resources/css/app.css']['file'] ?? null;
-        $jsFile  = $cachedManifest['resources/js/app.js']['file'] ?? null;
     @endphp
 
     @if($cssFile)
@@ -336,11 +330,6 @@
             font-family: 'Inter', sans-serif;
         }
     </style>
-    @if($jsFile)
-        <script type="module" src="{{ asset('build/' . $jsFile) }}"></script>
-    @else
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
 
     <!-- Dynamic Primary Color Theme Styles -->
     @if(isset($site_settings['primary_color']))

@@ -2,6 +2,19 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.29.8] - 2026-11-23
+
+### Perbaikan
+- **Optimasi Performa Backend & Cache (`HomeController`, `AppServiceProvider`, `PostController`)**:
+  - Mengonsolidasikan 22 pemanggilan `Cache::remember()` di `HomeController` menjadi 1 payload cache (`home_page_data_{year}`), menghapus 6 query mati, serta menggabungkan agregasi `dusuns` dan `citizens` menjadi masing-masing 1 query.
+  - Membatasi invalidasi cache di `AppServiceProvider` per domain model dan memindahkan `visitor_stats` serta `office_facility` ke `View::composer('layouts.app', ...)` dengan seleksi kolom `latitude` dan `longitude` saja.
+  - Menghilangkan query ganda kategori di `PostController` dengan memakai koleksi `$categories` dari cache.
+- **Optimasi Query Statistik (`StatisticService`)**:
+  - Mengubah loop `COUNT(*)` pada `createStaticDusunCategory()`, `queryIndicatorSummary()`, dan `getSecondaryBreakdownCounts()` menjadi query agregasi `GROUP BY` serta memuat daftar `Dusun` sekali per request.
+- **Optimasi Frontend & Aset (`app.blade.php`, `home.blade.php`, `statistics/index.blade.php`, `officials/index.blade.php`)**:
+  - Menghapus pemuatan bundle JS mati `axios` (`43.4 KB`) dari layout publik, mengganti favicon `sinjai.png` (`111.9 KB`) ke `sinjai.webp` (`5.4 KB`), dan memfokuskan preload FontAwesome hanya pada `fa-solid-900.woff2`.
+  - Memuat pustaka ekspor berat (`xlsx`, `jspdf`, `jspdf-autotable`, `html2canvas`) secara dinamis hanya saat tombol ekspor diklik, serta menambahkan atribut `width` dan `height` pada gambar beranda.
+
 ## [1.29.7] - 2026-11-23
 
 ### Perbaikan

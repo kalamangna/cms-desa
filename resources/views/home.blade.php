@@ -15,10 +15,6 @@
 @endphp
 
 @if(!empty($popups))
-@push('head')
-    <link rel="preload" as="image" href="{{ asset('storage/' . $popups[0]['image']) }}" fetchpriority="high">
-@endpush
-
 <div x-data="{ 
         isOpen: false,
         activeSlide: 0,
@@ -465,6 +461,8 @@
                         <img src="{{ $featuredPost->featured_image ? asset('storage/' . $featuredPost->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                              alt="{{ $featuredPost->title }}"
+                             width="800"
+                             height="450"
                              loading="lazy"
                              decoding="async"
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
@@ -488,6 +486,8 @@
                             <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                  alt="{{ $post->title }}"
+                                 width="96"
+                                 height="96"
                                  loading="lazy"
                                  decoding="async"
                                  onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
@@ -648,6 +648,8 @@
                 <img src="{{ $gallery->image_url }}"
                      class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
                      alt="{{ $gallery->title }}"
+                     width="640"
+                     height="360"
                      loading="lazy"
                      decoding="async"
                      onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">

@@ -443,9 +443,23 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
+// Muat pustaka ekspor PDF SOTK hanya saat tombol unduh diklik
+window._sotkExportScripts = window._sotkExportScripts || {};
+function loadSotkScript(src) {
+    if (window._sotkExportScripts[src]) return window._sotkExportScripts[src];
+    window._sotkExportScripts[src] = new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = function () {
+            delete window._sotkExportScripts[src];
+            reject(new Error('Gagal memuat pustaka ekspor PDF.'));
+        };
+        document.head.appendChild(s);
+    });
+    return window._sotkExportScripts[src];
+}
 
 document.addEventListener('alpine:init', function () {
 
@@ -712,7 +726,16 @@ document.addEventListener('alpine:init', function () {
                         .catch(() => Promise.resolve()); // Abaikan error fetch
                 });
 
-                Promise.all(convertPromises).then(function() {
+                var libPromises = [
+                    typeof html2canvas === 'undefined'
+                        ? loadSotkScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js')
+                        : Promise.resolve(),
+                    typeof window.jspdf === 'undefined'
+                        ? loadSotkScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
+                        : Promise.resolve()
+                ];
+
+                Promise.all(convertPromises.concat(libPromises)).then(function() {
                     html2canvas(clone, {
                         backgroundColor: '#ffffff',
                         scale: 1.5,
@@ -766,8 +789,17 @@ document.addEventListener('alpine:init', function () {
                     alert('Gagal mendownload PDF bagan SOTK. ' + (err.message || err));
                 });
                 }.bind(this)).catch(function(err) {
+                    detachedSheets.forEach(function (item) {
+                        if (item.nextSibling && item.nextSibling.parentNode === head) {
+                            head.insertBefore(item.element, item.nextSibling);
+                        } else {
+                            head.appendChild(item.element);
+                        }
+                    });
+                    if (offscreenContainer.parentNode) offscreenContainer.remove();
                     if (pdfWindow) pdfWindow.close();
-                    console.error('Promise.all error:', err);
+                    console.error('Gagal memuat pustaka ekspor PDF:', err);
+                    alert('Pustaka ekspor PDF gagal dimuat. Periksa koneksi internet lalu coba lagi.');
                 });
             },
 
