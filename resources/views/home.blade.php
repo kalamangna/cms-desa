@@ -326,7 +326,7 @@
             <i class="fa-solid fa-quote-right text-9xl md:text-[12rem]"></i>
         </div>
 
-        <div class="p-8 md:p-16 lg:p-20 relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+        <div class="p-6 sm:p-8 md:p-16 lg:p-20 relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
             <div class="flex items-center gap-3 mb-10 justify-center">
                 <div class="h-px w-8 bg-primary-600"></div>
                 <h2 class="text-primary-700 dark:text-primary-400 font-black text-xs uppercase tracking-widest">Sambutan Kepala Desa</h2>
@@ -364,15 +364,15 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {{-- Grafik Demografi Penduduk --}}
             <div class="lg:col-span-7 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden">
-                <div class="p-8 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div class="p-5 sm:p-8 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h3 class="font-heading font-black tracking-tight text-2xl text-slate-900 dark:text-slate-100" id="chartCardTitle">Demografi Penduduk</h3>
+                        <h3 class="font-heading font-black tracking-tight text-xl sm:text-2xl text-slate-900 dark:text-slate-100" id="chartCardTitle">Demografi Penduduk</h3>
                         <p class="text-slate-500 dark:text-slate-400 text-sm mt-1 font-medium" id="chartCardSubtitle">Perbandingan jumlah laki-laki dan perempuan aktif</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="relative">
                             <label for="homeChartType" class="sr-only">Tipe Grafik Demografi</label>
-                            <select id="homeChartType" aria-label="Tipe Grafik Demografi" class="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all cursor-pointer">
+                            <select id="homeChartType" aria-label="Tipe Grafik Demografi" class="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 min-h-10 pr-8 text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all cursor-pointer">
                                 <option value="gender">Jenis Kelamin</option>
                                 <option value="job">Status Pekerjaan</option>
                                 <option value="education">Pendidikan</option>
@@ -384,8 +384,8 @@
                         <span class="text-xs font-bold text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-950/40 px-3 py-1.5 rounded-full border border-primary-100 dark:border-primary-900/50 shadow-xs">{{ date('Y') }}</span>
                     </div>
                 </div>
-                <div class="p-8">
-                    <div class="h-72 relative flex items-center justify-center">
+                <div class="p-5 sm:p-8">
+                    <div class="h-80 sm:h-72 relative flex items-center justify-center">
                         <div id="populationChart" class="w-full h-full {{ ($lakiLakiCount == 0 && $perempuanCount == 0) ? 'hidden' : '' }}"></div>
                         <div id="populationEmptyState" class="{{ ($lakiLakiCount == 0 && $perempuanCount == 0) ? '' : 'hidden' }} w-full">
                             <x-empty-state
@@ -404,14 +404,14 @@
 
             {{-- APBDes --}}
             <div class="lg:col-span-5 bg-slate-900 rounded-3xl text-white overflow-hidden flex flex-col shadow-2xl shadow-slate-900/40 border border-slate-800">
-                <div class="p-8 border-b border-white/10 flex justify-between items-center relative overflow-hidden">
+                <div class="p-5 sm:p-8 border-b border-white/10 flex justify-between items-center relative overflow-hidden">
                     <div class="absolute -right-8 -top-8 w-32 h-32 bg-primary-500/20 blur-2xl rounded-full pointer-events-none"></div>
                     <div class="relative z-10">
-                        <h3 class="font-heading font-black tracking-tight text-2xl text-white">APBDes {{ date('Y') }}</h3>
+                        <h3 class="font-heading font-black tracking-tight text-xl sm:text-2xl text-white">APBDes {{ date('Y') }}</h3>
                         <p class="text-slate-400 text-sm mt-1 font-medium">Realisasi anggaran desa berjalan</p>
                     </div>
                 </div>
-                <div class="p-8 flex-1 flex flex-col justify-between">
+                <div class="p-5 sm:p-8 flex-1 flex flex-col justify-between">
                     <div>
                         <div class="mb-6">
                             <div class="flex justify-between items-center mb-3">
@@ -461,7 +461,7 @@
             <div class="lg:col-span-8 space-y-8">
                 @if($featuredPost)
                 <a href="/berita/{{ $featuredPost->slug }}" class="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 rounded-3xl cursor-pointer">
-                    <div class="relative rounded-3xl overflow-hidden aspect-video mb-6 shadow-xl shadow-slate-200/60 dark:shadow-slate-950/60 border border-slate-200/80 dark:border-slate-800 group-hover:shadow-2xl group-hover:shadow-slate-300/50 dark:group-hover:shadow-slate-950 group-hover:-translate-y-1 transition-all duration-300">
+                    <div class="relative rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-video mb-6 shadow-xl shadow-slate-200/60 dark:shadow-slate-950/60 border border-slate-200/80 dark:border-slate-800 group-hover:shadow-2xl group-hover:shadow-slate-300/50 dark:group-hover:shadow-slate-950 group-hover:-translate-y-1 transition-all duration-300">
                         <img src="{{ $featuredPost->featured_image ? asset('storage/' . $featuredPost->featured_image) : asset('img/meta.webp') }}"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                              alt="{{ $featuredPost->title }}"
@@ -469,12 +469,12 @@
                              decoding="async"
                              onerror="this.onerror=null;this.src='{{ asset('img/meta.webp') }}'">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent"></div>
-                        <div class="absolute top-6 left-6">
+                        <div class="absolute top-4 left-4 sm:top-6 sm:left-6">
                             <span class="bg-primary-600/90 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md border border-primary-500">Berita Utama</span>
                         </div>
-                        <div class="absolute bottom-8 left-8 right-8">
-                            <p class="text-slate-300 text-xs font-bold uppercase tracking-widest mb-3 drop-shadow-md">{{ $featuredPost->published_at->translatedFormat('d M Y') }}</p>
-                            <h3 class="text-white font-heading font-black tracking-tight text-2xl md:text-4xl leading-tight line-clamp-2 group-hover:text-primary-300 transition-colors mb-3 drop-shadow-lg">{{ $featuredPost->title }}</h3>
+                        <div class="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8">
+                            <p class="text-slate-300 text-xs font-bold uppercase tracking-widest mb-2 sm:mb-3 drop-shadow-md">{{ $featuredPost->published_at->translatedFormat('d M Y') }}</p>
+                            <h3 class="text-white font-heading font-black tracking-tight text-lg sm:text-2xl md:text-4xl leading-tight line-clamp-2 group-hover:text-primary-300 transition-colors mb-2 sm:mb-3 drop-shadow-lg">{{ $featuredPost->title }}</h3>
                             <p class="text-white/80 text-sm md:text-base line-clamp-2 hidden md:block font-medium drop-shadow-md">{!! Str::limit(strip_tags($featuredPost->content), 120) !!}</p>
                         </div>
                     </div>

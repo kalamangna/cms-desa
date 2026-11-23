@@ -30,10 +30,10 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Profil <span class="text-primary-500 italic">Desa</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2">
+            <p class="text-slate-300 text-base sm:text-lg mt-2">
                 Visi, misi, sejarah, dan profil wilayah Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -69,7 +69,7 @@
 
         {{-- Visi Card --}}
         @if(!empty(trim(strip_tags($site_settings['village_vision'] ?? ''))))
-        <div class="relative bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-10 md:p-16 text-white mb-10 shadow-2xl shadow-primary-200/60 overflow-hidden">
+        <div class="relative bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-6 sm:p-10 md:p-16 text-white mb-10 shadow-2xl shadow-primary-200/60 overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none"></div>
             <div class="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl pointer-events-none"></div>
             <div class="relative z-10">
@@ -79,13 +79,13 @@
                     </div>
                     <span class="text-primary-200 font-black text-[11px] uppercase tracking-widest">Visi</span>
                 </div>
-                <p class="text-2xl md:text-3xl font-heading font-extrabold italic leading-relaxed">
+                <p class="text-xl sm:text-2xl md:text-3xl font-heading font-extrabold italic leading-relaxed">
                     "{{ $site_settings['village_vision'] }}"
                 </p>
             </div>
         </div>
         @else
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-10 md:p-16 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 mb-10">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 md:p-16 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 mb-10">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center">
                     <i class="fa-solid fa-eye"></i>
@@ -101,7 +101,7 @@
         @endif
 
         {{-- Misi Card --}}
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-10 md:p-16 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 md:p-16 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center">
                     <i class="fa-solid fa-list-check"></i>

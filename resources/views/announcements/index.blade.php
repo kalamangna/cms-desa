@@ -62,10 +62,10 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Pengumuman <span class="text-primary-500 italic">Resmi</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2 max-w-2xl leading-relaxed">
+            <p class="text-slate-300 text-base sm:text-lg mt-2 max-w-2xl leading-relaxed">
                 Informasi dan edaran resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -109,20 +109,20 @@
         @endif
 
         {{-- ─── Timeline Item ─────────────────────────────────────── --}}
-        <div class="relative flex gap-5 md:gap-8 mb-8 group">
+        <div class="relative flex gap-3 sm:gap-5 md:gap-8 mb-6 sm:mb-8 group">
 
             {{-- Timeline stem --}}
             @if(!$loop->last)
-            <div class="absolute left-6 md:left-7 top-14 bottom-0 w-px bg-slate-200 dark:bg-slate-800 group-last:hidden -z-0"></div>
+            <div class="absolute left-5 sm:left-6 md:left-7 top-12 sm:top-14 bottom-0 w-px bg-slate-200 dark:bg-slate-800 group-last:hidden -z-0"></div>
             @endif
 
             {{-- Icon dot --}}
-            <div class="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 border border-primary-100 dark:border-primary-900/50 flex items-center justify-center shadow-xs group-hover:bg-primary-600 group-hover:border-primary-600 transition-all duration-300 z-10">
-                <i class="fa-solid fa-bullhorn text-primary-600 dark:text-primary-400 group-hover:text-white transition-colors duration-300 text-base md:text-lg"></i>
+            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/40 border border-primary-100 dark:border-primary-900/50 flex items-center justify-center shadow-xs group-hover:bg-primary-600 group-hover:border-primary-600 transition-all duration-300 z-10">
+                <i class="fa-solid fa-bullhorn text-primary-600 dark:text-primary-400 group-hover:text-white transition-colors duration-300 text-sm sm:text-base md:text-lg"></i>
             </div>
 
             {{-- Card --}}
-            <div class="flex-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-xl hover:shadow-slate-200 dark:hover:shadow-slate-950 hover:-translate-y-1 transition-all duration-300 overflow-hidden p-6 md:p-7">
+            <div class="flex-1 min-w-0 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-xl hover:shadow-slate-200 dark:hover:shadow-slate-950 hover:-translate-y-1 transition-all duration-300 overflow-hidden p-4 sm:p-6 md:p-7">
                 
                 {{-- Meta Info: Date Badge --}}
                 <div class="mb-4">
@@ -148,7 +148,7 @@
                     <div>
                         <button @click="open = !open"
                                 :aria-expanded="open"
-                                class="inline-flex items-center justify-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-primary-900/50 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
+                                class="inline-flex items-center justify-center gap-1.5 text-xs font-bold px-4 py-2.5 min-h-10 rounded-lg transition-all duration-200 bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-primary-900/50 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
                             <span x-text="open ? 'Tutup' : 'Baca Selengkapnya'"></span>
                             <i class="fa-solid transition-transform duration-200 text-[10px]"
                                :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>

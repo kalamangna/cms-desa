@@ -64,10 +64,10 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Kontak <span class="text-primary-500 italic">Kami</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2 leading-relaxed">
+            <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
                 Informasi kontak dan saluran pelayanan Pemerintah Desa.
             </p>
         </div>
@@ -108,8 +108,8 @@
                             }
                         @endphp
                         @if($phone)
-                        <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
-                           class="text-slate-800 dark:text-slate-200 font-semibold text-sm hover:text-primary-700 dark:hover:text-primary-400 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 inline-flex items-center gap-2 mt-1 rounded-md px-1 -ml-1">
+                        <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener noreferrer"
+                           class="text-slate-800 dark:text-slate-200 font-semibold text-sm hover:text-primary-700 dark:hover:text-primary-400 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 inline-flex flex-wrap items-center gap-2 py-2 min-h-10 rounded-md px-1 -ml-1">
                             {{ $phone }}
                             <span class="inline-flex items-center gap-1 bg-emerald-100 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide border border-emerald-200 dark:border-emerald-500/20">
                                 <i class="fa-brands fa-whatsapp text-[10px]"></i> Chat
@@ -129,7 +129,7 @@
                     <div class="min-w-0">
                         <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Email Resmi</p>
                         @if(!empty($site_settings['village_email']))
-                        <a href="mailto:{{ $site_settings['village_email'] }}" class="text-slate-800 dark:text-slate-200 font-semibold text-sm hover:text-primary-700 dark:hover:text-primary-400 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 break-all inline-block rounded-md px-1 -ml-1">
+                        <a href="mailto:{{ $site_settings['village_email'] }}" class="text-slate-800 dark:text-slate-200 font-semibold text-sm hover:text-primary-700 dark:hover:text-primary-400 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 break-all inline-flex items-center py-2 min-h-10 rounded-md px-1 -ml-1">
                             {{ $site_settings['village_email'] }}
                         </a>
                         @else
@@ -150,7 +150,7 @@
                 </div>
 
                 {{-- Social Media --}}
-                <div class="bg-slate-900 rounded-3xl p-8 text-white shadow-lg shadow-slate-900/40">
+                <div class="bg-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-lg shadow-slate-900/40">
                     <h4 class="text-xs font-black uppercase tracking-widest text-primary-400 mb-6">Ikuti Media Sosial</h4>
                     <div class="flex flex-wrap gap-3">
                         @if(!empty($site_settings['social_facebook']))
@@ -202,7 +202,7 @@
 
             {{-- ========== RIGHT: Peta ========== --}}
             <div class="lg:sticky lg:top-24 self-start">
-                <div class="rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 h-[520px] lg:h-[640px] relative bg-slate-100 dark:bg-slate-800">
+                <div class="rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 h-[340px] sm:h-[460px] lg:h-[640px] relative bg-slate-100 dark:bg-slate-800">
                     @if(!empty($site_settings['village_name']))
                     <iframe
                         class="w-full h-full absolute inset-0 z-0 border-0 transition-all duration-500 dark:invert dark:hue-rotate-180 dark:opacity-90"

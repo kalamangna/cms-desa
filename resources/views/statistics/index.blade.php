@@ -34,10 +34,10 @@
 
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
-                <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                     Statistik <span class="text-primary-500 italic">Desa</span>
                 </h1>
-                <p class="text-slate-300 text-lg mt-2 leading-relaxed">
+                <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
                     Data kependudukan, sosial, dan ekonomi Desa.
                 </p>
             </div>
@@ -73,55 +73,55 @@
             </div>
         @else
             {{-- ─── SUMMARY CARDS ─────────────────────────────────────────── --}}
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10">
                 {{-- Total Penduduk --}}
-                <div class="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-6 text-white shadow-lg shadow-primary-900/10 flex flex-col justify-between min-h-[120px]">
+                <div class="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-4 sm:p-6 text-white shadow-lg shadow-primary-900/10 flex flex-col justify-between min-h-[112px] sm:min-h-[120px]">
                     <span class="text-primary-200 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-users text-xs"></i> Total Penduduk
                     </span>
                     <div>
-                        <span class="text-4xl md:text-5xl font-black tracking-tight block leading-none">{{ number_format($summaryCards['total_penduduk'], 0, ',', '.') }}</span>
+                        <span class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight block leading-none break-words">{{ number_format($summaryCards['total_penduduk'], 0, ',', '.') }}</span>
                         <span class="text-primary-200 text-[10px] font-semibold mt-2 block">jiwa aktif {{ $summaryCards['latest_year'] }}</span>
                     </div>
                 </div>
 
                 {{-- YoY Growth --}}
-                <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col justify-between min-h-[120px]">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col justify-between min-h-[112px] sm:min-h-[120px]">
                     <span class="text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-chart-line text-primary-600 text-xs"></i> Pertumbuhan YoY
                     </span>
                     <div>
                         @if(!is_null($summaryCards['yoy_growth']))
                             @php $yoy = $summaryCards['yoy_growth']; @endphp
-                            <span class="text-4xl font-black tracking-tight block leading-none {{ $yoy >= 0 ? 'text-primary-700' : 'text-rose-600' }}">
+                            <span class="text-2xl sm:text-4xl font-black tracking-tight block leading-none break-words {{ $yoy >= 0 ? 'text-primary-700' : 'text-rose-600' }}">
                                 {{ $yoy >= 0 ? '+' : '' }}{{ number_format($yoy, 2, ',', '.') }}%
                             </span>
                             <span class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-2 block">vs {{ $summaryCards['latest_year'] - 1 }}</span>
                         @else
-                            <span class="text-3xl font-black tracking-tight block leading-none text-slate-300">—</span>
+                            <span class="text-2xl sm:text-3xl font-black tracking-tight block leading-none text-slate-300">—</span>
                             <span class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-2 block">data historis belum ada</span>
                         @endif
                     </div>
                 </div>
 
                 {{-- Tahun Terkini --}}
-                <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col justify-between min-h-[120px]">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col justify-between min-h-[112px] sm:min-h-[120px]">
                     <span class="text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-regular fa-calendar text-primary-600 text-xs"></i> Tahun Data
                     </span>
                     <div>
-                        <span class="text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100 block leading-none">{{ $summaryCards['latest_year'] }}</span>
+                        <span class="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100 block leading-none">{{ $summaryCards['latest_year'] }}</span>
                         <span class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-2 block">data real-time</span>
                     </div>
                 </div>
 
                 {{-- Dusun Terbanyak --}}
-                <div class="bg-slate-900 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[120px] shadow-lg shadow-slate-900/40">
+                <div class="bg-slate-900 rounded-2xl p-4 sm:p-6 text-white flex flex-col justify-between min-h-[112px] sm:min-h-[120px] shadow-lg shadow-slate-900/40">
                     <span class="text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-location-dot text-primary-400 text-xs"></i> Dusun Terbanyak
                     </span>
                     <div>
-                        <span class="text-xl font-black tracking-tight block leading-snug">{{ $summaryCards['top_dusun'] }}</span>
+                        <span class="text-base sm:text-xl font-black tracking-tight block leading-snug break-words">{{ $summaryCards['top_dusun'] }}</span>
                         <span class="text-slate-400 text-[10px] font-semibold mt-2 block">{{ number_format($summaryCards['top_dusun_count'], 0, ',', '.') }} jiwa</span>
                     </div>
                 </div>
@@ -289,7 +289,7 @@
                                         aria-label="Bandingkan Tahun"
                                         x-model="compareYear"
                                         @change="renderChart()"
-                                        class="appearance-none bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer">
+                                        class="appearance-none bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 min-h-10 pr-7 text-xs font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer">
                                     <option value="none">Bandingkan...</option>
                                     @foreach($allYears as $yr)
                                     <option value="{{ $yr }}">vs {{ $yr }}</option>
@@ -304,7 +304,7 @@
                             {{-- Toggle Persentase --}}
                             <button @click="showPercent = !showPercent; renderChart()"
                                     :class="showPercent ? 'bg-primary-600 text-white border-primary-600 shadow-xs' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-primary-400'"
-                                    class="px-3.5 py-2 rounded-xl text-xs font-bold border transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 flex items-center gap-1.5 cursor-pointer">
+                                    class="px-3.5 py-2 min-h-10 rounded-xl text-xs font-bold border transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 flex items-center gap-1.5 cursor-pointer">
                                 <i class="fa-solid fa-percent text-[10px]"></i>
                                 <span x-text="showPercent ? 'Persentase' : 'Jumlah'"></span>
                             </button>
@@ -316,7 +316,7 @@
                                         aria-label="Pembanding Dinamis"
                                         x-model="activeSecondaryKey"
                                         @change="if (activeSecondaryKey !== 'none') currentType = 'bar'; renderChart()"
-                                        class="appearance-none bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 pr-7 text-xs font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
+                                        class="appearance-none bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 min-h-10 pr-7 text-xs font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
                                     <option value="none">Tanpa Pembanding</option>
                                     <template x-for="(conf, key) in (categoryData['{{ $category->slug }}']?.secondaryConfigs || {})" :key="key">
                                         <option :value="key" x-text="'Pisah: ' + conf.label"></option>
@@ -331,14 +331,14 @@
                             <div class="inline-flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700" x-show="activeSecondaryKey === 'none'">
                                 <button @click="currentType = 'bar'; renderChart()"
                                         :class="currentType === 'bar' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none active:scale-95 disabled:opacity-50"
-                                        title="Grafik Batang">
+                                        class="px-3 py-1.5 min-h-10 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none active:scale-95 disabled:opacity-50"
+                                        aria-label="Grafik Batang">
                                     <i class="fa-solid fa-chart-bar"></i>
                                 </button>
                                 <button @click="currentType = 'doughnut'; renderChart()"
                                         :class="currentType === 'doughnut' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-                                        class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none active:scale-95 disabled:opacity-50"
-                                        title="Grafik Lingkaran">
+                                        class="px-3 py-1.5 min-h-10 rounded-lg text-xs font-bold transition flex items-center gap-1 focus:outline-none active:scale-95 disabled:opacity-50"
+                                        aria-label="Grafik Lingkaran">
                                     <i class="fa-solid fa-chart-pie"></i>
                                 </button>
                             </div>
@@ -360,9 +360,9 @@
                         : (int)($allYears->last() ?? date('Y'));
                 @endphp
                 <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden mb-8">
-                    <div class="flex items-center justify-between px-6 md:px-8 pt-6 pb-4">
-                        <div>
-                            <h3 class="text-base font-heading font-extrabold text-slate-900 dark:text-slate-100"
+                    <div class="flex items-center justify-between gap-3 px-4 sm:px-6 md:px-8 pt-5 sm:pt-6 pb-4">
+                        <div class="min-w-0">
+                            <h3 class="text-sm sm:text-base font-heading font-extrabold text-slate-900 dark:text-slate-100 break-words"
                                 x-text="'Tabel {{ addslashes($category->name) }}' + (activeSecondaryKey !== 'none' && categoryData['{{ $category->slug }}']?.secondaryConfigs?.[activeSecondaryKey] ? ' (Berdasarkan ' + categoryData['{{ $category->slug }}'].secondaryConfigs[activeSecondaryKey].label + ')' : '') + getDusunTitleSuffix()">
                                 Tabel {{ $category->name }}
                             </h3>
@@ -371,7 +371,7 @@
                             </p>
                         </div>
                         {{-- Tombol Ekspor --}}
-                        <div class="relative" x-data="{ open: false }">
+                        <div class="relative shrink-0" x-data="{ open: false }">
                             <button @click="open = !open" @click.outside="open = false"
                                     :aria-expanded="open"
                                     class="inline-flex items-center gap-1.5 px-3.5 py-2.5 min-h-[40px] rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-primary-600 hover:text-white hover:border-primary-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 cursor-pointer">
@@ -403,8 +403,8 @@
                         <table id="tabel-{{ $category->slug }}" class="w-full text-sm border-collapse">
                             <thead id="thead-{{ $category->slug }}">
                                 <tr class="border-t border-slate-100 dark:border-slate-800 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
-                                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 sticky left-0 bg-slate-50 dark:bg-slate-950 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
-                                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap leading-tight">
+                                    <th class="text-left px-3 sm:px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 sticky left-0 bg-slate-50 dark:bg-slate-950 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[130px] sm:min-w-[200px]">Indikator</th>
+                                    <th class="text-right px-3 sm:px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap leading-tight">
                                         Total<br>
                                         <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">({{ $firstIndicatorUnit }})</span>
                                     </th>
@@ -425,10 +425,10 @@
                                     $pctT = $grandTotal > 0 ? round(($valT / $grandTotal) * 100, 1) : 0;
                                 @endphp
                                 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-100 group">
-                                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 dark:text-slate-200 sticky left-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
+                                    <td class="px-3 sm:px-6 md:px-8 py-3.5 font-semibold text-slate-800 dark:text-slate-200 sticky left-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
                                         {{ $indicator->name }}
                                     </td>
-                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 dark:text-slate-100 whitespace-nowrap">
+                                    <td class="px-3 sm:px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 dark:text-slate-100 whitespace-nowrap">
                                         {{ number_format($valT, 0, ',', '.') }}
                                         @if($grandTotal > 0)
                                             <span class="text-[10px] text-slate-400 font-medium ml-1">({{ str_replace('.', ',', (string)$pctT) }}%)</span>
@@ -439,8 +439,8 @@
                             </tbody>
                             <tfoot id="tfoot-{{ $category->slug }}" class="border-t-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 font-extrabold text-slate-900 dark:text-slate-100">
                                 <tr>
-                                    <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 dark:text-slate-100 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 dark:bg-slate-800 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>
-                                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">{{ number_format($grandTotal, 0, ',', '.') }}</td>
+                                    <td class="px-3 sm:px-6 md:px-8 py-3.5 text-xs text-slate-900 dark:text-slate-100 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 dark:bg-slate-800 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>
+                                    <td class="px-3 sm:px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">{{ number_format($grandTotal, 0, ',', '.') }}</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -600,15 +600,15 @@
 
             if (thead) {
                 let ths = `<tr class="border-t border-slate-100 dark:border-slate-800 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
-                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 sticky left-0 bg-slate-50 dark:bg-slate-950 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>`;
+                    <th class="text-left px-3 sm:px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 sticky left-0 bg-slate-50 dark:bg-slate-950 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[130px] sm:min-w-[200px]">Indikator</th>`;
                 options.forEach((opt, idx) => {
                     const colColor = colors[idx] || '#64748b';
-                    ths += `<th class="text-right px-4 py-2.5 text-[10px] font-black uppercase tracking-widest whitespace-nowrap leading-tight" style="color: ${colColor}">
+                    ths += `<th class="text-right px-3 sm:px-4 py-2.5 text-[10px] font-black uppercase tracking-widest whitespace-nowrap leading-tight" style="color: ${colColor}">
                         ${opt}<br>
                         <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(${firstUnit})</span>
                     </th>`;
                 });
-                ths += `<th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap leading-tight">
+                ths += `<th class="text-right px-3 sm:px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap leading-tight">
                     Total<br>
                     <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(${firstUnit})</span>
                 </th></tr>`;
@@ -626,7 +626,7 @@
                 const pctInd = grandTotal > 0 ? (Math.round((indTotal / grandTotal) * 1000) / 10) : 0;
 
                 tbodyHtml += `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-100 group">
-                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 dark:text-slate-200 sticky left-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
+                    <td class="px-3 sm:px-6 md:px-8 py-3.5 font-semibold text-slate-800 dark:text-slate-200 sticky left-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
                         ${ind.name}
                     </td>`;
 
@@ -636,13 +636,13 @@
                     const colColor = colors[idx] || '#64748b';
                     const pctCell = indTotal > 0 ? (Math.round((val / indTotal) * 1000) / 10) : 0;
 
-                    tbodyHtml += `<td class="px-4 py-3.5 text-right whitespace-nowrap">
+                    tbodyHtml += `<td class="px-3 sm:px-4 py-3.5 text-right whitespace-nowrap">
                         <span class="text-xs font-bold" style="color: ${colColor}">${val.toLocaleString('id-ID')}</span>
                         ${indTotal > 0 ? `<span class="text-[10px] font-semibold ml-1 opacity-80" style="color: ${colColor}">(${pctCell.toString().replace('.', ',')}%)</span>` : ''}
                     </td>`;
                 });
 
-                tbodyHtml += `<td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 dark:text-slate-100 whitespace-nowrap">
+                tbodyHtml += `<td class="px-3 sm:px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 dark:text-slate-100 whitespace-nowrap">
                     ${indTotal.toLocaleString('id-ID')}
                     ${grandTotal > 0 ? `<span class="text-[10px] text-slate-400 font-medium ml-1">(${pctInd.toString().replace('.', ',')}%)</span>` : ''}
                 </td></tr>`;
@@ -651,18 +651,18 @@
 
             if (tfoot) {
                 let tfootHtml = `<tr>
-                    <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 dark:text-slate-100 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 dark:bg-slate-800 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>`;
+                    <td class="px-3 sm:px-6 md:px-8 py-3.5 text-xs text-slate-900 dark:text-slate-100 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 dark:bg-slate-800 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>`;
                 options.forEach((opt, idx) => {
                     const sumVal = colSums[opt] || 0;
                     const colColor = colors[idx] || '#64748b';
                     const pctCol = grandTotal > 0 ? (Math.round((sumVal / grandTotal) * 1000) / 10) : 0;
 
-                    tfootHtml += `<td class="px-4 py-3.5 text-right text-xs font-black whitespace-nowrap" style="color: ${colColor}">
+                    tfootHtml += `<td class="px-3 sm:px-4 py-3.5 text-right text-xs font-black whitespace-nowrap" style="color: ${colColor}">
                         ${sumVal.toLocaleString('id-ID')}
                         ${grandTotal > 0 ? `<span class="text-[10px] font-bold ml-1 opacity-90" style="color: ${colColor}">(${pctCol.toString().replace('.', ',')}%)</span>` : ''}
                     </td>`;
                 });
-                tfootHtml += `<td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">
+                tfootHtml += `<td class="px-3 sm:px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">
                     ${grandTotal.toLocaleString('id-ID')}
                 </td></tr>`;
                 tfoot.innerHTML = tfootHtml;
@@ -676,8 +676,8 @@
 
             if (thead) {
                 thead.innerHTML = `<tr class="border-t border-slate-100 dark:border-slate-800 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
-                    <th class="text-left px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 sticky left-0 bg-slate-50 dark:bg-slate-950 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[200px]">Indikator</th>
-                    <th class="text-right px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap leading-tight">
+                    <th class="text-left px-3 sm:px-6 md:px-8 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 sticky left-0 bg-slate-50 dark:bg-slate-950 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] min-w-[130px] sm:min-w-[200px]">Indikator</th>
+                    <th class="text-right px-3 sm:px-6 md:px-8 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 whitespace-nowrap leading-tight">
                         Total<br>
                         <span class="text-[9px] font-medium text-slate-400 normal-case tracking-normal">(${firstUnit})</span>
                     </th>
@@ -691,10 +691,10 @@
                 const pctT = grandTotal > 0 ? (Math.round((valT / grandTotal) * 1000) / 10) : 0;
 
                 tbodyHtml += `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-100 group">
-                    <td class="px-6 md:px-8 py-3.5 font-semibold text-slate-800 dark:text-slate-200 sticky left-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
+                    <td class="px-3 sm:px-6 md:px-8 py-3.5 font-semibold text-slate-800 dark:text-slate-200 sticky left-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)] transition-colors text-xs leading-snug">
                         ${ind.name}
                     </td>
-                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 dark:text-slate-100 whitespace-nowrap">
+                    <td class="px-3 sm:px-6 md:px-8 py-3.5 text-right text-xs font-extrabold text-slate-900 dark:text-slate-100 whitespace-nowrap">
                         ${valT.toLocaleString('id-ID')}
                         ${grandTotal > 0 ? `<span class="text-[10px] text-slate-400 font-medium ml-1">(${pctT.toString().replace('.', ',')}%)</span>` : ''}
                     </td>
@@ -704,8 +704,8 @@
 
             if (tfoot) {
                 tfoot.innerHTML = `<tr>
-                    <td class="px-6 md:px-8 py-3.5 text-xs text-slate-900 dark:text-slate-100 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 dark:bg-slate-800 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>
-                    <td class="px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">${grandTotal.toLocaleString('id-ID')}</td>
+                    <td class="px-3 sm:px-6 md:px-8 py-3.5 text-xs text-slate-900 dark:text-slate-100 font-extrabold uppercase tracking-wider sticky left-0 bg-slate-100 dark:bg-slate-800 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.06)]">Total</td>
+                    <td class="px-3 sm:px-6 md:px-8 py-3.5 text-right text-xs font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">${grandTotal.toLocaleString('id-ID')}</td>
                 </tr>`;
             }
         }

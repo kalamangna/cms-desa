@@ -35,10 +35,10 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Berita <span class="text-primary-500 italic">Terbaru</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2">
+            <p class="text-slate-300 text-base sm:text-lg mt-2">
                 Kabar kegiatan, pembangunan, dan perkembangan Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -77,7 +77,7 @@
                     <a href="/berita/{{ $post->slug }}" class="group block mb-10 md:mb-14 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-3xl transition-transform duration-300">
                         <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-200/60 dark:shadow-slate-950/60 border border-slate-200/80 dark:border-slate-800">
                             {{-- Image --}}
-                            <div class="aspect-video w-full overflow-hidden bg-slate-200 dark:bg-slate-800">
+                            <div class="aspect-[4/3] sm:aspect-video min-h-[260px] w-full overflow-hidden bg-slate-200 dark:bg-slate-800">
                                 <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : asset('img/meta.webp') }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                      alt="{{ $post->title }}"
@@ -92,7 +92,7 @@
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/40 to-transparent"></div>
 
                             {{-- Category badge --}}
-                            <div class="absolute top-5 left-5 flex gap-2">
+                            <div class="absolute top-4 left-4 sm:top-5 sm:left-5 flex gap-2">
                                 @if($post->category)
                                 <span class="bg-primary-500 text-white text-[10px] font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-md">
                                     {{ $post->category->name }}
@@ -101,17 +101,17 @@
                             </div>
 
                             {{-- Content overlay --}}
-                            <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                                <time class="text-slate-300 text-[10px] font-black uppercase tracking-widest mb-3 block">
+                            <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
+                                <time class="text-slate-300 text-[10px] font-black uppercase tracking-widest mb-2 sm:mb-3 block">
                                     {{ $post->published_at->translatedFormat('d F Y') }}
                                 </time>
-                                <h2 class="text-xl md:text-2xl lg:text-3xl font-heading font-extrabold text-white leading-tight group-hover:text-primary-300 transition-colors duration-300 line-clamp-2 mb-3">
+                                <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-extrabold text-white leading-tight group-hover:text-primary-300 transition-colors duration-300 line-clamp-2 mb-2 sm:mb-3">
                                     {{ $post->title }}
                                 </h2>
                                 <p class="text-slate-300 text-sm leading-relaxed line-clamp-2 hidden md:block">
                                     {{ Str::limit(strip_tags($post->content), 160) }}
                                 </p>
-                                <div class="mt-5 inline-flex items-center gap-2 text-primary-400 font-bold text-sm group-hover:gap-3 transition-all">
+                                <div class="mt-3 sm:mt-5 inline-flex items-center gap-2 text-primary-400 font-bold text-sm group-hover:gap-3 transition-all">
                                     Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i>
                                 </div>
                             </div>
@@ -209,10 +209,10 @@
                     <h3 class="text-base font-heading font-bold text-primary-400 mb-5 flex items-center gap-2 pb-4 border-b border-white/10">
                         <i class="fa-solid fa-tags text-sm"></i> Kategori
                     </h3>
-                    <ul class="space-y-2.5">
+                    <ul class="space-y-2">
                         <li>
                             <a href="/berita"
-                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ !request('category') ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
+                               class="flex justify-between items-center py-2.5 min-h-10 px-3 rounded-xl {{ !request('category') ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
                                 <span class="font-medium text-sm flex items-center gap-2">
                                     <i class="fa-solid fa-layer-group text-[10px]"></i> Semua Berita
                                 </span>
@@ -224,7 +224,7 @@
                         @foreach($categories as $category)
                         <li>
                             <a href="/berita?category={{ $category->slug }}"
-                               class="flex justify-between items-center py-2 px-3 rounded-xl {{ request('category') === $category->slug ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
+                               class="flex justify-between items-center py-2.5 min-h-10 px-3 rounded-xl {{ request('category') === $category->slug ? 'bg-primary-500/20 text-primary-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }} transition-all duration-200 group active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
                                 <span class="font-medium text-sm flex items-center gap-2">
                                     <i class="fa-solid fa-circle text-[6px]"></i>
                                     {{ $category->name }}

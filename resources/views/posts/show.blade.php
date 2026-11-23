@@ -85,7 +85,7 @@
         @if($post->category)
         <div class="mb-5">
             <a href="/berita?category={{ $post->category->slug }}"
-               class="inline-flex items-center gap-2 bg-primary-500/15 border border-primary-500/25 text-primary-400 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full hover:bg-primary-500/25 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+               class="inline-flex items-center gap-2 min-h-10 bg-primary-500/15 border border-primary-500/25 text-primary-400 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full hover:bg-primary-500/25 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
                 <i class="fa-solid fa-tag text-[9px]"></i>
                 {{ $post->category->name }}
             </a>
@@ -93,7 +93,7 @@
         @endif
 
         {{-- Title --}}
-        <h1 class="text-4xl md:text-5xl lg:text-7xl font-heading font-black tracking-tight text-white leading-[1.1] mb-8 drop-shadow-2xl">
+        <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-heading font-black tracking-tight text-white leading-[1.15] sm:leading-[1.1] mb-6 sm:mb-8 drop-shadow-2xl">
             {{ $post->title }}
         </h1>
 
@@ -138,9 +138,9 @@
 
 
             {{-- ─── Article Body ────────────────────────────────────── --}}
-            <div class="px-6 md:px-12 lg:px-16 pt-10 md:pt-14 pb-8">
+            <div class="px-4 sm:px-6 md:px-12 lg:px-16 pt-8 sm:pt-10 md:pt-14 pb-8">
                 {{-- Prose content --}}
-                <div class="prose prose-lg md:prose-xl prose-slate dark:prose-invert max-w-none
+                <div class="prose sm:prose-lg md:prose-xl prose-slate dark:prose-invert max-w-none overflow-x-auto break-words
                             prose-headings:font-heading prose-headings:text-slate-900 dark:prose-headings:text-slate-100 prose-headings:font-bold
                             prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:leading-relaxed prose-p:font-medium
                             prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-a:font-semibold hover:prose-a:text-primary-700 dark:hover:prose-a:text-primary-300

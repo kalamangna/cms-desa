@@ -29,10 +29,10 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Pengaduan <span class="text-primary-500 italic">Warga</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2 leading-relaxed">
+            <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
                 Layanan pelaporan keluhan dan aspirasi warga.
             </p>
         </div>
@@ -81,19 +81,19 @@
     >
         
         {{-- Tab Buttons --}}
-        <div class="flex justify-center mb-12 md:mb-16">
-            <div class="flex space-x-8 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex justify-center mb-8 sm:mb-12 md:mb-16">
+            <div class="flex space-x-6 sm:space-x-8 border-b border-slate-200 dark:border-slate-800 overflow-x-auto max-w-full">
                 <button
                     @click="activeTab = 'kirim'"
                     :class="activeTab === 'kirim' ? 'border-primary-600 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600 font-semibold'"
-                    class="pb-4 px-2 text-sm border-b-2 transition-all duration-200 flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
+                    class="py-3 min-h-11 px-2 text-sm whitespace-nowrap border-b-2 transition-all duration-200 flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
                 >
                     <i class="fa-solid fa-bullhorn"></i> Kirim Laporan
                 </button>
                 <button
                     @click="activeTab = 'lacak'"
                     :class="activeTab === 'lacak' ? 'border-primary-600 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600 font-semibold'"
-                    class="pb-4 px-2 text-sm border-b-2 transition-all duration-200 flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
+                    class="py-3 min-h-11 px-2 text-sm whitespace-nowrap border-b-2 transition-all duration-200 flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
                 >
                     <i class="fa-solid fa-magnifying-glass"></i> Lacak Pengaduan
                 </button>
@@ -102,7 +102,7 @@
 
         {{-- ===================== TAB: KIRIM PENGADUAN ===================== --}}
         <div x-show="activeTab === 'kirim'" x-transition:enter="transition ease-out duration-300" x-cloak>
-            <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-8 md:p-12 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
                 
                 {{-- Success Modal Popup & Ticket Display --}}
                 @if(session('success') && session('ticket_number'))
@@ -120,16 +120,15 @@
                      @keydown.escape.window="showSuccessModal = false"
                      @click.self="showSuccessModal = false">
                     
-                    <!-- Tombol Tutup (Di Luar Modal) -->
-                    <button
-                        type="button"
-                        @click.stop="showSuccessModal = false"
-                        class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
-                        title="Tutup (Esc)">
-                        <i class="fa-solid fa-xmark text-xl"></i>
-                    </button>
+                    <div @click.stop class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-6 sm:p-8 md:px-10 w-full max-w-md mx-auto border border-slate-100 dark:border-slate-800 relative text-center cursor-default">
+                        <button
+                            type="button"
+                            @click.stop="showSuccessModal = false"
+                            aria-label="Tutup dialog"
+                            class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 w-10 h-10 rounded-full flex items-center justify-center transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <i class="fa-solid fa-xmark text-base"></i>
+                        </button>
 
-                    <div @click.stop class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 dark:border-slate-800 relative text-center cursor-default">
                         <div class="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl mx-auto mb-5 shadow-xs">
                             <i class="fa-solid fa-check"></i>
                         </div>
@@ -137,18 +136,20 @@
                         <h3 class="font-heading font-extrabold text-slate-900 dark:text-slate-100 text-xl mb-2">{{ session('success') }}</h3>
                         <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">Pengaduan Anda telah terdaftar dalam sistem.</p>
 
-                        <div class="mb-8">
-                            <span class="text-xs font-bold text-slate-400 dark:text-slate-500 block mb-1">Nomor Tiket Anda:</span>
-                            <div class="flex items-center justify-center gap-3">
-                                <h4 class="text-xl font-mono font-black text-slate-800 dark:text-slate-100 select-all">{{ session('ticket_number') }}</h4>
-                                <button @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2000);"
-                                        class="text-slate-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition p-2 cursor-pointer" title="Salin Nomor">
+                        <div class="mb-6 sm:mb-8">
+                            <span class="text-xs font-bold text-slate-400 dark:text-slate-500 block mb-1">Nomor Tiket</span>
+                            <div class="flex items-center justify-center gap-2">
+                                <h4 class="text-lg sm:text-xl font-mono font-black text-slate-800 dark:text-slate-100 select-all break-all">{{ session('ticket_number') }}</h4>
+                                <button type="button"
+                                        @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2000);"
+                                        aria-label="Salin nomor tiket"
+                                        class="shrink-0 w-10 h-10 inline-flex items-center justify-center rounded-xl text-slate-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer">
                                     <i class="fa-solid" :class="copied ? 'fa-check text-emerald-500' : 'fa-copy'"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <button @click="showSuccessModal = false" class="w-full bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 text-white py-3.5 rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer">
+                        <button type="button" @click="showSuccessModal = false" class="w-full h-11 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 text-white rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer">
                             Tutup
                         </button>
                     </div>
@@ -217,18 +218,18 @@
 
         {{-- ===================== TAB: LACAK PENGADUAN ===================== --}}
         <div x-show="activeTab === 'lacak'" x-transition:enter="transition ease-out duration-300" x-cloak>
-            <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 mb-8">
-                <div class="mb-8">
-                    <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-2">Lacak Status Pengaduan</h3>
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-8 md:p-12 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 mb-8">
+                <div class="mb-6 sm:mb-8">
+                    <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-2">Lacak Status Pengaduan</h3>
                     <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Masukkan nomor tiket pengaduan Anda di bawah ini.</p>
                 </div>
 
-                <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-4">
+                <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <div class="flex-grow relative">
                         <input type="text" x-model="ticket" placeholder="Contoh: ADV-20260716-XXXX" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
+                               class="w-full h-12 sm:h-14 px-4 sm:px-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
                     </div>
-                    <button type="submit" :disabled="loading" class="bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white px-8 py-4 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow-xs">
+                    <button type="submit" :disabled="loading" class="h-12 sm:h-14 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white px-6 sm:px-8 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow-xs">
                         <template x-if="loading">
                             <i class="fa-solid fa-spinner animate-spin"></i>
                         </template>
@@ -243,13 +244,13 @@
             {{-- Tracking Results (Real-time Rendered) --}}
             <div x-show="searched" x-transition:enter="transition ease-out duration-300">
                 <template x-if="result && result.found">
-                    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 p-8 md:p-12 space-y-8">
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 p-5 sm:p-8 md:p-12 space-y-6 sm:space-y-8">
 
                         {{-- Status Header --}}
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 pb-5 sm:pb-6 border-b border-slate-100 dark:border-slate-800">
                             <div>
                                 <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Nomor Tiket</span>
-                                <h4 class="text-xl font-mono font-black text-slate-900 dark:text-slate-100 mt-0.5" x-text="result.ticket_number"></h4>
+                                <h4 class="text-lg sm:text-xl font-mono font-black text-slate-900 dark:text-slate-100 mt-0.5 break-all" x-text="result.ticket_number"></h4>
                             </div>
                             <div class="flex items-center gap-3">
                                 <span class="text-slate-500 dark:text-slate-400 text-xs font-semibold">Status:</span>

@@ -56,10 +56,10 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Lembaga <span class="text-primary-500 italic">Desa</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2">
+            <p class="text-slate-300 text-base sm:text-lg mt-2">
                 Lembaga kemasyarakatan Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -148,17 +148,8 @@
          role="dialog"
          aria-modal="true">
          
-         <!-- Tombol Tutup -->
-         <button
-             type="button"
-             @click.stop="closeModal()"
-             class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
-             title="Tutup (Esc)">
-             <i class="fa-solid fa-xmark text-xl"></i>
-         </button>
-
          <!-- Modal Box -->
-         <div class="relative w-11/12 sm:w-5/6 md:w-3/4 lg:w-3/5 max-w-4xl bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] cursor-default"
+         <div class="relative w-full sm:w-5/6 md:w-3/4 lg:w-3/5 max-w-4xl bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] cursor-default"
               x-show="selectedInstitution !== null"
               @click.stop
               x-transition:enter="transition ease-out duration-300"
@@ -167,7 +158,15 @@
               x-transition:leave="transition ease-in duration-200"
               x-transition:leave-start="opacity-100 scale-100 translate-y-0"
               x-transition:leave-end="opacity-0 scale-95 translate-y-4">
-              
+
+              <button
+                  type="button"
+                  @click.stop="closeModal()"
+                  aria-label="Tutup detail lembaga"
+                  class="absolute top-3 right-3 z-20 text-slate-500 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white bg-white/90 dark:bg-slate-800/90 hover:bg-slate-100 dark:hover:bg-slate-700 w-10 h-10 rounded-full flex items-center justify-center transition border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                  <i class="fa-solid fa-xmark text-base"></i>
+              </button>
+
               <!-- Modal Header (Logo + Title) -->
               <div class="p-6 sm:p-8 bg-slate-50 dark:bg-slate-800/40 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 flex-shrink-0">
                   <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-white dark:ring-slate-800 shadow-lg flex-shrink-0 bg-white dark:bg-slate-900">

@@ -403,12 +403,12 @@
         :class="scrolled ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg shadow-slate-200/40 dark:shadow-slate-950/40 py-2' : 'bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl py-4'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 transition-all duration-300">
-                <div class="flex items-center">
-                    <a href="/" class="flex-shrink-0 flex items-center gap-3">
-                        <img class="h-10 w-auto transition-all duration-300" :class="scrolled ? 'h-9' : 'h-11'" src="{{ asset('img/sinjai.webp') }}" alt="Logo" width="44" height="44">
-                        <div class="flex flex-col">
-                            <span class="font-heading font-bold text-lg leading-tight text-primary-700 dark:text-white">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
-                            <span class="text-[9px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold">Portal Resmi Desa</span>
+                <div class="flex items-center min-w-0">
+                    <a href="/" class="min-w-0 flex items-center gap-2.5 sm:gap-3">
+                        <img class="h-10 w-auto shrink-0 transition-all duration-300" :class="scrolled ? 'h-9' : 'h-11'" src="{{ asset('img/sinjai.webp') }}" alt="Logo" width="44" height="44">
+                        <div class="flex flex-col min-w-0">
+                            <span class="font-heading font-bold text-base sm:text-lg leading-tight text-primary-700 dark:text-white truncate">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
+                            <span class="text-[9px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold truncate">Portal Resmi Desa</span>
                         </div>
                     </a>
                 </div>

@@ -32,10 +32,10 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Arsip <span class="text-primary-500 italic">Dokumen</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2 leading-relaxed">
+            <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
                 Unduh regulasi, keputusan, dan berkas resmi Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -69,14 +69,14 @@
                        placeholder="Cari nama atau rincian dokumen..."
                        class="w-full pl-11 pr-10 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-100 dark:placeholder-slate-500 shadow-sm text-sm transition-all duration-200">
                 <button type="submit"
-                        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-primary-600 transition cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-md"
+                        class="absolute left-1 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-primary-600 transition cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xl"
                         aria-label="Cari Dokumen">
                     <i class="fa-solid fa-magnifying-glass text-sm"></i>
                 </button>
                 @if(request('search'))
                 <a href="{{ route('documents.index') }}"
-                   class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-rose-500 transition text-xs font-bold"
-                   title="Hapus pencarian">
+                   class="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-rose-500 transition text-xs font-bold rounded-xl"
+                   aria-label="Hapus pencarian">
                     <i class="fa-solid fa-xmark"></i>
                 </a>
                 @endif

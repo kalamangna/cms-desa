@@ -2,6 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.29.1] - 2026-11-23
+
+### Perbaikan
+- **Responsivitas Mobile Halaman Publik (`360px–414px`)**:
+  - Memperbaiki *navbar brand* di `layouts/app.blade.php` dengan `min-w-0` dan `truncate` agar nama desa panjang tidak mendorong tombol menu mobile keluar layar.
+  - Memindahkan tombol tutup modal ke dalam kartu modal serta menghapus `min-w-[300px]` pada halaman Layanan, Pengaduan, Buku Tamu, Potensi, dan Lembaga agar tidak menimpa kartu di layar ponsel pendek; menyusun tombol aksi modal Layanan secara vertikal di mobile (`flex-col-reverse sm:flex-row`) dan mencegah *overflow* input berkas.
+  - Menyesuaikan rasio kartu berita utama (`aspect-[4/3] sm:aspect-video`) pada Beranda dan Daftar Berita agar lencana kategori tidak bertabrakan dengan judul, serta menambahkan `overflow-x-auto break-words` pada isi artikel berita dan `min-w-0` pada kartu timeline Pengumuman.
+  - Memperbaiki keterbacaan angka metrik Statistik, lebar kolom tabel *sticky* mobile (`min-w-[130px] sm:min-w-[200px]`), tinggi grafik donat demografi Beranda, serta tata letak nominal Rupiah pada kartu ringkasan dan rincian APBDes (`grid-cols-1 sm:grid-cols-2`).
+  - Menyesuaikan tinggi peta mobile pada Peta Spasial dan Kontak agar tidak menjebak gulir vertikal, menyetarakan target sentuh tombol, tab, filter, dan tautan minimal `40px–44px`, merapikan padding kartu bertingkat, serta menyeragamkan skala judul hero mobile (`text-4xl sm:text-5xl md:text-7xl`) di seluruh halaman publik.
+
 ## [1.29.0] - 2026-11-23
 
 ### Fitur

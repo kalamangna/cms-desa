@@ -54,10 +54,10 @@
         </nav>
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
-                <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                     APBDes <span class="text-primary-500 italic">{{ date('Y') }}</span>
                 </h1>
-                <p class="text-slate-300 text-lg mt-2 leading-relaxed">
+                <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
                     Laporan transparansi realisasi anggaran pendapatan dan belanja desa.
                 </p>
             </div>
@@ -131,10 +131,10 @@
             {{-- Coloured top accent bar --}}
             <div class="h-1.5 w-full bg-gradient-to-r {{ $theme['gradient'] }}"></div>
 
-            <div class="p-8 md:p-10">
+            <div class="p-5 sm:p-8 md:p-10">
                 {{-- Icon + badge row --}}
-                <div class="flex justify-between items-center mb-8">
-                    <div class="w-14 h-14 rounded-2xl {{ $theme['icon-bg'] }} flex items-center justify-center text-xl shadow-xs">
+                <div class="flex justify-between items-center mb-6 sm:mb-8">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl {{ $theme['icon-bg'] }} flex items-center justify-center text-lg sm:text-xl shadow-xs">
                         <i class="{{ $theme['icon'] }}"></i>
                     </div>
                     <span class="px-3 py-1.5 rounded-full {{ $theme['light-bg'] }} {{ $theme['text'] }}
@@ -143,18 +143,18 @@
                     </span>
                 </div>
 
-                <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-6">{{ $category->name }}</h3>
+                <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-5 sm:mb-6">{{ $category->name }}</h3>
 
-                <div class="space-y-5">
+                <div class="space-y-4 sm:space-y-5">
                     <div>
                         <p class="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Anggaran</p>
-                        <p class="text-xl md:text-2xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">
+                        <p class="text-lg sm:text-xl md:text-2xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 break-words">
                             Rp {{ number_format($totalBudget, 0, ',', '.') }}
                         </p>
                     </div>
                     <div>
                         <p class="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Realisasi</p>
-                        <p class="text-3xl md:text-4xl font-heading font-black tracking-tight {{ $theme['text'] }}">
+                        <p class="text-2xl sm:text-3xl md:text-4xl font-heading font-black tracking-tight {{ $theme['text'] }} break-words">
                             Rp {{ number_format($totalRealization, 0, ',', '.') }}
                         </p>
                     </div>
@@ -193,7 +193,7 @@
                 <div class="h-px w-8 bg-primary-600"></div>
                 <span class="text-primary-700 font-black text-xs uppercase tracking-[0.25em]">Rincian Anggaran</span>
             </div>
-            <h2 class="text-4xl md:text-5xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Detail Transparansi Dana</h2>
+            <h2 class="text-2xl sm:text-4xl md:text-5xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100">Detail Transparansi Dana</h2>
         </div>
 
         <div class="space-y-12 md:space-y-16">
@@ -291,7 +291,7 @@
                             @if($category->realizations->count() > 0)
                             <button @click="open = !open"
                                     :aria-expanded="open"
-                                    class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-primary-700 dark:hover:text-primary-400 transition flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                    class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-primary-700 dark:hover:text-primary-400 transition flex items-center gap-1.5 px-3.5 py-2 min-h-10 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500">
                                 <span x-text="open ? 'Sembunyikan' : 'Tampilkan'"></span>
                                 <i class="fa-solid fa-chevron-up transition-transform duration-300 text-[10px]"
                                    :class="open ? '' : 'rotate-180'"></i>
@@ -318,16 +318,16 @@
                                          style="width: {{ min($rPct, 100) }}%"></div>
                                 </div>
 
-                                <div class="p-6 md:p-7">
-                                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                <div class="p-4 sm:p-6 md:p-7">
+                                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
                                         {{-- Left: title + amounts --}}
-                                        <div class="flex-grow">
-                                            <div class="flex items-start gap-4 mb-4">
+                                        <div class="flex-grow min-w-0">
+                                            <div class="flex items-start gap-3 sm:gap-4 mb-4">
                                                 <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 group-hover:bg-primary-50 dark:group-hover:bg-primary-950/40 flex items-center justify-center flex-shrink-0 transition">
                                                     <i class="fa-solid fa-file-invoice-dollar text-slate-400 dark:text-slate-500 group-hover:text-primary-600 dark:group-hover:text-primary-400 text-sm transition"></i>
                                                 </div>
-                                                <div>
-                                                    <h4 class="text-base md:text-lg font-heading font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary-700 dark:group-hover:text-primary-400 transition leading-snug">
+                                                <div class="min-w-0">
+                                                    <h4 class="text-base md:text-lg font-heading font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary-700 dark:group-hover:text-primary-400 transition leading-snug break-words">
                                                         {{ $realization->title }}
                                                     </h4>
                                                     <span class="mt-1 inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border {{ $status['cls'] }}">
@@ -337,7 +337,7 @@
                                             </div>
 
                                             {{-- Budget vs realization row --}}
-                                            <div class="grid grid-cols-2 gap-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 border border-slate-100 dark:border-slate-700">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 border border-slate-100 dark:border-slate-700">
                                                 <div>
                                                     <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Anggaran</p>
                                                     <p class="font-bold text-slate-800 dark:text-slate-100 text-sm md:text-base">

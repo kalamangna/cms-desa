@@ -29,10 +29,10 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Buku <span class="text-primary-500 italic">Tamu</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2 leading-relaxed">
+            <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
                 Pencatatan kunjungan resmi dan tamu umum.
             </p>
         </div>
@@ -42,7 +42,7 @@
 {{-- ===================== FORM SECTION ===================== --}}
 <div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-8 md:p-12 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
             
             {{-- Success Modal Popup --}}
             @if(session('success'))
@@ -59,24 +59,23 @@
                  @keydown.escape.window="showSuccessModal = false"
                  @click.self="showSuccessModal = false">
                 
-                <!-- Tombol Tutup (Di Luar Modal) -->
-                <button
-                    type="button"
-                    @click.stop="showSuccessModal = false"
-                    class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
-                    title="Tutup (Esc)">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
+                <div @click.stop class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-6 sm:p-8 md:px-10 w-full max-w-md mx-auto border border-slate-100 dark:border-slate-800 relative text-center cursor-default animate-in zoom-in-95 duration-300">
+                    <button
+                        type="button"
+                        @click.stop="showSuccessModal = false"
+                        aria-label="Tutup dialog"
+                        class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 w-10 h-10 rounded-full flex items-center justify-center transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
 
-                <div @click.stop class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 md:px-12 w-fit min-w-[300px] max-w-md mx-auto border border-slate-100 dark:border-slate-800 relative text-center cursor-default animate-in zoom-in-95 duration-300">
                     <div class="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl mx-auto mb-5 shadow-xs">
                         <i class="fa-solid fa-check"></i>
                     </div>
 
-                    <h3 class="font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 text-2xl mb-2">{{ session('success') }}</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-8 font-medium">Data kunjungan Anda telah dicatat.</p>
+                    <h3 class="font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 text-xl sm:text-2xl mb-2">{{ session('success') }}</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 sm:mb-8 font-medium">Data kunjungan Anda telah dicatat.</p>
 
-                    <button @click="showSuccessModal = false" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 text-white py-3.5 rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer">
+                    <button type="button" @click="showSuccessModal = false" class="w-full h-11 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 text-white rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer">
                         Tutup
                     </button>
                 </div>

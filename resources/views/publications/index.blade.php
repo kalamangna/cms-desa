@@ -34,10 +34,10 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Publikasi <span class="text-primary-500 italic">Statistik</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2 leading-relaxed">
+            <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
                 Dokumen resmi dan hasil analisis data Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
@@ -135,7 +135,7 @@
                         {{-- Tombol Download PDF --}}
                         <a
                             href="{{ asset('storage/' . $pub->pdf_file) }}"
-                            class="group/dl inline-flex items-center gap-2 bg-red-600 text-white text-[11px] font-black uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-red-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 transition-all duration-200 shadow-xs cursor-pointer"
+                            class="group/dl inline-flex items-center gap-2 bg-red-600 text-white text-[11px] font-black uppercase tracking-wider px-4 py-2.5 min-h-10 rounded-xl hover:bg-red-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 transition-all duration-200 shadow-xs cursor-pointer"
                             download
                             title="Unduh {{ $pub->title }}"
                         >

@@ -103,10 +103,10 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Peta <span class="text-primary-500 italic">Spasial</span>
             </h1>
-            <p class="text-slate-300 text-lg mt-2 leading-relaxed">
+            <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
                 Peta interaktif batas wilayah dusun, lokasi fasilitas umum, dan data kependudukan desa.
             </p>
         </div>
@@ -120,7 +120,7 @@
             
             {{-- Map View (Main Area) --}}
             <div class="lg:col-span-2 flex flex-col gap-6">
-                <div class="bg-white dark:bg-slate-900 rounded-3xl p-2 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 relative overflow-hidden h-[500px] md:h-[600px] min-h-[450px] z-0">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-2 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 relative overflow-hidden h-[360px] sm:h-[460px] md:h-[600px] min-h-[320px] z-0">
                     <div id="spatialMap" class="w-full h-full rounded-2xl absolute inset-0 z-0"></div>
                     
                     {{-- Legend Overlay --}}
@@ -150,17 +150,17 @@
                 <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-4">
                     <!-- Tab Buttons -->
                     <div class="flex border-b border-slate-100 dark:border-slate-800 pb-1">
-                        <button type="button" 
+                        <button type="button"
                                 @click="activeTab = 'dusun'"
                                 :class="activeTab === 'dusun' ? 'border-primary-600 dark:border-primary-500 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 font-semibold'"
-                                class="flex-1 pb-3 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
+                                class="flex-1 py-3 min-h-11 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
                             <i class="fa-solid fa-map-location-dot"></i>
                             Wilayah
                         </button>
-                        <button type="button" 
+                        <button type="button"
                                 @click="activeTab = 'fasilitas'"
                                 :class="activeTab === 'fasilitas' ? 'border-primary-600 dark:border-primary-500 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 font-semibold'"
-                                class="flex-1 pb-3 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
+                                class="flex-1 py-3 min-h-11 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
                             <i class="fa-solid fa-building-circle-check"></i>
                             Fasilitas Umum
                         </button>
@@ -201,19 +201,19 @@
                                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                     <i class="fa-solid fa-magnifying-glass text-slate-400 text-[10px]"></i>
                                 </span>
-                                <input type="text" 
-                                       x-model="searchQuery" 
-                                       placeholder="Cari fasilitas..." 
-                                       class="w-full pl-8 pr-3 py-2 text-xs font-semibold bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition">
+                                <input type="text"
+                                       x-model="searchQuery"
+                                       placeholder="Cari fasilitas..."
+                                       class="w-full pl-9 pr-3 py-2.5 min-h-10 text-base sm:text-xs font-semibold bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition">
                             </div>
 
                             <!-- Category Pill Filter -->
-                            <div class="flex gap-1 overflow-x-auto pb-1 scrollbar-none">
+                            <div class="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
                                 <template x-for="cat in ['Semua', 'Pendidikan', 'Ibadah', 'Kesehatan', 'Pemerintahan', 'Umum']">
                                     <button type="button"
                                             @click="selectedCategory = cat; filterMarkers();"
                                             :class="selectedCategory === cat ? 'bg-primary-600 text-white shadow-xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200/80 dark:hover:bg-slate-700/80'"
-                                            class="px-2.5 py-1 rounded-lg text-[9px] font-bold whitespace-nowrap transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
+                                            class="px-3 py-2 min-h-10 rounded-lg text-xs font-bold whitespace-nowrap transition-all duration-200 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
                                             x-text="cat === 'Umum' ? 'Umum' : cat">
                                     </button>
                                 </template>
