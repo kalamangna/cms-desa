@@ -2,6 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.29.2] - 2026-11-23
+
+### Perbaikan
+- **Stabilitas Tinggi Navbar & Responsivitas Tablet (`768px–1024px`)**:
+  - Mengunci tinggi *navbar* (`py-2`, logo `h-10`) pada `layouts/app.blade.php` agar tidak berubah saat halaman digulir, menambahkan dukungan klik (`@click` & `@click.outside`) pada dropdown menu desktop untuk tablet sentuh `1024px`, menyusun drawer tablet 2 kolom (`md:grid-cols-2`), serta merapikan *top bar* dan kolom footer di `md:`.
+  - Memperbaiki kepadatan layout tablet pada Statistik (geser sidebar & 4 kolom ringkasan ke `lg:` beserta filter dusun di bar atas `<lg`), Peta Spasial (grid 12 kolom dengan sidebar 2 kolom di `md:`), Bagan SOTK (perbaikan *overflow* kiri `.sotk-zoom-wrapper` dan tombol modal `40px`), Berita, Publikasi, Layanan, Dataset, APBDes, Lembaga, Kontak, Potensi, dan skala judul hero (`lg:text-6xl xl:text-7xl`).
+- **Responsivitas Layar Besar & Extra Large (`1280px–1920px+`)**:
+  - Menambahkan `w-full` pada `#dusunInfoCard` dan tinggi peta adaptif di Peta Spasial, mengganti hero Beranda dari `min-h-screen` ke `lg:min-h-[min(85vh,720px)]`, serta membatasi tinggi dan gulir internal seluruh sidebar *sticky* (Pengumuman Beranda, Kategori Statistik, dan Rincian APBDes) agar tidak terpotong di layar `1280×720`.
+  - Mempertahankan grid 2 kolom pada Daftar Berita agar kartu tidak menyempit, melepas batas lebar modal SOTK pada mode `:fullscreen`, menambahkan `tabular-nums` pada nominal APBDes, serta membatasi panjang baris baca pada Profil, Dokumen, dan Pengumuman.
+
 ## [1.29.1] - 2026-11-23
 
 ### Perbaikan

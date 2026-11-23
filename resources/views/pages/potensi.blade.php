@@ -55,7 +55,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Potensi <span class="text-primary-500 italic">Desa</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 font-medium">
@@ -185,7 +185,7 @@
           aria-modal="true">
           
           <!-- Modal Box -->
-          <div class="relative w-full sm:w-5/6 md:w-3/4 lg:w-3/5 max-w-4xl bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] cursor-default"
+          <div class="relative w-full max-w-2xl lg:max-w-3xl bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] cursor-default"
                x-show="selectedPotential !== null"
                @click.stop
                x-transition:enter="transition ease-out duration-300"
@@ -204,7 +204,7 @@
                </button>
 
                <!-- Modal Image -->
-               <div class="relative w-full h-48 sm:h-64 md:h-80 bg-slate-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center overflow-hidden">
+               <div class="relative w-full h-48 sm:h-60 lg:h-72 bg-slate-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center overflow-hidden">
                    <img :src="selectedPotential?.image"
                         :alt="selectedPotential?.title"
                         class="w-full h-full object-cover">

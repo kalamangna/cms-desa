@@ -64,7 +64,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Kontak <span class="text-primary-500 italic">Kami</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
@@ -81,7 +81,7 @@
 
             {{-- ========== LEFT: Info Kontak + Sosmed ========== --}}
             <div class="space-y-6">
-
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 md:gap-5 lg:gap-6">
                 {{-- Alamat --}}
                 <div class="flex items-start gap-5 bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
                     <div class="w-12 h-12 rounded-2xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center text-lg flex-shrink-0 shadow-xs">
@@ -148,6 +148,7 @@
                         <p class="text-slate-800 dark:text-slate-200 font-semibold text-sm">Senin – Jumat, 08.00 – 16.00 WITA</p>
                     </div>
                 </div>
+                </div>
 
                 {{-- Social Media --}}
                 <div class="bg-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-lg shadow-slate-900/40">
@@ -202,7 +203,7 @@
 
             {{-- ========== RIGHT: Peta ========== --}}
             <div class="lg:sticky lg:top-24 self-start">
-                <div class="rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 h-[340px] sm:h-[460px] lg:h-[640px] relative bg-slate-100 dark:bg-slate-800">
+                <div class="rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 h-[340px] sm:h-[420px] md:h-[460px] lg:h-[min(600px,calc(100vh-8rem))] relative bg-slate-100 dark:bg-slate-800">
                     @if(!empty($site_settings['village_name']))
                     <iframe
                         class="w-full h-full absolute inset-0 z-0 border-0 transition-all duration-500 dark:invert dark:hue-rotate-180 dark:opacity-90"

@@ -56,7 +56,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Lembaga <span class="text-primary-500 italic">Desa</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2">
@@ -91,11 +91,11 @@
     @else
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         @foreach($institutions as $institution)
-        <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden gap-6 h-full">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left bg-white dark:bg-slate-900 rounded-3xl p-6 xl:p-8 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden gap-5 xl:gap-6 h-full">
 
             {{-- Logo --}}
             <div class="flex-shrink-0">
-                <div class="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-white dark:ring-slate-800 shadow-xl shadow-slate-300/40 dark:shadow-slate-950/40 mx-auto sm:mx-0">
+                <div class="w-24 h-24 xl:w-32 xl:h-32 rounded-full overflow-hidden ring-4 ring-white dark:ring-slate-800 shadow-xl shadow-slate-300/40 dark:shadow-slate-950/40 mx-auto sm:mx-0">
                     <img
                         src="{{ $institution->logo ? asset('storage/' . $institution->logo) : asset('img/meta.webp') }}"
                         class="w-full h-full object-cover"
@@ -107,9 +107,9 @@
             </div>
 
             {{-- Info --}}
-            <div class="flex-1 w-full flex flex-col justify-between h-full">
+            <div class="flex-1 min-w-0 w-full flex flex-col justify-between h-full">
                 <div class="mb-5">
-                    <h3 class="text-2xl md:text-3xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-slate-100 mb-3">{{ $institution->name }}</h3>
+                    <h3 class="text-xl md:text-2xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-slate-100 mb-3 break-words">{{ $institution->name }}</h3>
                     @if($institution->description)
                     <div class="prose prose-sm prose-slate dark:prose-invert max-w-none text-slate-500 dark:text-slate-400 text-sm leading-relaxed line-clamp-3">
                         {!! strip_tags($institution->description) !!}
@@ -149,7 +149,7 @@
          aria-modal="true">
          
          <!-- Modal Box -->
-         <div class="relative w-full sm:w-5/6 md:w-3/4 lg:w-3/5 max-w-4xl bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] cursor-default"
+         <div class="relative w-full max-w-3xl bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] cursor-default"
               x-show="selectedInstitution !== null"
               @click.stop
               x-transition:enter="transition ease-out duration-300"

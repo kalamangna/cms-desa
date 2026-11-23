@@ -54,7 +54,7 @@
         </nav>
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
-                <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                     APBDes <span class="text-primary-500 italic">{{ date('Y') }}</span>
                 </h1>
                 <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
@@ -131,7 +131,7 @@
             {{-- Coloured top accent bar --}}
             <div class="h-1.5 w-full bg-gradient-to-r {{ $theme['gradient'] }}"></div>
 
-            <div class="p-5 sm:p-8 md:p-10">
+            <div class="p-5 sm:p-6 xl:p-8">
                 {{-- Icon + badge row --}}
                 <div class="flex justify-between items-center mb-6 sm:mb-8">
                     <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl {{ $theme['icon-bg'] }} flex items-center justify-center text-lg sm:text-xl shadow-xs">
@@ -143,18 +143,18 @@
                     </span>
                 </div>
 
-                <h3 class="text-xl sm:text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-5 sm:mb-6">{{ $category->name }}</h3>
+                <h3 class="text-xl sm:text-2xl xl:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-5 sm:mb-6">{{ $category->name }}</h3>
 
                 <div class="space-y-4 sm:space-y-5">
                     <div>
                         <p class="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Anggaran</p>
-                        <p class="text-lg sm:text-xl md:text-2xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 break-words">
+                        <p class="text-lg sm:text-xl font-heading font-black tracking-tight tabular-nums text-slate-900 dark:text-slate-100 break-words">
                             Rp {{ number_format($totalBudget, 0, ',', '.') }}
                         </p>
                     </div>
                     <div>
                         <p class="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Realisasi</p>
-                        <p class="text-2xl sm:text-3xl md:text-4xl font-heading font-black tracking-tight {{ $theme['text'] }} break-words">
+                        <p class="text-xl sm:text-2xl font-heading font-black tracking-tight tabular-nums {{ $theme['text'] }} break-words">
                             Rp {{ number_format($totalRealization, 0, ',', '.') }}
                         </p>
                     </div>
@@ -230,10 +230,10 @@
 
             <div class="relative" x-data="{ open: true }">
                 {{-- Category header --}}
-                <div class="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+                <div class="flex flex-col lg:flex-row gap-8 lg:gap-10 xl:gap-16 items-start">
 
                     {{-- LEFT: sticky sidebar --}}
-                    <div class="lg:w-80 w-full lg:sticky lg:top-28 flex-shrink-0">
+                    <div class="lg:w-72 xl:w-80 w-full lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto flex-shrink-0">
                         <div class="mb-6">
                             <div class="flex items-center gap-3 mb-4">
                                 <div class="h-px w-8 bg-primary-600"></div>

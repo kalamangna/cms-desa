@@ -32,21 +32,21 @@
 
     /* ─── SOTK Modal ─── */
     .sotk-modal-backdrop { position: fixed; inset: 0; z-index: 9999; background: rgba(2,6,23,0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; padding: 16px; }
-    .sotk-modal { background: #fff; border-radius: 28px; box-shadow: 0 40px 100px rgba(15,23,42,0.3); width: 100%; max-width: 1240px; height: 90vh; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
-    .sotk-modal:fullscreen, .sotk-modal:-webkit-full-screen { border-radius: 0; max-height: 100vh; height: 100vh; }
-    .sotk-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; background: #fff; border-radius: 28px 28px 0 0; }
+    .sotk-modal { background: #fff; border-radius: 28px; box-shadow: 0 40px 100px rgba(15,23,42,0.3); width: 100%; max-width: min(92vw, 1440px); height: 90vh; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+    .sotk-modal:fullscreen, .sotk-modal:-webkit-full-screen { border-radius: 0; max-width: none; max-height: 100vh; height: 100vh; }
+    .sotk-modal-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; background: #fff; border-radius: 28px 28px 0 0; }
     .sotk-modal:fullscreen .sotk-modal-header, .sotk-modal:-webkit-full-screen .sotk-modal-header { border-radius: 0; }
-    .sotk-modal-actions { display: flex; align-items: center; gap: 5px; }
-    .sotk-modal-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #64748b; font-size: 12px; flex-shrink: 0; transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s, transform 0.1s; }
+    .sotk-modal-actions { display: flex; align-items: center; gap: 6px; }
+    .sotk-modal-btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #64748b; font-size: 13px; flex-shrink: 0; transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s, transform 0.1s; }
     .sotk-modal-btn:hover { background: color-mix(in srgb, var(--color-primary-50) 100%, transparent); color: var(--color-primary-600); border-color: var(--color-primary-300); box-shadow: 0 4px 12px color-mix(in srgb, var(--color-primary-600) 15%, transparent); }
     .sotk-modal-btn:active { transform: scale(0.92); }
     .sotk-modal-btn.btn-close:hover { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
-    .sotk-modal-body { flex: 1; min-height: 0; padding: 16px 22px 22px; display: flex; flex-direction: column; gap: 10px; }
+    .sotk-modal-body { flex: 1; min-height: 0; padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 10px; }
     .sotk-hint { font-size: 11px; color: #94a3b8; font-weight: 500; display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-    .sotk-zoom-wrapper { flex: 1; min-height: 0; overflow: auto; border: 1px solid #e2e8f0; border-radius: 16px; background: #f8fafc; display: flex; align-items: flex-start; justify-content: center; padding: 20px 16px; cursor: grab; }
+    .sotk-zoom-wrapper { flex: 1; min-height: 0; overflow: auto; border: 1px solid #e2e8f0; border-radius: 16px; background: #f8fafc; display: block; padding: 20px 16px; cursor: grab; -webkit-overflow-scrolling: touch; }
 
     .sotk-zoom-wrapper:active { cursor: grabbing; }
-    .sotk-zoom-content { transform-origin: top center; transition: transform 0.15s ease; }
+    .sotk-zoom-content { width: max-content; margin: 0 auto; transform-origin: top left; transition: transform 0.15s ease; }
     .sotk-trigger-btn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: var(--color-primary-600); font-weight: 700; font-size: 13px; padding: 10px 22px; border-radius: 999px; border: 1.5px solid var(--color-primary-600); cursor: pointer; transition: background 0.2s, color 0.2s, box-shadow 0.2s; }
     .sotk-trigger-btn:hover { background: var(--color-primary-600); color: #fff; box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary-600) 25%, transparent); }
     .sotk-trigger-btn:active { transform: scale(0.97); }
@@ -186,7 +186,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">Aparatur <span class="text-primary-500 italic">Desa</span></h1>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">Aparatur <span class="text-primary-500 italic">Desa</span></h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 mb-6">Jajaran pelayan masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.</p>
             @if($officials->isNotEmpty())
             <button type="button" @click="open()" class="sotk-trigger-btn focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-slate-900" aria-haspopup="dialog">

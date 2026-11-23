@@ -34,7 +34,7 @@
 
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <div class="max-w-3xl">
-                <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                     Statistik <span class="text-primary-500 italic">Desa</span>
                 </h1>
                 <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
@@ -73,14 +73,14 @@
             </div>
         @else
             {{-- ─── SUMMARY CARDS ─────────────────────────────────────────── --}}
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10">
                 {{-- Total Penduduk --}}
                 <div class="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-4 sm:p-6 text-white shadow-lg shadow-primary-900/10 flex flex-col justify-between min-h-[112px] sm:min-h-[120px]">
                     <span class="text-primary-200 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-users text-xs"></i> Total Penduduk
                     </span>
                     <div>
-                        <span class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight block leading-none break-words">{{ number_format($summaryCards['total_penduduk'], 0, ',', '.') }}</span>
+                        <span class="text-2xl sm:text-3xl xl:text-4xl font-black tracking-tight block leading-none break-words">{{ number_format($summaryCards['total_penduduk'], 0, ',', '.') }}</span>
                         <span class="text-primary-200 text-[10px] font-semibold mt-2 block">jiwa aktif {{ $summaryCards['latest_year'] }}</span>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                     <div>
                         @if(!is_null($summaryCards['yoy_growth']))
                             @php $yoy = $summaryCards['yoy_growth']; @endphp
-                            <span class="text-2xl sm:text-4xl font-black tracking-tight block leading-none break-words {{ $yoy >= 0 ? 'text-primary-700' : 'text-rose-600' }}">
+                            <span class="text-2xl sm:text-3xl font-black tracking-tight block leading-none break-words {{ $yoy >= 0 ? 'text-primary-700' : 'text-rose-600' }}">
                                 {{ $yoy >= 0 ? '+' : '' }}{{ number_format($yoy, 2, ',', '.') }}%
                             </span>
                             <span class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-2 block">vs {{ $summaryCards['latest_year'] - 1 }}</span>
@@ -110,7 +110,7 @@
                         <i class="fa-regular fa-calendar text-primary-600 text-xs"></i> Tahun Data
                     </span>
                     <div>
-                        <span class="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100 block leading-none">{{ $summaryCards['latest_year'] }}</span>
+                        <span class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 block leading-none">{{ $summaryCards['latest_year'] }}</span>
                         <span class="text-slate-500 dark:text-slate-400 text-[10px] font-semibold mt-2 block">data real-time</span>
                     </div>
                 </div>
@@ -127,38 +127,61 @@
                 </div>
             </div>
 
-    {{-- Mobile: Dropdown Category Selector --}}
-    <div class="md:hidden mb-6">
-        <label for="stat-category-select" class="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Pilih Kategori</label>
-        <div class="relative">
-            <select
-                x-model="activeTab"
-                @change="onCategoryChange($event.target.value)"
-                class="w-full appearance-none bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-5 py-3.5 pr-10 text-sm font-bold text-slate-800 dark:text-slate-200 shadow-xs focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                id="stat-category-select"
-                aria-label="Pilih Kategori Statistik">
-                @foreach($categories as $category)
-                <option value="{{ $category->slug }}">{{ $category->name }} ({{ $category->indicators->count() }} indikator)</option>
-                @endforeach
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
-                <i class="fa-solid fa-chevron-down text-xs"></i>
+    {{-- Mobile & Tablet: Dropdown Category & Dusun Selector --}}
+    <div class="lg:hidden mb-6 grid grid-cols-1 {{ $dusuns->count() > 0 ? 'sm:grid-cols-2' : '' }} gap-4">
+        <div>
+            <label for="stat-category-select" class="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Pilih Kategori</label>
+            <div class="relative">
+                <select
+                    x-model="activeTab"
+                    @change="onCategoryChange($event.target.value)"
+                    class="w-full appearance-none bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3.5 pr-10 text-sm font-bold text-slate-800 dark:text-slate-200 shadow-xs focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    id="stat-category-select"
+                    aria-label="Pilih Kategori Statistik">
+                    @foreach($categories as $category)
+                    <option value="{{ $category->slug }}">{{ $category->name }} ({{ $category->indicators->count() }} indikator)</option>
+                    @endforeach
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </div>
             </div>
         </div>
+        @if($dusuns->count() > 0)
+        <div>
+            <label for="stat-dusun-select-tablet" class="block text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Filter Dusun</label>
+            <div class="relative">
+                <select
+                    id="stat-dusun-select-tablet"
+                    aria-label="Filter Dusun"
+                    @change="onFilterChange()"
+                    x-model="selectedDusun"
+                    class="w-full appearance-none bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3.5 pr-10 text-sm font-bold text-slate-800 dark:text-slate-200 shadow-xs focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    <option value="">Semua Dusun</option>
+                    @foreach($dusuns as $dusun)
+                        <option value="{{ $dusun->id }}">{{ $dusun->name }}</option>
+                    @endforeach
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 
     {{-- Layout: Sidebar (desktop) + Content --}}
     <div class="flex gap-8 items-start">
 
         {{-- ── SIDEBAR (desktop only) ──────────────────────────────────── --}}
-        <aside class="hidden md:block w-64 flex-shrink-0 sticky top-24 self-start">
-            <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden">
-                <div class="px-5 pt-5 pb-3">
+        <aside class="hidden lg:block w-64 flex-shrink-0 sticky top-24 self-start">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden max-h-[calc(100vh-7rem)] flex flex-col">
+                <div class="px-5 pt-5 pb-3 shrink-0">
                     <span class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                         <i class="fa-solid fa-layer-group text-primary-600"></i> Kategori
                     </span>
                 </div>
-                <nav class="pb-3">
+                <nav class="pb-3 overflow-y-auto min-h-0 flex-1">
                     @foreach($categories as $category)
                     <button
                         @click="onCategoryChange('{{ $category->slug }}')"
@@ -182,7 +205,7 @@
                 </nav>
 
                 {{-- Filter Dusun & Tahun --}}
-                <div class="border-t border-slate-100 dark:border-slate-800 px-5 py-4">
+                <div class="border-t border-slate-100 dark:border-slate-800 px-5 py-4 shrink-0">
                     <form method="GET" action="/statistik" @submit.prevent>
                         <input type="hidden" name="kategori" :value="activeTab">
 
@@ -269,10 +292,10 @@
                 </div>
 
                 {{-- ── CHART CONTAINER ───────────────────────────────────── --}}
-                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden p-6 md:p-8 mb-6">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 overflow-hidden p-5 sm:p-6 xl:p-8 mb-6">
 
                     {{-- Toolbar --}}
-                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
                         <div>
                             <h3 class="text-base font-heading font-extrabold text-slate-900 dark:text-slate-100" x-text="'Grafik {{ addslashes($category->name) }}' + getDusunTitleSuffix()">Grafik {{ $category->name }}</h3>
                             <p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-0.5">{{ $totalIndicators }} indikator &mdash; {{ $allYears->count() > 1 ? $allYears->first() . '–' . $allYears->last() : ($allYears->first() ?? date('Y')) }}</p>

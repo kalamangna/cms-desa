@@ -182,7 +182,7 @@
                 </ol>
             </nav>
             <div class="max-w-3xl">
-                <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                     Layanan <span class="text-primary-500 italic">Mandiri</span>
                 </h1>
                 <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
@@ -269,12 +269,12 @@
             </div>
 
             {{-- PANEL: DAFTAR LAYANAN --}}
-            <div x-show="!showLacak" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 md:gap-8">
+            <div x-show="!showLacak" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 xl:gap-8">
                 @forelse($services as $service)
                 <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col overflow-hidden">
 
                     {{-- Card Top --}}
-                    <div class="p-6 sm:p-8 md:p-10 flex-1">
+                    <div class="p-6 xl:p-8 flex-1">
                         {{-- Icon --}}
                         <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 flex items-center justify-center text-lg sm:text-xl mb-5 sm:mb-8 shadow-xs">
                             <i class="fa-solid {{ $service->icon }}"></i>
@@ -340,7 +340,7 @@
                     </div>
 
                     {{-- Card Footer --}}
-                    <div class="border-t border-slate-100 dark:border-slate-800 px-6 sm:px-8 md:px-10 py-4 sm:py-5 flex items-center justify-center bg-slate-50/50 dark:bg-slate-950/40">
+                    <div class="border-t border-slate-100 dark:border-slate-800 px-6 xl:px-8 py-4 sm:py-5 flex items-center justify-center bg-slate-50/50 dark:bg-slate-950/40">
                         <button
                             type="button"
                             @click="openApplyModal({{ $service->id }})"

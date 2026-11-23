@@ -366,16 +366,17 @@
 <body class="bg-slate-50 dark:bg-slate-950 flex flex-col min-h-screen font-sans text-slate-900 dark:text-slate-100">
     <!-- Top Bar -->
     <div class="bg-slate-950 dark:bg-black text-slate-400 py-2 hidden md:block border-b border-transparent dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-            <div class="flex gap-8">
-                <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-location-dot text-primary-500"></i> {{ !empty($site_settings['village_address']) ? $site_settings['village_address'] : '-' }}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-4 text-[10px] font-bold uppercase tracking-widest">
+            <div class="flex gap-4 lg:gap-8 min-w-0">
+                <span class="flex items-center gap-2 min-w-0">
+                    <i class="fa-solid fa-location-dot text-primary-500 shrink-0"></i>
+                    <span class="truncate">{{ !empty($site_settings['village_address']) ? $site_settings['village_address'] : '-' }}</span>
                 </span>
-                <span class="flex items-center gap-2">
-                    <i class="fa-solid fa-phone text-primary-500"></i> {{ !empty($site_settings['village_phone']) ? $site_settings['village_phone'] : '-' }}
+                <span class="flex items-center gap-2 shrink-0 whitespace-nowrap">
+                    <i class="fa-solid fa-phone text-primary-500 shrink-0"></i> {{ !empty($site_settings['village_phone']) ? $site_settings['village_phone'] : '-' }}
                 </span>
             </div>
-            <div class="flex gap-4 items-center">
+            <div class="flex gap-4 items-center shrink-0 whitespace-nowrap">
                 @auth
                 <a href="/admin" target="_blank" rel="noopener" class="hover:text-primary-400 transition flex items-center gap-1.5 active:scale-95">
                     <i class="fa-solid fa-gauge text-[9px]"></i> Dashboard
@@ -397,15 +398,15 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 transition-all duration-300 border-b border-slate-200/80 dark:border-slate-800"
+    <nav class="sticky top-0 z-50 py-2 backdrop-blur-xl transition-shadow duration-300 border-b border-slate-200/80 dark:border-slate-800"
         x-data="{ mobileMenuOpen: false, scrolled: false }"
         @scroll.window="scrolled = (window.pageYOffset > 10)"
-        :class="scrolled ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg shadow-slate-200/40 dark:shadow-slate-950/40 py-2' : 'bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl py-4'">
+        :class="scrolled ? 'bg-white/90 dark:bg-slate-900/90 shadow-lg shadow-slate-200/40 dark:shadow-slate-950/40' : 'bg-white/95 dark:bg-slate-900/95'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16 transition-all duration-300">
+            <div class="flex justify-between items-center h-16">
                 <div class="flex items-center min-w-0">
                     <a href="/" class="min-w-0 flex items-center gap-2.5 sm:gap-3">
-                        <img class="h-10 w-auto shrink-0 transition-all duration-300" :class="scrolled ? 'h-9' : 'h-11'" src="{{ asset('img/sinjai.webp') }}" alt="Logo" width="44" height="44">
+                        <img class="h-10 w-auto shrink-0" src="{{ asset('img/sinjai.webp') }}" alt="Logo" width="44" height="44">
                         <div class="flex flex-col min-w-0">
                             <span class="font-heading font-bold text-base sm:text-lg leading-tight text-primary-700 dark:text-white truncate">{{ $site_settings['village_name'] ?? 'Website Desa' }}</span>
                             <span class="text-[9px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold truncate">Portal Resmi Desa</span>
@@ -414,15 +415,15 @@
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden lg:flex lg:items-center lg:space-x-8" x-data="{ openMenu: null }">
-                    <a href="/" class="relative py-2 px-1 text-sm font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('/') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
+                <div class="hidden lg:flex lg:items-center lg:space-x-5 xl:space-x-8 shrink-0" x-data="{ openMenu: null }" @click.outside="openMenu = null">
+                    <a href="/" class="relative py-2 px-1 text-sm font-bold whitespace-nowrap transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('/') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
                         Beranda
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('/') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                     </a>
 
                     <!-- Profil Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'profil'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
+                        <button type="button" @click="openMenu = openMenu === 'profil' ? null : 'profil'" :aria-expanded="openMenu === 'profil'" class="relative py-1 px-1 text-sm font-bold whitespace-nowrap transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
 Profil <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('profil*') || request()->is('aparatur*') || request()->is('lembaga*') || request()->is('potensi*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
@@ -443,7 +444,7 @@ Profil <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
 
                     <!-- Informasi Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'info'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
+                        <button type="button" @click="openMenu = openMenu === 'info' ? null : 'info'" :aria-expanded="openMenu === 'info'" class="relative py-1 px-1 text-sm font-bold whitespace-nowrap transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
 Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('berita*') || request()->is('pengumuman*') || request()->is('galeri*') || request()->is('dokumen*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
@@ -464,7 +465,7 @@ Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
 
                     <!-- Transparansi Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'transparansi'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
+                        <button type="button" @click="openMenu = openMenu === 'transparansi' ? null : 'transparansi'" :aria-expanded="openMenu === 'transparansi'" class="relative py-1 px-1 text-sm font-bold whitespace-nowrap transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
 Transparansi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('apbdes*') || request()->is('statistik*') || request()->is('dataset*') || request()->is('publikasi*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
@@ -485,7 +486,7 @@ Transparansi <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
 
                     <!-- Layanan Dropdown -->
                     <div class="relative py-2" @mouseenter="openMenu = 'layanan'" @mouseleave="openMenu = null">
-                        <button class="relative py-1 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('layanan*') || request()->is('kontak*') || request()->is('buku-tamu*') || request()->is('pengaduan*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
+                        <button type="button" @click="openMenu = openMenu === 'layanan' ? null : 'layanan'" :aria-expanded="openMenu === 'layanan'" class="relative py-1 px-1 text-sm font-bold whitespace-nowrap transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('layanan*') || request()->is('kontak*') || request()->is('buku-tamu*') || request()->is('pengaduan*') ? 'text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400' }}">
 Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-700 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('layanan*') || request()->is('kontak*') || request()->is('buku-tamu*') || request()->is('pengaduan*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                         </button>
@@ -505,7 +506,7 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     </div>
 
                     <!-- Peta Spasial (Top-Level Link) -->
-                    <a href="/peta" class="relative py-2 px-1 text-sm font-bold transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('peta*') ? 'text-primary-600 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400' }}">
+                    <a href="/peta" class="relative py-2 px-1 text-sm font-bold whitespace-nowrap transition-all duration-300 flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-lg {{ request()->is('peta*') ? 'text-primary-600 dark:text-primary-400' : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400' }}">
                         Peta Spasial
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 dark:bg-primary-400 transition-all duration-300 origin-left {{ request()->is('peta*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                     </a>
@@ -550,10 +551,11 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
             x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-4"
             class="lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-y-auto max-h-[80vh]" x-cloak>
-            <div class="px-4 pt-2 pb-8 space-y-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-2 pb-8 space-y-6">
                 <!-- Home Link -->
                 <a href="/" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('/') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Beranda</a>
 
+                <div class="space-y-6 md:space-y-0 md:grid md:grid-cols-2 md:gap-6">
                 <!-- Profil Section -->
                 <div>
                     <span class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 block mb-2">Profil</span>
@@ -588,6 +590,7 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     <a href="/pengaduan" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('pengaduan*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Pengaduan</a>
                     <a href="/buku-tamu" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('buku-tamu*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Buku Tamu</a>
                     <a href="/kontak" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('kontak*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Kontak</a>
+                </div>
                 </div>
 
                 <a href="/peta" class="block px-4 py-3 rounded-2xl text-base font-bold {{ request()->is('peta*') ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-300' }} transition">Peta Spasial</a>
@@ -632,7 +635,7 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
 
                 <!-- Brand col -->
-                <div class="lg:col-span-2">
+                <div class="md:col-span-2 lg:col-span-2">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-12 h-12 rounded-2xl bg-primary-600/20 border border-primary-500/30 flex items-center justify-center">
                             <img class="h-8 w-auto" src="{{ asset('img/sinjai.webp') }}" alt="Logo" width="32" height="32">

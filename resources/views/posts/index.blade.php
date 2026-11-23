@@ -35,7 +35,7 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Berita <span class="text-primary-500 italic">Terbaru</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2">
@@ -63,12 +63,12 @@
             </form>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-12 xl:gap-16">
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-10 xl:gap-14">
 
             {{-- =========================================================
                  LEFT: Posts Grid
                  ========================================================= --}}
-            <main class="lg:w-2/3 xl:w-2/3">
+            <main class="lg:w-2/3">
 
                 @forelse($posts as $index => $post)
 
@@ -122,7 +122,7 @@
 
                     {{-- ─── First non-featured: open grid wrapper ─────────── --}}
                     @if($index === 1)
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                     @endif
 
                     {{-- ─── Regular Post Card ────────────────────────────── --}}
@@ -187,7 +187,7 @@
             {{-- =========================================================
                  RIGHT: Sidebar
                  ========================================================= --}}
-            <aside class="lg:w-1/3 xl:w-1/3 space-y-8">
+            <aside class="lg:w-1/3 space-y-8">
 
                 {{-- Search (desktop) --}}
                 <div class="hidden lg:block bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 transition-all duration-300">

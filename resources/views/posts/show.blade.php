@@ -93,7 +93,7 @@
         @endif
 
         {{-- Title --}}
-        <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-heading font-black tracking-tight text-white leading-[1.15] sm:leading-[1.1] mb-6 sm:mb-8 drop-shadow-2xl">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-black tracking-tight text-white leading-[1.15] sm:leading-[1.1] mb-6 sm:mb-8 drop-shadow-2xl">
             {{ $post->title }}
         </h1>
 

@@ -30,7 +30,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Profil <span class="text-primary-500 italic">Desa</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2">
@@ -46,7 +46,7 @@
         <div class="mb-8">
             <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-2">Sejarah Desa</h2>
         </div>
-        <div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+        <div class="prose prose-slate dark:prose-invert max-w-prose text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
             @if(!empty(trim(strip_tags($site_settings['village_history'] ?? ''))))
                 {!! $site_settings['village_history'] !!}
             @else
@@ -69,7 +69,7 @@
 
         {{-- Visi Card --}}
         @if(!empty(trim(strip_tags($site_settings['village_vision'] ?? ''))))
-        <div class="relative bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-6 sm:p-10 md:p-16 text-white mb-10 shadow-2xl shadow-primary-200/60 overflow-hidden">
+        <div class="relative bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-6 sm:p-8 md:p-10 lg:p-14 text-white mb-10 shadow-2xl shadow-primary-200/60 overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none"></div>
             <div class="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl pointer-events-none"></div>
             <div class="relative z-10">
@@ -85,7 +85,7 @@
             </div>
         </div>
         @else
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 md:p-16 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 mb-10">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 md:p-10 lg:p-14 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 mb-10">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center">
                     <i class="fa-solid fa-eye"></i>
@@ -101,14 +101,14 @@
         @endif
 
         {{-- Misi Card --}}
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 md:p-16 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 md:p-10 lg:p-14 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-10 h-10 rounded-2xl bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 flex items-center justify-center">
                     <i class="fa-solid fa-list-check"></i>
                 </div>
                 <span class="text-slate-500 dark:text-slate-400 font-black text-[11px] uppercase tracking-widest">Misi</span>
             </div>
-            <div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 font-medium">
+            <div class="prose prose-slate dark:prose-invert max-w-prose text-slate-600 dark:text-slate-300 font-medium">
                 @if(!empty(trim(strip_tags($site_settings['village_mission'] ?? ''))))
                     {!! $site_settings['village_mission'] !!}
                 @else
@@ -125,7 +125,7 @@
 
 {{-- ===================== SECTION 3: KARAKTERISTIK WILAYAH ===================== --}}
 <section class="bg-white dark:bg-slate-900 py-16 md:py-20 lg:py-28">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-12 text-center">
             <h2 class="text-3xl md:text-4xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-2">Karakteristik Wilayah</h2>
         </div>
@@ -167,7 +167,7 @@
                     <i class="fa-solid fa-mountain-sun"></i>
                 </div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Topografi</p>
-                <p class="text-xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mt-2.5 line-clamp-1" title="{{ $site_settings['village_topography'] ?? '—' }}">{{ $site_settings['village_topography'] ?? '—' }}</p>
+                <p class="text-xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mt-2.5 line-clamp-2" title="{{ $site_settings['village_topography'] ?? '—' }}">{{ $site_settings['village_topography'] ?? '—' }}</p>
                 <p class="text-slate-400 dark:text-slate-500 font-bold text-sm mt-1">Wilayah</p>
             </div>
         </div>

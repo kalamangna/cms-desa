@@ -62,7 +62,7 @@
 
         {{-- Heading --}}
         <div class="max-w-3xl">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Pengumuman <span class="text-primary-500 italic">Resmi</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 max-w-2xl leading-relaxed">
@@ -161,7 +161,7 @@
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 transform -translate-y-1"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="prose prose-sm prose-emerald dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 mt-5 pt-5 border-t border-slate-100 dark:border-slate-800 leading-relaxed">
+                         class="prose prose-sm sm:prose-base prose-emerald dark:prose-invert max-w-prose text-slate-700 dark:text-slate-300 mt-5 pt-5 border-t border-slate-100 dark:border-slate-800 leading-relaxed">
                         {!! $announcement->content !!}
                     </div>
                 </div>

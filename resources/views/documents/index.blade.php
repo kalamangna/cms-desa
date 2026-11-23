@@ -32,7 +32,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Arsip <span class="text-primary-500 italic">Dokumen</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
@@ -123,7 +123,7 @@
                     {{ $doc->title }}
                 </h3>
                 @if($doc->description)
-                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 mb-3">{{ $doc->description }}</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 max-w-2xl mb-3">{{ $doc->description }}</p>
                 @endif
                 <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs font-medium">
                     <i class="fa-regular fa-calendar text-slate-400 dark:text-slate-500 text-[11px]"></i>

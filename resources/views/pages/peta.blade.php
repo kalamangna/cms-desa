@@ -103,7 +103,7 @@
             </ol>
         </nav>
         <div class="max-w-3xl">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
                 Peta <span class="text-primary-500 italic">Spasial</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
@@ -116,11 +116,11 @@
 {{-- ===================== MAP SECTION ===================== --}}
 <div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8">
             
             {{-- Map View (Main Area) --}}
-            <div class="lg:col-span-2 flex flex-col gap-6">
-                <div class="bg-white dark:bg-slate-900 rounded-3xl p-2 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 relative overflow-hidden h-[360px] sm:h-[460px] md:h-[600px] min-h-[320px] z-0">
+            <div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-6">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-2 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 relative overflow-hidden h-[360px] sm:h-[420px] md:h-[460px] lg:h-[min(600px,calc(100vh-8rem))] min-h-[320px] z-0">
                     <div id="spatialMap" class="w-full h-full rounded-2xl absolute inset-0 z-0"></div>
                     
                     {{-- Legend Overlay --}}
@@ -143,24 +143,24 @@
             </div>
 
             {{-- Sidebar (Dusun list & Information Card) --}}
-            <div class="lg:col-span-1 flex flex-col gap-6"
+            <div class="lg:col-span-5 xl:col-span-4 grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-col gap-6 md:items-start lg:items-stretch"
                  x-data="spatialMapSidebar()">
                 
                 {{-- Tabbed Selector Card --}}
-                <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-4">
+                <div class="w-full bg-white dark:bg-slate-900 rounded-3xl p-4 sm:p-5 xl:p-6 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-4">
                     <!-- Tab Buttons -->
                     <div class="flex border-b border-slate-100 dark:border-slate-800 pb-1">
                         <button type="button"
                                 @click="activeTab = 'dusun'"
                                 :class="activeTab === 'dusun' ? 'border-primary-600 dark:border-primary-500 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 font-semibold'"
-                                class="flex-1 py-3 min-h-11 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
+                                class="flex-1 py-3 min-h-11 px-2 whitespace-nowrap text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
                             <i class="fa-solid fa-map-location-dot"></i>
                             Wilayah
                         </button>
                         <button type="button"
                                 @click="activeTab = 'fasilitas'"
                                 :class="activeTab === 'fasilitas' ? 'border-primary-600 dark:border-primary-500 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 font-semibold'"
-                                class="flex-1 py-3 min-h-11 text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
+                                class="flex-1 py-3 min-h-11 px-2 whitespace-nowrap text-center border-b-2 text-xs transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer">
                             <i class="fa-solid fa-building-circle-check"></i>
                             Fasilitas Umum
                         </button>
@@ -252,7 +252,7 @@
                 </div>
 
                 {{-- Detail Information Card --}}
-                <div id="dusunInfoCard" class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-4 transition-all duration-300 relative overflow-hidden group">
+                <div id="dusunInfoCard" class="w-full bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/80 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col gap-4 transition-all duration-300 relative overflow-hidden group">
                     <div class="absolute top-0 left-0 w-2 h-full bg-slate-300" id="infoCardBorder"></div>
                     
                     <div class="pl-2">
