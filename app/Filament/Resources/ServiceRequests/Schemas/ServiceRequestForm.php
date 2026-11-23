@@ -101,11 +101,23 @@ class ServiceRequestForm
                                         };
 
                                         return new HtmlString(
-                                            "Status proses permohonan.<br><a href='{$url}' target='_blank' rel='noopener' style='display: inline-flex; align-items: center; gap: 6px; background-color: {$btnColor}; color: white; font-weight: bold; padding: 6px 14px; border-radius: 8px; font-size: 11px; margin-top: 4px; text-decoration: none;'>"
-                                            ."<i class='fa-brands fa-whatsapp' style='font-size: 14px;'></i> Kirim Notifikasi WA ke Pemohon</a>"
+                                            "Status proses permohonan.<br><a href='{$url}' target='_blank' rel='noopener noreferrer' style='display: inline-flex; align-items: center; gap: 6px; background-color: {$btnColor}; color: white; font-weight: bold; padding: 6px 14px; border-radius: 8px; font-size: 11px; margin-top: 4px; text-decoration: none;'>"
+                                            ."<i class='fa-brands fa-whatsapp' style='font-size: 14px;'></i> Kirim Notifikasi WA</a>"
                                         );
                                     }),
                             ]),
+                    ]),
+
+                Section::make('Berkas Persyaratan')
+                    ->description('Dokumen persyaratan yang diunggah pemohon.')
+                    ->columnSpanFull()
+                    ->visible(fn ($record): bool => $record !== null)
+                    ->schema([
+                        Placeholder::make('attachments_preview')
+                            ->hiddenLabel()
+                            ->content(fn ($record) => view('filament.service-requests.attachments-list', [
+                                'record' => $record?->loadMissing('attachments'),
+                            ])),
                     ]),
             ]);
     }

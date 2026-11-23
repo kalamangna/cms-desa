@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Layanan Mandiri | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Panduan standar operasional prosedur, persyaratan berkas, dan jenis layanan administrasi kependudukan pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_description', 'Panduan prosedur, persyaratan berkas, dan pengajuan layanan administrasi pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
 @push('head')
@@ -34,15 +34,45 @@
 @endif
 @endpush
 
+@php
+    $servicesMap = $services->mapWithKeys(fn ($service) => [
+        $service->id => [
+            'title' => $service->title,
+            'requirements' => $service->requirementItems->map(fn ($item) => [
+                'id' => $item->id,
+                'name' => $item->name,
+                'description' => $item->description,
+                'is_required' => (bool) $item->is_required,
+            ])->values()->all(),
+        ],
+    ])->all();
+
+    $oldServiceId = old('service_id') ? (int) old('service_id') : null;
+    $oldServiceTitle = $oldServiceId && isset($servicesMap[$oldServiceId])
+        ? $servicesMap[$oldServiceId]['title']
+        : '';
+
+    $attachmentErrors = [];
+    foreach ($errors->getMessages() as $key => $messages) {
+        if (str_starts_with($key, 'attachments.')) {
+            $reqId = substr($key, strlen('attachments.'));
+            $attachmentErrors[$reqId] = $messages[0] ?? '';
+        }
+    }
+@endphp
+
 @section('content')
 {{-- Wrapper with Alpine JS state --}}
-<div x-data="{ 
-        activeService: null,
-        showApplyModal: {{ $errors->any() && old('service_id') ? 'true' : 'false' }},
-        applyServiceId: {{ old('service_id') ? old('service_id') : 'null' }},
-        applyServiceTitle: '{{ old('service_id') ? 'Pengajuan Layanan' : '' }}',
+<div x-data="{
+        servicesMap: @js($servicesMap),
+        serverAttachmentErrors: @js($attachmentErrors),
+        fileStates: {},
+        submitting: false,
+        showApplyModal: {{ $errors->any() && $oldServiceId ? 'true' : 'false' }},
+        applyServiceId: {{ $oldServiceId ?: 'null' }},
+        applyServiceTitle: @js($oldServiceTitle),
         showLacak: {{ isset($serviceRequest) || isset($searched_ticket) ? 'true' : 'false' }},
-        ticket: '{{ $searched_ticket ?? '' }}',
+        ticket: @js($searched_ticket ?? ''),
         loading: false,
         searched: {{ isset($searched_ticket) ? 'true' : 'false' }},
         result: {{ isset($serviceRequest) ? json_encode([
@@ -53,7 +83,57 @@
             'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
             'status' => $serviceRequest->status,
             'created_at' => $serviceRequest->created_at->translatedFormat('d M Y, H:i'),
+            'attachments' => $serviceRequest->attachments->pluck('requirement_name')->values()->all(),
         ]) : 'null' }},
+        get activeRequirements() {
+            if (!this.applyServiceId || !this.servicesMap[this.applyServiceId]) {
+                return [];
+            }
+            return this.servicesMap[this.applyServiceId].requirements || [];
+        },
+        openApplyModal(serviceId) {
+            this.applyServiceId = serviceId;
+            this.applyServiceTitle = this.servicesMap[serviceId]?.title || '';
+            this.fileStates = {};
+            this.serverAttachmentErrors = {};
+            this.submitting = false;
+            this.showApplyModal = true;
+        },
+        handleFileSelect(reqId, event) {
+            const input = event.target;
+            const file = input.files && input.files[0];
+            delete this.serverAttachmentErrors[reqId];
+
+            if (!file) {
+                delete this.fileStates[reqId];
+                return;
+            }
+
+            const allowedExt = ['jpg', 'jpeg', 'png', 'webp', 'pdf'];
+            const ext = (file.name.split('.').pop() || '').toLowerCase();
+            const maxBytes = 2 * 1024 * 1024;
+
+            if (!allowedExt.includes(ext)) {
+                input.value = '';
+                this.fileStates[reqId] = { name: '', sizeText: '', error: 'Format berkas harus JPG, PNG, WebP, atau PDF.' };
+                return;
+            }
+
+            if (file.size > maxBytes) {
+                input.value = '';
+                this.fileStates[reqId] = { name: '', sizeText: '', error: 'Ukuran berkas melebihi batas maksimal 2 MB.' };
+                return;
+            }
+
+            const sizeText = file.size >= 1048576
+                ? (file.size / 1048576).toFixed(1).replace('.', ',') + ' MB'
+                : Math.max(1, Math.round(file.size / 1024)) + ' KB';
+
+            this.fileStates[reqId] = { name: file.name, sizeText, error: '' };
+        },
+        getAttachmentError(reqId) {
+            return this.fileStates[reqId]?.error || this.serverAttachmentErrors[reqId] || '';
+        },
         async fetchStatus(ticketNum = null) {
             if (ticketNum) this.ticket = ticketNum;
             if (!this.ticket.trim()) return;
@@ -74,7 +154,7 @@
                 this.loading = false;
             }
         }
-     }" 
+     }"
      class="relative"
 >
 
@@ -129,13 +209,12 @@
                  class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md cursor-pointer select-none"
                  style="display: none;"
                  @click.self="showSuccessModal = false">
-                
-                <!-- Tombol Tutup (Di Luar Modal) -->
+
                 <button
                     type="button"
                     @click.stop="showSuccessModal = false"
-                    class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
-                    title="Tutup (Esc)">
+                    aria-label="Tutup dialog"
+                    class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
 
@@ -146,20 +225,22 @@
                     </div>
 
                     <h3 class="font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 text-2xl mb-2">{{ session('success') }}</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Pengajuan layanan Anda telah terkirim.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Simpan nomor tiket di bawah untuk melacak status permohonan.</p>
 
                     <div class="mb-8">
-                        <span class="text-xs font-bold text-slate-400 dark:text-slate-500 block mb-1">Nomor Tiket Anda:</span>
+                        <span class="text-xs font-bold text-slate-400 dark:text-slate-500 block mb-1">Nomor Tiket</span>
                         <div class="flex items-center justify-center gap-3">
                             <h4 class="text-xl font-mono font-black text-slate-800 dark:text-slate-100 select-all">{{ session('ticket_number') }}</h4>
-                            <button @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2000);"
-                                    class="text-slate-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition p-2 cursor-pointer" title="Salin Nomor">
+                            <button type="button"
+                                    @click="navigator.clipboard.writeText('{{ session('ticket_number') }}'); copied = true; setTimeout(() => copied = false, 2000);"
+                                    aria-label="Salin nomor tiket"
+                                    class="text-slate-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition p-2 cursor-pointer">
                                 <i class="fa-solid" :class="copied ? 'fa-check text-emerald-500' : 'fa-copy'"></i>
                             </button>
                         </div>
                     </div>
 
-                    <button @click="showSuccessModal = false" class="w-full bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 text-white py-3.5 rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer">
+                    <button type="button" @click="showSuccessModal = false" class="w-full h-11 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 text-white rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer">
                         Tutup
                     </button>
                 </div>
@@ -170,6 +251,7 @@
             <div class="flex justify-center mb-12 md:mb-16">
                 <div class="flex space-x-8 border-b border-slate-200 dark:border-slate-800">
                     <button
+                        type="button"
                         @click="showLacak = false"
                         :class="!showLacak ? 'border-primary-600 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600 font-semibold'"
                         class="pb-4 px-2 text-sm border-b-2 transition-all duration-200 flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
@@ -177,6 +259,7 @@
                         <i class="fa-solid fa-list-check"></i> Daftar Layanan
                     </button>
                     <button
+                        type="button"
                         @click="showLacak = true"
                         :class="showLacak ? 'border-primary-600 text-primary-700 dark:text-primary-400 font-extrabold' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600 font-semibold'"
                         class="pb-4 px-2 text-sm border-b-2 transition-all duration-200 flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 cursor-pointer"
@@ -224,9 +307,35 @@
                                 x-transition:leave="transition ease-in duration-150"
                                 x-transition:leave-start="opacity-100 translate-y-0"
                                 x-transition:leave-end="opacity-0 -translate-y-2"
-                                class="mt-3 prose prose-sm dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 rounded-2xl p-4 text-xs leading-relaxed"
+                                class="mt-3 space-y-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 rounded-2xl p-4 text-xs leading-relaxed"
                                 x-cloak>
-                                <div>{!! $service->requirements ?? '<p class="text-slate-400 dark:text-slate-500 italic">Persyaratan belum diisi.</p>' !!}</div>
+                                @if($service->requirements)
+                                    <div class="prose prose-sm dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
+                                        {!! $service->requirements !!}
+                                    </div>
+                                @endif
+
+                                @if($service->requirementItems->isNotEmpty())
+                                    <div class="{{ $service->requirements ? 'pt-3 border-t border-slate-200/80 dark:border-slate-700' : '' }}">
+                                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">
+                                            Berkas Unggahan
+                                        </p>
+                                        <ul class="space-y-1.5">
+                                            @foreach($service->requirementItems as $item)
+                                                <li class="flex items-center justify-between gap-2 text-slate-700 dark:text-slate-200">
+                                                    <span class="font-medium">{{ $item->name }}</span>
+                                                    <span class="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold {{ $item->is_required ? 'bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-slate-200/70 text-slate-600 dark:bg-slate-700 dark:text-slate-300' }}">
+                                                        {{ $item->is_required ? 'Wajib' : 'Opsional' }}
+                                                    </span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                                @if(! $service->requirements && $service->requirementItems->isEmpty())
+                                    <p class="text-slate-400 dark:text-slate-500 italic">Persyaratan belum diisi.</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -235,8 +344,8 @@
                     <div class="border-t border-slate-100 dark:border-slate-800 px-8 md:px-10 py-5 flex items-center justify-center bg-slate-50/50 dark:bg-slate-950/40">
                         <button
                             type="button"
-                            @click="showApplyModal = true; applyServiceId = {{ $service->id }}; applyServiceTitle = '{{ addslashes($service->title) }}'"
-                            class="w-full inline-flex items-center justify-center gap-2 bg-primary-600 text-white px-5 py-3 rounded-full font-bold text-sm hover:bg-primary-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 transition-all duration-200 shadow-xs cursor-pointer">
+                            @click="openApplyModal({{ $service->id }})"
+                            class="w-full h-11 inline-flex items-center justify-center gap-2 bg-primary-600 text-white px-5 rounded-full font-bold text-sm hover:bg-primary-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 transition-all duration-200 shadow-xs cursor-pointer">
                             <i class="fa-solid fa-paper-plane text-xs"></i>
                             Ajukan Layanan
                         </button>
@@ -246,7 +355,7 @@
                 <div class="col-span-full py-8">
                     <x-empty-state
                         icon="fa-solid fa-clipboard-list"
-                        title="Layanan Mandiri Belum Tersedia"
+                        title="Belum ada layanan tersedia"
                         description="Hubungi petugas desa untuk informasi layanan."
                         action-label="Hubungi Kami"
                         action-href="/kontak"
@@ -260,21 +369,21 @@
                 <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 mb-8 max-w-4xl mx-auto">
                     <div class="mb-8">
                         <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-2">Lacak Status Permohonan</h3>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Masukkan nomor tiket pengajuan Anda di bawah ini.</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Periksa progres permohonan menggunakan nomor tiket.</p>
                     </div>
                     <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-4">
                         <div class="flex-grow relative">
-                            <input type="text" x-model="ticket" placeholder="SRV-XXXXXXXX-XXXX" required
-                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-sm">
+                            <input type="text" x-model="ticket" placeholder="SRV-20261123-A1B2C3" required
+                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-sm">
                         </div>
-                        <button type="submit" :disabled="loading" class="bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white px-8 py-4 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow-xs">
+                        <button type="submit" :disabled="loading" class="h-14 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white px-8 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow-xs">
                             <template x-if="loading">
                                 <i class="fa-solid fa-spinner animate-spin"></i>
                             </template>
                             <template x-if="!loading">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </template>
-                            <span x-text="loading ? 'Memuat...' : 'Lacak'"></span>
+                            <span x-text="loading ? 'Memuat...' : 'Lacak Tiket'"></span>
                         </button>
                     </form>
                 </div>
@@ -321,10 +430,24 @@
                                 </p>
                             </div>
 
+                            <template x-if="result.attachments && result.attachments.length > 0">
+                                <div class="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-2xl border border-slate-100 dark:border-slate-700">
+                                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2.5">Berkas Terlampir</span>
+                                    <ul class="flex flex-wrap gap-2">
+                                        <template x-for="(itemName, idx) in result.attachments" :key="idx">
+                                            <li class="inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-3 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200">
+                                                <i class="fa-solid fa-file-circle-check text-emerald-500 text-[11px]"></i>
+                                                <span x-text="itemName"></span>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+
                             <template x-if="result.status === 'Selesai'">
                                 <div class="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900 p-5 rounded-2xl text-slate-700 dark:text-slate-200 text-sm">
                                     <h5 class="font-extrabold text-emerald-800 dark:text-emerald-300 mb-1"><i class="fa-solid fa-circle-check"></i> Pengajuan Selesai Diproses</h5>
-                                    <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300 font-medium">Surat keterangan / berkas fisik administrasi Anda telah selesai diproses oleh Pemerintah Desa. Silakan mengambil berkas fisik tersebut di <strong>Kantor Desa</strong> pada jam operasional kerja dengan membawa dokumen persyaratan terkait.</p>
+                                    <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300 font-medium">Berkas surat Anda telah selesai diproses. Silakan ambil dokumen fisik di <strong>Kantor Desa</strong> pada jam kerja dengan membawa dokumen asli terkait.</p>
                                 </div>
                             </template>
                         </div>
@@ -333,7 +456,7 @@
                     <template x-if="!loading && searched && (!result || !result.found)">
                         <div class="text-center py-16 animate-in fade-in duration-300">
                             <i class="fa-solid fa-circle-xmark text-rose-400 text-3xl mb-3 block"></i>
-                            <h3 class="text-slate-500 dark:text-slate-400 font-bold text-sm">Nomor Tiket Tidak Ditemukan</h3>
+                            <h3 class="text-slate-500 dark:text-slate-400 font-bold text-sm">Nomor tiket tidak ditemukan</h3>
                         </div>
                     </template>
                 </div>
@@ -353,15 +476,14 @@
          x-transition:leave-end="opacity-0"
          class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md cursor-pointer select-none"
          style="display: none;"
-         @keydown.escape.window="showApplyModal = false"
-         @click="showApplyModal = false">
+         @keydown.escape.window="if (!submitting) showApplyModal = false"
+         @click="if (!submitting) showApplyModal = false">
 
-        <!-- Tombol Tutup (Di Luar Modal) -->
         <button
             type="button"
-            @click.stop="showApplyModal = false"
-            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
-            title="Tutup (Esc)">
+            @click.stop="if (!submitting) showApplyModal = false"
+            aria-label="Tutup formulir pengajuan"
+            class="fixed top-5 right-5 sm:top-8 sm:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-12 h-12 rounded-full flex items-center justify-center transition z-[10000] backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900">
             <i class="fa-solid fa-xmark text-xl"></i>
         </button>
 
@@ -373,57 +495,136 @@
              x-transition:leave="transition ease-in duration-200 transform"
              x-transition:leave-start="opacity-100 translate-y-0 scale-100"
              x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-             class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 md:p-10 max-w-lg w-full max-h-[85vh] overflow-y-auto border border-slate-100 dark:border-slate-800 relative cursor-default">
+             class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 max-w-lg w-full max-h-[88vh] overflow-y-auto border border-slate-100 dark:border-slate-800 relative cursor-default">
 
             <div class="mb-6">
                 <span class="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Pengajuan Layanan</span>
                 <h3 class="text-xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mt-1" x-text="applyServiceTitle"></h3>
             </div>
 
-            {{-- Error Notification --}}
-            @if($errors->any())
-            <div class="mb-5 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-2xl p-4 flex gap-3 items-start text-slate-700 dark:text-slate-300 text-xs">
-                <i class="fa-solid fa-circle-exclamation text-rose-600 dark:text-rose-400 mt-0.5"></i>
-                <div>
-                    <h4 class="font-bold text-slate-900 dark:text-slate-100 mb-1">Periksa Formulir</h4>
-                    <ul class="list-disc pl-4 text-rose-600 dark:text-rose-400 space-y-0.5">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+            @error('form_error')
+                <div class="mb-5 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-2xl p-4 flex gap-3 items-start text-rose-700 dark:text-rose-300 text-xs font-medium">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                    <span>{{ $message }}</span>
                 </div>
-            </div>
-            @endif
+            @enderror
 
-            <form action="{{ route('service-requests.store') }}" method="POST" class="space-y-5">
+            <form action="{{ route('service-requests.store') }}"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  @submit="submitting = true"
+                  class="space-y-5">
                 @csrf
                 <x-honeypot />
                 <input type="hidden" name="service_id" :value="applyServiceId">
 
                 <div>
-                    <label for="apply-nik" class="block text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2 ml-1">NIK Pemohon</label>
-                    <input type="text" id="apply-nik" name="nik" maxlength="16" placeholder="Masukkan 16 digit NIK Anda" required
-                           class="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-sm text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition">
+                    <label for="apply-nik" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">NIK Pemohon</label>
+                    <input type="text"
+                           id="apply-nik"
+                           name="nik"
+                           value="{{ old('nik') }}"
+                           maxlength="16"
+                           inputmode="numeric"
+                           placeholder="16 digit NIK"
+                           required
+                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('nik') ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
+                    @error('nik')
+                        <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
-                    <label for="apply-name" class="block text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2 ml-1">Nama Lengkap Pemohon</label>
-                    <input type="text" id="apply-name" name="name" placeholder="Nama lengkap sesuai KK" required
-                           class="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-sm text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition">
+                    <label for="apply-name" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">Nama Lengkap</label>
+                    <input type="text"
+                           id="apply-name"
+                           name="name"
+                           value="{{ old('name') }}"
+                           placeholder="Budi Santoso"
+                           required
+                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('name') ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
+                    @error('name')
+                        <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
-                    <label for="apply-phone" class="block text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2 ml-1">Nomor WhatsApp</label>
-                    <input type="tel" id="apply-phone" name="phone" placeholder="Contoh: 08xx-xxxx-xxxx" required
-                           class="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-sm text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition">
+                    <label for="apply-phone" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 ml-1">Nomor WhatsApp</label>
+                    <input type="tel"
+                           id="apply-phone"
+                           name="phone"
+                           value="{{ old('phone') }}"
+                           placeholder="081234567890"
+                           required
+                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('phone') ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
+                    @error('phone')
+                        <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                {{-- Dynamic Requirement File Uploads --}}
+                <template x-if="activeRequirements.length > 0">
+                    <div class="space-y-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+                        <div>
+                            <h4 class="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-200">Berkas Persyaratan</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Format JPG, PNG, WebP, atau PDF maksimal 2 MB.</p>
+                        </div>
+
+                        <template x-for="req in activeRequirements" :key="req.id">
+                            <div class="space-y-1.5">
+                                <div class="flex items-center justify-between gap-2">
+                                    <label :for="'attachment-' + req.id" class="text-xs font-bold text-slate-700 dark:text-slate-200" x-text="req.name"></label>
+                                    <span class="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold"
+                                          :class="req.is_required ? 'bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'"
+                                          x-text="req.is_required ? 'Wajib' : 'Opsional'">
+                                    </span>
+                                </div>
+
+                                <template x-if="req.description">
+                                    <p class="text-xs text-slate-500 dark:text-slate-400" x-text="req.description"></p>
+                                </template>
+
+                                <input type="file"
+                                       :id="'attachment-' + req.id"
+                                       :name="'attachments[' + req.id + ']'"
+                                       :required="req.is_required"
+                                       accept=".jpg,.jpeg,.png,.webp,.pdf"
+                                       @change="handleFileSelect(req.id, $event)"
+                                       :class="getAttachmentError(req.id) ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700'"
+                                       class="block w-full min-h-11 rounded-xl border bg-slate-50 dark:bg-slate-800 px-3 py-2 text-xs text-slate-700 dark:text-slate-200 file:mr-3 file:rounded-lg file:border-0 file:bg-primary-50 dark:file:bg-primary-950/60 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-primary-700 dark:file:text-primary-300 hover:file:bg-primary-100 dark:hover:file:bg-primary-900/60 focus:outline-none focus:ring-2 focus:ring-primary-500 transition cursor-pointer">
+
+                                <template x-if="fileStates[req.id] && fileStates[req.id].name && !getAttachmentError(req.id)">
+                                    <p class="text-xs font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                        <span class="truncate" x-text="fileStates[req.id].name"></span>
+                                        <span class="shrink-0 text-slate-400 dark:text-slate-500" x-text="fileStates[req.id].sizeText"></span>
+                                    </p>
+                                </template>
+
+                                <template x-if="getAttachmentError(req.id)">
+                                    <p class="text-xs font-medium text-rose-600 dark:text-rose-400" x-text="getAttachmentError(req.id)"></p>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
 
                 <div class="flex gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-                    <button type="submit" class="flex-1 flex items-center justify-center gap-2 bg-primary-600 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-primary-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 transition-all duration-200 shadow-xs cursor-pointer">
-                        <i class="fa-solid fa-circle-check text-xs"></i>
-                        Kirim Pengajuan
+                    <button type="submit"
+                            :disabled="submitting"
+                            class="flex-1 h-12 flex items-center justify-center gap-2 bg-primary-600 text-white px-6 rounded-full font-bold text-sm hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 transition-all duration-200 shadow-xs cursor-pointer">
+                        <template x-if="submitting">
+                            <i class="fa-solid fa-spinner animate-spin text-xs"></i>
+                        </template>
+                        <template x-if="!submitting">
+                            <i class="fa-solid fa-circle-check text-xs"></i>
+                        </template>
+                        <span x-text="submitting ? 'Mengirim...' : 'Kirim Pengajuan'"></span>
                     </button>
-                    <button type="button" @click="showApplyModal = false" class="flex-1 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-6 py-3.5 rounded-full font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 transition-all duration-200 cursor-pointer">
+                    <button type="button"
+                            @click="showApplyModal = false"
+                            :disabled="submitting"
+                            class="flex-1 h-12 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-6 rounded-full font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-60 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 transition-all duration-200 cursor-pointer">
                         Batal
                     </button>
                 </div>

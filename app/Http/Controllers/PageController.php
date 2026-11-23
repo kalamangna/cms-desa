@@ -34,7 +34,7 @@ class PageController extends Controller
     public function layanan()
     {
         $services = Cache::remember('services_list', 3600, function () {
-            return Service::orderBy('id', 'asc')->get();
+            return Service::with('requirementItems')->orderBy('id', 'asc')->get();
         });
 
         return view('pages.layanan', compact('services'));

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ServiceRequestAttachmentController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\APBDesController;
 use App\Http\Controllers\ComplaintController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\StatisticController;
+use Filament\Http\Middleware\Authenticate as FilamentAuthenticate;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +40,13 @@ Route::post('/layanan/ajukan', [ServiceRequestController::class, 'store'])
 Route::get('/layanan/lacak', [ServiceRequestController::class, 'track'])
     ->name('service-requests.track')
     ->middleware('throttle:15,1');
+
+Route::middleware(FilamentAuthenticate::class)->prefix('admin')->group(function () {
+    Route::get('/service-request-attachments/{attachment}/preview', [ServiceRequestAttachmentController::class, 'preview'])
+        ->name('admin.service-request-attachments.preview');
+    Route::get('/service-request-attachments/{attachment}/download', [ServiceRequestAttachmentController::class, 'download'])
+        ->name('admin.service-request-attachments.download');
+});
 
 Route::get('/kontak', [PageController::class, 'kontak'])->name('kontak');
 Route::get('/potensi', [PageController::class, 'potensi'])->name('potensi');

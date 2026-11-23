@@ -2,6 +2,20 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.29.0] - 2026-11-23
+
+### Fitur
+- **Upload Berkas Persyaratan Terstruktur pada Menu Layanan**:
+  - Menambahkan tabel `service_requirements` dan `service_request_attachments` beserta model `ServiceRequirement` dan `ServiceRequestAttachment` untuk mengelola daftar berkas persyaratan per layanan serta lampiran permohonan warga.
+  - Menambahkan `ServiceAttachmentService` untuk menyimpan berkas unggahan warga ke disk privat `local`, mengonversi gambar JPG, PNG, dan WebP secara otomatis ke format WebP resolusi tinggi maksimal `1600px`, menjaga validasi *path traversal*, serta menghapus berkas fisik otomatis ketika permohonan dihapus.
+  - Menambahkan pengelolaan **Daftar Berkas Persyaratan** berbasis *Repeater* pada formulir Layanan di panel admin Filament lengkap dengan penanda `Wajib Diunggah` dan pengurutan item.
+  - Menampilkan pratinjau langsung berkas gambar, tombol **Lihat Berkas**, dan **Unduh Berkas** pada detail permohonan layanan di Filament melalui rute privat terproteksi autentikasi Filament dan otorisasi `ServiceRequestPolicy`, serta menambahkan kolom jumlah berkas pada tabel permohonan.
+  - Memperbarui halaman publik `/layanan` dengan ringkasan berkas unggahan pada kartu layanan, slot unggah dinamis beserta validasi ukuran dan format di sisi klien maupun server maksimal `2 MB` per berkas, pencegahan klik ganda saat mengirim, serta daftar nama berkas terlampir pada hasil Lacak Pengajuan tanpa tautan unduh demi menjaga privasi warga.
+  - Memperbarui `ServiceSeeder` dengan contoh daftar berkas persyaratan pada layanan bawaan serta menambahkan invalidasi cache `services_list` saat item persyaratan berubah.
+
+### Pengujian
+- Menambahkan pengujian fitur `ServiceRequestAttachmentTest` yang memverifikasi pengajuan layanan tanpa berkas, validasi ketat berkas wajib, format, dan ukuran maksimal `2 MB`, penyimpanan privat, respons lacak tiket tanpa eksposur path, proteksi autentikasi dan otorisasi rute pratinjau serta unduh, hingga penghapusan otomatis berkas fisik.
+
 ## [1.28.7] - 2026-11-04
 
 ### Perbaikan

@@ -19,6 +19,7 @@ use App\Models\Post;
 use App\Models\Publication;
 use App\Models\PublicFacility;
 use App\Models\Service;
+use App\Models\ServiceRequirement;
 use App\Models\Setting;
 use App\Models\StatisticCategory;
 use App\Models\StatisticData;
@@ -356,6 +357,12 @@ class AppServiceProvider extends ServiceProvider
             Cache::forget('services_list');
         });
         Service::deleted(function () {
+            Cache::forget('services_list');
+        });
+        ServiceRequirement::saved(function () {
+            Cache::forget('services_list');
+        });
+        ServiceRequirement::deleted(function () {
             Cache::forget('services_list');
         });
 

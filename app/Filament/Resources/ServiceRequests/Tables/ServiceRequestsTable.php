@@ -29,6 +29,13 @@ class ServiceRequestsTable
                 TextColumn::make('service.title')->label('Layanan')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('attachments_count')
+                    ->label('Berkas')
+                    ->counts('attachments')
+                    ->badge()
+                    ->formatStateUsing(fn (int $state): string => $state > 0 ? "{$state} berkas" : 'Tidak ada')
+                    ->color(fn (int $state): string => $state > 0 ? 'info' : 'gray')
+                    ->sortable(),
                 TextColumn::make('status')->label('Status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
