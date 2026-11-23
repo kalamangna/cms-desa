@@ -650,31 +650,31 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     </p>
                     <div class="flex gap-3">
                         @if(!empty($site_settings['social_facebook']))
-                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-500 hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all duration-200 active:scale-95" title="Facebook">
+                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook resmi desa" class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-500 hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all duration-200 active:scale-95" title="Facebook">
                             <i class="fa-brands fa-facebook-f text-sm"></i>
                         </a>
                         @else
-                        <span class="w-11 h-11 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 opacity-40 cursor-not-allowed select-none" title="Facebook (Belum diatur)">
+                        <span class="w-11 h-11 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 opacity-40 cursor-not-allowed select-none" title="Facebook belum diatur">
                             <i class="fa-brands fa-facebook-f text-sm"></i>
                         </span>
                         @endif
 
                         @if(!empty($site_settings['social_instagram']))
-                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-pink-500 hover:bg-pink-600 hover:border-pink-600 hover:text-white transition-all duration-200 active:scale-95" title="Instagram">
+                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram resmi desa" class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-pink-500 hover:bg-pink-600 hover:border-pink-600 hover:text-white transition-all duration-200 active:scale-95" title="Instagram">
                             <i class="fa-brands fa-instagram text-sm"></i>
                         </a>
                         @else
-                        <span class="w-11 h-11 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 opacity-40 cursor-not-allowed select-none" title="Instagram (Belum diatur)">
+                        <span class="w-11 h-11 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 opacity-40 cursor-not-allowed select-none" title="Instagram belum diatur">
                             <i class="fa-brands fa-instagram text-sm"></i>
                         </span>
                         @endif
 
                         @if(!empty($site_settings['social_youtube']))
-                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-red-500 hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-200 active:scale-95" title="YouTube">
+                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube resmi desa" class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-red-500 hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-200 active:scale-95" title="YouTube">
                             <i class="fa-brands fa-youtube text-sm"></i>
                         </a>
                         @else
-                        <span class="w-11 h-11 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 opacity-40 cursor-not-allowed select-none" title="YouTube (Belum diatur)">
+                        <span class="w-11 h-11 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 opacity-40 cursor-not-allowed select-none" title="YouTube belum diatur">
                             <i class="fa-brands fa-youtube text-sm"></i>
                         </span>
                         @endif
@@ -756,7 +756,7 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                     &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}.
                 </p>
                 <p class="text-slate-300 text-[10px] font-bold uppercase tracking-widest">
-                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" class="text-primary-400 hover:text-primary-300 underline underline-offset-2 transition">kalamangna</a> &bull; v{{ config('app.version', '1.28.1') }}
+                    Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" rel="noopener noreferrer" class="text-primary-400 hover:text-primary-300 underline underline-offset-2 transition">kalamangna</a> &bull; v{{ config('app.version', '1.28.1') }}
                 </p>
             </div>
         </div>

@@ -79,7 +79,9 @@ Route::get('/dokumen', [DocumentController::class, 'index'])->name('documents.in
 Route::get('/statistik', [StatisticController::class, 'index'])->name('statistics.index');
 
 Route::get('/dataset', [DatasetController::class, 'index'])->name('datasets.index');
-Route::get('/dataset/download/{type}', [DatasetController::class, 'download'])->name('datasets.download');
+Route::get('/dataset/download/{type}', [DatasetController::class, 'download'])
+    ->name('datasets.download')
+    ->middleware('throttle:10,1');
 
 Route::get('/publikasi', [PublicationController::class, 'index'])->name('publications.index');
 
@@ -235,10 +237,13 @@ Route::get('/livewire/preview-file/{filename}', function (string $filename) {
     abort_unless($isAuthorized, 401);
 
     $mimeType = $storage->mimeType($path) ?: 'application/octet-stream';
+    $safeInlineMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
+    $disposition = in_array($mimeType, $safeInlineMimes, true) ? 'inline' : 'attachment';
 
     return response()->file($storage->path($path), [
         'Content-Type' => $mimeType,
-        'Content-Disposition' => 'inline; filename="'.basename($filename).'"',
+        'Content-Disposition' => $disposition.'; filename="'.basename($filename).'"',
         'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0, private',
+        'X-Content-Type-Options' => 'nosniff',
     ]);
 })->name('livewire.preview-file')->middleware('web');

@@ -2,6 +2,18 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.29.3] - 2026-11-23
+
+### Perbaikan
+- **Performa Kueri & Cache**:
+  - Menghilangkan N+1 query pada ekspor CSV penduduk dan keluarga di `DatasetController` dengan memuat peta `Dusun::pluck('name', 'id')` sekali di memori sebelum iterasi `cursor()`.
+  - Menambahkan `throttle:10,1` pada rute `/dataset/download/{type}` untuk mencegah beban berlebih RAM/CPU di *shared hosting*.
+  - Menambahkan observer invalidasi cache `Dataset::saved`/`deleted` pada `AppServiceProvider` serta menggunakan kembali cache `services_list` pada `ServiceRequestController::track()`.
+- **Keamanan, Aksesibilitas, & UX Formulir Publik**:
+  - Menambahkan header `X-Content-Type-Options: nosniff` dan membatasi penyajian `inline` hanya untuk tipe berkas aman pada rute `livewire.preview-file`, serta mengganti interpolasi mentah GeoJSON di `peta.blade.php` ke `JSON.parse(@json(...))`.
+  - Melengkapi atribut `rel="noopener noreferrer"` pada seluruh tautan eksternal (`layouts/app`, `kontak`, `documents`) dan `aria-label` pada ikon media sosial footer.
+  - Menambahkan pencegahan klik ganda (`submitting`) dan pesan validasi kontekstual tepat di bawah setiap kolom input pada formulir Pengaduan dan Buku Tamu.
+
 ## [1.29.2] - 2026-11-23
 
 ### Perbaikan

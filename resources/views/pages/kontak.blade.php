@@ -155,7 +155,7 @@
                     <h4 class="text-xs font-black uppercase tracking-widest text-primary-400 mb-6">Ikuti Media Sosial</h4>
                     <div class="flex flex-wrap gap-3">
                         @if(!empty($site_settings['social_facebook']))
-                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" rel="noopener"
+                        <a href="{{ $site_settings['social_facebook'] }}" target="_blank" rel="noopener noreferrer"
                            class="flex items-center gap-2 bg-[#1877F2] hover:bg-[#0c59c2] border border-[#1877F2] text-white px-4 py-2.5 rounded-xl font-bold text-sm active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 shadow-xs cursor-pointer">
                             <i class="fa-brands fa-facebook-f"></i> Facebook
                         </a>
@@ -166,7 +166,7 @@
                         @endif
 
                         @if(!empty($site_settings['social_instagram']))
-                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" rel="noopener"
+                        <a href="{{ $site_settings['social_instagram'] }}" target="_blank" rel="noopener noreferrer"
                            class="flex items-center gap-2 bg-[#E1306C] hover:bg-[#ba2255] border border-[#E1306C] text-white px-4 py-2.5 rounded-xl font-bold text-sm active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 shadow-xs cursor-pointer">
                             <i class="fa-brands fa-instagram"></i> Instagram
                         </a>
@@ -177,7 +177,7 @@
                         @endif
 
                         @if(!empty($site_settings['social_youtube']))
-                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" rel="noopener"
+                        <a href="{{ $site_settings['social_youtube'] }}" target="_blank" rel="noopener noreferrer"
                            class="flex items-center gap-2 bg-[#FF0000] hover:bg-[#cc0000] border border-[#FF0000] text-white px-4 py-2.5 rounded-xl font-bold text-sm active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all duration-200 shadow-xs cursor-pointer">
                             <i class="fa-brands fa-youtube"></i> YouTube
                         </a>

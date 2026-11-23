@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Citizen;
 use App\Models\Dataset;
+use App\Models\Dusun;
 use App\Models\Family;
 use App\Models\Setting;
 use Carbon\Carbon;
@@ -144,7 +145,9 @@ class DatasetController extends Controller
                     // CSV MURNI (Langsung Header & Data sesuai standar Data Science)
                     fputcsv($file, $headers, ';');
 
-                    $query = Citizen::with('dusun')->where('status', 'Aktif');
+                    // Muat peta dusun sekali di memori karena cursor() tidak menjalankan eager loading with()
+                    $dusunMap = Dusun::pluck('name', 'id')->all();
+                    $query = Citizen::where('status', 'Aktif');
 
                     $no = 1;
                     foreach ($query->cursor() as $citizen) {
@@ -159,7 +162,7 @@ class DatasetController extends Controller
                                 'school_participation' => $citizen->school_participation ?? '-',
                                 'job' => $citizen->job ?? '-',
                                 'job_status' => $citizen->job_status ?? '-',
-                                'dusun' => $citizen->dusun?->name ?? '-',
+                                'dusun' => $dusunMap[$citizen->dusun_id] ?? '-',
                                 'rt_rw' => "RT {$citizen->rt} / RW {$citizen->rw}",
                                 'bpjs_status' => $citizen->bpjs_status ?? '-',
                                 'pip_status' => $citizen->pip_status ? 'Ya' : 'Tidak',
@@ -294,14 +297,16 @@ class DatasetController extends Controller
                     // CSV MURNI (Langsung Header & Data sesuai standar Data Science)
                     fputcsv($file, $headers, ';');
 
-                    $query = Family::with('dusun');
+                    // Muat peta dusun sekali di memori karena cursor() tidak menjalankan eager loading with()
+                    $dusunMap = Dusun::pluck('name', 'id')->all();
+                    $query = Family::query();
 
                     $no = 1;
                     foreach ($query->cursor() as $family) {
                         $row = [$no++];
                         foreach ($activeCols as $col) {
                             $row[] = match ($col) {
-                                'dusun' => $family->dusun?->name ?? '-',
+                                'dusun' => $dusunMap[$family->dusun_id] ?? '-',
                                 'rt_rw' => "RT {$family->rt} / RW {$family->rw}",
                                 'assistance_type' => $family->assistance_type ?? 'Tidak Ada',
                                 'ownership_status' => $family->ownership_status ?? '-',

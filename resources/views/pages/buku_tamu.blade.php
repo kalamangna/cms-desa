@@ -82,60 +82,68 @@
             </div>
             @endif
 
-            {{-- Error Notification --}}
-            @if($errors->any())
-            <div class="mb-10 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-3xl p-6 flex gap-4 items-start text-slate-700 dark:text-slate-300">
-                <div class="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center flex-shrink-0">
-                    <i class="fa-solid fa-circle-exclamation text-lg"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-slate-900 dark:text-slate-100 mb-1">Pengecekan Formulir</h4>
-                    <ul class="list-disc pl-4 text-xs text-rose-600 dark:text-rose-400 space-y-0.5 font-medium">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+            @error('form_error')
+            <div class="mb-6 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-2xl p-4 flex gap-3 items-start text-rose-700 dark:text-rose-300 text-xs font-medium">
+                <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                <span>{{ $message }}</span>
             </div>
-            @endif
+            @enderror
 
             <div class="mb-8">
                 <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-slate-900 dark:text-slate-100 mb-2">Catat Kunjungan</h3>
                 <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Isi formulir berikut dengan data yang valid.</p>
             </div>
 
-            <form action="{{ route('guest-book.store') }}" method="POST" class="space-y-6">
+            <form action="{{ route('guest-book.store') }}" method="POST" x-data="{ submitting: false }" @submit="submitting = true" class="space-y-6">
                 @csrf
                 <x-honeypot />
                 <div>
                     <label for="name" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nama Lengkap</label>
-                    <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap Anda" required
-                           class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('name') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
+                    <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Budi Santoso" required
+                           class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('name') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-sm">
+                    @error('name')
+                        <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="institution_address" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Instansi / Alamat</label>
-                        <input type="text" id="institution_address" name="institution_address" value="{{ old('institution_address') }}" placeholder="Asal instansi atau alamat asal" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('institution_address') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
+                        <label for="institution_address" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Instansi atau Alamat</label>
+                        <input type="text" id="institution_address" name="institution_address" value="{{ old('institution_address') }}" placeholder="Dinas Pertanian Kabupaten Sinjai" required
+                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('institution_address') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-sm">
+                        @error('institution_address')
+                            <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
-                        <label for="phone" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nomor Kontak (WhatsApp)</label>
-                        <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" placeholder="Contoh: 08xx-xxxx-xxxx" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('phone') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition text-sm">
+                        <label for="phone" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Nomor WhatsApp</label>
+                        <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" placeholder="081234567890" required
+                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('phone') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-sm">
+                        @error('phone')
+                            <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
                 <div>
-                    <label for="purpose" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Keperluan / Pesan</label>
-                    <textarea id="purpose" name="purpose" rows="5" placeholder="Tuliskan tujuan kunjungan Anda secara jelas..." required
-                              class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('purpose') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-600 outline-none transition resize-none text-sm">{{ old('purpose') }}</textarea>
+                    <label for="purpose" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Keperluan Kunjungan</label>
+                    <textarea id="purpose" name="purpose" rows="5" placeholder="Koordinasi program pendampingan pertanian" required
+                              class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('purpose') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition resize-none text-sm">{{ old('purpose') }}</textarea>
+                    @error('purpose')
+                        <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <button type="submit"
-                        class="w-full flex items-center justify-center gap-3 bg-primary-600 text-white py-4.5 rounded-2xl font-bold text-base hover:bg-primary-700 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 transition-all duration-200 shadow-xs cursor-pointer">
-                    <i class="fa-solid fa-pen-nib text-sm"></i>
-                    Simpan Buku Tamu
+                        :disabled="submitting"
+                        class="w-full flex items-center justify-center gap-3 bg-primary-600 text-white py-4.5 rounded-2xl font-bold text-base hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 transition-all duration-200 shadow-xs cursor-pointer">
+                    <template x-if="submitting">
+                        <i class="fa-solid fa-spinner animate-spin text-sm"></i>
+                    </template>
+                    <template x-if="!submitting">
+                        <i class="fa-solid fa-pen-nib text-sm"></i>
+                    </template>
+                    <span x-text="submitting ? 'Menyimpan...' : 'Simpan Buku Tamu'"></span>
                 </button>
             </form>
         </div>

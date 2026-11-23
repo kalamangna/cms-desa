@@ -9,6 +9,7 @@ use App\Models\BudgetCategory;
 use App\Models\BudgetRealization;
 use App\Models\Category;
 use App\Models\Citizen;
+use App\Models\Dataset;
 use App\Models\Dusun;
 use App\Models\Family;
 use App\Models\Gallery;
@@ -329,6 +330,8 @@ class AppServiceProvider extends ServiceProvider
         Citizen::deleted($clearHomeCache);
         Family::saved($clearHomeCache);
         Family::deleted($clearHomeCache);
+        Dataset::saved($clearHomeCache);
+        Dataset::deleted($clearHomeCache);
 
         PopupInfographic::saved(function () {
             Cache::forget('home_popups');

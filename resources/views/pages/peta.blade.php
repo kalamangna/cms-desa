@@ -340,7 +340,8 @@
         // Draw overall village boundary outline if available
         @if(!empty($site_settings['village_geojson']))
         try {
-            const villageBoundaryObj = {!! $site_settings['village_geojson'] !!};
+            const rawVillageGeoJson = @json($site_settings['village_geojson']);
+            const villageBoundaryObj = typeof rawVillageGeoJson === 'string' ? JSON.parse(rawVillageGeoJson) : rawVillageGeoJson;
             L.geoJSON(villageBoundaryObj, {
                 style: {
                     color: '#0f172a', // Slate 900

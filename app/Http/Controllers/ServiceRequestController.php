@@ -8,6 +8,7 @@ use App\Services\ServiceAttachmentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Throwable;
@@ -134,7 +135,9 @@ class ServiceRequestController extends Controller
             ]);
         }
 
-        $services = Service::with('requirementItems')->orderBy('id', 'asc')->get();
+        $services = Cache::remember('services_list', 3600, function () {
+            return Service::with('requirementItems')->orderBy('id', 'asc')->get();
+        });
 
         return view('pages.layanan', compact('services', 'serviceRequest'))
             ->with('searched_ticket', $request->ticket_number);
