@@ -577,9 +577,10 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
             x-transition:leave="transition ease-in duration-150"
             x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-2"
-            class="lg:hidden absolute inset-x-0 top-full z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-950/20 overflow-y-auto max-h-[calc(100dvh-5rem)] overscroll-contain"
+            class="lg:hidden absolute inset-x-0 top-full z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-950/20 overflow-y-auto h-[calc(100dvh-5rem)] md:h-auto md:max-h-[calc(100dvh-5rem)] overscroll-contain"
             x-cloak>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-6 space-y-2 md:space-y-5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-6 min-h-full flex flex-col justify-between gap-6">
+                <div class="space-y-2 md:space-y-5">
                 <!-- Home Link -->
                 <a href="/" class="flex items-center justify-between px-4 min-h-11 py-2.5 rounded-2xl text-sm font-bold {{ request()->is('/') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">
                     <span>Beranda</span>
@@ -662,8 +663,9 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                 <a href="/peta" class="flex items-center justify-between px-4 min-h-11 py-2.5 rounded-2xl text-sm font-bold {{ request()->is('peta*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">
                     <span>Peta Spasial</span>
                 </a>
+                </div>
 
-                <div class="pt-4 border-t border-slate-100 dark:border-slate-800 mt-3">
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
                     @auth
                     <div class="flex flex-col sm:flex-row gap-3">
                         <a href="/admin" target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-2 px-4 min-h-12 py-3 rounded-2xl text-sm font-bold bg-primary-600 text-white text-center shadow-sm">

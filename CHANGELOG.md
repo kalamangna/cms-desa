@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.29.6] - 2026-11-23
+
+### Perbaikan
+- **Tinggi Penuh Menu Mobile (`layouts/app.blade.php`)**:
+  - Mengatur *drawer* navigasi mobile mengisi penuh sisa tinggi layar (`h-[calc(100dvh-5rem)]`) dengan tombol aksi autentikasi tertata di bagian bawah (`min-h-full flex flex-col justify-between`), sementara tampilan tablet (`md:`) tetap menyesuaikan tinggi konten (`md:h-auto`).
+
 ## [1.29.5] - 2026-11-23
 
 ### Perbaikan
