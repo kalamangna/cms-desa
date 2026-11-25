@@ -60,7 +60,7 @@ class BsreService
         $endpoint = $baseUrl.'/api/sign/pdf';
         $timeout = max(10, (int) config('bsre.timeout', 60));
         $verifySsl = (bool) config('bsre.verify_ssl', true);
-        $tagCoordinate = (string) config('bsre.tag_coordinate', '#');
+        $pageCount = max(1, (int) preg_match_all('/\/Type\s*\/Page\b/', $pdfBinary));
 
         try {
             $response = Http::withBasicAuth($username, $password)
@@ -71,8 +71,13 @@ class BsreService
                     'nik' => $cleanNik,
                     'passphrase' => $passphrase,
                     'tampilan' => 'visible',
+                    'image' => 'false',
+                    'page' => (string) $pageCount,
+                    'xAxis' => (string) config('bsre.x_axis', 350),
+                    'yAxis' => (string) config('bsre.y_axis', 180),
+                    'width' => (string) config('bsre.width', 85),
+                    'height' => (string) config('bsre.height', 85),
                     'linkQR' => $verificationUrl,
-                    'tag_koordinat' => $tagCoordinate,
                 ]);
         } catch (Throwable $e) {
             Log::warning('Koneksi ke server BSrE gagal.', [
@@ -160,6 +165,11 @@ class BsreService
             if (is_string($message) && trim($message) !== '') {
                 return 'Penandatanganan BSrE gagal: '.trim($message);
             }
+        }
+
+        $plainText = trim(strip_tags($body));
+        if ($plainText !== '' && ! str_starts_with($plainText, '<')) {
+            return 'Penandatanganan BSrE gagal: '.mb_substr($plainText, 0, 200);
         }
 
         if ($status === 401 || $status === 403) {

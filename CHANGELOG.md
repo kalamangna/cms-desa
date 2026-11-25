@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.30.4] - 2026-11-25
+
+### Perbaikan
+- **Parameter Koordinat dan Ukuran QR BSrE (`BsreService`, `config/bsre.php`)**:
+  - Menyesuaikan payload `/api/sign/pdf` dengan spesifikasi bridge e-Sign BSrE dengan mengirimkan parameter `image=false`, `page`, `xAxis`, `yAxis`, `width`, `height`, dan `linkQR`, serta mengekstrak pesan galat teks polos dari respons server BSrE.
+
 ## [1.30.3] - 2026-11-25
 
 ### Perbaikan

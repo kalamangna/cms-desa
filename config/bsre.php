@@ -23,4 +23,12 @@ return [
     'mock' => filter_var(env('BSRE_MOCK', false), FILTER_VALIDATE_BOOLEAN),
 
     'tag_coordinate' => env('BSRE_TAG_COORDINATE', '#'),
+
+    'x_axis' => (int) env('BSRE_X_AXIS', 350),
+
+    'y_axis' => (int) env('BSRE_Y_AXIS', 180),
+
+    'width' => (int) env('BSRE_WIDTH', 85),
+
+    'height' => (int) env('BSRE_HEIGHT', 85),
 ];

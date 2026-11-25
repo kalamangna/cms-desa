@@ -211,6 +211,12 @@ class ServiceRequestTteTest extends TestCase
                 && $request->hasHeader('Authorization')
                 && str_contains($body, '7307019999880001')
                 && str_contains($body, 'visible')
+                && str_contains($body, 'name="image"')
+                && str_contains($body, 'name="page"')
+                && str_contains($body, 'name="xAxis"')
+                && str_contains($body, 'name="yAxis"')
+                && str_contains($body, 'name="width"')
+                && str_contains($body, 'name="height"')
                 && str_contains($body, route('letters.verify', $signedRequest->verification_token));
         });
 
