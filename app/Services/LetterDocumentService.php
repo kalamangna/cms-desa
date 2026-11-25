@@ -10,6 +10,9 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Support\LetterTemplatePresets;
 use Barryvdh\DomPDF\Facade\Pdf;
+use chillerlan\QRCode\Common\EccLevel;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -109,6 +112,8 @@ class LetterDocumentService
         }, $template) ?? $template;
 
         $logoDataUri = $this->resolveVillageLogoDataUri($settings['site_logo'] ?? null);
+        $verificationToken = $request->verification_token ?: Str::random(40);
+        $qrCodeDataUri = $this->generateQrCodeDataUri(route('letters.verify', $verificationToken));
 
         return view('pdf.service-letter', [
             'request' => $request,
@@ -122,7 +127,7 @@ class LetterDocumentService
             'footerText' => self::FOOTER_TEXT,
             'websiteUrl' => rtrim((string) url('/'), '/'),
             'logoDataUri' => $logoDataUri,
-            'tagCoordinate' => (string) config('bsre.tag_coordinate', '#'),
+            'qrCodeDataUri' => $qrCodeDataUri,
         ])->render();
     }
 
@@ -341,6 +346,23 @@ class LetterDocumentService
         }
 
         return null;
+    }
+
+    private function generateQrCodeDataUri(string $url): ?string
+    {
+        try {
+            $options = new QROptions([
+                'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+                'eccLevel' => EccLevel::M,
+                'scale' => 5,
+                'quietzoneSize' => 2,
+                'imageBase64' => true,
+            ]);
+
+            return (new QRCode($options))->render($url);
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     /**

@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.30.5] - 2026-11-25
+
+### Fitur
+- **Kotak Spesimen QR TTE Horizontal (`LetterDocumentService`, `service-letter.blade.php`, `BsreService`)**:
+  - Merender QR Code verifikasi keaslian dokumen langsung di kotak spesimen tanda tangan PDF surat menggunakan `chillerlan/php-qrcode` dengan tata letak horizontal standar SRIKANDI.
+  - Mengirim permintaan tanda tangan ke API BSrE menggunakan mode `invisible` agar tanda tangan kriptografis tetap tertanam penuh tanpa menimpa tata letak kotak spesimen.
+
 ## [1.30.4] - 2026-11-25
 
 ### Perbaikan

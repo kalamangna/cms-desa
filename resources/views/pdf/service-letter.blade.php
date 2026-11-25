@@ -79,27 +79,67 @@
         }
         .signature-wrapper {
             width: 100%;
-            margin-top: 28px;
+            margin-top: 24px;
         }
         .signature-table {
             width: 100%;
             border-collapse: collapse;
         }
         .signature-spacer {
-            width: 52%;
+            width: 44%;
         }
         .signature-box {
-            width: 48%;
+            width: 56%;
             text-align: left;
             vertical-align: top;
         }
-        .signature-space {
-            height: 76px;
-            padding-top: 28px;
+        .signature-date {
+            font-size: 11pt;
+            margin-bottom: 6px;
         }
-        .bsre-tag {
-            color: #ffffff;
-            font-size: 10px;
+        .specimen-card {
+            width: 100%;
+            border: 1px solid #94a3b8;
+            border-radius: 6px;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: #f8fafc;
+        }
+        .specimen-qr-cell {
+            width: 78px;
+            padding: 8px;
+            vertical-align: middle;
+            text-align: center;
+            border-right: 1px solid #cbd5e1;
+        }
+        .specimen-qr-cell img {
+            width: 70px;
+            height: 70px;
+            display: block;
+            margin: 0 auto;
+        }
+        .specimen-info-cell {
+            padding: 8px 10px;
+            vertical-align: middle;
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.35;
+        }
+        .specimen-label {
+            font-size: 8pt;
+            color: #475569;
+            margin-bottom: 3px;
+        }
+        .specimen-position {
+            font-size: 9pt;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .specimen-name {
+            font-size: 9.5pt;
+            font-weight: bold;
+            color: #0f172a;
+            text-decoration: underline;
         }
         .footer-note {
             position: fixed;
@@ -158,12 +198,21 @@
             <tr>
                 <td class="signature-spacer"></td>
                 <td class="signature-box">
-                    <div>{{ $settings['village_name'] ?? 'Desa' }}, {{ $letterDateFormatted }}</div>
-                    <div><strong>{{ $signerPosition }}</strong></div>
-                    <div class="signature-space">
-                        <span class="bsre-tag">{{ $tagCoordinate }}</span>
-                    </div>
-                    <div><strong><u>{{ $signerName }}</u></strong></div>
+                    <div class="signature-date">{{ $settings['village_name'] ?? 'Desa' }}, {{ $letterDateFormatted }}</div>
+                    <table class="specimen-card">
+                        <tr>
+                            @if(!empty($qrCodeDataUri))
+                                <td class="specimen-qr-cell">
+                                    <img src="{{ $qrCodeDataUri }}" alt="QR Verifikasi TTE">
+                                </td>
+                            @endif
+                            <td class="specimen-info-cell">
+                                <div class="specimen-label">Ditandatangani secara elektronik oleh:</div>
+                                <div class="specimen-position">{{ $signerPosition }}</div>
+                                <div class="specimen-name">{{ $signerName }}</div>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>

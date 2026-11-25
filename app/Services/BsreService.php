@@ -60,7 +60,6 @@ class BsreService
         $endpoint = $baseUrl.'/api/sign/pdf';
         $timeout = max(10, (int) config('bsre.timeout', 60));
         $verifySsl = (bool) config('bsre.verify_ssl', true);
-        $pageCount = max(1, (int) preg_match_all('/\/Type\s*\/Page\b/', $pdfBinary));
 
         try {
             $response = Http::withBasicAuth($username, $password)
@@ -70,14 +69,7 @@ class BsreService
                 ->post($endpoint, [
                     'nik' => $cleanNik,
                     'passphrase' => $passphrase,
-                    'tampilan' => 'visible',
-                    'image' => 'false',
-                    'page' => (string) $pageCount,
-                    'xAxis' => (string) config('bsre.x_axis', 350),
-                    'yAxis' => (string) config('bsre.y_axis', 180),
-                    'width' => (string) config('bsre.width', 85),
-                    'height' => (string) config('bsre.height', 85),
-                    'linkQR' => $verificationUrl,
+                    'tampilan' => 'invisible',
                 ]);
         } catch (Throwable $e) {
             Log::warning('Koneksi ke server BSrE gagal.', [
