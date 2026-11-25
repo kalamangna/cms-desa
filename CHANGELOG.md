@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.30.1] - 2026-11-25
+
+### Perbaikan
+- **Catatan Kaki Dokumen TTE (`ManageSettings`, `LetterDocumentService`, `service-letter.blade.php`)**:
+  - Mengubah teks catatan kaki BSrE pada dokumen PDF surat menjadi statis melalui konstanta `LetterDocumentService::FOOTER_TEXT` dan menghapus kolom `tte_footer_text` dari tab `Surat dan TTE` di `ManageSettings`.
+  - Menambahkan informasi alamat website resmi desa (`Website Resmi`) pada catatan kaki dokumen PDF surat TTE.
+
 ## [1.30.0] - 2026-11-25
 
 ### Ditambahkan

@@ -170,7 +170,10 @@
     </div>
 
     <div class="footer-note">
-        {{ $footerText }}
+        <div>{{ $footerText }}</div>
+        @if(!empty($websiteUrl))
+            <div>Website Resmi: {{ $websiteUrl }}</div>
+        @endif
     </div>
 </body>
 </html>

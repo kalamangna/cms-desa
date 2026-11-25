@@ -9,7 +9,6 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -254,11 +253,6 @@ class ManageSettings extends Page implements HasForms
                                     ->placeholder('16 digit NIK')
                                     ->helperText('NIK pejabat yang terdaftar pada layanan BSrE BSSN.')
                                     ->maxLength(16),
-                                Textarea::make('tte_footer_text')
-                                    ->label('Catatan Kaki Dokumen TTE')
-                                    ->default('Dokumen ini ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan oleh Balai Sertifikasi Elektronik BSSN.')
-                                    ->rows(2)
-                                    ->columnSpanFull(),
                             ]),
                     ])->columnSpanFull(),
             ])

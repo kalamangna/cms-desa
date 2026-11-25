@@ -20,6 +20,8 @@ class LetterDocumentService
 
     public const BASE_DIRECTORY = 'service-requests';
 
+    public const FOOTER_TEXT = 'Dokumen ini ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan oleh Balai Sertifikasi Elektronik BSSN.';
+
     public function __construct(
         private readonly LetterNumberService $letterNumberService,
         private readonly BsreService $bsreService,
@@ -117,7 +119,8 @@ class LetterDocumentService
             'bodyHtml' => $bodyHtml,
             'signerName' => $signerName,
             'signerPosition' => $signerPosition,
-            'footerText' => (string) ($settings['tte_footer_text'] ?? 'Dokumen ini ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan oleh Balai Sertifikasi Elektronik BSSN.'),
+            'footerText' => self::FOOTER_TEXT,
+            'websiteUrl' => rtrim((string) url('/'), '/'),
             'logoDataUri' => $logoDataUri,
             'tagCoordinate' => (string) config('bsre.tag_coordinate', '#'),
         ])->render();
