@@ -87,8 +87,9 @@ class EditServiceRequest extends EditRecord
                         ->placeholder('16 digit NIK')
                         ->default(fn () => Setting::where('key', 'tte_default_signer_nik')->value('value'))
                         ->required()
-                        ->length(16)
-                        ->numeric(),
+                        ->maxLength(16)
+                        ->rule('digits:16')
+                        ->extraInputAttributes(['inputmode' => 'numeric']),
                     TextInput::make('passphrase')
                         ->label('Passphrase BSrE')
                         ->password()

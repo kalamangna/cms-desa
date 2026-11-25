@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.30.2] - 2026-11-25
+
+### Perbaikan
+- **Input NIK Penanda Tangan BSrE (`EditServiceRequest`)**:
+  - Menghapus modifier `numeric()` pada `TextInput::make('signer_nik')` dan menggantinya dengan `rule('digits:16')` serta `extraInputAttributes(['inputmode' => 'numeric'])` agar nilai 16 digit NIK tidak terkonversi menjadi notasi ilmiah float saat pengiriman modal TTE.
+
 ## [1.30.1] - 2026-11-25
 
 ### Perbaikan
