@@ -40,6 +40,7 @@ use Illuminate\Auth\Events\Logout;
 use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -405,7 +406,7 @@ class AppServiceProvider extends ServiceProvider
             });
 
             if (! empty($settings)) {
-                View::share('site_settings', $settings);
+                View::share('site_settings', Arr::except($settings, ['tte_default_signer_nik']));
 
                 if (isset($settings['village_name']) && ! empty($settings['village_name'])) {
                     $slug = Str::slug($settings['village_name']);

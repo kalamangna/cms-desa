@@ -2,11 +2,14 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Official;
 use App\Models\Setting;
+use App\Services\LetterNumberService;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -57,6 +60,9 @@ class ManageSettings extends Page implements HasForms
         } else {
             $settings['enable_a11y_widget'] = true;
         }
+        $settings['tte_enabled'] = isset($settings['tte_enabled'])
+            ? filter_var($settings['tte_enabled'], FILTER_VALIDATE_BOOLEAN)
+            : false;
         $this->form->fill($settings);
     }
 
@@ -215,6 +221,44 @@ class ManageSettings extends Page implements HasForms
                                     ])
                                     ->default('bottom-left')
                                     ->visible(fn (Get $get) => (bool) $get('enable_a11y_widget')),
+                            ]),
+                        Tabs\Tab::make('Surat dan TTE')
+                            ->icon('heroicon-o-document-check')
+                            ->columns(2)
+                            ->components([
+                                Toggle::make('tte_enabled')
+                                    ->label('Aktifkan Fitur TTE BSrE')
+                                    ->default(false)
+                                    ->helperText('Mengaktifkan pembuatan surat PDF dan tanda tangan elektronik BSrE pada layanan warga.')
+                                    ->columnSpanFull(),
+                                TextInput::make('tte_village_code')
+                                    ->label('Kode Desa pada Nomor Surat')
+                                    ->placeholder('TPB')
+                                    ->helperText('Kode singkat desa yang muncul di format nomor surat.')
+                                    ->maxLength(30),
+                                TextInput::make('tte_letter_number_format')
+                                    ->label('Format Nomor Surat')
+                                    ->placeholder(LetterNumberService::DEFAULT_FORMAT)
+                                    ->default(LetterNumberService::DEFAULT_FORMAT)
+                                    ->helperText('Token tersedia: {kode_klasifikasi}, {nomor_urut}, {kode_desa}, {bulan_romawi}, {tahun}.'),
+                                Select::make('tte_default_signer_official_id')
+                                    ->label('Pejabat Penanda Tangan Bawaan')
+                                    ->placeholder('Pilih Pejabat Desa')
+                                    ->options(fn () => Official::query()->orderBy('order')->get()->mapWithKeys(fn (Official $official) => [
+                                        $official->id => $official->name.' - '.$official->position,
+                                    ])->all())
+                                    ->searchable()
+                                    ->preload(),
+                                TextInput::make('tte_default_signer_nik')
+                                    ->label('NIK Penanda Tangan Bawaan')
+                                    ->placeholder('16 digit NIK')
+                                    ->helperText('NIK pejabat yang terdaftar pada layanan BSrE BSSN.')
+                                    ->maxLength(16),
+                                Textarea::make('tte_footer_text')
+                                    ->label('Catatan Kaki Dokumen TTE')
+                                    ->default('Dokumen ini ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan oleh Balai Sertifikasi Elektronik BSSN.')
+                                    ->rows(2)
+                                    ->columnSpanFull(),
                             ]),
                     ])->columnSpanFull(),
             ])

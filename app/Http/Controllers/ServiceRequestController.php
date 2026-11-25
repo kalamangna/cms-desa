@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\ServiceRequest;
+use App\Services\LetterDocumentService;
 use App\Services\ServiceAttachmentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
 
 class ServiceRequestController extends Controller
 {
     public function __construct(
-        private readonly ServiceAttachmentService $attachmentService
+        private readonly ServiceAttachmentService $attachmentService,
+        private readonly LetterDocumentService $letterDocumentService
     ) {}
 
     public function store(Request $request): RedirectResponse
@@ -31,6 +35,7 @@ class ServiceRequestController extends Controller
             'phone' => ['required', 'string', 'regex:/^[0-9+\-\s()]{8,25}$/'],
             'service_id' => ['required', 'exists:services,id'],
             'attachments' => ['nullable', 'array'],
+            'form_data' => ['nullable', 'array'],
         ];
 
         $messages = [
@@ -64,17 +69,60 @@ class ServiceRequestController extends Controller
                 $messages[$field.'.mimetypes'] = "Berkas {$requirement->name} harus berformat JPG, PNG, WebP, atau PDF.";
                 $messages[$field.'.max'] = "Berkas {$requirement->name} gagal diunggah. Maksimal 2 MB.";
             }
+
+            if ($service->is_tte_enabled && is_array($service->form_fields)) {
+                foreach ($service->form_fields as $fieldDef) {
+                    $key = $fieldDef['key'] ?? null;
+                    $label = $fieldDef['label'] ?? $key;
+                    if (! is_string($key) || $key === '') {
+                        continue;
+                    }
+
+                    $inputKey = 'form_data.'.$key;
+                    $isRequired = (bool) ($fieldDef['is_required'] ?? false);
+                    $type = $fieldDef['type'] ?? 'text';
+
+                    $fieldRules = [$isRequired ? 'required' : 'nullable'];
+                    if ($type === 'date') {
+                        $fieldRules[] = 'date';
+                    } elseif ($type === 'number') {
+                        $fieldRules[] = 'numeric';
+                    } else {
+                        $fieldRules[] = 'string';
+                        $fieldRules[] = 'max:1000';
+                    }
+
+                    $rules[$inputKey] = $fieldRules;
+                    $messages[$inputKey.'.required'] = "{$label} wajib diisi.";
+                    $messages[$inputKey.'.date'] = "{$label} harus berupa tanggal yang valid.";
+                    $messages[$inputKey.'.numeric'] = "{$label} harus berupa angka.";
+                    $messages[$inputKey.'.max'] = "{$label} maksimal 1000 karakter.";
+                }
+            }
         }
 
         $validated = $request->validate($rules, $messages);
 
         $clean = fn (?string $v) => $v !== null ? trim(strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $v))) : null;
 
+        $sanitizedFormData = [];
+        if ($service && $service->is_tte_enabled && is_array($service->form_fields)) {
+            $rawFormData = $validated['form_data'] ?? [];
+            foreach ($service->form_fields as $fieldDef) {
+                $key = $fieldDef['key'] ?? null;
+                if (is_string($key) && $key !== '' && array_key_exists($key, $rawFormData)) {
+                    $val = $rawFormData[$key];
+                    $sanitizedFormData[$key] = is_scalar($val) ? $clean((string) $val) : null;
+                }
+            }
+        }
+
         $sanitized = [
             'nik' => trim($validated['nik']),
             'name' => $clean($validated['name']),
             'phone' => preg_replace('/[^0-9+]/', '', $validated['phone']),
             'service_id' => $validated['service_id'],
+            'form_data' => $sanitizedFormData !== [] ? $sanitizedFormData : null,
         ];
 
         $createdRequestId = null;
@@ -123,16 +171,7 @@ class ServiceRequestController extends Controller
                 return response()->json(['found' => false, 'message' => 'Nomor tiket tidak ditemukan.'], 404);
             }
 
-            return response()->json([
-                'found' => true,
-                'ticket_number' => $serviceRequest->ticket_number,
-                'name' => $serviceRequest->name,
-                'nik_masked' => substr($serviceRequest->nik, 0, 4).'**********',
-                'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
-                'status' => $serviceRequest->status,
-                'created_at' => $serviceRequest->created_at->translatedFormat('d M Y, H:i'),
-                'attachments' => $serviceRequest->attachments->pluck('requirement_name')->values()->all(),
-            ]);
+            return response()->json($this->buildTrackPayload($serviceRequest));
         }
 
         $services = Cache::remember('services_list', 3600, function () {
@@ -141,5 +180,78 @@ class ServiceRequestController extends Controller
 
         return view('pages.layanan', compact('services', 'serviceRequest'))
             ->with('searched_ticket', $request->ticket_number);
+    }
+
+    public function downloadSignedLetter(Request $request): BinaryFileResponse|RedirectResponse
+    {
+        if (! $request->filled('download_nik') && $request->filled('nik')) {
+            $request->merge(['download_nik' => $request->input('nik')]);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'ticket_number' => ['required', 'string', 'max:30'],
+            'download_nik' => ['required', 'numeric', 'digits:16'],
+        ], [
+            'ticket_number.required' => 'Nomor tiket wajib diisi.',
+            'download_nik.required' => 'NIK pemohon wajib diisi.',
+            'download_nik.digits' => 'NIK harus tepat 16 digit angka.',
+            'download_nik.numeric' => 'NIK hanya boleh berisi angka.',
+        ]);
+
+        if ($validator->fails()) {
+            $ticket = trim((string) $request->input('ticket_number', ''));
+
+            return redirect()->route('service-requests.track', $ticket !== '' ? ['ticket_number' => $ticket] : [])
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        $serviceRequest = ServiceRequest::where('ticket_number', trim($validated['ticket_number']))->first();
+
+        if (! $serviceRequest || ! hash_equals((string) $serviceRequest->nik, trim((string) $validated['download_nik']))) {
+            return redirect()->route('service-requests.track', ['ticket_number' => $validated['ticket_number']])
+                ->withErrors(['download_nik' => 'NIK tidak sesuai dengan nomor tiket permohonan.']);
+        }
+
+        if ($serviceRequest->tte_status !== ServiceRequest::TTE_SIGNED) {
+            return redirect()->route('service-requests.track', ['ticket_number' => $validated['ticket_number']])
+                ->withErrors(['download_nik' => 'Surat elektronik belum tersedia atau telah dicabut.']);
+        }
+
+        $fullPath = $this->letterDocumentService->resolveSafePdfPath($serviceRequest, 'signed');
+        abort_unless($fullPath !== null, 404);
+
+        return response()->download($fullPath, 'surat-tte-'.$serviceRequest->ticket_number.'.pdf', [
+            'Cache-Control' => 'no-store, private',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildTrackPayload(ServiceRequest $serviceRequest): array
+    {
+        $canDownload = $serviceRequest->isTteSigned();
+
+        return [
+            'found' => true,
+            'ticket_number' => $serviceRequest->ticket_number,
+            'name' => $serviceRequest->name,
+            'nik_masked' => substr($serviceRequest->nik, 0, 4).'**********',
+            'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
+            'status' => $serviceRequest->status,
+            'tte_status' => $serviceRequest->tte_status ?? ServiceRequest::TTE_NONE,
+            'letter_number' => $serviceRequest->letter_number,
+            'signed_at' => $serviceRequest->signed_at?->translatedFormat('d M Y, H:i'),
+            'can_download_letter' => $canDownload,
+            'verification_url' => $serviceRequest->verification_token && ($canDownload || $serviceRequest->isTteRevoked())
+                ? route('letters.verify', $serviceRequest->verification_token)
+                : null,
+            'created_at' => $serviceRequest->created_at->translatedFormat('d M Y, H:i'),
+            'attachments' => $serviceRequest->attachments->pluck('requirement_name')->values()->all(),
+        ];
     }
 }

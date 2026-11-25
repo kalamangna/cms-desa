@@ -6,6 +6,7 @@ use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Service extends Model
 {
@@ -16,7 +17,26 @@ class Service extends Model
         'slug',
         'description',
         'requirements',
+        'letter_code',
+        'letter_title',
+        'letter_template',
+        'form_fields',
+        'is_tte_enabled',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'form_fields' => 'array',
+            'is_tte_enabled' => 'boolean',
+        ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => Cache::forget('services_list'));
+        static::deleted(fn () => Cache::forget('services_list'));
+    }
 
     public function requirementItems(): HasMany
     {

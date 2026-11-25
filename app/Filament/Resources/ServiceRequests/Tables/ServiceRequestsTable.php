@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ServiceRequests\Tables;
 
+use App\Models\ServiceRequest;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -44,6 +45,20 @@ class ServiceRequestsTable
                         'Selesai' => 'success',
                         default => 'gray',
                     }),
+                TextColumn::make('tte_status')->label('Status TTE')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        ServiceRequest::TTE_DRAFT => 'Draf',
+                        ServiceRequest::TTE_SIGNED => 'Sudah TTE',
+                        ServiceRequest::TTE_REVOKED => 'Dicabut',
+                        default => 'Belum Ada',
+                    })
+                    ->color(fn (?string $state): string => match ($state) {
+                        ServiceRequest::TTE_DRAFT => 'warning',
+                        ServiceRequest::TTE_SIGNED => 'success',
+                        ServiceRequest::TTE_REVOKED => 'danger',
+                        default => 'gray',
+                    }),
                 TextColumn::make('created_at')->label('Diajukan Pada')
                     ->dateTime()
                     ->sortable(),
@@ -56,6 +71,14 @@ class ServiceRequestsTable
                         'Menunggu' => 'Menunggu',
                         'Diproses' => 'Diproses',
                         'Selesai' => 'Selesai',
+                    ]),
+                SelectFilter::make('tte_status')
+                    ->label('Status TTE')
+                    ->options([
+                        ServiceRequest::TTE_NONE => 'Belum Ada',
+                        ServiceRequest::TTE_DRAFT => 'Draf',
+                        ServiceRequest::TTE_SIGNED => 'Sudah TTE',
+                        ServiceRequest::TTE_REVOKED => 'Dicabut',
                     ]),
                 SelectFilter::make('service_id')
                     ->label('Layanan')
@@ -73,13 +96,19 @@ class ServiceRequestsTable
                         if (str_starts_with($waNumber, '0')) {
                             $waNumber = '62'.substr($waNumber, 1);
                         }
-                        $statusLabel = match ($record->status) {
-                            'Diproses' => 'sedang DIPROSES',
-                            'Selesai' => 'telah SELESAI diproses. Silakan mengambil berkas fisik di Kantor Desa',
-                            default => 'masih MENUNGGU untuk diproses',
-                        };
                         $serviceName = $record->service?->title ?? 'layanan yang Anda ajukan';
-                        $message = "Halo {$record->name}, permohonan {$serviceName} Anda (Nomor Tiket: {$record->ticket_number}) {$statusLabel}.\n\nTerima kasih.";
+
+                        if ($record->tte_status === ServiceRequest::TTE_SIGNED) {
+                            $trackUrl = route('service-requests.track', ['ticket_number' => $record->ticket_number]);
+                            $message = "Halo {$record->name}, surat {$serviceName} Anda dengan Nomor Tiket {$record->ticket_number} telah selesai ditandatangani secara elektronik. Unduh surat PDF melalui tautan berikut dengan verifikasi NIK: {$trackUrl}";
+                        } else {
+                            $statusLabel = match ($record->status) {
+                                'Diproses' => 'sedang DIPROSES',
+                                'Selesai' => 'telah SELESAI diproses. Silakan mengambil berkas fisik di Kantor Desa',
+                                default => 'masih MENUNGGU untuk diproses',
+                            };
+                            $message = "Halo {$record->name}, permohonan {$serviceName} Anda dengan Nomor Tiket {$record->ticket_number} {$statusLabel}.\n\nTerima kasih.";
+                        }
 
                         return "https://wa.me/{$waNumber}?text=".urlencode($message);
                     })

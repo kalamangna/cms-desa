@@ -176,4 +176,22 @@ GOOGLE_DRIVE_FOLDER_ID=1JRLzo8AP0B8ZeuJal2CEM2PRGJq83ZCc
 
 ---
 
+### 🔐 Konfigurasi TTE BSrE BSSN (Opsional)
+
+Untuk mengaktifkan penandatanganan elektronik surat layanan warga melalui layanan e-Sign BSrE BSSN, tambahkan variabel lingkungan berikut pada `.env`:
+
+```env
+BSRE_BASE_URL=https://tte.sinjaikab.go.id/bridge
+BSRE_USERNAME=username_bsre_desa
+BSRE_PASSWORD=password_bsre_desa
+BSRE_TIMEOUT=60
+BSRE_VERIFY_SSL=true
+BSRE_MOCK=false
+BSRE_TAG_COORDINATE=#
+```
+
+Aktifkan fitur TTE dan atur format nomor surat pada menu **Pengaturan → Surat dan TTE** di panel admin Filament.
+
+---
+
 **Dikembangkan oleh [kalamangna](https://github.com/kalamangna)**

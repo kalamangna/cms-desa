@@ -2,6 +2,17 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.30.0] - 2026-11-25
+
+### Ditambahkan
+- **Integrasi Tanda Tangan Elektronik BSrE BSSN pada Layanan Warga**:
+  - Konfigurasi API e-Sign BSrE v1 melalui berkas `config/bsre.php` dan variabel lingkungan `BSRE_*` pada `.env.example`, disertai mode simulasi lokal `BSRE_MOCK`.
+  - Layanan `BsreService`, `LetterNumberService`, dan `LetterDocumentService` untuk penomoran surat otomatis per tahun dengan `lockForUpdate()`, lookup data penduduk `Citizen`, pembuatan draf PDF otomatis melalui DomPDF, pengiriman tanda tangan `visible` dengan `tag_koordinat` dan `linkQR` ke BSrE tanpa menyimpan passphrase, pencabutan surat TTE, serta pencatatan `AuditLog`.
+  - Lima preset template surat desa (`domisili`, `usaha`, `tidak_mampu`, `kelahiran`, `pengantar`) pada `LetterTemplatePresets` beserta dukungan kolom tambahan dinamis per layanan.
+  - Tab pengaturan `Surat dan TTE` pada `ManageSettings`, pengelolaan template dan kolom tambahan pada `ServiceForm`, serta panel status TTE dan aksi `Isi Data Warga`, `Buat Draf PDF`, `Tanda Tangani BSrE`, dan `Cabut Surat TTE` pada `ServiceRequestForm` dan `EditServiceRequest`.
+  - Formulir kolom tambahan dinamis dan pengunduhan surat PDF TTE dengan verifikasi 16 digit NIK pada halaman `/layanan` serta `/layanan/unduh-surat`, ditambah halaman verifikasi keaslian QR publik `/verifikasi/{token}` tanpa tautan unduh PDF publik.
+  - Pengujian fitur `ServiceRequestTteTest` yang mencakup validasi kolom dinamis, penomoran surat, payload multipart BSrE, mode simulasi, otorisasi rute PDF admin, unduhan warga, halaman verifikasi publik, pencabutan surat, dan pembersihan berkas fisik.
+
 ## [1.29.8] - 2026-11-23
 
 ### Perbaikan

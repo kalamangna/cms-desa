@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ServiceRequestAttachmentController;
+use App\Http\Controllers\Admin\ServiceRequestLetterController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\APBDesController;
 use App\Http\Controllers\ComplaintController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GuestBookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\LetterVerificationController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\PageController;
@@ -40,12 +42,22 @@ Route::post('/layanan/ajukan', [ServiceRequestController::class, 'store'])
 Route::get('/layanan/lacak', [ServiceRequestController::class, 'track'])
     ->name('service-requests.track')
     ->middleware('throttle:15,1');
+Route::post('/layanan/unduh-surat', [ServiceRequestController::class, 'downloadSignedLetter'])
+    ->name('service-requests.download-letter')
+    ->middleware('throttle:10,1');
+Route::get('/verifikasi/{token}', [LetterVerificationController::class, 'show'])
+    ->name('letters.verify')
+    ->middleware('throttle:30,1');
 
 Route::middleware(FilamentAuthenticate::class)->prefix('admin')->group(function () {
     Route::get('/service-request-attachments/{attachment}/preview', [ServiceRequestAttachmentController::class, 'preview'])
         ->name('admin.service-request-attachments.preview');
     Route::get('/service-request-attachments/{attachment}/download', [ServiceRequestAttachmentController::class, 'download'])
         ->name('admin.service-request-attachments.download');
+    Route::get('/service-request-letters/{serviceRequest}/{type}/preview', [ServiceRequestLetterController::class, 'preview'])
+        ->name('admin.service-request-letters.preview');
+    Route::get('/service-request-letters/{serviceRequest}/{type}/download', [ServiceRequestLetterController::class, 'download'])
+        ->name('admin.service-request-letters.download');
 });
 
 Route::get('/kontak', [PageController::class, 'kontak'])->name('kontak');

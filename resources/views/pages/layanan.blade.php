@@ -38,6 +38,15 @@
     $servicesMap = $services->mapWithKeys(fn ($service) => [
         $service->id => [
             'title' => $service->title,
+            'form_fields' => $service->is_tte_enabled && is_array($service->form_fields)
+                ? collect($service->form_fields)->map(fn ($field) => [
+                    'key' => $field['key'] ?? '',
+                    'label' => $field['label'] ?? '',
+                    'type' => $field['type'] ?? 'text',
+                    'placeholder' => $field['placeholder'] ?? '',
+                    'is_required' => (bool) ($field['is_required'] ?? false),
+                ])->filter(fn ($field) => $field['key'] !== '')->values()->all()
+                : [],
             'requirements' => $service->requirementItems->map(fn ($item) => [
                 'id' => $item->id,
                 'name' => $item->name,
@@ -52,11 +61,16 @@
         ? $servicesMap[$oldServiceId]['title']
         : '';
 
+    $oldFormData = is_array(old('form_data')) ? old('form_data') : [];
+    $formDataErrors = [];
     $attachmentErrors = [];
     foreach ($errors->getMessages() as $key => $messages) {
         if (str_starts_with($key, 'attachments.')) {
             $reqId = substr($key, strlen('attachments.'));
             $attachmentErrors[$reqId] = $messages[0] ?? '';
+        } elseif (str_starts_with($key, 'form_data.')) {
+            $fieldKey = substr($key, strlen('form_data.'));
+            $formDataErrors[$fieldKey] = $messages[0] ?? '';
         }
     }
 @endphp
@@ -66,6 +80,8 @@
 <div x-data="{
         servicesMap: @js($servicesMap),
         serverAttachmentErrors: @js($attachmentErrors),
+        serverFormDataErrors: @js($formDataErrors),
+        formDataValues: @js($oldFormData),
         fileStates: {},
         submitting: false,
         showApplyModal: {{ $errors->any() && $oldServiceId ? 'true' : 'false' }},
@@ -82,9 +98,22 @@
             'nik_masked' => substr($serviceRequest->nik, 0, 4) . '**********',
             'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
             'status' => $serviceRequest->status,
+            'tte_status' => $serviceRequest->tte_status ?? \App\Models\ServiceRequest::TTE_NONE,
+            'letter_number' => $serviceRequest->letter_number,
+            'signed_at' => $serviceRequest->signed_at?->translatedFormat('d M Y, H:i'),
+            'can_download_letter' => $serviceRequest->isTteSigned(),
+            'verification_url' => $serviceRequest->verification_token && ($serviceRequest->isTteSigned() || $serviceRequest->isTteRevoked())
+                ? route('letters.verify', $serviceRequest->verification_token)
+                : null,
             'created_at' => $serviceRequest->created_at->translatedFormat('d M Y, H:i'),
             'attachments' => $serviceRequest->attachments->pluck('requirement_name')->values()->all(),
         ]) : 'null' }},
+        get activeFormFields() {
+            if (!this.applyServiceId || !this.servicesMap[this.applyServiceId]) {
+                return [];
+            }
+            return this.servicesMap[this.applyServiceId].form_fields || [];
+        },
         get activeRequirements() {
             if (!this.applyServiceId || !this.servicesMap[this.applyServiceId]) {
                 return [];
@@ -96,6 +125,8 @@
             this.applyServiceTitle = this.servicesMap[serviceId]?.title || '';
             this.fileStates = {};
             this.serverAttachmentErrors = {};
+            this.serverFormDataErrors = {};
+            this.formDataValues = {};
             this.submitting = false;
             this.showApplyModal = true;
         },
@@ -443,7 +474,58 @@
                                 </div>
                             </template>
 
-                            <template x-if="result.status === 'Selesai'">
+                            <template x-if="result.can_download_letter">
+                                <div class="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900 p-5 sm:p-6 rounded-2xl text-slate-700 dark:text-slate-200 text-sm space-y-4">
+                                    <div>
+                                        <h5 class="font-extrabold text-emerald-800 dark:text-emerald-300 mb-1">
+                                            <i class="fa-solid fa-file-signature mr-1"></i> Surat Elektronik Siap Diunduh
+                                        </h5>
+                                        <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300 font-medium">
+                                            Surat nomor <span class="font-mono font-bold" x-text="result.letter_number || '-'"></span> telah ditandatangani secara elektronik. Masukkan 16 digit NIK pemohon untuk mengunduh berkas PDF.
+                                        </p>
+                                    </div>
+
+                                    <form action="{{ route('service-requests.download-letter') }}" method="POST" class="flex flex-col sm:flex-row gap-3">
+                                        @csrf
+                                        <input type="hidden" name="ticket_number" :value="result.ticket_number">
+                                        <div class="flex-1">
+                                            <input type="text"
+                                                   name="download_nik"
+                                                   value="{{ old('download_nik') }}"
+                                                   maxlength="16"
+                                                   inputmode="numeric"
+                                                   placeholder="16 digit NIK"
+                                                   required
+                                                   class="w-full h-11 px-4 rounded-xl bg-white dark:bg-slate-900 border {{ $errors->has('download_nik') ? 'border-rose-500' : 'border-emerald-200 dark:border-emerald-800' }} focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-mono font-bold text-slate-800 dark:text-slate-100">
+                                            @error('download_nik')
+                                                <p class="mt-1.5 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <button type="submit" class="h-11 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm inline-flex items-center justify-center gap-2 transition cursor-pointer shrink-0">
+                                            <i class="fa-solid fa-download"></i>
+                                            Unduh Surat PDF
+                                        </button>
+                                    </form>
+
+                                    <template x-if="result.verification_url">
+                                        <div>
+                                            <a :href="result.verification_url" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:underline">
+                                                <i class="fa-solid fa-shield-halved"></i>
+                                                Lihat Halaman Verifikasi
+                                            </a>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <template x-if="result.tte_status === 'revoked'">
+                                <div class="bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900 p-5 rounded-2xl text-slate-700 dark:text-slate-200 text-sm">
+                                    <h5 class="font-extrabold text-rose-800 dark:text-rose-300 mb-1"><i class="fa-solid fa-ban mr-1"></i> Surat Elektronik Dicabut</h5>
+                                    <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300 font-medium">Keabsahan surat untuk permohonan ini telah dicabut oleh Pemerintah Desa.</p>
+                                </div>
+                            </template>
+
+                            <template x-if="result.status === 'Selesai' && !result.can_download_letter && result.tte_status !== 'revoked'">
                                 <div class="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900 p-5 rounded-2xl text-slate-700 dark:text-slate-200 text-sm">
                                     <h5 class="font-extrabold text-emerald-800 dark:text-emerald-300 mb-1"><i class="fa-solid fa-circle-check"></i> Pengajuan Selesai Diproses</h5>
                                     <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300 font-medium">Berkas surat Anda telah selesai diproses. Silakan ambil dokumen fisik di <strong>Kantor Desa</strong> pada jam kerja dengan membawa dokumen asli terkait.</p>
@@ -561,6 +643,53 @@
                         <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                     @enderror
                 </div>
+
+                {{-- Dynamic Letter Form Fields --}}
+                <template x-if="activeFormFields.length > 0">
+                    <div class="space-y-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+                        <div>
+                            <h4 class="text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-200">Keterangan Tambahan Surat</h4>
+                        </div>
+
+                        <template x-for="field in activeFormFields" :key="field.key">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-2 ml-1">
+                                    <label :for="'form-data-' + field.key" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400" x-text="field.label"></label>
+                                    <span class="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold"
+                                          :class="field.is_required ? 'bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'"
+                                          x-text="field.is_required ? 'Wajib' : 'Opsional'">
+                                    </span>
+                                </div>
+
+                                <template x-if="field.type === 'textarea'">
+                                    <textarea :id="'form-data-' + field.key"
+                                              :name="'form_data[' + field.key + ']'"
+                                              x-model="formDataValues[field.key]"
+                                              :placeholder="field.placeholder || ''"
+                                              :required="field.is_required"
+                                              rows="2"
+                                              :class="serverFormDataErrors[field.key] ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700'"
+                                              class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-base sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition"></textarea>
+                                </template>
+
+                                <template x-if="field.type !== 'textarea'">
+                                    <input :type="field.type === 'date' ? 'date' : (field.type === 'number' ? 'number' : 'text')"
+                                           :id="'form-data-' + field.key"
+                                           :name="'form_data[' + field.key + ']'"
+                                           x-model="formDataValues[field.key]"
+                                           :placeholder="field.placeholder || ''"
+                                           :required="field.is_required"
+                                           :class="serverFormDataErrors[field.key] ? 'border-rose-500 dark:border-rose-500' : 'border-slate-200 dark:border-slate-700'"
+                                           class="w-full h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-base sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition">
+                                </template>
+
+                                <template x-if="serverFormDataErrors[field.key]">
+                                    <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400" x-text="serverFormDataErrors[field.key]"></p>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
 
                 {{-- Dynamic Requirement File Uploads --}}
                 <template x-if="activeRequirements.length > 0">
