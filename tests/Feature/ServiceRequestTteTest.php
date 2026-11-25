@@ -333,10 +333,11 @@ class ServiceRequestTteTest extends TestCase
         // 4. Halaman verifikasi publik tampil sah tanpa tautan unduh PDF
         $verifyOk = $this->get(route('letters.verify', $signed->verification_token));
         $verifyOk->assertOk()
-            ->assertSee('Sah dan Terverifikasi')
+            ->assertSee('Dokumen Sah')
             ->assertSee($signed->letter_number)
             ->assertSee($signed->signed_pdf_hash)
-            ->assertSee($signed->maskedNik())
+            ->assertDontSee($signed->maskedNik())
+            ->assertDontSee($signed->nik)
             ->assertDontSee(route('service-requests.download-letter'));
 
         // 5. Cabut surat TTE: unduhan warga ditolak dan halaman verifikasi tampil dicabut
@@ -350,7 +351,7 @@ class ServiceRequestTteTest extends TestCase
 
         $verifyRevoked = $this->get(route('letters.verify', $signed->verification_token));
         $verifyRevoked->assertOk()
-            ->assertSee('Dicabut dan Tidak Berlaku')
+            ->assertSee('Dokumen Dicabut')
             ->assertSee('Kesalahan penulisan nama pemohon');
 
         // 6. Hapus permohonan membersihkan berkas fisik draft.pdf dan signed.pdf

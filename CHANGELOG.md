@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.30.7] - 2026-11-25
+
+### Perbaikan
+- **Halaman Verifikasi Surat TTE (`verifikasi-surat.blade.php`)**:
+  - Menyederhanakan tata letak halaman verifikasi keaslian surat menjadi satu kartu terpusat tanpa hero besar dan tanpa kartu bertumpuk.
+  - Menghapus tampilan NIK pemohon dari halaman verifikasi publik agar data kependudukan lebih terlindungi.
+
 ## [1.30.6] - 2026-11-25
 
 ### Perbaikan
