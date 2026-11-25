@@ -213,9 +213,16 @@ class ServiceRequestTteTest extends TestCase
                 && str_contains($body, 'invisible');
         });
 
-        $renderedHtml = app(LetterDocumentService::class)->renderHtml($signedRequest);
-        $this->assertStringContainsString('data:image/png;base64,', $renderedHtml);
-        $this->assertStringContainsString('Ditandatangani secara elektronik oleh:', $renderedHtml);
+        $draftHtml = app(LetterDocumentService::class)->renderHtml($signedRequest, false);
+        $this->assertStringNotContainsString('data:image/png;base64,', $draftHtml);
+        $this->assertStringNotContainsString(LetterDocumentService::FOOTER_TEXT, $draftHtml);
+
+        $signedHtml = app(LetterDocumentService::class)->renderHtml($signedRequest, true);
+        $this->assertStringContainsString('data:image/png;base64,', $signedHtml);
+        $this->assertStringContainsString('Ditandatangani secara elektronik oleh:', $signedHtml);
+        $this->assertStringContainsString(LetterDocumentService::FOOTER_TEXT, $signedHtml);
+
+        Storage::disk('local')->assertMissing('service-requests/'.$signedRequest->id.'/to-sign.pdf');
 
         $this->assertSame(ServiceRequest::TTE_SIGNED, $signedRequest->tte_status);
         $this->assertSame('Selesai', $signedRequest->status);

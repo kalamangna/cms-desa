@@ -141,6 +141,14 @@
             color: #0f172a;
             text-decoration: underline;
         }
+        .draft-signature-space {
+            height: 64px;
+            padding-top: 22px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 8.5pt;
+            color: #64748b;
+            font-style: italic;
+        }
         .footer-note {
             position: fixed;
             bottom: -1.4cm;
@@ -199,30 +207,38 @@
                 <td class="signature-spacer"></td>
                 <td class="signature-box">
                     <div class="signature-date">{{ $settings['village_name'] ?? 'Desa' }}, {{ $letterDateFormatted }}</div>
-                    <table class="specimen-card">
-                        <tr>
-                            @if(!empty($qrCodeDataUri))
-                                <td class="specimen-qr-cell">
-                                    <img src="{{ $qrCodeDataUri }}" alt="QR Verifikasi TTE">
+                    @if($showTteVisual ?? false)
+                        <table class="specimen-card">
+                            <tr>
+                                @if(!empty($qrCodeDataUri))
+                                    <td class="specimen-qr-cell">
+                                        <img src="{{ $qrCodeDataUri }}" alt="QR Verifikasi TTE">
+                                    </td>
+                                @endif
+                                <td class="specimen-info-cell">
+                                    <div class="specimen-label">Ditandatangani secara elektronik oleh:</div>
+                                    <div class="specimen-position">{{ $signerPosition }}</div>
+                                    <div class="specimen-name">{{ $signerName }}</div>
                                 </td>
-                            @endif
-                            <td class="specimen-info-cell">
-                                <div class="specimen-label">Ditandatangani secara elektronik oleh:</div>
-                                <div class="specimen-position">{{ $signerPosition }}</div>
-                                <div class="specimen-name">{{ $signerName }}</div>
-                            </td>
-                        </tr>
-                    </table>
+                            </tr>
+                        </table>
+                    @else
+                        <div><strong>{{ $signerPosition }}</strong></div>
+                        <div class="draft-signature-space">Draf belum ditandatangani secara elektronik</div>
+                        <div><strong><u>{{ $signerName }}</u></strong></div>
+                    @endif
                 </td>
             </tr>
         </table>
     </div>
 
-    <div class="footer-note">
-        <div>{{ $footerText }}</div>
-        @if(!empty($websiteUrl))
-            <div>Website Resmi: {{ $websiteUrl }}</div>
-        @endif
-    </div>
+    @if($showTteVisual ?? false)
+        <div class="footer-note">
+            <div>{{ $footerText }}</div>
+            @if(!empty($websiteUrl))
+                <div>Website Resmi: {{ $websiteUrl }}</div>
+            @endif
+        </div>
+    @endif
 </body>
 </html>

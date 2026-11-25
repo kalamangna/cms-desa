@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.30.6] - 2026-11-25
+
+### Perbaikan
+- **Visibilitas QR Code & Catatan Kaki TTE (`LetterDocumentService`, `service-letter.blade.php`)**:
+  - Menampilkan kotak spesimen QR Code dan catatan kaki BSrE beserta alamat website hanya pada dokumen saat/setelah ditandatangani TTE (`signed.pdf`), sementara draf sebelum TTE (`draft.pdf`) tetap bersih tanpa QR Code dan footer BSrE.
+
 ## [1.30.5] - 2026-11-25
 
 ### Fitur

@@ -75,7 +75,7 @@ class LetterDocumentService
     /**
      * Merender HTML lengkap surat resmi siap cetak PDF.
      */
-    public function renderHtml(ServiceRequest $request): string
+    public function renderHtml(ServiceRequest $request, bool $includeTteVisual = false): string
     {
         $request->loadMissing('service');
         $settings = Setting::pluck('value', 'key')->toArray();
@@ -112,8 +112,11 @@ class LetterDocumentService
         }, $template) ?? $template;
 
         $logoDataUri = $this->resolveVillageLogoDataUri($settings['site_logo'] ?? null);
-        $verificationToken = $request->verification_token ?: Str::random(40);
-        $qrCodeDataUri = $this->generateQrCodeDataUri(route('letters.verify', $verificationToken));
+        $qrCodeDataUri = null;
+        if ($includeTteVisual) {
+            $verificationToken = $request->verification_token ?: Str::random(40);
+            $qrCodeDataUri = $this->generateQrCodeDataUri(route('letters.verify', $verificationToken));
+        }
 
         return view('pdf.service-letter', [
             'request' => $request,
@@ -128,6 +131,7 @@ class LetterDocumentService
             'websiteUrl' => rtrim((string) url('/'), '/'),
             'logoDataUri' => $logoDataUri,
             'qrCodeDataUri' => $qrCodeDataUri,
+            'showTteVisual' => $includeTteVisual,
         ])->render();
     }
 
@@ -208,11 +212,22 @@ class LetterDocumentService
         $request->signer_position = $signer->position;
         $request->save();
 
-        $draftRelativePath = $this->generateDraftPdf($request, $actor);
-        $draftAbsolutePath = Storage::disk(self::DISK)->path($draftRelativePath);
+        $this->generateDraftPdf($request, $actor);
+
+        $toSignRelativePath = self::BASE_DIRECTORY.'/'.$request->id.'/to-sign.pdf';
+        $toSignPdfBinary = Pdf::loadHTML($this->renderHtml($request->fresh(), true))
+            ->setPaper('a4', 'portrait')
+            ->output();
+        Storage::disk(self::DISK)->put($toSignRelativePath, $toSignPdfBinary);
+        $toSignAbsolutePath = Storage::disk(self::DISK)->path($toSignRelativePath);
 
         $verificationUrl = route('letters.verify', $request->verification_token);
-        $result = $this->bsreService->signPdf($draftAbsolutePath, $signerNik, $passphrase, $verificationUrl);
+
+        try {
+            $result = $this->bsreService->signPdf($toSignAbsolutePath, $signerNik, $passphrase, $verificationUrl);
+        } finally {
+            Storage::disk(self::DISK)->delete($toSignRelativePath);
+        }
 
         $signedRelativePath = self::BASE_DIRECTORY.'/'.$request->id.'/signed.pdf';
         Storage::disk(self::DISK)->put($signedRelativePath, $result['pdf_binary']);
