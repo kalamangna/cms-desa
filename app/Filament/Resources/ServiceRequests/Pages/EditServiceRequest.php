@@ -10,7 +10,7 @@ use App\Models\Setting;
 use App\Services\LetterDocumentService;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -74,22 +74,21 @@ class EditServiceRequest extends EditRecord
                 ->modalDescription('Passphrase tidak disimpan oleh sistem dan hanya dikirim sekali ke layanan BSrE BSSN.')
                 ->modalSubmitActionLabel('Kirim TTE BSrE')
                 ->form([
-                    Select::make('official_id')
+                    Placeholder::make('signer_info')
                         ->label('Pejabat Penanda Tangan')
-                        ->options(fn () => Official::query()->orderBy('order')->get()->mapWithKeys(fn (Official $official) => [
-                            $official->id => $official->name.' - '.$official->position,
-                        ])->all())
-                        ->default(fn () => $this->record->signer_official_id ?: Setting::where('key', 'tte_default_signer_official_id')->value('value'))
-                        ->searchable()
-                        ->required(),
-                    TextInput::make('signer_nik')
-                        ->label('NIK Penanda Tangan')
-                        ->placeholder('16 digit NIK')
-                        ->default(fn () => Setting::where('key', 'tte_default_signer_nik')->value('value'))
-                        ->required()
-                        ->maxLength(16)
-                        ->rule('digits:16')
-                        ->extraInputAttributes(['inputmode' => 'numeric']),
+                        ->content(function (): string {
+                            $officialId = Setting::where('key', 'tte_default_signer_official_id')->value('value');
+                            $nik = preg_replace('/\D/', '', (string) Setting::where('key', 'tte_default_signer_nik')->value('value'));
+                            $official = $officialId ? Official::find($officialId) : null;
+
+                            if (! $official || strlen($nik) !== 16) {
+                                return 'Belum diatur pada menu Pengaturan.';
+                            }
+
+                            $maskedNik = substr($nik, 0, 6).'******'.substr($nik, -4);
+
+                            return $official->name.' - '.$official->position.' • NIK '.$maskedNik;
+                        }),
                     TextInput::make('passphrase')
                         ->label('Passphrase BSrE')
                         ->password()
@@ -99,11 +98,15 @@ class EditServiceRequest extends EditRecord
                 ->action(function (array $data, LetterDocumentService $letterService): void {
                     $this->save(shouldRedirect: false, shouldSendSavedNotification: false);
 
-                    $official = Official::find($data['official_id']);
-                    if (! $official) {
+                    $officialId = Setting::where('key', 'tte_default_signer_official_id')->value('value');
+                    $signerNik = preg_replace('/\D/', '', (string) Setting::where('key', 'tte_default_signer_nik')->value('value'));
+                    $official = $officialId ? Official::find($officialId) : null;
+
+                    if (! $official || strlen($signerNik) !== 16) {
                         Notification::make()
                             ->danger()
-                            ->title('Pejabat penanda tangan tidak ditemukan')
+                            ->title('Konfigurasi penanda tangan belum lengkap')
+                            ->body('Pejabat penanda tangan dan NIK 16 digit wajib diatur di menu Pengaturan.')
                             ->send();
 
                         return;
@@ -113,7 +116,7 @@ class EditServiceRequest extends EditRecord
                         $letterService->signWithBsre(
                             $this->record->fresh(),
                             $official,
-                            (string) $data['signer_nik'],
+                            $signerNik,
                             (string) $data['passphrase'],
                             auth()->user()
                         );

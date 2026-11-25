@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.30.3] - 2026-11-25
+
+### Perbaikan
+- **Penyederhanaan Modal TTE BSrE (`EditServiceRequest`, `ManageSettings`)**:
+  - Memusatkan pemilihan pejabat penanda tangan dan NIK 16 digit pada tab `Surat dan TTE` di `ManageSettings` dengan validasi `digits:16`.
+  - Menyederhanakan modal `Tanda Tangani BSrE` di `EditServiceRequest` agar langsung meminta input `Passphrase BSrE` dan menampilkan ringkasan penanda tangan dari pengaturan.
+
 ## [1.30.2] - 2026-11-25
 
 ### Perbaikan

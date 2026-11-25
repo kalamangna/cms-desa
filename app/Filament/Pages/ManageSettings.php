@@ -241,7 +241,7 @@ class ManageSettings extends Page implements HasForms
                                     ->default(LetterNumberService::DEFAULT_FORMAT)
                                     ->helperText('Token tersedia: {kode_klasifikasi}, {nomor_urut}, {kode_desa}, {bulan_romawi}, {tahun}.'),
                                 Select::make('tte_default_signer_official_id')
-                                    ->label('Pejabat Penanda Tangan Bawaan')
+                                    ->label('Pejabat Penanda Tangan')
                                     ->placeholder('Pilih Pejabat Desa')
                                     ->options(fn () => Official::query()->orderBy('order')->get()->mapWithKeys(fn (Official $official) => [
                                         $official->id => $official->name.' - '.$official->position,
@@ -249,10 +249,12 @@ class ManageSettings extends Page implements HasForms
                                     ->searchable()
                                     ->preload(),
                                 TextInput::make('tte_default_signer_nik')
-                                    ->label('NIK Penanda Tangan Bawaan')
+                                    ->label('NIK Penanda Tangan')
                                     ->placeholder('16 digit NIK')
                                     ->helperText('NIK pejabat yang terdaftar pada layanan BSrE BSSN.')
-                                    ->maxLength(16),
+                                    ->maxLength(16)
+                                    ->rule('digits:16')
+                                    ->extraInputAttributes(['inputmode' => 'numeric']),
                             ]),
                     ])->columnSpanFull(),
             ])
