@@ -329,11 +329,19 @@ class ServiceRequestTteTest extends TestCase
         ]);
         $okDownload->assertOk();
         $this->assertStringContainsString('application/pdf', (string) $okDownload->headers->get('content-type'));
+        $this->assertStringContainsString(
+            'surat-keterangan-tidak-mampu-nurhaliza-',
+            (string) $okDownload->headers->get('content-disposition')
+        );
+        $this->assertStringContainsString(
+            '-tte.pdf',
+            (string) $okDownload->headers->get('content-disposition')
+        );
 
         // 4. Halaman verifikasi publik tampil sah tanpa tautan unduh PDF
         $verifyOk = $this->get(route('letters.verify', $signed->verification_token));
         $verifyOk->assertOk()
-            ->assertSee('Dokumen Sah')
+            ->assertSee('Dokumen Terverifikasi')
             ->assertSee($signed->letter_number)
             ->assertSee($signed->signed_pdf_hash)
             ->assertDontSee($signed->maskedNik())

@@ -304,6 +304,24 @@ class LetterDocumentService
         return $disk->path($normalized);
     }
 
+    /**
+     * Membentuk nama berkas unduhan PDF yang rapi dan deskriptif.
+     */
+    public function buildDownloadFilename(ServiceRequest $request, string $type = 'signed'): string
+    {
+        $request->loadMissing('service');
+
+        $serviceSlug = Str::limit(Str::slug((string) ($request->service?->title ?? 'surat')), 60, '') ?: 'surat';
+        $nameSlug = Str::limit(Str::slug((string) ($request->name ?? 'pemohon')), 40, '') ?: 'pemohon';
+        $dateCode = ($request->letter_date ?? $request->signed_at ?? now())->format('Ymd');
+
+        if ($type === 'draft') {
+            return "draf-{$serviceSlug}-{$nameSlug}-{$dateCode}.pdf";
+        }
+
+        return "{$serviceSlug}-{$nameSlug}-{$dateCode}-tte.pdf";
+    }
+
     private function resolveDefaultSigner(): ?Official
     {
         $defaultOfficialId = Setting::where('key', 'tte_default_signer_official_id')->value('value');

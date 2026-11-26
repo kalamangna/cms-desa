@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.31.7] - 2026-11-26
+
+### Perbaikan
+- **Nama Berkas Unduhan PDF dan Judul Verifikasi TTE (`LetterDocumentService`, `verifikasi-surat.blade.php`)**:
+  - Merapikan nama berkas PDF hasil TTE (`{layanan}-{nama}-{tanggal}-tte.pdf`) dan draf (`draf-{layanan}-{nama}-{tanggal}.pdf`) pada unduhan admin dan warga.
+  - Mengubah judul status valid pada halaman verifikasi publik dari `Dokumen Sah` menjadi `Dokumen Terverifikasi`.
+
 ## [1.31.6] - 2026-11-26
 
 ### Perbaikan

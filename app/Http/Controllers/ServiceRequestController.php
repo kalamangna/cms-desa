@@ -224,7 +224,9 @@ class ServiceRequestController extends Controller
         $fullPath = $this->letterDocumentService->resolveSafePdfPath($serviceRequest, 'signed');
         abort_unless($fullPath !== null, 404);
 
-        return response()->download($fullPath, 'surat-tte-'.$serviceRequest->ticket_number.'.pdf', [
+        $filename = $this->letterDocumentService->buildDownloadFilename($serviceRequest, 'signed');
+
+        return response()->download($fullPath, $filename, [
             'Cache-Control' => 'no-store, private',
             'X-Content-Type-Options' => 'nosniff',
         ]);

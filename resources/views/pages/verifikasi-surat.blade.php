@@ -18,7 +18,7 @@
                     </div>
                     <div>
                         <h1 class="text-lg sm:text-xl font-heading font-bold {{ $isValid ? 'text-emerald-900 dark:text-emerald-100' : 'text-rose-900 dark:text-rose-100' }}">
-                            {{ $isValid ? 'Dokumen Sah' : 'Dokumen Dicabut' }}
+                            {{ $isValid ? 'Dokumen Terverifikasi' : 'Dokumen Dicabut' }}
                         </h1>
                         <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
                             Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}

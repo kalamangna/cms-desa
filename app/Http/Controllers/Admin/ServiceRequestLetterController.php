@@ -22,7 +22,7 @@ class ServiceRequestLetterController extends Controller
         $fullPath = $this->letterDocumentService->resolveSafePdfPath($serviceRequest, $type);
         abort_unless($fullPath !== null, 404);
 
-        $filename = $this->buildFileName($serviceRequest, $type);
+        $filename = $this->letterDocumentService->buildDownloadFilename($serviceRequest, $type);
 
         return response()->file($fullPath, [
             'Content-Type' => 'application/pdf',
@@ -40,7 +40,7 @@ class ServiceRequestLetterController extends Controller
         $fullPath = $this->letterDocumentService->resolveSafePdfPath($serviceRequest, $type);
         abort_unless($fullPath !== null, 404);
 
-        $filename = $this->buildFileName($serviceRequest, $type);
+        $filename = $this->letterDocumentService->buildDownloadFilename($serviceRequest, $type);
 
         return response()->download($fullPath, $filename, [
             'Cache-Control' => 'no-store, private',
@@ -59,12 +59,5 @@ class ServiceRequestLetterController extends Controller
         );
 
         abort_unless($allowed, 403);
-    }
-
-    private function buildFileName(ServiceRequest $serviceRequest, string $type): string
-    {
-        $prefix = $type === 'signed' ? 'surat-tte' : 'draf-surat';
-
-        return $prefix.'-'.$serviceRequest->ticket_number.'.pdf';
     }
 }
