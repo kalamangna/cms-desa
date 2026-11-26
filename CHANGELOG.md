@@ -2,6 +2,15 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.31.0] - 2026-11-26
+
+### Ditambahkan
+- **Standarisasi Master Layanan Desa (`LetterTemplatePresets`, `ServiceStandardizationService`, `ServicesTable`, `layanan.blade.php`)**:
+  - Menambahkan kolom `category`, `sort_order`, dan `is_active` pada tabel `services` beserta scope `active()` dan `ordered()`.
+  - Memperluas katalog preset menjadi 10 layanan standar inti desa (`Surat Keterangan Domisili`, `Surat Pengantar KTP`, `Surat Pengantar Kartu Keluarga`, `Surat Keterangan Kelahiran`, `Surat Keterangan Kematian`, `Surat Keterangan Pindah Penduduk`, `Surat Pengantar Nikah`, `Surat Keterangan Usaha`, `Surat Keterangan Tidak Mampu`, dan `Surat Pengantar Izin Keramaian`).
+  - Menambahkan `ServiceStandardizationService`, perintah `app:standardize-services`, migrasi data idempotent, dan penyelarasan `ServiceSeeder` untuk menormalisasi layanan eksisting sejenis tanpa memutus riwayat permohonan serta menjaga layanan khusus lokal desa.
+  - Menambahkan filter kategori layanan pada halaman publik `/layanan` serta filter kategori dan status aktif pada tabel admin `Master Layanan`.
+
 ## [1.30.7] - 2026-11-25
 
 ### Perbaikan

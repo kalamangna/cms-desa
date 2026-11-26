@@ -61,6 +61,12 @@
         ? $servicesMap[$oldServiceId]['title']
         : '';
 
+    $serviceCategories = $services->pluck('category')
+        ->filter()
+        ->unique()
+        ->values()
+        ->all();
+
     $oldFormData = is_array(old('form_data')) ? old('form_data') : [];
     $formDataErrors = [];
     $attachmentErrors = [];
@@ -79,6 +85,7 @@
 {{-- Wrapper with Alpine JS state --}}
 <div x-data="{
         servicesMap: @js($servicesMap),
+        activeCategory: 'Semua',
         serverAttachmentErrors: @js($attachmentErrors),
         serverFormDataErrors: @js($formDataErrors),
         formDataValues: @js($oldFormData),
@@ -300,9 +307,30 @@
             </div>
 
             {{-- PANEL: DAFTAR LAYANAN --}}
-            <div x-show="!showLacak" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 xl:gap-8">
-                @forelse($services as $service)
-                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col overflow-hidden">
+            <div x-show="!showLacak" class="space-y-6">
+                @if(count($serviceCategories) > 1)
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <button type="button"
+                                @click="activeCategory = 'Semua'"
+                                :class="activeCategory === 'Semua' ? 'bg-primary-600 text-white border-primary-600' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-primary-400'"
+                                class="min-h-10 px-4 py-2 rounded-full border text-xs font-bold transition cursor-pointer">
+                            Semua
+                        </button>
+                        @foreach($serviceCategories as $category)
+                            <button type="button"
+                                    @click="activeCategory = @js($category)"
+                                    :class="activeCategory === @js($category) ? 'bg-primary-600 text-white border-primary-600' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-primary-400'"
+                                    class="min-h-10 px-4 py-2 rounded-full border text-xs font-bold transition cursor-pointer">
+                                {{ $category }}
+                            </button>
+                        @endforeach
+                    </div>
+                @endif
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 xl:gap-8">
+                    @forelse($services as $service)
+                    <div x-show="activeCategory === 'Semua' || activeCategory === @js($service->category ?? 'Layanan Lainnya')"
+                         class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 flex flex-col overflow-hidden">
 
                     {{-- Card Top --}}
                     <div class="p-6 xl:p-8 flex-1">
@@ -392,6 +420,7 @@
                     />
                 </div>
                 @endforelse
+                </div>
             </div>
 
             {{-- PANEL: LACAK PERMOHONAN --}}

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
@@ -26,14 +27,14 @@ class ServiceRequestController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $service = $request->filled('service_id')
-            ? Service::with('requirementItems')->find($request->input('service_id'))
+            ? Service::with('requirementItems')->active()->find($request->input('service_id'))
             : null;
 
         $rules = [
             'nik' => ['required', 'numeric', 'digits:16'],
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'regex:/^[0-9+\-\s()]{8,25}$/'],
-            'service_id' => ['required', 'exists:services,id'],
+            'service_id' => ['required', Rule::exists('services', 'id')->where('is_active', true)],
             'attachments' => ['nullable', 'array'],
             'form_data' => ['nullable', 'array'],
         ];
@@ -175,7 +176,7 @@ class ServiceRequestController extends Controller
         }
 
         $services = Cache::remember('services_list', 3600, function () {
-            return Service::with('requirementItems')->orderBy('id', 'asc')->get();
+            return Service::with('requirementItems')->active()->ordered()->get();
         });
 
         return view('pages.layanan', compact('services', 'serviceRequest'))

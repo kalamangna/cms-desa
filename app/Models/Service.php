@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasSlug;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,9 +13,18 @@ class Service extends Model
 {
     use HasSlug;
 
+    public const CATEGORIES = [
+        'Kependudukan' => 'Kependudukan',
+        'Ekonomi dan Sosial' => 'Ekonomi dan Sosial',
+        'Perizinan dan Umum' => 'Perizinan dan Umum',
+        'Layanan Lainnya' => 'Layanan Lainnya',
+    ];
+
     protected $fillable = [
         'title',
         'slug',
+        'category',
+        'sort_order',
         'description',
         'requirements',
         'letter_code',
@@ -22,6 +32,7 @@ class Service extends Model
         'letter_template',
         'form_fields',
         'is_tte_enabled',
+        'is_active',
     ];
 
     protected function casts(): array
@@ -29,7 +40,19 @@ class Service extends Model
         return [
             'form_fields' => 'array',
             'is_tte_enabled' => 'boolean',
+            'is_active' => 'boolean',
+            'sort_order' => 'integer',
         ];
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeOrdered(Builder $query): Builder
+    {
+        return $query->orderBy('sort_order')->orderBy('id');
     }
 
     protected static function booted(): void

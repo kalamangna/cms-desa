@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Services\Schemas;
 
+use App\Models\Service;
 use App\Support\LetterTemplatePresets;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
@@ -33,6 +34,27 @@ class ServiceForm
                             ->helperText('Nama resmi jenis layanan surat desa.')
                             ->required()
                             ->columnSpanFull(),
+                        Grid::make(3)
+                            ->schema([
+                                Select::make('category')
+                                    ->label('Kategori Layanan')
+                                    ->options(Service::CATEGORIES)
+                                    ->default('Layanan Lainnya')
+                                    ->required()
+                                    ->columnSpan(1),
+                                TextInput::make('sort_order')
+                                    ->label('Urutan Tampil')
+                                    ->integer()
+                                    ->default(100)
+                                    ->minValue(1)
+                                    ->required()
+                                    ->columnSpan(1),
+                                Toggle::make('is_active')
+                                    ->label('Aktif di Halaman Publik')
+                                    ->default(true)
+                                    ->inline(false)
+                                    ->columnSpan(1),
+                            ]),
                         Textarea::make('description')
                             ->label('Deskripsi Singkat')
                             ->placeholder('Surat keterangan resmi dari pemerintah desa untuk keperluan usaha warga.')
