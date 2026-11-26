@@ -4,6 +4,8 @@ namespace App\Support;
 
 class LetterTemplatePresets
 {
+    public const STANDARD_PROCEDURE = '<ol><li>Isi formulir pengajuan dan unggah berkas persyaratan.</li><li>Simpan nomor tiket untuk melacak status permohonan.</li><li>Unduh surat elektronik PDF setelah selesai ditandatangani dengan verifikasi NIK.</li></ol>';
+
     /**
      * Katalog 10 layanan standar inti desa beserta template surat dan berkas persyaratan.
      *
@@ -30,8 +32,8 @@ class LetterTemplatePresets
                 'title' => 'Surat Keterangan Domisili',
                 'category' => 'Kependudukan',
                 'sort_order' => 1,
-                'description' => 'Surat keterangan resmi tempat tinggal warga di wilayah desa.',
-                'requirements' => '<ol><li>KTP pemohon</li><li>Kartu Keluarga</li><li>Pengantar RT setempat</li></ol>',
+                'description' => 'Surat keterangan resmi yang menyatakan alamat tempat tinggal warga di wilayah desa.',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '470',
                 'letter_title' => 'SURAT KETERANGAN DOMISILI',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -70,8 +72,8 @@ class LetterTemplatePresets
                 'title' => 'Surat Pengantar KTP',
                 'category' => 'Kependudukan',
                 'sort_order' => 2,
-                'description' => 'Surat pengantar perekaman, cetak ulang, atau pembaruan data KTP elektronik.',
-                'requirements' => '<ol><li>Kartu Keluarga</li><li>Pengantar RT setempat</li><li>KTP lama atau surat kehilangan jika rusak atau hilang</li></ol>',
+                'description' => 'Surat pengantar resmi untuk perekaman, cetak ulang, atau pembaruan data KTP elektronik.',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '474.4',
                 'letter_title' => 'SURAT PENGANTAR KARTU TANDA PENDUDUK',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, memberikan pengantar kepada:</p>
@@ -95,8 +97,8 @@ class LetterTemplatePresets
                     ],
                 ],
                 'requirement_items' => [
-                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto KK asli yang terbaca jelas', 'is_required' => true],
-                    ['name' => 'Pengantar RT Setempat', 'description' => 'Surat pengantar dari Ketua RT', 'is_required' => false],
+                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Pengantar RT Setempat', 'description' => 'Foto surat pengantar RT', 'is_required' => false],
                 ],
                 'aliases' => [
                     'Pengantar KTP',
@@ -108,8 +110,8 @@ class LetterTemplatePresets
                 'title' => 'Surat Pengantar Kartu Keluarga',
                 'category' => 'Kependudukan',
                 'sort_order' => 3,
-                'description' => 'Surat pengantar penerbitan baru atau perubahan data anggota Kartu Keluarga.',
-                'requirements' => '<ol><li>Kartu Keluarga lama</li><li>KTP pemohon</li><li>Dokumen pendukung perubahan data</li></ol>',
+                'description' => 'Surat pengantar resmi untuk penerbitan baru atau perubahan data Kartu Keluarga.',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '474.1',
                 'letter_title' => 'SURAT PENGANTAR KARTU KELUARGA',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, memberikan pengantar kepada:</p>
@@ -132,8 +134,8 @@ class LetterTemplatePresets
                     ],
                 ],
                 'requirement_items' => [
-                    ['name' => 'Foto Kartu Keluarga Lama', 'description' => 'Foto seluruh halaman KK lama', 'is_required' => true],
-                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto KTP pemohon yang terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
                 ],
                 'aliases' => [
                     'Pengantar Perubahan KK',
@@ -146,8 +148,8 @@ class LetterTemplatePresets
                 'title' => 'Surat Keterangan Kelahiran',
                 'category' => 'Kependudukan',
                 'sort_order' => 4,
-                'description' => 'Surat keterangan kelahiran anak untuk pengurusan akta kelahiran dan pembaruan KK.',
-                'requirements' => '<ol><li>Surat keterangan lahir dari bidan atau rumah sakit</li><li>KTP dan Kartu Keluarga orang tua</li><li>Buku nikah atau akta perkawinan</li></ol>',
+                'description' => 'Surat keterangan resmi peristiwa kelahiran anak untuk pengurusan akta kelahiran.',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '472.11',
                 'letter_title' => 'SURAT KETERANGAN KELAHIRAN',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa telah lahir seorang anak:</p>
@@ -173,9 +175,9 @@ class LetterTemplatePresets
                     ['label' => 'Nama Ibu', 'key' => 'nama_ibu', 'type' => 'text', 'placeholder' => 'Siti Aminah', 'is_required' => true],
                 ],
                 'requirement_items' => [
-                    ['name' => 'Surat Keterangan Lahir Bidan', 'description' => 'Foto surat keterangan lahir dari fasilitas kesehatan', 'is_required' => true],
-                    ['name' => 'Foto Kartu Keluarga Orang Tua', 'description' => 'Foto KK asli yang terbaca jelas', 'is_required' => true],
-                    ['name' => 'Foto Buku Nikah Orang Tua', 'description' => 'Foto halaman identitas buku nikah', 'is_required' => false],
+                    ['name' => 'Surat Keterangan Lahir', 'description' => 'Foto surat lahir dari bidan atau rumah sakit', 'is_required' => true],
+                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto Buku Nikah', 'description' => 'Foto halaman identitas buku nikah', 'is_required' => false],
                 ],
                 'aliases' => [
                     'Keterangan Kelahiran',
@@ -187,8 +189,8 @@ class LetterTemplatePresets
                 'title' => 'Surat Keterangan Kematian',
                 'category' => 'Kependudukan',
                 'sort_order' => 5,
-                'description' => 'Surat keterangan meninggal dunia untuk penerbitan akta kematian dan administrasi keluarga.',
-                'requirements' => '<ol><li>KTP dan Kartu Keluarga almarhum</li><li>KTP pelapor</li><li>Surat keterangan kematian dari rumah sakit atau dusun</li></ol>',
+                'description' => 'Surat keterangan resmi peristiwa meninggal dunia untuk penerbitan akta kematian.',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '472.12',
                 'letter_title' => 'SURAT KETERANGAN KEMATIAN',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -211,9 +213,9 @@ class LetterTemplatePresets
                     ['label' => 'Penyebab Kematian', 'key' => 'penyebab_kematian', 'type' => 'text', 'placeholder' => 'Sakit atau usia lanjut', 'is_required' => true],
                 ],
                 'requirement_items' => [
-                    ['name' => 'Foto KTP Almarhum', 'description' => 'Foto KTP atau identitas almarhum', 'is_required' => true],
-                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto KK keluarga almarhum', 'is_required' => true],
-                    ['name' => 'Foto KTP Pelapor', 'description' => 'Foto KTP pihak keluarga pelapor', 'is_required' => true],
+                    ['name' => 'Foto KTP Almarhum', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto KTP Pelapor', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
                 ],
                 'aliases' => [
                     'Keterangan Kematian',
@@ -225,8 +227,8 @@ class LetterTemplatePresets
                 'title' => 'Surat Keterangan Pindah Penduduk',
                 'category' => 'Kependudukan',
                 'sort_order' => 6,
-                'description' => 'Surat pengantar perpindahan domisili warga antar desa, kecamatan, atau kabupaten.',
-                'requirements' => '<ol><li>KTP pemohon</li><li>Kartu Keluarga asli</li><li>Alamat lengkap tujuan pindah</li></ol>',
+                'description' => 'Surat pengantar resmi perpindahan domisili warga ke luar wilayah desa.',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '475',
                 'letter_title' => 'SURAT KETERANGAN PINDAH PENDUDUK',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -246,8 +248,8 @@ class LetterTemplatePresets
                     ['label' => 'Jumlah Pengikut', 'key' => 'jumlah_pengikut', 'type' => 'number', 'placeholder' => '0', 'is_required' => true],
                 ],
                 'requirement_items' => [
-                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto KTP asli pemohon', 'is_required' => true],
-                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto KK asli yang terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
                 ],
                 'aliases' => [
                     'Keterangan Pindah Domisili',
@@ -260,8 +262,8 @@ class LetterTemplatePresets
                 'title' => 'Surat Pengantar Nikah',
                 'category' => 'Kependudukan',
                 'sort_order' => 7,
-                'description' => 'Surat pengantar administrasi pernikahan ke Kantor Urusan Agama atau Catatan Sipil.',
-                'requirements' => '<ol><li>KTP dan Kartu Keluarga calon pengantin</li><li>Akta kelahiran atau ijazah</li><li>KTP orang tua atau wali</li></ol>',
+                'description' => 'Surat pengantar resmi administrasi pernikahan ke Kantor Urusan Agama atau Catatan Sipil.',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '474.2',
                 'letter_title' => 'SURAT PENGANTAR NIKAH',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -281,8 +283,8 @@ class LetterTemplatePresets
                     ['label' => 'KUA Tujuan', 'key' => 'tujuan_kua', 'type' => 'text', 'placeholder' => 'KUA Kecamatan setempat', 'is_required' => true],
                 ],
                 'requirement_items' => [
-                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto KTP calon pengantin', 'is_required' => true],
-                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto KK keluarga pemohon', 'is_required' => true],
+                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
                     ['name' => 'Foto Akta Kelahiran', 'description' => 'Foto akta kelahiran atau ijazah terakhir', 'is_required' => false],
                 ],
                 'aliases' => [
@@ -295,7 +297,7 @@ class LetterTemplatePresets
                 'category' => 'Ekonomi dan Sosial',
                 'sort_order' => 8,
                 'description' => 'Surat keterangan resmi kepemilikan usaha warga untuk keperluan perbankan atau perizinan.',
-                'requirements' => '<ol><li>KTP dan Kartu Keluarga pemohon</li><li>Foto lokasi tempat usaha</li><li>Pengantar RT setempat</li></ol>',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '503',
                 'letter_title' => 'SURAT KETERANGAN USAHA',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -321,9 +323,9 @@ class LetterTemplatePresets
                     ['label' => 'Keperluan Surat', 'key' => 'keperluan', 'type' => 'text', 'placeholder' => 'Pengajuan kredit usaha rakyat', 'is_required' => true],
                 ],
                 'requirement_items' => [
-                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto KTP asli yang terbaca jelas', 'is_required' => true],
-                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto KK asli atau fotokopi', 'is_required' => true],
-                    ['name' => 'Foto Tempat Usaha', 'description' => 'Tampak depan lokasi usaha', 'is_required' => true],
+                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto Tempat Usaha', 'description' => 'Foto tampak depan lokasi usaha', 'is_required' => true],
                 ],
                 'aliases' => [
                     'Keterangan Usaha',
@@ -334,8 +336,8 @@ class LetterTemplatePresets
                 'title' => 'Surat Keterangan Tidak Mampu',
                 'category' => 'Ekonomi dan Sosial',
                 'sort_order' => 9,
-                'description' => 'Surat keterangan kondisi ekonomi keluarga untuk pengajuan beasiswa atau bantuan kesehatan.',
-                'requirements' => '<ol><li>KTP dan Kartu Keluarga pemohon</li><li>Pengantar RT setempat</li><li>Foto kondisi rumah</li></ol>',
+                'description' => 'Surat keterangan kondisi ekonomi keluarga untuk pengajuan beasiswa atau layanan kesehatan.',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '401',
                 'letter_title' => 'SURAT KETERANGAN TIDAK MAMPU',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -354,9 +356,9 @@ class LetterTemplatePresets
                     ['label' => 'Keperluan Surat', 'key' => 'keperluan', 'type' => 'textarea', 'placeholder' => 'Pengajuan beasiswa pendidikan atau layanan kesehatan', 'is_required' => true],
                 ],
                 'requirement_items' => [
-                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto KTP asli yang terbaca jelas', 'is_required' => true],
-                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto KK asli atau fotokopi', 'is_required' => true],
-                    ['name' => 'Foto Kondisi Rumah', 'description' => 'Tampak depan rumah tempat tinggal', 'is_required' => false],
+                    ['name' => 'Foto KTP Pemohon', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto Kartu Keluarga', 'description' => 'Foto asli terbaca jelas', 'is_required' => true],
+                    ['name' => 'Foto Kondisi Rumah', 'description' => 'Foto tampak depan rumah tinggal', 'is_required' => false],
                 ],
                 'aliases' => [
                     'Surat Keterangan Kurang Mampu',
@@ -369,8 +371,8 @@ class LetterTemplatePresets
                 'title' => 'Surat Pengantar Izin Keramaian',
                 'category' => 'Perizinan dan Umum',
                 'sort_order' => 10,
-                'description' => 'Surat pengantar permohonan izin kegiatan masyarakat atau hajatan kepada pihak kepolisian.',
-                'requirements' => '<ol><li>KTP penanggung jawab kegiatan</li><li>Rincian jadwal dan lokasi kegiatan</li><li>Persetujuan warga sekitar</li></ol>',
+                'description' => 'Surat pengantar resmi permohonan izin kegiatan masyarakat kepada pihak kepolisian.',
+                'requirements' => self::STANDARD_PROCEDURE,
                 'letter_code' => '300',
                 'letter_title' => 'SURAT PENGANTAR IZIN KERAMAIAN',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, memberikan rekomendasi pengantar izin keramaian kepada:</p>

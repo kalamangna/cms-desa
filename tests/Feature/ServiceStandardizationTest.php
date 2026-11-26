@@ -83,11 +83,16 @@ class ServiceStandardizationTest extends TestCase
         $this->assertSame(1, $domisili->sort_order);
         $this->assertTrue($domisili->is_tte_enabled);
         $this->assertTrue($domisili->is_active);
-        // Kustomisasi desa tetap terjaga
-        $this->assertSame('Deskripsi kustom desa untuk domisili.', $domisili->description);
+        // Deskripsi, panduan, dan berkas persyaratan diseragamkan ke katalog standar
+        $this->assertSame(
+            'Surat keterangan resmi yang menyatakan alamat tempat tinggal warga di wilayah desa.',
+            $domisili->description
+        );
+        $this->assertStringContainsString('Unduh surat elektronik PDF', (string) $domisili->requirements);
+        $this->assertSame(2, $domisili->requirementItems()->count());
+        $this->assertSame('Foto KTP Pemohon', $domisili->requirementItems()->first()->name);
+        // Template surat kustom desa tetap terjaga
         $this->assertSame('<p>Template kustom desa</p>', $domisili->letter_template);
-        $this->assertSame(1, $domisili->requirementItems()->count());
-        $this->assertSame('Berkas Kustom Desa', $domisili->requirementItems()->first()->name);
 
         // Riwayat permohonan tetap terhubung ke service_id yang sama
         $request->refresh();

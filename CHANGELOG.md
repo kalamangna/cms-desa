@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.31.1] - 2026-11-26
+
+### Perbaikan
+- **Standarisasi Deskripsi, Panduan Prosedur, dan Berkas Persyaratan Layanan (`LetterTemplatePresets`, `ServiceStandardizationService`)**:
+  - Menyeragamkan `description`, `requirements` (`STANDARD_PROCEDURE`), dan `requirement_items` pada 10 layanan standar inti desa melalui migrasi sinkronisasi `2026_11_26_084000_sync_standard_service_descriptions_and_requirements` tanpa menimpa template surat kustom maupun layanan lokal desa.
+
 ## [1.31.0] - 2026-11-26
 
 ### Ditambahkan

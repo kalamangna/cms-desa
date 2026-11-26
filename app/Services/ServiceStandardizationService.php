@@ -48,8 +48,8 @@ class ServiceStandardizationService
                         'sort_order' => $item['sort_order'],
                         'is_active' => true,
                         'is_tte_enabled' => true,
-                        'description' => $this->preferExisting($matched->description, $item['description']),
-                        'requirements' => $this->preferExisting($matched->requirements, $item['requirements']),
+                        'description' => $item['description'],
+                        'requirements' => $item['requirements'],
                         'letter_code' => $this->preferExisting($matched->letter_code, $item['letter_code']),
                         'letter_title' => $this->preferExisting($matched->letter_title, $item['letter_title']),
                         'letter_template' => $this->preferExisting($matched->letter_template, $item['letter_template']),
@@ -59,9 +59,8 @@ class ServiceStandardizationService
                     ]);
                     $matched->save();
 
-                    if ($matched->requirement_items_count === 0) {
-                        $this->seedRequirementItems($matched, $item['requirement_items']);
-                    }
+                    $matched->requirementItems()->delete();
+                    $this->seedRequirementItems($matched, $item['requirement_items']);
 
                     $updated++;
                 } else {
