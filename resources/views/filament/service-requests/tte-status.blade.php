@@ -9,23 +9,23 @@
         default => 'Belum Dibuat',
     };
 
-    $badgeClass = match ($status) {
-        ServiceRequest::TTE_DRAFT => 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800',
-        ServiceRequest::TTE_SIGNED => 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800',
-        ServiceRequest::TTE_REVOKED => 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800',
-        default => 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700',
+    $badgeStyle = match ($status) {
+        ServiceRequest::TTE_DRAFT => 'background-color: #fef3c7; color: #b45309; border: 1px solid #fcd34d;',
+        ServiceRequest::TTE_SIGNED => 'background-color: #d1fae5; color: #047857; border: 1px solid #6ee7b7;',
+        ServiceRequest::TTE_REVOKED => 'background-color: #ffe4e6; color: #be123c; border: 1px solid #fda4af;',
+        default => 'background-color: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;',
     };
 @endphp
 
-<div class="space-y-3 border-b border-gray-200 pb-4 dark:border-gray-700">
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div class="flex flex-wrap items-center gap-2.5">
-            <span class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-bold {{ $badgeClass }}">
+<div style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid rgba(148, 163, 184, 0.25);">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+            <span style="display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 700; line-height: 1.4; {{ $badgeStyle }}">
                 {{ $statusLabel }}
             </span>
 
             @if($record?->signer_name)
-                <span class="text-xs text-gray-600 dark:text-gray-300">
+                <span style="font-size: 13px; font-weight: 500; opacity: 0.85;">
                     {{ $record->signer_name }}
                     @if($record->signed_at)
                         &bull; {{ $record->signed_at->translatedFormat('d M Y, H:i') }}
@@ -34,12 +34,12 @@
             @endif
         </div>
 
-        <div class="flex flex-wrap items-center gap-2">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
             @if($record?->hasDraftPdf() && ! $record->isTteSigned())
                 <a href="{{ route('admin.service-request-letters.preview', ['serviceRequest' => $record->id, 'type' => 'draft']) }}"
                    target="_blank"
                    rel="noopener noreferrer"
-                   class="inline-flex h-10 items-center justify-center rounded-lg border border-gray-300 bg-white px-4 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+                   style="display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; background-color: #ffffff; color: #334155; border: 1px solid #cbd5e1;">
                     Lihat Draf PDF
                 </a>
             @endif
@@ -48,11 +48,11 @@
                 <a href="{{ route('admin.service-request-letters.preview', ['serviceRequest' => $record->id, 'type' => 'signed']) }}"
                    target="_blank"
                    rel="noopener noreferrer"
-                   class="inline-flex h-10 items-center justify-center rounded-lg border border-emerald-300 bg-emerald-50 px-4 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                   style="display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;">
                     Lihat Surat TTE
                 </a>
                 <a href="{{ route('admin.service-request-letters.download', ['serviceRequest' => $record->id, 'type' => 'signed']) }}"
-                   class="inline-flex h-10 items-center justify-center rounded-lg bg-emerald-600 px-4 text-xs font-semibold text-white transition hover:bg-emerald-700">
+                   style="display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; background-color: #059669; color: #ffffff;">
                     Unduh Surat TTE
                 </a>
             @endif
@@ -61,7 +61,7 @@
                 <a href="{{ route('letters.verify', $record->verification_token) }}"
                    target="_blank"
                    rel="noopener noreferrer"
-                   class="inline-flex h-10 items-center justify-center rounded-lg border border-sky-300 bg-sky-50 px-4 text-xs font-semibold text-sky-700 transition hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950/60 dark:text-sky-300">
+                   style="display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; background-color: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd;">
                     Buka Verifikasi
                 </a>
             @endif
@@ -69,19 +69,19 @@
     </div>
 
     @if(($record?->service?->is_tte_enabled ?? false) && ! ($isGlobalTteEnabled ?? false))
-        <p class="text-xs font-medium text-amber-700 dark:text-amber-300">
+        <p style="margin: 0; font-size: 12px; font-weight: 500; color: #b45309;">
             Fitur TTE BSrE belum diaktifkan pada menu Pengaturan.
         </p>
     @endif
 
     @if($status === ServiceRequest::TTE_REVOKED && $record?->revocation_reason)
-        <p class="text-xs font-medium text-rose-700 dark:text-rose-300">
+        <p style="margin: 0; font-size: 12px; font-weight: 500; color: #be123c;">
             Alasan pencabutan: {{ $record->revocation_reason }}
         </p>
     @endif
 
     @if($record?->signed_pdf_hash && $record->isTteSigned())
-        <p class="break-all font-mono text-[11px] text-gray-500 dark:text-gray-400">
+        <p style="margin: 0; word-break: break-all; font-family: monospace; font-size: 11px; opacity: 0.7;">
             SHA-256: {{ $record->signed_pdf_hash }}
         </p>
     @endif

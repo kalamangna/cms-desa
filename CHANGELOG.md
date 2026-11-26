@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.31.6] - 2026-11-26
+
+### Perbaikan
+- **Tampilan Status dan Tombol Aksi Tab Surat TTE (`tte-status.blade.php`)**:
+  - Mengganti kelas CSS eksternal pada panel status TTE dengan gaya terukur langsung agar badge status, nama penanda tangan, dan tombol aksi PDF tampil rapi di panel admin Filament.
+
 ## [1.31.5] - 2026-11-26
 
 ### Perbaikan
