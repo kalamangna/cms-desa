@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
@@ -25,201 +26,225 @@ class ServiceForm
     {
         return $schema
             ->components([
-                Section::make('Informasi Layanan')
+                Tabs::make('Pengaturan Layanan')
                     ->columnSpanFull()
-                    ->schema([
-                        TextInput::make('title')
-                            ->label('Nama Layanan')
-                            ->placeholder('Surat Keterangan Usaha')
-                            ->helperText('Nama resmi jenis layanan surat desa.')
-                            ->required()
-                            ->columnSpanFull(),
-                        Grid::make(3)
+                    ->tabs([
+                        Tabs\Tab::make('Informasi')
+                            ->icon('heroicon-o-information-circle')
                             ->schema([
-                                Select::make('category')
-                                    ->label('Kategori Layanan')
-                                    ->options(Service::CATEGORIES)
-                                    ->default('Layanan Lainnya')
+                                TextInput::make('title')
+                                    ->label('Nama Layanan')
+                                    ->placeholder('Surat Keterangan Usaha')
                                     ->required()
-                                    ->columnSpan(1),
-                                TextInput::make('sort_order')
-                                    ->label('Urutan Tampil')
-                                    ->integer()
-                                    ->default(100)
-                                    ->minValue(1)
-                                    ->required()
-                                    ->columnSpan(1),
-                                Toggle::make('is_active')
-                                    ->label('Aktif di Halaman Publik')
-                                    ->default(true)
-                                    ->inline(false)
-                                    ->columnSpan(1),
-                            ]),
-                        Textarea::make('description')
-                            ->label('Deskripsi Singkat')
-                            ->placeholder('Surat keterangan resmi dari pemerintah desa untuk keperluan usaha warga.')
-                            ->helperText('Kegunaan singkat layanan ini.')
-                            ->required()
-                            ->columnSpanFull(),
-                        RichEditor::make('requirements')
-                            ->label('Persyaratan')
-                            ->placeholder('Daftar persyaratan dan catatan pengajuan layanan.')
-                            ->helperText('Informasi persyaratan yang tampil pada halaman publik.')
-                            ->columnSpanFull(),
-                    ]),
-
-                Section::make('Daftar Berkas Persyaratan')
-                    ->description('Daftar berkas yang diunggah warga saat mengajukan layanan ini.')
-                    ->columnSpanFull()
-                    ->schema([
-                        Repeater::make('requirementItems')
-                            ->relationship()
-                            ->label('Berkas Persyaratan')
-                            ->orderColumn('sort_order')
-                            ->defaultItems(0)
-                            ->addActionLabel('Tambah Persyaratan')
-                            ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
-                            ->schema([
-                                Grid::make(3)
+                                    ->columnSpanFull(),
+                                Grid::make(['default' => 1, 'md' => 3])
                                     ->schema([
-                                        TextInput::make('name')
-                                            ->label('Nama Berkas')
-                                            ->placeholder('Foto KTP')
+                                        Select::make('category')
+                                            ->label('Kategori')
+                                            ->options(Service::CATEGORIES)
+                                            ->default('Layanan Lainnya')
                                             ->required()
-                                            ->maxLength(150)
                                             ->columnSpan(1),
-                                        TextInput::make('description')
-                                            ->label('Keterangan Singkat')
-                                            ->placeholder('Foto asli yang terbaca jelas')
-                                            ->maxLength(255)
+                                        TextInput::make('sort_order')
+                                            ->label('Urutan')
+                                            ->integer()
+                                            ->default(100)
+                                            ->minValue(1)
+                                            ->required()
                                             ->columnSpan(1),
-                                        Toggle::make('is_required')
-                                            ->label('Wajib Diunggah')
+                                        Toggle::make('is_active')
+                                            ->label('Aktif')
                                             ->default(true)
                                             ->inline(false)
                                             ->columnSpan(1),
                                     ]),
-                            ])
-                            ->columnSpanFull(),
-                    ]),
-
-                Section::make('Template Surat dan TTE')
-                    ->description('Atur template surat otomatis untuk ditandatangani secara elektronik melalui BSrE.')
-                    ->columnSpanFull()
-                    ->schema([
-                        Toggle::make('is_tte_enabled')
-                            ->label('Aktifkan Pembuatan Surat dan TTE')
-                            ->default(false)
-                            ->live()
-                            ->columnSpanFull(),
-
-                        Select::make('letter_preset')
-                            ->label('Gunakan Preset Template Surat')
-                            ->placeholder('Pilih Preset Surat Bawaan')
-                            ->options(LetterTemplatePresets::options())
-                            ->dehydrated(false)
-                            ->live()
-                            ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
-                            ->afterStateUpdated(function (?string $state, Set $set): void {
-                                if (! $state) {
-                                    return;
-                                }
-
-                                $preset = LetterTemplatePresets::get($state);
-                                if (! $preset) {
-                                    return;
-                                }
-
-                                $set('letter_code', $preset['letter_code']);
-                                $set('letter_title', $preset['letter_title']);
-                                $set('letter_template', $preset['letter_template']);
-                                $set('form_fields', $preset['form_fields']);
-                            })
-                            ->helperText('Memilih preset akan mengisi kode, judul, isi surat, dan kolom tambahan otomatis.')
-                            ->columnSpanFull(),
-
-                        Grid::make(3)
-                            ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
-                            ->schema([
-                                TextInput::make('letter_code')
-                                    ->label('Kode Klasifikasi Surat')
-                                    ->placeholder('470')
-                                    ->maxLength(30)
-                                    ->columnSpan(1),
-                                TextInput::make('letter_title')
-                                    ->label('Judul pada Surat')
-                                    ->placeholder('SURAT KETERANGAN DOMISILI')
-                                    ->maxLength(180)
-                                    ->columnSpan(2),
+                                Textarea::make('description')
+                                    ->label('Deskripsi')
+                                    ->placeholder('Keterangan resmi kepemilikan usaha warga')
+                                    ->rows(2)
+                                    ->required()
+                                    ->columnSpanFull(),
+                                RichEditor::make('requirements')
+                                    ->label('Persyaratan')
+                                    ->placeholder('KTP pemohon, Kartu Keluarga')
+                                    ->columnSpanFull(),
                             ]),
 
-                        RichEditor::make('letter_template')
-                            ->label('Isi Template Surat')
-                            ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
-                            ->columnSpanFull(),
-
-                        Placeholder::make('letter_placeholders_guide')
-                            ->label('Variabel Placeholder Tersedia')
-                            ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
-                            ->content(function (): HtmlString {
-                                $items = [];
-                                foreach (LetterTemplatePresets::availablePlaceholders() as $token => $label) {
-                                    $items[] = "<code style='background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;'>{$token}</code> <span style='font-size:11px;color:#64748b;'>{$label}</span>";
-                                }
-
-                                return new HtmlString('<div style="display:flex;flex-wrap:wrap;gap:6px 12px;">'.implode('', $items).'</div>');
-                            })
-                            ->columnSpanFull(),
-
-                        Repeater::make('form_fields')
-                            ->label('Kolom Tambahan Pengajuan Warga')
-                            ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
-                            ->defaultItems(0)
-                            ->addActionLabel('Tambah Kolom')
-                            ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
+                        Tabs\Tab::make('Berkas')
+                            ->icon('heroicon-o-paper-clip')
                             ->schema([
-                                Grid::make(5)
+                                Repeater::make('requirementItems')
+                                    ->relationship()
+                                    ->label('Berkas Unggahan')
+                                    ->orderColumn('sort_order')
+                                    ->defaultItems(0)
+                                    ->collapsible()
+                                    ->addActionLabel('Tambah Berkas')
+                                    ->itemLabel(function (array $state): ?string {
+                                        if (empty($state['name'])) {
+                                            return null;
+                                        }
+
+                                        $status = ($state['is_required'] ?? true) ? 'Wajib' : 'Opsional';
+
+                                        return $state['name'].' — '.$status;
+                                    })
                                     ->schema([
-                                        TextInput::make('label')
-                                            ->label('Label Kolom')
-                                            ->placeholder('Nama Usaha')
-                                            ->required()
-                                            ->live(onBlur: true)
-                                            ->afterStateUpdated(function (?string $state, Get $get, Set $set): void {
-                                                if (! $get('key') && $state) {
-                                                    $set('key', Str::slug($state, '_'));
+                                        Grid::make(['default' => 1, 'md' => 12])
+                                            ->schema([
+                                                TextInput::make('name')
+                                                    ->label('Nama Berkas')
+                                                    ->placeholder('Foto KTP')
+                                                    ->required()
+                                                    ->maxLength(150)
+                                                    ->columnSpan(['default' => 1, 'md' => 5]),
+                                                TextInput::make('description')
+                                                    ->label('Keterangan')
+                                                    ->placeholder('Foto asli terbaca jelas')
+                                                    ->maxLength(255)
+                                                    ->columnSpan(['default' => 1, 'md' => 5]),
+                                                Toggle::make('is_required')
+                                                    ->label('Wajib')
+                                                    ->default(true)
+                                                    ->inline(false)
+                                                    ->columnSpan(['default' => 1, 'md' => 2]),
+                                            ]),
+                                    ])
+                                    ->columnSpanFull(),
+                            ]),
+
+                        Tabs\Tab::make('Surat TTE')
+                            ->icon('heroicon-o-document-check')
+                            ->schema([
+                                Grid::make(['default' => 1, 'md' => 2])
+                                    ->schema([
+                                        Toggle::make('is_tte_enabled')
+                                            ->label('Aktifkan TTE')
+                                            ->helperText('Terbitkan PDF otomatis dengan TTE BSrE.')
+                                            ->default(false)
+                                            ->live()
+                                            ->inline(false)
+                                            ->columnSpan(1),
+                                        Select::make('letter_preset')
+                                            ->label('Preset Surat')
+                                            ->placeholder('Pilih preset')
+                                            ->options(LetterTemplatePresets::options())
+                                            ->dehydrated(false)
+                                            ->live()
+                                            ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
+                                            ->afterStateUpdated(function (?string $state, Set $set): void {
+                                                if (! $state) {
+                                                    return;
                                                 }
+
+                                                $preset = LetterTemplatePresets::get($state);
+                                                if (! $preset) {
+                                                    return;
+                                                }
+
+                                                $set('letter_code', $preset['letter_code']);
+                                                $set('letter_title', $preset['letter_title']);
+                                                $set('letter_template', $preset['letter_template']);
+                                                $set('form_fields', $preset['form_fields']);
                                             })
-                                            ->columnSpan(2),
-                                        TextInput::make('key')
-                                            ->label('Kunci Variabel')
-                                            ->placeholder('nama_usaha')
-                                            ->required()
-                                            ->regex('/^[a-z0-9_]+$/')
+                                            ->helperText('Mengisi kode, judul, isi surat, dan kolom tambahan.')
                                             ->columnSpan(1),
-                                        Select::make('type')
-                                            ->label('Tipe Isian')
-                                            ->options([
-                                                'text' => 'Teks Singkat',
-                                                'textarea' => 'Teks Panjang',
-                                                'date' => 'Tanggal',
-                                                'number' => 'Angka',
-                                            ])
-                                            ->default('text')
-                                            ->required()
-                                            ->columnSpan(1),
-                                        Toggle::make('is_required')
-                                            ->label('Wajib Diisi')
-                                            ->default(true)
-                                            ->inline(false)
-                                            ->columnSpan(1),
-                                        TextInput::make('placeholder')
-                                            ->label('Contoh Isian')
-                                            ->placeholder('Warung Sembako Berkah')
-                                            ->columnSpanFull(),
                                     ]),
-                            ])
-                            ->columnSpanFull(),
+
+                                Grid::make(['default' => 1, 'md' => 3])
+                                    ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
+                                    ->schema([
+                                        TextInput::make('letter_code')
+                                            ->label('Kode Surat')
+                                            ->placeholder('470')
+                                            ->maxLength(30)
+                                            ->columnSpan(1),
+                                        TextInput::make('letter_title')
+                                            ->label('Judul Surat')
+                                            ->placeholder('SURAT KETERANGAN DOMISILI')
+                                            ->maxLength(180)
+                                            ->columnSpan(['default' => 1, 'md' => 2]),
+                                    ]),
+
+                                RichEditor::make('letter_template')
+                                    ->label('Isi Surat')
+                                    ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
+                                    ->columnSpanFull(),
+
+                                Section::make('Variabel Placeholder')
+                                    ->collapsible()
+                                    ->collapsed()
+                                    ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
+                                    ->schema([
+                                        Placeholder::make('letter_placeholders_guide')
+                                            ->hiddenLabel()
+                                            ->content(function (): HtmlString {
+                                                $items = [];
+                                                foreach (LetterTemplatePresets::availablePlaceholders() as $token => $label) {
+                                                    $items[] = "<code style='background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;'>{$token}</code> <span style='font-size:11px;color:#64748b;'>{$label}</span>";
+                                                }
+
+                                                return new HtmlString('<div style="display:flex;flex-wrap:wrap;gap:6px 12px;">'.implode('', $items).'</div>');
+                                            }),
+                                    ])
+                                    ->columnSpanFull(),
+
+                                Repeater::make('form_fields')
+                                    ->label('Kolom Tambahan')
+                                    ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
+                                    ->defaultItems(0)
+                                    ->collapsible()
+                                    ->collapsed()
+                                    ->addActionLabel('Tambah Kolom')
+                                    ->itemLabel(function (array $state): ?string {
+                                        if (empty($state['label'])) {
+                                            return null;
+                                        }
+
+                                        $status = ($state['is_required'] ?? true) ? 'Wajib' : 'Opsional';
+
+                                        return $state['label'].' — '.$status;
+                                    })
+                                    ->schema([
+                                        Grid::make(['default' => 1, 'md' => 2])
+                                            ->schema([
+                                                TextInput::make('label')
+                                                    ->label('Label')
+                                                    ->placeholder('Nama Usaha')
+                                                    ->required()
+                                                    ->live(onBlur: true)
+                                                    ->afterStateUpdated(function (?string $state, Get $get, Set $set): void {
+                                                        if (! $get('key') && $state) {
+                                                            $set('key', Str::slug($state, '_'));
+                                                        }
+                                                    }),
+                                                TextInput::make('key')
+                                                    ->label('Variabel')
+                                                    ->placeholder('nama_usaha')
+                                                    ->required()
+                                                    ->regex('/^[a-z0-9_]+$/'),
+                                                Select::make('type')
+                                                    ->label('Tipe')
+                                                    ->options([
+                                                        'text' => 'Teks Singkat',
+                                                        'textarea' => 'Teks Panjang',
+                                                        'date' => 'Tanggal',
+                                                        'number' => 'Angka',
+                                                    ])
+                                                    ->default('text')
+                                                    ->required(),
+                                                Toggle::make('is_required')
+                                                    ->label('Wajib')
+                                                    ->default(true)
+                                                    ->inline(false),
+                                                TextInput::make('placeholder')
+                                                    ->label('Contoh')
+                                                    ->placeholder('Warung Sembako Berkah')
+                                                    ->columnSpanFull(),
+                                            ]),
+                                    ])
+                                    ->columnSpanFull(),
+                            ]),
                     ]),
             ]);
     }

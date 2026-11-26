@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.31.4] - 2026-11-26
+
+### Perbaikan
+- **Tata Letak dan Copy Formulir Admin Layanan (`ServiceForm`, `ServiceRequestForm`)**:
+  - Menata ulang formulir edit `ServiceForm` dan `ServiceRequestForm` menjadi 3 tab terarah (`Informasi`, `Berkas`, `Surat TTE` dan `Permohonan`, `Berkas`, `Surat TTE`) dengan pengelompokan bagian terlipat serta label dan placeholder yang singkat dan konsisten.
+
 ## [1.31.3] - 2026-11-26
 
 ### Perombakan
