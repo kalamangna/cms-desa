@@ -44,7 +44,7 @@
                 </a>
             @endif
 
-            @if($record?->hasSignedPdf())
+            @if($record?->isTteSigned())
                 <a href="{{ route('admin.service-request-letters.preview', ['serviceRequest' => $record->id, 'type' => 'signed']) }}"
                    target="_blank"
                    rel="noopener noreferrer"

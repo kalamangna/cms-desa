@@ -209,6 +209,10 @@
                         @enderror
                     </div>
 
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Data yang Anda kirim digunakan khusus untuk pemrosesan layanan ini sesuai <a href="{{ route('privacy-policy') }}" class="text-primary-600 dark:text-primary-400 font-semibold hover:underline">Kebijakan Privasi</a>.
+                    </p>
+
                     <button type="submit"
                             :disabled="submitting"
                             class="w-full flex items-center justify-center gap-3 bg-primary-600 text-white py-4.5 rounded-2xl font-bold text-base hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 transition-all duration-200 shadow-xs cursor-pointer">

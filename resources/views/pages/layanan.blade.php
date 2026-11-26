@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Layanan Mandiri | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', 'Permohonan Layanan | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Panduan prosedur, persyaratan berkas, dan pengajuan layanan administrasi pada Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
@@ -766,6 +766,10 @@
                         </template>
                     </div>
                 </template>
+
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Data yang Anda kirim digunakan khusus untuk pemrosesan layanan ini sesuai <a href="{{ route('privacy-policy') }}" class="text-primary-600 dark:text-primary-400 font-semibold hover:underline">Kebijakan Privasi</a>.
+                </p>
 
                 <div class="flex flex-col-reverse sm:flex-row gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                     <button type="button"

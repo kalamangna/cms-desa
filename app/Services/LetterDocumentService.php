@@ -47,7 +47,7 @@ class LetterDocumentService
         $citizen = Citizen::with('dusun')->where('nik', $request->nik)->first();
 
         $payload = [
-            'applicant_name' => (string) ($citizen?->name ?: $request->name),
+            'applicant_name' => (string) ($request->name ?: ($citizen?->name ?? '')),
             'applicant_nik' => (string) $request->nik,
             'applicant_phone' => (string) $request->phone,
             'place_of_birth' => (string) ($citizen?->place_of_birth ?? ''),
@@ -75,15 +75,25 @@ class LetterDocumentService
     /**
      * Merender HTML lengkap surat resmi siap cetak PDF.
      */
-    public function renderHtml(ServiceRequest $request, bool $includeTteVisual = false): string
+    public function renderHtml(ServiceRequest $request, bool $includeTteVisual = false, ?string $verificationTokenOverride = null): string
     {
         $request->loadMissing('service');
         $settings = Setting::pluck('value', 'key')->toArray();
         $payload = array_merge(
             $this->buildDefaultPayload($request),
             is_array($request->letter_payload) ? $request->letter_payload : [],
-            is_array($request->form_data) ? $request->form_data : []
+            $this->formatFormDataForRender($request)
         );
+
+        if (filled($request->name)) {
+            $payload['applicant_name'] = (string) $request->name;
+        }
+        if (filled($request->nik)) {
+            $payload['applicant_nik'] = (string) $request->nik;
+        }
+        if (filled($request->phone)) {
+            $payload['applicant_phone'] = (string) $request->phone;
+        }
 
         $letterDate = $request->letter_date ? Carbon::parse($request->letter_date) : now();
         $signerName = $request->signer_name ?: ($this->resolveDefaultSigner()?->name ?? 'Kepala Desa');
@@ -114,7 +124,7 @@ class LetterDocumentService
         $logoDataUri = $this->resolveVillageLogoDataUri($settings['site_logo'] ?? null);
         $qrCodeDataUri = null;
         if ($includeTteVisual) {
-            $verificationToken = $request->verification_token ?: Str::random(40);
+            $verificationToken = $verificationTokenOverride ?: ($request->verification_token ?: Str::random(40));
             $qrCodeDataUri = $this->generateQrCodeDataUri(route('letters.verify', $verificationToken));
         }
 
@@ -148,6 +158,18 @@ class LetterDocumentService
 
         if (empty($request->letter_payload)) {
             $request->letter_payload = $this->buildDefaultPayload($request);
+        } elseif (is_array($request->letter_payload)) {
+            $payload = $request->letter_payload;
+            if (filled($request->name)) {
+                $payload['applicant_name'] = (string) $request->name;
+            }
+            if (filled($request->nik)) {
+                $payload['applicant_nik'] = (string) $request->nik;
+            }
+            if (filled($request->phone)) {
+                $payload['applicant_phone'] = (string) $request->phone;
+            }
+            $request->letter_payload = $payload;
         }
 
         if (! $request->letter_date) {
@@ -181,7 +203,7 @@ class LetterDocumentService
         Storage::disk(self::DISK)->put($relativePath, $pdfBinary);
 
         $request->draft_pdf_path = $relativePath;
-        if (! $request->isTteSigned()) {
+        if (! $request->isTteSigned() && ! $request->isTteRevoked()) {
             $request->tte_status = ServiceRequest::TTE_DRAFT;
         }
         $request->save();
@@ -203,25 +225,28 @@ class LetterDocumentService
         string $passphrase,
         ?User $actor = null
     ): ServiceRequest {
-        if (empty($request->verification_token)) {
-            $request->verification_token = Str::random(40);
-        }
-
-        $request->signer_official_id = $signer->id;
-        $request->signer_name = $signer->name;
-        $request->signer_position = $signer->position;
-        $request->save();
+        $wasRevoked = $request->isTteRevoked();
 
         $this->generateDraftPdf($request, $actor);
 
+        $freshRequest = $request->fresh();
+        $targetToken = $wasRevoked
+            ? Str::random(40)
+            : ($freshRequest->verification_token ?: Str::random(40));
+
+        $renderTarget = $freshRequest->replicate();
+        $renderTarget->id = $freshRequest->id;
+        $renderTarget->signer_name = $signer->name;
+        $renderTarget->signer_position = $signer->position;
+
         $toSignRelativePath = self::BASE_DIRECTORY.'/'.$request->id.'/to-sign.pdf';
-        $toSignPdfBinary = Pdf::loadHTML($this->renderHtml($request->fresh(), true))
+        $toSignPdfBinary = Pdf::loadHTML($this->renderHtml($renderTarget, true, $targetToken))
             ->setPaper('a4', 'portrait')
             ->output();
         Storage::disk(self::DISK)->put($toSignRelativePath, $toSignPdfBinary);
         $toSignAbsolutePath = Storage::disk(self::DISK)->path($toSignRelativePath);
 
-        $verificationUrl = route('letters.verify', $request->verification_token);
+        $verificationUrl = route('letters.verify', $targetToken);
 
         try {
             $result = $this->bsreService->signPdf($toSignAbsolutePath, $signerNik, $passphrase, $verificationUrl);
@@ -238,6 +263,10 @@ class LetterDocumentService
             : substr($cleanNik, 0, 4).'***';
 
         $request->forceFill([
+            'verification_token' => $targetToken,
+            'signer_official_id' => $signer->id,
+            'signer_name' => $signer->name,
+            'signer_position' => $signer->position,
             'signed_pdf_path' => $signedRelativePath,
             'signed_pdf_hash' => hash('sha256', $result['pdf_binary']),
             'tte_status' => ServiceRequest::TTE_SIGNED,
@@ -320,6 +349,58 @@ class LetterDocumentService
         }
 
         return "{$serviceSlug}-{$nameSlug}-{$dateCode}-tte.pdf";
+    }
+
+    /**
+     * Memformat isian tambahan warga sebelum dirender ke HTML surat (termasuk tanggal Indonesia).
+     *
+     * @return array<string, string>
+     */
+    private function formatFormDataForRender(ServiceRequest $request): array
+    {
+        $formData = is_array($request->form_data) ? $request->form_data : [];
+        if ($formData === []) {
+            return [];
+        }
+
+        $dateFieldKeys = [];
+        $formFields = $request->service?->form_fields;
+        if (is_array($formFields)) {
+            foreach ($formFields as $field) {
+                $key = $field['key'] ?? null;
+                if (is_string($key) && $key !== '' && ($field['type'] ?? 'text') === 'date') {
+                    $dateFieldKeys[$key] = true;
+                }
+            }
+        }
+
+        $formatted = [];
+        foreach ($formData as $key => $value) {
+            if (! is_string($key) || $key === '') {
+                continue;
+            }
+
+            if (! is_scalar($value)) {
+                $formatted[$key] = '';
+
+                continue;
+            }
+
+            $stringValue = trim((string) $value);
+            if ($stringValue !== '' && isset($dateFieldKeys[$key])) {
+                try {
+                    $formatted[$key] = Carbon::parse($stringValue)->translatedFormat('d F Y');
+
+                    continue;
+                } catch (\Throwable) {
+                    // Fallback ke teks asli jika format tanggal tidak dapat diparsing
+                }
+            }
+
+            $formatted[$key] = (string) $value;
+        }
+
+        return $formatted;
     }
 
     private function resolveDefaultSigner(): ?Official

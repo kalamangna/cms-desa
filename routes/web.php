@@ -61,6 +61,7 @@ Route::middleware(FilamentAuthenticate::class)->prefix('admin')->group(function 
 });
 
 Route::get('/kontak', [PageController::class, 'kontak'])->name('kontak');
+Route::get('/kebijakan-privasi', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/potensi', [PageController::class, 'potensi'])->name('potensi');
 Route::get('/peta', [MapController::class, 'index'])->name('peta.index');
 

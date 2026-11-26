@@ -45,6 +45,11 @@ class PageController extends Controller
         return view('pages.kontak');
     }
 
+    public function privacyPolicy()
+    {
+        return view('pages.kebijakan_privasi');
+    }
+
     public function potensi()
     {
         $potentials = Cache::remember('potentials_list', 3600, function () {

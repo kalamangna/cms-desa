@@ -476,4 +476,127 @@ class ServiceRequestTteTest extends TestCase
         $layananResponse->assertOk();
         $layananResponse->assertDontSee('7307019999887777');
     }
+
+    public function test_revoked_letter_preserves_revoked_status_on_failed_resign_and_rotates_token_on_success(): void
+    {
+        config(['bsre.mock' => true]);
+
+        $official = Official::create([
+            'name' => 'H. Andi Muh. Rizal',
+            'position' => 'Kepala Desa',
+            'level' => 1,
+            'order' => 1,
+        ]);
+
+        $preset = LetterTemplatePresets::get('domisili');
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'letter_code' => $preset['letter_code'],
+            'letter_title' => $preset['letter_title'],
+            'letter_template' => $preset['letter_template'],
+            'form_fields' => $preset['form_fields'],
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560007',
+            'name' => 'Samsul',
+            'phone' => '081234567896',
+            'service_id' => $service->id,
+            'form_data' => ['keperluan' => 'Pendaftaran sekolah'],
+        ]);
+
+        $letterService = app(LetterDocumentService::class);
+        $signed = $letterService->signWithBsre($serviceRequest, $official, '7307019999880005', 'pass123');
+        $oldToken = $signed->verification_token;
+
+        $revoked = $letterService->revoke($signed, 'Kesalahan data alamat');
+
+        // Membuat draf ulang pada surat dicabut tidak boleh menimpa status revoked
+        $letterService->generateDraftPdf($revoked);
+        $revoked->refresh();
+        $this->assertSame(ServiceRequest::TTE_REVOKED, $revoked->tte_status);
+        $this->assertSame($oldToken, $revoked->verification_token);
+        $this->get(route('letters.verify', $oldToken))
+            ->assertOk()
+            ->assertSee('Dokumen Dicabut');
+
+        // Gagal TTE ulang harus mempertahankan status revoked dan token lama
+        try {
+            $letterService->signWithBsre($revoked, $official, '7307019999880005', 'invalid');
+            $this->fail('BsreException seharusnya dilempar saat passphrase tidak valid.');
+        } catch (BsreException) {
+            // Diharapkan gagal
+        }
+
+        $revoked->refresh();
+        $this->assertSame(ServiceRequest::TTE_REVOKED, $revoked->tte_status);
+        $this->assertSame($oldToken, $revoked->verification_token);
+        $this->assertSame('Kesalahan data alamat', $revoked->revocation_reason);
+        $this->get(route('letters.verify', $oldToken))
+            ->assertOk()
+            ->assertSee('Dokumen Dicabut');
+
+        // Berhasil TTE ulang merotasi token verifikasi sehingga QR lama tidak lagi sah
+        $resigned = $letterService->signWithBsre($revoked, $official, '7307019999880005', 'pass123');
+        $this->assertSame(ServiceRequest::TTE_SIGNED, $resigned->tte_status);
+        $this->assertNotSame($oldToken, $resigned->verification_token);
+        $this->get(route('letters.verify', $oldToken))->assertNotFound();
+        $this->get(route('letters.verify', $resigned->verification_token))
+            ->assertOk()
+            ->assertSee('Dokumen Terverifikasi');
+    }
+
+    public function test_render_html_syncs_updated_applicant_identity_and_formats_date_form_fields(): void
+    {
+        $service = Service::create([
+            'title' => 'Surat Izin Keramaian',
+            'description' => 'Izin Keramaian',
+            'letter_code' => '300',
+            'letter_title' => 'SURAT IZIN KERAMAIAN',
+            'letter_template' => '<p>Nama: {{ applicant_name }} | NIK: {{ applicant_nik }} | Tanggal: {{ tanggal_acara }}</p>',
+            'form_fields' => [
+                [
+                    'key' => 'tanggal_acara',
+                    'label' => 'Tanggal Acara',
+                    'type' => 'date',
+                    'is_required' => true,
+                ],
+            ],
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560008',
+            'name' => 'Budi Lama',
+            'phone' => '081234567897',
+            'service_id' => $service->id,
+            'form_data' => ['tanggal_acara' => '2026-11-20'],
+        ]);
+
+        $letterService = app(LetterDocumentService::class);
+        $letterService->generateDraftPdf($serviceRequest);
+
+        $firstHtml = $letterService->renderHtml($serviceRequest->fresh());
+        $this->assertStringContainsString('Budi Lama', $firstHtml);
+        $this->assertStringContainsString('7307011234560008', $firstHtml);
+        $this->assertStringContainsString('20 November 2026', $firstHtml);
+        $this->assertStringNotContainsString('2026-11-20', $firstHtml);
+
+        $serviceRequest->update([
+            'name' => 'Budi Baru',
+            'nik' => '7307011234560009',
+        ]);
+
+        $letterService->generateDraftPdf($serviceRequest->fresh());
+        $updated = $serviceRequest->fresh();
+
+        $this->assertSame('Budi Baru', $updated->letter_payload['applicant_name']);
+        $this->assertSame('7307011234560009', $updated->letter_payload['applicant_nik']);
+
+        $secondHtml = $letterService->renderHtml($updated);
+        $this->assertStringContainsString('Budi Baru', $secondHtml);
+        $this->assertStringContainsString('7307011234560009', $secondHtml);
+    }
 }

@@ -30,8 +30,11 @@ class EditServiceRequest extends EditRecord
                 ->color('gray')
                 ->visible(fn (): bool => ! $this->record->isTteSigned())
                 ->action(function (LetterDocumentService $letterService): void {
-                    $payload = $letterService->buildDefaultPayload($this->record);
-                    $this->record->update(['letter_payload' => $payload]);
+                    $this->save(shouldRedirect: false, shouldSendSavedNotification: false);
+
+                    $freshRecord = $this->record->fresh();
+                    $payload = $letterService->buildDefaultPayload($freshRecord);
+                    $freshRecord->update(['letter_payload' => $payload]);
                     $this->refreshFormData(['letter_payload']);
 
                     Notification::make()
@@ -120,6 +123,8 @@ class EditServiceRequest extends EditRecord
                             (string) $data['passphrase'],
                             auth()->user()
                         );
+                        // Refresh the record to ensure latest data (e.g., status, payload) is loaded
+                        $this->record = $this->record->fresh();
 
                         $this->refreshFormData([
                             'letter_number',
@@ -173,7 +178,8 @@ class EditServiceRequest extends EditRecord
                         ->send();
                 }),
 
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->visible(fn (): bool => ! $this->record->isTteSigned()),
         ];
     }
 }

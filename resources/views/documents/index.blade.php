@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
 @section('title', 'Arsip Dokumen | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Pusat arsip dokumen hukum, peraturan desa, keputusan kepala desa, dan berkas administrasi resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_description', 'Pusat arsip dokumen hukum, peraturan desa, keputusan kepala desa, dan klasifikasi informasi publik resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
 @section('content')
+@php
+    $hasActiveFilter = $search !== '' || $selectedCategory !== null || $selectedClassification !== null || $selectedYear !== null;
+@endphp
+
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
 {{-- HERO SECTION --}}
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
@@ -36,7 +40,7 @@
                 Arsip <span class="text-primary-500 italic">Dokumen</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                Unduh regulasi, keputusan, dan berkas resmi Desa {{ $site_settings['village_name'] ?? '' }}.
+                Unduh produk hukum, peraturan desa, keputusan, serta informasi publik resmi Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
@@ -48,40 +52,85 @@
 <div class="bg-slate-50 dark:bg-slate-950 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
 
-        {{-- ─── Header & Form Pencarian ─── --}}
-        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-10 md:mb-12">
+        {{-- ─── Header & Ringkasan ─── --}}
+        <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-6 md:mb-8">
             <div>
-                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-1">Daftar Dokumen</h2>
+                <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 mb-1">Daftar Dokumen Hukum dan Informasi Publik</h2>
                 <p class="text-slate-600 dark:text-slate-300 text-sm">
-                    @if(request('search'))
-                        Hasil pencarian "<span class="font-bold text-slate-900 dark:text-slate-100">{{ request('search') }}</span>" ({{ $documents->total() }} dokumen).
+                    @if($search !== '')
+                        Hasil pencarian "<span class="font-bold text-slate-900 dark:text-slate-100">{{ $search }}</span>" sebanyak <span class="text-primary-700 dark:text-primary-400 font-bold">{{ $documents->total() }}</span> dokumen.
                     @else
-                        Total <span class="text-primary-700 dark:text-primary-400 font-bold">{{ $documents->total() }}</span> dokumen.
+                        Total <span class="text-primary-700 dark:text-primary-400 font-bold">{{ $documents->total() }}</span> dokumen tersedia.
                     @endif
                 </p>
             </div>
-
-            {{-- Form Pencarian Dokumen --}}
-            <form action="{{ route('documents.index') }}" method="GET" class="relative w-full sm:w-80 md:w-96">
-                <input type="text"
-                       name="search"
-                       value="{{ request('search') }}"
-                       placeholder="Cari nama atau rincian dokumen..."
-                       class="w-full pl-11 pr-10 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-700 dark:text-slate-100 dark:placeholder-slate-500 shadow-sm text-base sm:text-sm transition-all duration-200">
-                <button type="submit"
-                        class="absolute left-1 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-primary-600 transition cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xl"
-                        aria-label="Cari Dokumen">
-                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
-                </button>
-                @if(request('search'))
-                <a href="{{ route('documents.index') }}"
-                   class="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-rose-500 transition text-xs font-bold rounded-xl"
-                   aria-label="Hapus pencarian">
-                    <i class="fa-solid fa-xmark"></i>
-                </a>
-                @endif
-            </form>
         </div>
+
+        {{-- ─── Form Filter & Pencarian ─── --}}
+        <form action="{{ route('documents.index') }}" method="GET" class="bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl p-4 sm:p-6 mb-8 md:mb-10 shadow-sm border border-slate-200/80 dark:border-slate-800">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4 items-end">
+                <div class="lg:col-span-4">
+                    <label for="doc-search" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Kata Kunci</label>
+                    <input id="doc-search"
+                           type="text"
+                           name="search"
+                           value="{{ $search }}"
+                           placeholder="Peraturan Desa APBDes 2026"
+                           class="w-full h-11 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm transition">
+                </div>
+
+                <div class="lg:col-span-3">
+                    <label for="doc-category" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Jenis Dokumen</label>
+                    <select id="doc-category"
+                            name="category"
+                            class="w-full h-11 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 text-sm transition">
+                        <option value="">Semua Jenis</option>
+                        @foreach($categories as $key => $label)
+                            <option value="{{ $key }}" @selected($selectedCategory === $key)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <label for="doc-classification" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Klasifikasi Informasi</label>
+                    <select id="doc-classification"
+                            name="classification"
+                            class="w-full h-11 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 text-sm transition">
+                        <option value="">Semua Klasifikasi</option>
+                        @foreach($classifications as $key => $label)
+                            <option value="{{ $key }}" @selected($selectedClassification === $key)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <label for="doc-year" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Tahun</label>
+                    <select id="doc-year"
+                            name="year"
+                            class="w-full h-11 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 text-sm transition">
+                        <option value="">Semua Tahun</option>
+                        @foreach($availableYears as $yearOption)
+                            <option value="{{ $yearOption }}" @selected($selectedYear === (int) $yearOption)>{{ $yearOption }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button type="submit"
+                        class="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-xl bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold transition active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 cursor-pointer">
+                    <i class="fa-solid fa-filter text-xs"></i>
+                    <span>Filter</span>
+                </button>
+                @if($hasActiveFilter)
+                    <a href="{{ route('documents.index') }}"
+                       class="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                        <i class="fa-solid fa-rotate-left text-xs"></i>
+                        <span>Reset</span>
+                    </a>
+                @endif
+            </div>
+        </form>
 
         {{-- ─── List Card ─── --}}
         @forelse($documents as $doc)
@@ -98,6 +147,13 @@
                 'zip'  => ['icon' => 'fa-file-zipper','bg' => 'bg-amber-50 dark:bg-amber-500/10', 'text' => 'text-amber-600 dark:text-amber-400', 'badge' => 'bg-amber-100/80 dark:bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-200/60 dark:border-amber-500/20'],
             ];
             $fileStyle = $iconMap[$ext] ?? ['icon' => 'fa-file-lines', 'bg' => 'bg-slate-100 dark:bg-slate-800', 'text' => 'text-slate-600 dark:text-slate-400', 'badge' => 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'];
+
+            $classificationBadgeMap = [
+                'berkala' => 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200/80 dark:border-emerald-500/20',
+                'serta_merta' => 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-200/80 dark:border-amber-500/20',
+                'setiap_saat' => 'bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-200/80 dark:border-sky-500/20',
+            ];
+            $classificationBadge = $classificationBadgeMap[$doc->information_classification] ?? null;
         @endphp
         <div class="group flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl p-6 md:p-7 mb-4 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-200/80 dark:border-slate-800 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-xl hover:shadow-slate-300/60 dark:hover:shadow-slate-950 hover:-translate-y-1 transition-all duration-300">
 
@@ -113,21 +169,38 @@
                         <i class="fa-solid fa-file text-[9px]"></i>
                         {{ strtoupper($ext) }}
                     </span>
-                    @if($doc->category ?? false)
+                    @if($doc->category_label)
                         <span class="inline-flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-                            {{ $doc->category }}
+                            {{ $doc->category_label }}
+                        </span>
+                    @endif
+                    @if($doc->information_classification_label && $classificationBadge)
+                        <span class="inline-flex items-center gap-1.5 {{ $classificationBadge }} border text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                            {{ $doc->information_classification_label }}
+                        </span>
+                    @endif
+                    @if($doc->year)
+                        <span class="inline-flex items-center gap-1.5 bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 border border-primary-200/70 dark:border-primary-800/60 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                            {{ $doc->year }}
                         </span>
                     @endif
                 </div>
                 <h3 class="text-xl md:text-2xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-slate-100 group-hover:text-primary-700 dark:group-hover:text-primary-400 transition-colors duration-200 leading-snug break-words mb-2">
                     {{ $doc->title }}
                 </h3>
+                @if($doc->document_number)
+                    <p class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2">Nomor {{ $doc->document_number }}</p>
+                @endif
                 @if($doc->description)
                     <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 max-w-2xl mb-3">{{ $doc->description }}</p>
                 @endif
                 <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs font-medium">
                     <i class="fa-regular fa-calendar text-slate-400 dark:text-slate-500 text-[11px]"></i>
-                    <span>Diunggah {{ $doc->created_at->translatedFormat('d F Y') }}</span>
+                    @if($doc->published_date)
+                        <span>Ditetapkan {{ $doc->published_date->translatedFormat('d F Y') }}</span>
+                    @else
+                        <span>Diunggah {{ $doc->created_at->translatedFormat('d F Y') }}</span>
+                    @endif
                 </div>
             </div>
 
@@ -149,13 +222,13 @@
         <div class="py-8">
             <x-empty-state
                 icon="fa-solid fa-folder-open"
-                :title="request('search') ? 'Dokumen Tidak Ditemukan' : 'Arsip Dokumen Masih Kosong'"
-                :description="request('search') ? 'Tidak ada dokumen yang sesuai dengan kata kunci &quot;' . e(request('search')) . '&quot;. Silakan coba kata kunci lain.' : 'Belum ada dokumen atau berkas resmi yang diterbitkan untuk saat ini.'"
+                :title="$hasActiveFilter ? 'Dokumen Tidak Ditemukan' : 'Arsip Dokumen Masih Kosong'"
+                :description="$hasActiveFilter ? 'Tidak ada dokumen yang sesuai dengan filter atau kata kunci pencarian saat ini.' : 'Belum ada dokumen atau berkas resmi yang diterbitkan untuk saat ini.'"
             />
-            @if(request('search'))
+            @if($hasActiveFilter)
             <div class="mt-6 text-center">
                 <a href="{{ route('documents.index') }}" class="inline-flex items-center gap-2 text-xs font-bold text-primary-600 dark:text-primary-400 hover:underline">
-                    <i class="fa-solid fa-arrow-left"></i> Tampilkan Semua Dokumen
+                    <i class="fa-solid fa-rotate-left"></i> Reset
                 </a>
             </div>
             @endif

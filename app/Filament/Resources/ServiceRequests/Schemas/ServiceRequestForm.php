@@ -43,11 +43,16 @@ class ServiceRequestForm
                                             ->label('NIK')
                                             ->placeholder('16 digit NIK')
                                             ->required()
+                                            ->maxLength(16)
+                                            ->rule('digits:16')
+                                            ->extraInputAttributes(['inputmode' => 'numeric'])
+                                            ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false)
                                             ->columnSpan(1),
                                         TextInput::make('name')
                                             ->label('Nama Lengkap')
                                             ->placeholder('Budi Santoso')
                                             ->required()
+                                            ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false)
                                             ->columnSpan(1),
                                         TextInput::make('phone')
                                             ->label('WhatsApp')
@@ -64,7 +69,8 @@ class ServiceRequestForm
                                             ->relationship('service', 'title')
                                             ->searchable()
                                             ->preload()
-                                            ->required(),
+                                            ->required()
+                                            ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false),
                                         Select::make('status')
                                             ->label('Status')
                                             ->placeholder('Pilih status')
@@ -75,6 +81,7 @@ class ServiceRequestForm
                                             ])
                                             ->default('Menunggu')
                                             ->required()
+                                            ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false)
                                             ->helperText(function ($record) {
                                                 if (! $record?->phone) {
                                                     return null;

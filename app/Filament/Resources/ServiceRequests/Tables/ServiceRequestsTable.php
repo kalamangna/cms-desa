@@ -8,9 +8,11 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
 
 class ServiceRequestsTable
 {
@@ -115,11 +117,23 @@ class ServiceRequestsTable
                     ->openUrlInNewTab()
                     ->visible(fn ($record): bool => ! empty($record->phone)),
                 EditAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->visible(fn (ServiceRequest $record): bool => ! $record->isTteSigned()),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->before(function (Collection $records, DeleteBulkAction $action): void {
+                            if ($records->contains(fn (ServiceRequest $record): bool => $record->isTteSigned())) {
+                                Notification::make()
+                                    ->danger()
+                                    ->title('Permohonan bertanda tangan TTE tidak dapat dihapus')
+                                    ->body('Cabut surat TTE terlebih dahulu sebelum menghapus permohonan.')
+                                    ->send();
+
+                                $action->cancel();
+                            }
+                        }),
                 ]),
             ]);
     }

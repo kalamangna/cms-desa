@@ -2,6 +2,20 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.0] - 2026-11-26
+
+### Ditambahkan
+- **Klasifikasi Dokumen Hukum dan Informasi Publik (`Document`, `DocumentForm`, `DocumentsTable`, `DocumentController`, `documents/index.blade.php`)**:
+  - Menambahkan migrasi `2026_11_26_151500_add_classification_columns_to_documents_table` untuk kolom `category`, `information_classification`, `document_number`, `year`, dan `published_date`.
+  - Menambahkan input, badge, dan filter jenis dokumen hukum, klasifikasi informasi publik, nomor dokumen, tahun penetapan, dan tanggal penetapan pada panel admin Filament dan halaman publik `/dokumen`.
+- **Halaman Kebijakan Privasi dan Pengingat Privasi Formulir (`PageController`, `kebijakan_privasi.blade.php`, `app.blade.php`, `sitemap.blade.php`, `layanan.blade.php`, `pengaduan.blade.php`)**:
+  - Menambahkan halaman publik `/kebijakan-privasi` yang memuat komitmen perlindungan data pribadi warga, larangan publikasi data sensitif, keamanan data, dan kanal permintaan warga.
+  - Menambahkan tautan `Kebijakan Privasi` di footer portal, entri pada `/sitemap.xml`, pengingat privasi pada formulir layanan dan pengaduan, serta pengingat unggah berkas di admin dokumen.
+
+### Perbaikan
+- **Penguatan Alur Surat TTE (`LetterDocumentService`, `EditServiceRequest`, `ServiceRequestForm`, `ServiceRequestsTable`, `tte-status.blade.php`)**:
+  - Menonaktifkan perubahan data pemohon dan aksi hapus pada permohonan yang sudah ditandatangani secara elektronik, menyinkronkan identitas pemohon terbaru saat render draf surat, serta menjaga status surat dicabut saat penandatanganan ulang gagal.
+
 ## [1.31.7] - 2026-11-26
 
 ### Perbaikan

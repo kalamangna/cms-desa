@@ -494,7 +494,7 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             x-transition:leave-start="opacity-100 translate-y-0"
                             x-transition:leave-end="opacity-0 translate-y-2"
                             class="absolute top-full right-0 w-52 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/60 shadow-2xl shadow-slate-200/50 dark:shadow-slate-950/50 rounded-2xl p-2 z-50" x-cloak>
-                            <a href="/layanan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-950/40 hover:text-primary-600 dark:hover:text-primary-300 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400">Layanan Mandiri</a>
+                            <a href="/layanan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-950/40 hover:text-primary-600 dark:hover:text-primary-300 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400">Permohonan Layanan</a>
                             <a href="/pengaduan" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-950/40 hover:text-primary-600 dark:hover:text-primary-300 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400">Pengaduan</a>
                             <a href="/buku-tamu" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-950/40 hover:text-primary-600 dark:hover:text-primary-300 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400">Buku Tamu</a>
                             <a href="/kontak" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-950/40 hover:text-primary-600 dark:hover:text-primary-300 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400">Kontak</a>
@@ -659,7 +659,7 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                             :class="activeGroup === 'layanan' ? 'grid-rows-[1fr] opacity-100 visible' : 'grid-rows-[0fr] opacity-0 invisible'">
                             <div class="overflow-hidden min-h-0">
                                 <div class="pt-1 pl-3 space-y-1 md:pl-0 md:pt-0">
-                                    <a href="/layanan" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('layanan*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Layanan Mandiri</a>
+                                    <a href="/layanan" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('layanan*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Permohonan Layanan</a>
                                     <a href="/pengaduan" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('pengaduan*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Pengaduan</a>
                                     <a href="/buku-tamu" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('buku-tamu*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Buku Tamu</a>
                                     <a href="/kontak" class="flex items-center px-4 min-h-11 py-2.5 rounded-xl text-sm font-semibold {{ request()->is('kontak*') ? 'text-primary-700 bg-primary-50 dark:text-primary-400 dark:bg-primary-950/40 font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60' }} transition">Kontak</a>
@@ -831,9 +831,10 @@ Layanan <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
 
             <!-- Bottom bar -->
             <div class="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-slate-400 text-xs font-semibold">
-                    &copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}.
-                </p>
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 text-slate-400 text-xs font-semibold">
+                    <p>&copy; {{ date('Y') }} Pemerintah Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}.</p>
+                    <a href="{{ route('privacy-policy') }}" class="text-slate-300 hover:text-primary-400 underline underline-offset-2 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-sm">Kebijakan Privasi</a>
+                </div>
                 <p class="text-slate-300 text-[10px] font-bold uppercase tracking-widest">
                     Dikembangkan oleh <a href="https://github.com/kalamangna" target="_blank" rel="noopener noreferrer" class="text-primary-400 hover:text-primary-300 underline underline-offset-2 transition">kalamangna</a> &bull; v{{ config('app.version', '1.28.1') }}
                 </p>
