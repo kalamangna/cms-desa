@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.2] - 2026-11-26
+
+### Perbaikan
+- **Label Layanan Mandiri dan Deskripsi Hero Kebijakan Privasi (`layanan.blade.php`, `app.blade.php`, `kebijakan_privasi.blade.php`)**:
+  - Mengubah label menu navigasi, judul halaman, dan penyebutan publik dari `Permohonan Layanan` menjadi `Layanan Mandiri`.
+  - Meringkas deskripsi hero pada halaman `/kebijakan-privasi` agar lebih singkat dan proporsional.
+
 ## [1.32.1] - 2026-11-26
 
 ### Perbaikan

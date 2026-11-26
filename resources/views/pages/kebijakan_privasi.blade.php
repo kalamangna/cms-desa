@@ -33,7 +33,7 @@
                 Kebijakan <span class="text-primary-500 italic">Privasi</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                Komitmen Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} dalam melindungi kerahasiaan data pribadi masyarakat.
+                Standar perlindungan data pribadi warga Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
@@ -57,7 +57,7 @@
                 2. Jenis Data yang Dikelola
             </h2>
             <ul class="space-y-2.5 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed list-disc pl-5">
-                <li>Data identitas dan berkas persyaratan yang dikirimkan secara sukarela melalui formulir Permohonan Layanan Administrasi Desa.</li>
+                <li>Data identitas dan berkas persyaratan yang dikirimkan secara sukarela melalui formulir Layanan Mandiri Administrasi Desa.</li>
                 <li>Data pelapor dan rincian laporan pada kanal Pengaduan Masyarakat serta isian pada Buku Tamu digital.</li>
                 <li>Data statistik kunjungan portal secara agregat tanpa menyimpan identitas pribadi pengunjung.</li>
             </ul>
