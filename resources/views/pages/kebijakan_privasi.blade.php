@@ -33,7 +33,7 @@
                 Kebijakan <span class="text-primary-500 italic">Privasi</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                Komitmen Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} dalam menjaga kerahasiaan dan keamanan data pribadi masyarakat.
+                Komitmen Pemerintah Desa {{ $site_settings['village_name'] ?? '' }} dalam melindungi kerahasiaan data pribadi masyarakat.
             </p>
         </div>
     </div>

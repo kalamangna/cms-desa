@@ -40,7 +40,7 @@
                 Arsip <span class="text-primary-500 italic">Dokumen</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                Unduh produk hukum, peraturan desa, keputusan, serta informasi publik resmi Desa {{ $site_settings['village_name'] ?? '' }}.
+                Produk hukum, peraturan, keputusan, dan informasi publik Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

@@ -33,7 +33,7 @@
                 Buku <span class="text-primary-500 italic">Tamu</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                Pencatatan kunjungan resmi dan tamu umum.
+                Pencatatan kunjungan resmi dan tamu umum Kantor Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

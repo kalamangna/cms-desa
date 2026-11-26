@@ -33,7 +33,7 @@
                 Pengaduan <span class="text-primary-500 italic">Warga</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                Layanan pelaporan keluhan dan aspirasi warga.
+                Layanan pelaporan keluhan dan aspirasi masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

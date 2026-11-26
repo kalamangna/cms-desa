@@ -221,10 +221,10 @@
             </nav>
             <div class="max-w-3xl">
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
-                    Layanan <span class="text-primary-500 italic">Mandiri</span>
+                    Permohonan <span class="text-primary-500 italic">Layanan</span>
                 </h1>
                 <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                    Panduan persyaratan dan pengajuan surat administrasi warga.
+                    Panduan persyaratan dan pengajuan surat administrasi warga Desa {{ $site_settings['village_name'] ?? '' }}.
                 </p>
             </div>
         </div>

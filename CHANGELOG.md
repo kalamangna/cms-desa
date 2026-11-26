@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.1] - 2026-11-26
+
+### Perbaikan
+- **Standarisasi Judul dan Deskripsi Hero Halaman Publik (`18 tampilan Blade publik`)**:
+  - Menyelaraskan judul `<title>` dan `<h1>` dengan menu navigasi pada halaman `Berita Desa`, `Publikasi Data`, dan `Permohonan Layanan`.
+  - Menyeragamkan kelas tipografi deskripsi hero (`leading-relaxed`), konsistensi pencantuman nama desa pada seluruh 18 halaman publik, serta membersihkan tanda kurung pada `meta_description` di halaman APBDes dan Open Data.
+
 ## [1.32.0] - 2026-11-26
 
 ### Ditambahkan

@@ -36,7 +36,7 @@
                 Galeri <span class="text-primary-500 italic">Kegiatan</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                Dokumentasi kegiatan, pembangunan, dan momen penting Desa {{ $site_settings['village_name'] ?? '' }}.
+                Dokumentasi kegiatan, pembangunan, dan agenda Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

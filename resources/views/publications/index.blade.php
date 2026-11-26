@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Publikasi Statistik | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', 'Publikasi Data | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', 'Katalog berkas publikasi resmi, laporan berkala, dan dokumen infografis dari Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
@@ -35,10 +35,10 @@
         {{-- Heading --}}
         <div class="max-w-3xl">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
-                Publikasi <span class="text-primary-500 italic">Statistik</span>
+                Publikasi <span class="text-primary-500 italic">Data</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                Dokumen resmi dan hasil analisis data Desa {{ $site_settings['village_name'] ?? '' }}.
+                Dokumen laporan berkala dan publikasi statistik Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

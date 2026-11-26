@@ -38,7 +38,7 @@
                     Statistik <span class="text-primary-500 italic">Desa</span>
                 </h1>
                 <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                    Data kependudukan, sosial, dan ekonomi Desa.
+                    Data kependudukan, sosial, dan ekonomi Desa {{ $site_settings['village_name'] ?? '' }}.
                 </p>
             </div>
             {{-- Live indicator --}}

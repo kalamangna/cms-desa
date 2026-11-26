@@ -187,7 +187,7 @@
         </nav>
         <div class="max-w-3xl">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">Aparatur <span class="text-primary-500 italic">Desa</span></h1>
-            <p class="text-slate-300 text-base sm:text-lg mt-2 mb-6">Jajaran pelayan masyarakat Desa {{ $site_settings['village_name'] ?? '' }}.</p>
+            <p class="text-slate-300 text-base sm:text-lg mt-2 mb-6 leading-relaxed">Susunan kepala desa dan perangkat Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}.</p>
             @if($officials->isNotEmpty())
             <button type="button" @click="open()" class="sotk-trigger-btn focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-slate-900" aria-haspopup="dialog">
                 Struktur Organisasi

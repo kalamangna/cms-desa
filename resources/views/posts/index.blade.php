@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', (request('search') ? 'Hasil Pencarian: "' . request('search') . '"' : ($selectedCategory ? 'Kategori: ' . $selectedCategory->name : 'Berita Terbaru')) . ' | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', (request('search') ? 'Hasil Pencarian: "' . request('search') . '"' : ($selectedCategory ? 'Kategori: ' . $selectedCategory->name : 'Berita Desa')) . ' | Desa ' . ($site_settings['village_name'] ?? ''))
 @section('meta_description', request('search') ? 'Menampilkan hasil pencarian berita dengan kata kunci "' . request('search') . '" pada portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' : ($selectedCategory ? 'Kumpulan berita resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk kategori ' . $selectedCategory->name . '.' : 'Warta berita resmi dan siaran pers mengenai program pembangunan serta kegiatan pelayanan publik Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.'))
 @section('meta_image', asset('img/meta.webp'))
 
@@ -36,10 +36,10 @@
         {{-- Heading --}}
         <div class="max-w-3xl">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-black tracking-tight text-white leading-tight mb-4 sm:mb-6 drop-shadow-2xl">
-                Berita <span class="text-primary-500 italic">Terbaru</span>
+                Berita <span class="text-primary-500 italic">Desa</span>
             </h1>
-            <p class="text-slate-300 text-base sm:text-lg mt-2">
-                Kabar kegiatan, pembangunan, dan perkembangan Desa {{ $site_settings['village_name'] ?? '' }}.
+            <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
+                Kabar kegiatan, pembangunan, dan informasi terkini Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>

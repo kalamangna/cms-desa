@@ -68,7 +68,7 @@
                 Kontak <span class="text-primary-500 italic">Kami</span>
             </h1>
             <p class="text-slate-300 text-base sm:text-lg mt-2 leading-relaxed">
-                Informasi kontak dan saluran pelayanan Pemerintah Desa.
+                Alamat kantor dan saluran komunikasi resmi Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}.
             </p>
         </div>
     </div>
