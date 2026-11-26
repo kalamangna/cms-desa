@@ -11,14 +11,34 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command('statistics:cleanup-old --years=3')->yearly();
-Schedule::command('backup:clean')->daily()->at('01:00');
-Schedule::command('backup:run --only-db')->daily()->at('02:00');
-Schedule::command('backup:run --only-files')->weekly()->sundays()->at('03:00');
-Schedule::command('model:prune')->daily()->at('04:00');
+Schedule::call(fn () => Artisan::call('statistics:cleanup-old', ['--years' => 3]))
+    ->name('statistics-cleanup-old')
+    ->yearly();
 
-// Menjalankan antrean (queue) setiap menit untuk hosting yang tidak memiliki Supervisor (Daemon)
-Schedule::command('queue:work --stop-when-empty')
+Schedule::call(fn () => Artisan::call('backup:clean'))
+    ->name('backup-clean')
+    ->daily()
+    ->at('01:00');
+
+Schedule::call(fn () => Artisan::call('backup:run', ['--only-db' => true]))
+    ->name('backup-run-db')
+    ->daily()
+    ->at('02:00');
+
+Schedule::call(fn () => Artisan::call('backup:run', ['--only-files' => true]))
+    ->name('backup-run-files')
+    ->weekly()
+    ->sundays()
+    ->at('03:00');
+
+Schedule::call(fn () => Artisan::call('model:prune'))
+    ->name('model-prune')
+    ->daily()
+    ->at('04:00');
+
+// Menjalankan antrean (queue) di proses yang sama agar tidak membutuhkan proc_open di shared hosting
+Schedule::call(fn () => Artisan::call('queue:work', ['--stop-when-empty' => true]))
+    ->name('queue-work')
     ->everyMinute()
     ->withoutOverlapping();
 

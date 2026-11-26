@@ -2,6 +2,12 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.4] - 2026-11-26
+
+### Perbaikan
+- **Eksekusi Penjadwalan In-Process Tanpa `proc_open` (`routes/console.php`)**:
+  - Mengubah penjadwalan `statistics:cleanup-old`, `backup:clean`, `backup:run`, `model:prune`, dan `queue:work` dari `Schedule::command` menjadi `Schedule::call` menggunakan `Artisan::call` agar `schedule:run` tetap berjalan pada lingkungan shared hosting yang menonaktifkan fungsi `proc_open`.
+
 ## [1.32.3] - 2026-11-26
 
 ### Perbaikan
