@@ -2001,3 +2001,14 @@ Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
 ---
 *Dikembangkan dengan ❤️ untuk Program Desa Cantik BPS.*
+
+## [1.31.8] - 2026-11-26
+
+### Perbaikan
+- Memperbaiki logika TTE: membuat field inti (`nik`, `name`, `service_id`, `status`) tidak dapat diubah setelah surat ditandatangani.
+- Mencegah penghapusan permohonan yang sudah ditandatangani; menambah peringatan bulk‑delete bila ada surat TTE yang ditandatangani.
+- Menangani status `revoked` sehingga tidak ter‑overwrite saat membuat draf; token verifikasi hanya diganti ketika re‑sign berhasil.
+- Menyinkronkan identitas pemohon pada rendering PDF sehingga nama dan NIK tercermin setelah perubahan admin.
+- Memformat semua field tipe `date` pada PDF dengan format “d F Y”.
+- Menyembunyikan tombol “Lihat/Unduh Surat TTE” pada surat yang dibatalkan.
+- Validasi NIK pada formulir admin dengan aturan `digits:16` dan `inputmode="numeric"`.
