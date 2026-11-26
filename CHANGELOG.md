@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.31.5] - 2026-11-26
+
+### Perbaikan
+- **Tab Surat TTE Permohonan Layanan (`tte-status.blade.php`, `ServiceRequestForm`)**:
+  - Menghilangkan kartu bertumpuk pada panel status TTE dan menyusun status beserta tombol aksi PDF dalam satu baris responsif.
+  - Menyembunyikan `Isian Tambahan` bila layanan tidak memiliki kolom tambahan serta merapatkan bagian `Data Kependudukan`.
+
 ## [1.31.4] - 2026-11-26
 
 ### Perbaikan

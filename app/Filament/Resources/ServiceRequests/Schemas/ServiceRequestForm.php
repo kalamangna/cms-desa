@@ -159,12 +159,16 @@ class ServiceRequestForm
                                     ->keyLabel('Kolom')
                                     ->valueLabel('Nilai')
                                     ->addButtonLabel('Tambah Isian')
+                                    ->visible(fn ($record): bool => ! empty($record?->form_data) || ! empty($record?->service?->form_fields))
+                                    ->addable(fn ($record): bool => ! ($record?->isTteSigned() ?? false))
+                                    ->deletable(fn ($record): bool => ! ($record?->isTteSigned() ?? false))
                                     ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false)
                                     ->columnSpanFull(),
 
                                 Section::make('Data Kependudukan')
                                     ->collapsible()
                                     ->collapsed()
+                                    ->compact()
                                     ->schema([
                                         KeyValue::make('letter_payload')
                                             ->hiddenLabel()
