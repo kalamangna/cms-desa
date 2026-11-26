@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.31.2] - 2026-11-26
+
+### Perbaikan
+- **Label dan Isi Persyaratan Layanan (`ServiceForm`, `LetterTemplatePresets`)**:
+  - Mengubah label `Panduan dan Prosedur` menjadi `Persyaratan` pada `ServiceForm`.
+  - Menyeragamkan isi kolom `requirements` pada 10 layanan standar agar selaras dengan daftar berkas persyaratan masing-masing layanan melalui migrasi `2026_11_26_084800_sync_standard_service_requirements_text`.
+
 ## [1.31.1] - 2026-11-26
 
 ### Perbaikan

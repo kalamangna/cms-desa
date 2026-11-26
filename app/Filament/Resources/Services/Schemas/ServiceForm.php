@@ -62,9 +62,9 @@ class ServiceForm
                             ->required()
                             ->columnSpanFull(),
                         RichEditor::make('requirements')
-                            ->label('Panduan dan Prosedur')
-                            ->placeholder('Tuliskan tahapan pengajuan dan catatan umum layanan.')
-                            ->helperText('Panduan umum layanan yang tampil pada halaman publik.')
+                            ->label('Persyaratan')
+                            ->placeholder('Daftar persyaratan dan catatan pengajuan layanan.')
+                            ->helperText('Informasi persyaratan yang tampil pada halaman publik.')
                             ->columnSpanFull(),
                     ]),
 

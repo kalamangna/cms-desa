@@ -4,8 +4,6 @@ namespace App\Support;
 
 class LetterTemplatePresets
 {
-    public const STANDARD_PROCEDURE = '<ol><li>Isi formulir pengajuan dan unggah berkas persyaratan.</li><li>Simpan nomor tiket untuk melacak status permohonan.</li><li>Unduh surat elektronik PDF setelah selesai ditandatangani dengan verifikasi NIK.</li></ol>';
-
     /**
      * Katalog 10 layanan standar inti desa beserta template surat dan berkas persyaratan.
      *
@@ -33,7 +31,7 @@ class LetterTemplatePresets
                 'category' => 'Kependudukan',
                 'sort_order' => 1,
                 'description' => 'Surat keterangan resmi yang menyatakan alamat tempat tinggal warga di wilayah desa.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>KTP asli pemohon</li><li>Kartu Keluarga sebagai pendukung</li></ol>',
                 'letter_code' => '470',
                 'letter_title' => 'SURAT KETERANGAN DOMISILI',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -73,7 +71,7 @@ class LetterTemplatePresets
                 'category' => 'Kependudukan',
                 'sort_order' => 2,
                 'description' => 'Surat pengantar resmi untuk perekaman, cetak ulang, atau pembaruan data KTP elektronik.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>Kartu Keluarga asli</li><li>Pengantar RT setempat jika diperlukan</li></ol>',
                 'letter_code' => '474.4',
                 'letter_title' => 'SURAT PENGANTAR KARTU TANDA PENDUDUK',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, memberikan pengantar kepada:</p>
@@ -111,7 +109,7 @@ class LetterTemplatePresets
                 'category' => 'Kependudukan',
                 'sort_order' => 3,
                 'description' => 'Surat pengantar resmi untuk penerbitan baru atau perubahan data Kartu Keluarga.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>Kartu Keluarga lama</li><li>KTP asli pemohon</li></ol>',
                 'letter_code' => '474.1',
                 'letter_title' => 'SURAT PENGANTAR KARTU KELUARGA',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, memberikan pengantar kepada:</p>
@@ -149,7 +147,7 @@ class LetterTemplatePresets
                 'category' => 'Kependudukan',
                 'sort_order' => 4,
                 'description' => 'Surat keterangan resmi peristiwa kelahiran anak untuk pengurusan akta kelahiran.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>Surat keterangan lahir dari bidan atau rumah sakit</li><li>Kartu Keluarga orang tua</li><li>Buku nikah atau akta perkawinan orang tua</li></ol>',
                 'letter_code' => '472.11',
                 'letter_title' => 'SURAT KETERANGAN KELAHIRAN',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa telah lahir seorang anak:</p>
@@ -190,7 +188,7 @@ class LetterTemplatePresets
                 'category' => 'Kependudukan',
                 'sort_order' => 5,
                 'description' => 'Surat keterangan resmi peristiwa meninggal dunia untuk penerbitan akta kematian.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>KTP almarhum</li><li>Kartu Keluarga almarhum</li><li>KTP pelapor</li></ol>',
                 'letter_code' => '472.12',
                 'letter_title' => 'SURAT KETERANGAN KEMATIAN',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -228,7 +226,7 @@ class LetterTemplatePresets
                 'category' => 'Kependudukan',
                 'sort_order' => 6,
                 'description' => 'Surat pengantar resmi perpindahan domisili warga ke luar wilayah desa.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>KTP asli pemohon</li><li>Kartu Keluarga asli</li><li>Alamat lengkap tujuan pindah</li></ol>',
                 'letter_code' => '475',
                 'letter_title' => 'SURAT KETERANGAN PINDAH PENDUDUK',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -263,7 +261,7 @@ class LetterTemplatePresets
                 'category' => 'Kependudukan',
                 'sort_order' => 7,
                 'description' => 'Surat pengantar resmi administrasi pernikahan ke Kantor Urusan Agama atau Catatan Sipil.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>KTP calon pengantin</li><li>Kartu Keluarga pemohon</li><li>Akta kelahiran atau ijazah terakhir</li></ol>',
                 'letter_code' => '474.2',
                 'letter_title' => 'SURAT PENGANTAR NIKAH',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -297,7 +295,7 @@ class LetterTemplatePresets
                 'category' => 'Ekonomi dan Sosial',
                 'sort_order' => 8,
                 'description' => 'Surat keterangan resmi kepemilikan usaha warga untuk keperluan perbankan atau perizinan.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>KTP asli pemohon</li><li>Kartu Keluarga</li><li>Foto tampak depan lokasi usaha</li></ol>',
                 'letter_code' => '503',
                 'letter_title' => 'SURAT KETERANGAN USAHA',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -337,7 +335,7 @@ class LetterTemplatePresets
                 'category' => 'Ekonomi dan Sosial',
                 'sort_order' => 9,
                 'description' => 'Surat keterangan kondisi ekonomi keluarga untuk pengajuan beasiswa atau layanan kesehatan.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>KTP asli pemohon</li><li>Kartu Keluarga</li><li>Foto tampak depan kondisi rumah</li></ol>',
                 'letter_code' => '401',
                 'letter_title' => 'SURAT KETERANGAN TIDAK MAMPU',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, menerangkan bahwa:</p>
@@ -372,7 +370,7 @@ class LetterTemplatePresets
                 'category' => 'Perizinan dan Umum',
                 'sort_order' => 10,
                 'description' => 'Surat pengantar resmi permohonan izin kegiatan masyarakat kepada pihak kepolisian.',
-                'requirements' => self::STANDARD_PROCEDURE,
+                'requirements' => '<ol><li>KTP penanggung jawab kegiatan</li><li>Jadwal dan lokasi pelaksanaan kegiatan</li></ol>',
                 'letter_code' => '300',
                 'letter_title' => 'SURAT PENGANTAR IZIN KERAMAIAN',
                 'letter_template' => '<p>Yang bertanda tangan di bawah ini {{signer_position}} {{village_name}}, Kecamatan {{district_name}}, Kabupaten {{regency_name}}, memberikan rekomendasi pengantar izin keramaian kepada:</p>

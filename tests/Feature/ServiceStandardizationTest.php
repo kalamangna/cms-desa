@@ -88,7 +88,7 @@ class ServiceStandardizationTest extends TestCase
             'Surat keterangan resmi yang menyatakan alamat tempat tinggal warga di wilayah desa.',
             $domisili->description
         );
-        $this->assertStringContainsString('Unduh surat elektronik PDF', (string) $domisili->requirements);
+        $this->assertStringContainsString('KTP asli pemohon', (string) $domisili->requirements);
         $this->assertSame(2, $domisili->requirementItems()->count());
         $this->assertSame('Foto KTP Pemohon', $domisili->requirementItems()->first()->name);
         // Template surat kustom desa tetap terjaga
