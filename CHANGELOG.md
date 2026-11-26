@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.3] - 2026-11-26
+
+### Perbaikan
+- **Grid Accordion Layanan dan Konsistensi Modal Halaman Publik (`success-modal.blade.php`, `layanan.blade.php`, `pengaduan.blade.php`, `buku_tamu.blade.php`, `institutions/index.blade.php`, `potensi.blade.php`, `home.blade.php`, `galleries/index.blade.php`, `officials/index.blade.php`)**:
+  - Menambahkan `items-start` pada grid kartu layanan agar membuka accordion `Persyaratan` tidak meregangkan tinggi kartu lain yang sebaris.
+  - Mengekstrak modal sukses di halaman layanan, pengaduan, dan buku tamu menjadi komponen reusable `<x-success-modal />`.
+  - Menyeragamkan seluruh modal publik dengan `z-60` di atas navbar, penguncian gulir latar (`overflow-hidden`), atribut `role="dialog"`, `aria-modal="true"`, serta `aria-label` pada seluruh tombol ikon.
+
 ## [1.32.2] - 2026-11-26
 
 ### Perbaikan

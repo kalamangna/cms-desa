@@ -144,9 +144,11 @@
          x-transition:leave-end="opacity-0"
          @keydown.escape.window="closeModal()"
          @click="closeModal()"
-         class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+         x-effect="document.body.classList.toggle('overflow-hidden', selectedInstitution !== null)"
+         class="fixed inset-0 z-60 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
          role="dialog"
-         aria-modal="true">
+         aria-modal="true"
+         aria-labelledby="institution-modal-title">
          
          <!-- Modal Box -->
          <div class="relative w-full max-w-3xl bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] cursor-default"
@@ -175,7 +177,7 @@
                            class="w-full h-full object-cover">
                   </div>
                   <div class="text-center sm:text-left flex-1">
-                      <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 leading-tight"
+                      <h2 id="institution-modal-title" class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 dark:text-slate-100 leading-tight"
                           x-text="selectedInstitution?.name"></h2>
                   </div>
               </div>

@@ -180,7 +180,8 @@
           x-transition:leave-end="opacity-0"
           @keydown.escape.window="closeModal()"
           @click="closeModal()"
-          class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
+          x-effect="document.body.classList.toggle('overflow-hidden', selectedPotential !== null)"
+          class="fixed inset-0 z-60 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 cursor-pointer select-none"
           role="dialog"
           aria-modal="true">
           

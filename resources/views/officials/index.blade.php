@@ -302,12 +302,13 @@
          @touchstart.passive="handleTouchStart($event)"
          @touchend.passive="handleTouchEnd($event)"
          @click="closePreview()"
-         class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer select-none"
+         x-effect="document.body.classList.toggle('overflow-hidden', previewOpen)"
+         class="fixed inset-0 z-60 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer select-none"
          role="dialog" aria-modal="true" aria-labelledby="official-lightbox-title">
         
         {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
         <template x-if="officialItems.length > 1">
-            <div class="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-black uppercase tracking-wider px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-2xl pointer-events-none">
+            <div class="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-60 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-black uppercase tracking-wider px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-2xl pointer-events-none">
                 <span x-text="(currentIndex + 1) + ' / ' + officialItems.length"></span>
             </div>
         </template>
@@ -316,8 +317,9 @@
         <button
             type="button"
             @click.stop="closePreview()"
-            class="fixed top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-            title="Tutup (Esc)"
+            aria-label="Tutup foto aparatur"
+            class="fixed top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 z-60 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+            title="Tutup"
         >
             <i class="fa-solid fa-xmark text-base sm:text-lg md:text-xl"></i>
         </button>
@@ -325,8 +327,9 @@
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="officialItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-                    title="Sebelumnya (Tombol Panah Kiri)">
+                    aria-label="Foto sebelumnya"
+                    class="fixed left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-60 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                    title="Sebelumnya">
                 <i class="fa-solid fa-chevron-left text-xs sm:text-sm md:text-base"></i>
             </button>
         </template>
@@ -334,8 +337,9 @@
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="officialItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-                    title="Selanjutnya (Tombol Panah Kanan)">
+                    aria-label="Foto berikutnya"
+                    class="fixed right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-60 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                    title="Selanjutnya">
                 <i class="fa-solid fa-chevron-right text-xs sm:text-sm md:text-base"></i>
             </button>
         </template>
@@ -396,16 +400,16 @@
                     </h3>
                     <div class="sotk-modal-actions">
                         <span class="text-xs font-bold text-slate-400 dark:text-slate-500 tabular-nums mr-1" x-text="Math.round(scale * 100) + '%'"></span>
-                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="zoomOut()" title="Perkecil"><i class="fa-solid fa-minus"></i></button>
-                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="zoomIn()" title="Perbesar"><i class="fa-solid fa-plus"></i></button>
-                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="resetZoom()" title="Reset ukuran"><i class="fa-solid fa-arrows-to-circle"></i></button>
-                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="toggleFullscreen()" title="Layar penuh">
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="zoomOut()" aria-label="Perkecil bagan" title="Perkecil"><i class="fa-solid fa-minus"></i></button>
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="zoomIn()" aria-label="Perbesar bagan" title="Perbesar"><i class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="resetZoom()" aria-label="Reset ukuran bagan" title="Reset ukuran"><i class="fa-solid fa-arrows-to-circle"></i></button>
+                        <button type="button" class="sotk-modal-btn focus:outline-none focus:ring-2 focus:ring-primary-500 active:scale-95 disabled:opacity-50" @click="toggleFullscreen()" aria-label="Layar penuh" title="Layar penuh">
                             <i :class="isFullscreen ? 'fa-solid fa-compress' : 'fa-solid fa-expand'"></i>
                         </button>
-                        <button type="button" class="sotk-modal-btn text-rose-600 hover:text-rose-700 hover:bg-rose-50 hover:border-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-500 active:scale-95 disabled:opacity-50" @click="downloadChart()" title="Download PDF Struktur Organisasi">
+                        <button type="button" class="sotk-modal-btn text-rose-600 hover:text-rose-700 hover:bg-rose-50 hover:border-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-500 active:scale-95 disabled:opacity-50" @click="downloadChart()" aria-label="Unduh PDF struktur organisasi" title="Unduh PDF Struktur Organisasi">
                             <i class="fa-solid fa-file-pdf text-sm"></i>
                         </button>
-                        <button type="button" class="sotk-modal-btn btn-close focus:outline-none focus:ring-2 focus:ring-rose-500 active:scale-95 disabled:opacity-50" @click="close()" title="Tutup">
+                        <button type="button" class="sotk-modal-btn btn-close focus:outline-none focus:ring-2 focus:ring-rose-500 active:scale-95 disabled:opacity-50" @click="close()" aria-label="Tutup struktur organisasi" title="Tutup">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
 

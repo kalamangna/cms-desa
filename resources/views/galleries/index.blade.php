@@ -242,12 +242,13 @@
         @touchstart.passive="handleTouchStart($event)"
         @touchend.passive="handleTouchEnd($event)"
         @click="closeLightbox()"
-        class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex flex-col justify-between pt-16 pb-4 px-3 sm:px-6 md:px-8 cursor-pointer select-none"
+        x-effect="document.body.classList.toggle('overflow-hidden', lightboxOpen)"
+        class="fixed inset-0 z-60 bg-slate-950/95 backdrop-blur-md flex flex-col justify-between pt-16 pb-4 px-3 sm:px-6 md:px-8 cursor-pointer select-none"
         role="dialog" aria-modal="true" aria-labelledby="gallery-lightbox-title"
     >
         {{-- Counter Slide (Di Luar Modal, Kiri Atas Layar) --}}
         <template x-if="filteredItems.length > 1">
-            <div class="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-50 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-black uppercase tracking-wider px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-2xl pointer-events-none">
+            <div class="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-60 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-black uppercase tracking-wider px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-2xl pointer-events-none">
                 <span x-text="(currentIndex + 1) + ' / ' + filteredItems.length"></span>
             </div>
         </template>
@@ -256,8 +257,9 @@
         <button
             type="button"
             @click.stop="closeLightbox()"
-            class="fixed top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-            title="Tutup (Esc)"
+            aria-label="Tutup galeri"
+            class="fixed top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 text-white/80 hover:text-white bg-slate-900/80 hover:bg-slate-900 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-200 z-60 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+            title="Tutup"
         >
             <i class="fa-solid fa-xmark text-base sm:text-lg md:text-xl"></i>
         </button>
@@ -265,8 +267,9 @@
         {{-- Tombol Navigasi Panah Kiri (Di Luar Modal, Kiri Layar) --}}
         <template x-if="filteredItems.length > 1">
             <button type="button" @click.stop="prevSlide()" 
-                    class="fixed left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-                    title="Sebelumnya (Tombol Panah Kiri)">
+                    aria-label="Foto sebelumnya"
+                    class="fixed left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-60 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                    title="Sebelumnya">
                 <i class="fa-solid fa-chevron-left text-xs sm:text-sm md:text-base"></i>
             </button>
         </template>
@@ -274,8 +277,9 @@
         {{-- Tombol Navigasi Panah Kanan (Di Luar Modal, Kanan Layar) --}}
         <template x-if="filteredItems.length > 1">
             <button type="button" @click.stop="nextSlide()" 
-                    class="fixed right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-50 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-                    title="Selanjutnya (Tombol Panah Kanan)">
+                    aria-label="Foto berikutnya"
+                    class="fixed right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-slate-900/60 sm:bg-slate-900/80 hover:bg-primary-600 text-white flex items-center justify-center transition-all duration-200 z-60 backdrop-blur-md border border-white/20 shadow-2xl cursor-pointer hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                    title="Selanjutnya">
                 <i class="fa-solid fa-chevron-right text-xs sm:text-sm md:text-base"></i>
             </button>
         </template>
