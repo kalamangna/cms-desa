@@ -3,69 +3,39 @@
 namespace Database\Seeders;
 
 use App\Models\Setting;
+use App\Services\LetterNumberService;
 use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $this->command->info('Membuat data pengaturan dan profil desa default...');
+        $this->command->info('Menyiapkan pengaturan dasar netral untuk website desa baru...');
 
         $settings = [
-            // Identitas Desa
-            ['key' => 'village_name', 'value' => 'Tompobulu'],
+            // Wilayah administratif dasar
             ['key' => 'province_name', 'value' => 'Sulawesi Selatan'],
             ['key' => 'regency_name', 'value' => 'Kabupaten Sinjai'],
-            ['key' => 'district_name', 'value' => 'Bulupoddo'],
+            ['key' => 'village_area_unit', 'value' => 'Hektar'],
 
-            // Pemerintahan
-            ['key' => 'village_period_start', 'value' => '2022'],
-            ['key' => 'village_period_end', 'value' => '2028'],
-
-            // Kontak & Lokasi
-            ['key' => 'village_email', 'value' => 'pemdes@tompobulu.desa.id'],
-            ['key' => 'village_phone', 'value' => '081234567890'],
-            ['key' => 'village_address', 'value' => 'Jl. Poros Desa No. 1'],
-
-            // Media Sosial
-            ['key' => 'social_facebook', 'value' => 'https://facebook.com/desatompobulu'],
-            ['key' => 'social_instagram', 'value' => 'https://instagram.com/desatompobulu'],
-            ['key' => 'social_youtube', 'value' => 'https://youtube.com/c/desatompobulu'],
-
-            // Tampilan & Tema
+            // Tampilan dan aksesibilitas bawaan
             ['key' => 'primary_color', 'value' => '#10b981'],
             ['key' => 'enable_a11y_widget', 'value' => '1'],
             ['key' => 'a11y_widget_position', 'value' => 'bottom-left'],
 
-            // Sejarah & Visi Misi
-            ['key' => 'village_history', 'value' => '<p>Desa Tompobulu adalah desa agraris yang terletak di dataran tinggi yang sejuk. Desa ini terbentuk dari hasil pemekaran wilayah pada tahun 1980 dan terus berkembang menjadi desa mandiri dengan potensi pertanian dan pariwisata yang kuat.</p>'],
-            ['key' => 'village_vision', 'value' => 'Mewujudkan Desa Tompobulu yang Mandiri, Sejahtera, Religius, dan Berbudaya Lingkungan'],
-            ['key' => 'village_mission', 'value' => '<ol><li>Meningkatkan kualitas pelayanan publik pemerintahan desa.</li><li>Membangun infrastruktur desa yang memadai dan berwawasan lingkungan.</li><li>Mendorong pertumbuhan ekonomi kerakyatan melalui BUMDes dan sektor pertanian.</li><li>Menjaga dan melestarikan budaya gotong royong serta nilai-nilai keagamaan.</li></ol>'],
-
-            // Sambutan Kades
-            ['key' => 'village_head_greeting', 'value' => '<p>Selamat datang di portal resmi desa. Website ini adalah wujud nyata komitmen kami dalam menghadirkan pelayanan publik yang cepat, transparan, dan berbasis digital.</p><p>Mari bersama-sama membangun desa yang lebih maju, mandiri, dan sejahtera.</p>'],
-
-            // Karakteristik & Wilayah
-            ['key' => 'village_area', 'value' => '450'],
-            ['key' => 'village_area_unit', 'value' => 'Hektar'],
-            ['key' => 'village_topography', 'value' => 'Pegunungan'],
-
-            // Peta Spasial
-            ['key' => 'village_latitude', 'value' => '-5.118103'],
-            ['key' => 'village_longitude', 'value' => '120.078078'],
-            ['key' => 'village_geojson', 'value' => null],
+            // Pengaturan awal surat dan TTE
+            ['key' => 'tte_enabled', 'value' => '0'],
+            ['key' => 'tte_village_code', 'value' => 'DESA'],
+            ['key' => 'tte_letter_number_format', 'value' => LetterNumberService::DEFAULT_FORMAT],
         ];
 
         foreach ($settings as $setting) {
-            Setting::updateOrCreate(
+            Setting::firstOrCreate(
                 ['key' => $setting['key']],
                 ['value' => $setting['value']]
             );
         }
 
-        $this->command->info('Berhasil menyuntikkan '.count($settings).' pengaturan website default.');
+        $this->command->info('Berhasil menyiapkan '.count($settings).' pengaturan dasar website desa.');
     }
 }

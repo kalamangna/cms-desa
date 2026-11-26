@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Seed data inti produksi yang bersih dan netral untuk instalasi website desa baru.
      */
     public function run(): void
     {
@@ -17,13 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DefaultDataSeeder::class,
             SettingSeeder::class,
-            ArticleSeeder::class,
-            VillageProfileSeeder::class,
-            GalleryAndPotentialSeeder::class,
-            DocumentSeeder::class,
-            ApbdesSeeder::class,
+            MasterCategorySeeder::class,
             ServiceSeeder::class,
-            PopupInfographicSeeder::class,
         ]);
     }
 }

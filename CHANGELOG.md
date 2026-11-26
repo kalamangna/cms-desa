@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.31.3] - 2026-11-26
+
+### Perombakan
+- **Seeder Instalasi Website Baru (`DatabaseSeeder`, `SettingSeeder`, `MasterCategorySeeder`, `ServiceSeeder`, `DemoDataSeeder`)**:
+  - Menghapus konten dummy `Tompobulu` dari `SettingSeeder` dan menggantinya dengan pengaturan dasar netral yang aman dijalankan ulang (`firstOrCreate`).
+  - Memisahkan kategori berita dan APBDes dasar ke `MasterCategorySeeder`, serta menjadikan `ServiceSeeder` idempotent tanpa `forceDelete()`.
+  - Memfokuskan `DatabaseSeeder` pada 4 seeder inti siap produksi dan memindahkan seeder konten contoh ke `DemoDataSeeder`.
+
 ## [1.31.2] - 2026-11-26
 
 ### Perbaikan
