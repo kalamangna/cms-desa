@@ -19,16 +19,50 @@
 
     <!-- SEO Meta Tags -->
     @php
-        $metaTitle       = strip_tags($__env->yieldContent('title') ?: ('Desa ' . ($site_settings['village_name'] ?? 'Website Desa')));
-        $metaDescription = strip_tags($__env->yieldContent('meta_description') ?: ('Portal Resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '. Menyajikan pelayanan publik, publikasi berita pembangunan, transparansi anggaran, dan statistik kependudukan secara akurat.'));
+        $cleanVillage = trim((string) preg_replace('/^(?:Desa|Kelurahan)\s+/iu', '', trim((string) ($site_settings['village_name'] ?? ''))));
+        $cleanDistrict = \Illuminate\Support\Str::title(trim((string) preg_replace('/^(?:Kecamatan|Kec\.)\s+/iu', '', trim((string) ($site_settings['district_name'] ?? '')))));
+        $cleanRegency = \Illuminate\Support\Str::title(trim((string) preg_replace('/^(?:Kabupaten|Kab\.|Kota)\s+/iu', '', trim((string) ($site_settings['regency_name'] ?? '')))));
+
+        $rawTitle = trim(html_entity_decode(strip_tags((string) $__env->yieldContent('title')), ENT_QUOTES, 'UTF-8'));
+        $rawDescription = trim(html_entity_decode(strip_tags((string) $__env->yieldContent('meta_description')), ENT_QUOTES, 'UTF-8'));
+
+        $rawTitle = trim((string) preg_replace('/\bDesa\s+Desa\s+/iu', 'Desa ', $rawTitle));
+        $rawDescription = trim((string) preg_replace('/\bDesa\s+Desa\s+/iu', 'Desa ', $rawDescription));
+
+        if ($cleanVillage === '') {
+            $rawTitle = trim((string) preg_replace('/\|\s*Desa\s*$/iu', '| Pemerintah Desa', $rawTitle));
+            $rawDescription = str_replace(['Pemerintah Desa .', 'Desa .'], ['Pemerintah Desa.', 'Pemerintah Desa.'], $rawDescription);
+            $rawDescription = trim((string) preg_replace('/\s+([.,])/u', '$1', $rawDescription));
+        }
+
+        $defaultTitle = $cleanVillage !== '' ? "Desa {$cleanVillage}" : 'Pemerintah Desa';
+        $defaultDescription = ($cleanVillage !== '' ? "Website resmi Pemerintah Desa {$cleanVillage}." : 'Website resmi Pemerintah Desa.')
+            .' Akses layanan mandiri, APBDes, statistik, dan berita desa.';
+
+        $defaultKeywords = array_values(array_filter([
+            $cleanVillage !== '' ? "Desa {$cleanVillage}" : null,
+            $cleanVillage !== '' && $cleanRegency !== '' ? "Desa {$cleanVillage} {$cleanRegency}" : null,
+            $cleanDistrict !== '' ? "Kecamatan {$cleanDistrict}" : null,
+            $cleanRegency !== '' ? "Kabupaten {$cleanRegency}" : null,
+            $cleanVillage !== '' && $cleanDistrict !== '' ? "{$cleanVillage} {$cleanDistrict}" : null,
+            'pemerintah desa',
+            'apbdes',
+            'berita desa',
+        ]));
+
+        $metaTitle       = $rawTitle !== '' ? $rawTitle : $defaultTitle;
+        $metaDescription = $rawDescription !== '' ? $rawDescription : $defaultDescription;
+        $metaKeywords    = trim(html_entity_decode(strip_tags((string) $__env->yieldContent('meta_keywords')), ENT_QUOTES, 'UTF-8')) ?: implode(', ', $defaultKeywords);
+        $metaAuthor      = $cleanVillage !== '' ? "Pemerintah Desa {$cleanVillage}" : 'Pemerintah Desa';
+        $metaSiteName    = $cleanVillage !== '' ? "Desa {$cleanVillage}" : 'Portal Resmi Desa';
         $metaImage       = $__env->yieldContent('meta_image') ?: asset('img/meta.webp');
         $metaCanonical   = $__env->yieldContent('canonical') ?: url()->current();
         $metaOgType      = $__env->yieldContent('og_type') ?: 'website';
     @endphp
     <title>{{ $metaTitle }}</title>
     <meta name="description" content="{{ $metaDescription }}">
-    <meta name="keywords" content="@yield('meta_keywords', 'Desa ' . ($site_settings['village_name'] ?? '') . ', Desa ' . ($site_settings['village_name'] ?? '') . ' ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . ', Kecamatan ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', Kabupaten ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . ', ' . ($site_settings['village_name'] ?? '') . ' ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', pemerintah desa, apbdes, berita desa')">
-    <meta name="author" content="Pemerintah Desa {{ $site_settings['village_name'] ?? '' }}">
+    <meta name="keywords" content="{{ $metaKeywords }}">
+    <meta name="author" content="{{ $metaAuthor }}">
     <meta name="robots" content="index, follow">
 
     <!-- Canonical URL -->
@@ -39,7 +73,7 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="{{ $metaOgType }}">
-    <meta property="og:site_name" content="Desa {{ $site_settings['village_name'] ?? 'Website Desa' }}">
+    <meta property="og:site_name" content="{{ $metaSiteName }}">
     <meta property="og:locale" content="id_ID">
     <meta property="og:url" content="{{ $metaCanonical }}">
     <meta property="og:title" content="{{ $metaTitle }}">
@@ -61,9 +95,9 @@
         "@@context": "https://schema.org",
         "@graph": [
             @php
-                $vName = trim($site_settings['village_name'] ?? '');
-                $distName = \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? ''));
-                $regName  = \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? ''));
+                $vName = $cleanVillage;
+                $distName = $cleanDistrict;
+                $regName  = $cleanRegency;
 
                 // Koordinat presisi kantor desa (dari cache global AppServiceProvider)
                 $officeFacility = $office_facility ?? null;

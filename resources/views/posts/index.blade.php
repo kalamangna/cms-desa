@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', (request('search') ? 'Hasil Pencarian: "' . request('search') . '"' : ($selectedCategory ? 'Kategori: ' . $selectedCategory->name : 'Berita Desa')) . ' | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', request('search') ? 'Menampilkan hasil pencarian berita dengan kata kunci "' . request('search') . '" pada portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' : ($selectedCategory ? 'Kumpulan berita resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk kategori ' . $selectedCategory->name . '.' : 'Warta berita resmi dan siaran pers mengenai program pembangunan serta kegiatan pelayanan publik Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.'))
+@section('meta_description', request('search') ? 'Menampilkan hasil pencarian berita dengan kata kunci "' . request('search') . '" pada portal resmi Desa ' . ($site_settings['village_name'] ?? '') . '.' : ($selectedCategory ? 'Kumpulan berita resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk kategori ' . $selectedCategory->name . '.' : 'Berita resmi kegiatan, program pembangunan, dan layanan publik Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.'))
 @section('meta_image', asset('img/meta.webp'))
 
 @section('content')

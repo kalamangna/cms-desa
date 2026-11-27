@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Arsip Dokumen | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Pusat arsip dokumen hukum, peraturan desa, keputusan kepala desa, dan klasifikasi informasi publik resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_description', 'Arsip dokumen hukum, peraturan desa, dan informasi publik resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
 @section('content')

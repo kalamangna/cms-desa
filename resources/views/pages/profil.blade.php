@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Profil Desa | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Profil lengkap sejarah pembentukan, letak geografis, visi dan misi penyelenggaraan pemerintahan Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_description', 'Profil lengkap sejarah pembentukan, letak geografis, visi dan misi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
 @section('content')

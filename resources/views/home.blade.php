@@ -1,7 +1,27 @@
 @extends('layouts.app')
 
-@section('title', 'Desa ' . ($site_settings['village_name'] ?? '') . ' | Portal Informasi & Layanan Digital')
-@section('meta_description', 'Portal resmi Desa ' . ($site_settings['village_name'] ?? '') . ', Kec. ' . \Illuminate\Support\Str::title(preg_replace('/^Kecamatan\s+/i', '', $site_settings['district_name'] ?? '')) . ', Kab. ' . \Illuminate\Support\Str::title(preg_replace('/^(Kabupaten|Kota)\s+/i', '', $site_settings['regency_name'] ?? '')) . '. Layanan mandiri warga, transparansi APBDes, dan informasi pembangunan.')
+@php
+    $homeVillage = trim((string) preg_replace('/^(?:Desa|Kelurahan)\s+/iu', '', trim((string) ($site_settings['village_name'] ?? ''))));
+    $homeDistrict = \Illuminate\Support\Str::title(trim((string) preg_replace('/^(?:Kecamatan|Kec\.)\s+/iu', '', trim((string) ($site_settings['district_name'] ?? '')))));
+    $homeRegency = \Illuminate\Support\Str::title(trim((string) preg_replace('/^(?:Kabupaten|Kab\.|Kota)\s+/iu', '', trim((string) ($site_settings['regency_name'] ?? '')))));
+
+    $homeTitle = match (true) {
+        $homeVillage !== '' && $homeRegency !== '' => "Desa {$homeVillage} | Kabupaten {$homeRegency}",
+        $homeVillage !== '' => "Desa {$homeVillage}",
+        default => 'Pemerintah Desa',
+    };
+
+    $locationParts = array_values(array_filter([
+        $homeVillage !== '' ? "Desa {$homeVillage}" : null,
+        $homeDistrict !== '' ? "Kecamatan {$homeDistrict}" : null,
+        $homeRegency !== '' ? "Kabupaten {$homeRegency}" : null,
+    ]));
+    $homeLocation = $locationParts !== [] ? implode(', ', $locationParts) : 'Pemerintah Desa';
+    $homeDescription = "Website resmi {$homeLocation}. Akses layanan mandiri, APBDes, statistik, dan berita desa.";
+@endphp
+
+@section('title', $homeTitle)
+@section('meta_description', $homeDescription)
 @section('meta_image', asset('img/meta.webp'))
 
 @push('head')

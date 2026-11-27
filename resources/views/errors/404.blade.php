@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Halaman Tidak Ditemukan (404) | Desa ' . ($site_settings['village_name'] ?? ''))
+@section('title', 'Halaman Tidak Ditemukan | Desa ' . ($site_settings['village_name'] ?? ''))
 
 @section('content')
 <div class="bg-slate-50 dark:bg-slate-950 min-h-[70vh] flex items-center py-16 md:py-24">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Lembaga Desa | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Profil dan direktori lembaga kemasyarakatan di wilayah Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' yang bermitra dalam pembangunan daerah.')
+@section('meta_description', 'Profil dan daftar lembaga kemasyarakatan mitra Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
 @push('head')

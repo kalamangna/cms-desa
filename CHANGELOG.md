@@ -2,6 +2,14 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.6] - 2026-11-27
+
+### Perbaikan
+- **Standarisasi Meta Title dan Deskripsi SEO Halaman Publik (`app.blade.php`, `home.blade.php`, `404.blade.php`, `profil.blade.php`, serta 9 halaman publik lainnya)**:
+  - Menghilangkan double-escape entitas HTML (`&amp;amp;`) pada `title`, `meta_description`, dan `meta_keywords` melalui `html_entity_decode()` terpusat di `layouts/app.blade.php`.
+  - Memperbarui format `<title>` homepage menjadi `Desa {nama} | Kabupaten {kabupaten}`, menambahkan normalisasi prefiks wilayah serta fallback bersih saat pengaturan wilayah kosong pada seluruh meta tag dan JSON-LD.
+  - Meringkas `<meta name="description">` homepage dan 9 halaman publik lainnya (`statistics`, `apbdes`, `datasets`, `officials`, `peta`, `posts`, `documents`, `announcements`, `institutions`), menghapus tanda kurung `(404)` di halaman 404, serta memperbaiki pengulangan kata di halaman Profil.
+
 ## [1.32.5] - 2026-11-27
 
 ### Perbaikan

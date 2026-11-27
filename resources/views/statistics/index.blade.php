@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Statistik Desa | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Penyajian visualisasi data statistik sektoral kependudukan, pekerjaan, pendidikan, dan kesehatan mikro yang dikelola Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_description', 'Data statistik kependudukan, pekerjaan, pendidikan, dan kesehatan Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
 @section('content')

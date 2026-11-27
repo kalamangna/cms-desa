@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Open Data | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Portal data terbuka resmi Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' yang menyajikan kumpulan dataset publik untuk analisis, transparansi, dan kebutuhan akademis.')
+@section('meta_description', 'Kumpulan dataset publik terbuka Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk analisis dan transparansi data.')
 @section('meta_image', asset('img/meta.webp'))
 
 @section('content')

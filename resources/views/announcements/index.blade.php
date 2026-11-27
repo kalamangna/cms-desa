@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Pengumuman Resmi | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Daftar pengumuman resmi, keputusan, dan maklumat kedinasan yang diterbitkan oleh Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . ' untuk masyarakat umum.')
+@section('meta_description', 'Daftar pengumuman resmi dan informasi kedinasan Pemerintah Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
 @push('head')

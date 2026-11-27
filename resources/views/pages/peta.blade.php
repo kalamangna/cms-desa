@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Peta Spasial | Desa ' . ($site_settings['village_name'] ?? ''))
-@section('meta_description', 'Peta spasial interaktif pembagian wilayah dusun, batas wilayah, serta informasi kependudukan dan statistik per dusun di Desa ' . ($site_settings['village_name'] ?? '') . '.')
+@section('meta_description', 'Peta interaktif batas wilayah, pembagian dusun, dan sebaran fasilitas publik Desa ' . ($site_settings['village_name'] ?? '') . '.')
 @section('meta_image', asset('img/meta.webp'))
 
 @php
