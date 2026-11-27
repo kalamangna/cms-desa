@@ -5,6 +5,7 @@ namespace App\Filament\Resources\GuestBooks\Schemas;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class GuestBookForm
@@ -13,28 +14,32 @@ class GuestBookForm
     {
         return $schema
             ->components([
-                Grid::make(3)
+                Section::make('Data Kunjungan')
+                    ->columnSpanFull()
                     ->schema([
-                        TextInput::make('name')->label('Nama Lengkap')
-                            ->placeholder('Contoh: Ir. Budi Santoso')
-                            ->helperText('Nama lengkap tamu pengunjung.')
-                            ->required(),
-                        TextInput::make('institution_address')->label('Instansi / Alamat')
-                            ->placeholder('Contoh: Dinas Pemberdayaan Masyarakat Desa')
-                            ->helperText('Instansi atau domisili tamu.')
-                            ->required(),
-                        TextInput::make('phone')->label('Nomor Kontak (WhatsApp)')
-                            ->placeholder('Contoh: 081234567890')
-                            ->helperText('Nomor WhatsApp aktif tamu.')
-                            ->required(),
-                    ])
-                    ->columnSpanFull(),
-                Textarea::make('purpose')->label('Keperluan / Pesan')
-                    ->placeholder('Contoh: Koordinasi program pendampingan desa digital...')
-                    ->helperText('Tujuan kunjungan ke kantor desa.')
-                    ->rows(4)
-                    ->required()
-                    ->columnSpanFull(),
+                        Grid::make(['default' => 1, 'md' => 3])
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label('Nama Lengkap')
+                                    ->placeholder('Budi Santoso')
+                                    ->required(),
+                                TextInput::make('institution_address')
+                                    ->label('Instansi atau Alamat')
+                                    ->placeholder('Diskominfo Kabupaten Sinjai')
+                                    ->required(),
+                                TextInput::make('phone')
+                                    ->label('WhatsApp')
+                                    ->placeholder('081234567890')
+                                    ->required(),
+                            ])
+                            ->columnSpanFull(),
+                        Textarea::make('purpose')
+                            ->label('Keperluan Kunjungan')
+                            ->placeholder('Koordinasi pengelolaan website desa')
+                            ->rows(4)
+                            ->required()
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 }

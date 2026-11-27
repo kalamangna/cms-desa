@@ -38,11 +38,11 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Lengkap</td><td style="width: 14px;">:</td><td><strong>{{applicant_name}}</strong></td></tr>
     <tr><td>NIK</td><td>:</td><td>{{applicant_nik}}</td></tr>
-    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{place_of_birth}}, {{date_of_birth}}</td></tr>
+    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{birth_place_date}}</td></tr>
     <tr><td>Jenis Kelamin</td><td>:</td><td>{{gender}}</td></tr>
     <tr><td>Agama</td><td>:</td><td>{{religion}}</td></tr>
     <tr><td>Pekerjaan</td><td>:</td><td>{{job}}</td></tr>
-    <tr><td>Alamat</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Alamat</td><td>:</td><td>{{full_address}}</td></tr>
 </table>
 <p>Berdasarkan catatan pemerintah desa, orang tersebut di atas benar berdomisili di wilayah Desa {{village_name}} hingga surat ini diterbitkan.</p>
 <p>Surat keterangan ini diterbitkan untuk keperluan: <strong>{{keperluan}}</strong>.</p>
@@ -78,10 +78,10 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Lengkap</td><td style="width: 14px;">:</td><td><strong>{{applicant_name}}</strong></td></tr>
     <tr><td>NIK</td><td>:</td><td>{{applicant_nik}}</td></tr>
-    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{place_of_birth}}, {{date_of_birth}}</td></tr>
+    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{birth_place_date}}</td></tr>
     <tr><td>Jenis Kelamin</td><td>:</td><td>{{gender}}</td></tr>
     <tr><td>Pekerjaan</td><td>:</td><td>{{job}}</td></tr>
-    <tr><td>Alamat</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Alamat</td><td>:</td><td>{{full_address}}</td></tr>
 </table>
 <p>Surat pengantar ini diberikan untuk keperluan pengurusan KTP elektronik dengan alasan: <strong>{{jenis_pengajuan}}</strong>.</p>
 <p>Demikian surat pengantar ini dibuat agar dapat diproses di instansi terkait sebagaimana mestinya.</p>',
@@ -116,9 +116,9 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Lengkap</td><td style="width: 14px;">:</td><td><strong>{{applicant_name}}</strong></td></tr>
     <tr><td>NIK</td><td>:</td><td>{{applicant_nik}}</td></tr>
-    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{place_of_birth}}, {{date_of_birth}}</td></tr>
+    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{birth_place_date}}</td></tr>
     <tr><td>Pekerjaan</td><td>:</td><td>{{job}}</td></tr>
-    <tr><td>Alamat</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Alamat</td><td>:</td><td>{{full_address}}</td></tr>
 </table>
 <p>Surat pengantar ini diberikan untuk keperluan: <strong>{{keperluan}}</strong>.</p>
 <p>Demikian surat pengantar ini dibuat untuk dipergunakan sebagaimana mestinya.</p>',
@@ -161,7 +161,7 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Ayah</td><td style="width: 14px;">:</td><td>{{nama_ayah}}</td></tr>
     <tr><td>Nama Ibu</td><td style="width: 14px;">:</td><td>{{nama_ibu}}</td></tr>
-    <tr><td>Alamat Orang Tua</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Alamat Orang Tua</td><td>:</td><td>{{full_address}}</td></tr>
 </table>
 <p>Demikian surat keterangan kelahiran ini dibuat berdasarkan laporan pemohon {{applicant_name}} untuk dipergunakan sebagaimana mestinya.</p>',
                 'form_fields' => [
@@ -196,7 +196,7 @@ class LetterTemplatePresets
     <tr><td style="width: 170px;">Nama Almarhum</td><td style="width: 14px;">:</td><td><strong>{{nama_almarhum}}</strong></td></tr>
     <tr><td>NIK Almarhum</td><td>:</td><td>{{nik_almarhum}}</td></tr>
     <tr><td>Umur</td><td>:</td><td>{{umur_almarhum}}</td></tr>
-    <tr><td>Hari dan Tanggal Wafat</td><td>:</td><td>{{tanggal_meninggal}}</td></tr>
+    <tr><td>Tanggal Wafat</td><td>:</td><td>{{tanggal_meninggal}}</td></tr>
     <tr><td>Tempat Meninggal</td><td>:</td><td>{{tempat_meninggal}}</td></tr>
     <tr><td>Penyebab Kematian</td><td>:</td><td>{{penyebab_kematian}}</td></tr>
 </table>
@@ -233,13 +233,14 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Lengkap</td><td style="width: 14px;">:</td><td><strong>{{applicant_name}}</strong></td></tr>
     <tr><td>NIK</td><td>:</td><td>{{applicant_nik}}</td></tr>
-    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{place_of_birth}}, {{date_of_birth}}</td></tr>
-    <tr><td>Alamat Asal</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{birth_place_date}}</td></tr>
+    <tr><td>Alamat Asal</td><td>:</td><td>{{full_address}}</td></tr>
     <tr><td>Alamat Tujuan Pindah</td><td>:</td><td>{{alamat_tujuan}}</td></tr>
     <tr><td>Alasan Pindah</td><td>:</td><td>{{alasan_pindah}}</td></tr>
-    <tr><td>Jumlah Pengikut</td><td>:</td><td>{{jumlah_pengikut}}</td></tr>
+    <tr><td>Jumlah Pengikut</td><td>:</td><td>{{jumlah_pengikut}} orang</td></tr>
 </table>
-<p>Surat keterangan ini diterbitkan sebagai pengantar pengurusan surat pindah resmi pada Dinas Kependudukan dan Pencatatan Sipil.</p>',
+<p>Surat keterangan ini diterbitkan sebagai pengantar pengurusan surat pindah resmi pada Dinas Kependudukan dan Pencatatan Sipil.</p>
+<p>Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.</p>',
                 'form_fields' => [
                     ['label' => 'Alamat Tujuan Pindah', 'key' => 'alamat_tujuan', 'type' => 'textarea', 'placeholder' => 'Jalan, Kelurahan, Kecamatan, Kabupaten tujuan', 'is_required' => true],
                     ['label' => 'Alasan Pindah', 'key' => 'alasan_pindah', 'type' => 'text', 'placeholder' => 'Pekerjaan, keluarga, atau pendidikan', 'is_required' => true],
@@ -268,10 +269,10 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Lengkap</td><td style="width: 14px;">:</td><td><strong>{{applicant_name}}</strong></td></tr>
     <tr><td>NIK</td><td>:</td><td>{{applicant_nik}}</td></tr>
-    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{place_of_birth}}, {{date_of_birth}}</td></tr>
+    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{birth_place_date}}</td></tr>
     <tr><td>Status Perkawinan</td><td>:</td><td>{{marital_status}}</td></tr>
     <tr><td>Pekerjaan</td><td>:</td><td>{{job}}</td></tr>
-    <tr><td>Alamat</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Alamat</td><td>:</td><td>{{full_address}}</td></tr>
     <tr><td>Nama Calon Pasangan</td><td>:</td><td>{{nama_pasangan}}</td></tr>
 </table>
 <p>Surat pengantar ini diberikan untuk keperluan pendaftaran pernikahan di <strong>{{tujuan_kua}}</strong>.</p>
@@ -302,9 +303,9 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Lengkap</td><td style="width: 14px;">:</td><td><strong>{{applicant_name}}</strong></td></tr>
     <tr><td>NIK</td><td>:</td><td>{{applicant_nik}}</td></tr>
-    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{place_of_birth}}, {{date_of_birth}}</td></tr>
+    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{birth_place_date}}</td></tr>
     <tr><td>Pekerjaan</td><td>:</td><td>{{job}}</td></tr>
-    <tr><td>Alamat</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Alamat</td><td>:</td><td>{{full_address}}</td></tr>
 </table>
 <p>Orang tersebut di atas benar memiliki dan menjalankan usaha sebagai berikut:</p>
 <table>
@@ -327,6 +328,7 @@ class LetterTemplatePresets
                 ],
                 'aliases' => [
                     'Keterangan Usaha',
+                    'Surat Keterangan Usaha (SKU)',
                 ],
             ],
             'tidak_mampu' => [
@@ -342,10 +344,10 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Lengkap</td><td style="width: 14px;">:</td><td><strong>{{applicant_name}}</strong></td></tr>
     <tr><td>NIK</td><td>:</td><td>{{applicant_nik}}</td></tr>
-    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{place_of_birth}}, {{date_of_birth}}</td></tr>
+    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{birth_place_date}}</td></tr>
     <tr><td>Jenis Kelamin</td><td>:</td><td>{{gender}}</td></tr>
     <tr><td>Pekerjaan</td><td>:</td><td>{{job}}</td></tr>
-    <tr><td>Alamat</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Alamat</td><td>:</td><td>{{full_address}}</td></tr>
 </table>
 <p>Berdasarkan catatan pemerintah desa, yang bersangkutan tergolong keluarga kurang mampu secara ekonomi.</p>
 <p>Surat keterangan ini diterbitkan untuk keperluan: <strong>{{keperluan}}</strong>.</p>
@@ -377,7 +379,7 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Penanggung Jawab</td><td style="width: 14px;">:</td><td><strong>{{applicant_name}}</strong></td></tr>
     <tr><td>NIK</td><td>:</td><td>{{applicant_nik}}</td></tr>
-    <tr><td>Alamat</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Alamat</td><td>:</td><td>{{full_address}}</td></tr>
     <tr><td>Nama Kegiatan</td><td>:</td><td><strong>{{nama_kegiatan}}</strong></td></tr>
     <tr><td>Tanggal Pelaksanaan</td><td>:</td><td>{{tanggal_kegiatan}}</td></tr>
     <tr><td>Lokasi Kegiatan</td><td>:</td><td>{{lokasi_kegiatan}}</td></tr>
@@ -421,10 +423,10 @@ class LetterTemplatePresets
 <table>
     <tr><td style="width: 170px;">Nama Lengkap</td><td style="width: 14px;">:</td><td><strong>{{applicant_name}}</strong></td></tr>
     <tr><td>NIK</td><td>:</td><td>{{applicant_nik}}</td></tr>
-    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{place_of_birth}}, {{date_of_birth}}</td></tr>
+    <tr><td>Tempat, Tanggal Lahir</td><td>:</td><td>{{birth_place_date}}</td></tr>
     <tr><td>Jenis Kelamin</td><td>:</td><td>{{gender}}</td></tr>
     <tr><td>Pekerjaan</td><td>:</td><td>{{job}}</td></tr>
-    <tr><td>Alamat</td><td>:</td><td>{{address}} RT {{rt}} RW {{rw}}, Dusun {{dusun}}, Desa {{village_name}}</td></tr>
+    <tr><td>Alamat</td><td>:</td><td>{{full_address}}</td></tr>
 </table>
 <p>Surat pengantar ini diberikan untuk keperluan: <strong>{{keperluan}}</strong>.</p>
 <p>Demikian surat pengantar ini dibuat agar dapat dipergunakan sebagaimana mestinya.</p>',
@@ -473,11 +475,13 @@ class LetterTemplatePresets
             '{{applicant_phone}}' => 'Nomor WhatsApp pemohon',
             '{{place_of_birth}}' => 'Tempat lahir pemohon',
             '{{date_of_birth}}' => 'Tanggal lahir pemohon',
+            '{{birth_place_date}}' => 'Tempat dan tanggal lahir tergabung',
             '{{gender}}' => 'Jenis kelamin pemohon',
             '{{religion}}' => 'Agama pemohon',
             '{{marital_status}}' => 'Status perkawinan pemohon',
             '{{job}}' => 'Pekerjaan pemohon',
             '{{address}}' => 'Alamat domisili pemohon',
+            '{{full_address}}' => 'Alamat lengkap tergabung',
             '{{rt}}' => 'Nomor RT',
             '{{rw}}' => 'Nomor RW',
             '{{dusun}}' => 'Nama dusun',

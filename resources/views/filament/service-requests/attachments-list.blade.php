@@ -3,59 +3,72 @@
 @endphp
 
 @if($attachments->isEmpty())
-    <p class="text-sm text-gray-500 dark:text-gray-400">
+    <p style="margin: 0; font-size: 13px; opacity: 0.7;">
         Belum ada berkas persyaratan terlampir pada permohonan ini.
     </p>
 @else
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;">
         @foreach($attachments as $attachment)
             @php
                 $previewUrl = route('admin.service-request-attachments.preview', $attachment);
                 $downloadUrl = route('admin.service-request-attachments.download', $attachment);
+                $isImage = $attachment->isImage();
             @endphp
-            <div class="flex flex-col justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-                <div class="flex items-start gap-3">
-                    @if($attachment->isImage())
+            <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 12px; padding: 14px; border-radius: 12px; border: 1px solid rgba(148, 163, 184, 0.28);">
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    @if($isImage)
                         <a href="{{ $previewUrl }}"
                            target="_blank"
                            rel="noopener noreferrer"
                            aria-label="Lihat {{ $attachment->requirement_name }}"
-                           class="block h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
+                           style="display: block; width: 64px; height: 64px; flex-shrink: 0; overflow: hidden; border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.28);">
                             <img src="{{ $previewUrl }}"
                                  alt="{{ $attachment->requirement_name }}"
                                  loading="lazy"
-                                 class="h-full w-full object-cover">
+                                 style="width: 100%; height: 100%; object-fit: cover; display: block;">
                         </a>
                     @else
-                        <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 text-xs font-bold uppercase text-rose-600 dark:border-rose-900 dark:bg-rose-950/60 dark:text-rose-400">
+                        <div style="display: flex; width: 64px; height: 64px; flex-shrink: 0; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid rgba(244, 63, 94, 0.35); background-color: rgba(244, 63, 94, 0.1); font-size: 12px; font-weight: 700; color: #e11d48;">
                             PDF
                         </div>
                     @endif
 
-                    <div class="min-w-0 flex-1">
-                        <p class="truncate text-sm font-semibold text-gray-900 dark:text-gray-100">
+                    <div style="min-width: 0; flex: 1;">
+                        <p style="margin: 0 0 4px 0; font-size: 14px; font-weight: 600; line-height: 1.35;">
                             {{ $attachment->requirement_name }}
                         </p>
-                        <p class="truncate text-xs text-gray-500 dark:text-gray-400">
+                        <p title="{{ $attachment->original_name }}"
+                           style="margin: 0 0 6px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; opacity: 0.78;">
                             {{ $attachment->original_name }}
                         </p>
-                        <p class="mt-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                            {{ $attachment->formattedSize() }}
+                        <p style="margin: 0; font-size: 12px; font-weight: 500; opacity: 0.68;">
+                            {{ $isImage ? 'Gambar' : 'PDF' }} &bull; {{ $attachment->formattedSize() }}
                         </p>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2 pt-1">
-                    <a href="{{ $previewUrl }}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="inline-flex h-10 flex-1 items-center justify-center rounded-lg border border-gray-300 bg-white px-3 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 10px; border-top: 1px solid rgba(148, 163, 184, 0.2);">
+                    <x-filament::button
+                        tag="a"
+                        :href="$previewUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="gray"
+                        outlined
+                        size="sm"
+                        icon="heroicon-o-eye"
+                    >
                         Lihat Berkas
-                    </a>
-                    <a href="{{ $downloadUrl }}"
-                       class="inline-flex h-10 flex-1 items-center justify-center rounded-lg bg-emerald-600 px-3 text-xs font-semibold text-white transition hover:bg-emerald-700">
+                    </x-filament::button>
+                    <x-filament::button
+                        tag="a"
+                        :href="$downloadUrl"
+                        color="primary"
+                        size="sm"
+                        icon="heroicon-o-arrow-down-tray"
+                    >
                         Unduh Berkas
-                    </a>
+                    </x-filament::button>
                 </div>
             </div>
         @endforeach

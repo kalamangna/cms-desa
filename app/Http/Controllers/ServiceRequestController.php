@@ -153,7 +153,7 @@ class ServiceRequestController extends Controller
         }
 
         return redirect()->route('layanan')
-            ->with('success', 'Pengajuan layanan berhasil dikirim')
+            ->with('success', 'Pengajuan Terkirim')
             ->with('ticket_number', $serviceRequest->ticket_number);
     }
 
@@ -243,7 +243,7 @@ class ServiceRequestController extends Controller
             'found' => true,
             'ticket_number' => $serviceRequest->ticket_number,
             'name' => $serviceRequest->name,
-            'nik_masked' => substr($serviceRequest->nik, 0, 4).'**********',
+            'nik_masked' => $serviceRequest->maskedNik(),
             'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
             'status' => $serviceRequest->status,
             'tte_status' => $serviceRequest->tte_status ?? ServiceRequest::TTE_NONE,

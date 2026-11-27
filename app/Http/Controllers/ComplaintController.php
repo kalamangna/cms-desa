@@ -20,7 +20,7 @@ class ComplaintController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string', 'max:5000'],
         ], [
-            'phone.regex' => 'Format nomor WhatsApp/telepon tidak valid (minimal 8-16 digit angka).',
+            'phone.regex' => 'Format nomor WhatsApp tidak valid. Gunakan minimal 8 digit angka.',
         ]);
 
         $clean = fn (?string $v) => $v !== null ? trim(strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $v))) : null;
@@ -35,7 +35,7 @@ class ComplaintController extends Controller
         $complaint = Complaint::create($sanitized);
 
         return redirect()->route('complaints.index')
-            ->with('success', 'Terkirim!')
+            ->with('success', 'Pengaduan Terkirim')
             ->with('ticket_number', $complaint->ticket_number);
     }
 

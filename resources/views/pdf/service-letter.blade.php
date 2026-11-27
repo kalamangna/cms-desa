@@ -5,91 +5,118 @@
     <title>{{ $letterTitle }}</title>
     <style>
         @page {
-            margin: 2cm 2.2cm 2.5cm 2.2cm;
+            margin: 1.6cm 2.2cm 2.4cm 2.2cm;
         }
         body {
             font-family: "Times New Roman", Times, serif;
-            font-size: 12pt;
-            line-height: 1.5;
+            font-size: 11.5pt;
+            line-height: 1.45;
             color: #111827;
         }
         .header-table {
             width: 100%;
-            border-bottom: 3px double #111827;
-            padding-bottom: 10px;
-            margin-bottom: 18px;
+            border-collapse: collapse;
         }
         .header-logo {
             width: 72px;
             vertical-align: middle;
         }
         .header-logo img {
-            max-width: 68px;
-            max-height: 68px;
+            width: 66px;
+            height: auto;
+            max-height: 76px;
+            display: block;
         }
         .header-text {
             text-align: center;
             vertical-align: middle;
         }
         .header-text .gov-line {
-            font-size: 12pt;
+            font-size: 11.5pt;
             font-weight: bold;
             text-transform: uppercase;
             margin: 0;
             line-height: 1.25;
         }
         .header-text .village-line {
-            font-size: 15pt;
+            font-size: 14.5pt;
             font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 0.4px;
             margin: 2px 0;
             line-height: 1.2;
         }
         .header-text .address-line {
-            font-size: 9.5pt;
-            margin: 2px 0 0 0;
+            font-size: 9pt;
+            font-style: italic;
+            margin: 3px 0 0 0;
             color: #374151;
+        }
+        .header-divider {
+            border-top: 2.5px solid #111827;
+            border-bottom: 0.8px solid #111827;
+            height: 2px;
+            margin: 8px 0 16px 0;
         }
         .title-block {
             text-align: center;
-            margin: 14px 0 18px 0;
+            margin: 10px 0 18px 0;
         }
         .title-block h1 {
-            font-size: 13pt;
+            display: inline-block;
+            font-size: 12.5pt;
             font-weight: bold;
             text-transform: uppercase;
-            text-decoration: underline;
+            letter-spacing: 0.4px;
+            border-bottom: 1.5px solid #111827;
+            padding-bottom: 2px;
             margin: 0;
         }
         .title-block .number {
             font-size: 11pt;
-            margin: 4px 0 0 0;
+            margin: 5px 0 0 0;
         }
         .content {
             text-align: justify;
         }
+        .content p {
+            margin: 0 0 10px 0;
+        }
         .content table {
             width: 100%;
             border-collapse: collapse;
-            margin: 8px 0 12px 0;
+            margin: 6px 0 12px 0;
         }
         .content td {
-            padding: 2px 4px;
+            padding: 2.5px 4px;
             vertical-align: top;
+            line-height: 1.4;
+        }
+        .content td p {
+            margin: 0;
+        }
+        .content table td:first-child {
+            width: 175px;
+            padding-left: 16px;
+        }
+        .content table td:nth-child(2) {
+            width: 14px;
+            text-align: center;
         }
         .signature-wrapper {
             width: 100%;
-            margin-top: 24px;
+            margin-top: 22px;
+            page-break-inside: avoid;
         }
         .signature-table {
             width: 100%;
             border-collapse: collapse;
         }
         .signature-spacer {
-            width: 44%;
+            width: 46%;
         }
         .signature-box {
-            width: 56%;
+            width: 54%;
             text-align: left;
             vertical-align: top;
         }
@@ -106,15 +133,15 @@
             background-color: #f8fafc;
         }
         .specimen-qr-cell {
-            width: 78px;
+            width: 76px;
             padding: 8px;
             vertical-align: middle;
             text-align: center;
             border-right: 1px solid #cbd5e1;
         }
         .specimen-qr-cell img {
-            width: 70px;
-            height: 70px;
+            width: 68px;
+            height: 68px;
             display: block;
             margin: 0 auto;
         }
@@ -142,8 +169,8 @@
             text-decoration: underline;
         }
         .draft-signature-space {
-            height: 64px;
-            padding-top: 22px;
+            height: 60px;
+            padding-top: 20px;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 8.5pt;
             color: #64748b;
@@ -154,12 +181,13 @@
             bottom: -1.4cm;
             left: 0;
             right: 0;
-            border-top: 1px solid #d1d5db;
-            padding-top: 6px;
+            border-top: 0.75px solid #cbd5e1;
+            padding-top: 5px;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 8pt;
-            color: #4b5563;
+            font-size: 7.5pt;
+            color: #475569;
             line-height: 1.35;
+            text-align: center;
         }
     </style>
 </head>
@@ -168,17 +196,22 @@
         <tr>
             @if($logoDataUri)
                 <td class="header-logo">
-                    <img src="{{ $logoDataUri }}" alt="Logo Desa">
+                    <img src="{{ $logoDataUri }}" alt="Logo Kabupaten Sinjai">
                 </td>
             @endif
             <td class="header-text">
-                @if(!empty($settings['regency_name']))
-                    <p class="gov-line">PEMERINTAH KABUPATEN {{ strtoupper($settings['regency_name']) }}</p>
+                @php
+                    $resolvedRegency = $regencyName ?? ($settings['regency_name'] ?? '');
+                    $resolvedDistrict = $districtName ?? ($settings['district_name'] ?? '');
+                    $resolvedVillage = $villageName ?? ($settings['village_name'] ?? 'Desa');
+                @endphp
+                @if(!empty($resolvedRegency))
+                    <p class="gov-line">PEMERINTAH KABUPATEN {{ strtoupper($resolvedRegency) }}</p>
                 @endif
-                @if(!empty($settings['district_name']))
-                    <p class="gov-line">KECAMATAN {{ strtoupper($settings['district_name']) }}</p>
+                @if(!empty($resolvedDistrict))
+                    <p class="gov-line">KECAMATAN {{ strtoupper($resolvedDistrict) }}</p>
                 @endif
-                <p class="village-line">PEMERINTAH DESA {{ strtoupper($settings['village_name'] ?? 'DESA') }}</p>
+                <p class="village-line">PEMERINTAH DESA {{ strtoupper($resolvedVillage ?: 'DESA') }}</p>
                 @if(!empty($settings['village_address']) || !empty($settings['village_email']))
                     <p class="address-line">
                         {{ $settings['village_address'] ?? '' }}
@@ -189,8 +222,12 @@
                     </p>
                 @endif
             </td>
+            @if($logoDataUri)
+                <td class="header-logo"></td>
+            @endif
         </tr>
     </table>
+    <div class="header-divider"></div>
 
     <div class="title-block">
         <h1>{{ $letterTitle }}</h1>
@@ -206,13 +243,19 @@
             <tr>
                 <td class="signature-spacer"></td>
                 <td class="signature-box">
-                    <div class="signature-date">{{ $settings['village_name'] ?? 'Desa' }}, {{ $letterDateFormatted }}</div>
+                    <div class="signature-date">{{ $resolvedVillage ?: 'Desa' }}, {{ $letterDateFormatted }}</div>
                     @if($showTteVisual ?? false)
                         <table class="specimen-card">
                             <tr>
                                 @if(!empty($qrCodeDataUri))
                                     <td class="specimen-qr-cell">
-                                        <img src="{{ $qrCodeDataUri }}" alt="QR Verifikasi TTE">
+                                        @if(!empty($verificationUrl))
+                                            <a href="{{ $verificationUrl }}" style="display: inline-block; text-decoration: none;">
+                                                <img src="{{ $qrCodeDataUri }}" alt="QR Verifikasi TTE">
+                                            </a>
+                                        @else
+                                            <img src="{{ $qrCodeDataUri }}" alt="QR Verifikasi TTE">
+                                        @endif
                                     </td>
                                 @endif
                                 <td class="specimen-info-cell">
@@ -236,7 +279,7 @@
         <div class="footer-note">
             <div>{{ $footerText }}</div>
             @if(!empty($websiteUrl))
-                <div>Website Resmi: {{ $websiteUrl }}</div>
+                <div>{{ $websiteUrl }}</div>
             @endif
         </div>
     @endif

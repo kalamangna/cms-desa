@@ -20,7 +20,7 @@ class GuestBookController extends Controller
             'phone' => ['required', 'string', 'regex:/^[0-9+\-\s()]{8,25}$/'],
             'purpose' => ['required', 'string', 'max:2000'],
         ], [
-            'phone.regex' => 'Format nomor kontak/telepon tidak valid (minimal 8 digit angka).',
+            'phone.regex' => 'Format nomor WhatsApp tidak valid. Gunakan minimal 8 digit angka.',
         ]);
 
         $clean = fn (?string $v) => $v !== null ? trim(strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $v))) : null;
@@ -34,6 +34,6 @@ class GuestBookController extends Controller
 
         GuestBook::create($sanitized);
 
-        return redirect()->back()->with('success', 'Terkirim!');
+        return redirect()->back()->with('success', 'Kunjungan Tercatat');
     }
 }

@@ -102,7 +102,7 @@
             'found' => true,
             'ticket_number' => $serviceRequest->ticket_number,
             'name' => $serviceRequest->name,
-            'nik_masked' => substr($serviceRequest->nik, 0, 4) . '**********',
+            'nik_masked' => $serviceRequest->maskedNik(),
             'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
             'status' => $serviceRequest->status,
             'tte_status' => $serviceRequest->tte_status ?? \App\Models\ServiceRequest::TTE_NONE,
@@ -238,7 +238,7 @@
             @if(session('success') && session('ticket_number'))
                 <x-success-modal
                     :title="session('success')"
-                    description="Simpan nomor tiket di bawah untuk melacak status permohonan."
+                    description="Simpan nomor tiket untuk melacak status."
                     :ticket-number="session('ticket_number')"
                 />
             @endif
@@ -409,15 +409,15 @@
                 {{-- Tracking Results (Real-time Rendered) --}}
                 <div x-show="searched" x-transition:enter="transition ease-out duration-300">
                     <template x-if="result && result.found">
-                        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 p-5 sm:p-8 md:p-12 space-y-5 sm:space-y-6 max-w-4xl mx-auto">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-5 sm:pb-6 border-b border-slate-100 dark:border-slate-800">
+                        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 p-5 sm:p-8 md:p-10 space-y-6 max-w-4xl mx-auto">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-5 border-b border-slate-100 dark:border-slate-800">
                                 <div>
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Nomor Tiket</span>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Nomor Tiket</span>
                                     <h4 class="text-base sm:text-lg font-mono font-black text-slate-900 dark:text-slate-100 mt-0.5 break-all" x-text="result.ticket_number"></h4>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span class="text-slate-500 dark:text-slate-400 text-xs font-semibold">Status:</span>
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider"
+                                    <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider"
                                           :class="{
                                               'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700': result.status === 'Menunggu',
                                               'bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-900 text-amber-700 dark:text-amber-300': result.status === 'Diproses',
@@ -429,32 +429,32 @@
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-medium">
-                                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700">
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-0.5">Nama Pemohon</span>
-                                    <span class="text-slate-800 dark:text-slate-100 font-bold" x-text="result.name"></span>
+                            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
+                                <div>
+                                    <dt class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">Nama Pemohon</dt>
+                                    <dd class="text-sm text-slate-900 dark:text-slate-100 font-bold" x-text="result.name"></dd>
                                 </div>
-                                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700">
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-0.5">NIK Pemohon</span>
-                                    <span class="text-slate-800 dark:text-slate-100 font-mono font-bold" x-text="result.nik_masked"></span>
+                                <div>
+                                    <dt class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">NIK Pemohon</dt>
+                                    <dd class="text-sm text-slate-900 dark:text-slate-100 font-mono font-bold" x-text="result.nik_masked"></dd>
                                 </div>
-                            </div>
-
-                            <div class="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-2xl border border-slate-100 dark:border-slate-700">
-                                <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-1">Layanan Pengajuan</span>
-                                <h4 class="font-extrabold text-slate-900 dark:text-slate-100 text-base" x-text="result.service_title"></h4>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-2">
-                                    <i class="fa-regular fa-clock mr-1"></i> Diajukan pada <span x-text="result.created_at"></span>
-                                </p>
-                            </div>
+                                <div>
+                                    <dt class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">Layanan Pengajuan</dt>
+                                    <dd class="text-sm text-slate-900 dark:text-slate-100 font-bold" x-text="result.service_title"></dd>
+                                </div>
+                                <div>
+                                    <dt class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">Tanggal Pengajuan</dt>
+                                    <dd class="text-sm text-slate-600 dark:text-slate-300 font-medium" x-text="result.created_at"></dd>
+                                </div>
+                            </dl>
 
                             <template x-if="result.attachments && result.attachments.length > 0">
-                                <div class="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-2xl border border-slate-100 dark:border-slate-700">
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2.5">Berkas Terlampir</span>
+                                <div class="border-t border-slate-100 dark:border-slate-800 pt-5">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2.5">Berkas Terlampir</span>
                                     <ul class="flex flex-wrap gap-2">
                                         <template x-for="(itemName, idx) in result.attachments" :key="idx">
-                                            <li class="inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-3 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200">
-                                                <i class="fa-solid fa-file-circle-check text-emerald-500 text-[11px]"></i>
+                                            <li class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200">
+                                                <i class="fa-solid fa-file-circle-check text-emerald-500 text-xs"></i>
                                                 <span x-text="itemName"></span>
                                             </li>
                                         </template>
@@ -463,14 +463,17 @@
                             </template>
 
                             <template x-if="result.can_download_letter">
-                                <div class="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900 p-5 sm:p-6 rounded-2xl text-slate-700 dark:text-slate-200 text-sm space-y-4">
-                                    <div>
-                                        <h5 class="font-extrabold text-emerald-800 dark:text-emerald-300 mb-1">
-                                            <i class="fa-solid fa-file-signature mr-1"></i> Surat Elektronik Siap Diunduh
-                                        </h5>
-                                        <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300 font-medium">
-                                            Surat nomor <span class="font-mono font-bold" x-text="result.letter_number || '-'"></span> telah ditandatangani secara elektronik. Masukkan 16 digit NIK pemohon untuk mengunduh berkas PDF.
-                                        </p>
+                                <div class="border-t border-slate-100 dark:border-slate-800 pt-5 space-y-3">
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <div>
+                                            <h5 class="text-sm font-bold text-slate-900 dark:text-slate-100">Surat Siap Diunduh</h5>
+                                            <p class="text-xs font-mono text-slate-500 dark:text-slate-400" x-text="result.letter_number || '-'"></p>
+                                        </div>
+                                        <template x-if="result.verification_url">
+                                            <a :href="result.verification_url" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-primary-600 dark:text-primary-400 hover:underline">
+                                                Verifikasi Surat
+                                            </a>
+                                        </template>
                                     </div>
 
                                     <form action="{{ route('service-requests.download-letter') }}" method="POST" class="flex flex-col sm:flex-row gap-3">
@@ -482,50 +485,49 @@
                                                    value="{{ old('download_nik') }}"
                                                    maxlength="16"
                                                    inputmode="numeric"
-                                                   placeholder="16 digit NIK"
+                                                   placeholder="16 digit NIK pemohon"
                                                    required
-                                                   class="w-full h-11 px-4 rounded-xl bg-white dark:bg-slate-900 border {{ $errors->has('download_nik') ? 'border-rose-500' : 'border-emerald-200 dark:border-emerald-800' }} focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-mono font-bold text-slate-800 dark:text-slate-100">
+                                                   class="w-full h-11 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border {{ $errors->has('download_nik') ? 'border-rose-500' : 'border-slate-200 dark:border-slate-700' }} focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500">
                                             @error('download_nik')
                                                 <p class="mt-1.5 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        <button type="submit" class="h-11 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm inline-flex items-center justify-center gap-2 transition cursor-pointer shrink-0">
+                                        <button type="submit" class="h-11 px-5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs sm:text-sm inline-flex items-center justify-center gap-2 transition cursor-pointer shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                                             <i class="fa-solid fa-download"></i>
                                             Unduh Surat PDF
                                         </button>
                                     </form>
-
-                                    <template x-if="result.verification_url">
-                                        <div>
-                                            <a :href="result.verification_url" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:underline">
-                                                <i class="fa-solid fa-shield-halved"></i>
-                                                Lihat Halaman Verifikasi
-                                            </a>
-                                        </div>
-                                    </template>
                                 </div>
                             </template>
 
                             <template x-if="result.tte_status === 'revoked'">
-                                <div class="bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900 p-5 rounded-2xl text-slate-700 dark:text-slate-200 text-sm">
-                                    <h5 class="font-extrabold text-rose-800 dark:text-rose-300 mb-1"><i class="fa-solid fa-ban mr-1"></i> Surat Elektronik Dicabut</h5>
-                                    <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300 font-medium">Keabsahan surat untuk permohonan ini telah dicabut oleh Pemerintah Desa.</p>
+                                <div class="border-t border-slate-100 dark:border-slate-800 pt-5 flex flex-wrap items-center justify-between gap-2">
+                                    <div>
+                                        <h5 class="text-sm font-bold text-rose-700 dark:text-rose-400">Surat Elektronik Dicabut</h5>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Keabsahan surat untuk permohonan ini telah dicabut oleh Pemerintah Desa.</p>
+                                    </div>
+                                    <template x-if="result.verification_url">
+                                        <a :href="result.verification_url" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-rose-700 dark:text-rose-400 hover:underline">
+                                            Verifikasi Surat
+                                        </a>
+                                    </template>
                                 </div>
                             </template>
 
                             <template x-if="result.status === 'Selesai' && !result.can_download_letter && result.tte_status !== 'revoked'">
-                                <div class="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900 p-5 rounded-2xl text-slate-700 dark:text-slate-200 text-sm">
-                                    <h5 class="font-extrabold text-emerald-800 dark:text-emerald-300 mb-1"><i class="fa-solid fa-circle-check"></i> Pengajuan Selesai Diproses</h5>
-                                    <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300 font-medium">Berkas surat Anda telah selesai diproses. Silakan ambil dokumen fisik di <strong>Kantor Desa</strong> pada jam kerja dengan membawa dokumen asli terkait.</p>
+                                <div class="border-t border-slate-100 dark:border-slate-800 pt-5">
+                                    <h5 class="text-sm font-bold text-emerald-700 dark:text-emerald-400">Pengajuan Selesai Diproses</h5>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Dokumen fisik dapat diambil di Kantor Desa pada jam kerja dengan membawa berkas asli terkait.</p>
                                 </div>
                             </template>
                         </div>
                     </template>
 
                     <template x-if="!loading && searched && (!result || !result.found)">
-                        <div class="text-center py-16 animate-in fade-in duration-300">
+                        <div class="text-center py-12 max-w-4xl mx-auto animate-in fade-in duration-300">
                             <i class="fa-solid fa-circle-xmark text-rose-400 text-3xl mb-3 block"></i>
-                            <h3 class="text-slate-500 dark:text-slate-400 font-bold text-sm">Nomor tiket tidak ditemukan</h3>
+                            <h3 class="text-slate-700 dark:text-slate-200 font-bold text-sm">Nomor tiket tidak ditemukan</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Periksa kembali nomor tiket yang dimasukkan, contoh SRV-20261123-A1B2C3.</p>
                         </div>
                     </template>
                 </div>

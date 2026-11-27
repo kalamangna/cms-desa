@@ -56,15 +56,6 @@
                     Unduh Surat TTE
                 </a>
             @endif
-
-            @if($record?->verification_token && ($record->isTteSigned() || $record->isTteRevoked()))
-                <a href="{{ route('letters.verify', $record->verification_token) }}"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   style="display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; background-color: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd;">
-                    Buka Verifikasi
-                </a>
-            @endif
         </div>
     </div>
 

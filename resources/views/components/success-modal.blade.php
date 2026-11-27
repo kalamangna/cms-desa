@@ -1,10 +1,32 @@
 @props([
     'title',
-    'description',
+    'description' => null,
     'ticketNumber' => null,
 ])
 
-<div x-data="{ showSuccessModal: true, copied: false }"
+<div x-data="{
+        showSuccessModal: true,
+        copied: false,
+        async copyTicket(text) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const input = document.createElement('textarea');
+                    input.value = text;
+                    input.setAttribute('readonly', '');
+                    input.style.position = 'fixed';
+                    input.style.opacity = '0';
+                    document.body.appendChild(input);
+                    input.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(input);
+                }
+                this.copied = true;
+                setTimeout(() => this.copied = false, 2000);
+            } catch (e) {}
+        }
+     }"
      x-effect="document.body.classList.toggle('overflow-hidden', showSuccessModal)"
      x-show="showSuccessModal"
      x-cloak
@@ -34,8 +56,10 @@
             <i class="fa-solid fa-check"></i>
         </div>
 
-        <h3 id="success-modal-title" class="font-heading font-extrabold tracking-tight text-slate-900 dark:text-slate-100 text-xl sm:text-2xl mb-2">{{ $title }}</h3>
-        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">{{ $description }}</p>
+        <h3 id="success-modal-title" class="font-heading font-extrabold tracking-tight text-slate-900 dark:text-slate-100 text-xl sm:text-2xl {{ $description ? 'mb-2' : 'mb-6' }}">{{ $title }}</h3>
+        @if($description)
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">{{ $description }}</p>
+        @endif
 
         @if($ticketNumber)
             <div class="mb-6 sm:mb-8">
@@ -43,7 +67,7 @@
                 <div class="flex items-center justify-center gap-2">
                     <h4 class="text-lg sm:text-xl font-mono font-black text-slate-800 dark:text-slate-100 select-all break-all">{{ $ticketNumber }}</h4>
                     <button type="button"
-                            @click="navigator.clipboard.writeText(@js($ticketNumber)); copied = true; setTimeout(() => copied = false, 2000);"
+                            @click="copyTicket(@js($ticketNumber))"
                             aria-label="Salin nomor tiket"
                             class="shrink-0 w-10 h-10 inline-flex items-center justify-center rounded-xl text-slate-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500">
                         <i class="fa-solid" :class="copied ? 'fa-check text-emerald-500' : 'fa-copy'"></i>

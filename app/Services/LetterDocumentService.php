@@ -38,7 +38,7 @@ class LetterDocumentService
     }
 
     /**
-     * Membangun payload awal surat dari data kependudukan dan isian warga.
+     * Membangun payload awal surat dari data kependudukan dan identitas pemohon.
      *
      * @return array<string, string>
      */
@@ -46,7 +46,7 @@ class LetterDocumentService
     {
         $citizen = Citizen::with('dusun')->where('nik', $request->nik)->first();
 
-        $payload = [
+        return [
             'applicant_name' => (string) ($request->name ?: ($citizen?->name ?? '')),
             'applicant_nik' => (string) $request->nik,
             'applicant_phone' => (string) $request->phone,
@@ -61,15 +61,32 @@ class LetterDocumentService
             'rw' => (string) ($citizen?->rw ?? ''),
             'dusun' => (string) ($citizen?->dusun?->name ?? ''),
         ];
+    }
 
-        $formData = is_array($request->form_data) ? $request->form_data : [];
-        foreach ($formData as $key => $value) {
-            if (is_string($key) && $key !== '') {
-                $payload[$key] = is_scalar($value) ? (string) $value : '';
-            }
+    /**
+     * Menyinkronkan variabel kependudukan ke letter_payload tanpa menimpa data manual saat NIK tidak ditemukan.
+     */
+    public function syncCitizenPayload(ServiceRequest $request): bool
+    {
+        $existingPayload = is_array($request->letter_payload) ? $request->letter_payload : [];
+        $citizenExists = Citizen::where('nik', $request->nik)->exists();
+
+        if ($citizenExists) {
+            $citizenPayload = $this->buildDefaultPayload($request);
+            $request->update([
+                'letter_payload' => array_merge($existingPayload, $citizenPayload),
+            ]);
+
+            return true;
         }
 
-        return $payload;
+        if ($existingPayload === []) {
+            $request->update([
+                'letter_payload' => $this->buildDefaultPayload($request),
+            ]);
+        }
+
+        return false;
     }
 
     /**
@@ -79,10 +96,11 @@ class LetterDocumentService
     {
         $request->loadMissing('service');
         $settings = Setting::pluck('value', 'key')->toArray();
+        $letterPayload = is_array($request->letter_payload) ? $request->letter_payload : [];
         $payload = array_merge(
             $this->buildDefaultPayload($request),
-            is_array($request->letter_payload) ? $request->letter_payload : [],
-            $this->formatFormDataForRender($request)
+            $this->formatFormDataForRender($request),
+            $this->formatDateOverrides($request, $letterPayload)
         );
 
         if (filled($request->name)) {
@@ -99,12 +117,21 @@ class LetterDocumentService
         $signerName = $request->signer_name ?: ($this->resolveDefaultSigner()?->name ?? 'Kepala Desa');
         $signerPosition = $request->signer_position ?: ($this->resolveDefaultSigner()?->position ?? 'Kepala Desa');
 
+        $villageName = $this->stripAdminPrefix((string) ($settings['village_name'] ?? 'Desa'), ['Desa', 'Kelurahan']);
+        if ($villageName === '') {
+            $villageName = 'Desa';
+        }
+        $districtName = $this->stripAdminPrefix((string) ($settings['district_name'] ?? ''), ['Kecamatan', 'Kec\.']);
+        $regencyName = $this->stripAdminPrefix((string) ($settings['regency_name'] ?? ''), ['Kabupaten', 'Kab\.', 'Kota']);
+
         $variables = array_merge($payload, [
+            'birth_place_date' => $this->formatBirthPlaceDate($payload),
+            'full_address' => $this->formatFullAddress($payload, $villageName),
             'letter_number' => $request->letter_number ?: '-',
             'letter_date' => $letterDate->translatedFormat('d F Y'),
-            'village_name' => (string) ($settings['village_name'] ?? 'Desa'),
-            'district_name' => (string) ($settings['district_name'] ?? ''),
-            'regency_name' => (string) ($settings['regency_name'] ?? ''),
+            'village_name' => $villageName,
+            'district_name' => $districtName,
+            'regency_name' => $regencyName,
             'signer_name' => (string) $signerName,
             'signer_position' => (string) $signerPosition,
         ]);
@@ -123,14 +150,19 @@ class LetterDocumentService
 
         $logoDataUri = $this->resolveVillageLogoDataUri($settings['site_logo'] ?? null);
         $qrCodeDataUri = null;
+        $verificationUrl = null;
         if ($includeTteVisual) {
             $verificationToken = $verificationTokenOverride ?: ($request->verification_token ?: Str::random(40));
-            $qrCodeDataUri = $this->generateQrCodeDataUri(route('letters.verify', $verificationToken));
+            $verificationUrl = route('letters.verify', $verificationToken);
+            $qrCodeDataUri = $this->generateQrCodeDataUri($verificationUrl);
         }
 
         return view('pdf.service-letter', [
             'request' => $request,
             'settings' => $settings,
+            'villageName' => $villageName,
+            'districtName' => $districtName,
+            'regencyName' => $regencyName,
             'letterTitle' => $request->service?->letter_title ?: strtoupper((string) ($request->service?->title ?? 'SURAT KETERANGAN')),
             'letterNumber' => $request->letter_number ?: '-',
             'letterDateFormatted' => $letterDate->translatedFormat('d F Y'),
@@ -138,9 +170,10 @@ class LetterDocumentService
             'signerName' => $signerName,
             'signerPosition' => $signerPosition,
             'footerText' => self::FOOTER_TEXT,
-            'websiteUrl' => rtrim((string) url('/'), '/'),
+            'websiteUrl' => $this->resolveWebsiteDomain(),
             'logoDataUri' => $logoDataUri,
             'qrCodeDataUri' => $qrCodeDataUri,
+            'verificationUrl' => $verificationUrl,
             'showTteVisual' => $includeTteVisual,
         ])->render();
     }
@@ -359,7 +392,19 @@ class LetterDocumentService
     private function formatFormDataForRender(ServiceRequest $request): array
     {
         $formData = is_array($request->form_data) ? $request->form_data : [];
-        if ($formData === []) {
+
+        return $this->formatDateOverrides($request, $formData);
+    }
+
+    /**
+     * Memformat nilai bertipe tanggal pada payload surat menjadi format tanggal Indonesia.
+     *
+     * @param  array<string, mixed>  $rawData
+     * @return array<string, string>
+     */
+    private function formatDateOverrides(ServiceRequest $request, array $rawData): array
+    {
+        if ($rawData === []) {
             return [];
         }
 
@@ -375,7 +420,7 @@ class LetterDocumentService
         }
 
         $formatted = [];
-        foreach ($formData as $key => $value) {
+        foreach ($rawData as $key => $value) {
             if (! is_string($key) || $key === '') {
                 continue;
             }
@@ -403,6 +448,88 @@ class LetterDocumentService
         return $formatted;
     }
 
+    /**
+     * Menghapus awalan administratif wilayah agar tidak terjadi duplikasi pada kop maupun isi surat.
+     *
+     * @param  array<int, string>  $prefixes
+     */
+    private function stripAdminPrefix(string $value, array $prefixes): string
+    {
+        $trimmed = trim($value);
+        if ($trimmed === '') {
+            return '';
+        }
+
+        $pattern = '/^(?:'.implode('|', $prefixes).')\s+/iu';
+        $cleaned = preg_replace($pattern, '', $trimmed);
+
+        return trim($cleaned ?? $trimmed);
+    }
+
+    /**
+     * Menggabungkan tempat dan tanggal lahir tanpa meninggalkan tanda baca kosong.
+     *
+     * @param  array<string, string>  $payload
+     */
+    private function formatBirthPlaceDate(array $payload): string
+    {
+        $place = trim((string) ($payload['place_of_birth'] ?? ''));
+        $date = trim((string) ($payload['date_of_birth'] ?? ''));
+
+        $parts = array_values(array_filter([$place, $date], fn (string $part): bool => $part !== ''));
+
+        return $parts !== [] ? implode(', ', $parts) : '-';
+    }
+
+    /**
+     * Merangkai alamat lengkap pemohon hanya dari komponen yang terisi.
+     *
+     * @param  array<string, string>  $payload
+     */
+    private function formatFullAddress(array $payload, string $villageName): string
+    {
+        $address = trim((string) ($payload['address'] ?? ''));
+        $rt = trim((string) ($payload['rt'] ?? ''));
+        $rw = trim((string) ($payload['rw'] ?? ''));
+        $dusun = trim((string) ($payload['dusun'] ?? ''));
+
+        $rtRwParts = [];
+        if ($rt !== '') {
+            $rtRwParts[] = "RT {$rt}";
+        }
+        if ($rw !== '') {
+            $rtRwParts[] = "RW {$rw}";
+        }
+        $rtRw = implode(' ', $rtRwParts);
+
+        $streetLine = trim(implode(' ', array_filter([$address, $rtRw], fn (string $part): bool => $part !== '')));
+
+        $segments = [];
+        if ($streetLine !== '') {
+            $segments[] = $streetLine;
+        }
+        if ($dusun !== '') {
+            $segments[] = "Dusun {$dusun}";
+        }
+        if ($villageName !== '') {
+            $segments[] = "Desa {$villageName}";
+        }
+
+        return $segments !== [] ? implode(', ', $segments) : '-';
+    }
+
+    private function resolveWebsiteDomain(): string
+    {
+        $rawUrl = (string) (url('/') ?: config('app.url'));
+        $host = parse_url($rawUrl, PHP_URL_HOST);
+
+        if (! is_string($host) || trim($host) === '') {
+            $host = parse_url((string) config('app.url'), PHP_URL_HOST) ?: '';
+        }
+
+        return (string) preg_replace('/^www\./i', '', trim((string) $host));
+    }
+
     private function resolveDefaultSigner(): ?Official
     {
         $defaultOfficialId = Setting::where('key', 'tte_default_signer_official_id')->value('value');
@@ -417,23 +544,33 @@ class LetterDocumentService
             ?? Official::orderBy('order')->first();
     }
 
+    /**
+     * Cache data URI logo per path selama proses berjalan untuk menghemat pembacaan berkas dan memori.
+     *
+     * @var array<string, string>
+     */
+    private static array $logoDataUriCache = [];
+
     private function resolveVillageLogoDataUri(?string $logoPath): ?string
     {
-        if (! $logoPath) {
-            return null;
-        }
-
-        $normalized = ltrim(str_replace('\\', '/', $logoPath), '/');
-        if (str_contains($normalized, '..')) {
-            return null;
-        }
-
         $candidates = [
-            storage_path('app/public/'.$normalized),
-            public_path('storage/'.$normalized),
+            public_path('img/sinjai.png'),
+            public_path('img/sinjai.webp'),
         ];
 
+        if ($logoPath) {
+            $normalized = ltrim(str_replace('\\', '/', $logoPath), '/');
+            if (! str_contains($normalized, '..')) {
+                $candidates[] = storage_path('app/public/'.$normalized);
+                $candidates[] = public_path('storage/'.$normalized);
+            }
+        }
+
         foreach ($candidates as $path) {
+            if (isset(self::$logoDataUriCache[$path])) {
+                return self::$logoDataUriCache[$path];
+            }
+
             if (is_file($path) && is_readable($path)) {
                 $mime = mime_content_type($path) ?: 'image/png';
                 if (($mime === 'image/webp' || str_ends_with(strtolower($path), '.webp')) && function_exists('imagecreatefromwebp') && function_exists('imagepng')) {
@@ -447,14 +584,14 @@ class LetterDocumentService
                         imagedestroy($img);
 
                         if (is_string($pngBinary) && $pngBinary !== '') {
-                            return 'data:image/png;base64,'.base64_encode($pngBinary);
+                            return self::$logoDataUriCache[$path] = 'data:image/png;base64,'.base64_encode($pngBinary);
                         }
                     }
                 }
 
                 $content = file_get_contents($path);
                 if ($content !== false) {
-                    return 'data:'.$mime.';base64,'.base64_encode($content);
+                    return self::$logoDataUriCache[$path] = 'data:'.$mime.';base64,'.base64_encode($content);
                 }
             }
         }

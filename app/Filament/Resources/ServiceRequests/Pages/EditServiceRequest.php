@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ServiceRequests\Pages;
 use App\Exceptions\BsreException;
 use App\Filament\Resources\ServiceRequests\ServiceRequestResource;
 use App\Models\Official;
+use App\Models\Service;
 use App\Models\ServiceRequest;
 use App\Models\Setting;
 use App\Services\LetterDocumentService;
@@ -33,13 +34,23 @@ class EditServiceRequest extends EditRecord
                     $this->save(shouldRedirect: false, shouldSendSavedNotification: false);
 
                     $freshRecord = $this->record->fresh();
-                    $payload = $letterService->buildDefaultPayload($freshRecord);
-                    $freshRecord->update(['letter_payload' => $payload]);
+                    $found = $letterService->syncCitizenPayload($freshRecord);
+                    $this->reloadRecord();
                     $this->refreshFormData(['letter_payload']);
 
+                    if ($found) {
+                        Notification::make()
+                            ->success()
+                            ->title('Data warga berhasil dimuat')
+                            ->send();
+
+                        return;
+                    }
+
                     Notification::make()
-                        ->success()
-                        ->title('Data warga berhasil dimuat')
+                        ->warning()
+                        ->title('Data warga tidak ditemukan')
+                        ->body('NIK belum terdaftar pada data kependudukan. Lengkapi variabel surat secara manual.')
                         ->send();
                 }),
 
@@ -47,12 +58,13 @@ class EditServiceRequest extends EditRecord
                 ->label('Buat Draf PDF')
                 ->icon('heroicon-o-document-text')
                 ->color('info')
-                ->visible(fn (): bool => (bool) $this->record->service?->is_tte_enabled && ! $this->record->isTteSigned())
+                ->visible(fn (): bool => $this->isSelectedServiceTteEnabled() && ! $this->record->isTteSigned())
                 ->action(function (LetterDocumentService $letterService): void {
                     $this->save(shouldRedirect: false, shouldSendSavedNotification: false);
 
                     try {
                         $letterService->generateDraftPdf($this->record->fresh(), auth()->user());
+                        $this->reloadRecord();
                         $this->refreshFormData(['letter_number', 'letter_date', 'letter_payload', 'tte_status']);
 
                         Notification::make()
@@ -72,7 +84,7 @@ class EditServiceRequest extends EditRecord
                 ->label('Tanda Tangani BSrE')
                 ->icon('heroicon-o-shield-check')
                 ->color('success')
-                ->visible(fn (LetterDocumentService $letterService): bool => $letterService->isGlobalTteEnabled() && (bool) $this->record->service?->is_tte_enabled && ! $this->record->isTteSigned())
+                ->visible(fn (LetterDocumentService $letterService): bool => $letterService->isGlobalTteEnabled() && $this->isSelectedServiceTteEnabled() && ! $this->record->isTteSigned())
                 ->modalHeading('Tanda Tangani Surat dengan BSrE')
                 ->modalDescription('Passphrase tidak disimpan oleh sistem dan hanya dikirim sekali ke layanan BSrE BSSN.')
                 ->modalSubmitActionLabel('Kirim TTE BSrE')
@@ -124,7 +136,7 @@ class EditServiceRequest extends EditRecord
                             auth()->user()
                         );
                         // Refresh the record to ensure latest data (e.g., status, payload) is loaded
-                        $this->record = $this->record->fresh();
+                        $this->reloadRecord();
 
                         $this->refreshFormData([
                             'letter_number',
@@ -170,6 +182,7 @@ class EditServiceRequest extends EditRecord
                 ])
                 ->action(function (array $data, LetterDocumentService $letterService): void {
                     $letterService->revoke($this->record, (string) $data['reason'], auth()->user());
+                    $this->reloadRecord();
                     $this->refreshFormData(['tte_status']);
 
                     Notification::make()
@@ -181,5 +194,27 @@ class EditServiceRequest extends EditRecord
             DeleteAction::make()
                 ->visible(fn (): bool => ! $this->record->isTteSigned()),
         ];
+    }
+
+    protected function afterSave(): void
+    {
+        $this->reloadRecord();
+    }
+
+    private function reloadRecord(): void
+    {
+        // Gunakan refresh() in-place agar referensi record di cachedSchemas Filament ikut terbarui
+        $this->record->refresh();
+        $this->record->load(['service', 'attachments']);
+    }
+
+    private function isSelectedServiceTteEnabled(): bool
+    {
+        $selectedServiceId = $this->data['service_id'] ?? null;
+        if (blank($selectedServiceId) || (int) $selectedServiceId === (int) $this->record->service_id) {
+            return (bool) $this->record->service?->is_tte_enabled;
+        }
+
+        return (bool) Service::whereKey($selectedServiceId)->value('is_tte_enabled');
     }
 }

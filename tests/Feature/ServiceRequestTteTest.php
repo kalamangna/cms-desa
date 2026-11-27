@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Exceptions\BsreException;
+use App\Filament\Resources\ServiceRequests\Pages\EditServiceRequest;
+use App\Filament\Resources\ServiceRequests\ServiceRequestResource;
 use App\Models\AuditLog;
 use App\Models\Citizen;
 use App\Models\Dusun;
@@ -21,6 +23,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
+use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -214,13 +217,18 @@ class ServiceRequestTteTest extends TestCase
         });
 
         $draftHtml = app(LetterDocumentService::class)->renderHtml($signedRequest, false);
-        $this->assertStringNotContainsString('data:image/png;base64,', $draftHtml);
+        $this->assertStringNotContainsString('alt="QR Verifikasi TTE"', $draftHtml);
+        $this->assertStringNotContainsString('Ditandatangani secara elektronik oleh:', $draftHtml);
         $this->assertStringNotContainsString(LetterDocumentService::FOOTER_TEXT, $draftHtml);
 
         $signedHtml = app(LetterDocumentService::class)->renderHtml($signedRequest, true);
+        $this->assertStringContainsString('alt="QR Verifikasi TTE"', $signedHtml);
         $this->assertStringContainsString('data:image/png;base64,', $signedHtml);
         $this->assertStringContainsString('Ditandatangani secara elektronik oleh:', $signedHtml);
         $this->assertStringContainsString(LetterDocumentService::FOOTER_TEXT, $signedHtml);
+        $expectedHost = preg_replace('/^www\./i', '', (string) parse_url(config('app.url'), PHP_URL_HOST));
+        $this->assertStringContainsString('<div>'.$expectedHost.'</div>', $signedHtml);
+        $this->assertStringContainsString('<a href="'.route('letters.verify', $signedRequest->verification_token).'"', $signedHtml);
 
         Storage::disk('local')->assertMissing('service-requests/'.$signedRequest->id.'/to-sign.pdf');
 
@@ -598,5 +606,180 @@ class ServiceRequestTteTest extends TestCase
         $secondHtml = $letterService->renderHtml($updated);
         $this->assertStringContainsString('Budi Baru', $secondHtml);
         $this->assertStringContainsString('7307011234560009', $secondHtml);
+    }
+
+    public function test_render_html_normalizes_region_prefixes_handles_missing_citizen_and_preserves_payload_overrides(): void
+    {
+        Setting::updateOrCreate(['key' => 'village_name'], ['value' => 'Desa Tompobulu']);
+        Setting::updateOrCreate(['key' => 'district_name'], ['value' => 'Kecamatan Bulupoddo']);
+        Setting::updateOrCreate(['key' => 'regency_name'], ['value' => 'Kabupaten Sinjai']);
+
+        $preset = LetterTemplatePresets::get('domisili');
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'letter_code' => $preset['letter_code'],
+            'letter_title' => $preset['letter_title'],
+            'letter_template' => $preset['letter_template'],
+            'form_fields' => $preset['form_fields'],
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560010',
+            'name' => 'Warga Tanpa Data Kependudukan',
+            'phone' => '081234567898',
+            'service_id' => $service->id,
+            'form_data' => [
+                'keperluan' => 'Keperluan awal warga',
+            ],
+        ]);
+
+        $letterService = app(LetterDocumentService::class);
+        $defaultPayload = $letterService->buildDefaultPayload($serviceRequest);
+        $this->assertArrayNotHasKey('keperluan', $defaultPayload);
+
+        $htmlWithoutCitizen = $letterService->renderHtml($serviceRequest);
+        $this->assertStringContainsString('alt="Logo Kabupaten Sinjai"', $htmlWithoutCitizen);
+        $this->assertStringContainsString('data:image/png;base64,', $htmlWithoutCitizen);
+        $this->assertStringContainsString('PEMERINTAH KABUPATEN SINJAI', $htmlWithoutCitizen);
+        $this->assertStringContainsString('KECAMATAN BULUPODDO', $htmlWithoutCitizen);
+        $this->assertStringContainsString('PEMERINTAH DESA TOMPOBULU', $htmlWithoutCitizen);
+        $this->assertStringNotContainsString('Kabupaten Kabupaten', $htmlWithoutCitizen);
+        $this->assertStringNotContainsString('Kecamatan Kecamatan', $htmlWithoutCitizen);
+        $this->assertStringNotContainsString('Desa Desa', $htmlWithoutCitizen);
+        $this->assertStringNotContainsString('-, -', $htmlWithoutCitizen);
+        $this->assertStringNotContainsString('- RT - RW -', $htmlWithoutCitizen);
+        $this->assertStringContainsString('Keperluan awal warga', $htmlWithoutCitizen);
+
+        // Override petugas pada letter_payload tidak boleh tertimpa oleh form_data asli
+        $serviceRequest->update([
+            'letter_payload' => [
+                'keperluan' => 'Keperluan dikoreksi petugas',
+            ],
+        ]);
+
+        $htmlWithOverride = $letterService->renderHtml($serviceRequest->fresh());
+        $this->assertStringContainsString('Keperluan dikoreksi petugas', $htmlWithOverride);
+        $this->assertStringNotContainsString('Keperluan awal warga', $htmlWithOverride);
+    }
+
+    public function test_service_request_cannot_be_created_from_admin_panel(): void
+    {
+        $this->assertFalse(ServiceRequestResource::canCreate());
+
+        Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole('super_admin');
+
+        $this->actingAs($superAdmin)
+            ->get('/admin/service-requests/create')
+            ->assertNotFound();
+
+        $this->actingAs($superAdmin)
+            ->get('/admin/service-requests')
+            ->assertOk()
+            ->assertDontSee('Buat Permohonan Layanan');
+    }
+
+    public function test_sync_citizen_payload_returns_false_without_overwriting_manual_data_when_nik_missing(): void
+    {
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'is_tte_enabled' => true,
+        ]);
+
+        $missingRequest = ServiceRequest::create([
+            'nik' => '7307011234560098',
+            'name' => 'Warga Belum Terdaftar',
+            'phone' => '081234567899',
+            'service_id' => $service->id,
+        ]);
+
+        $letterService = app(LetterDocumentService::class);
+
+        // NIK tidak terdaftar dan payload masih kosong -> mengembalikan false dan inisialisasi kerangka standar
+        $this->assertFalse($letterService->syncCitizenPayload($missingRequest));
+        $missingRequest->refresh();
+        $this->assertSame('Warga Belum Terdaftar', $missingRequest->letter_payload['applicant_name']);
+        $this->assertSame('', $missingRequest->letter_payload['place_of_birth']);
+
+        // Petugas mengisi manual, lalu klik Isi Data Warga lagi -> data manual tidak tertimpa
+        $missingRequest->update([
+            'letter_payload' => array_merge($missingRequest->letter_payload, [
+                'place_of_birth' => 'Sinjai',
+                'custom_note' => 'Catatan petugas',
+            ]),
+        ]);
+
+        $this->assertFalse($letterService->syncCitizenPayload($missingRequest->fresh()));
+        $missingRequest->refresh();
+        $this->assertSame('Sinjai', $missingRequest->letter_payload['place_of_birth']);
+        $this->assertSame('Catatan petugas', $missingRequest->letter_payload['custom_note']);
+
+        // Jika warga terdaftar di tabel citizens -> mengembalikan true, mengisi data kependudukan, dan mempertahankan key kustom
+        $dusun = Dusun::create(['name' => 'Bulu', 'total_rt' => 2, 'total_rw' => 1]);
+        Citizen::create([
+            'nik' => '7307011234560098',
+            'dusun_id' => $dusun->id,
+            'name' => 'Warga Terdaftar',
+            'place_of_birth' => 'Makassar',
+            'date_of_birth' => '1992-03-15',
+            'gender' => 'Laki-laki',
+            'religion' => 'Islam',
+            'job' => 'Petani',
+            'address' => 'Jalan Desa',
+            'rt' => '001',
+            'rw' => '001',
+            'status' => 'Aktif',
+        ]);
+
+        $this->assertTrue($letterService->syncCitizenPayload($missingRequest->fresh()));
+        $missingRequest->refresh();
+        $this->assertSame('Makassar', $missingRequest->letter_payload['place_of_birth']);
+        $this->assertSame('Bulu', $missingRequest->letter_payload['dusun']);
+        $this->assertSame('Catatan petugas', $missingRequest->letter_payload['custom_note']);
+    }
+
+    public function test_generate_draft_pdf_action_updates_edit_page_live_without_reload(): void
+    {
+        Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole('super_admin');
+
+        $preset = LetterTemplatePresets::get('domisili');
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'letter_code' => $preset['letter_code'],
+            'letter_title' => $preset['letter_title'],
+            'letter_template' => $preset['letter_template'],
+            'form_fields' => $preset['form_fields'],
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560011',
+            'name' => 'Hasanuddin',
+            'phone' => '081234567891',
+            'service_id' => $service->id,
+            'form_data' => ['keperluan' => 'Administrasi bank'],
+        ]);
+
+        $this->actingAs($superAdmin);
+
+        Livewire::test(EditServiceRequest::class, ['record' => $serviceRequest->getRouteKey()])
+            ->assertSee('Belum Dibuat')
+            ->assertDontSee('Lihat Draf PDF')
+            ->callAction('generateDraftPdf')
+            ->assertHasNoActionErrors()
+            ->assertSee('Draf')
+            ->assertSee('Lihat Draf PDF')
+            ->assertSet('data.tte_status', ServiceRequest::TTE_DRAFT);
+
+        $fresh = $serviceRequest->fresh();
+        $this->assertSame(ServiceRequest::TTE_DRAFT, $fresh->tte_status);
+        $this->assertNotNull($fresh->draft_pdf_path);
     }
 }

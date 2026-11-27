@@ -2,6 +2,25 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.5] - 2026-11-27
+
+### Perbaikan
+- **Template Surat TTE dan Render PDF (`LetterDocumentService`, `LetterTemplatePresets`, `service-letter.blade.php`, `ServiceForm`)**:
+  - Menormalkan prefiks wilayah (`Desa`, `Kecamatan`, `Kabupaten`) pada kop dan isi surat untuk mencegah duplikasi kata wilayah.
+  - Memisahkan `form_data` dari `buildDefaultPayload()` dan menyesuaikan urutan penggabungan `letter_payload` agar koreksi petugas tidak tertimpa data mentah warga.
+  - Menambahkan placeholder gabungan `{{birth_place_date}}` dan `{{full_address}}`, merapikan preset `kematian`, `pindah`, serta alias `Surat Keterangan Usaha (SKU)`, dan mengaktifkan tombol tabel pada `RichEditor`.
+  - Menggunakan logo Kabupaten Sinjai (`public/img/sinjai.png`) pada kop surat, merapikan garis kop ganda dan tata letak PDF A4, menampilkan domain bersih rata tengah pada footer TTE, serta membuat QR Code verifikasi pada PDF dapat diklik.
+  - Menambahkan cache statis data URI logo di `LetterDocumentService` untuk efisiensi memori saat render massal.
+- **Alur Permohonan Layanan, Pengaduan, dan Buku Tamu di Admin (`ServiceRequestResource`, `EditServiceRequest`, `ServiceRequestForm`, `attachments-list.blade.php`, `tte-status.blade.php`, `ComplaintForm`, `EditComplaint`, `GuestBookForm`)**:
+  - Membatasi pembuatan permohonan layanan satu pintu dari halaman publik dengan menonaktifkan aksi dan rute create pada panel admin.
+  - Menambahkan sinkronisasi `syncCitizenPayload()` dengan notifikasi peringatan ketika NIK tidak terdaftar di data kependudukan tanpa menimpa isian manual petugas.
+  - Memperbaiki pembaruan live setelah klik `Buat Draf PDF` dan perubahan layanan pada `EditServiceRequest`.
+  - Merapikan tampilan tab `Berkas` dengan komponen tombol Filament, menghapus tombol `Buka Verifikasi` di panel status TTE, serta merapikan halaman edit Pengaduan (memindahkan tombol WA ke header) dan Buku Tamu.
+- **Form Publik dan Hasil Lacak Tiket (`ServiceRequestController`, `ComplaintController`, `GuestBookController`, `layanan.blade.php`, `pengaduan.blade.php`, `buku_tamu.blade.php`, `success-modal.blade.php`)**:
+  - Menyederhanakan judul serta deskripsi modal sukses, menyeragamkan pesan validasi nomor WhatsApp, dan menambahkan fallback salin tiket untuk lingkungan non-HTTPS.
+  - Merapikan tampilan hasil lacak tiket Layanan dan Pengaduan (menghapus kartu bersarang dan ukuran huruf arbitrer, menyeragamkan masking NIK via `maskedNik()`, serta menyederhanakan blok `Surat Siap Diunduh`).
+  - Menambahkan catatan Kebijakan Privasi dan placeholder konteks Diskominfo pada halaman publik Buku Tamu.
+
 ## [1.32.4] - 2026-11-26
 
 ### Perbaikan

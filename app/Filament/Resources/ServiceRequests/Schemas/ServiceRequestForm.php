@@ -69,6 +69,7 @@ class ServiceRequestForm
                                             ->relationship('service', 'title')
                                             ->searchable()
                                             ->preload()
+                                            ->live()
                                             ->required()
                                             ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false),
                                         Select::make('status')
@@ -132,7 +133,8 @@ class ServiceRequestForm
                                     ->hiddenLabel()
                                     ->content(fn ($record) => view('filament.service-requests.attachments-list', [
                                         'record' => $record?->loadMissing('attachments'),
-                                    ])),
+                                    ]))
+                                    ->columnSpanFull(),
                             ]),
 
                         Tabs\Tab::make('Surat TTE')

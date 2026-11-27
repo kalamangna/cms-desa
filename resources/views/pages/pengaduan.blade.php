@@ -108,7 +108,7 @@
                 @if(session('success') && session('ticket_number'))
                     <x-success-modal
                         :title="session('success')"
-                        description="Pengaduan Anda telah terdaftar dalam sistem."
+                        description="Simpan nomor tiket untuk melacak status."
                         :ticket-number="session('ticket_number')"
                     />
                 @endif
@@ -195,7 +195,7 @@
 
                 <form @submit.prevent="fetchStatus()" class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <div class="flex-grow relative">
-                        <input type="text" x-model="ticket" placeholder="Contoh: ADV-20260716-XXXX" required
+                        <input type="text" x-model="ticket" placeholder="ADV-20260716-XXXX" required
                                class="w-full h-12 sm:h-14 px-4 sm:px-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono font-bold text-slate-800 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-500 outline-none transition text-base sm:text-sm">
                     </div>
                     <button type="submit" :disabled="loading" class="h-12 sm:h-14 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white px-6 sm:px-8 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow-xs">
@@ -205,7 +205,7 @@
                         <template x-if="!loading">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </template>
-                        <span x-text="loading ? 'Memuat...' : 'Lacak'"></span>
+                        <span x-text="loading ? 'Memuat...' : 'Lacak Pengaduan'"></span>
                     </button>
                 </form>
             </div>
@@ -213,39 +213,23 @@
             {{-- Tracking Results (Real-time Rendered) --}}
             <div x-show="searched" x-transition:enter="transition ease-out duration-300">
                 <template x-if="result && result.found">
-                    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 p-5 sm:p-8 md:p-12 space-y-6 sm:space-y-8">
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-950/50 p-5 sm:p-8 md:p-10 space-y-6">
 
                         {{-- Status Header --}}
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 pb-5 sm:pb-6 border-b border-slate-100 dark:border-slate-800">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100 dark:border-slate-800">
                             <div>
-                                <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Nomor Tiket</span>
-                                <h4 class="text-lg sm:text-xl font-mono font-black text-slate-900 dark:text-slate-100 mt-0.5 break-all" x-text="result.ticket_number"></h4>
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Nomor Tiket</span>
+                                <h4 class="text-base sm:text-lg font-mono font-black text-slate-900 dark:text-slate-100 mt-0.5 break-all" x-text="result.ticket_number"></h4>
                             </div>
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-2">
                                 <span class="text-slate-500 dark:text-slate-400 text-xs font-semibold">Status:</span>
-                                <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider"
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider"
                                       :class="{
                                           'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700': result.status === 'Menunggu',
                                           'bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-900 text-amber-700 dark:text-amber-300': result.status === 'Diproses',
                                           'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-900 text-emerald-700 dark:text-emerald-300': result.status === 'Selesai'
                                       }"
                                 >
-                                    <span class="relative flex h-2 w-2">
-                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                                              :class="{
-                                                  'bg-slate-400': result.status === 'Menunggu',
-                                                  'bg-amber-400': result.status === 'Diproses',
-                                                  'bg-emerald-400': result.status === 'Selesai'
-                                              }"
-                                        ></span>
-                                        <span class="relative inline-flex rounded-full h-2 w-2"
-                                              :class="{
-                                                  'bg-slate-500': result.status === 'Menunggu',
-                                                  'bg-amber-500': result.status === 'Diproses',
-                                                  'bg-emerald-500': result.status === 'Selesai'
-                                              }"
-                                        ></span>
-                                    </span>
                                     <span x-text="result.status"></span>
                                 </span>
                             </div>
@@ -253,30 +237,28 @@
 
                         {{-- Complaint Content --}}
                         <div>
-                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">Laporan / Pengaduan Anda</span>
-                            <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-6 border border-slate-100 dark:border-slate-700">
-                                <h4 class="font-extrabold text-slate-900 dark:text-slate-100 mb-2" x-text="result.title"></h4>
-                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed whitespace-pre-line font-medium" x-text="result.content"></p>
-                                <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider block mt-4">
-                                    <i class="fa-regular fa-clock mr-1"></i> Dikirim pada <span x-text="result.created_at"></span>
-                                </span>
-                            </div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">Rincian Pengaduan</span>
+                            <h4 class="font-extrabold text-slate-900 dark:text-slate-100 text-base mb-2" x-text="result.title"></h4>
+                            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed whitespace-pre-line font-medium" x-text="result.content"></p>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 font-semibold mt-3">
+                                <i class="fa-regular fa-clock mr-1"></i> Dikirim pada <span x-text="result.created_at"></span>
+                            </p>
                         </div>
 
                         {{-- Admin Response --}}
-                        <div>
-                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">Tanggapan / Tindak Lanjut dari Admin</span>
-                            <div class="bg-primary-50/60 dark:bg-primary-950/30 rounded-2xl p-6 border border-primary-100/80 dark:border-primary-900/60">
+                        <div class="border-t border-slate-100 dark:border-slate-800 pt-6">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2.5">Tanggapan Pemerintah Desa</span>
+                            <div class="bg-primary-50/60 dark:bg-primary-950/30 rounded-2xl p-5 border border-primary-100/80 dark:border-primary-900/60">
                                 <template x-if="result.response">
                                     <div>
                                         <p class="text-slate-800 dark:text-slate-100 text-sm leading-relaxed whitespace-pre-line font-medium" x-text="result.response"></p>
-                                        <span class="text-[10px] text-primary-700 dark:text-primary-400 font-bold uppercase tracking-wider block mt-4">
+                                        <p class="text-xs text-primary-700 dark:text-primary-400 font-semibold mt-3">
                                             <i class="fa-regular fa-clock mr-1"></i> Ditanggapi pada <span x-text="result.updated_at"></span>
-                                        </span>
+                                        </p>
                                     </div>
                                 </template>
                                 <template x-if="!result.response">
-                                    <p class="text-slate-500 dark:text-slate-400 italic text-sm font-medium">Laporan Anda sedang dikaji dan belum mendapatkan tanggapan tertulis dari petugas admin desa. Harap periksa kembali secara berkala.</p>
+                                    <p class="text-slate-500 dark:text-slate-400 italic text-sm font-medium">Laporan Anda sedang dikaji dan belum mendapatkan tanggapan tertulis dari petugas desa. Harap periksa kembali secara berkala.</p>
                                 </template>
                             </div>
                         </div>
@@ -285,9 +267,10 @@
                 </template>
 
                 <template x-if="!loading && searched && (!result || !result.found)">
-                    <div class="text-center py-16 animate-in fade-in duration-300">
+                    <div class="text-center py-12 animate-in fade-in duration-300">
                         <i class="fa-solid fa-circle-xmark text-rose-400 text-3xl mb-3 block"></i>
-                        <h3 class="text-slate-500 dark:text-slate-400 font-bold text-sm">Nomor Tiket Tidak Ditemukan</h3>
+                        <h3 class="text-slate-700 dark:text-slate-200 font-bold text-sm">Nomor Tiket Tidak Ditemukan</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Periksa kembali nomor tiket yang dimasukkan, contoh ADV-20260716-XXXX.</p>
                     </div>
                 </template>
             </div>

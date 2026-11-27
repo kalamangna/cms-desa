@@ -48,7 +48,7 @@
             @if(session('success'))
                 <x-success-modal
                     :title="session('success')"
-                    description="Data kunjungan Anda telah dicatat."
+                    description="Data kunjungan berhasil disimpan."
                 />
             @endif
 
@@ -79,7 +79,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="institution_address" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Instansi atau Alamat</label>
-                        <input type="text" id="institution_address" name="institution_address" value="{{ old('institution_address') }}" placeholder="Dinas Pertanian Kabupaten Sinjai" required
+                        <input type="text" id="institution_address" name="institution_address" value="{{ old('institution_address') }}" placeholder="Diskominfo Kabupaten Sinjai" required
                                class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('institution_address') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition text-base sm:text-sm">
                         @error('institution_address')
                             <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
@@ -97,12 +97,16 @@
 
                 <div>
                     <label for="purpose" class="block text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2.5 ml-1">Keperluan Kunjungan</label>
-                    <textarea id="purpose" name="purpose" rows="5" placeholder="Koordinasi program pendampingan pertanian" required
+                    <textarea id="purpose" name="purpose" rows="5" placeholder="Koordinasi pengelolaan website desa" required
                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border @error('purpose') border-rose-500 dark:border-rose-500 focus:ring-rose-500 @else border-slate-200 dark:border-slate-700 focus:ring-primary-500 @enderror focus:outline-none focus:ring-2 focus:border-transparent font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none transition resize-none text-base sm:text-sm">{{ old('purpose') }}</textarea>
                     @error('purpose')
                         <p class="mt-1.5 ml-1 text-xs font-medium text-rose-600 dark:text-rose-400">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Data yang Anda kirim digunakan khusus untuk pencatatan kunjungan ini sesuai <a href="{{ route('privacy-policy') }}" class="text-primary-600 dark:text-primary-400 font-semibold hover:underline">Kebijakan Privasi</a>.
+                </p>
 
                 <button type="submit"
                         :disabled="submitting"

@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\ServiceRequests;
 
-use App\Filament\Resources\ServiceRequests\Pages\CreateServiceRequest;
 use App\Filament\Resources\ServiceRequests\Pages\EditServiceRequest;
 use App\Filament\Resources\ServiceRequests\Pages\ListServiceRequests;
 use App\Filament\Resources\ServiceRequests\Schemas\ServiceRequestForm;
@@ -51,11 +50,15 @@ class ServiceRequestResource extends Resource
         ];
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => ListServiceRequests::route('/'),
-            'create' => CreateServiceRequest::route('/create'),
             'edit' => EditServiceRequest::route('/{record}/edit'),
         ];
     }

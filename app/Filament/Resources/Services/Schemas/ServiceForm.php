@@ -168,6 +168,11 @@ class ServiceForm
 
                                 RichEditor::make('letter_template')
                                     ->label('Isi Surat')
+                                    ->toolbarButtons([
+                                        ['bold', 'italic', 'underline'],
+                                        ['bulletList', 'orderedList', 'table'],
+                                        ['undo', 'redo'],
+                                    ])
                                     ->visible(fn (Get $get): bool => (bool) $get('is_tte_enabled'))
                                     ->columnSpanFull(),
 
