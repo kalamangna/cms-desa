@@ -2,6 +2,13 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.9] - 2026-11-28
+
+### Perbaikan
+- **Migrasi Penyeragaman Kode Klasifikasi Surat (`2026_11_28_203500_sync_permendagri_83_letter_codes`)**:
+  - Menyinkronkan kode klasifikasi surat lama bawaan di tabel `services` (`470`, `474.1`, `474.4`, `475`, `472.11`, `472.12`, `474.2`, `503`, `401`, `300`) ke standar Permendagri Nomor 83 Tahun 2022 tanpa menimpa kode kustom desa.
+  - Menyesuaikan pengaturan `tte_letter_number_format` yang masih memakai format lama ke `LetterNumberService::DEFAULT_FORMAT` sambil mempertahankan format kustom desa.
+
 ## [1.32.8] - 2026-11-28
 
 ### Perbaikan
