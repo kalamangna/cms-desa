@@ -2,6 +2,15 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.7] - 2026-11-28
+
+### Perbaikan
+- **Ringkasan Notifikasi Perubahan Pengaturan Telegram (`SettingChangeNotifier`, `AppServiceProvider`, `SettingTest`)**:
+  - Merangkum seluruh perubahan `Setting` dalam satu request menjadi satu pesan Telegram melalui `SettingChangeNotifier` yang di-flush pada `app()->terminating()` untuk mencegah spam notifikasi saat menyimpan pengaturan.
+  - Menyembunyikan nilai key sensitif (`*_nik`, `*_password`, `*_secret`, `*_token`, `*_passphrase`, `*_key`) sebagai `[TERSEMBUNYI]` dan membatasi tampilan maksimal 10 item per pesan.
+- **Penempatan Domain Website pada Kop Surat PDF (`service-letter.blade.php`, `ServiceRequestTteTest`)**:
+  - Memindahkan tampilan domain website desa dari footer TTE ke baris alamat kop surat (`.address-line`) agar footer hanya menampilkan catatan sertifikat elektronik BSSN.
+
 ## [1.32.6] - 2026-11-27
 
 ### Perbaikan

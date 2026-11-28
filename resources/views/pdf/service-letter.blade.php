@@ -204,6 +204,11 @@
                     $resolvedRegency = $regencyName ?? ($settings['regency_name'] ?? '');
                     $resolvedDistrict = $districtName ?? ($settings['district_name'] ?? '');
                     $resolvedVillage = $villageName ?? ($settings['village_name'] ?? 'Desa');
+                    $headerContacts = array_values(array_filter([
+                        trim((string) ($settings['village_address'] ?? '')),
+                        trim((string) ($settings['village_email'] ?? '')),
+                        trim((string) ($websiteUrl ?? '')),
+                    ], fn (string $item): bool => $item !== ''));
                 @endphp
                 @if(!empty($resolvedRegency))
                     <p class="gov-line">PEMERINTAH KABUPATEN {{ strtoupper($resolvedRegency) }}</p>
@@ -212,14 +217,8 @@
                     <p class="gov-line">KECAMATAN {{ strtoupper($resolvedDistrict) }}</p>
                 @endif
                 <p class="village-line">PEMERINTAH DESA {{ strtoupper($resolvedVillage ?: 'DESA') }}</p>
-                @if(!empty($settings['village_address']) || !empty($settings['village_email']))
-                    <p class="address-line">
-                        {{ $settings['village_address'] ?? '' }}
-                        @if(!empty($settings['village_address']) && !empty($settings['village_email']))
-                            &bull;
-                        @endif
-                        {{ $settings['village_email'] ?? '' }}
-                    </p>
+                @if($headerContacts !== [])
+                    <p class="address-line">{{ implode(' • ', $headerContacts) }}</p>
                 @endif
             </td>
             @if($logoDataUri)
@@ -278,9 +277,6 @@
     @if($showTteVisual ?? false)
         <div class="footer-note">
             <div>{{ $footerText }}</div>
-            @if(!empty($websiteUrl))
-                <div>{{ $websiteUrl }}</div>
-            @endif
         </div>
     @endif
 </body>

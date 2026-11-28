@@ -30,6 +30,7 @@ use App\Models\VillagePotential;
 use App\Models\VisitorLog;
 use App\Notifications\SystemMonitorNotification;
 use App\Services\GoogleDriveAdapterWrapper;
+use App\Services\SettingChangeNotifier;
 use App\Services\StatisticService;
 use Filament\Forms\Components\Select;
 use Google\Client;
@@ -61,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->scoped(SettingChangeNotifier::class);
     }
 
     /**
@@ -230,8 +231,8 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        // 3. Perubahan Pengaturan Krusial
-        Setting::updated(function (Setting $setting) {
+        // 3. Perubahan Pengaturan Krusial (dirangkum satu notifikasi per request)
+        Setting::updated(function (Setting $setting): void {
             try {
                 if (app()->runningUnitTests() || app()->environment('testing') || app()->runningInConsole()) {
                     return;
@@ -241,21 +242,19 @@ class AppServiceProvider extends ServiceProvider
                     return;
                 }
 
-                if (in_array($setting->key, ['sejarah_desa', 'visi_misi', 'peta_desa'])) {
+                app(SettingChangeNotifier::class)->record($setting);
+            } catch (\Throwable) {
+            }
+        });
+
+        app()->terminating(function (): void {
+            try {
+                if (app()->runningUnitTests() || app()->environment('testing') || app()->runningInConsole()) {
                     return;
                 }
 
-                $oldRaw = $setting->getOriginal('value') ?? '-';
-                $newRaw = $setting->value ?? '-';
-                // Potong jika terlalu panjang (misal JSON/teks panjang)
-                $old = strlen($oldRaw) > 80 ? substr($oldRaw, 0, 80).'…' : $oldRaw;
-                $new = strlen($newRaw) > 80 ? substr($newRaw, 0, 80).'…' : $newRaw;
-
-                $msg = "⚙️ <code>{$setting->key}</code>\n"
-                     ."📤 Lama: <code>{$old}</code>\n"
-                     ."📥 Baru: <code>{$new}</code>";
-                Notification::route('telegram', 'system')->notify(new SystemMonitorNotification('PENGATURAN DIUBAH', $msg, 'info'));
-            } catch (\Throwable $e) {
+                app(SettingChangeNotifier::class)->flush(auth()->user()?->name);
+            } catch (\Throwable) {
             }
         });
 

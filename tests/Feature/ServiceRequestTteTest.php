@@ -227,7 +227,8 @@ class ServiceRequestTteTest extends TestCase
         $this->assertStringContainsString('Ditandatangani secara elektronik oleh:', $signedHtml);
         $this->assertStringContainsString(LetterDocumentService::FOOTER_TEXT, $signedHtml);
         $expectedHost = preg_replace('/^www\./i', '', (string) parse_url(config('app.url'), PHP_URL_HOST));
-        $this->assertStringContainsString('<div>'.$expectedHost.'</div>', $signedHtml);
+        $this->assertStringContainsString('<p class="address-line">'.$expectedHost.'</p>', $signedHtml);
+        $this->assertStringNotContainsString('<div>'.$expectedHost.'</div>', $signedHtml);
         $this->assertStringContainsString('<a href="'.route('letters.verify', $signedRequest->verification_token).'"', $signedHtml);
 
         Storage::disk('local')->assertMissing('service-requests/'.$signedRequest->id.'/to-sign.pdf');
