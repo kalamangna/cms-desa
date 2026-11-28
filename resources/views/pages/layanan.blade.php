@@ -105,6 +105,7 @@
             'nik_masked' => $serviceRequest->maskedNik(),
             'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
             'status' => $serviceRequest->status,
+            'admin_response' => filled($serviceRequest->admin_response) ? trim((string) $serviceRequest->admin_response) : null,
             'tte_status' => $serviceRequest->tte_status ?? \App\Models\ServiceRequest::TTE_NONE,
             'letter_number' => $serviceRequest->letter_number,
             'signed_at' => $serviceRequest->signed_at?->translatedFormat('d M Y, H:i'),
@@ -421,7 +422,8 @@
                                           :class="{
                                               'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700': result.status === 'Menunggu',
                                               'bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-900 text-amber-700 dark:text-amber-300': result.status === 'Diproses',
-                                              'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-900 text-emerald-700 dark:text-emerald-300': result.status === 'Selesai'
+                                              'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-900 text-emerald-700 dark:text-emerald-300': result.status === 'Selesai',
+                                              'bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300': result.status === 'Ditolak'
                                           }"
                                     >
                                         <span x-text="result.status"></span>
@@ -447,6 +449,13 @@
                                     <dd class="text-sm text-slate-600 dark:text-slate-300 font-medium" x-text="result.created_at"></dd>
                                 </div>
                             </dl>
+
+                            <template x-if="result.admin_response">
+                                <div class="border-t border-slate-100 dark:border-slate-800 pt-5">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-1.5">Catatan Petugas</span>
+                                    <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed" x-text="result.admin_response"></p>
+                                </div>
+                            </template>
 
                             <template x-if="result.attachments && result.attachments.length > 0">
                                 <div class="border-t border-slate-100 dark:border-slate-800 pt-5">

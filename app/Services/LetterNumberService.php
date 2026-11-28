@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class LetterNumberService
 {
-    public const DEFAULT_FORMAT = '{kode_klasifikasi}/{nomor_urut}/{kode_desa}/{bulan_romawi}/{tahun}';
+    public const DEFAULT_FORMAT = '{kode_klasifikasi}/{nomor_urut}/{kode_desa}/{tahun}';
 
     /**
      * Menghasilkan nomor surat berikutnya secara atomik per tahun.
@@ -56,7 +56,7 @@ class LetterNumberService
     {
         $format = Setting::where('key', 'tte_letter_number_format')->value('value') ?: self::DEFAULT_FORMAT;
         $villageCode = Setting::where('key', 'tte_village_code')->value('value') ?: 'DESA';
-        $classificationCode = $service->letter_code ?: '470';
+        $classificationCode = $service->letter_code ?: '400.12.2';
 
         $replacements = [
             '{kode_klasifikasi}' => trim($classificationCode),

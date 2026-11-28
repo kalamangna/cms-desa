@@ -156,7 +156,7 @@ class ServiceForm
                                     ->schema([
                                         TextInput::make('letter_code')
                                             ->label('Kode Surat')
-                                            ->placeholder('470')
+                                            ->placeholder('400.12.2')
                                             ->maxLength(30)
                                             ->columnSpan(1),
                                         TextInput::make('letter_title')

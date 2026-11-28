@@ -246,6 +246,7 @@ class ServiceRequestController extends Controller
             'nik_masked' => $serviceRequest->maskedNik(),
             'service_title' => $serviceRequest->service?->title ?? 'Layanan Umum',
             'status' => $serviceRequest->status,
+            'admin_response' => filled($serviceRequest->admin_response) ? trim((string) $serviceRequest->admin_response) : null,
             'tte_status' => $serviceRequest->tte_status ?? ServiceRequest::TTE_NONE,
             'letter_number' => $serviceRequest->letter_number,
             'signed_at' => $serviceRequest->signed_at?->translatedFormat('d M Y, H:i'),

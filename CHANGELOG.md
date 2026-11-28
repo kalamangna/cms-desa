@@ -2,6 +2,24 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.8] - 2026-11-28
+
+### Perbaikan
+- **Notifikasi WhatsApp, Status Ditolak, dan Catatan Petugas (`ServiceRequest`, `ServiceRequestForm`, `ServiceRequestsTable`, `ServiceRequestController`, `layanan.blade.php`)**:
+  - Menyentralisasi pembentukan pesan WhatsApp pada `ServiceRequest::buildWhatsAppNotification()` untuk menangani status `TTE_REVOKED` dan `Ditolak`, serta membaca state `status` dan `admin_response` form terkini sebelum disimpan.
+  - Menambahkan opsi status `Ditolak` dan kolom `Catatan Petugas` (`admin_response`) pada form/tabel admin serta menampilkannya pada pelacakan tiket warga di `/layanan/lacak`.
+- **Keamanan Alur TTE BSrE dan Pengaturan (`LetterDocumentService`, `BsreService`, `EditServiceRequest`, `ManageSettings`, `config/bsre.php`)**:
+  - Menambahkan guard anti double-sign, blokir penandatanganan untuk permohonan berstatus `Ditolak`, guard `revoke()`, pencatatan `AuditLog` event `tte_sign_failed` tanpa membocorkan kredensial, dan validasi unik `letter_number`.
+  - Menambahkan peringatan mode simulasi `BSRE_MOCK` pada panel status TTE, modal penandatanganan, dan Pengaturan, serta tombol `Cek Sertifikat BSrE` pada `ManageSettings`.
+  - Menghapus parameter `$verificationUrl` yang tidak terpakai di `BsreService::signPdf()` dan konfigurasi koordinat BSrE yang tidak digunakan.
+- **Penomoran Draf, Mode Cetak Basah, dan Preset Permendagri Terbaru (`LetterDocumentService`, `LetterNumberService`, `LetterTemplatePresets`, `service-letter.blade.php`)**:
+  - Menggunakan pratinjau nomor surat (`previewNextNumber()`) saat `Buat Draf` pada mode TTE aktif sehingga counter `letter_sequences` hanya bertambah ketika surat ditandatangani (atau saat mode cetak basah tanpa TTE).
+  - Menyembunyikan teks draf TTE pada PDF ketika fitur TTE global nonaktif agar bersih untuk tanda tangan basah, serta menambahkan tombol `Unduh Draf`.
+  - Memperbarui preset kode klasifikasi surat ke standar Permendagri No. 83 Tahun 2022 (`400.12.2`, `400.12.3`, `500.3`, `400.9`, `300.1`) dan format nomor surat bawaan ke Permendagri No. 1 Tahun 2023 (`{kode_klasifikasi}/{nomor_urut}/{kode_desa}/{tahun}`).
+- **Perapian 3 Tab Halaman Ubah Permohonan Layanan (`ServiceRequestForm`, `tte-status.blade.php`, `EditServiceRequest`)**:
+  - Memindahkan section `Data Kependudukan` terstruktur ke Tab `Permohonan`, mengubah `Isian Tambahan` (`form_data`) menjadi dinamis sesuai `form_fields` layanan, serta menyeragamkan seluruh input tanggal ke `DatePicker` berformat tampilan `d F Y`.
+  - Menambahkan badge jumlah lampiran pada Tab `Berkas` dan badge status TTE pada Tab `Surat TTE`, mengganti panel status TTE dari `Placeholder` ke `View::make` dengan `<x-filament::button>` agar tidak terpotong, serta meringkas label tombol aksi.
+
 ## [1.32.7] - 2026-11-28
 
 ### Perbaikan

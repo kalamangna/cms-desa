@@ -266,7 +266,11 @@
                         </table>
                     @else
                         <div><strong>{{ $signerPosition }}</strong></div>
-                        <div class="draft-signature-space">Draf belum ditandatangani secara elektronik</div>
+                        <div class="draft-signature-space">
+                            @if($isGlobalTteEnabled ?? false)
+                                Draf belum ditandatangani secara elektronik
+                            @endif
+                        </div>
                         <div><strong><u>{{ $signerName }}</u></strong></div>
                     @endif
                 </td>

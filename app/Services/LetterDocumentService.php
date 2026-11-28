@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\BsreException;
 use App\Models\AuditLog;
 use App\Models\Citizen;
 use App\Models\Official;
@@ -16,6 +17,7 @@ use chillerlan\QRCode\QROptions;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Throwable;
 
 class LetterDocumentService
 {
@@ -51,7 +53,7 @@ class LetterDocumentService
             'applicant_nik' => (string) $request->nik,
             'applicant_phone' => (string) $request->phone,
             'place_of_birth' => (string) ($citizen?->place_of_birth ?? ''),
-            'date_of_birth' => $citizen?->date_of_birth ? $citizen->date_of_birth->translatedFormat('d F Y') : '',
+            'date_of_birth' => $citizen?->date_of_birth ? $citizen->date_of_birth->format('Y-m-d') : '',
             'gender' => (string) ($citizen?->gender ?? ''),
             'religion' => (string) ($citizen?->religion ?? ''),
             'marital_status' => (string) ($citizen?->marital_status ?? ''),
@@ -92,13 +94,17 @@ class LetterDocumentService
     /**
      * Merender HTML lengkap surat resmi siap cetak PDF.
      */
-    public function renderHtml(ServiceRequest $request, bool $includeTteVisual = false, ?string $verificationTokenOverride = null): string
-    {
+    public function renderHtml(
+        ServiceRequest $request,
+        bool $includeTteVisual = false,
+        ?string $verificationTokenOverride = null,
+        ?string $letterNumberOverride = null
+    ): string {
         $request->loadMissing('service');
         $settings = Setting::pluck('value', 'key')->toArray();
         $letterPayload = is_array($request->letter_payload) ? $request->letter_payload : [];
         $payload = array_merge(
-            $this->buildDefaultPayload($request),
+            $this->formatDateOverrides($request, $this->buildDefaultPayload($request)),
             $this->formatFormDataForRender($request),
             $this->formatDateOverrides($request, $letterPayload)
         );
@@ -124,10 +130,12 @@ class LetterDocumentService
         $districtName = $this->stripAdminPrefix((string) ($settings['district_name'] ?? ''), ['Kecamatan', 'Kec\.']);
         $regencyName = $this->stripAdminPrefix((string) ($settings['regency_name'] ?? ''), ['Kabupaten', 'Kab\.', 'Kota']);
 
+        $resolvedLetterNumber = $letterNumberOverride ?: ($request->letter_number ?: '-');
+
         $variables = array_merge($payload, [
             'birth_place_date' => $this->formatBirthPlaceDate($payload),
             'full_address' => $this->formatFullAddress($payload, $villageName),
-            'letter_number' => $request->letter_number ?: '-',
+            'letter_number' => $resolvedLetterNumber,
             'letter_date' => $letterDate->translatedFormat('d F Y'),
             'village_name' => $villageName,
             'district_name' => $districtName,
@@ -164,7 +172,7 @@ class LetterDocumentService
             'districtName' => $districtName,
             'regencyName' => $regencyName,
             'letterTitle' => $request->service?->letter_title ?: strtoupper((string) ($request->service?->title ?? 'SURAT KETERANGAN')),
-            'letterNumber' => $request->letter_number ?: '-',
+            'letterNumber' => $resolvedLetterNumber,
             'letterDateFormatted' => $letterDate->translatedFormat('d F Y'),
             'bodyHtml' => $bodyHtml,
             'signerName' => $signerName,
@@ -175,14 +183,18 @@ class LetterDocumentService
             'qrCodeDataUri' => $qrCodeDataUri,
             'verificationUrl' => $verificationUrl,
             'showTteVisual' => $includeTteVisual,
+            'isGlobalTteEnabled' => $this->isGlobalTteEnabled(),
         ])->render();
     }
 
     /**
      * Membuat draf PDF surat di penyimpanan privat.
      */
-    public function generateDraftPdf(ServiceRequest $request, ?User $actor = null): string
-    {
+    public function generateDraftPdf(
+        ServiceRequest $request,
+        ?User $actor = null,
+        bool $allocateLetterNumber = false
+    ): string {
         $request->loadMissing('service');
 
         if (! $request->service) {
@@ -209,11 +221,14 @@ class LetterDocumentService
             $request->letter_date = now()->toDateString();
         }
 
+        $previewLetterNumber = null;
         if (empty($request->letter_number)) {
-            $request->letter_number = $this->letterNumberService->nextNumber(
-                $request->service,
-                Carbon::parse($request->letter_date)
-            );
+            $targetDate = Carbon::parse($request->letter_date);
+            if ($allocateLetterNumber || ! $this->isGlobalTteEnabled()) {
+                $request->letter_number = $this->letterNumberService->nextNumber($request->service, $targetDate);
+            } else {
+                $previewLetterNumber = $this->letterNumberService->previewNextNumber($request->service, $targetDate);
+            }
         }
 
         if (empty($request->verification_token)) {
@@ -229,7 +244,7 @@ class LetterDocumentService
             }
         }
 
-        $html = $this->renderHtml($request);
+        $html = $this->renderHtml($request, false, null, $previewLetterNumber);
         $pdfBinary = Pdf::loadHTML($html)->setPaper('a4', 'portrait')->output();
 
         $relativePath = self::BASE_DIRECTORY.'/'.$request->id.'/draft.pdf';
@@ -242,7 +257,7 @@ class LetterDocumentService
         $request->save();
 
         $this->recordAudit($request, 'tte_draft_generated', 'Draf PDF surat dibuat oleh petugas.', $actor, [
-            'letter_number' => $request->letter_number,
+            'letter_number' => $request->letter_number ?: $previewLetterNumber,
         ]);
 
         return $relativePath;
@@ -258,11 +273,21 @@ class LetterDocumentService
         string $passphrase,
         ?User $actor = null
     ): ServiceRequest {
-        $wasRevoked = $request->isTteRevoked();
+        $current = $request->fresh() ?? $request;
 
-        $this->generateDraftPdf($request, $actor);
+        if ($current->isTteSigned()) {
+            throw new BsreException('Surat ini sudah ditandatangani secara elektronik. Cabut surat terlebih dahulu untuk menandatangani ulang.');
+        }
 
-        $freshRequest = $request->fresh();
+        if ($current->status === 'Ditolak') {
+            throw new BsreException('Permohonan berstatus ditolak tidak dapat ditandatangani secara elektronik.');
+        }
+
+        $wasRevoked = $current->isTteRevoked();
+
+        $this->generateDraftPdf($current, $actor, true);
+
+        $freshRequest = $current->fresh();
         $targetToken = $wasRevoked
             ? Str::random(40)
             : ($freshRequest->verification_token ?: Str::random(40));
@@ -272,17 +297,23 @@ class LetterDocumentService
         $renderTarget->signer_name = $signer->name;
         $renderTarget->signer_position = $signer->position;
 
-        $toSignRelativePath = self::BASE_DIRECTORY.'/'.$request->id.'/to-sign.pdf';
+        $toSignRelativePath = self::BASE_DIRECTORY.'/'.$current->id.'/to-sign.pdf';
         $toSignPdfBinary = Pdf::loadHTML($this->renderHtml($renderTarget, true, $targetToken))
             ->setPaper('a4', 'portrait')
             ->output();
         Storage::disk(self::DISK)->put($toSignRelativePath, $toSignPdfBinary);
         $toSignAbsolutePath = Storage::disk(self::DISK)->path($toSignRelativePath);
 
-        $verificationUrl = route('letters.verify', $targetToken);
-
         try {
-            $result = $this->bsreService->signPdf($toSignAbsolutePath, $signerNik, $passphrase, $verificationUrl);
+            $result = $this->bsreService->signPdf($toSignAbsolutePath, $signerNik, $passphrase);
+        } catch (Throwable $e) {
+            $this->recordAudit($freshRequest, 'tte_sign_failed', 'Penandatanganan elektronik melalui BSrE gagal diproses.', $actor, [
+                'letter_number' => $freshRequest->letter_number,
+                'signer_name' => $signer->name,
+                'error' => mb_substr($e->getMessage(), 0, 250),
+            ]);
+
+            throw $e;
         } finally {
             Storage::disk(self::DISK)->delete($toSignRelativePath);
         }
@@ -328,6 +359,10 @@ class LetterDocumentService
      */
     public function revoke(ServiceRequest $request, string $reason, ?User $actor = null): ServiceRequest
     {
+        if (! $request->isTteSigned()) {
+            throw new \RuntimeException('Hanya surat yang sudah ditandatangani secara elektronik yang dapat dicabut.');
+        }
+
         $request->forceFill([
             'tte_status' => ServiceRequest::TTE_REVOKED,
             'revoked_at' => now(),
@@ -408,7 +443,9 @@ class LetterDocumentService
             return [];
         }
 
-        $dateFieldKeys = [];
+        $dateFieldKeys = [
+            'date_of_birth' => true,
+        ];
         $formFields = $request->service?->form_fields;
         if (is_array($formFields)) {
             foreach ($formFields as $field) {
@@ -437,7 +474,7 @@ class LetterDocumentService
                     $formatted[$key] = Carbon::parse($stringValue)->translatedFormat('d F Y');
 
                     continue;
-                } catch (\Throwable) {
+                } catch (Throwable) {
                     // Fallback ke teks asli jika format tanggal tidak dapat diparsing
                 }
             }
@@ -611,7 +648,7 @@ class LetterDocumentService
             ]);
 
             return (new QRCode($options))->render($url);
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return null;
         }
     }

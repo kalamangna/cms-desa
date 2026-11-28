@@ -2,10 +2,13 @@
 
 namespace App\Filament\Pages;
 
+use App\Exceptions\BsreException;
 use App\Models\Official;
 use App\Models\Setting;
+use App\Services\BsreService;
 use App\Services\LetterNumberService;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -225,6 +228,11 @@ class ManageSettings extends Page implements HasForms
                             ->icon('heroicon-o-document-check')
                             ->columns(2)
                             ->components([
+                                Placeholder::make('bsre_mock_warning')
+                                    ->hiddenLabel()
+                                    ->visible(fn (): bool => (bool) config('bsre.mock'))
+                                    ->content(new HtmlString('<div style="padding: 10px 14px; border-radius: 8px; background-color: #fef3c7; border: 1px solid #fcd34d; color: #92400e; font-size: 12px; font-weight: 500;">Mode simulasi BSrE sedang aktif. Nonaktifkan BSRE_MOCK pada berkas lingkungan sebelum menerbitkan surat resmi.</div>'))
+                                    ->columnSpanFull(),
                                 Toggle::make('tte_enabled')
                                     ->label('Aktifkan Fitur TTE BSrE')
                                     ->default(false)
@@ -254,7 +262,40 @@ class ManageSettings extends Page implements HasForms
                                     ->helperText('NIK pejabat yang terdaftar pada layanan BSrE BSSN.')
                                     ->maxLength(16)
                                     ->rule('digits:16')
-                                    ->extraInputAttributes(['inputmode' => 'numeric']),
+                                    ->extraInputAttributes(['inputmode' => 'numeric'])
+                                    ->suffixAction(
+                                        Action::make('checkBsreStatus')
+                                            ->label('Cek Sertifikat BSrE')
+                                            ->icon('heroicon-o-shield-check')
+                                            ->color('info')
+                                            ->action(function (?string $state, BsreService $bsreService): void {
+                                                $nik = preg_replace('/\D/', '', (string) $state);
+                                                if (strlen($nik) !== 16) {
+                                                    Notification::make()
+                                                        ->danger()
+                                                        ->title('NIK penanda tangan tidak valid')
+                                                        ->body('Masukkan 16 digit NIK terlebih dahulu sebelum memeriksa status sertifikat.')
+                                                        ->send();
+
+                                                    return;
+                                                }
+
+                                                try {
+                                                    $result = $bsreService->checkUserStatus($nik);
+                                                    Notification::make()
+                                                        ->status($result['registered'] ? 'success' : 'warning')
+                                                        ->title('Status Sertifikat BSrE: '.$result['status'])
+                                                        ->body($result['message'])
+                                                        ->send();
+                                                } catch (BsreException $e) {
+                                                    Notification::make()
+                                                        ->danger()
+                                                        ->title('Pemeriksaan sertifikat BSrE gagal')
+                                                        ->body($e->getMessage())
+                                                        ->send();
+                                                }
+                                            })
+                                    ),
                             ]),
                     ])->columnSpanFull(),
             ])

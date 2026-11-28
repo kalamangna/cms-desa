@@ -8,6 +8,7 @@ use App\Filament\Resources\ServiceRequests\ServiceRequestResource;
 use App\Models\AuditLog;
 use App\Models\Citizen;
 use App\Models\Dusun;
+use App\Models\LetterSequence;
 use App\Models\Official;
 use App\Models\Service;
 use App\Models\ServiceRequest;
@@ -160,7 +161,6 @@ class ServiceRequestTteTest extends TestCase
             'bsre.base_url' => 'https://tte.sinjaikab.go.id/bridge',
             'bsre.username' => 'desa_user',
             'bsre.password' => 'desa_secret',
-            'bsre.tag_coordinate' => '#',
         ]);
 
         $signedBinary = "%PDF-1.4\n%SignedByBSrE\n%%EOF";
@@ -772,15 +772,367 @@ class ServiceRequestTteTest extends TestCase
 
         Livewire::test(EditServiceRequest::class, ['record' => $serviceRequest->getRouteKey()])
             ->assertSee('Belum Dibuat')
-            ->assertDontSee('Lihat Draf PDF')
+            ->assertDontSee('Lihat Draf')
             ->callAction('generateDraftPdf')
             ->assertHasNoActionErrors()
             ->assertSee('Draf')
-            ->assertSee('Lihat Draf PDF')
+            ->assertSee('Lihat Draf')
             ->assertSet('data.tte_status', ServiceRequest::TTE_DRAFT);
 
         $fresh = $serviceRequest->fresh();
         $this->assertSame(ServiceRequest::TTE_DRAFT, $fresh->tte_status);
         $this->assertNotNull($fresh->draft_pdf_path);
+    }
+
+    public function test_whatsapp_notification_handles_signed_revoked_and_rejected_statuses(): void
+    {
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'is_tte_enabled' => true,
+        ]);
+
+        $signedRequest = ServiceRequest::create([
+            'nik' => '7307011234560012',
+            'name' => 'Ani',
+            'phone' => '081234567801',
+            'service_id' => $service->id,
+            'status' => 'Selesai',
+            'tte_status' => ServiceRequest::TTE_SIGNED,
+        ]);
+        $signedWa = $signedRequest->buildWhatsAppNotification();
+        $this->assertNotNull($signedWa);
+        $this->assertSame('#25d366', $signedWa['color']);
+        $this->assertStringContainsString('telah+selesai+ditandatangani+secara+elektronik', $signedWa['url']);
+
+        $revokedRequest = ServiceRequest::create([
+            'nik' => '7307011234560013',
+            'name' => 'Budi',
+            'phone' => '081234567802',
+            'service_id' => $service->id,
+            'status' => 'Selesai',
+            'tte_status' => ServiceRequest::TTE_REVOKED,
+            'revocation_reason' => 'Salah ketik nama',
+        ]);
+        $revokedWa = $revokedRequest->buildWhatsAppNotification();
+        $this->assertNotNull($revokedWa);
+        $this->assertSame('#e11d48', $revokedWa['color']);
+        $this->assertStringContainsString('DICABUT', $revokedWa['url']);
+        $this->assertStringContainsString('Salah+ketik+nama', $revokedWa['url']);
+        $this->assertStringNotContainsString('SELESAI', $revokedWa['url']);
+
+        $rejectedRequest = ServiceRequest::create([
+            'nik' => '7307011234560014',
+            'name' => 'Cici',
+            'phone' => '081234567803',
+            'service_id' => $service->id,
+            'status' => 'Ditolak',
+            'admin_response' => 'Foto KTP buram',
+        ]);
+        $rejectedWa = $rejectedRequest->buildWhatsAppNotification();
+        $this->assertNotNull($rejectedWa);
+        $this->assertSame('#e11d48', $rejectedWa['color']);
+        $this->assertStringContainsString('ditolak', $rejectedWa['url']);
+        $this->assertStringContainsString('Foto+KTP+buram', $rejectedWa['url']);
+    }
+
+    public function test_draft_pdf_hides_tte_draft_watermark_when_global_tte_disabled(): void
+    {
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'letter_code' => '470',
+            'letter_title' => 'SURAT KETERANGAN DOMISILI',
+            'letter_template' => '<p>Nama: {{ applicant_name }}</p>',
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560015',
+            'name' => 'Dedi',
+            'phone' => '081234567804',
+            'service_id' => $service->id,
+        ]);
+
+        $letterService = app(LetterDocumentService::class);
+
+        Setting::updateOrCreate(['key' => 'tte_enabled'], ['value' => '0']);
+        $wetSignHtml = $letterService->renderHtml($serviceRequest, false);
+        $this->assertStringNotContainsString('Draf belum ditandatangani secara elektronik', $wetSignHtml);
+
+        Setting::updateOrCreate(['key' => 'tte_enabled'], ['value' => '1']);
+        $tteDraftHtml = $letterService->renderHtml($serviceRequest, false);
+        $this->assertStringContainsString('Draf belum ditandatangani secara elektronik', $tteDraftHtml);
+    }
+
+    public function test_track_endpoint_returns_rejected_status_and_admin_response(): void
+    {
+        $service = Service::create([
+            'title' => 'Surat Keterangan Usaha',
+            'description' => 'SKU',
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560016',
+            'name' => 'Eka',
+            'phone' => '081234567805',
+            'service_id' => $service->id,
+            'status' => 'Ditolak',
+            'admin_response' => 'Lampiran foto usaha belum diunggah',
+        ]);
+
+        $this->getJson(route('service-requests.track', ['ticket_number' => $serviceRequest->ticket_number]))
+            ->assertOk()
+            ->assertJson([
+                'found' => true,
+                'status' => 'Ditolak',
+                'admin_response' => 'Lampiran foto usaha belum diunggah',
+            ]);
+    }
+
+    public function test_tte_guards_prevent_double_sign_rejected_sign_and_invalid_revoke(): void
+    {
+        config(['bsre.mock' => true]);
+
+        $official = Official::create([
+            'name' => 'Kepala Desa',
+            'position' => 'Kepala Desa',
+            'level' => 1,
+            'order' => 1,
+        ]);
+
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'is_tte_enabled' => true,
+        ]);
+
+        $letterService = app(LetterDocumentService::class);
+
+        $signedRequest = ServiceRequest::create([
+            'nik' => '7307011234560017',
+            'name' => 'Fajar',
+            'phone' => '081234567806',
+            'service_id' => $service->id,
+        ]);
+        $signed = $letterService->signWithBsre($signedRequest, $official, '7307019999880006', 'pass123');
+
+        // 1. Tolak double-sign tanpa pencabutan
+        try {
+            $letterService->signWithBsre($signed, $official, '7307019999880006', 'pass123');
+            $this->fail('BsreException seharusnya dilempar saat menandatangani ulang surat yang masih aktif.');
+        } catch (BsreException $e) {
+            $this->assertStringContainsString('sudah ditandatangani', $e->getMessage());
+        }
+
+        // 2. Tolak penandatanganan pada permohonan berstatus Ditolak
+        $rejectedRequest = ServiceRequest::create([
+            'nik' => '7307011234560018',
+            'name' => 'Gita',
+            'phone' => '081234567807',
+            'service_id' => $service->id,
+            'status' => 'Ditolak',
+        ]);
+
+        try {
+            $letterService->signWithBsre($rejectedRequest, $official, '7307019999880006', 'pass123');
+            $this->fail('BsreException seharusnya dilempar untuk permohonan berstatus Ditolak.');
+        } catch (BsreException $e) {
+            $this->assertStringContainsString('ditolak', $e->getMessage());
+        }
+
+        // 3. Tolak pencabutan pada surat yang belum TTE_SIGNED
+        $this->expectException(\RuntimeException::class);
+        $letterService->revoke($rejectedRequest, 'Tidak valid');
+    }
+
+    public function test_failed_bsre_signing_records_audit_log_without_leaking_credentials(): void
+    {
+        config(['bsre.mock' => true]);
+
+        $official = Official::create([
+            'name' => 'Kepala Desa',
+            'position' => 'Kepala Desa',
+            'level' => 1,
+            'order' => 1,
+        ]);
+
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560019',
+            'name' => 'Hendra',
+            'phone' => '081234567808',
+            'service_id' => $service->id,
+        ]);
+
+        try {
+            app(LetterDocumentService::class)->signWithBsre($serviceRequest, $official, '7307019999880007', 'invalid');
+            $this->fail('BsreException seharusnya dilempar.');
+        } catch (BsreException) {
+            // Diharapkan gagal
+        }
+
+        $failedAudit = AuditLog::where('event', 'tte_sign_failed')
+            ->where('auditable_id', $serviceRequest->id)
+            ->first();
+
+        $this->assertNotNull($failedAudit);
+        $serialized = json_encode($failedAudit->toArray());
+        $this->assertStringNotContainsString('7307019999880007', $serialized);
+        $this->assertStringNotContainsString('invalid', strtolower((string) ($failedAudit->new_values['passphrase'] ?? '')));
+    }
+
+    public function test_edit_page_hides_tte_actions_when_rejected_and_enforces_unique_letter_number(): void
+    {
+        Setting::updateOrCreate(['key' => 'tte_enabled'], ['value' => '1']);
+        Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole('super_admin');
+
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'is_tte_enabled' => true,
+        ]);
+
+        ServiceRequest::create([
+            'nik' => '7307011234560020',
+            'name' => 'Indra',
+            'phone' => '081234567809',
+            'service_id' => $service->id,
+            'letter_number' => '470/001/TPB/XI/2026',
+        ]);
+
+        $targetRequest = ServiceRequest::create([
+            'nik' => '7307011234560021',
+            'name' => 'Joko',
+            'phone' => '081234567810',
+            'service_id' => $service->id,
+            'status' => 'Ditolak',
+        ]);
+
+        $this->actingAs($superAdmin);
+
+        Livewire::test(EditServiceRequest::class, ['record' => $targetRequest->getRouteKey()])
+            ->assertActionHidden('generateDraftPdf')
+            ->assertActionHidden('signWithBsre')
+            ->fillForm([
+                'letter_number' => '470/001/TPB/XI/2026',
+            ])
+            ->call('save')
+            ->assertHasFormErrors(['letter_number' => 'unique']);
+    }
+
+    public function test_edit_page_renders_dynamic_form_data_fields_and_formats_iso_date_of_birth(): void
+    {
+        Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole('super_admin');
+
+        $preset = LetterTemplatePresets::get('domisili');
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'letter_code' => $preset['letter_code'],
+            'letter_title' => $preset['letter_title'],
+            'letter_template' => $preset['letter_template'],
+            'form_fields' => $preset['form_fields'],
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560022',
+            'name' => 'Kartini',
+            'phone' => '081234567811',
+            'service_id' => $service->id,
+            'form_data' => [
+                'keperluan' => 'Administrasi bank',
+            ],
+            'letter_payload' => [
+                'place_of_birth' => 'Sinjai',
+                'date_of_birth' => '1995-05-12',
+            ],
+        ]);
+
+        $this->actingAs($superAdmin);
+
+        Livewire::test(EditServiceRequest::class, ['record' => $serviceRequest->getRouteKey()])
+            ->assertSee('Keperluan Surat')
+            ->fillForm([
+                'form_data' => [
+                    'keperluan' => 'Pengurusan beasiswa',
+                ],
+                'letter_payload' => [
+                    'place_of_birth' => 'Sinjai',
+                    'date_of_birth' => '1995-05-12',
+                ],
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $updated = $serviceRequest->fresh();
+        $this->assertSame('Pengurusan beasiswa', $updated->form_data['keperluan']);
+        $this->assertSame('1995-05-12', $updated->letter_payload['date_of_birth']);
+
+        $htmlIso = app(LetterDocumentService::class)->renderHtml($updated);
+        $this->assertStringContainsString('12 Mei 1995', $htmlIso);
+
+        // Kompatibilitas mundur untuk data lama yang sudah berformat teks Indonesia
+        $updated->update([
+            'letter_payload' => [
+                'place_of_birth' => 'Sinjai',
+                'date_of_birth' => '12 Mei 1995',
+            ],
+        ]);
+        $htmlLegacy = app(LetterDocumentService::class)->renderHtml($updated->fresh());
+        $this->assertStringContainsString('12 Mei 1995', $htmlLegacy);
+    }
+
+    public function test_draft_pdf_previews_letter_number_without_incrementing_sequence_when_global_tte_enabled(): void
+    {
+        config(['bsre.mock' => true]);
+        Setting::updateOrCreate(['key' => 'tte_enabled'], ['value' => '1']);
+
+        $official = Official::create([
+            'name' => 'Kepala Desa',
+            'position' => 'Kepala Desa',
+            'level' => 1,
+            'order' => 1,
+        ]);
+
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'letter_code' => '400.12.2',
+            'letter_title' => 'SURAT KETERANGAN DOMISILI',
+            'letter_template' => '<p>Nama: {{ applicant_name }}</p>',
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560023',
+            'name' => 'Laila',
+            'phone' => '081234567812',
+            'service_id' => $service->id,
+        ]);
+
+        $letterService = app(LetterDocumentService::class);
+        $letterService->generateDraftPdf($serviceRequest);
+        $letterService->generateDraftPdf($serviceRequest->fresh());
+
+        $afterDraft = $serviceRequest->fresh();
+        $this->assertSame(ServiceRequest::TTE_DRAFT, $afterDraft->tte_status);
+        $this->assertNull($afterDraft->letter_number);
+        $this->assertSame(0, (int) (LetterSequence::where('year', now()->year)->value('last_number') ?? 0));
+
+        $signed = $letterService->signWithBsre($afterDraft, $official, '7307019999880008', 'pass123');
+        $this->assertSame(1, (int) LetterSequence::where('year', now()->year)->value('last_number'));
+        $this->assertStringContainsString('/001/TPB/', (string) $signed->letter_number);
     }
 }

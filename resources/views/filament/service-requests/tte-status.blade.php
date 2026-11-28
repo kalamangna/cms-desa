@@ -17,7 +17,7 @@
     };
 @endphp
 
-<div style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid rgba(148, 163, 184, 0.25);">
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 4px 2px 16px 2px; border-bottom: 1px solid rgba(148, 163, 184, 0.25);">
     <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
         <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
             <span style="display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 700; line-height: 1.4; {{ $badgeStyle }}">
@@ -36,32 +36,66 @@
 
         <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
             @if($record?->hasDraftPdf() && ! $record->isTteSigned())
-                <a href="{{ route('admin.service-request-letters.preview', ['serviceRequest' => $record->id, 'type' => 'draft']) }}"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   style="display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; background-color: #ffffff; color: #334155; border: 1px solid #cbd5e1;">
-                    Lihat Draf PDF
-                </a>
+                <x-filament::button
+                    tag="a"
+                    :href="route('admin.service-request-letters.preview', ['serviceRequest' => $record->id, 'type' => 'draft'])"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    color="gray"
+                    outlined
+                    size="sm"
+                    icon="heroicon-o-eye"
+                >
+                    Lihat Draf
+                </x-filament::button>
+                <x-filament::button
+                    tag="a"
+                    :href="route('admin.service-request-letters.download', ['serviceRequest' => $record->id, 'type' => 'draft'])"
+                    color="primary"
+                    size="sm"
+                    icon="heroicon-o-arrow-down-tray"
+                >
+                    Unduh Draf
+                </x-filament::button>
             @endif
 
             @if($record?->isTteSigned())
-                <a href="{{ route('admin.service-request-letters.preview', ['serviceRequest' => $record->id, 'type' => 'signed']) }}"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   style="display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;">
-                    Lihat Surat TTE
-                </a>
-                <a href="{{ route('admin.service-request-letters.download', ['serviceRequest' => $record->id, 'type' => 'signed']) }}"
-                   style="display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; background-color: #059669; color: #ffffff;">
-                    Unduh Surat TTE
-                </a>
+                <x-filament::button
+                    tag="a"
+                    :href="route('admin.service-request-letters.preview', ['serviceRequest' => $record->id, 'type' => 'signed'])"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    color="success"
+                    outlined
+                    size="sm"
+                    icon="heroicon-o-eye"
+                >
+                    Lihat Surat
+                </x-filament::button>
+                <x-filament::button
+                    tag="a"
+                    :href="route('admin.service-request-letters.download', ['serviceRequest' => $record->id, 'type' => 'signed'])"
+                    color="success"
+                    size="sm"
+                    icon="heroicon-o-arrow-down-tray"
+                >
+                    Unduh Surat
+                </x-filament::button>
             @endif
         </div>
     </div>
 
-    @if(($record?->service?->is_tte_enabled ?? false) && ! ($isGlobalTteEnabled ?? false))
+    @if(! ($record?->service?->is_tte_enabled ?? false))
+        <p style="margin: 0; font-size: 12px; font-weight: 500; opacity: 0.75;">
+            Layanan ini belum mengaktifkan fitur pembuatan surat TTE.
+        </p>
+    @elseif(! ($isGlobalTteEnabled ?? false))
         <p style="margin: 0; font-size: 12px; font-weight: 500; color: #b45309;">
             Fitur TTE BSrE belum diaktifkan pada menu Pengaturan.
+        </p>
+    @elseif(($isGlobalTteEnabled ?? false) && config('bsre.mock'))
+        <p style="margin: 0; font-size: 12px; font-weight: 500; color: #b45309;">
+            Mode simulasi BSrE sedang aktif. Surat yang diterbitkan tidak menggunakan sertifikat elektronik nyata.
         </p>
     @endif
 

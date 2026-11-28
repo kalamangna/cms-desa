@@ -111,6 +111,70 @@ class ServiceRequest extends Model
         return $nik !== '' ? substr($nik, 0, 4).'***' : '-';
     }
 
+    /**
+     * Membangun URL dan warna tombol notifikasi WhatsApp sesuai status permohonan dan TTE.
+     *
+     * @return array{url: string, color: string}|null
+     */
+    public function buildWhatsAppNotification(?string $statusOverride = null, ?string $adminResponseOverride = null): ?array
+    {
+        $waNumber = preg_replace('/[^0-9]/', '', (string) ($this->phone ?? ''));
+        if ($waNumber === '') {
+            return null;
+        }
+
+        if (str_starts_with($waNumber, '0')) {
+            $waNumber = '62'.substr($waNumber, 1);
+        }
+
+        $serviceName = $this->service?->title ?? 'layanan yang Anda ajukan';
+        $status = $statusOverride ?? $this->status;
+        $rawAdminResponse = $adminResponseOverride !== null ? $adminResponseOverride : $this->admin_response;
+        $adminResponse = filled($rawAdminResponse) ? trim((string) $rawAdminResponse) : null;
+
+        if ($this->tte_status === self::TTE_SIGNED) {
+            $trackUrl = route('service-requests.track', ['ticket_number' => $this->ticket_number]);
+            $message = "Halo {$this->name}, surat {$serviceName} Anda dengan Nomor Tiket {$this->ticket_number} telah selesai ditandatangani secara elektronik. Unduh surat PDF melalui tautan berikut dengan verifikasi NIK: {$trackUrl}";
+            $color = '#25d366';
+        } elseif ($this->tte_status === self::TTE_REVOKED) {
+            $message = "Halo {$this->name}, surat {$serviceName} Anda dengan Nomor Tiket {$this->ticket_number} telah DICABUT keabsahannya oleh Pemerintah Desa.";
+            if (filled($this->revocation_reason)) {
+                $message .= ' Alasan: '.trim((string) $this->revocation_reason).'.';
+            }
+            $message .= ' Silakan hubungi Kantor Desa untuk informasi lebih lanjut.';
+            $color = '#e11d48';
+        } elseif ($status === 'Ditolak') {
+            $message = "Halo {$this->name}, permohonan {$serviceName} Anda dengan Nomor Tiket {$this->ticket_number} ditolak.";
+            if ($adminResponse !== null) {
+                $message .= " Catatan petugas: {$adminResponse}.";
+            }
+            $message .= ' Silakan perbaiki data atau hubungi Kantor Desa.';
+            $color = '#e11d48';
+        } else {
+            $statusLabel = match ($status) {
+                'Diproses' => 'sedang DIPROSES',
+                'Selesai' => 'telah SELESAI diproses. Silakan mengambil berkas fisik di Kantor Desa',
+                default => 'masih MENUNGGU untuk diproses',
+            };
+
+            $message = "Halo {$this->name}, permohonan {$serviceName} Anda dengan Nomor Tiket {$this->ticket_number} {$statusLabel}.\n\nTerima kasih.";
+            if ($adminResponse !== null) {
+                $message .= "\n\nCatatan petugas: {$adminResponse}";
+            }
+
+            $color = match ($status) {
+                'Selesai' => '#25d366',
+                'Diproses' => '#f59e0b',
+                default => '#64748b',
+            };
+        }
+
+        return [
+            'url' => "https://wa.me/{$waNumber}?text=".urlencode($message),
+            'color' => $color,
+        ];
+    }
+
     protected static function booted(): void
     {
         static::creating(function (ServiceRequest $request): void {

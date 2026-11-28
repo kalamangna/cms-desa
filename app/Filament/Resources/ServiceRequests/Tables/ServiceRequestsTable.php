@@ -45,6 +45,7 @@ class ServiceRequestsTable
                         'Menunggu' => 'gray',
                         'Diproses' => 'warning',
                         'Selesai' => 'success',
+                        'Ditolak' => 'danger',
                         default => 'gray',
                     }),
                 TextColumn::make('tte_status')->label('Status TTE')
@@ -73,6 +74,7 @@ class ServiceRequestsTable
                         'Menunggu' => 'Menunggu',
                         'Diproses' => 'Diproses',
                         'Selesai' => 'Selesai',
+                        'Ditolak' => 'Ditolak',
                     ]),
                 SelectFilter::make('tte_status')
                     ->label('Status TTE')
@@ -93,29 +95,9 @@ class ServiceRequestsTable
                     ->label('Kirim WA')
                     ->icon('heroicon-o-chat-bubble-left-ellipsis')
                     ->color('success')
-                    ->url(function ($record): string {
-                        $waNumber = preg_replace('/[^0-9]/', '', $record->phone ?? '');
-                        if (str_starts_with($waNumber, '0')) {
-                            $waNumber = '62'.substr($waNumber, 1);
-                        }
-                        $serviceName = $record->service?->title ?? 'layanan yang Anda ajukan';
-
-                        if ($record->tte_status === ServiceRequest::TTE_SIGNED) {
-                            $trackUrl = route('service-requests.track', ['ticket_number' => $record->ticket_number]);
-                            $message = "Halo {$record->name}, surat {$serviceName} Anda dengan Nomor Tiket {$record->ticket_number} telah selesai ditandatangani secara elektronik. Unduh surat PDF melalui tautan berikut dengan verifikasi NIK: {$trackUrl}";
-                        } else {
-                            $statusLabel = match ($record->status) {
-                                'Diproses' => 'sedang DIPROSES',
-                                'Selesai' => 'telah SELESAI diproses. Silakan mengambil berkas fisik di Kantor Desa',
-                                default => 'masih MENUNGGU untuk diproses',
-                            };
-                            $message = "Halo {$record->name}, permohonan {$serviceName} Anda dengan Nomor Tiket {$record->ticket_number} {$statusLabel}.\n\nTerima kasih.";
-                        }
-
-                        return "https://wa.me/{$waNumber}?text=".urlencode($message);
-                    })
+                    ->url(fn (ServiceRequest $record): string => $record->buildWhatsAppNotification()['url'] ?? '')
                     ->openUrlInNewTab()
-                    ->visible(fn ($record): bool => ! empty($record->phone)),
+                    ->visible(fn (ServiceRequest $record): bool => $record->buildWhatsAppNotification() !== null),
                 EditAction::make(),
                 DeleteAction::make()
                     ->visible(fn (ServiceRequest $record): bool => ! $record->isTteSigned()),

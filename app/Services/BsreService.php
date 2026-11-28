@@ -17,8 +17,7 @@ class BsreService
     public function signPdf(
         string $absolutePdfPath,
         string $nik,
-        string $passphrase,
-        string $verificationUrl
+        string $passphrase
     ): array {
         $cleanNik = preg_replace('/\D/', '', $nik);
         if (strlen($cleanNik) !== 16) {

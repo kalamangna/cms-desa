@@ -26,7 +26,7 @@ class EditServiceRequest extends EditRecord
     {
         return [
             Action::make('syncCitizenData')
-                ->label('Isi Data Warga')
+                ->label('Isi Data')
                 ->icon('heroicon-o-identification')
                 ->color('gray')
                 ->visible(fn (): bool => ! $this->record->isTteSigned())
@@ -55,10 +55,10 @@ class EditServiceRequest extends EditRecord
                 }),
 
             Action::make('generateDraftPdf')
-                ->label('Buat Draf PDF')
+                ->label('Buat Draf')
                 ->icon('heroicon-o-document-text')
                 ->color('info')
-                ->visible(fn (): bool => $this->isSelectedServiceTteEnabled() && ! $this->record->isTteSigned())
+                ->visible(fn (): bool => $this->isSelectedServiceTteEnabled() && ! $this->record->isTteSigned() && ! $this->isRejected())
                 ->action(function (LetterDocumentService $letterService): void {
                     $this->save(shouldRedirect: false, shouldSendSavedNotification: false);
 
@@ -81,14 +81,18 @@ class EditServiceRequest extends EditRecord
                 }),
 
             Action::make('signWithBsre')
-                ->label('Tanda Tangani BSrE')
+                ->label('Tandatangani')
                 ->icon('heroicon-o-shield-check')
                 ->color('success')
-                ->visible(fn (LetterDocumentService $letterService): bool => $letterService->isGlobalTteEnabled() && $this->isSelectedServiceTteEnabled() && ! $this->record->isTteSigned())
-                ->modalHeading('Tanda Tangani Surat dengan BSrE')
+                ->visible(fn (LetterDocumentService $letterService): bool => $letterService->isGlobalTteEnabled() && $this->isSelectedServiceTteEnabled() && ! $this->record->isTteSigned() && ! $this->isRejected())
+                ->modalHeading('Tandatangani Surat')
                 ->modalDescription('Passphrase tidak disimpan oleh sistem dan hanya dikirim sekali ke layanan BSrE BSSN.')
-                ->modalSubmitActionLabel('Kirim TTE BSrE')
+                ->modalSubmitActionLabel('Tandatangani')
                 ->form([
+                    Placeholder::make('bsre_mock_notice')
+                        ->label('Mode Simulasi Aktif')
+                        ->content('Mode simulasi BSrE sedang aktif. PDF yang dihasilkan tidak memiliki tanda tangan digital kriptografis BSrE nyata.')
+                        ->visible(fn (): bool => (bool) config('bsre.mock')),
                     Placeholder::make('signer_info')
                         ->label('Pejabat Penanda Tangan')
                         ->content(function (): string {
@@ -166,13 +170,13 @@ class EditServiceRequest extends EditRecord
                 }),
 
             Action::make('revokeTte')
-                ->label('Cabut Surat TTE')
+                ->label('Cabut TTE')
                 ->icon('heroicon-o-no-symbol')
                 ->color('danger')
                 ->visible(fn (): bool => $this->record->tte_status === ServiceRequest::TTE_SIGNED)
                 ->modalHeading('Cabut Keabsahan Surat TTE')
                 ->modalDescription('Cabut surat ini? Status verifikasi QR Code akan berubah menjadi dicabut dan warga tidak dapat mengunduhnya.')
-                ->modalSubmitActionLabel('Cabut Surat TTE')
+                ->modalSubmitActionLabel('Cabut TTE')
                 ->form([
                     Textarea::make('reason')
                         ->label('Alasan Pencabutan')
@@ -216,5 +220,10 @@ class EditServiceRequest extends EditRecord
         }
 
         return (bool) Service::whereKey($selectedServiceId)->value('is_tte_enabled');
+    }
+
+    private function isRejected(): bool
+    {
+        return ($this->data['status'] ?? $this->record->status) === 'Ditolak';
     }
 }

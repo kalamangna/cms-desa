@@ -187,7 +187,6 @@ BSRE_PASSWORD=password_bsre_desa
 BSRE_TIMEOUT=60
 BSRE_VERIFY_SSL=true
 BSRE_MOCK=false
-BSRE_TAG_COORDINATE=#
 ```
 
 Aktifkan fitur TTE dan atur format nomor surat pada menu **Pengaturan → Surat dan TTE** di panel admin Filament.
