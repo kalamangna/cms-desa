@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ServiceRequests\Schemas;
 
+use App\Models\Citizen;
 use App\Models\Service;
 use App\Models\ServiceRequest;
 use App\Services\LetterDocumentService;
@@ -49,8 +50,33 @@ class ServiceRequestForm
                                             ->required()
                                             ->maxLength(16)
                                             ->rule('digits:16')
+                                            ->live(onBlur: true)
                                             ->extraInputAttributes(['inputmode' => 'numeric'])
                                             ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false)
+                                            ->helperText(function (Get $get, $record): ?HtmlString {
+                                                $rawNik = (string) ($get('nik') ?? $record?->nik ?? '');
+                                                $cleanNik = preg_replace('/\D/', '', $rawNik);
+                                                if (strlen($cleanNik) !== 16) {
+                                                    return null;
+                                                }
+
+                                                $citizen = self::findCitizenByNik($cleanNik);
+                                                if ($citizen) {
+                                                    $extraStatus = filled($citizen->status) && $citizen->status !== 'Aktif'
+                                                        ? ' &bull; Status: '.e($citizen->status)
+                                                        : '';
+
+                                                    return new HtmlString(
+                                                        "<span style='display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font-size: 11px; font-weight: 600; background-color: rgba(16, 185, 129, 0.14); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.35);'>"
+                                                        ."Terdaftar di Data Penduduk{$extraStatus}</span>"
+                                                    );
+                                                }
+
+                                                return new HtmlString(
+                                                    "<span style='display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font-size: 11px; font-weight: 600; background-color: rgba(245, 158, 11, 0.14); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.35);'>"
+                                                    .'Belum Terdaftar di Data Penduduk</span>'
+                                                );
+                                            })
                                             ->columnSpan(1),
                                         TextInput::make('name')
                                             ->label('Nama Lengkap')
@@ -65,55 +91,22 @@ class ServiceRequestForm
                                             ->columnSpan(1),
                                     ]),
 
-                                Grid::make(['default' => 1, 'md' => 2])
-                                    ->schema([
-                                        Select::make('service_id')
-                                            ->label('Layanan')
-                                            ->placeholder('Pilih layanan')
-                                            ->relationship('service', 'title')
-                                            ->searchable()
-                                            ->preload()
-                                            ->live()
-                                            ->required()
-                                            ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false),
-                                        Select::make('status')
-                                            ->label('Status')
-                                            ->placeholder('Pilih status')
-                                            ->options([
-                                                'Menunggu' => 'Menunggu',
-                                                'Diproses' => 'Diproses',
-                                                'Selesai' => 'Selesai',
-                                                'Ditolak' => 'Ditolak',
-                                            ])
-                                            ->default('Menunggu')
-                                            ->live()
-                                            ->required()
-                                            ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false)
-                                            ->helperText(function ($record, Get $get) {
-                                                $wa = $record?->buildWhatsAppNotification($get('status'), $get('admin_response'));
-                                                if (! $wa) {
-                                                    return null;
-                                                }
-
-                                                return new HtmlString(
-                                                    "<a href='{$wa['url']}' target='_blank' rel='noopener noreferrer' style='display: inline-flex; align-items: center; gap: 6px; background-color: {$wa['color']}; color: white; font-weight: bold; padding: 6px 14px; border-radius: 8px; font-size: 11px; margin-top: 4px; text-decoration: none;'>"
-                                                    ."<i class='fa-brands fa-whatsapp' style='font-size: 14px;'></i> Kirim WA</a>"
-                                                );
-                                            }),
-                                    ]),
-
-                                Textarea::make('admin_response')
-                                    ->label('Catatan Petugas')
-                                    ->placeholder('Foto KTP buram, silakan ajukan ulang dengan foto yang jelas')
-                                    ->rows(2)
-                                    ->maxLength(1000)
-                                    ->live(onBlur: true)
-                                    ->helperText('Ditampilkan kepada warga pada halaman pelacakan tiket.')
-                                    ->columnSpanFull(),
-
                                 Section::make('Data Kependudukan')
                                     ->collapsible()
-                                    ->collapsed()
+                                    ->collapsed(function ($record): bool {
+                                        if (self::findCitizenByNik($record?->nik) !== null) {
+                                            return true;
+                                        }
+
+                                        $payload = is_array($record?->letter_payload) ? $record->letter_payload : [];
+                                        foreach (['place_of_birth', 'date_of_birth', 'gender', 'religion', 'marital_status', 'job', 'address'] as $field) {
+                                            if (filled($payload[$field] ?? null)) {
+                                                return true;
+                                            }
+                                        }
+
+                                        return false;
+                                    })
                                     ->compact()
                                     ->visible(fn ($record): bool => $record !== null)
                                     ->schema([
@@ -169,11 +162,14 @@ class ServiceRequestForm
                                             ]),
                                         TextInput::make('letter_payload.address')
                                             ->label('Alamat')
-                                            ->placeholder('Jl. Poros Desa No. 12')
+                                            ->placeholder(fn (Get $get, $record): string => self::findCitizenByNik($get('nik') ?? $record?->nik) !== null
+                                                ? 'Jl. Poros Desa No. 12'
+                                                : 'Jl. Persatuan Raya No. 5, Kel. Biringere, Kec. Sinjai Utara')
                                             ->maxLength(255)
                                             ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false)
                                             ->columnSpanFull(),
                                         Grid::make(['default' => 1, 'md' => 3])
+                                            ->visible(fn (Get $get, $record): bool => self::findCitizenByNik($get('nik') ?? $record?->nik) !== null)
                                             ->schema([
                                                 TextInput::make('letter_payload.rt')
                                                     ->label('RT')
@@ -193,6 +189,52 @@ class ServiceRequestForm
                                             ]),
                                     ])
                                     ->columnSpanFull(),
+
+                                Grid::make(['default' => 1, 'md' => 2])
+                                    ->schema([
+                                        Select::make('service_id')
+                                            ->label('Layanan')
+                                            ->placeholder('Pilih layanan')
+                                            ->relationship('service', 'title')
+                                            ->searchable()
+                                            ->preload()
+                                            ->live()
+                                            ->required()
+                                            ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false),
+                                        Select::make('status')
+                                            ->label('Status')
+                                            ->placeholder('Pilih status')
+                                            ->options([
+                                                'Menunggu' => 'Menunggu',
+                                                'Diproses' => 'Diproses',
+                                                'Selesai' => 'Selesai',
+                                                'Ditolak' => 'Ditolak',
+                                            ])
+                                            ->default('Menunggu')
+                                            ->live()
+                                            ->required()
+                                            ->disabled(fn ($record): bool => $record?->isTteSigned() ?? false)
+                                            ->helperText(function ($record, Get $get) {
+                                                $wa = $record?->buildWhatsAppNotification($get('status'), $get('admin_response'));
+                                                if (! $wa) {
+                                                    return null;
+                                                }
+
+                                                return new HtmlString(
+                                                    "<a href='{$wa['url']}' target='_blank' rel='noopener noreferrer' style='display: inline-flex; align-items: center; gap: 6px; background-color: {$wa['color']}; color: white; font-weight: bold; padding: 6px 14px; border-radius: 8px; font-size: 11px; margin-top: 4px; text-decoration: none;'>"
+                                                    ."<i class='fa-brands fa-whatsapp' style='font-size: 14px;'></i> Kirim WA</a>"
+                                                );
+                                            }),
+                                    ]),
+
+                                Textarea::make('admin_response')
+                                    ->label('Catatan Petugas')
+                                    ->placeholder('Foto KTP buram, silakan ajukan ulang dengan foto yang jelas')
+                                    ->rows(2)
+                                    ->maxLength(1000)
+                                    ->live(onBlur: true)
+                                    ->helperText('Ditampilkan kepada warga pada halaman pelacakan tiket.')
+                                    ->columnSpanFull(),
                             ]),
 
                         Tabs\Tab::make('Berkas')
@@ -211,11 +253,10 @@ class ServiceRequestForm
                             ->badgeColor('info')
                             ->visible(fn ($record): bool => $record !== null)
                             ->schema([
-                                Placeholder::make('attachments_preview')
-                                    ->hiddenLabel()
-                                    ->content(fn ($record) => view('filament.service-requests.attachments-list', [
+                                View::make('filament.service-requests.attachments-list')
+                                    ->viewData(fn ($record): array => [
                                         'record' => $record?->loadMissing('attachments'),
-                                    ]))
+                                    ])
                                     ->columnSpanFull(),
                             ]),
 
@@ -338,5 +379,15 @@ class ServiceRequestForm
                             ]),
                     ]),
             ]);
+    }
+
+    private static function findCitizenByNik(mixed $rawNik): ?Citizen
+    {
+        $nik = preg_replace('/\D/', '', (string) ($rawNik ?? ''));
+        if (strlen($nik) !== 16) {
+            return null;
+        }
+
+        return Citizen::select(['id', 'status'])->where('nik', $nik)->first();
     }
 }

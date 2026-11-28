@@ -61,6 +61,11 @@ class ServiceRequest extends Model
         return $this->belongsTo(Service::class);
     }
 
+    public function citizen(): BelongsTo
+    {
+        return $this->belongsTo(Citizen::class, 'nik', 'nik');
+    }
+
     public function attachments(): HasMany
     {
         return $this->hasMany(ServiceRequestAttachment::class)->orderBy('id');

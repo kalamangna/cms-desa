@@ -132,9 +132,11 @@ class LetterDocumentService
 
         $resolvedLetterNumber = $letterNumberOverride ?: ($request->letter_number ?: '-');
 
+        $isRegisteredCitizen = filled($request->nik) && Citizen::where('nik', $request->nik)->exists();
+
         $variables = array_merge($payload, [
             'birth_place_date' => $this->formatBirthPlaceDate($payload),
-            'full_address' => $this->formatFullAddress($payload, $villageName),
+            'full_address' => $this->formatFullAddress($payload, $villageName, $isRegisteredCitizen),
             'letter_number' => $resolvedLetterNumber,
             'letter_date' => $letterDate->translatedFormat('d F Y'),
             'village_name' => $villageName,
@@ -523,9 +525,13 @@ class LetterDocumentService
      *
      * @param  array<string, string>  $payload
      */
-    private function formatFullAddress(array $payload, string $villageName): string
+    private function formatFullAddress(array $payload, string $villageName, bool $isRegisteredCitizen = true): string
     {
         $address = trim((string) ($payload['address'] ?? ''));
+        if (! $isRegisteredCitizen) {
+            return $address !== '' ? $address : '-';
+        }
+
         $rt = trim((string) ($payload['rt'] ?? ''));
         $rw = trim((string) ($payload['rw'] ?? ''));
         $dusun = trim((string) ($payload['dusun'] ?? ''));
@@ -548,7 +554,7 @@ class LetterDocumentService
         if ($dusun !== '') {
             $segments[] = "Dusun {$dusun}";
         }
-        if ($villageName !== '') {
+        if ($isRegisteredCitizen && $villageName !== '') {
             $segments[] = "Desa {$villageName}";
         }
 

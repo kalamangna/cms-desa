@@ -2,6 +2,16 @@
 
 Semua perubahan signifikan pada proyek ini akan didokumentasikan di file ini.
 
+## [1.32.10] - 2026-11-28
+
+### Perbaikan
+- **Indikator Kependudukan dan Alamat Pemohon Luar Desa (`ServiceRequest`, `ServiceRequestForm`, `ServiceRequestsTable`, `EditServiceRequest`, `LetterDocumentService`)**:
+  - Menambahkan relasi `ServiceRequest::citizen()` beserta indikator status kependudukan (`Terdaftar` atau `Belum Terdaftar`) pada kolom tabel (`withExists('citizen')`) dan kolom NIK form edit permohonan.
+  - Menyederhanakan card `Data Kependudukan` saat NIK belum terdaftar (otomatis terbuka bila biodata kosong, cukup sampai kolom `Alamat` tanpa `RT`, `RW`, `Dusun`, serta menyembunyikan tombol `Isi Data`) dan merender `{{full_address}}` apa adanya tanpa akhiran nama desa.
+  - Memindahkan card `Data Kependudukan` tepat di bawah identitas pemohon, menyeragamkan Tab `Berkas` ke `View::make`, dan memusatkan lookup penduduk melalui `ServiceRequestForm::findCitizenByNik()`.
+- **Ikon Layanan Kematian (`Service`)**:
+  - Mengganti ikon otomatis layanan `Surat Keterangan Kematian` dari `fa-cross` menjadi `fa-ribbon`.
+
 ## [1.32.9] - 2026-11-28
 
 ### Perbaikan

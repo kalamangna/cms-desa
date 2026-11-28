@@ -85,7 +85,7 @@ class Service extends Model
                     'akte' => 'fa-certificate',
                     'akta' => 'fa-certificate',
                     'lahir' => 'fa-baby',
-                    'kematian' => 'fa-cross',
+                    'kematian' => 'fa-ribbon',
                     'nikah' => 'fa-heart',
                     'pindah' => 'fa-truck-moving',
                     'domisili' => 'fa-house-circle-check',

@@ -1135,4 +1135,100 @@ class ServiceRequestTteTest extends TestCase
         $this->assertSame(1, (int) LetterSequence::where('year', now()->year)->value('last_number'));
         $this->assertStringContainsString('/001/TPB/', (string) $signed->letter_number);
     }
+
+    public function test_edit_page_displays_citizen_registration_indicator(): void
+    {
+        Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole('super_admin');
+
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'is_tte_enabled' => true,
+        ]);
+
+        $serviceRequest = ServiceRequest::create([
+            'nik' => '7307011234560024',
+            'name' => 'Mawar',
+            'phone' => '081234567813',
+            'service_id' => $service->id,
+        ]);
+
+        $this->actingAs($superAdmin);
+
+        Livewire::test(EditServiceRequest::class, ['record' => $serviceRequest->getRouteKey()])
+            ->assertSee('Belum Terdaftar di Data Penduduk');
+
+        $dusun = Dusun::create(['name' => 'Mattirowalie', 'total_rt' => 2, 'total_rw' => 1]);
+        Citizen::create([
+            'nik' => '7307011234560024',
+            'dusun_id' => $dusun->id,
+            'name' => 'Mawar',
+            'status' => 'Aktif',
+        ]);
+
+        Livewire::test(EditServiceRequest::class, ['record' => $serviceRequest->getRouteKey()])
+            ->assertSee('Terdaftar di Data Penduduk')
+            ->assertDontSee('Belum Terdaftar di Data Penduduk');
+    }
+
+    public function test_unregistered_citizen_address_omits_village_suffix_and_hides_rt_rw_dusun(): void
+    {
+        Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole('super_admin');
+
+        $preset = LetterTemplatePresets::get('domisili');
+        $service = Service::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Domisili',
+            'letter_code' => $preset['letter_code'],
+            'letter_title' => $preset['letter_title'],
+            'letter_template' => $preset['letter_template'],
+            'form_fields' => $preset['form_fields'],
+            'is_tte_enabled' => true,
+        ]);
+
+        $unregisteredRequest = ServiceRequest::create([
+            'nik' => '7307011234560025',
+            'name' => 'Pendatang',
+            'phone' => '081234567814',
+            'service_id' => $service->id,
+            'form_data' => ['keperluan' => 'Melapor'],
+        ]);
+
+        $letterService = app(LetterDocumentService::class);
+        $htmlEmptyAddress = $letterService->renderHtml($unregisteredRequest);
+        $this->assertStringContainsString('<td>Alamat</td><td>:</td><td>-</td>', $htmlEmptyAddress);
+
+        $unregisteredRequest->update([
+            'letter_payload' => [
+                'address' => 'Jl. Persatuan Raya No. 5, Kel. Biringere',
+                'rt' => '009',
+                'dusun' => 'Lama',
+            ],
+        ]);
+        $htmlOutsideAddress = $letterService->renderHtml($unregisteredRequest->fresh());
+        $this->assertStringContainsString('<td>Alamat</td><td>:</td><td>Jl. Persatuan Raya No. 5, Kel. Biringere</td>', $htmlOutsideAddress);
+
+        $this->actingAs($superAdmin);
+        Livewire::test(EditServiceRequest::class, ['record' => $unregisteredRequest->getRouteKey()])
+            ->assertActionHidden('syncCitizenData')
+            ->assertFormFieldIsHidden('letter_payload.rt')
+            ->assertFormFieldIsHidden('letter_payload.dusun');
+
+        $dusun = Dusun::create(['name' => 'Mattirowalie', 'total_rt' => 2, 'total_rw' => 1]);
+        Citizen::create([
+            'nik' => '7307011234560025',
+            'dusun_id' => $dusun->id,
+            'name' => 'Pendatang',
+            'status' => 'Aktif',
+        ]);
+
+        Livewire::test(EditServiceRequest::class, ['record' => $unregisteredRequest->getRouteKey()])
+            ->assertActionVisible('syncCitizenData')
+            ->assertFormFieldIsVisible('letter_payload.rt')
+            ->assertFormFieldIsVisible('letter_payload.dusun');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ServiceRequests\Pages;
 
 use App\Exceptions\BsreException;
 use App\Filament\Resources\ServiceRequests\ServiceRequestResource;
+use App\Models\Citizen;
 use App\Models\Official;
 use App\Models\Service;
 use App\Models\ServiceRequest;
@@ -29,7 +30,7 @@ class EditServiceRequest extends EditRecord
                 ->label('Isi Data')
                 ->icon('heroicon-o-identification')
                 ->color('gray')
-                ->visible(fn (): bool => ! $this->record->isTteSigned())
+                ->visible(fn (): bool => ! $this->record->isTteSigned() && $this->isApplicantRegistered())
                 ->action(function (LetterDocumentService $letterService): void {
                     $this->save(shouldRedirect: false, shouldSendSavedNotification: false);
 
@@ -225,5 +226,12 @@ class EditServiceRequest extends EditRecord
     private function isRejected(): bool
     {
         return ($this->data['status'] ?? $this->record->status) === 'Ditolak';
+    }
+
+    private function isApplicantRegistered(): bool
+    {
+        $nik = preg_replace('/\D/', '', (string) ($this->data['nik'] ?? $this->record->nik ?? ''));
+
+        return strlen($nik) === 16 && Citizen::where('nik', $nik)->exists();
     }
 }

@@ -12,6 +12,7 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class ServiceRequestsTable
@@ -19,6 +20,7 @@ class ServiceRequestsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->withExists('citizen'))
             ->columns([
                 TextColumn::make('ticket_number')->label('Nomor Tiket')
                     ->searchable()
@@ -29,6 +31,11 @@ class ServiceRequestsTable
                 TextColumn::make('name')->label('Nama Pemohon')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('citizen_exists')
+                    ->label('Kependudukan')
+                    ->badge()
+                    ->formatStateUsing(fn ($state): string => $state ? 'Terdaftar' : 'Belum Terdaftar')
+                    ->color(fn ($state): string => $state ? 'success' : 'warning'),
                 TextColumn::make('service.title')->label('Layanan')
                     ->searchable()
                     ->sortable(),
