@@ -16,21 +16,21 @@ return new class extends Migration
     {
         if (Schema::hasTable('services') && Schema::hasColumn('services', 'letter_code')) {
             $codeMap = [
-                '470' => '400.12.2',
-                '474.4' => '400.12.2',
-                '474.1' => '400.12.2',
-                '475' => '400.12.2',
-                '472.11' => '400.12.3',
-                '472.12' => '400.12.3',
-                '474.2' => '400.12.3',
-                '503' => '500.3',
-                '401' => '400.9',
-                '300' => '300.1',
+                ['470', '400.12.2'],
+                ['474.4', '400.12.2'],
+                ['474.1', '400.12.2'],
+                ['475', '400.12.2'],
+                ['472.11', '400.12.3'],
+                ['472.12', '400.12.3'],
+                ['474.2', '400.12.3'],
+                ['503', '500.3'],
+                ['401', '400.9'],
+                ['300', '300.1'],
             ];
 
-            foreach ($codeMap as $legacyCode => $newCode) {
+            foreach ($codeMap as [$legacyCode, $newCode]) {
                 DB::table('services')
-                    ->where('letter_code', $legacyCode)
+                    ->where('letter_code', '=', (string) $legacyCode)
                     ->update(['letter_code' => $newCode]);
             }
         }
